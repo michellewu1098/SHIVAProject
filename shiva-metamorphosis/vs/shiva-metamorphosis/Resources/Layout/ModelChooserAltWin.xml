@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	layout_width="fill_parent"
+	layout_height="fill_parent"
+	orientation="vertical">
+	
+	<TextView
+		id="Title"
+		layout_width="fill_parent"
+		layout_height="fill_parent"
+		layout_weight="0.4"
+		text_size="50"
+		text="Choose Model"
+		/>
+
+</LinearLayout>

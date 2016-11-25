@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	layout_width="fill_parent"
+	layout_height="fill_parent"
+	orientation="vertical">
+	
+	<LinearLayout
+		layout_width="fill_parent"
+		layout_height="fill_parent"
+		layout_weight="0.3"
+		orientation="horizontal">
+		<TextButton
+			id="BackButton"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			onClick="backButtonHandler"
+			layout_weight="0.25"
+			text="Back"
+			/>
+		
+		<View
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.5"
+			/>
+			
+		<TextButton
+			id="NextButton"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			onClick="nextButtonHandler"
+			layout_weight="0.25"
+			scan_prev="BackButton"
+			next_focus_left="BackButton"
+			text="Next"
+			/>
+			
+		</LinearLayout>
+	
+	<LinearLayout
+		layout_width="fill_parent"
+		layout_height="fill_parent"
+		layout_weight="0.4"
+		orientation="horizontal">
+		
+		
+		<View
+			id="ShapeA"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.2"
+			/>
+		
+		<SDFView
+			id="mainSDFView"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.6"
+			cameraPositionY="1"
+			cameraPositionZ="3.5"
+			cameraTargetY="0"
+			visibility="true"
+			/>
+			
+		<View
+			id="ShapeB"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.2"
+			/>
+			
+		</LinearLayout>
+		
+	<LinearLayout
+		layout_width="fill_parent"
+		layout_height="fill_parent"
+		layout_weight="0.3"
+		orientation="horizontal">
+		
+		<View
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.1"
+			/>
+		<ImageButton
+			id="MorphLeft"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			onClick="morphAmountLeft"
+			layout_weight="0.2"
+			first_focus="true"
+			first_scan="true"
+			scan_prev="NextButton"
+			next_focus_up="BackButton"
+			src="@LeftArrow"
+			/>
+		<Slider
+			id="morphSlider"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			padding="10"
+			handlePosition="0.0"
+			onSlide="morphSliderHandler"
+			layout_weight="0.6"
+			visibility="true"
+			/>
+		<ImageButton
+			id="MorphRight"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			onClick="morphAmountRight"
+			layout_weight="0.2"
+			scan_prev="MorphLeft"
+			scan_next="BackButton"
+			next_focus_left="MorphLeft"
+			next_focus_up="NextButton"
+			src="@RightArrow"
+			/>
+		<View
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.1"
+			/>
+			
+		</LinearLayout>
+	
+
+</LinearLayout>

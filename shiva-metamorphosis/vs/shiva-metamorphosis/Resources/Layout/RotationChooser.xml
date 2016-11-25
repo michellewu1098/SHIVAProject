@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	layout_width="fill_parent"
+	layout_height="fill_parent"
+	orientation="vertical">
+	
+	<LinearLayout
+		layout_width="fill_parent"
+		layout_height="fill_parent"
+		layout_weight="0.2"
+		orientation="horizontal">
+		<TextButton
+			id="BackButton"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			onClick="backButtonHandler"
+			layout_weight="0.25"
+			text="Back"
+			/>
+		
+		<View
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.5"
+			/>
+			
+		<TextButton
+			id="SaveButton"
+			visibility="true"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			onClick="saveButtonHandler"
+			layout_weight="0.25"
+			scan_prev="BackButton"
+			next_focus_left="BackButton"
+			text="Save"
+			/>
+		
+			
+		</LinearLayout>
+		
+		
+	<LinearLayout
+		layout_width="fill_parent"
+		layout_height="fill_parent"
+		layout_weight="0.15"
+		orientation="horizontal">
+		
+		<View
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.2"
+			/>
+
+		<ImageButton
+			id="RotateUp"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			onClick="rotateUp"
+			layout_weight="0.2"
+			scan_next="BackButton"
+			next_focus_left="RotateLeft"
+			next_focus_right="RotateRight"
+			next_focus_up="BackButton"
+			src="@RotateUpArrow"
+			/>
+			
+		<View
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.2"
+			/>
+			
+		</LinearLayout>
+		
+	
+	<LinearLayout
+		layout_width="fill_parent"
+		layout_height="fill_parent"
+		layout_weight="0.4"
+		orientation="horizontal">
+		
+		
+		<View
+			id="ShapeA"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.2"
+			/>
+			
+		<ImageButton
+			id="RotateLeft"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			onClick="rotateLeft"
+			layout_weight="0.2"
+			first_focus="true"
+			first_scan="true"
+			next_focus_right="RotateUp"
+			scan_prev="SaveButton"
+			next_focus_up="BackButton"
+			src="@RotateLeftArrow"
+			/>
+		
+		<SDFView
+			id="mainSDFView"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.6"
+			cameraPositionY="1"
+			cameraPositionZ="3.5"
+			cameraTargetY="0"
+			visibility="true"
+			/>
+
+		<ImageButton
+			id="RotateRight"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			onClick="rotateRight"
+			layout_weight="0.2"
+			scan_next="RotateUp"
+			next_focus_left="RotateUp"
+			next_focus_up="SaveButton"
+			src="@RotateRightArrow"
+			/>
+			
+		<View
+			id="ShapeB"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.2"
+			/>
+			
+		</LinearLayout>
+		
+	<LinearLayout
+		layout_width="fill_parent"
+		layout_height="fill_parent"
+		layout_weight="0.15"
+		orientation="horizontal">
+		
+		<View
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.2"
+			/>
+
+		<ImageButton
+			id="RotateDown"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			onClick="rotateDown"
+			layout_weight="0.2"
+			scan_prev="RotateLeft"
+			scan_next="RotateRight"
+			next_focus_left="RotateLeft"
+			next_focus_right="RotateRight"
+			next_focus_up="RotateUp"
+			src="@RotateDownArrow"
+			/>
+			
+		<View
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.2"
+			/>
+			
+		</LinearLayout>
+	
+
+</LinearLayout>

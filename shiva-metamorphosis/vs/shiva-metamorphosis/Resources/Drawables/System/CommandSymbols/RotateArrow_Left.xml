@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LayeredImageDrawable
+  isNinePatch="false"
+  scaleUp="false"
+>
+  <Layer src="System/CommandSymbols/RotateArrow_Left_Layer0.png" colour0="@ArrowColourOutline" colour1="@ArrowColourLowlight" colour2="@ArrowColourHighlight" colour3="000000FF"/>
+  <Layer src="System/CommandSymbols/RotateArrow_Horiz_Layer1.png" colour0="@ArrowColourInnerLow" colour1="@ArrowColourInnerHigh" colour2="0" colour3="0"/>
+</LayeredImageDrawable>
+
+<!-- 26437E00  171d33FF -->

@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{06CB2859-3CAB-4ADB-8787-3E615880E099}</ProjectGuid>
+    <RootNamespace>shivametamorphosis</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\shiva-gui\include;$(ProjectDir)\..\..\..\include\cml-1_0_2;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\SDL_mixer;$(ProjectDir)\..\..\..\include\vol_metamorph;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>shiva-gui.lib;vol_metamorph.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(Configuration);$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\vol_metamorph;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_image\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(Configuration);$(ProjectDir)\..\..\..\lib\boost;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>libc.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\shiva-gui\include;$(ProjectDir)\..\..\..\include\cml-1_0_2;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\SDL_mixer;$(ProjectDir)\..\..\..\include\vol_metamorph;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>shiva-gui.lib;vol_metamorph.lib;GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(Configuration);$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\vol_metamorph;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_image\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(Configuration);$(ProjectDir)\..\..\..\lib\boost;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>libc.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\ColourChooser.cpp" />
+    <ClCompile Include="..\..\src\GLVolumeTexture.cpp" />
+    <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\ModelChooser.cpp" />
+    <ClCompile Include="..\..\src\RotationChooser.cpp" />
+    <ClCompile Include="..\..\src\SDFView.cpp" />
+    <ClCompile Include="..\..\src\sdf\core\aabb.cpp" />
+    <ClCompile Include="..\..\src\sdf\core\binary_file.cpp" />
+    <ClCompile Include="..\..\src\sdf\core\mesh.cpp" />
+    <ClCompile Include="..\..\src\sdf\core\obj_file.cpp" />
+    <ClCompile Include="..\..\src\sdf\core\point3d.cpp" />
+    <ClCompile Include="..\..\src\sdf\core\thread_work.cpp" />
+    <ClCompile Include="..\..\src\sdf\core\triangle_aabb_overlap.cpp" />
+    <ClCompile Include="..\..\src\sdf\core\triangle_triangle_overlap.cpp" />
+    <ClCompile Include="..\..\src\sdf\discretization\discretized_field.cpp" />
+    <ClCompile Include="..\..\src\sdf\discretization\grid.cpp" />
+    <ClCompile Include="..\..\src\sdf\distance\distance_record.cpp" />
+    <ClCompile Include="..\..\src\sdf\distance\distance_to_aabb.cpp" />
+    <ClCompile Include="..\..\src\sdf\distance\distance_to_triangle.cpp" />
+    <ClCompile Include="..\..\src\sdf\lookup\brute_force.cpp" />
+    <ClCompile Include="..\..\src\sdf\lookup\bvh.cpp" />
+    <ClCompile Include="..\..\src\sdf\lookup\bvh_accelerated.cpp" />
+    <ClCompile Include="..\..\src\sdf\lookup\bvh_branch.cpp" />
+    <ClCompile Include="..\..\src\sdf\lookup\cell_weights.cpp" />
+    <ClCompile Include="..\..\src\sdf\lookup\grid_accelerated.cpp" />
+    <ClCompile Include="..\..\src\sdf\lookup\grid_cell.cpp" />
+    <ClCompile Include="..\..\src\sdf\lookup\grid_offset_cell.cpp" />
+    <ClCompile Include="..\..\src\sdf\lookup\index_3d.cpp" />
+    <ClCompile Include="..\..\src\sdf\lookup\octnode.cpp" />
+    <ClCompile Include="..\..\src\sdf\lookup\octree.cpp" />
+    <ClCompile Include="..\..\src\sdf\lookup\octree_accelerated.cpp" />
+    <ClCompile Include="..\..\src\sdf\lookup\regular_grid.cpp" />
+    <ClCompile Include="..\..\src\sdf\profiler\scope.cpp" />
+    <ClCompile Include="..\..\src\sdf\sign\angle_weighted_average.cpp" />
+    <ClCompile Include="..\..\src\sdf\sign\direct_normal.cpp" />
+    <ClCompile Include="..\..\src\ShivaMetamorphosis.cpp" />
+    <ClCompile Include="..\..\src\ShivaModelManager.cpp" />
+    <ClCompile Include="..\..\src\VolumeLoader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\ColourChooser.h" />
+    <ClInclude Include="..\..\include\GLVolumeTexture.h" />
+    <ClInclude Include="..\..\include\ModelChooser.h" />
+    <ClInclude Include="..\..\include\RotationChooser.h" />
+    <ClInclude Include="..\..\include\SDFView.h" />
+    <ClInclude Include="..\..\include\sdf\core\aabb.hpp" />
+    <ClInclude Include="..\..\include\sdf\core\binary_file.hpp" />
+    <ClInclude Include="..\..\include\sdf\core\config.hpp" />
+    <ClInclude Include="..\..\include\sdf\core\feature_type.hpp" />
+    <ClInclude Include="..\..\include\sdf\core\math.hpp" />
+    <ClInclude Include="..\..\include\sdf\core\mesh.hpp" />
+    <ClInclude Include="..\..\include\sdf\core\obj_file.hpp" />
+    <ClInclude Include="..\..\include\sdf\core\point3d.hpp" />
+    <ClInclude Include="..\..\include\sdf\core\static_stack.hpp" />
+    <ClInclude Include="..\..\include\sdf\core\thread_work.hpp" />
+    <ClInclude Include="..\..\include\sdf\core\tools.hpp" />
+    <ClInclude Include="..\..\include\sdf\core\triangle_aabb_overlap.hpp" />
+    <ClInclude Include="..\..\include\sdf\core\triangle_triangle_overlap.hpp" />
+    <ClInclude Include="..\..\include\sdf\core\types.hpp" />
+    <ClInclude Include="..\..\include\sdf\discretization\discretized_field.hpp" />
+    <ClInclude Include="..\..\include\sdf\discretization\generate_volume.hpp" />
+    <ClInclude Include="..\..\include\sdf\discretization\grid.hpp" />
+    <ClInclude Include="..\..\include\sdf\distance\distance_record.hpp" />
+    <ClInclude Include="..\..\include\sdf\distance\distance_to_aabb.hpp" />
+    <ClInclude Include="..\..\include\sdf\distance\distance_to_triangle.hpp" />
+    <ClInclude Include="..\..\include\sdf\lookup\brute_force.hpp" />
+    <ClInclude Include="..\..\include\sdf\lookup\bvh.hpp" />
+    <ClInclude Include="..\..\include\sdf\lookup\bvh_accelerated.hpp" />
+    <ClInclude Include="..\..\include\sdf\lookup\bvh_branch.hpp" />
+    <ClInclude Include="..\..\include\sdf\lookup\cell_weights.hpp" />
+    <ClInclude Include="..\..\include\sdf\lookup\grid_accelerated.hpp" />
+    <ClInclude Include="..\..\include\sdf\lookup\grid_cell.hpp" />
+    <ClInclude Include="..\..\include\sdf\lookup\grid_offset_cell.hpp" />
+    <ClInclude Include="..\..\include\sdf\lookup\index_3d.hpp" />
+    <ClInclude Include="..\..\include\sdf\lookup\octnode.hpp" />
+    <ClInclude Include="..\..\include\sdf\lookup\octree.hpp" />
+    <ClInclude Include="..\..\include\sdf\lookup\octree_accelerated.hpp" />
+    <ClInclude Include="..\..\include\sdf\lookup\regular_grid.hpp" />
+    <ClInclude Include="..\..\include\sdf\lookup\settings.hpp" />
+    <ClInclude Include="..\..\include\sdf\profiler\scope.hpp" />
+    <ClInclude Include="..\..\include\sdf\sign\angle_weighted_average.hpp" />
+    <ClInclude Include="..\..\include\sdf\sign\direct_normal.hpp" />
+    <ClInclude Include="..\..\include\sdf\sign\no_sign.hpp" />
+    <ClInclude Include="..\..\include\ShivaMetamorphosis.h" />
+    <ClInclude Include="..\..\include\ShivaModelManager.h" />
+    <ClInclude Include="..\..\include\VolumeLoader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\sdf\core\binary_file.inl" />
+    <None Include="..\..\include\sdf\core\static_stack.inl" />
+    <None Include="..\..\include\sdf\core\tools.inl" />
+    <None Include="..\..\include\sdf\discretization\discretized_field.inl" />
+    <None Include="..\..\include\sdf\discretization\generate_volume.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

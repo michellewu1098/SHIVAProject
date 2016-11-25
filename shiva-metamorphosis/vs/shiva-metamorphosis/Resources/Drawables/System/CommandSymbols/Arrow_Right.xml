@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LayeredImageDrawable
+  isNinePatch="false"
+  scaleUp="false"
+>
+  <Layer src="System/CommandSymbols/Arrow_Right_Layer0.png" colour0="@ArrowColourOutline" colour1="@ArrowColourLowlight" colour2="@ArrowColourHighlight" colour3="000000FF"/>
+</LayeredImageDrawable>
+
+<!-- 26437E00  171d33FF -->

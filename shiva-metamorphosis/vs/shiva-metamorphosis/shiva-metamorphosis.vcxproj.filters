@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Header Files\sdf">
+      <UniqueIdentifier>{ffaf3018-cdc4-4f9a-b218-e87cf995cc99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\sdf\core">
+      <UniqueIdentifier>{9cf9f2b5-96e9-44ad-9b6d-4d8f95b6f538}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\sdf\discretization">
+      <UniqueIdentifier>{4e56cd20-f6a4-448a-85cc-14e167dad2bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\sdf\distance">
+      <UniqueIdentifier>{6cd360fe-ea12-42ac-be0e-255bf145308d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sdf">
+      <UniqueIdentifier>{a039ab06-a415-4fd6-ab89-397943289198}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sdf\core">
+      <UniqueIdentifier>{14a70578-5b5d-4789-ba8a-bd08d0b3e3f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\sdf\sign">
+      <UniqueIdentifier>{1366fe23-8519-4266-9f46-dda302ae0bc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\sdf\profiler">
+      <UniqueIdentifier>{dd51d15a-6a48-4b05-a826-ee7f37262d2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\sdf\lookup">
+      <UniqueIdentifier>{122f9cee-4607-4bf3-83d9-fcbd7ac8faeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sdf\discretization">
+      <UniqueIdentifier>{4e2e4dab-812c-4f69-904b-cacd50b9e0d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sdf\distance">
+      <UniqueIdentifier>{eddf1d5d-28d2-4df9-b955-b63345cc14d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sdf\lookup">
+      <UniqueIdentifier>{fd49c49a-0e68-4ea3-872b-bf93f7024c17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sdf\sign">
+      <UniqueIdentifier>{860bb426-745c-4053-b7bd-55bdf749fe73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sdf\profiler">
+      <UniqueIdentifier>{47421651-5a31-4bce-bd89-e43686e90725}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\ColourChooser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GLVolumeTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ModelChooser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\RotationChooser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SDFView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ShivaMetamorphosis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ShivaModelManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\core\aabb.cpp">
+      <Filter>Source Files\sdf\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\core\binary_file.cpp">
+      <Filter>Source Files\sdf\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\core\mesh.cpp">
+      <Filter>Source Files\sdf\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\core\obj_file.cpp">
+      <Filter>Source Files\sdf\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\core\point3d.cpp">
+      <Filter>Source Files\sdf\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\core\thread_work.cpp">
+      <Filter>Source Files\sdf\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\core\triangle_aabb_overlap.cpp">
+      <Filter>Source Files\sdf\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\core\triangle_triangle_overlap.cpp">
+      <Filter>Source Files\sdf\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\discretization\discretized_field.cpp">
+      <Filter>Source Files\sdf\discretization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\discretization\grid.cpp">
+      <Filter>Source Files\sdf\discretization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\distance\distance_record.cpp">
+      <Filter>Source Files\sdf\distance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\distance\distance_to_aabb.cpp">
+      <Filter>Source Files\sdf\distance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\distance\distance_to_triangle.cpp">
+      <Filter>Source Files\sdf\distance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\lookup\brute_force.cpp">
+      <Filter>Source Files\sdf\lookup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\lookup\bvh.cpp">
+      <Filter>Source Files\sdf\lookup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\lookup\bvh_accelerated.cpp">
+      <Filter>Source Files\sdf\lookup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\lookup\bvh_branch.cpp">
+      <Filter>Source Files\sdf\lookup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\lookup\cell_weights.cpp">
+      <Filter>Source Files\sdf\lookup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\lookup\grid_accelerated.cpp">
+      <Filter>Source Files\sdf\lookup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\lookup\grid_cell.cpp">
+      <Filter>Source Files\sdf\lookup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\lookup\grid_offset_cell.cpp">
+      <Filter>Source Files\sdf\lookup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\lookup\index_3d.cpp">
+      <Filter>Source Files\sdf\lookup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\lookup\octnode.cpp">
+      <Filter>Source Files\sdf\lookup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\lookup\octree.cpp">
+      <Filter>Source Files\sdf\lookup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\lookup\octree_accelerated.cpp">
+      <Filter>Source Files\sdf\lookup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\lookup\regular_grid.cpp">
+      <Filter>Source Files\sdf\lookup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\profiler\scope.cpp">
+      <Filter>Source Files\sdf\profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\sign\angle_weighted_average.cpp">
+      <Filter>Source Files\sdf\sign</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sdf\sign\direct_normal.cpp">
+      <Filter>Source Files\sdf\sign</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\ColourChooser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GLVolumeTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ModelChooser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\RotationChooser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\SDFView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ShivaMetamorphosis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ShivaModelManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\core\aabb.hpp">
+      <Filter>Header Files\sdf\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\core\binary_file.hpp">
+      <Filter>Header Files\sdf\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\core\config.hpp">
+      <Filter>Header Files\sdf\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\core\feature_type.hpp">
+      <Filter>Header Files\sdf\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\core\math.hpp">
+      <Filter>Header Files\sdf\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\core\mesh.hpp">
+      <Filter>Header Files\sdf\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\core\obj_file.hpp">
+      <Filter>Header Files\sdf\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\core\point3d.hpp">
+      <Filter>Header Files\sdf\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\core\static_stack.hpp">
+      <Filter>Header Files\sdf\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\core\thread_work.hpp">
+      <Filter>Header Files\sdf\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\core\tools.hpp">
+      <Filter>Header Files\sdf\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\core\triangle_aabb_overlap.hpp">
+      <Filter>Header Files\sdf\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\core\triangle_triangle_overlap.hpp">
+      <Filter>Header Files\sdf\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\core\types.hpp">
+      <Filter>Header Files\sdf\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\discretization\discretized_field.hpp">
+      <Filter>Header Files\sdf\discretization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\discretization\generate_volume.hpp">
+      <Filter>Header Files\sdf\discretization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\discretization\grid.hpp">
+      <Filter>Header Files\sdf\discretization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\distance\distance_record.hpp">
+      <Filter>Header Files\sdf\distance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\distance\distance_to_aabb.hpp">
+      <Filter>Header Files\sdf\distance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\distance\distance_to_triangle.hpp">
+      <Filter>Header Files\sdf\distance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\lookup\brute_force.hpp">
+      <Filter>Header Files\sdf\lookup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\lookup\bvh.hpp">
+      <Filter>Header Files\sdf\lookup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\lookup\bvh_accelerated.hpp">
+      <Filter>Header Files\sdf\lookup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\lookup\bvh_branch.hpp">
+      <Filter>Header Files\sdf\lookup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\lookup\cell_weights.hpp">
+      <Filter>Header Files\sdf\lookup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\lookup\grid_accelerated.hpp">
+      <Filter>Header Files\sdf\lookup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\lookup\grid_cell.hpp">
+      <Filter>Header Files\sdf\lookup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\lookup\grid_offset_cell.hpp">
+      <Filter>Header Files\sdf\lookup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\lookup\index_3d.hpp">
+      <Filter>Header Files\sdf\lookup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\lookup\octnode.hpp">
+      <Filter>Header Files\sdf\lookup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\lookup\octree.hpp">
+      <Filter>Header Files\sdf\lookup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\lookup\octree_accelerated.hpp">
+      <Filter>Header Files\sdf\lookup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\lookup\regular_grid.hpp">
+      <Filter>Header Files\sdf\lookup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\lookup\settings.hpp">
+      <Filter>Header Files\sdf\lookup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\profiler\scope.hpp">
+      <Filter>Header Files\sdf\profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\sign\angle_weighted_average.hpp">
+      <Filter>Header Files\sdf\sign</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\sign\direct_normal.hpp">
+      <Filter>Header Files\sdf\sign</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sdf\sign\no_sign.hpp">
+      <Filter>Header Files\sdf\sign</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\sdf\core\binary_file.inl">
+      <Filter>Header Files\sdf\core</Filter>
+    </None>
+    <None Include="..\..\include\sdf\core\static_stack.inl">
+      <Filter>Header Files\sdf\core</Filter>
+    </None>
+    <None Include="..\..\include\sdf\core\tools.inl">
+      <Filter>Header Files\sdf\core</Filter>
+    </None>
+    <None Include="..\..\include\sdf\discretization\discretized_field.inl">
+      <Filter>Header Files\sdf\discretization</Filter>
+    </None>
+    <None Include="..\..\include\sdf\discretization\generate_volume.inl">
+      <Filter>Header Files\sdf\discretization</Filter>
+    </None>
+  </ItemGroup>
+</Project>

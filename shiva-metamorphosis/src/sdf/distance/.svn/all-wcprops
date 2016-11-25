@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/2/trunk/src/sdf/distance
+END
+distance_to_triangle.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/2/trunk/src/sdf/distance/distance_to_triangle.cpp
+END
+distance_to_aabb.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2/trunk/src/sdf/distance/distance_to_aabb.cpp
+END
+distance_record.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/src/sdf/distance/distance_record.cpp
+END

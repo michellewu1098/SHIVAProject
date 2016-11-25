@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/2/trunk/include/sdf/sign
+END
+no_sign.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/include/sdf/sign/no_sign.hpp
+END
+angle_weighted_average.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/2/trunk/include/sdf/sign/angle_weighted_average.hpp
+END
+direct_normal.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/include/sdf/sign/direct_normal.hpp
+END

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	layout_width="fill_parent"
+	layout_height="fill_parent"
+	orientation="vertical">
+	
+	<TextView
+		layout_width="fill_parent"
+		layout_height="fill_parent"
+		layout_weight="0.2"
+		text_size="50"
+		text="Window 2 layout"
+		/>
+		
+	<SDFView
+		id="mainSDFView"
+		layout_width="fill_parent"
+		layout_height="fill_parent"
+		layout_weight="0.8"
+		cameraPositionY="1"
+		cameraPositionZ="3.5"
+		cameraTargetY="0"
+		visibility="true"
+		/>
+	
+	<!--
+	<LinearLayout
+		layout_width="fill_parent"
+		layout_height="fill_parent"
+		layout_weight="0.3"
+		orientation="horizontal">
+		
+		<View
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.2"
+			/>
+		<Slider
+			id="morphSlider"
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			padding="10"
+			handlePosition="0.0"
+			onSlide="morphSliderHandler"
+			layout_weight="0.6"
+			visibility="true"
+			/>
+		<View
+			layout_width="fill_parent"
+			layout_height="fill_parent"
+			layout_weight="0.2"
+			/>
+			
+		</LinearLayout>
+	-->
+
+</LinearLayout>

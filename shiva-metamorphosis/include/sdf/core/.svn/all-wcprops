@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/2/trunk/include/sdf/core
+END
+math.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/include/sdf/core/math.hpp
+END
+tools.inl
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/include/sdf/core/tools.inl
+END
+feature_type.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/include/sdf/core/feature_type.hpp
+END
+mesh.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/include/sdf/core/mesh.hpp
+END
+tools.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/include/sdf/core/tools.hpp
+END
+triangle_aabb_overlap.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2/trunk/include/sdf/core/triangle_aabb_overlap.hpp
+END
+types.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/include/sdf/core/types.hpp
+END
+config.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/include/sdf/core/config.hpp
+END
+static_stack.inl
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/include/sdf/core/static_stack.inl
+END
+obj_file.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/include/sdf/core/obj_file.hpp
+END
+thread_work.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/include/sdf/core/thread_work.hpp
+END
+static_stack.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/include/sdf/core/static_stack.hpp
+END
+binary_file.inl
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/include/sdf/core/binary_file.inl
+END
+point3d.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/include/sdf/core/point3d.hpp
+END
+triangle_triangle_overlap.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/2/trunk/include/sdf/core/triangle_triangle_overlap.hpp
+END
+binary_file.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/include/sdf/core/binary_file.hpp
+END
+aabb.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/include/sdf/core/aabb.hpp
+END

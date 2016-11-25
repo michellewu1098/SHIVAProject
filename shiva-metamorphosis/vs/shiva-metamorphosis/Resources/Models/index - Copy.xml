@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file contains the details of the different models that may be loaded -->
+<!-- Currently, the id attribute must match the button ID in the modelSelectLayout.xml file -->
+<ModelIndexFile>
+
+	<Model
+		id="0"
+		name="Kitten"
+		thumbnail_file="Resources/Models/kitten.png"
+		obj_file="kitten.obj"
+		bdf_file="Resources/Models/kitten.bdf"
+		vol_file="Resources/Models/kitten.vol"
+		/>
+	<Model
+		id="1"
+		name="T-Rex"
+		thumbnail_file="Resources/Models/trex.png"
+		obj_file="trex.obj"
+		bdf_file="Resources/Models/trex.bdf"
+		vol_file="Resources/Models/trex.vol"
+		/>
+	<Model
+		id="2"
+		name="Camel"
+		thumbnail_file="Resources/Models/camel.png"
+		obj_file="camel.obj"
+		bdf_file="Resources/Models/camel.bdf"
+		vol_file="Resources/Models/Design30_15_RC1.vol"
+		/>
+	<Model
+		id="3"
+		name="Dino"
+		thumbnail_file="Resources/Models/dilo.png"
+		obj_file="dilo.obj"
+		bdf_file="Resources/Models/dilo.bdf"
+		vol_file="Resources/Models/dilo.vol"
+		/>
+		
+	<Model
+		id="4"
+		name="Frog"
+		thumbnail_file="Resources/Models/frog.png"
+		obj_file="frog.obj"
+		bdf_file="Resources/Models/frog.bdf"
+		vol_file="Resources/Models/frog.vol"
+		/>
+	<Model
+		id="5"
+		name="Homer"
+		thumbnail_file="Resources/Models/homer.png"
+		obj_file="homer.obj"
+		bdf_file="Resources/Models/homer.bdf"
+		vol_file="Resources/Models/homer.vol"
+		/>
+	<Model
+		id="6"
+		name="Sheep"
+		thumbnail_file="Resources/Models/sheep.png"
+		obj_file="sheep.obj"
+		bdf_file="Resources/Models/sheep.bdf"
+		vol_file="Resources/Models/sheep.vol"
+		/>
+	<Model
+		id="7"
+		name="Tiger"
+		thumbnail_file="Resources/Models/tiger.png"
+		obj_file="tiger.obj"
+		bdf_file="Resources/Models/tiger.bdf"
+		vol_file="Resources/Models/tiger.vol"
+		/>
+		
+		
+	<Model
+		id="8"
+		name="Dragon"
+		thumbnail_file="Resources/Models/dragon.png"
+		obj_file="dragon.obj"
+		bdf_file="Resources/Models/dragon.bdf"
+		vol_file="Resources/Models/dragon.vol"
+		/>
+	<Model
+		id="9"
+		name="Buddha"
+		thumbnail_file="Resources/Models/buddha.png"
+		obj_file="buddha.obj"
+		bdf_file="Resources/Models/buddha.bdf"
+		vol_file="Resources/Models/buddha.vol"
+		/>
+
+</ModelIndexFile>

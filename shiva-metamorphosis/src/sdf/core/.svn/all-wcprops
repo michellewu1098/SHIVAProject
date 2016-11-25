@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/2/trunk/src/sdf/core
+END
+point3d.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/src/sdf/core/point3d.cpp
+END
+triangle_aabb_overlap.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/src/sdf/core/triangle_aabb_overlap.cpp
+END
+triangle_triangle_overlap.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2/trunk/src/sdf/core/triangle_triangle_overlap.cpp
+END
+binary_file.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/src/sdf/core/binary_file.cpp
+END
+aabb.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/2/trunk/src/sdf/core/aabb.cpp
+END
+obj_file.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/src/sdf/core/obj_file.cpp
+END
+thread_work.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/src/sdf/core/thread_work.cpp
+END
+mesh.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/2/trunk/src/sdf/core/mesh.cpp
+END
