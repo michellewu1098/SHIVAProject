@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{714AC8E1-44D8-4B25-B94F-6B20260CF79F}</ProjectGuid>
+    <RootNamespace>shivagui</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\SDL_mixer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <Lib>
+      <AdditionalDependencies>GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\SDL_mixer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <Lib>
+      <AdditionalDependencies>GLee.lib;Opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\GUIManager.cpp" />
+    <ClCompile Include="..\..\src\ResourceManager.cpp" />
+    <ClCompile Include="..\..\src\Input\Debouncer.cpp" />
+    <ClCompile Include="..\..\src\Input\InputController.cpp" />
+    <ClCompile Include="..\..\src\Input\InputEvent.cpp" />
+    <ClCompile Include="..\..\src\Input\InternalEvent.cpp" />
+    <ClCompile Include="..\..\src\Input\Scanners\Autoscanner.cpp" />
+    <ClCompile Include="..\..\src\Input\Scanners\Scanner.cpp" />
+    <ClCompile Include="..\..\src\Utility\fbo.cpp" />
+    <ClCompile Include="..\..\src\Utility\GPUProgram.cpp" />
+    <ClCompile Include="..\..\src\Utility\GPUShader.cpp" />
+    <ClCompile Include="..\..\src\Utility\GPUVariable.cpp" />
+    <ClCompile Include="..\..\src\Utility\tinystr.cpp" />
+    <ClCompile Include="..\..\src\Utility\tinyxml.cpp" />
+    <ClCompile Include="..\..\src\Utility\tinyxmlerror.cpp" />
+    <ClCompile Include="..\..\src\Utility\tinyxmlparser.cpp" />
+    <ClCompile Include="..\..\src\GUI\Definitions.cpp" />
+    <ClCompile Include="..\..\src\GUI\GUIController.cpp" />
+    <ClCompile Include="..\..\src\GUI\Drawables\BitmapDrawable.cpp" />
+    <ClCompile Include="..\..\src\GUI\Drawables\Drawable.cpp" />
+    <ClCompile Include="..\..\src\GUI\Drawables\LayeredImageDrawable.cpp" />
+    <ClCompile Include="..\..\src\GUI\Drawables\NinePatch.cpp" />
+    <ClCompile Include="..\..\src\GUI\Drawables\RectDrawable.cpp" />
+    <ClCompile Include="..\..\src\GUI\Drawables\StateListDrawable.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\ColourSelector.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\ImageButton.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\Slider.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\TextButton.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\TextView.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\View.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\AdapterViews\AdapterView.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\AdapterViews\DataAdapter.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\AdapterViews\ListView.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\CustomLayoutParams.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\LayoutParams.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\LinearLayoutParams.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp" />
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\ViewGroup.cpp" />
+    <ClCompile Include="..\..\src\System\Activity.cpp" />
+    <ClCompile Include="..\..\src\System\Bundle.cpp" />
+    <ClCompile Include="..\..\src\System\ProfileManager.cpp" />
+    <ClCompile Include="..\..\src\System\SharedPreferences.cpp" />
+    <ClCompile Include="..\..\src\System\Window.cpp" />
+    <ClCompile Include="..\..\src\System\Activities\FilesystemDataProvider.cpp" />
+    <ClCompile Include="..\..\src\System\Activities\ProfileChooserActivity.cpp" />
+    <ClCompile Include="..\..\src\Audio\AudioClip.cpp" />
+    <ClCompile Include="..\..\src\Audio\AudioManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\GUIManager.h" />
+    <ClInclude Include="..\..\include\ResourceManager.h" />
+    <ClInclude Include="..\..\include\ShivaGUI.h" />
+    <ClInclude Include="..\..\include\GUI\Definitions.h" />
+    <ClInclude Include="..\..\include\GUI\GUIController.h" />
+    <ClInclude Include="..\..\include\GUI\Drawables\BitmapDrawable.h" />
+    <ClInclude Include="..\..\include\GUI\Drawables\Drawable.h" />
+    <ClInclude Include="..\..\include\GUI\Drawables\LayeredImageDrawable.h" />
+    <ClInclude Include="..\..\include\GUI\Drawables\NinePatch.h" />
+    <ClInclude Include="..\..\include\GUI\Drawables\RectDrawable.h" />
+    <ClInclude Include="..\..\include\GUI\Drawables\StateListDrawable.h" />
+    <ClInclude Include="..\..\include\GUI\Views\ColourSelector.h" />
+    <ClInclude Include="..\..\include\GUI\Views\ImageButton.h" />
+    <ClInclude Include="..\..\include\GUI\Views\Slider.h" />
+    <ClInclude Include="..\..\include\GUI\Views\TextButton.h" />
+    <ClInclude Include="..\..\include\GUI\Views\TextView.h" />
+    <ClInclude Include="..\..\include\GUI\Views\View.h" />
+    <ClInclude Include="..\..\include\GUI\Views\ViewEventListener.h" />
+    <ClInclude Include="..\..\include\GUI\Views\AdapterViews\AdapterView.h" />
+    <ClInclude Include="..\..\include\GUI\Views\AdapterViews\DataAdapter.h" />
+    <ClInclude Include="..\..\include\GUI\Views\AdapterViews\DataProvider.h" />
+    <ClInclude Include="..\..\include\GUI\Views\AdapterViews\LayoutAdapterView.h" />
+    <ClInclude Include="..\..\include\GUI\Views\AdapterViews\ListView.h" />
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\CustomLayout.h" />
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\CustomLayoutElement.h" />
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\CustomLayoutParams.h" />
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\LayoutParams.h" />
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\LinearLayout.h" />
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\LinearLayoutParams.h" />
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\ScrollContainer.h" />
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroup.h" />
+    <ClInclude Include="..\..\include\Input\Debouncer.h" />
+    <ClInclude Include="..\..\include\Input\InputController.h" />
+    <ClInclude Include="..\..\include\Input\InputEvent.h" />
+    <ClInclude Include="..\..\include\Input\InternalEvent.h" />
+    <ClInclude Include="..\..\include\Input\Scanners\Autoscanner.h" />
+    <ClInclude Include="..\..\include\Input\Scanners\Scanner.h" />
+    <ClInclude Include="..\..\include\System\Activity.h" />
+    <ClInclude Include="..\..\include\System\Application.h" />
+    <ClInclude Include="..\..\include\System\Bundle.h" />
+    <ClInclude Include="..\..\include\System\ProfileManager.h" />
+    <ClInclude Include="..\..\include\System\Settings.h" />
+    <ClInclude Include="..\..\include\System\SharedPreferences.h" />
+    <ClInclude Include="..\..\include\System\Window.h" />
+    <ClInclude Include="..\..\include\System\Activities\FilesystemDataProvider.h" />
+    <ClInclude Include="..\..\include\System\Activities\ProfileChooserActivity.h" />
+    <ClInclude Include="..\..\include\Utility\fbo.h" />
+    <ClInclude Include="..\..\include\Utility\GPUProgram.h" />
+    <ClInclude Include="..\..\include\Utility\GPUShader.h" />
+    <ClInclude Include="..\..\include\Utility\GPUVariable.h" />
+    <ClInclude Include="..\..\include\Utility\tinystr.h" />
+    <ClInclude Include="..\..\include\Utility\tinyxml.h" />
+    <ClInclude Include="..\..\include\Audio\AudioClip.h" />
+    <ClInclude Include="..\..\include\Audio\AudioManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

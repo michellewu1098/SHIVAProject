@@ -1,0 +1,405 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{1419d68d-f62b-49bf-9ece-ec2f82e2295f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input\Scanners">
+      <UniqueIdentifier>{678d2eb8-0688-4cbf-85ea-a3fed7b4dac4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{a22385ed-74e6-4121-9828-76e5b9a3a8da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{6767304a-a744-4b6d-bb44-5217b1383b87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Drawables">
+      <UniqueIdentifier>{b9ec96d7-77a7-470a-b858-6e9732f331f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Views">
+      <UniqueIdentifier>{64a64077-3866-408e-9d2b-911889a9702b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Views\AdapterViews">
+      <UniqueIdentifier>{4c0d1ca6-de69-40e8-a389-8ed25d7ecf4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Views\ViewGroups">
+      <UniqueIdentifier>{e1e38575-1a2c-4eb8-aff2-66ae04aa4d52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System">
+      <UniqueIdentifier>{f49288c7-9803-4ca2-95d7-c71be4069b42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Activities">
+      <UniqueIdentifier>{7732d0c2-42d8-4163-abc2-d37472e8dafa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{0176a523-5817-4315-b188-2b55e7b4904b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{46862e61-42c3-4acb-800a-bec476ce9a06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Drawables">
+      <UniqueIdentifier>{2a212322-1329-49f8-a128-cd6e43788ca8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Views">
+      <UniqueIdentifier>{1397eec7-1003-4b5f-a59b-56c37d971488}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Views\AdapterViews">
+      <UniqueIdentifier>{dc77ec01-8c5b-44b6-98ec-dd405f1f6610}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Views\ViewGroups">
+      <UniqueIdentifier>{6582a7e9-330b-4ae4-bc6d-6b4e53f5a651}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{bb32d665-81c1-4d69-bca7-83d54928efcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input\Scanners">
+      <UniqueIdentifier>{c5d222f6-be5a-475d-a2c5-8eeb2833a38f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System">
+      <UniqueIdentifier>{5e87f3a5-cbaf-47ec-80d9-daf854cffd2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System\Activities">
+      <UniqueIdentifier>{0cc11921-8129-4556-8977-8c831b25d17b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{a9fb91b1-b982-41e3-92f9-9d9dd2851cc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Audio">
+      <UniqueIdentifier>{ad6fad26-1f04-4ed3-a051-23acebbea1ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\GUIManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input\Debouncer.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input\InputController.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input\InputEvent.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input\InternalEvent.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input\Scanners\Autoscanner.cpp">
+      <Filter>Source Files\Input\Scanners</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input\Scanners\Scanner.cpp">
+      <Filter>Source Files\Input\Scanners</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utility\fbo.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utility\GPUProgram.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utility\GPUShader.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utility\GPUVariable.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utility\tinystr.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utility\tinyxml.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utility\tinyxmlerror.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utility\tinyxmlparser.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Definitions.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\GUIController.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Drawables\BitmapDrawable.cpp">
+      <Filter>Source Files\GUI\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Drawables\Drawable.cpp">
+      <Filter>Source Files\GUI\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Drawables\LayeredImageDrawable.cpp">
+      <Filter>Source Files\GUI\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Drawables\NinePatch.cpp">
+      <Filter>Source Files\GUI\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Drawables\RectDrawable.cpp">
+      <Filter>Source Files\GUI\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Drawables\StateListDrawable.cpp">
+      <Filter>Source Files\GUI\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\ColourSelector.cpp">
+      <Filter>Source Files\GUI\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\ImageButton.cpp">
+      <Filter>Source Files\GUI\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\Slider.cpp">
+      <Filter>Source Files\GUI\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\TextButton.cpp">
+      <Filter>Source Files\GUI\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\TextView.cpp">
+      <Filter>Source Files\GUI\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\View.cpp">
+      <Filter>Source Files\GUI\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\AdapterViews\AdapterView.cpp">
+      <Filter>Source Files\GUI\Views\AdapterViews</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\AdapterViews\DataAdapter.cpp">
+      <Filter>Source Files\GUI\Views\AdapterViews</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp">
+      <Filter>Source Files\GUI\Views\AdapterViews</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\AdapterViews\ListView.cpp">
+      <Filter>Source Files\GUI\Views\AdapterViews</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp">
+      <Filter>Source Files\GUI\Views\ViewGroups</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp">
+      <Filter>Source Files\GUI\Views\ViewGroups</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\CustomLayoutParams.cpp">
+      <Filter>Source Files\GUI\Views\ViewGroups</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\LayoutParams.cpp">
+      <Filter>Source Files\GUI\Views\ViewGroups</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp">
+      <Filter>Source Files\GUI\Views\ViewGroups</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\LinearLayoutParams.cpp">
+      <Filter>Source Files\GUI\Views\ViewGroups</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp">
+      <Filter>Source Files\GUI\Views\ViewGroups</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\ViewGroups\ViewGroup.cpp">
+      <Filter>Source Files\GUI\Views\ViewGroups</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\System\Activity.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\System\Bundle.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\System\ProfileManager.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\System\SharedPreferences.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\System\Window.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\System\Activities\FilesystemDataProvider.cpp">
+      <Filter>Source Files\System\Activities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\System\Activities\ProfileChooserActivity.cpp">
+      <Filter>Source Files\System\Activities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Audio\AudioClip.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Audio\AudioManager.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\GUIManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ShivaGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Definitions.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\GUIController.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Drawables\BitmapDrawable.h">
+      <Filter>Header Files\GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Drawables\Drawable.h">
+      <Filter>Header Files\GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Drawables\LayeredImageDrawable.h">
+      <Filter>Header Files\GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Drawables\NinePatch.h">
+      <Filter>Header Files\GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Drawables\RectDrawable.h">
+      <Filter>Header Files\GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Drawables\StateListDrawable.h">
+      <Filter>Header Files\GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\ColourSelector.h">
+      <Filter>Header Files\GUI\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\ImageButton.h">
+      <Filter>Header Files\GUI\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\Slider.h">
+      <Filter>Header Files\GUI\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\TextButton.h">
+      <Filter>Header Files\GUI\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\TextView.h">
+      <Filter>Header Files\GUI\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\View.h">
+      <Filter>Header Files\GUI\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\ViewEventListener.h">
+      <Filter>Header Files\GUI\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\AdapterViews\AdapterView.h">
+      <Filter>Header Files\GUI\Views\AdapterViews</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\AdapterViews\DataAdapter.h">
+      <Filter>Header Files\GUI\Views\AdapterViews</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\AdapterViews\DataProvider.h">
+      <Filter>Header Files\GUI\Views\AdapterViews</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\AdapterViews\LayoutAdapterView.h">
+      <Filter>Header Files\GUI\Views\AdapterViews</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\AdapterViews\ListView.h">
+      <Filter>Header Files\GUI\Views\AdapterViews</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\CustomLayout.h">
+      <Filter>Header Files\GUI\Views\ViewGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\CustomLayoutElement.h">
+      <Filter>Header Files\GUI\Views\ViewGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\CustomLayoutParams.h">
+      <Filter>Header Files\GUI\Views\ViewGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\LayoutParams.h">
+      <Filter>Header Files\GUI\Views\ViewGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\LinearLayout.h">
+      <Filter>Header Files\GUI\Views\ViewGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\LinearLayoutParams.h">
+      <Filter>Header Files\GUI\Views\ViewGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\ScrollContainer.h">
+      <Filter>Header Files\GUI\Views\ViewGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroup.h">
+      <Filter>Header Files\GUI\Views\ViewGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Input\Debouncer.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Input\InputController.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Input\InputEvent.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Input\InternalEvent.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Input\Scanners\Autoscanner.h">
+      <Filter>Header Files\Input\Scanners</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Input\Scanners\Scanner.h">
+      <Filter>Header Files\Input\Scanners</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System\Activity.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System\Application.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System\Bundle.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System\ProfileManager.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System\Settings.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System\SharedPreferences.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System\Window.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System\Activities\FilesystemDataProvider.h">
+      <Filter>Header Files\System\Activities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System\Activities\ProfileChooserActivity.h">
+      <Filter>Header Files\System\Activities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utility\fbo.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utility\GPUProgram.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utility\GPUShader.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utility\GPUVariable.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utility\tinystr.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utility\tinyxml.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Audio\AudioClip.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Audio\AudioManager.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>
