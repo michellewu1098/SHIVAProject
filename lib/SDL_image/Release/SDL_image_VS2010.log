@@ -1,0 +1,37 @@
+﻿Build started 04/03/2013 14:24:31.
+     1>Project "D:\Projects\libs\SDL_image-2.0.0\VisualC\SDL_image_VS2010.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\Release\SDL2_image.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       ResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Release\SDL2_image.dll" /INCREMENTAL:NO /NOLOGO SDL2.lib SDL2main.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:".\Release\SDL2_image.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:".\Release/SDL_image.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Release\SDL2_image.lib" /MACHINE:X86 /DLL .\Release\Version.res
+         .\Release\IMG.obj
+         .\Release\IMG_bmp.obj
+         .\Release\IMG_gif.obj
+         .\Release\IMG_jpg.obj
+         .\Release\IMG_lbm.obj
+         .\Release\IMG_pcx.obj
+         .\Release\IMG_png.obj
+         .\Release\IMG_pnm.obj
+         .\Release\IMG_tga.obj
+         .\Release\IMG_tif.obj
+         .\Release\IMG_webp.obj
+         .\Release\IMG_xcf.obj
+         .\Release\IMG_xpm.obj
+         .\Release\IMG_xv.obj
+         .\Release\IMG_xxx.obj
+            Creating library .\Release\SDL2_image.lib and object .\Release\SDL2_image.exp
+         SDL_image_VS2010.vcxproj -> D:\Projects\libs\SDL_image-2.0.0\VisualC\.\Release\SDL2_image.dll
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:".\Release\SDL2_image.dll;#2" /manifest .\Release\SDL2_image.dll.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file ".\Release\SDL2_image.unsuccessfulbuild".
+         Touching ".\Release\SDL2_image.lastbuildstate".
+     1>Done Building Project "D:\Projects\libs\SDL_image-2.0.0\VisualC\SDL_image_VS2010.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.47
