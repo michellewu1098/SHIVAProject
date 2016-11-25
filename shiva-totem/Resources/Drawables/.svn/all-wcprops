@@ -1,0 +1,395 @@
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/19/trunk/Resources/Drawables
+END
+theme02_button_pressed_focus.xml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_button_pressed_focus.xml
+END
+button_pressed_focus.png
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/5/trunk/Resources/Drawables/button_pressed_focus.png
+END
+text_fast.png
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_fast.png
+END
+text_settings.png
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_settings.png
+END
+theme02_slider_handle_pressed.png
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_slider_handle_pressed.png
+END
+theme02_button_focus.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_button_focus.xml
+END
+button_focus.png
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/5/trunk/Resources/Drawables/button_focus.png
+END
+text_1button.xml
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/8/trunk/Resources/Drawables/text_1button.xml
+END
+slider_handle_pressed_focus.png
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/5/trunk/Resources/Drawables/slider_handle_pressed_focus.png
+END
+text_modelA.xml
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/5/trunk/Resources/Drawables/text_modelA.xml
+END
+slider_bar.xml
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/14/trunk/Resources/Drawables/slider_bar.xml
+END
+text_modelB.xml
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/5/trunk/Resources/Drawables/text_modelB.xml
+END
+text_full.xml
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/8/trunk/Resources/Drawables/text_full.xml
+END
+theme02_button_pressed_focus.png
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_button_pressed_focus.png
+END
+button.xml
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/12/trunk/Resources/Drawables/button.xml
+END
+selector_normal.png
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/17/trunk/Resources/Drawables/selector_normal.png
+END
+theme02_slider_handle_normal.png
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_slider_handle_normal.png
+END
+background.xml
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/14/trunk/Resources/Drawables/background.xml
+END
+slider_handle_focus.png
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/5/trunk/Resources/Drawables/slider_handle_focus.png
+END
+theme02_button_focus.png
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_button_focus.png
+END
+button_normal.xml
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3/trunk/Resources/Drawables/button_normal.xml
+END
+text_1button.png
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_1button.png
+END
+text_onebuttonspeed.png
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_onebuttonspeed.png
+END
+text_modelA.png
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_modelA.png
+END
+text_morph.xml
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/5/trunk/Resources/Drawables/text_morph.xml
+END
+theme02_slider_handle_pressed_focus.png
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_slider_handle_pressed_focus.png
+END
+slider_bar.png
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/Resources/Drawables/slider_bar.png
+END
+text_modelB.png
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_modelB.png
+END
+text_full.png
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_full.png
+END
+slider_handle.xml
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/14/trunk/Resources/Drawables/slider_handle.xml
+END
+theme02_button.xml
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_button.xml
+END
+text_welcome.xml
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/8/trunk/Resources/Drawables/text_welcome.xml
+END
+button.png
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/5/trunk/Resources/Drawables/button.png
+END
+text_small.png
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_small.png
+END
+theme02_background.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_background.xml
+END
+slider_handle_inactive.png
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/14/trunk/Resources/Drawables/slider_handle_inactive.png
+END
+background.png
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/Resources/Drawables/background.png
+END
+theme02_slider_handle_focus.png
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_slider_handle_focus.png
+END
+theme02_button_normal.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_button_normal.xml
+END
+text_slow.png
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_slow.png
+END
+text_morph.png
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_morph.png
+END
+theme02_slider_handle.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_slider_handle.xml
+END
+slider_handle.png
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/5/trunk/Resources/Drawables/slider_handle.png
+END
+text_large.png
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_large.png
+END
+text_welcome.png
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_welcome.png
+END
+theme02_slider_handle_inactive.png
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_slider_handle_inactive.png
+END
+theme02_background.png
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_background.png
+END
+theme02_button_normal.png
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_button_normal.png
+END
+button_inactive.xml
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/13/trunk/Resources/Drawables/button_inactive.xml
+END
+button_pressed.xml
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/3/trunk/Resources/Drawables/button_pressed.xml
+END
+text_4button.xml
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/8/trunk/Resources/Drawables/text_4button.xml
+END
+text_back.xml
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/5/trunk/Resources/Drawables/text_back.xml
+END
+button_inactive.png
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/13/trunk/Resources/Drawables/button_inactive.png
+END
+theme02_button_pressed.xml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_button_pressed.xml
+END
+button_pressed.png
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/5/trunk/Resources/Drawables/button_pressed.png
+END
+text_4button.png
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_4button.png
+END
+text_back.png
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_back.png
+END
+text_fullscreen.png
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_fullscreen.png
+END
+text_windowsize.png
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_windowsize.png
+END
+button_pressed_focus.xml
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/3/trunk/Resources/Drawables/button_pressed_focus.xml
+END
+text_settings.xml
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/13/trunk/Resources/Drawables/text_settings.xml
+END
+slider_handle_pressed.png
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/5/trunk/Resources/Drawables/slider_handle_pressed.png
+END
+theme02_button_pressed.png
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/20/trunk/Resources/Drawables/theme02_button_pressed.png
+END
+text_rotationspeed.png
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/19/trunk/Resources/Drawables/text_rotationspeed.png
+END
+button_focus.xml
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3/trunk/Resources/Drawables/button_focus.xml
+END

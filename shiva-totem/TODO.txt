@@ -1,0 +1,112 @@
+
+
+Bugs:
+[x] - Drill holes don't appear when totem is large
+[x] - Params are not being deleted
+[x] - Saving when empty totem causes crash
+
+[ ] - Button repeat in profile XML has no effect - see System profile xml, final key mapping group
+
+[ ] - Blending in symvol and totem is different
+[ ] - Excessive rotation causes model to disappear off into distance
+[ ] - Parameters need to work with multiple GLSLRenderers
+[ ] - Dirty tree detection (when non-param values change, children change etc) automatically triggers rebuild, to save effort with remembering to rebuild shaders etc
+
+
+Feature Requests:
+
+[x] - Eye-gaze deflate needs to save settings
+[x] - Basic instructions for Inkscape layering and screen blending
+[x] - Description of Inkscape layering for button creation etc - email
+[x] - Eye-gaze, dwell repeat - for next thurs default is not repeat
+[x] - select above, select below buttons on rotate screen
+[x] - Eye-gaze, rest cell disables / enables gaze
+    - special events for enable/disable eye-gaze
+    - rest cell then trigges this but ignores these events
+    - In View's HandleEvent() include way for issuing a new event
+[x] - Eye-gaze, dwell option for repeat (works globally)
+[x] - Change all text to lower-case
+[x] - Direct selection of objects on the pole.
+[x] - Cuboid - show straight on i.e. not end first.
+[x] - Drill and Slice screens - change camera angle to 1deg, make drill cylinder / etc appear in different place / longer
+[x] - Default blending value to zero
+[x] - When all objects are removed, remove all operations
+[x] - New button removes all objects and operations
+
+
+[x] - 'New' needs to reset the blending
+[x] - GUI: ListView, add horizontal layout - put in eye-gaze profile
+[x] - Uniform scale operation - make bigger, make smaller
+[x] - Size of drill - adjustable buttons, make bigger and smaller
+[x] - Add limits for scale
+[x] - Edit Activity for nudge and swap - just clone assembly activity and remove creation buttons
+[x] - Rest cell change colour to red when selected
+[x] - Add transform node to root of tree just before exporting
+      - DONE: hardcoded to 20x, can override in profile settings xml as "SaveRescaleSize"
+      - include in profile scale value
+      - Mark will work out how many units high the totem needs to be
+      - next step is to set scale node to ensure totem is this height (can put in profile)
+[x] - Nudge objects activity, blending is reset on enter - fix
+[x] - Button on main screen to directly link to nudge activity
+[x] - On 'tools' screen, second window doesn't get correct model colour
+[x] - Nudge screen has nudges in all axes
+
+[x] - Change the order of objects after they have been nudged
+[x] - Adding an object will now always place it physically just on top of the top-most object (providing object is not scaled)
+[x] - Full scaling, each axis
+[x] - Rotate up/down
+[x] - Indicator on cross-hairs for drill hole size
+
+
+
+Mark: priority 1
+[ ] - *** load vol files for totem, main.cpp allow any object type ***
+[ ] - Shape library's scroll container, needs buttons for scrolling
+
+[ ] - Make objects on totem above shuffle up / down as scale up / down
+[ ] - Bounding box of blend increases depending on amount of blend (give a proper estimation - talk to Alexander)
+
+Mark: Priority 2
+[ ] - Some way to visualise bounding boxes for objects after blend that are otherwise hidden - make box wider according to blend amount
+[ ] - Twist operation
+
+Mark: priority 3
+[ ] - Drill holes work per-object, repeat operation for all objects
+[ ] - Undo button, all screens, clone tree
+[ ] - Slice
+
+[ ] - Buttons as optional (hidden) alternative to primitive list
+
+Mouse input needs to go through a controller.
+Desired behaviour:
+[ ] - Press and hold -> choice to either click once, or repeat
+
+
+Mark: Priority 10
+[ ] - button to toggle on/off the pole
+
+Operations:
+ 
+[x] - Drill (straight through initially)
+[x] - Rotate objects/shapes
+[x] - Blend
+[ ] - Stretch/squash object/shapes vertically and horizontally
+
+
+[ ] - Eye gaze dwell to select object on totem, like the click. Low priority (can use buttons)
+[ ] - Change scan and selection instruction to be one-way
+[ ] - Add scan and selection instructions to layout XML
+[ ] - Torus re-added.
+[ ] - Load previously saved objects.
+[ ] - Full-screen
+
+[ ] - Document: prefs.xml
+
+[ ] - Press button, lose window focus, press operation remains incomplete
+
+
+SHIVA 2:
+[ ] - Tapering - adjust scale at each end of object
+[ ] - Screen for changing order of operations, swap them around
+
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StateListDrawable>
+	<Item
+		drawable="slider_handle_focus.png"
+		state_focus="true"
+		/>
+	<Item
+		drawable="slider_handle_pressed.png"
+		state_pressed="true"
+		/>
+	<Item
+		drawable="slider_handle_pressed_focus.png"
+		state_pressed="true"
+		state_focus="true"
+		/>
+	<Item
+		drawable="slider_handle_inactive.png"
+		state_disabled="true"
+		/>
+	<Item
+		drawable="slider_handle.png"
+		/>
+</StateListDrawable>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<profile>
+    <header>
+        <name>Test Profile 01</name>
+        <author>Manually written by Leigh McLoughlin</author>
+    </header>
+    <options>
+		<theme>Resources/Themes/system.xml</theme>
+		
+		<window>
+			<width>800</width>
+			<height>600</height>
+		</window>
+		
+		<window>
+			<width>600</width>
+			<height>600</height>
+			<positionX>900</positionX>
+			<theme>Resources/Themes/system.xml</theme>
+			<use>output</use>
+		</window>
+		
+		<keyinput>
+		    <enablekeys/>
+		    <shareinputs/>
+
+		    <map>
+				<debounce>
+					<trailTime>1.0</trailTime>
+					<suppressionTime>1.0</suppressionTime>
+					<repeatEnable>false</repeatEnable>
+				</debounce>
+			    <key>41 <releaseEvent>BACK</releaseEvent> </key>
+			    <key>44 <pressEvent>SCAN_HIGHLIGHT</pressEvent> <releaseEvent>SCAN_SELECT</releaseEvent> </key>
+			</map>
+		    <map>
+				<debounce>
+					<trailTime>0.1</trailTime>
+					<repeatEnable>true</repeatEnable>
+					<repeatDebounced>false</repeatDebounced>
+					<repeatDelay>1.0</repeatDelay>
+					<repeatRate>0.1</repeatRate>
+				</debounce>
+			    <key>40 <pressEvent>FOCUS_HIGHLIGHT</pressEvent> <repeatEvent>FOCUS_SELECT_HOLD</repeatEvent> <releaseEvent>FOCUS_SELECT_RELEASE</releaseEvent> </key>
+			</map>
+			<map>
+				<debounce>
+					<trailTime>1.0</trailTime>
+					<delayTime>1.0</delayTime>
+					<suppressionTime>1.0</suppressionTime>
+					<repeatEnable>true</repeatEnable>
+					<repeatDebounced>false</repeatDebounced>
+					<repeatDelay>1.0</repeatDelay>
+					<repeatRate>0.1</repeatRate>
+				</debounce>
+				<key>79 <pressEvent>NEXTFOCUS_RIGHT</pressEvent> <repeatEvent>NEXTFOCUS_RIGHT</repeatEvent> </key>
+				<key>80 <pressEvent>NEXTFOCUS_LEFT</pressEvent> <repeatEvent>NEXTFOCUS_LEFT</repeatEvent> </key>
+				<key>81 <pressEvent>NEXTFOCUS_DOWN</pressEvent> <repeatEvent>NEXTFOCUS_DOWN</repeatEvent> </key>
+				<key>82 <pressEvent>NEXTFOCUS_UP</pressEvent> <repeatEvent>NEXTFOCUS_UP</repeatEvent> </key>
+		     </map>
+  
+  			<!--
+			<scanning>
+				<type>AUTOSCANNER</type>
+				<delayTime>2.0</delayTime>
+			</scanning>
+			-->
+
+		</keyinput>
+		
+		
+    </options>
+</profile>

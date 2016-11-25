@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NinePatch
+	src="System/Theme02/button_pressed.png"
+		
+	centre_left="0.13"
+	centre_right="0.87"
+	centre_top="0.35"
+	centre_bottom="0.64"
+	
+	content_left="0.1"
+	content_right="0.9"
+	content_top="0.2"
+	content_bottom="0.8"
+/>

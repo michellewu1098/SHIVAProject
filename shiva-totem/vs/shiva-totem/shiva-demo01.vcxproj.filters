@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Totem">
+      <UniqueIdentifier>{d2ab2ee2-036f-496f-bcf9-d646d97b2bb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Totem\Operations">
+      <UniqueIdentifier>{83b3fdaf-a542-496f-bdee-503638420de1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Totem">
+      <UniqueIdentifier>{dcc74103-fd53-4944-be7e-a43961f3782a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Totem\Operations">
+      <UniqueIdentifier>{7bbf4f17-1069-4e40-818e-6cb33a17f114}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\AssembleActivity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BlendAdjustActivity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\DrillActivity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\EditMenuActivity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\NudgeActivity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\RotateObjectActivity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ShivaModelManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\UniformScaleActivity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Totem\TotemController.cpp">
+      <Filter>Source Files\Totem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Totem\TotemObject.cpp">
+      <Filter>Source Files\Totem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Totem\TotemOperation.cpp">
+      <Filter>Source Files\Totem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Totem\Operations\TotemOpDrill.cpp">
+      <Filter>Source Files\Totem\Operations</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\AssembleActivity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BlendAdjustActivity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DrillActivity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\EditMenuActivity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\NudgeActivity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\RotateObjectActivity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ShivaModelManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\UniformScaleActivity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Totem\TotemController.h">
+      <Filter>Header Files\Totem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Totem\TotemObject.h">
+      <Filter>Header Files\Totem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Totem\TotemOperation.h">
+      <Filter>Header Files\Totem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Totem\Operations\TotemOpDrill.h">
+      <Filter>Header Files\Totem\Operations</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

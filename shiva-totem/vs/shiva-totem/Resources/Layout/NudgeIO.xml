@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CustomLayout
+	layout_width="fill_parent"
+	layout_height="fill_parent"
+  background="@RootViewBackground">
+	
+	
+	
+	
+	<TextView
+		id="titleTextView"
+		layout_width="wrap_content"
+		layout_height="wrap_content"
+		layout_centreX="0.5"
+		layout_centreY="0.05"
+		text="nudge objects"
+		/>
+		
+	<VolView
+		id="MainVolView"
+		layout_width="0.34"
+		layout_height="0.55"
+		layout_centreX="0.5"
+		layout_centreY="0.55"
+		cameraPositionY="1"
+		cameraPositionZ="14.0"
+		cameraTargetY="0"
+		/>
+
+
+	<ImageButton
+		id="RotateUp"
+		layout_width="0.12"
+		layout_height="0.2"
+		layout_centreX="0.7"
+		layout_centreY="0.5"
+    scaleContent="true"
+    keepContentAspectRatio="true"
+		onClick="buttonHandler"
+		src="System/CommandSymbols/RotateArrow_Up.xml"
+    eyeGaze_Repeat="true"
+    
+    scan_prev="RotateLeft"
+    
+		next_focus_left="RotateDown"
+		next_focus_right="NudgeUp"
+		next_focus_up="RotateLeft"
+		next_focus_down="RotateRight"
+		/>
+		
+	<ImageButton
+		id="RotateDown"
+		layout_width="0.12"
+		layout_height="0.2"
+		layout_centreX="0.3"
+		layout_centreY="0.5"
+    scaleContent="true"
+    keepContentAspectRatio="true"
+		onClick="buttonHandler"
+		src="System/CommandSymbols/RotateArrow_Down.xml"
+    eyeGaze_Repeat="true"
+    
+    scan_prev="RotateRight"
+    
+		next_focus_left="PrimitiveList"
+		next_focus_up="RotateLeft"
+		next_focus_down="RotateRight"
+		next_focus_right="RotateUp"
+		/>
+
+	<ImageButton
+		id="RotateRight"
+		layout_width="0.2"
+		layout_height="0.12"
+		layout_centreX="0.5"
+		layout_centreY="0.9"
+    scaleContent="true"
+    keepContentAspectRatio="true"
+		onClick="buttonHandler"
+		src="System/CommandSymbols/RotateArrow_Right.xml"
+    eyeGaze_Repeat="true"
+    
+		next_focus_up="RotateLeft"
+		next_focus_left="RotateDown"
+		next_focus_right="RotateUp"
+		/>
+
+  <ImageButton
+		id="RotateLeft"
+		layout_width="0.2"
+		layout_height="0.12"
+		layout_centreX="0.5"
+		layout_centreY="0.2"
+    scaleContent="true"
+    keepContentAspectRatio="true"
+		onClick="buttonHandler"
+		src="System/CommandSymbols/RotateArrow_Left.xml"
+    eyeGaze_Repeat="true"
+    
+    scan_prev="PrimitiveList"
+        first_scan="true"
+    
+    
+		next_focus_left="RotateDown"
+		next_focus_right="RotateUp"
+		/>
+
+
+
+  <TextButton
+		id="RotateReset"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.7"
+		layout_centreY="0.9"
+		onClick="buttonHandler"
+		text="reset view"
+		/>
+
+
+  <TextButton
+		id="EyeGazeRest"
+		layout_width="0.2"
+		layout_height="0.3"
+		layout_centreX="0.7"
+		layout_centreY="0.25"
+    eyeGaze_RestButton="true"
+		text="rest"
+		/>
+
+
+
+  <TextButton
+		id="NudgeYpositive"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.1"
+		layout_centreY="0.05"
+		onClick="buttonHandler"
+		text="nudge in"
+		/>
+
+  <TextButton
+		id="NudgeYnegative"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.1"
+		layout_centreY="0.15"
+		onClick="buttonHandler"
+		text="nudge out"
+		/>
+
+  <TextButton
+		id="NudgeXpositive"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.1"
+		layout_centreY="0.35"
+		onClick="buttonHandler"
+		text="nudge right"
+		/>
+
+  <TextButton
+		id="NudgeXnegative"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.1"
+		layout_centreY="0.45"
+		onClick="buttonHandler"
+		text="nudge left"
+		/>
+
+  
+  <TextButton
+		id="NudgeUp"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.1"
+		layout_centreY="0.65"
+		onClick="buttonHandler"
+		text="nudge up"
+		/>
+
+  <TextButton
+		id="NudgeDown"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.1"
+		layout_centreY="0.75"
+		onClick="buttonHandler"
+		text="nudge down"
+		/>
+
+  <TextButton
+		id="NudgeReset"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.1"
+		layout_centreY="0.9"
+		onClick="buttonHandler"
+		text="reset nudge"
+		/>
+
+
+
+
+
+
+
+  <TextButton
+		id="SwapAbove"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.9"
+		layout_centreY="0.15"
+		onClick="buttonHandler"
+		text="swap next"
+    
+    scan_prev="NudgeUp"
+		next_focus_up="NudgeUp"
+		next_focus_right="PrimitiveList"
+		next_focus_left="RotateUp"
+		/>
+
+  <TextButton
+		id="SelectAbove"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.9"
+		layout_centreY="0.25"
+		onClick="buttonHandler"
+		text="select next"
+    
+    scan_prev="SwapAbove"
+		next_focus_up="SwapAbove"
+		next_focus_right="PrimitiveList"
+		next_focus_left="RotateUp"
+		/>
+  
+	<TextButton
+		id="DeleteSelected"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.9"
+		layout_centreY="0.35"
+		onClick="buttonHandler"
+		text="delete"
+    
+    scan_prev="SelectAbove"
+		next_focus_up="SelectAbove"
+		next_focus_right="PrimitiveList"
+		next_focus_left="RotateUp"
+		/>
+  
+	<TextButton
+		id="BackButton"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.9"
+		layout_centreY="0.45"
+		onClick="buttonHandler"
+		text="back"
+    
+    scan_prev="DeleteSelected"
+		next_focus_up="DeleteSelected"
+		next_focus_right="PrimitiveList"
+		next_focus_left="RotateUp"
+		/>
+
+  <TextButton
+		id="SelectBelow"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.9"
+		layout_centreY="0.55"
+		onClick="buttonHandler"
+		text="select previous"
+    
+    scan_prev="EditSelected"
+		next_focus_up="EditSelected"
+		next_focus_right="PrimitiveList"
+		next_focus_left="RotateUp"
+		/>
+
+  <TextButton
+		id="SwapBelow"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.9"
+		layout_centreY="0.65"
+		onClick="buttonHandler"
+		text="swap previous"
+    
+    scan_prev="SelectBelow"
+		next_focus_up="SelectBelow"
+		next_focus_right="PrimitiveList"
+		next_focus_left="RotateUp"
+		/>
+
+</CustomLayout>

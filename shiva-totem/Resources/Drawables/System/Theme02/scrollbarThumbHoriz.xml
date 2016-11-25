@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NinePatch
+	src="System/Theme02/scrollbarThumbHoriz.png"
+		
+	centre_left="0.1"
+	centre_right="0.9"
+	centre_top="0.1"
+	centre_bottom="0.9"
+/>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Note that this has worked out differently to how Android declares its styles / themes, so the 'theme' tag is parsed the same way as a View's tag -->
+<theme
+  
+	TextButton_drawable="System/ThemeSystem/button.xml"
+	TextButton_font="Resources/Fonts/FreeSansBold.ttf"
+	TextButton_text_colour="000000FF"
+	TextButton_text_size="30"
+	TextButton_padding="10"
+  TextButton_audio_pressStart="Resources/Audio/ButtonHoverTemp.wav"
+  TextButton_audio_hoverEnter="Resources/Audio/ButtonPushTemp.wav"
+	
+	TextView_text_colour="000000FF"
+	TextView_font="Resources/Fonts/FreeSansBold.ttf"
+	TextView_text_size="30"
+	
+	ImageButton_drawable="System/ThemeSystem/button.xml"
+	ImageButton_padding="10"
+  ImageButton_audio_pressStart="Resources/Audio/ButtonHoverTemp.wav"
+  ImageButton_audio_hoverEnter="Resources/Audio/ButtonPushTemp.wav"
+	
+	Slider_barDrawable="System/Theme02/slider_bar.xml"
+	Slider_handleDrawable="System/Theme02/slider_handle.xml"
+	Slider_handleWidth="50"
+	Slider_handleHeight="100"
+	
+	ColourSelector_selectorDrawable="selector_normal.png"
+	
+	ScrollContainer_scrollbarTrackVertical="System/Theme02/scrollbarTrackVert.xml"
+	ScrollContainer_scrollbarTrackHorizontal="System/Theme02/scrollbarTrackHoriz.xml"
+	ScrollContainer_scrollbarThumbVertical="System/Theme02/scrollbarThumbVert.xml"
+	ScrollContainer_scrollbarThumbHorizontal="System/Theme02/scrollbarThumbHoriz.xml"
+  
+  SDFView_loadingDrawable="LoadingMessage.png"
+	>
+
+  <constGroup>
+    <!-- These consist of key-value pairs. The key must start with the @ symbol. All instances of this key found in layout xml files are replaced with the value string -->
+    <const>
+      <key>@RootViewBackground</key>
+      <value>LinearGradientBackground.xml</value>
+    </const>
+    
+    
+    <const>
+      <key>@LeftArrow</key>
+      <value>System/CommandSymbols/Arrow_Left.xml</value>
+    </const>
+    <const>
+      <key>@RightArrow</key>
+      <value>System/CommandSymbols/Arrow_Right.xml</value>
+    </const>
+    <const>
+      <key>@UpArrow</key>
+      <value>System/CommandSymbols/Arrow_Up.xml</value>
+    </const>
+    <const>
+      <key>@DownArrow</key>
+      <value>System/CommandSymbols/Arrow_Down.xml</value>
+    </const>
+    
+    <const>
+      <key>@RotateRightArrow</key>
+      <value>System/CommandSymbols/RotateArrow_Right.xml</value>
+    </const>
+    <const>
+      <key>@RotateLeftArrow</key>
+      <value>System/CommandSymbols/RotateArrow_Left.xml</value>
+    </const>
+    <const>
+      <key>@RotateUpArrow</key>
+      <value>System/CommandSymbols/RotateArrow_Up.xml</value>
+    </const>
+    <const>
+      <key>@RotateDownArrow</key>
+      <value>System/CommandSymbols/RotateArrow_Down.xml</value>
+    </const>
+    
+    <!-- These values replace layer colours in the above xml files, where the 'key' occurs -->
+    <const>
+      <key>@ArrowColourOutline</key>
+      <value>000000FF</value>
+    </const>
+    <const>
+      <key>@ArrowColourHighlight</key>
+      <value>000000FF</value>
+    </const>
+    <const>
+      <key>@ArrowColourLowlight</key>
+      <value>000000FF</value>
+    </const>
+    <const>
+      <key>@ArrowColourInnerLow</key>
+      <value>000000FF</value>
+    </const>
+    <const>
+      <key>@ArrowColourInnerHigh</key>
+      <value>000000FF</value>
+    </const>
+    <const>
+      <key>@ArrowColourBackground</key>
+      <value>00000000</value>
+    </const>
+
+
+
+    <const>
+      <key>@ButtonTop_Normal</key>
+      <value>0</value>
+    </const>
+    <const>
+      <key>@ButtonBottom_Normal</key>
+      <value>0</value>
+    </const>
+    <const>
+      <key>@ButtonMiddle_Normal</key>
+      <value>0</value>
+    </const>
+    <const>
+      <key>@ButtonSolid_Normal</key>
+      <value>FFFF00FF</value>
+    </const>
+
+    <const>
+      <key>@ButtonTop_Focus</key>
+      <value>0</value>
+    </const>
+    <const>
+      <key>@ButtonBottom_Focus</key>
+      <value>0</value>
+    </const>
+    <const>
+      <key>@ButtonMiddle_Focus</key>
+      <value>0</value>
+    </const>
+    <const>
+      <key>@ButtonSolid_Focus</key>
+      <value>FF0000FF</value>
+    </const>
+
+    <const>
+      <key>@ButtonTop_Pressed</key>
+      <value>0</value>
+    </const>
+    <const>
+      <key>@ButtonBottom_Pressed</key>
+      <value>0</value>
+    </const>
+    <const>
+      <key>@ButtonMiddle_Pressed</key>
+      <value>0</value>
+    </const>
+    <const>
+      <key>@ButtonSolid_Pressed</key>
+      <value>00FF00FF</value>
+    </const>
+
+    <const>
+      <key>@ButtonTop_Pressed_Focus</key>
+      <value>0</value>
+    </const>
+    <const>
+      <key>@ButtonBottom_Pressed_Focus</key>
+      <value>0</value>
+    </const>
+    <const>
+      <key>@ButtonMiddle_Pressed_Focus</key>
+      <value>0</value>
+    </const>
+    <const>
+      <key>@ButtonSolid_Pressed_Focus</key>
+      <value>AAFF00FF</value>
+    </const>
+
+
+
+
+    <const>
+      <key>@GradientBackgroundLeft</key>
+      <value>000000FF</value>
+    </const>
+    <const>
+      <key>@GradientBackgroundRight</key>
+      <value>000000FF</value>
+    </const>
+    <const>
+      <key>@GradientBackgroundTop</key>
+      <value>0</value>
+    </const>
+    <const>
+      <key>@GradientBackgroundBottom</key>
+      <value>0</value>
+    </const>
+    
+  </constGroup>
+</theme>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file contains the details of the different models that may be loaded -->
+<ModelIndexFile>
+
+	<Model
+		id="0"
+		name="Sphere"
+		thumbnail_file="Models/colprim_sphere.xml"
+    primitive="Sphere"
+		/>
+	<Model
+		id="1"
+		name="Cone"
+		thumbnail_file="Models/colprim_cone.xml"
+    primitive="Cone"
+		/>
+	<Model
+		id="2"
+		name="Cylinder"
+		thumbnail_file="Models/colprim_cylinder.xml"
+    primitive="Cylinder"
+		/>
+	<Model
+		id="3"
+		name="Cube"
+		thumbnail_file="Models/colprim_cube.xml"
+    primitive="Cube"
+		/>
+  <!--
+	<Model
+		id="4"
+		name="Torus"
+		thumbnail_file="Models/colprim_torus.xml"
+    primitive="Torus"
+		/>
+    -->
+	<Model
+		id="4"
+		name="Box"
+		thumbnail_file="Models/colprim_rect.xml"
+    primitive="Box"
+		/>
+</ModelIndexFile>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NinePatch
+	src="button_pressed.png"
+		
+	centre_left="0.2"
+	centre_right="0.8"
+	centre_top="0.3"
+	centre_bottom="0.7"
+/>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CustomLayout
+	layout_width="fill_parent"
+	layout_height="fill_parent"
+  background="@RootViewBackground">
+	
+	
+	
+	<TextView
+		id="titleTextView"
+		layout_width="wrap_content"
+		layout_height="wrap_content"
+		layout_centreX="0.5"
+		layout_centreY="0.05"
+		text="change pump"
+		/>
+		
+	<VolView
+		id="MainVolView"
+		layout_width="0.34"
+		layout_height="0.55"
+		layout_centreX="0.5"
+		layout_centreY="0.55"
+		cameraPositionY="1"
+		cameraPositionZ="14.0"
+		cameraTargetY="0"
+		/>
+
+
+  <TextButton
+		id="EyeGazeRest"
+		layout_width="0.2"
+		layout_height="0.3"
+		layout_centreX="0.7"
+		layout_centreY="0.25"
+    eyeGaze_RestButton="true"
+		text="rest"
+		/>
+
+
+
+
+  <ImageButton
+		id="BlendIncrease"
+		layout_width="0.12"
+		layout_height="0.2"
+		layout_centreX="0.1"
+		layout_centreY="0.25"
+    scaleContent="true"
+    keepContentAspectRatio="true"
+		onClick="buttonHandler"
+		src="System/CommandSymbols/Arrow_Up.xml"
+		/>
+
+  <ImageButton
+		id="BlendDecrease"
+		layout_width="0.12"
+		layout_height="0.2"
+		layout_centreX="0.1"
+		layout_centreY="0.75"
+    scaleContent="true"
+    keepContentAspectRatio="true"
+		onClick="buttonHandler"
+		src="System/CommandSymbols/Arrow_Down.xml"
+		/>
+
+  <TextButton
+		id="BlendReset"
+		layout_width="0.2"
+		layout_height="0.2"
+		layout_centreX="0.1"
+		layout_centreY="0.5"
+    scaleContent="true"
+    keepContentAspectRatio="true"
+		onClick="buttonHandler"
+    text="reset"
+		/>
+
+
+  <ImageButton
+		id="RotateUp"
+		layout_width="0.12"
+		layout_height="0.2"
+		layout_centreX="0.7"
+		layout_centreY="0.5"
+    scaleContent="true"
+    keepContentAspectRatio="true"
+		onClick="buttonHandler"
+		src="System/CommandSymbols/RotateArrow_Up.xml"
+    eyeGaze_Repeat="true"
+    
+		/>
+		
+	<ImageButton
+		id="RotateDown"
+		layout_width="0.12"
+		layout_height="0.2"
+		layout_centreX="0.3"
+		layout_centreY="0.5"
+    scaleContent="true"
+    keepContentAspectRatio="true"
+		onClick="buttonHandler"
+		src="System/CommandSymbols/RotateArrow_Down.xml"
+    eyeGaze_Repeat="true"
+    
+		/>
+
+	<ImageButton
+		id="RotateRight"
+		layout_width="0.2"
+		layout_height="0.12"
+		layout_centreX="0.5"
+		layout_centreY="0.9"
+    scaleContent="true"
+    keepContentAspectRatio="true"
+		onClick="buttonHandler"
+		src="System/CommandSymbols/RotateArrow_Right.xml"
+    eyeGaze_Repeat="true"
+    
+		/>
+
+  <ImageButton
+		id="RotateLeft"
+		layout_width="0.2"
+		layout_height="0.12"
+		layout_centreX="0.5"
+		layout_centreY="0.2"
+    scaleContent="true"
+    keepContentAspectRatio="true"
+		onClick="buttonHandler"
+		src="System/CommandSymbols/RotateArrow_Left.xml"
+    eyeGaze_Repeat="true"
+    
+		/>
+
+
+  <TextButton
+		id="RotateReset"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.7"
+		layout_centreY="0.9"
+		onClick="buttonHandler"
+		text="reset view"
+		/>
+
+  
+  
+	<TextButton
+		id="BackButton"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.9"
+		layout_centreY="0.35"
+		onClick="buttonHandler"
+		text="back"
+    
+		/>
+
+
+</CustomLayout>
