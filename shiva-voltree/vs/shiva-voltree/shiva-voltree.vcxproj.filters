@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\VolumeTree">
+      <UniqueIdentifier>{a869904e-7a01-4558-8d3d-bc8961f01a9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VolumeTree\Leaves">
+      <UniqueIdentifier>{5992df98-5114-4c4c-9198-5ce440c7d273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VolumeTree\CachingPolicies">
+      <UniqueIdentifier>{be253562-d157-48e8-9573-9b652df7a8b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VolumeTree\Nodes">
+      <UniqueIdentifier>{3a462d6d-7238-42d9-8daa-05b9b7390b32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VolumeRenderer">
+      <UniqueIdentifier>{73097431-74fe-46c2-bf5e-2acc67ce7999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\VolumeRenderer">
+      <UniqueIdentifier>{0fc498d8-aaea-49ea-9cb3-a2346551051a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VolumeTree">
+      <UniqueIdentifier>{737606aa-db96-480d-9d83-9f3422b3b4f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VolumeTree\Nodes">
+      <UniqueIdentifier>{4c0813d3-c093-4a2c-b254-f38d849f495a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VolumeTree\Leaves">
+      <UniqueIdentifier>{72bf109b-6337-433b-8ab8-b880fcc68362}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VolumeTree\CachingPolicies">
+      <UniqueIdentifier>{07097340-40ab-4bb3-9e02-0a771b1b5d2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\VolumeTree\Node.cpp">
+      <Filter>Source Files\VolumeTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeTree\ParameterManager.cpp">
+      <Filter>Source Files\VolumeTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeTree\VolumeTree.cpp">
+      <Filter>Source Files\VolumeTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeTree\Leaves\ConeNode.cpp">
+      <Filter>Source Files\VolumeTree\Leaves</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeTree\Leaves\CubeNode.cpp">
+      <Filter>Source Files\VolumeTree\Leaves</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeTree\Leaves\CylinderNode.cpp">
+      <Filter>Source Files\VolumeTree\Leaves</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeTree\Leaves\SphereNode.cpp">
+      <Filter>Source Files\VolumeTree\Leaves</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeTree\Leaves\TorusNode.cpp">
+      <Filter>Source Files\VolumeTree\Leaves</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeTree\Leaves\VolCacheNode.cpp">
+      <Filter>Source Files\VolumeTree\Leaves</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeTree\CachingPolicies\CachingPolicy.cpp">
+      <Filter>Source Files\VolumeTree\CachingPolicies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeTree\Nodes\BlendCSG.cpp">
+      <Filter>Source Files\VolumeTree\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeTree\Nodes\CSG.cpp">
+      <Filter>Source Files\VolumeTree\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeTree\Nodes\TransformNode.cpp">
+      <Filter>Source Files\VolumeTree\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeRenderer\GLSLRenderer.cpp">
+      <Filter>Source Files\VolumeRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeRenderer\SpringyVec3.cpp">
+      <Filter>Source Files\VolumeRenderer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\VolumeRenderer\GLSLRenderer.h">
+      <Filter>Header Files\VolumeRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeRenderer\SpringyVec3.h">
+      <Filter>Header Files\VolumeRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeTree\Node.h">
+      <Filter>Header Files\VolumeTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeTree\ParameterManager.h">
+      <Filter>Header Files\VolumeTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeTree\VolumeTree.h">
+      <Filter>Header Files\VolumeTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeTree\Nodes\BlendCSG.h">
+      <Filter>Header Files\VolumeTree\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeTree\Nodes\CSG.h">
+      <Filter>Header Files\VolumeTree\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeTree\Nodes\TransformNode.h">
+      <Filter>Header Files\VolumeTree\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeTree\Leaves\ConeNode.h">
+      <Filter>Header Files\VolumeTree\Leaves</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeTree\Leaves\CubeNode.h">
+      <Filter>Header Files\VolumeTree\Leaves</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeTree\Leaves\CylinderNode.h">
+      <Filter>Header Files\VolumeTree\Leaves</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeTree\Leaves\SphereNode.h">
+      <Filter>Header Files\VolumeTree\Leaves</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeTree\Leaves\TorusNode.h">
+      <Filter>Header Files\VolumeTree\Leaves</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeTree\Leaves\VolCacheNode.h">
+      <Filter>Header Files\VolumeTree\Leaves</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeTree\CachingPolicies\CachingPolicy.h">
+      <Filter>Header Files\VolumeTree\CachingPolicies</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
