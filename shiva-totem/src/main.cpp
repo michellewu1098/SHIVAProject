@@ -175,7 +175,7 @@ int main(int argc, char **argv)
 	totemController->SetPrimitiveNode(5, new VolumeTree::CubeNode(0.5f,1.0f,0.5f) );
 	*/
 
-	ShivaGUI::GUIManager *mainGUIManager = new ShivaGUI::GUIManager("SHIVA Totem Prototype 1b", "totem1b");
+ 	ShivaGUI::GUIManager *mainGUIManager = new ShivaGUI::GUIManager("SHIVA Totem Prototype 1b", "totem1b");
 
 	mainGUIManager->RegisterActivityCreator("AssembleActivity",AssembleActivity::Factory);
 	mainGUIManager->RegisterActivityCreator("DrillActivity",DrillActivity::Factory);

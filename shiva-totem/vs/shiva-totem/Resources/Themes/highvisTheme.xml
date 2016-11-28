@@ -192,5 +192,48 @@
       <value>0</value>
     </const>
     
+	<const>
+      <key>@PrimCol0</key>
+      <value>FFFF0000</value>
+    </const>
+    <const>
+      <key>@PrimCol1</key>
+      <value>00000000</value>
+    </const>
+    <const>
+      <key>@PrimCol2</key>
+      <value>0000FF00</value>
+    </const>
+    <const>
+      <key>@PrimGraphicAlpha</key>
+      <value>000000FF</value>
+    </const>
+
+
+    <const>
+      <key>@PrimConeCol0</key>
+      <value>FF000000</value>
+    </const>
+    <const>
+      <key>@PrimConeCol1</key>
+      <value>0000FF00</value>
+    </const>
+    <const>
+      <key>@PrimConeCol2</key>
+      <value>FFFFFF00</value>
+    </const>
+
+    <const>
+      <key>@PrimBackground</key>
+      <value>00000000</value>
+    </const>
+    <const>
+      <key>@PrimOutline</key>
+      <value>00000000</value>
+    </const>
+    <const>
+      <key>@PrimBackgroundAlpha</key>
+      <value>00000000</value>
+    </const>
   </constGroup>
 </theme>

@@ -242,9 +242,6 @@
     <ClInclude Include="..\..\include\ResourceManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\ShivaGUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\GUI\Definitions.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>

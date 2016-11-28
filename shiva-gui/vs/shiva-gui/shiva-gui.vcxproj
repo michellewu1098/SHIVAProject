@@ -140,7 +140,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\GUIManager.h" />
     <ClInclude Include="..\..\include\ResourceManager.h" />
-    <ClInclude Include="..\..\include\ShivaGUI.h" />
     <ClInclude Include="..\..\include\GUI\Definitions.h" />
     <ClInclude Include="..\..\include\GUI\GUIController.h" />
     <ClInclude Include="..\..\include\GUI\Drawables\BitmapDrawable.h" />
