@@ -8,6 +8,10 @@
 #ifndef CYLINDER_H_
 #define CYLINDER_H_
 
+#include <sstream>
+#include <cmath>
+#include <algorithm>
+
 #include "VolumeTree/Node.h"
 
 namespace VolumeTree
@@ -17,30 +21,34 @@ namespace VolumeTree
 	{
 	public:
 		CylinderNode();
-		CylinderNode(float length, float radiusX, float radiusY);
+		CylinderNode( float length, float radiusX, float radiusY );
 		
-		virtual std::string GetNodeType(){return "CylinderNode";}
+		virtual std::string GetNodeType(){ return "CylinderNode"; }
 
-		void SetLength(float value) {_length = value;}
-		void SetRadius(float valueX, float valueY) {_radiusX = valueX; _radiusY = valueY;}
-		float GetLength() {return _length;}
-		float GetRadiusX() {return _radiusX;}
-		float GetRadiusY() {return _radiusY;}
+		void SetLength( float value ) { _length = value; }
+		void SetRadius( float valueX, float valueY ) { _radiusX = valueX; _radiusY = valueY; }
+		void SetRadiusX( float valueX ) { _radiusX = valueX; }
+		void SetRadiusY( float valueY ) { _radiusY = valueY; }
+		float GetLength() { return _length; }
+		float GetRadiusX() { return _radiusX; }
+		float GetRadiusY() { return _radiusY; }
 
 		/// Samples the function at a specific point
-		float GetFunctionValue(float x, float y, float z);
+		float GetFunctionValue( float x, float y, float z );
 
 		/// Returns a GLSL-compatible string for the function
-		std::string GetFunctionGLSLString(bool callCache, std::string samplePosStr);
+		std::string GetFunctionGLSLString( bool callCache, std::string samplePosStr );
 
 		
-		virtual unsigned int GetNodeCost() {return 5;}
+		virtual unsigned int GetNodeCost() { return 5; }
 
-		virtual void GetBounds(float *minX,float *maxX, float *minY,float *maxY, float *minZ,float *maxZ);
+		virtual void GetBounds( float *minX, float *maxX, float *minY, float *maxY, float *minZ, float *maxZ );
 
 	protected:
 
-		float _radiusX, _radiusY, _length;
+		float _radiusX;
+		float _radiusY;
+		float _length;
 	};
 
 }

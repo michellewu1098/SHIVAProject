@@ -1,16 +1,19 @@
+///-----------------------------------------------------------------------------------------------
+/// \file GUIManager.h
+/// \brief Manages Drawables, expands them from xml, loads bitmaps from file into OpenGL, converts text into a BitmapDrawable
+/// and handles the sharing of OpenGL resources across Views and across Activities. 
+/// \author Leigh McLoughlin
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 #ifndef __SHIVA_GUI_GUI_GUIMANAGER__
 #define __SHIVA_GUI_GUI_GUIMANAGER__
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
+
 #include <string>
 #include <vector>
 #include <list>
 #include <map>
 
-//////////////////////////////////////////////////////////////////////////
 #include "System/Activity.h"
 #include "System/ProfileManager.h"
 #include "Input/InputController.h"
@@ -19,8 +22,6 @@
 #ifdef WIN32
 	#undef CreateWindow
 #endif
-
-//////////////////////////////////////////////////////////////////////////
 
 namespace ShivaGUI
 {
@@ -31,53 +32,80 @@ namespace ShivaGUI
 
 		// Initialisation
 
-			/// \param programName The name of your program, to be used for user profile authorship - human readable (i.e. can be long and include spaces etc)
-			/// \param programProfileDir The directory to use for storing program-specific data within the current profile
-			GUIManager( std::string programName, std::string programOptionsDir );
-			~GUIManager();
-
-			/// This is an 'easy start' function that handles lots of things that you could do yourself
-			/// It will load the system profile and enters the main event loop
-			/// This means that the function will only return once the program is finished
-			/// Then it display a 'profile manager' window for the user to choose and manage profiles
-			/// Once the user has chosen a profile, this is loaded and the next Activity is started
-			/// You can also supply a profile directory and profile name to go straight to starting the next Activity
-			void StartWithProfileChooser( std::string startActivity, std::string profileDir, std::string profileName );
-
-			/// The ProfileManager is to be used with care
-			/// Any functions that have equivalents within the GUIManager should be preferred
-			///  - there are several cases where the GUIManager needs to do things too
-			ProfileManager* GetProfileManager() {return _profileManager;}
-
-			/// The AudioManager is to be used with care
-			/// You should use your Activity's AudioController for accessing audio functions
-			/// This should be accessible through your Activity's GUIController
-			AudioManager* GetAudioManager() {return _audioManager;}
-
-			/// For manually setting the profile directory
-			/// Returns false if directory does not exist
-			bool SetProfileDirectory( std::string profileDir );
-
-			/// Retrieves the options directory for the current profile
-			/// This is where program-specific data should be stored
-			std::string GetProfileOptionsDir();
-
-			std::string GetProfileDir();
-
-			std::string GetCurrentProfileFileName();
-
-			/// For manually loading a user profile
-			/// This would normally be used if you don't want to use the profile chooser dialog
-			/// Returns false on error
-			bool LoadProfile( std::string profileName );
-
-			/// This is for changing a profile while Activities are already running
-			/// This function will close all current windows and reload the window layout from the new profile
-			void RequestBootstrapChangeProfile( std::string profileName );
-
-			/// For saving a layout to the current user profile's directory
-			void SaveLayoutToProfile( std::string filename, View *rootNode, ResourceManager *resources );
-
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor
+		/// \param [in] programName The name of your program, to be used for user profile authorship - human readable (i.e. can be long and include spaces etc)
+		/// \param [in] programProfileDir The directory to use for storing program-specific data within the current profile
+		GUIManager( std::string programName, std::string programOptionsDir );
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor
+		//----------------------------------------------------------------------------------
+		~GUIManager();
+		//----------------------------------------------------------------------------------
+		/// \brief This is an 'easy start' function that handles lots of things that you could do yourself
+		/// It will load the system profile and enters the main event loop
+		/// This means that the function will only return once the program is finished
+		/// Then it display a 'profile manager' window for the user to choose and manage profiles
+		/// Once the user has chosen a profile, this is loaded and the next Activity is started
+		/// You can also supply a profile directory and profile name to go straight to starting the next Activity
+		/// \param [in] startActivity Name of activity
+		/// \param [in] profileDir Directory of profile
+		/// \param [in] profileName Name of profile
+		//----------------------------------------------------------------------------------
+		void StartWithProfileChooser( std::string startActivity, std::string profileDir, std::string profileName );
+		//----------------------------------------------------------------------------------
+		/// \brief The ProfileManager is to be used with care
+		/// Any functions that have equivalents within the GUIManager should be preferred
+		///  - there are several cases where the GUIManager needs to do things too
+		/// \return _profileManager
+		//----------------------------------------------------------------------------------
+		ProfileManager* GetProfileManager() { return _profileManager; }
+		//----------------------------------------------------------------------------------
+		/// \brief The AudioManager is to be used with care
+		/// You should use your Activity's AudioController for accessing audio functions
+		/// This should be accessible through your Activity's GUIController
+		/// \return _audioManager
+		//----------------------------------------------------------------------------------
+		AudioManager* GetAudioManager() { return _audioManager; }
+		//----------------------------------------------------------------------------------
+		/// \brief For manually setting the profile directory
+		/// \param [in] profileDir
+	    /// \return false if directory does not exist
+		//----------------------------------------------------------------------------------
+		bool SetProfileDirectory( std::string profileDir );
+		//----------------------------------------------------------------------------------
+		/// \brief Retrieves the options directory for the current profile. This is where program-specific data should be stored
+		//----------------------------------------------------------------------------------
+		std::string GetProfileOptionsDir();
+		//----------------------------------------------------------------------------------
+		/// \brief Retrieves profile directory
+		//----------------------------------------------------------------------------------
+		std::string GetProfileDir();
+		//----------------------------------------------------------------------------------
+		/// \brief Retrieves current profile file name
+		//----------------------------------------------------------------------------------
+		std::string GetCurrentProfileFileName();
+		//----------------------------------------------------------------------------------
+		/// \brief For manually loading a user profile
+		/// This would normally be used if you don't want to use the profile chooser dialog
+		/// \param [in] profileName
+		/// \return false on error
+		//----------------------------------------------------------------------------------
+		bool LoadProfile( std::string profileName );
+		//----------------------------------------------------------------------------------
+		/// \brief This is for changing a profile while Activities are already running
+		/// This function will close all current windows and reload the window layout from the new profile
+		/// \param [in] profileName
+		//----------------------------------------------------------------------------------
+		void RequestBootstrapChangeProfile( std::string profileName );
+		//----------------------------------------------------------------------------------
+		/// \brief For saving a layout to the current user profile's directory
+		/// \param [in] filename
+		/// \param [in] rootNode
+		/// \param [in] resources
+		//----------------------------------------------------------------------------------
+		void SaveLayoutToProfile( std::string filename, View *rootNode, ResourceManager *resources );
+		//----------------------------------------------------------------------------------
 			/// The user profile can specify a set of Windows
 			/// this function creates windows according to these requirements.
 			/// A profile must have been loaded before using this function
@@ -231,5 +259,4 @@ namespace ShivaGUI
 	};
 }
 
-//////////////////////////////////////////////////////////////////////////
 #endif

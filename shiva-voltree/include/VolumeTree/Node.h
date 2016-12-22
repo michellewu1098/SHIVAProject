@@ -28,7 +28,7 @@ namespace VolumeTree
 		virtual std::string GetNodeType(){return "Node";}
 
 		/// Samples the function at a specific point
-		virtual float GetFunctionValue(float x, float y, float z) = 0;
+		virtual float GetFunctionValue( float x, float y, float z ) = 0;
 
 		/// Returns a GLSL-compatible string for the function
 		/// Cached nodes will give a cache instruction instead of a full subtree

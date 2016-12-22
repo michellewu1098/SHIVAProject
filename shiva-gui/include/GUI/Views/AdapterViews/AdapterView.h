@@ -1,24 +1,20 @@
+///-----------------------------------------------------------------------------------------------
+/// \file AdapterView.h
+/// \brief These are like ViewGroups but the children are specified by a DataAdapter
+/// This uses a pull method: the AdapterView pulls child Views from the DataAdapter, which in turn populates them with data from the DataModel
+/// \author Leigh McLoughlin
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 #ifndef __SHIVA_GUI_GUI_VIEWS_ADAPTERVIEWS_ADAPTERVIEW__
 #define __SHIVA_GUI_GUI_VIEWS_ADAPTERVIEWS_ADAPTERVIEW__
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 
-
-//////////////////////////////////////////////////////////////////////////
 #include "GUI/Views/View.h"
 #include "GUI/Views/AdapterViews/DataAdapter.h"
 
-//////////////////////////////////////////////////////////////////////////
 
 namespace ShivaGUI
 {
-
-	/// These are like ViewGroups but the children are specified by a DataAdapter
-	/// This uses a pull method: the AdapterView pulls child Views from the DataAdapter, which in turn populates them with data from the DataModel
-
 	// Where does the scrolling take place?
 	// it's a useful feature, it shouldn't be restricted to this thing
 	// maybe have a separate container for it?
@@ -29,31 +25,48 @@ namespace ShivaGUI
 	class AdapterView : public View
 	{
 	public:
+
+		//----------------------------------------------------------------------------------
+		/// \brief Default ctor
+		//----------------------------------------------------------------------------------
 		AdapterView();
-		/// Will not delete any adapters attached to it because they may be shared
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor: will not delete any adapters attached to it because they may be shared
+		//----------------------------------------------------------------------------------
 		virtual ~AdapterView();
-
-		/// Needs to know the Adapter, so it can retrieve data when
-		virtual void SetAdapter( DataAdapter *value ) {_adapter = value;}
-		virtual DataAdapter* GetAdapter(void) {return _adapter;}
-
-		/// For retrieving the original data entry index that was used to generate the View
+		//----------------------------------------------------------------------------------
+		/// \brief Set the Adapter
+		/// \param [in] value
+		//----------------------------------------------------------------------------------
+		virtual void SetAdapter( DataAdapter *value ) { _adapter = value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get the Adapter
+		/// \return _adapter
+		//----------------------------------------------------------------------------------
+		virtual DataAdapter* GetAdapter( void ) { return _adapter; }
+		//----------------------------------------------------------------------------------
+		/// \brief For retrieving the original data entry index that was used to generate the View
 		/// Returns the index or -1 if the View that was given is not recognised
 		/// Note that this function is *not* required to traverse entire trees,
 		/// it should simply check against the View that was returned by the data adapter's GetView() function
-		virtual int GetDataIndex( View * ) {return -1;}
-
-		/// This should be called when the source data is known to have changed
+		//----------------------------------------------------------------------------------
+		virtual int GetDataIndex( View * ) { return -1; }
+		//----------------------------------------------------------------------------------
+		/// \brief This should be called when the source data is known to have changed
 		/// The AdapterView should then remove all child Views and rebuild them
+		//----------------------------------------------------------------------------------
 		virtual void RefreshFromSource() {}
+		//----------------------------------------------------------------------------------
 
 	protected:
 
+		//----------------------------------------------------------------------------------
+		/// \brief The Adapter
+		//----------------------------------------------------------------------------------
 		DataAdapter *_adapter;
+		//----------------------------------------------------------------------------------
 
 	};
-
 }
 
-//////////////////////////////////////////////////////////////////////////
 #endif

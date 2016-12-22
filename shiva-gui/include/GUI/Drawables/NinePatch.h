@@ -1,15 +1,17 @@
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
+///-----------------------------------------------------------------------------------------------
+/// \file NinePatch.h
+/// \brief A NinePatch is a bitmap scaled in a specific way when it is resized (used with GUI buttons)
+/// \author Leigh McLoughlin
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
+
 #ifndef __SHIVA_RESOURCESYSTEM_NINEPATCH__
 #define __SHIVA_RESOURCESYSTEM_NINEPATCH__
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 
+#include <GL/GLee.h>
+#include <iostream>
 
-//////////////////////////////////////////////////////////////////////////
 #include "GUI/Drawables/Drawable.h"
-
-//////////////////////////////////////////////////////////////////////////
 
 namespace ShivaGUI
 {
@@ -17,44 +19,125 @@ namespace ShivaGUI
 	{
 	public:
 
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor
+		//----------------------------------------------------------------------------------
 		NinePatch();
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor
+		//----------------------------------------------------------------------------------
 		virtual ~NinePatch();
-
-		void SetTexID(unsigned int value);
-
-		/// For setting up the Drawable from xml
-		virtual void Inflate(TiXmlElement*,ResourceManager*);
-
+		//----------------------------------------------------------------------------------
+		/// \brief Set texture ID
+		/// \param [in] value
+		//----------------------------------------------------------------------------------
+		void SetTexID( unsigned int value );
+		//----------------------------------------------------------------------------------
+		/// \brief For setting up the Drawable from xml
+		/// \param [in] xmlElement
+		/// \param [in] resources
+		//----------------------------------------------------------------------------------
+		virtual void Inflate( TiXmlElement*, ResourceManager* );
+		//----------------------------------------------------------------------------------
+		/// \brief Draw method
+		//----------------------------------------------------------------------------------
 		virtual void Draw();
-
+		//----------------------------------------------------------------------------------
+		/// \brief Get content bounds
+		/// \param [in] left
+		/// \param [in] top
+		/// \param [in] right
+		/// \param [in] bottom
+		//----------------------------------------------------------------------------------
 		virtual void GetContentBounds(float &left, float &top, float &right, float &bottom);
-
-		virtual int GetNativeWidth() {return _texWidth;}
-		virtual int GetNativeHeight() {return _texHeight;}
-
-		virtual int GetNativeWidthFromContent(int contentWidth);
-		virtual int GetNativeHeightFromContent(int contentHeight);
+		//----------------------------------------------------------------------------------
+		// For retrieving the actual pixel size of Drawable
+		/// \brief Get width
+		/// \return _texWidth
+		//----------------------------------------------------------------------------------
+		virtual int GetNativeWidth() { return _texWidth; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get height
+		/// \return _texHeight
+		//----------------------------------------------------------------------------------
+		virtual int GetNativeHeight() { return _texHeight; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get width from content
+		/// \param [in] contentWidth
+		//----------------------------------------------------------------------------------
+		virtual int GetNativeWidthFromContent( int contentWidth );
+		//----------------------------------------------------------------------------------
+		/// \brief Get height from content
+		/// \param [in] contentHeight
+		//----------------------------------------------------------------------------------
+		virtual int GetNativeHeightFromContent( int contentHeight );
+		//----------------------------------------------------------------------------------
 
 	protected:
 
-		virtual void OnSetBounds(float left, float top, float right, float bottom, unsigned int gravity);
-
-
-		//
-		float _centreLeftProp, _centreRightProp, _centreTopProp, _centreBottomProp;
-		float _centreLeftBounds, _centreRightBounds, _centreTopBounds, _centreBottomBounds;
-
-		/// Content size in proportions of image size
-		float _contentLeftProp, _contentRightProp, _contentTopProp, _contentBottomProp;
-		/// Actual content pixel positions
-		float _contentLeftBounds, _contentRightBounds, _contentTopBounds, _contentBottomBounds;
-
+		//----------------------------------------------------------------------------------
+		/// \brief Set bounds
+		/// \param [in] left
+		/// \param [in] top
+		/// \param [in] right
+		/// \param [in] bottom
+		/// \param [in] gravity
+		//----------------------------------------------------------------------------------
+		virtual void OnSetBounds( float left, float top, float right, float bottom, unsigned int gravity );
+		//----------------------------------------------------------------------------------
+		float _centreLeftProp;
+		//----------------------------------------------------------------------------------
+		float _centreRightProp;
+		//----------------------------------------------------------------------------------
+		float _centreTopProp;
+		//----------------------------------------------------------------------------------
+		float _centreBottomProp;
+		//----------------------------------------------------------------------------------
+		float _centreLeftBounds;
+		//----------------------------------------------------------------------------------
+		float _centreRightBounds;
+		//----------------------------------------------------------------------------------
+		float _centreTopBounds;
+		//----------------------------------------------------------------------------------
+		float _centreBottomBounds;
+		//----------------------------------------------------------------------------------
+		// Content size in proportions of image size
+		//----------------------------------------------------------------------------------
+		float _contentLeftProp;
+		//----------------------------------------------------------------------------------
+		float _contentRightProp;
+		//----------------------------------------------------------------------------------
+		float _contentTopProp;
+		//----------------------------------------------------------------------------------
+		float _contentBottomProp;
+		//----------------------------------------------------------------------------------
+		// Actual content pixel positions
+		//----------------------------------------------------------------------------------
+		float _contentLeftBounds;
+		//----------------------------------------------------------------------------------
+		float _contentRightBounds;
+		//----------------------------------------------------------------------------------
+		float _contentTopBounds;
+		//----------------------------------------------------------------------------------
+		float _contentBottomBounds;
+		//----------------------------------------------------------------------------------
+		/// \brief Texture id
+		//----------------------------------------------------------------------------------
 		unsigned int _texID;
-		int _texWidth, _texHeight;
-
-		bool _fixedX, _fixedY;
+		//----------------------------------------------------------------------------------
+		/// \brief Texture width
+		//----------------------------------------------------------------------------------
+		int _texWidth; 
+		//----------------------------------------------------------------------------------
+		/// \brief Texture height
+		//----------------------------------------------------------------------------------
+		int _texHeight;
+		//----------------------------------------------------------------------------------
+		bool _fixedX;
+		//----------------------------------------------------------------------------------
+		bool _fixedY;
+		//----------------------------------------------------------------------------------
 	};
 }
 
-//////////////////////////////////////////////////////////////////////////
 #endif

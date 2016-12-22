@@ -99,8 +99,9 @@ bool ShivaGUI::GUIController::IssueEvent( InternalEvent *currentEvent )
 //	else if( currentEvent->GetType() == InternalEvent::BACK )
 //		_GUIManager->GetCurrentActivity()->IssueEvent(currentEvent);
 
-	if( _contentView != NULL )
+	if( _contentView != NULL ) {
 		return _contentView->HandleEvent(currentEvent);
+	}
 	return false;
 }
 

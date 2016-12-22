@@ -19,17 +19,10 @@
 #include "GUI/Views/ColourSelector.h"
 #include "GUI/Views/AdapterViews/ListView.h"
 #include "GUI/Views/AdapterViews/LayoutAdapterView.h"
-#include "Utility/tinyxml.h"
 
-//////////////////////////////////////////////////////////////////////////
-#include <GL/GLee.h>
-#include <GL/glu.h>
-#include <sstream>
-#include <iostream>
-#include <boost/algorithm/string.hpp>
+//----------------------------------------------------------------------------------
 
-
-ShivaGUI::ResourceManager::ResourceManager(ShivaGUI::GUIManager *guiManager, unsigned int windowIndex )
+ShivaGUI::ResourceManager::ResourceManager( ShivaGUI::GUIManager *guiManager, unsigned int windowIndex )
 {
 	_GUIManager = guiManager;
 	_windowIndex = windowIndex;
@@ -39,66 +32,71 @@ ShivaGUI::ResourceManager::ResourceManager(ShivaGUI::GUIManager *guiManager, uns
 	TTF_Init();
 }
 
+//----------------------------------------------------------------------------------
+
 ShivaGUI::ResourceManager::~ResourceManager()
-{
-}
+{ }
 
+//----------------------------------------------------------------------------------
 
-void ShivaGUI::ResourceManager::RegisterViewID(View *view, std::string ID)
-{
-	if( _GUIManager != NULL )
-	{
-		Activity *currentActivity = _GUIManager->GetCurrentActivity();
-		if( currentActivity != NULL )
-		{
-			GUIController *currentGUIController = currentActivity->GetGUIController(_windowIndex);
-			if( currentGUIController != NULL )
-			{
-				currentGUIController->RegisterViewID(view,ID);
-			}
-			else
-				std::cerr<<"ShivaGUI::ResourceManager::RegisterViewID failed to retrieve currentGUIController"<<std::endl;
-		}
-		else
-			std::cerr<<"ShivaGUI::ResourceManager::RegisterViewID failed to retrieve currentActivity"<<std::endl;
-	}
-	else
-		std::cerr<<"ShivaGUI::ResourceManager::RegisterViewID failed to retrieve _GUIManager"<<std::endl;
-}
-
-ShivaGUI::View* ShivaGUI::ResourceManager::GetViewFromID(std::string ID)
+void ShivaGUI::ResourceManager::RegisterViewID( View *view, std::string ID )
 {
 	if( _GUIManager != NULL )
 	{
 		Activity *currentActivity = _GUIManager->GetCurrentActivity();
 		if( currentActivity != NULL )
 		{
-			GUIController *currentGUIController = currentActivity->GetGUIController(_windowIndex);
+			GUIController *currentGUIController = currentActivity->GetGUIController( _windowIndex );
 			if( currentGUIController != NULL )
 			{
-				return currentGUIController->GetViewFromID(ID);
+				currentGUIController->RegisterViewID( view, ID );
 			}
 			else
-				std::cerr<<"ShivaGUI::ResourceManager::GetViewFromID failed to retrieve currentGUIController"<<std::endl;
+				std::cerr << "ShivaGUI::ResourceManager::RegisterViewID failed to retrieve currentGUIController" << std::endl;
 		}
 		else
-			std::cerr<<"ShivaGUI::ResourceManager::GetViewFromID failed to retrieve currentActivity"<<std::endl;
+			std::cerr << "ShivaGUI::ResourceManager::RegisterViewID failed to retrieve currentActivity" << std::endl;
 	}
 	else
-		std::cerr<<"ShivaGUI::ResourceManager::GetViewFromID failed to retrieve _GUIManager"<<std::endl;
+		std::cerr << "ShivaGUI::ResourceManager::RegisterViewID failed to retrieve _GUIManager" << std::endl;
+}
+
+//----------------------------------------------------------------------------------
+
+ShivaGUI::View* ShivaGUI::ResourceManager::GetViewFromID( std::string ID )
+{
+	if( _GUIManager != NULL )
+	{
+		Activity *currentActivity = _GUIManager->GetCurrentActivity();
+		if( currentActivity != NULL )
+		{
+			GUIController *currentGUIController = currentActivity->GetGUIController( _windowIndex );
+			if( currentGUIController != NULL )
+			{
+				return currentGUIController->GetViewFromID( ID );
+			}
+			else
+				std::cerr << "ShivaGUI::ResourceManager::GetViewFromID failed to retrieve currentGUIController" << std::endl;
+		}
+		else
+			std::cerr << "ShivaGUI::ResourceManager::GetViewFromID failed to retrieve currentActivity" << std::endl;
+	}
+	else
+		std::cerr << "ShivaGUI::ResourceManager::GetViewFromID failed to retrieve _GUIManager" << std::endl;
 	return NULL;
 }
 
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::ResourceManager::ReloadTextures()
 {
-	for( std::map<std::string,unsigned int>::iterator it = _glTextures.begin(); it != _glTextures.end(); ++it )
+	for( std::map< std::string, unsigned int >::iterator it = _glTextures.begin(); it != _glTextures.end(); ++it )
 	{
 		bool mipmap = false;
 		bool addAlpha = false;
 		bool repeat = false;
 
-		std::cout<<"INFO: ResourceManager Reloading Image to OpenGL: "<< it->first <<std::endl;
+		std::cout << "INFO: ResourceManager Reloading Image to OpenGL: " << it->first << std::endl;
 
 		SDL_Surface *image;
 
@@ -109,47 +107,51 @@ void ShivaGUI::ResourceManager::ReloadTextures()
 
 		if( image == NULL )
 		{
-			std::cerr<<"WARNING: ResourceManager Couldn't load: "<< it->first <<" "<< SDL_GetError()<<std::endl;
+			std::cerr <<"WARNING: ResourceManager Couldn't load: "<< it->first << " " << SDL_GetError() << std::endl;
 		}
 
-		SDLSurfaceToOpenGLID(image, it->second, mipmap, addAlpha, repeat );
+		SDLSurfaceToOpenGLID( image, it->second, mipmap, addAlpha, repeat );
 
 		// Free the allocated BMP surface
-		SDL_FreeSurface(image);
+		SDL_FreeSurface( image );
 	}
 }
 
-bool ShivaGUI::ResourceManager::GetManagedTexture(std::string name, unsigned int *texID)
+//----------------------------------------------------------------------------------
+
+bool ShivaGUI::ResourceManager::GetManagedTexture( std::string name, unsigned int *texID )
 {
-	if( _glExternalTextures.find(name) != _glExternalTextures.end() )
+	if( _glExternalTextures.find( name ) != _glExternalTextures.end() )
 	{
-		*texID = _glExternalTextures[name];
+		*texID = _glExternalTextures[ name ];
 		return false;
 	}
 
-	glGenTextures(1, texID);
-	_glExternalTextures[name] = *texID;
+	glGenTextures( 1, texID );
+	_glExternalTextures[ name ] = *texID;
 	return true;
 }
 
-void ShivaGUI::ResourceManager::ClearManagedTexture(std::string name)
-{
-	if( _glExternalTextures.find(name) != _glExternalTextures.end() )
-	{
-		unsigned int texID = _glExternalTextures[name];
+//----------------------------------------------------------------------------------
 
-		glDeleteTextures(1, &texID);
-		_glExternalTextures.erase(name);
+void ShivaGUI::ResourceManager::ClearManagedTexture( std::string name )
+{
+	if( _glExternalTextures.find( name ) != _glExternalTextures.end() )
+	{
+		unsigned int texID = _glExternalTextures[ name ];
+
+		glDeleteTextures( 1, &texID );
+		_glExternalTextures.erase( name );
 	}
 }
 
+//----------------------------------------------------------------------------------
 
-
-unsigned int ShivaGUI::ResourceManager::GetBitmap(std::string filename)
+unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string filename )
 {
-	if( _glTextures.find(filename) != _glTextures.end() )
+	if( _glTextures.find( filename ) != _glTextures.end() )
 	{
-		return _glTextures[filename];
+		return _glTextures[ filename ];
 	}
 
 	// I've had this function for so long I can't remember where it was from originally
@@ -159,63 +161,67 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap(std::string filename)
 	bool addAlpha = false;
 	bool repeat = false;
 
-	std::cout<<"INFO: ResourceManager Loading Image to OpenGL: "<<filename<<std::endl;
+	std::cout << "INFO: ResourceManager Loading Image to OpenGL: " << filename << std::endl;
 
 	SDL_Surface *image;
 
 	// Load the BMP file into a surface
 	//image = SDL_LoadBMP(filename.c_str());
 
-	image = IMG_Load(filename.c_str());
+	image = IMG_Load( filename.c_str() );
 
 	if( image == NULL )
 	{
-		std::cerr<<"WARNING: ResourceManager Couldn't load: "<<filename<<" "<< SDL_GetError()<<std::endl;
+		std::cerr << "WARNING: ResourceManager Couldn't load: " << filename << " " << SDL_GetError() << std::endl;
 		return 0;
 	}
 
-	unsigned int texName = SDLSurfaceToOpenGL(image, mipmap, addAlpha, repeat );
+	unsigned int texName = SDLSurfaceToOpenGL( image, mipmap, addAlpha, repeat );
 
 	// Free the allocated BMP surface
-	SDL_FreeSurface(image);
+	SDL_FreeSurface( image );
 
 	if( texName != 0 )
-		_glTextures[filename] = texName;
+		_glTextures[ filename ] = texName;
 
 	return texName;
 }
 
-unsigned int ShivaGUI::ResourceManager::GetSimpleText(std::string text, std::string fontfilename, unsigned int fontsize, unsigned int fontColour)
+//----------------------------------------------------------------------------------
+
+unsigned int ShivaGUI::ResourceManager::GetSimpleText( std::string text, std::string fontfilename, unsigned int fontsize, unsigned int fontColour )
 {
-	TTF_Font *font = LoadFont(fontfilename,fontsize);
+	TTF_Font *font = LoadFont( fontfilename,fontsize );
 	if( font == NULL )
 	{
-		std::cerr<<"WARNING: ResourceManager::GetSimpleText could not load font: "<<fontfilename<<std::endl;
+		std::cerr << "WARNING: ResourceManager::GetSimpleText could not load font: " << fontfilename << std::endl;
 		return 0;
 	}
 
-	SDL_Color foregroundColour = { (fontColour & 0xFF000000) >> 24, (fontColour & 0x00FF0000) >> 16, (fontColour & 0x0000FF00) >> 8, (fontColour & 0x000000FF) };//{255,255,255,255};
+	SDL_Color foregroundColour = { ( fontColour & 0xFF000000 ) >> 24, ( fontColour & 0x00FF0000 ) >> 16, ( fontColour & 0x0000FF00 ) >> 8, ( fontColour & 0x000000FF ) };//{255,255,255,255};
 
 	//std::cout<<"R = "<<(int)foregroundColour.r<<" G = "<<(int)foregroundColour.g<<" B = "<<(int)foregroundColour.b<<std::endl;
 
-	SDL_Surface *surf = TTF_RenderText_Blended(font, text.c_str(), foregroundColour);//TTF_RenderText_Shaded( font, text.c_str(), foregroundColour, backgroundColour );
+	SDL_Surface *surf = TTF_RenderText_Blended( font, text.c_str(), foregroundColour );//TTF_RenderText_Shaded( font, text.c_str(), foregroundColour, backgroundColour );
 
-	return SDLSurfaceToOpenGL(surf,false,false,false,true);
+	return SDLSurfaceToOpenGL( surf, false, false, false, true );
 }
 
-TTF_Font* ShivaGUI::ResourceManager::LoadFont(std::string filename, unsigned int size)
+//----------------------------------------------------------------------------------
+
+TTF_Font* ShivaGUI::ResourceManager::LoadFont( std::string filename, unsigned int size )
 {
 	if( filename.empty() )
 		filename = _defaultFont;
 	std::stringstream key;
-	key << filename<< size;
+	key << filename << size;
 
-	std::map<std::string, TTF_Font*>::iterator fontIt = _fontcache.find( key.str() );
+	std::map< std::string, TTF_Font* >::iterator fontIt = _fontcache.find( key.str() );
 	if( fontIt != _fontcache.end() )
 	{
 		return fontIt->second;
 	}
-	TTF_Font *currentFont = TTF_OpenFont(filename.c_str(),size);
+	TTF_Font *currentFont = TTF_OpenFont( filename.c_str(), size );
 
 	if( currentFont != NULL )
 		_fontcache[ key.str() ] = currentFont;
@@ -223,50 +229,53 @@ TTF_Font* ShivaGUI::ResourceManager::LoadFont(std::string filename, unsigned int
 	return currentFont;
 }
 
-ShivaGUI::Drawable* ShivaGUI::ResourceManager::GetDrawable(std::string filename)
+//----------------------------------------------------------------------------------
+
+ShivaGUI::Drawable* ShivaGUI::ResourceManager::GetDrawable( std::string filename )
 {
 	// If the first character is an '@' we will assume it's a constant for replacement
-	if( filename.at(0) == '@' )
-		filename = GetInflationAttribute(filename);
+	if( filename.at( 0 ) == '@' )
+		filename = GetInflationAttribute( filename );
 
 
 	if( filename.empty() )
 	{
-		std::cerr<<"WARNING: ResourceManager::GetDrawable given empty filename"<<std::endl;
+		std::cerr << "WARNING: ResourceManager::GetDrawable given empty filename" << std::endl;
 		return NULL;
 	}
 
-	if( filename.compare( filename.size()-4,4,".png") == 0 )
+	if( filename.compare( filename.size() - 4, 4, ".png" ) == 0 )
 	{
 		// We are being asked to load a png file
-		Drawable *output = new BitmapDrawable( GetBitmap(std::string("Resources/Drawables/")+filename) );
-		output->SetFilename(filename);
+		Drawable *output = new BitmapDrawable( GetBitmap( std::string( "Resources/Drawables/" ) + filename ) );
+		output->SetFilename( filename );
 		return output;
 	}
-	else if( filename.compare( filename.size()-4,4,".xml") == 0 )
+	else if( filename.compare( filename.size() - 4, 4, ".xml" ) == 0 )
 	{
 		// We are being asked to load a drawable from xml file
 
-		TiXmlDocument doc( (std::string("Resources/Drawables/")+filename).c_str() );
+		TiXmlDocument doc( ( std::string( "Resources/Drawables/" ) + filename ).c_str() );
 
 		if( doc.LoadFile() )
 		{
-			Drawable *output = ParseDrawableElement(&doc);
-			output->SetFilename(filename);
+			Drawable *output = ParseDrawableElement( &doc );
+			output->SetFilename( filename );
 			return output;
 		}
 		else
 		{
-			std::cerr<<"WARNING: ResourceManager::GetDrawable Could not load drawable from xml: "<<filename<<std::endl;
+			std::cerr << "WARNING: ResourceManager::GetDrawable Could not load drawable from xml: " << filename << std::endl;
 			return NULL;
 		}
-
 	}
 
 	return NULL;
 }
 
-ShivaGUI::Drawable* ShivaGUI::ResourceManager::CreateDrawable(std::string drawableName)
+//----------------------------------------------------------------------------------
+
+ShivaGUI::Drawable* ShivaGUI::ResourceManager::CreateDrawable( std::string drawableName )
 {
 	if( drawableName == "BitmapDrawable" )
 	{
@@ -291,7 +300,9 @@ ShivaGUI::Drawable* ShivaGUI::ResourceManager::CreateDrawable(std::string drawab
 	return NULL;
 }
 
-ShivaGUI::View* ShivaGUI::ResourceManager::CreateView(std::string viewName)
+//----------------------------------------------------------------------------------
+
+ShivaGUI::View* ShivaGUI::ResourceManager::CreateView( std::string viewName )
 {
 	if( viewName == "View" )
 	{
@@ -342,23 +353,28 @@ ShivaGUI::View* ShivaGUI::ResourceManager::CreateView(std::string viewName)
 		return new LayoutAdapterView();
 	}
 
-	View *customView = _GUIManager->CreateView(viewName);
-	if( customView != NULL )
+	View *customView = _GUIManager->CreateView( viewName );
+	if( customView != NULL ) {
 		return customView;
+	}
 
-	std::cerr<<"WARNING: ResourceManager::GetView could not create View of unknown type: "<<viewName<<std::endl;
+	std::cerr << "WARNING: ResourceManager::GetView could not create View of unknown type: " << viewName << std::endl;
 	return NULL;
 }
 
-ShivaGUI::AudioClip* ShivaGUI::ResourceManager::GetAudioClip(std::string filename)
+//----------------------------------------------------------------------------------
+
+ShivaGUI::AudioClip* ShivaGUI::ResourceManager::GetAudioClip( std::string filename )
 {
-	return _GUIManager->GetAudioManager()->GetSample(filename);
+	return _GUIManager->GetAudioManager()->GetSample( filename );
 }
 
-ShivaGUI::View* ShivaGUI::ResourceManager::GetLayout(std::string filenameInput )
+//----------------------------------------------------------------------------------
+
+ShivaGUI::View* ShivaGUI::ResourceManager::GetLayout( std::string filenameInput )
 {
 	// Strip off any leading path stuff initially:
-	boost::filesystem::path filename(filenameInput);
+	boost::filesystem::path filename( filenameInput );
 	filename = filename.filename();
 
 	// First, see if a version of the layout exists in the options directory:
@@ -367,7 +383,7 @@ ShivaGUI::View* ShivaGUI::ResourceManager::GetLayout(std::string filenameInput )
 
 	TiXmlDocument doc;
 	boost::filesystem::path pathToLoad;
-	if( boost::filesystem::exists(optionsPath) )
+	if( boost::filesystem::exists( optionsPath ) )
 	{
 		pathToLoad = optionsPath;
 	}
@@ -377,26 +393,27 @@ ShivaGUI::View* ShivaGUI::ResourceManager::GetLayout(std::string filenameInput )
 		pathToLoad = "Resources/Layout" / filename;
 	}
 
-	if( doc.LoadFile(pathToLoad.string()) )
+	if( doc.LoadFile( pathToLoad.string() ) )
 	{
-		View *rootView = ParseLayoutElement(&doc,true);
+		View *rootView = ParseLayoutElement( &doc, true );
 		DoPostEvaluationLinks();
 		return rootView;
 	}
 	else
 	{
-		std::cerr<<"WARNING: ResourceManager::GetLayout Could not load layout from xml: "<<filename<<std::endl;
+		std::cerr << "WARNING: ResourceManager::GetLayout Could not load layout from xml: " << filename << std::endl;
 		return NULL;
 	}
-
 }
 
-bool ShivaGUI::ResourceManager::OutputLayout(std::string filename, View *rootNode)
+//----------------------------------------------------------------------------------
+
+bool ShivaGUI::ResourceManager::OutputLayout( std::string filename, View *rootNode )
 {
 	if( filename.empty() || rootNode == NULL )
 		return false;
 
-	std::cout<<"INFO: ResourceManager Deflating Layout to file: "<<filename<<std::endl;
+	std::cout << "INFO: ResourceManager Deflating Layout to file: " << filename << std::endl;
 
 	TiXmlDocument doc( filename.c_str() );
 
@@ -405,28 +422,32 @@ bool ShivaGUI::ResourceManager::OutputLayout(std::string filename, View *rootNod
 	return doc.SaveFile();
 }
 
-std::string ShivaGUI::ResourceManager::GetInflationAttribute(std::string originalAttrib)
+//----------------------------------------------------------------------------------
+
+std::string ShivaGUI::ResourceManager::GetInflationAttribute( std::string originalAttrib )
 {
-	if( originalAttrib.at(0) == '@' )
+	if( originalAttrib.at( 0 ) == '@' )
 	{
 		//std::cout<<"*********INFO: Const replacement for: "<<originalAttrib<<std::endl;
 		// Check against consts in Profile
-		if( _attribConstsProfile.find(originalAttrib) != _attribConstsProfile.end() )
+		if( _attribConstsProfile.find( originalAttrib ) != _attribConstsProfile.end() )
 		{
-			std::cout<<"INFO: Const replacement for: "<<originalAttrib<<" from Profile with: "<<_attribConstsProfile[originalAttrib]<<std::endl;
-			return _attribConstsProfile[originalAttrib];
+			std::cout << "INFO: Const replacement for: " << originalAttrib << " from Profile with: " << _attribConstsProfile[ originalAttrib ] << std::endl;
+			return _attribConstsProfile[ originalAttrib ];
 		}
 		// Check against consts in Theme
-		if( _attribConstsTheme.find(originalAttrib) != _attribConstsTheme.end() )
+		if( _attribConstsTheme.find( originalAttrib ) != _attribConstsTheme.end() )
 		{
-			std::cout<<"INFO: Const replacement for: "<<originalAttrib<<" from Theme with: "<<_attribConstsTheme[originalAttrib]<<std::endl;
-			return _attribConstsTheme[originalAttrib];
+			std::cout << "INFO: Const replacement for: " << originalAttrib << " from Theme with: " << _attribConstsTheme[ originalAttrib ] << std::endl;
+			return _attribConstsTheme[ originalAttrib ];
 		}
 	}
 	return originalAttrib;
 }
 
-void ShivaGUI::ResourceManager::LoadProfileAttributeConsts(ProfileManager *profileManager)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ResourceManager::LoadProfileAttributeConsts( ProfileManager *profileManager )
 {
 	_attribConstsProfile.clear();
 
@@ -456,9 +477,9 @@ void ShivaGUI::ResourceManager::LoadProfileAttributeConsts(ProfileManager *profi
 			std::string key = profileManager->GetString( "key", "@INVALID" );
 			std::string value = profileManager->GetString( "value", "@INVALID" );
 
-			_attribConstsProfile[key] = value;
+			_attribConstsProfile[ key ] = value;
 
-			std::cout<<"INFO: LoadProfileAttributeConsts, key: "<<key<<" value: "<<value<<std::endl;
+			std::cout << "INFO: LoadProfileAttributeConsts, key: " << key << " value: " << value << std::endl;
 
 			profileManager->ExitOptionNode();
 		}
@@ -466,7 +487,9 @@ void ShivaGUI::ResourceManager::LoadProfileAttributeConsts(ProfileManager *profi
 	profileManager->ExitOptionNode();
 }
 
-void ShivaGUI::ResourceManager::SetTheme(std::string filename)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ResourceManager::SetTheme( std::string filename )
 {
 	_attribConstsTheme.clear();
 
@@ -483,7 +506,7 @@ void ShivaGUI::ResourceManager::SetTheme(std::string filename)
 		delete _currentThemeNode;
 		_currentThemeNode = NULL;
 		// Grab a copy of the root element node
-		_currentThemeNode = (TiXmlElement*) doc.RootElement()->Clone();
+		_currentThemeNode = ( TiXmlElement* ) doc.RootElement()->Clone();
 
 		// Load consts list
 		/*
@@ -503,23 +526,23 @@ void ShivaGUI::ResourceManager::SetTheme(std::string filename)
 		*/
 		if( _currentThemeNode != NULL )
 		{
-			TiXmlElement *constContainerNode = _currentThemeNode->FirstChildElement("constGroup");
+			TiXmlElement *constContainerNode = _currentThemeNode->FirstChildElement( "constGroup" );
 			if( constContainerNode != NULL )
 			{
 				TiXmlNode *child = 0;
 				while( child = constContainerNode->IterateChildren( "const", child ) )
 				{
-					TiXmlElement *keyElement = child->FirstChildElement("key");
+					TiXmlElement *keyElement = child->FirstChildElement( "key" );
 					if( keyElement != NULL )
 					{
-						TiXmlElement *valueElement = child->FirstChildElement("value");
+						TiXmlElement *valueElement = child->FirstChildElement( "value" );
 						if( valueElement != NULL )
 						{
 							std::string key = keyElement->GetText();//Value();
 							std::string value = valueElement->GetText();//Value();
-							_attribConstsTheme[key] = value;
+							_attribConstsTheme[ key ] = value;
 
-							std::cout<<"INFO: Load Theme Attribute Consts, key: "<<key<<" value: "<<value<<std::endl;
+							std::cout << "INFO: Load Theme Attribute Consts, key: " << key << " value: " << value << std::endl;
 						}
 					}
 				}
@@ -537,34 +560,38 @@ void ShivaGUI::ResourceManager::SetTheme(std::string filename)
 	}
 	else
 	{
-		std::cerr<<"WARNING: ResourceManager::SetTheme Could not load theme from xml: "<<filename<<std::endl;
+		std::cerr << "WARNING: ResourceManager::SetTheme Could not load theme from xml: " << filename << std::endl;
 	}
 }
 
-ShivaGUI::ViewEventListener* ShivaGUI::ResourceManager::GetListener(std::string name)
+//----------------------------------------------------------------------------------
+
+ShivaGUI::ViewEventListener* ShivaGUI::ResourceManager::GetListener( std::string name )
 {
 	if( _GUIManager != NULL )
 	{
 		Activity *currentActivity = _GUIManager->GetCurrentActivity();
 		if( currentActivity != NULL )
 		{
-			GUIController *currentGUIController = currentActivity->GetGUIController(_windowIndex);
+			GUIController *currentGUIController = currentActivity->GetGUIController( _windowIndex );
 			if( currentGUIController != NULL )
 			{
-				return currentGUIController->GetListener(name);
+				return currentGUIController->GetListener( name );
 			}
 		}
 	}
-	std::cerr<<"ShivaGUI::ResourceManager::GetListener could not retrieve current GUIController"<<std::endl;
+	std::cerr << "ShivaGUI::ResourceManager::GetListener could not retrieve current GUIController" << std::endl;
 	return NULL;
 }
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::View* ShivaGUI::ResourceManager::ParseLayoutElement( TiXmlNode *parentNode, bool rootNode )
 {
 	// Useful tinyxml links:
 	// http://www.grinninglizard.com/tinyxmldocs/index.html
 	// http://www.grinninglizard.com/tinyxmldocs/tutorial0.html
-
+	 
 	int nodeType = parentNode->Type();
 
 	switch( nodeType )
@@ -592,7 +619,7 @@ ShivaGUI::View* ShivaGUI::ResourceManager::ParseLayoutElement( TiXmlNode *parent
 					parentView->Inflate( parentNode->ToElement(), this );
 
 					// Only check for children if View is a ViewGroup
-					ViewGroup *parentContainer = dynamic_cast<ViewGroup*>(parentView);
+					ViewGroup *parentContainer = dynamic_cast<ViewGroup*>( parentView );
 					if( parentContainer != NULL )
 					{
 						for( TiXmlNode *childNode = parentNode->FirstChild(); childNode != NULL; childNode = childNode->NextSibling())
@@ -614,17 +641,17 @@ ShivaGUI::View* ShivaGUI::ResourceManager::ParseLayoutElement( TiXmlNode *parent
 								if( childLayoutParams != NULL )
 								{
 									childView->SetLayoutParams( childLayoutParams );
-									parentContainer->AddView(childView,this);
+									parentContainer->AddView( childView, this );
 								}
 								else
 								{
-									std::cerr<<"WARNING: ResourceManager::ParseLayoutElement could not create LayoutParams for child node"<<std::endl;
+									std::cerr << "WARNING: ResourceManager::ParseLayoutElement could not create LayoutParams for child node" << std::endl;
 								}
 
 							}
 							else
 							{
-								std::cerr<<"WARNING: ResourceManager::ParseLayoutElement could not parse layout element of container node"<<std::endl;
+								std::cerr << "WARNING: ResourceManager::ParseLayoutElement could not parse layout element of container node" << std::endl;
 							}
 						}
 					}
@@ -633,15 +660,16 @@ ShivaGUI::View* ShivaGUI::ResourceManager::ParseLayoutElement( TiXmlNode *parent
 				}
 				else
 				{
-					std::cerr<<"WARNING: ResourceManager::ParseLayoutElement could not create View"<<std::endl;
+					std::cerr << "WARNING: ResourceManager::ParseLayoutElement could not create View" << std::endl;
 				}
 			}
 			break;
-
 	}
 
 	return NULL;
 }
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::Drawable* ShivaGUI::ResourceManager::ParseDrawableElement( TiXmlNode *parentNode )
 {
@@ -670,23 +698,26 @@ ShivaGUI::Drawable* ShivaGUI::ResourceManager::ParseDrawableElement( TiXmlNode *
 			}
 			else
 			{
-				std::cerr<<"WARNING: ResourceManager::ParseDrawableElement could not create Drawable"<<std::endl;
+				std::cerr << "WARNING: ResourceManager::ParseDrawableElement could not create Drawable" << std::endl;
 			}
 		}
 	}
 	return NULL;
 }
 
+//----------------------------------------------------------------------------------
 
-unsigned int ShivaGUI::ResourceManager::SDLSurfaceToOpenGL(SDL_Surface *image, bool mipmap, bool addAlpha, bool repeat, bool reverseOrder )
+unsigned int ShivaGUI::ResourceManager::SDLSurfaceToOpenGL( SDL_Surface *image, bool mipmap, bool addAlpha, bool repeat, bool reverseOrder )
 {
 	unsigned int texName = 0;
-	glGenTextures(1, &texName);
-	SDLSurfaceToOpenGLID(image,texName,mipmap,addAlpha,repeat,reverseOrder);
+	glGenTextures( 1, &texName );
+	SDLSurfaceToOpenGLID( image, texName, mipmap, addAlpha, repeat, reverseOrder );
 	return texName;
 }
 
-void ShivaGUI::ResourceManager::SDLSurfaceToOpenGLID(SDL_Surface *image, unsigned int OpenGLTexID, bool mipmap, bool addAlpha, bool repeat, bool reverseOrder )
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ResourceManager::SDLSurfaceToOpenGLID( SDL_Surface *image, unsigned int OpenGLTexID, bool mipmap, bool addAlpha, bool repeat, bool reverseOrder )
 {
 
 	GLenum type = GL_RGBA;
@@ -701,57 +732,62 @@ void ShivaGUI::ResourceManager::SDLSurfaceToOpenGLID(SDL_Surface *image, unsigne
 	}
 	else
 	{
-		std::cerr<<"WARNING: ResourceManager::SDLSurfaceToOpenGLID Image is not RGB or RGBA"<<std::endl;
+		std::cerr << "WARNING: ResourceManager::SDLSurfaceToOpenGLID Image is not RGB or RGBA" << std::endl;
 		//SDL_FreeSurface(image);
 	}
 
-
 	if( OpenGLTexID != 0 )
 	{
-		glBindTexture(GL_TEXTURE_2D, OpenGLTexID);
+		glBindTexture( GL_TEXTURE_2D, OpenGLTexID );
 
 		if( repeat )
 		{
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
 		}
 		else
 		{
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
 		}
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
 		if( mipmap )
 		{
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
 		}
 		else
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 
 		if( addAlpha )
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->w, image->h, 0, type, GL_UNSIGNED_BYTE, image->pixels);
+			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, image->w, image->h, 0, type, GL_UNSIGNED_BYTE, image->pixels );
 		else
-			glTexImage2D(GL_TEXTURE_2D, 0, image->format->BitsPerPixel/8, image->w, image->h, 0, type, GL_UNSIGNED_BYTE, image->pixels);
+			glTexImage2D( GL_TEXTURE_2D, 0, image->format->BitsPerPixel/8, image->w, image->h, 0, type, GL_UNSIGNED_BYTE, image->pixels );
 
 		if( mipmap )
-			if( gluBuild2DMipmaps(GL_TEXTURE_2D,image->format->BitsPerPixel/8,image->w, image->h,type,GL_UNSIGNED_BYTE, image->pixels) != 0 )
-				std::cerr<<"WARNING: mipmap generation error"<<std::endl;
+			if( gluBuild2DMipmaps( GL_TEXTURE_2D, image->format->BitsPerPixel/8, image->w, image->h, type, GL_UNSIGNED_BYTE, image->pixels ) != 0 )
+				std::cerr << "WARNING: mipmap generation error" << std::endl;
 
-		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindTexture( GL_TEXTURE_2D, 0 );
 	}
 }
 
-void ShivaGUI::ResourceManager::RegisterPostInflationLink( View *src, std::string dstID, bool scanForward)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ResourceManager::RegisterPostInflationLink( View *src, std::string dstID, bool scanForward )
 {
-	_postInflationLinks.push_back( PostInflationLink(src,dstID,scanForward) );
+	_postInflationLinks.push_back( PostInflationLink( src, dstID, scanForward ) );
 }
 
-void ShivaGUI::ResourceManager::RegisterPostInflationLink( View *src, std::string dstID, Definitions::FocusDirection focusDir)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ResourceManager::RegisterPostInflationLink( View *src, std::string dstID, Definitions::FocusDirection focusDir )
 {
-	_postInflationLinks.push_back( PostInflationLink(src,dstID,focusDir) );
+	_postInflationLinks.push_back( PostInflationLink( src, dstID, focusDir) );
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::ResourceManager::DoPostEvaluationLinks()
 {
@@ -762,19 +798,21 @@ void ShivaGUI::ResourceManager::DoPostEvaluationLinks()
 		{
 			if( it->scan )
 			{
-				it->src->SetNextScan(dstView,it->scanForward);
-				dstView->SetNextScan(it->src,!it->scanForward);
+				it->src->SetNextScan( dstView, it->scanForward );
+				dstView->SetNextScan( it->src, !it->scanForward );
 			}
 			if( it->focus )
 			{
-				it->src->SetNextFocus(dstView,it->focusDir);
-				dstView->SetNextFocus(it->src,Definitions::GetOppositeFocusDirection(it->focusDir));
+				it->src->SetNextFocus( dstView, it->focusDir );
+				dstView->SetNextFocus( it->src, Definitions::GetOppositeFocusDirection( it->focusDir ) );
 			}
 		}
 		else
 		{
-			std::cerr<<"WARNING: ResourceManager::DoPostEvaluationLinks() cannot resolve Views, dstID = "<<it->dstID<<std::endl;
+			std::cerr << "WARNING: ResourceManager::DoPostEvaluationLinks() cannot resolve Views, dstID = " << it->dstID << std::endl;
 		}
 	}
 	_postInflationLinks.clear();
 }
+
+//----------------------------------------------------------------------------------

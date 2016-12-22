@@ -7,7 +7,7 @@ ShivaGUI::FilesystemDataProvider::FilesystemDataProvider()
 	_showFiles = _showDirectories = true;
 }
 
-void ShivaGUI::FilesystemDataProvider::SetCurrentDirectory(std::string dir)
+void ShivaGUI::FilesystemDataProvider::SetCurrentDirectoryNew(std::string dir)
 {
 	if( boost::filesystem::exists(dir) )
 	{

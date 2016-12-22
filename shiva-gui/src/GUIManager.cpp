@@ -356,6 +356,7 @@ void ShivaGUI::GUIManager::Update(float deltaTs)
 {
 	if( _currentActivityCommand == START_ACTIVITY || _currentActivityCommand == START_ACTIVITY_FOR_RESULT )
 	{
+		std::cout<<"Creating new activity"<<std::endl;
 		Activity *newActivity = CreateActivity(_startActivityName);
 		if( newActivity != NULL )
 		{
@@ -479,6 +480,7 @@ void ShivaGUI::GUIManager::Layout()
 
 ShivaGUI::Activity* ShivaGUI::GUIManager::CreateActivity(std::string name)
 {
+	std::cout<<"Name of activity: "<< name << std::endl;
 	if( _activityCreators.find(name) != _activityCreators.end() )
 	{
 		Activity *currentActivity =  (_activityCreators[name])();
@@ -549,8 +551,9 @@ void ShivaGUI::GUIManager::HandleEvents()
 
 
 		InputController *currentInputController = _inputControllers.back();
-		if( currentInputController != NULL )
+		if( currentInputController != NULL ) {
 			currentInputController->IssueEvent(currentInputEvent, GetCurrentActivity() );
+		}
 		else
 			std::cerr<<"WARNING: possible synchronisation issue between Activity stack and InputController stack: handling events for Activity but no associated InputController"<<std::endl;
 

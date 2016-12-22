@@ -1,0 +1,4 @@
+*.[Oo]bj
+ipch/
+*.opensdf
+*.vcxprojResolveAssemblyReference.cache

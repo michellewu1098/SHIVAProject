@@ -1,14 +1,20 @@
-/*
- * GLSLRenderer.h
- *
- *  Created on: Jan 10, 2013
- *      Author: leigh
- */
+///-----------------------------------------------------------------------------------------------
+/// \file GLSLRenderer.h
+/// \brief 
+/// \author Leigh McLoughlin
+/// \date Jan 10, 2013
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
 #ifndef GLSLRENDERER_H_
 #define GLSLRENDERER_H_
 
 #include <cml/cml.h>
+#include <GL/GLee.h>
+#include <GL/glu.h>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 #include "VolumeRenderer/SpringyVec3.h"
 

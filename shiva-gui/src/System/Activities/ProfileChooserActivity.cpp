@@ -55,7 +55,8 @@ void ShivaGUI::ProfileChooserActivity::OnCreate(Bundle *data)
 		}
 	}
 
-	_profileFilesProvider->SetCurrentDirectory( GetGUIManager()->GetProfileDir() );
+	//_profileFilesProvider->SetCurrentDirectory( GetGUIManager()->GetProfileDir() );
+	_profileFilesProvider->SetCurrentDirectoryNew( GetGUIManager()->GetProfileDir() );
 
 	LoadViews();
 	UpdateViews();
@@ -125,7 +126,7 @@ void ShivaGUI::ProfileChooserActivity::UtilityEventReceived(UtilityEventHandler 
 
 void ShivaGUI::ProfileChooserActivity::UpdateViews()
 {
-	_profileFilesProvider->SetCurrentDirectory( GetGUIManager()->GetProfileDir() );
+	_profileFilesProvider->SetCurrentDirectoryNew( GetGUIManager()->GetProfileDir() );
 
 	for( std::vector< std::pair<TextView*,unsigned int> >::iterator it = _currentProfileDisplays.begin(); it != _currentProfileDisplays.end(); ++it )
 	{

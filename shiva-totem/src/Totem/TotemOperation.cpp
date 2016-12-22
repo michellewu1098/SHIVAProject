@@ -1,15 +1,16 @@
-
 #include "Totem/TotemOperation.h"
 
-Totem::Operation::Operation()
-{
+//----------------------------------------------------------------------------------
 
-}
+Totem::Operation::Operation()
+{ }
+
+//----------------------------------------------------------------------------------
 
 Totem::Operation::~Operation()
-{
+{ }
 
-}
+//----------------------------------------------------------------------------------
 
 /*
 VolumeTree::Node* GetNodeTree(VolumeTree::Node *childNode)
@@ -18,3 +19,5 @@ VolumeTree::Node* GetNodeTree(VolumeTree::Node *childNode)
 	return _mainNode;
 }
 */
+
+//----------------------------------------------------------------------------------

@@ -9,18 +9,17 @@ varying vec3 viewSpacePos;
 varying vec3 worldSpacePos;
 varying vec3 worldSpaceCam;
 
-void main(void)
+void main( void )
 {
-	vec4 pos = vec4(gl_Vertex.xyz*vertsize+vertposition,1); // Box/local space to World space
-	vec4 vsPos4 = transpose(ViewMatrix)*pos;
+	vec4 pos = vec4( gl_Vertex.xyz * vertsize + vertposition, 1 ); // Box/local space to World space
+	vec4 vsPos4 = transpose( ViewMatrix ) * pos;
 	viewSpacePos = vsPos4.xyz;
-	vec4 cam = vec4(0,0,0,1);
+	vec4 cam = vec4( 0, 0, 0, 1 );
 
 	worldSpacePos = pos.xyz;
-	worldSpaceCam = (transpose(invView)*cam).xyz;
+	worldSpaceCam = ( transpose( invView ) * cam ).xyz;
 	
     // Compute homogenuous position
-    //gl_Position = gl_ProjectionMatrix*gl_ModelViewMatrix*gl_Vertex;//vsPos4; // World to Projected space
-    gl_Position = gl_ProjectionMatrix*vsPos4; // World to Projected space
+    gl_Position = gl_ProjectionMatrix * vsPos4; // World to Projected space
 
 }

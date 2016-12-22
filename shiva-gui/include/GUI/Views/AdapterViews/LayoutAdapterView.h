@@ -1,30 +1,34 @@
+///-----------------------------------------------------------------------------------------------
+/// \file LayoutAdapterView.h
+/// \brief This presents Views from an Adapter in a customisable format, by using a generic ViewGroup to arrange the Views
+/// \author Leigh McLoughlin
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 #ifndef __SHIVA_GUI_GUI_VIEWS_ADAPTERVIEWS_LAYOUTADAPTERVIEW__
 #define __SHIVA_GUI_GUI_VIEWS_ADAPTERVIEWS_LAYOUTADAPTERVIEW__
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-
-
-//////////////////////////////////////////////////////////////////////////
-#include "GUI/Views/AdapterViews/AdapterView.h"
-#include "GUI/Views/ViewGroups/ViewGroup.h"
 
 #include <vector>
 
-//////////////////////////////////////////////////////////////////////////
+#include "GUI/Views/AdapterViews/AdapterView.h"
+#include "GUI/Views/ViewGroups/ViewGroup.h"
+
 
 namespace ShivaGUI
 {
-
-	/// This presents Views from an Adapter in a customisable format, by using a generic ViewGroup to arrange the Views
 	class LayoutAdapterView : public AdapterView
 	{
 	public:
-		LayoutAdapterView();
-		virtual ~LayoutAdapterView();
 
+		//----------------------------------------------------------------------------------
+		/// \brief Default ctor
+		//----------------------------------------------------------------------------------
+		LayoutAdapterView();
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor
+		//----------------------------------------------------------------------------------
+		virtual ~LayoutAdapterView();
+		//----------------------------------------------------------------------------------
 		/// This is called when the drawing context is changed
 		/// All Drawables loaded from file will be automatically reloaded,
 		/// but any locally-generated textures (e.g. text caches) must be remade here
@@ -52,50 +56,68 @@ namespace ShivaGUI
 		/// For saving the View's attributes to xml
 		/// \note This must be hierarchical and the element must include all child elements
 		virtual TiXmlElement* Deflate(ResourceManager *resources);
-
-		/// For setting the focus of this View
+		//---------------------------------------------------------------------------------- 
+		/// \brief For setting the focus of this View
 		/// If focussed, it is expected that the view will show this visually
 		/// and then allow other forms of input to be received, e.g. 'enter' button pressed etc
-		virtual void SetFocus(bool);
-
-		/// Input event given to View, expected to filter down hierarchy
+		//----------------------------------------------------------------------------------
+		virtual void SetFocus( bool );
+		//----------------------------------------------------------------------------------
+		/// \brief Input event given to View, expected to filter down hierarchy
 		/// \return false if event is not absorbed (e.g. did not hit button etc)
-		virtual bool HandleEvent(InternalEvent*);
-
-		/// Requested wrap pixel dimensions for layout
+		//----------------------------------------------------------------------------------
+		virtual bool HandleEvent( InternalEvent* );
+		//----------------------------------------------------------------------------------
+		/// \brief Requested wrap pixel dimensions for layout
 		/// \note These are used when SetLayoutParams() is called, which will be after the View has been inflated
+		//----------------------------------------------------------------------------------
 		virtual int GetWrapWidth();
+		//----------------------------------------------------------------------------------
 		virtual int GetWrapHeight();
-
-		/// For retrieving the original data entry index that was used to generate the View
+		//----------------------------------------------------------------------------------
+		/// \brief For retrieving the original data entry index that was used to generate the View
 		/// Returns the index or -1 if the View that was given is not recognised
 		/// Note that this function is *not* required to traverse entire trees,
 		/// it should simply check against the View that was returned by the data adapter's GetView() function
+		//----------------------------------------------------------------------------------
 		virtual int GetDataIndex( View * );
-
-
-		/// This should be called when the source data is known to have changed
+		//----------------------------------------------------------------------------------
+		/// \brief This should be called when the source data is known to have changed
 		/// The AdapterView should then remove all child Views and rebuild them
+		//----------------------------------------------------------------------------------
 		virtual void RefreshFromSource();
+		//----------------------------------------------------------------------------------
 
 	protected:
-		std::vector<View*> _children;
 
-		/// Whether it has attempted to retrieve the Views from the DataAdapter
+		//----------------------------------------------------------------------------------
+		/// \brief Container for childern (views)
+		//----------------------------------------------------------------------------------
+		std::vector< View* > _children;
+		//----------------------------------------------------------------------------------
+		/// \brief Flat use to check whether it has attempted to retrieve the Views from the DataAdapter
+		//----------------------------------------------------------------------------------
 		bool _initialised;
-
-		void OnSetNextScan(View *value, bool forward) {RefreshConnectionLinks();}
-		virtual void OnSetNextFocus(View*, Definitions::FocusDirection) {RefreshConnectionLinks();}
-
-		/// Rebuilds next scan and next focus links
+		//----------------------------------------------------------------------------------
+		/// \param [in] value
+		/// \param [in] forward
+		//----------------------------------------------------------------------------------
+		void OnSetNextScan( View *value, bool forward ) { RefreshConnectionLinks(); }
+		//----------------------------------------------------------------------------------
+		/// \param [in] value
+		/// \param [in] 
+		//----------------------------------------------------------------------------------
+		virtual void OnSetNextFocus(View*, Definitions::FocusDirection) { RefreshConnectionLinks(); }
+		//----------------------------------------------------------------------------------
+		/// \brief Rebuilds next scan and next focus links
+		//----------------------------------------------------------------------------------
 		void RefreshConnectionLinks();
-
-		/// ListView now has a ViewGroup to manage the display of the children
-		/// This allows for more flexibility in layout
+		//----------------------------------------------------------------------------------
+		/// \brief ListView now has a ViewGroup to manage the display of the children. This allows for more flexibility in layout
+		//----------------------------------------------------------------------------------
 		ViewGroup *_containerGroup;
+		//----------------------------------------------------------------------------------
 	};
-
 }
 
-//////////////////////////////////////////////////////////////////////////
 #endif

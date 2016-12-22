@@ -167,7 +167,7 @@
     <ClInclude Include="..\..\include\GUI\Views\ViewGroups\LinearLayout.h" />
     <ClInclude Include="..\..\include\GUI\Views\ViewGroups\LinearLayoutParams.h" />
     <ClInclude Include="..\..\include\GUI\Views\ViewGroups\ScrollContainer.h" />
-    <ClInclude Include="..\..\include\GUI\Views\ViewGroup.h" />
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\ViewGroup.h" />
     <ClInclude Include="..\..\include\Input\Debouncer.h" />
     <ClInclude Include="..\..\include\Input\InputController.h" />
     <ClInclude Include="..\..\include\Input\InputEvent.h" />

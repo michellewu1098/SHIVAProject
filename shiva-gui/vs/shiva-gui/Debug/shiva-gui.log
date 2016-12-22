@@ -1,11 +1,74 @@
-﻿Build started 25/11/2016 14:33:56.
+﻿Build started 22/12/2016 14:27:54.
      1>Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\shiva-gui.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_image" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_ttf" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_mixer" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\GUI\Views\ImageButton.cpp
+         ImageButton.cpp
+     1>c:\shivaproject\shiva-gui\src\gui\views\imagebutton.cpp(76): warning C4482: nonstandard extension used: enum 'ShivaGUI::InternalEvent::EventType' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\imagebutton.cpp(80): warning C4482: nonstandard extension used: enum 'ShivaGUI::InternalEvent::EventType' used in qualified name
        Lib:
-         All outputs are up-to-date.
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\Debug\shiva-gui.lib" GLee.lib Opengl32.lib glu32.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib SDL2_mixer.lib /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\glee" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL\SDL\Debug" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL\SDLmain\Debug" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_image\Debug" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_mixer\Debug" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_ttf\Debug" /NOLOGO Debug\GUIManager.obj
+         Debug\ResourceManager.obj
+         Debug\Debouncer.obj
+         Debug\InputController.obj
+         Debug\InputEvent.obj
+         Debug\InternalEvent.obj
+         Debug\Autoscanner.obj
+         Debug\Scanner.obj
+         Debug\fbo.obj
+         Debug\GPUProgram.obj
+         Debug\GPUShader.obj
+         Debug\GPUVariable.obj
+         Debug\tinystr.obj
+         Debug\tinyxml.obj
+         Debug\tinyxmlerror.obj
+         Debug\tinyxmlparser.obj
+         Debug\Definitions.obj
+         Debug\GUIController.obj
+         Debug\BitmapDrawable.obj
+         Debug\Drawable.obj
+         Debug\LayeredImageDrawable.obj
+         Debug\NinePatch.obj
+         Debug\RectDrawable.obj
+         Debug\StateListDrawable.obj
+         Debug\ColourSelector.obj
+         Debug\ImageButton.obj
+         Debug\Slider.obj
+         Debug\TextButton.obj
+         Debug\TextView.obj
+         Debug\View.obj
+         Debug\AdapterView.obj
+         Debug\DataAdapter.obj
+         Debug\LayoutAdapterView.obj
+         Debug\ListView.obj
+         Debug\CustomLayout.obj
+         Debug\CustomLayoutElement.obj
+         Debug\CustomLayoutParams.obj
+         Debug\LayoutParams.obj
+         Debug\LinearLayout.obj
+         Debug\LinearLayoutParams.obj
+         Debug\ScrollContainer.obj
+         Debug\ViewGroup.obj
+         Debug\Activity.obj
+         Debug\Bundle.obj
+         Debug\ProfileManager.obj
+         Debug\SharedPreferences.obj
+         Debug\Window.obj
+         Debug\FilesystemDataProvider.obj
+         Debug\ProfileChooserActivity.obj
+         Debug\AudioClip.obj
+         Debug\AudioManager.obj
+     1>glu32.lib(GLU32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>glu32.lib(GLU32.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>SDL2.lib(SDL2.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2.lib(SDL2.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>SDL2_image.lib(SDL2_image.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_image.lib(SDL2_image.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>SDL2_ttf.lib(SDL2_ttf.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_ttf.lib(SDL2_ttf.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>SDL2_mixer.lib(SDL2_mixer.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_mixer.lib(SDL2_mixer.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
          shiva-gui.vcxproj -> C:\SHIVAProject\shiva-gui\vs\shiva-gui\Debug\shiva-gui.lib
        FinalizeBuildStatus:
          Deleting file "Debug\shiva-gui.unsuccessfulbuild".
@@ -14,4 +77,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.15
+Time Elapsed 00:00:04.89

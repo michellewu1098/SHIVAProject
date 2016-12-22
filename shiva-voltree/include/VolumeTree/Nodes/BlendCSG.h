@@ -23,7 +23,9 @@ namespace VolumeTree
 		virtual std::string GetNodeType(){return "BlendCSGNode";}
 		void GetBlendParams(float &a0, float &a1, float &a2) {a0=_a0;a1=_a1;a2=_a2;}
 		void SetBlendParams(float a0, float a1, float a2) {_a0=a0;_a1=a1;_a2=a2;}
-
+		void SetFirstBlend( const float &a0 ) { _a0 = a0; }
+		void SetSecondBlend( const float &a1 ) { _a1 = a1; }
+		void SetThirdBlend( const float &a2 ) { _a2 = a2; }
 
 		/// Samples the function at a specific point
 		float GetFunctionValue(float x, float y, float z);

@@ -302,7 +302,7 @@
 		layout_width="wrap_content"
 		layout_height="wrap_content"
 		layout_centreX="0.9"
-		layout_centreY="0.85"
+		layout_centreY="0.90"
 		text="saved!"
     visibility="false"
 		/>
@@ -320,6 +320,21 @@
     scan_next="PrimitiveList"
 		next_focus_up="NudgeDown"
 		next_focus_down="NudgeUp"
+		next_focus_right="PrimitiveList"
+		next_focus_left="RotateUp"
+		/>
+		
+	<TextButton
+		id="Load"
+		layout_width="0.2"
+		layout_height="wrap_content"
+		layout_centreX="0.9"
+		layout_centreY="0.85"
+		onClick="loadHandler"
+		text="load"
+    
+    scan_prev="Save"
+		next_focus_up="Save"
 		next_focus_right="PrimitiveList"
 		next_focus_left="RotateUp"
 		/>

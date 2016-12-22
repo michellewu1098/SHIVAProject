@@ -22,6 +22,9 @@ namespace VolumeTree
 		virtual std::string GetNodeType(){return "SphereNode";}
 
 		void SetRadius(float valueX, float valueY, float valueZ) {_radiusX=valueX; _radiusY=valueY; _radiusZ=valueZ;}
+		void SetRadiusX( const float &valueX ) { _radiusX = valueX; }
+		void SetRadiusY( const float &valueY ) { _radiusY = valueY; }
+		void SetRadiusZ( const float &valueZ ) { _radiusZ = valueZ; }
 		float GetRadiusX() {return _radiusX;}
 		float GetRadiusY() {return _radiusY;}
 		float GetRadiusZ() {return _radiusZ;}

@@ -25,7 +25,7 @@ namespace ShivaGUI
 		FilesystemDataProvider();
 
 		// Browsing Commands
-			void SetCurrentDirectory(std::string dir);
+			void SetCurrentDirectoryNew(std::string dir);
 			std::string GetCurrentDirectory();
 
 			/// For showing or hiding files

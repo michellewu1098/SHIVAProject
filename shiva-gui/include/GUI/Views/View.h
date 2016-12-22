@@ -32,21 +32,21 @@ namespace ShivaGUI
 		View();
 		virtual ~View();
 
-		void SetID(std::string value) {_ID=value;}
-		std::string GetID() {return _ID;}
+		void SetID( std::string value ) { _ID = value; }
+		std::string GetID() const { return _ID; }
 
 		/// This is called when the drawing context is changed
 		/// All Drawables loaded from file will be automatically reloaded,
 		/// but any locally-generated textures (e.g. text caches) must be remade here
 		/// This must be passed down to any children of the View
-		virtual void NotifyDrawingContextChange(ResourceManager *resources) {}
+		virtual void NotifyDrawingContextChange( ResourceManager *resources ) {}
 
 		/// Gives the size of the View
 		/// If this View has children, it is expected to work out the size and location of these and call Layout() on them too
 		/// The base class function will set up the background drawable, so this must be called by derived View classes that wish to retain the background
-		virtual void Layout(int left, int top, int right, int bottom, int windowWidth, int windowHeight);
+		virtual void Layout( int left, int top, int right, int bottom, int windowWidth, int windowHeight );
 
-		virtual void Update(float deltaTs, GUIController *guiController) {}
+		virtual void Update( float deltaTs, GUIController *guiController ) {}
 
 		/// The base class will draw a background drawable if it exists
 		/// Derived View classes must call this at an appropriate time if they want to retain the background
@@ -55,14 +55,14 @@ namespace ShivaGUI
 		/// Themes allow settings to be set for all Views of a given type
 		/// The string returned from this function is the string that identifies the type in the theme xml file
 		/// It is literally prefixed to normal inflation attributes
-		virtual std::string GetThemePrefix() {return "View_";}
+		virtual std::string GetThemePrefix() { return "View_"; }
 
 		/// For setting the View's attributes from xml
 		/// \param themePrefix this is used when parsing a theme file. Derived classes should specify the prefix that identifies their attributes in a style. If empty, the string returned from GetThemePrefix should be used
-		virtual void Inflate(TiXmlElement*, ResourceManager*, std::string themePrefix = "", bool rootNode = false);
+		virtual void Inflate( TiXmlElement*, ResourceManager*, std::string themePrefix = "", bool rootNode = false );
 		/// For saving the View's attributes to xml
 		/// \note This must be hierarchical and the element must include all child elements
-		virtual TiXmlElement* Deflate(ResourceManager *resources);
+		virtual TiXmlElement* Deflate( ResourceManager *resources );
 
 
 		void SetBackground(Drawable *bgd) {_background=bgd;}

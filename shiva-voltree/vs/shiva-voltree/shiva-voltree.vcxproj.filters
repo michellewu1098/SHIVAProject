@@ -138,4 +138,7 @@
       <Filter>Header Files\VolumeTree\CachingPolicies</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
 </Project>

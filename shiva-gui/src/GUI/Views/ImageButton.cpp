@@ -479,8 +479,9 @@ void ShivaGUI::ImageButton::SetSelect(bool value)
 	if( _pressed == true && value == false )
 	{
 		// Release
-		if( _clickListener != NULL )
+		if( _clickListener != NULL ) {
 			_clickListener->HandleEvent(this);
+		}
 
 		if( _gazeIsRestButton && _usingEyeGaze )
 		{

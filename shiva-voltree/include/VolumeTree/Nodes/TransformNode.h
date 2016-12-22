@@ -60,7 +60,7 @@ namespace VolumeTree
 		/// Returns a GLSL-compatible string for the function
 		std::string GetFunctionGLSLString(bool callCache, std::string samplePosStr);
 
-		void SetChild(Node *child){_child=child;}
+		void SetChild(Node *child){ _child = child;}
 		
 		virtual Node* GetFirstChild();
 		virtual Node* GetNextChild(Node *previousChild);

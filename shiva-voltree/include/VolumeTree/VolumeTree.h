@@ -1,15 +1,23 @@
-/*
- * VolumeTree.h
- *
- *  Created on: Jan 9, 2013
- *      Author: leigh
- */
+///-----------------------------------------------------------------------------------------------
+/// \file VolumeTree.h
+/// \brief Holds a tree and provides some extra operations for it
+/// \author Leigh McLoughlin
+/// \date Jan 9, 2013
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
 #ifndef VOLUMETREE_H_
 #define VOLUMETREE_H_
 
+#include <iostream>
+#include <sstream>
+#include <boost/filesystem.hpp>
+#include <stack>
+#include <queue>
+
 #include "VolumeTree/Node.h"
 #include "VolumeTree/CachingPolicies/CachingPolicy.h"
+#include "Utility\tinyxml.h"
 
 #include "vol_totem.h"
 
@@ -17,77 +25,174 @@ class GLSLRenderer;
 
 namespace VolumeTree
 {
-	/// Holds a tree and provides some extra operations for it
 	class Tree
 	{
 	public:
+
+		//----------------------------------------------------------------------------------
+		/// \brief Default ctor
+		//----------------------------------------------------------------------------------
 		Tree();
-		Tree(Node *rootNode);
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor
+		/// \param [in] rootNode
+		//----------------------------------------------------------------------------------
+		Tree( Node *rootNode );
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor
+		//----------------------------------------------------------------------------------
 		~Tree();
-
-		void SetRoot(Node *rootNode) {_rootNode=rootNode;}
-		Node* GetRoot() {return _rootNode;}
-
-		// TODO
-		bool Load(std::string filename);
-
-		// TODO
-		bool Save(std::string filename);
-
+		//----------------------------------------------------------------------------------
+		/// \brief Set root node
+		/// \param [in] rootNode
+		//----------------------------------------------------------------------------------
+		void SetRoot( Node *rootNode ) { _rootNode = rootNode; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get root node
+		/// \return _rootNode
+		//----------------------------------------------------------------------------------
+		Node* GetRoot() const { return _rootNode; }
+		//----------------------------------------------------------------------------------
+		/// \brief Load .vol file function 
+		/// \param [in] filename
+		//----------------------------------------------------------------------------------
+		bool Load( std::string filename );
+		//----------------------------------------------------------------------------------
+		/// \brief Save .xml file (internal format)
+		//----------------------------------------------------------------------------------
+		void SaveXML( std::string filename );
+		//----------------------------------------------------------------------------------
+		bool ImportXML( const char* filename );
+		//----------------------------------------------------------------------------------
+		/// \brief Save .vol file function
+		/// \param [in] filename
+		//----------------------------------------------------------------------------------
+		bool Save( std::string filename );
+		//----------------------------------------------------------------------------------
+		/// \brief Calculate bounding box
+		//----------------------------------------------------------------------------------
 		void CalcBoundingBox();
-		void GetBoundingBox( float *minvals, float *maxvals);
-		void GetBoundingBoxSize( float *boxSize);
-		void GetBoundingBoxCentre( float *boxSize);
+		//----------------------------------------------------------------------------------
+		/// \brief Get bounding box
+		/// \param [in] minvals
+		/// \param [in] maxvals
+		//----------------------------------------------------------------------------------
+		void GetBoundingBox( float *minvals, float *maxvals );
+		//----------------------------------------------------------------------------------
+		/// \brief Get bounding box size
+		/// \param [in] boxSize
+		//----------------------------------------------------------------------------------
+		void GetBoundingBoxSize( float *boxSize );
+		//----------------------------------------------------------------------------------
+		/// \brief Get bounding box centre
+		/// \param [in] boxSize
+		//----------------------------------------------------------------------------------
+		void GetBoundingBoxCentre( float *boxSize );
+		//----------------------------------------------------------------------------------
+		/// \brief Get bounding box maximum dimension
+		//----------------------------------------------------------------------------------
 		float GetBoundingBoxMaxDim();
-
-		/// Draws any nodes which have the option selected to draw their bounding boxes
+		//----------------------------------------------------------------------------------
+		/// \brief Draws any nodes which have the option selected to draw their bounding boxes
+		//----------------------------------------------------------------------------------
 		void DrawBBoxes();
-
-		/// Samples the function at a specific point
-		float GetFunctionValue(float x, float y, float z);
-
-		/// Returns a GLSL-compatible string for the function including caches
+		//----------------------------------------------------------------------------------
+		/// \brief Samples the function at a specific point
+		/// \param [in] x
+		/// \param [in] y
+		/// \param [in] z
+		//----------------------------------------------------------------------------------
+		float GetFunctionValue( float x, float y, float z );
+		//----------------------------------------------------------------------------------
+		/// \brief Returns a GLSL-compatible string for the function including caches
+		//----------------------------------------------------------------------------------
 		std::string GetCachedFunctionGLSLString();
-
-		/// Returns a GLSL-compatible string for the function
+		//----------------------------------------------------------------------------------
+		/// \brief Returns a GLSL-compatible string for the function
+		//----------------------------------------------------------------------------------
 		std::string GetFunctionGLSLString();
-
-		/// The CachingPolicy determines which nodes should be cached
-		/// The renderer holds the actual caches
-		void BuildCaches(CachingPolicy *policy, GLSLRenderer *renderer);
-
+		//----------------------------------------------------------------------------------
+		/// \brief Build caches
+		/// \param [in] policy Determines which nodes should be cached
+		/// \param [in] renderer Holds the actual caches
+		//----------------------------------------------------------------------------------
+		void BuildCaches( CachingPolicy *policy, GLSLRenderer *renderer );
+		//----------------------------------------------------------------------------------
+		/// \brief Update parameters
+		/// \param [in] renderer
+		//----------------------------------------------------------------------------------
 		void UpdateParameters( GLSLRenderer *renderer );
-
+		//----------------------------------------------------------------------------------
+		/// \brief Get tot number of nodes
+		//----------------------------------------------------------------------------------
 		int GetNumNodes();
-		/// Retrieves the i'th node in a consistent flattened traversal
-		Node* GetNode(int index);
-		int GetNodeDepth(int index);
-
+		//----------------------------------------------------------------------------------
+		/// \brief Retrieves the i'th node in a consistent flattened traversal
+		/// \param [in] index
+		//----------------------------------------------------------------------------------
+		Node* GetNode( int index );
+		//----------------------------------------------------------------------------------
+		/// \brief Get node depth in the tree
+		/// \param [in] index
+		//----------------------------------------------------------------------------------
+		int GetNodeDepth( int index );
+		//----------------------------------------------------------------------------------
+		std::stack< Node* > getReverseTree();
+		//----------------------------------------------------------------------------------
 
 	protected:
 
+
+		//----------------------------------------------------------------------------------
+		/// \brief Root node
+		//----------------------------------------------------------------------------------
 		Node *_rootNode;
-		
+		//----------------------------------------------------------------------------------
+		/// \brief Bounding box extents
+		//----------------------------------------------------------------------------------
 		float *_bboxExtents;
+		//----------------------------------------------------------------------------------
+		/// \brief Bounding box centre
+		//----------------------------------------------------------------------------------
 		float *_bboxCentre;
+		//----------------------------------------------------------------------------------
+		/// \brief Bounding box min
+		//----------------------------------------------------------------------------------
 		float *_bboxBoundsMin;
+		//----------------------------------------------------------------------------------
+		/// \brief Bounding box max
+		//----------------------------------------------------------------------------------
 		float *_bboxBoundsMax;
-
-		/// Recursively builds node tree
-		Node* BuildImportNode(totemio::TotemNode*);
-
-		/// Recursively builds node tree
-		totemio::TotemNode* BuildExportNode(Node *currentNode);
-
-		/// Used as node ID for exporting
+		//----------------------------------------------------------------------------------
+		/// \brief Recursively builds node tree
+		/// \param [in] node
+		//----------------------------------------------------------------------------------
+		Node* BuildImportNode( totemio::TotemNode* );
+		//----------------------------------------------------------------------------------
+		/// \brief Recursively builds node tree
+		/// \param [in] currentNode
+		//----------------------------------------------------------------------------------
+		totemio::TotemNode* BuildExportNode( Node *currentNode );
+		//----------------------------------------------------------------------------------
+		/// \brief Well, I don't know
+		//----------------------------------------------------------------------------------
+		void exportToXML( Node *_currentNode, TiXmlElement *_root );
+		//----------------------------------------------------------------------------------
+		Node* importFromXML( TiXmlElement *_root );
+		//----------------------------------------------------------------------------------
+		/// \brief Used as node ID for exporting
+		//----------------------------------------------------------------------------------
 		unsigned int _exportID;
-
-		/// Returns a string for exporting for when the node's name doesn't matter
+		//----------------------------------------------------------------------------------
+		/// \brief Returns a string for exporting for when the node's name doesn't matter
 		/// Increments _exportID, which should be set to zero when starting to export a new file
+		/// \param [in] currentNode
+		//----------------------------------------------------------------------------------
 		std::string GetExportNodeID( Node *currentNode = NULL );
+		//----------------------------------------------------------------------------------
+
 	};
 
 }
-
 
 #endif /* VOLUMETREE_H_ */

@@ -323,9 +323,6 @@
     <ClInclude Include="..\..\include\GUI\Views\ViewGroups\ScrollContainer.h">
       <Filter>Header Files\GUI\Views\ViewGroups</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\GUI\Views\ViewGroup.h">
-      <Filter>Header Files\GUI\Views\ViewGroups</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Input\Debouncer.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
@@ -394,6 +391,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Audio\AudioManager.h">
       <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\ViewGroups\ViewGroup.h">
+      <Filter>Header Files\GUI\Views\ViewGroups</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
