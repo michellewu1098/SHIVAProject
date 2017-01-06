@@ -35,6 +35,8 @@ namespace VolumeTree
 		void SetScale( float value ) {SetScale(value,value,value);}
 		void SetScale(float x, float y, float z);
 
+		void SetRotation( float rx, float ry , float rz );
+
 		
 		void SetTransformParams(float tx, float ty, float tz, //translate, 0 by default
 								float rx, float ry, float rz, //rotate as euler angles in radians, 0 by default

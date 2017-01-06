@@ -95,6 +95,11 @@ void VolumeTree::TransformNode::SetScale(float x, float y, float z)
 	cml::matrix_scale(_transformMatrix,x,y,z);
 }
 
+void VolumeTree::TransformNode::SetRotation( float rx, float ry, float rz )
+{
+	_rx = -rx; _ry = -ry; _rz = -rz;
+}
+
 void VolumeTree::TransformNode::SetTransformParams(	float tx, float ty, float tz, //translate, 0 by default
 													float rx, float ry, float rz, //rotate as euler angles in radians, 0 by default
 													float sx, float sy, float sz, //scale, 1 by default

@@ -1,7 +1,7 @@
 ///-----------------------------------------------------------------------------------------------
 /// \file TotemObject.h
 /// \brief This is a wrapper for the main objects in the totempole. It is also a doubly-linked list 
-/// \author Leigh McLoughlin
+/// \author Leigh McLoughlin, Michelle Wu
 /// \date Jun 7, 2013
 /// \version 1.0
 ///-----------------------------------------------------------------------------------------------
@@ -24,10 +24,13 @@ namespace Totem
 
 		//----------------------------------------------------------------------------------
 		/// \brief Ctor
+		/// \param [in] mainNodeIn Primitive node
 		//----------------------------------------------------------------------------------
 		Object( VolumeTree::Node* );
 		//----------------------------------------------------------------------------------
 		/// \brief Ctor used when loading a model
+		/// \param [in] mainNodeIn This corresponds to the primitive node
+		/// \param [in] mainTransformIn This is the transform node parent to primitive node
 		//----------------------------------------------------------------------------------
 		Object( VolumeTree::Node*, VolumeTree::TransformNode* );
 		//----------------------------------------------------------------------------------
@@ -37,22 +40,22 @@ namespace Totem
 		//----------------------------------------------------------------------------------
 		~Object();
 		//----------------------------------------------------------------------------------
-		/// \brief Set child
-		/// \param [in] value
+		/// \brief Set child and recalculate offsets
+		/// \param [in] value Child node
 		//----------------------------------------------------------------------------------
 		void SetChild( Object *value ) { _child = value; RecalcOffsets(); }
 		//----------------------------------------------------------------------------------
-		/// \brief Set parent
-		/// \param [in] value
+		/// \brief Set parent and recalculate offsets
+		/// \param [in] value Parent node
 		//----------------------------------------------------------------------------------
 		void SetParent( Object *value ) { _parent = value; RecalcOffsets(); }
 		//----------------------------------------------------------------------------------
-		/// \brief Retrieve child
+		/// \brief Retrieve child of Totem::Object
 		/// \return _child
 		//----------------------------------------------------------------------------------
 		Object* GetChild() const { return _child; }
 		//----------------------------------------------------------------------------------
-		/// \brief Retrieve parent
+		/// \brief Retrieve parent of Totem::Object
 		/// \return _parent
 		//----------------------------------------------------------------------------------
 		Object* GetParent() const { return _parent; }
@@ -65,10 +68,11 @@ namespace Totem
 		void ShiftOrder( bool up, bool swapOffsets = true );
 		//----------------------------------------------------------------------------------
 		/// \brief Useful if you've been shifting objects around
+		//----------------------------------------------------------------------------------
 		Object* GetRoot();
 		//----------------------------------------------------------------------------------
-		/// \brief Retrieves node tree
-		/// \param [in] blendAmount
+		/// \brief Return node tree
+		/// \param [in] blendAmount Amount of blending to be applied globally to model
 		//----------------------------------------------------------------------------------
 		VolumeTree::Node* GetNodeTree( float blendAmount );
 		//----------------------------------------------------------------------------------
@@ -147,10 +151,10 @@ namespace Totem
 		//----------------------------------------------------------------------------------
 		float GetScaleZ() { return _sz; }
 		//----------------------------------------------------------------------------------
-		/// \brief Retrieve translation
-		/// \param [out] x
-		/// \param [out] y
-		/// \param [out] z
+		/// \brief Retrieve translations
+		/// \param [out] x Amount of translation alongside x-axis
+		/// \param [out] y Amount of translation alongside y-axis
+		/// \param [out] z Amount of translation alongside z-axis
 		//----------------------------------------------------------------------------------
 		void GetTranslation( float &x, float &y, float &z ) { x = _tx; y = _ty; z = _tz; }
 		//----------------------------------------------------------------------------------
@@ -162,7 +166,7 @@ namespace Totem
 		//----------------------------------------------------------------------------------
 		float GetBaseOffset();
 		//----------------------------------------------------------------------------------
-		/// \brief Recalculate offset
+		/// \brief Recalculate offsets
 		//----------------------------------------------------------------------------------
 		void RecalcOffsets();
 		//----------------------------------------------------------------------------------

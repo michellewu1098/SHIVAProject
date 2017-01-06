@@ -18,6 +18,20 @@ Totem::Operations::Drill::Drill( float drillSize )
 
 //----------------------------------------------------------------------------------
 
+Totem::Operations::Drill::Drill( VolumeTree::CylinderNode *_shape, VolumeTree::TransformNode *_rotate, VolumeTree::TransformNode *_translate )
+{
+	_drillOpNode = new VolumeTree::CSGNode();
+	_drillOpNode->SetCSGType( VolumeTree::CSGNode::CSG_SUBTRACTION );
+
+	_drillShapeNode = _shape;
+	_drillRotateNode = _rotate;
+	_drillTranslateNode = _translate;
+
+	_drillOpNode->SetChildB( _drillTranslateNode );
+}
+
+//----------------------------------------------------------------------------------
+
 Totem::Operations::Drill::~Drill()
 { }
 

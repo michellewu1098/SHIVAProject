@@ -4,6 +4,7 @@
 
 #include "System/SharedPreferences.h"
 #include "GUIManager.h"
+#include "tinyfiledialogs.h"
 
 //----------------------------------------------------------------------------------
 
@@ -252,20 +253,29 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *handler, Shiva
 		}
 		else if( view->GetID() == "Load" )
 		{
-			std::cout << "Load button pressed" << std::endl;
-			_totemController->DeleteAll();
-			_totemController->SetBlend( _originalBlendingAmount );
-			ResetRotation();
-			RebuildTrees( true );
-			VolumeTree::Tree tmpTree;
+			char const * lFilterPatterns[2] = { "*.xml", "*.vol" };
+			char const* fileName = tinyfd_openFileDialog( "SHIVA Models", "Savefiles/", 2, lFilterPatterns, NULL, 0 );
 			
-			tmpTree.Load("C:/SHIVAProject/shiva-totem/vs/shiva-totem/Savefiles/Totem1.vol");
-			_totemController->loadModel( tmpTree.GetRoot() );
+			if ( !fileName )
+			{
+				tinyfd_messageBox( "Error", "No file selected. Couldn't load anything.", "ok", "error", 1);
+			}
+			else
+			{
+				_totemController->DeleteAll();
+				_totemController->SetBlend( _originalBlendingAmount );
+				ResetRotation();
 			
-			//std::string tmp = tmpTree.GetCachedFunctionGLSLString();
-			//std::cout << "HEY! " << tmp << std::endl;
-			
+				VolumeTree::Tree tmpTree;
 
+				if( tmpTree.Load( fileName ) )
+				{ 
+					_totemController->loadModel( tmpTree.getReverseTree() );
+				    _totemController->SelectTopObject();
+				}
+			
+				RebuildTrees( true );
+			}
 		}
 		else if( view->GetID() == "Save" )
 		{

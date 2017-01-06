@@ -65,3 +65,5 @@ void VolumeTree::CylinderNode::GetBounds( float *minX, float *maxX, float *minY,
 	*minZ = -( _length * 0.5f );
 	*maxZ = _length * 0.5f;
 }
+
+//----------------------------------------------------------------------------------

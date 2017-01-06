@@ -1,9 +1,9 @@
-﻿Build started 22/12/2016 14:19:22.
+﻿Build started 06/01/2017 14:39:44.
      1>Project "C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\shiva-voltree.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\shiva-voltree.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\cml-1_0_2" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_totem" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_metamorph" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\shiva-gui\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D SHIVAVOLTREE_EXPORTS /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\VolumeRenderer\GLSLRenderer.cpp ..\..\src\VolumeRenderer\SpringyVec3.cpp ..\..\src\VolumeTree\CachingPolicies\CachingPolicy.cpp ..\..\src\VolumeTree\Node.cpp ..\..\src\VolumeTree\Nodes\TransformNode.cpp ..\..\src\VolumeTree\VolumeTree.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\cml-1_0_2" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_totem" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_metamorph" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\shiva-gui\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D SHIVAVOLTREE_EXPORTS /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\VolumeTree\Leaves\CubeNode.cpp ..\..\src\VolumeTree\VolumeTree.cpp
          VolumeTree.cpp
      1>c:\shivaproject\include\vol_totem\vol_totem.h(43): warning C4251: 'totemio::TotemNode::m_childNodes' : class 'std::vector<_Ty>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
                  with
@@ -17,13 +17,33 @@
                      _Traits=std::char_traits<char>,
                      _Ax=std::allocator<char>
                  ]
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(298): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(298): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(298): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         CubeNode.cpp
+     1>c:\shivaproject\shiva-voltree\src\volumetree\leaves\cubenode.cpp(34): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\leaves\cubenode.cpp(35): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\leaves\cubenode.cpp(36): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\leaves\cubenode.cpp(37): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\leaves\cubenode.cpp(38): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumetree\leaves\cubenode.cpp(39): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
          Generating Code...
-         Skipping... (no relevant changes detected)
-         TransformNode.cpp
-         Node.cpp
-         CachingPolicy.cpp
-         SpringyVec3.cpp
-         GLSLRenderer.cpp
+     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(69): warning C4715: 'VolumeTree::Tree::Load' : not all control paths return a value
        Lib:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\Debug\shiva-voltree.lib" GLee.lib glu32.lib /LIBPATH:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\glee" /NOLOGO Debug\Node.obj
          Debug\ParameterManager.obj
@@ -48,4 +68,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.29
+Time Elapsed 00:00:03.32

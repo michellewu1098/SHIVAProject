@@ -24,11 +24,21 @@ Totem::Object::Object( VolumeTree::Node *mainNodeIn, VolumeTree::TransformNode *
 
 	_child = _parent = NULL;
 
-	_mainTransform->GetTranslate( _offsetX, _offsetY, _offsetZ );
-
 	_tx = _ty = _tz = 0.0f;
 	_rx = _ry = _rz = 0.0f;
 	_sx = _sy = _sz = 1.0f;
+
+	float junk;
+	// Retrieve translation, rotation and scale info from imported transform node
+	_mainTransform->GetTransformParams( _tx, _ty, _tz, 
+										_rx, _ry, _rz, 
+										_sx, _sy, _sz, 
+										junk, junk, junk, 
+										junk, junk, junk );
+
+	_offsetX = -_tx;
+	_offsetY = -_ty;
+	_offsetZ = 0.0f;
 
 }
 
@@ -218,6 +228,8 @@ void Totem::Object::AddTranslationOffset( float x, float y, float z, bool checkO
 	_offsetX += x;
 	_offsetY += y;
 	_offsetZ += z;
+
+	std::cout << "OffsetX: " << _offsetX << " OffsetY: " << _offsetY << " Offset Z: " << _offsetZ << std::endl;
 	
 	RecalcOffsets();
 	/* // RecalcOffsets() call replaces this part:

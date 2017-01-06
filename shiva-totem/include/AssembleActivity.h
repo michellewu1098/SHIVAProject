@@ -18,6 +18,7 @@
 #include "Totem/TotemController.h"
 #include "VolView.h"
 
+
 class AssembleActivity : public ShivaGUI::Activity
 {
 public:

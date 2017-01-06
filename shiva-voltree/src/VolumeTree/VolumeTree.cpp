@@ -49,53 +49,23 @@ VolumeTree::Tree::~Tree()
 
 //----------------------------------------------------------------------------------
 
-bool VolumeTree::Tree::Load( std::string filename )
+bool VolumeTree::Tree::Load( const char* filename )
 {
-	if( filename.empty() )
+	if( filename && !filename[ 0 ] )
 		return false;
 
 	if( !boost::filesystem::is_regular_file( filename ) )
 	{
-		std::cerr << "WARNING: VolumeTree::Tree cannot find Vol file to load: " << filename << std::endl;
+		std::cerr << "WARNING: VolumeTree::Tree cannot find .xml file to load: " << filename << std::endl;
 		return false;
 	}
 
-	std::cout << "INFO: VolumeTree::Tree Loading from Vol file: " << filename << std::endl;
+	std::cout << "INFO: VolumeTree::Tree Loading from .xml file: " << filename << std::endl;
 
-	
-	// Build up tree
-	totemio::TotemNode *ioNode = NULL;
-
-	bool retVal = openVol( filename.c_str(), &ioNode );
-
-	if( retVal && ioNode != NULL )
+	if( ImportXML( filename ) )
 	{
-		Node *newTree = BuildImportNode( ioNode );
-		if( newTree != NULL )
-		{
-			if( _rootNode != NULL )
-			{
-				delete _rootNode;
-			}
-			_rootNode = newTree;
-
-			//std::stack<Node*> tmp = getReverseTree();			
-
-			return true;
-		}
-		else
-		{
-			std::cerr << "ERROR: BuildImportNode failed to give valid root node from loaded Vol file" << std::endl;
-			return false;
-		}
+		std::cout << "File " << filename << " imported successfully." << std::endl;
 	}
-	else
-	{
-		std::cerr << "ERROR: Failed to load Vol file: " << filename << std::endl;
-		return false;
-	}
-
-	return false;
 }
 
 //----------------------------------------------------------------------------------
@@ -117,7 +87,7 @@ bool VolumeTree::Tree::ImportXML( const char* filename )
 				TiXmlElement* childNode = rootElement->FirstChildElement();
 				if( childNode != NULL ) 
 				{
-					if( childNode->ValueStr() == "CSG" ) // Should be CSG because I need to delete scaling 
+					if( childNode->ValueStr() == "CSG" ) 
 					{
 						newTree =  importFromXML( childNode );
 					}
@@ -133,7 +103,6 @@ bool VolumeTree::Tree::ImportXML( const char* filename )
 			delete _rootNode;
 		}
 		_rootNode = newTree;
-		//std::stack<Node*> tmp = getReverseTree();
 
 		return true;
 	}
@@ -147,7 +116,6 @@ bool VolumeTree::Tree::ImportXML( const char* filename )
 
 VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 {
-
 	if( !_root )
 	{
 		std::cerr << "ERROR: VolumeTree::Tree::importFromXML given a NULL root" << std::endl;
@@ -166,18 +134,22 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 
 			for( TiXmlAttribute *currentAttribute = _root->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 			{
-				if( currentAttribute->Name() == std::string( "Radius" ) || currentAttribute->Name() == std::string( "radius" ) ) 
+				if( currentAttribute->Name() == std::string( "Radius" ) ) 
 				{
-					if( currentAttribute->QueryDoubleValue( &radius ) == TIXML_SUCCESS ) { currentImportTyped->SetRadius( ( float )radius ); }
-					else { std::cerr << "ERROR: Couldn't find attribute \"Radius\" in Cone node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &radius ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"Radius\" in Cone node" << std::endl; return NULL;
+					}
 				}
-				else if( currentAttribute->Name() == std::string( "Height" ) || currentAttribute->Name() == std::string( "height" ) )
+				else if( currentAttribute->Name() == std::string( "Height" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &height ) == TIXML_SUCCESS ) { currentImportTyped->SetLength( ( float )height );; }
-					else { std::cerr << "ERROR: Couldn't find attribute \"Height\" in Cone node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &height ) != TIXML_SUCCESS ) {  
+					std::cerr << "ERROR: Couldn't find attribute \"Height\" in Cone node" << std::endl; return NULL;
+					}
 				}
 			}
 			
+			currentImportTyped->SetRadius( ( float )radius );
+			currentImportTyped->SetLength( ( float )height );
 			currentImport = dynamic_cast< VolumeTree::Node* >( currentImportTyped );
 		}
 	}
@@ -191,23 +163,27 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 
 			for( TiXmlAttribute *currentAttribute = _root->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 			{
-				if( currentAttribute->Name() == std::string( "DimensionX" ) || currentAttribute->Name() == std::string( "dimensionX" ) ) 
+				if( currentAttribute->Name() == std::string( "DimensionX" ) ) 
 				{
-					if( currentAttribute->QueryDoubleValue( &dimX ) == TIXML_SUCCESS ) { currentImportTyped->SetLengthX( ( float )dimX ); }
-					else { std::cerr << "ERROR: Couldn't find attribute \"DimensionX\" in Cube node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &dimX ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"DimensionX\" in Cube node" << std::endl; return NULL;
+					}
 				}
-				else if( currentAttribute->Name() == std::string( "DimensionY" ) || currentAttribute->Name() == std::string( "dimensionY" ) )
+				else if( currentAttribute->Name() == std::string( "DimensionY" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &dimY ) == TIXML_SUCCESS ) { currentImportTyped->SetLengthY( ( float )dimY );; }
-					else { std::cerr << "ERROR: Couldn't find attribute \"DimensionY\" in Cube node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &dimY ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"DimensionY\" in Cube node" << std::endl; return NULL;
+					}
 				}
-				else if( currentAttribute->Name() == std::string( "DimensionZ" ) || currentAttribute->Name() == std::string( "dimensionZ" ) )
+				else if( currentAttribute->Name() == std::string( "DimensionZ" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &dimZ ) == TIXML_SUCCESS ) { currentImportTyped->SetLengthZ( ( float )dimZ );; }
-					else { std::cerr << "ERROR: Couldn't find attribute \"DimensionZ\" in Cube node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &dimZ ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"DimensionZ\" in Cube node" << std::endl; return NULL;
+					}
 				}
 			}
 
+			currentImportTyped->SetLength( ( float )dimX, ( float )dimY, ( float )dimZ ); 
 			currentImport = dynamic_cast< VolumeTree::Node* >( currentImportTyped );
 		}
 	}
@@ -220,23 +196,28 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 
 			for( TiXmlAttribute *currentAttribute = _root->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 			{
-				if( currentAttribute->Name() == std::string( "RadiusX" ) || currentAttribute->Name() == std::string( "radiusX" ) ) 
+				if( currentAttribute->Name() == std::string( "RadiusX" ) ) 
 				{
-					if( currentAttribute->QueryDoubleValue( &radiusX ) == TIXML_SUCCESS ) { currentImportTyped->SetRadiusX( ( float )radiusX ); }
-					else { std::cerr << "ERROR: Couldn't find attribute \"RadiusX\" in Cylinder node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &radiusX ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"RadiusX\" in Cylinder node" << std::endl; return NULL;
+					}
 				}
-				else if( currentAttribute->Name() == std::string( "RadiusY" ) || currentAttribute->Name() == std::string( "radiusY" ) )
+				else if( currentAttribute->Name() == std::string( "RadiusY" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &radiusY ) == TIXML_SUCCESS ) { currentImportTyped->SetRadiusY( ( float )radiusY );; }
-					else { std::cerr << "ERROR: Couldn't find attribute \"RadiusY\" in Cylinder node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &radiusY ) != TIXML_SUCCESS ) { 
+					std::cerr << "ERROR: Couldn't find attribute \"RadiusY\" in Cylinder node" << std::endl; return NULL;
+					}
 				}
-				else if( currentAttribute->Name() == std::string( "Height" ) || currentAttribute->Name() == std::string( "height" ) )
+				else if( currentAttribute->Name() == std::string( "Height" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &height ) == TIXML_SUCCESS ) { currentImportTyped->SetLength( ( float )height );; }
-					else { std::cerr << "ERROR: Couldn't find attribute \"Height\" in Cylinder node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &height ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"Height\" in Cylinder node" << std::endl; return NULL;
+					}
 				}
 			}
 
+			currentImportTyped->SetRadius( ( float )radiusX, ( float )radiusY );
+			currentImportTyped->SetLength( ( float )height );
 			currentImport = dynamic_cast< VolumeTree::Node* >( currentImportTyped );
 		}
 	
@@ -250,29 +231,32 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 
 			for( TiXmlAttribute *currentAttribute = _root->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 			{
-				if( currentAttribute->Name() == std::string( "RadiusX" ) || currentAttribute->Name() == std::string( "radiusX" ) ) 
+				if( currentAttribute->Name() == std::string( "RadiusX" ) ) 
 				{
-					if( currentAttribute->QueryDoubleValue( &dimX ) == TIXML_SUCCESS ) { currentImportTyped->SetRadiusX( ( float )dimX ); }
-					else { std::cerr << "ERROR: Couldn't find attribute \"RadiusX\" in Ellipsoid node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &dimX ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"RadiusX\" in Ellipsoid node" << std::endl; return NULL; 
+					}
 				}
-				else if( currentAttribute->Name() == std::string( "RadiusY" ) || currentAttribute->Name() == std::string( "radiusY" ) )
+				else if( currentAttribute->Name() == std::string( "RadiusY" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &dimY ) == TIXML_SUCCESS ) { currentImportTyped->SetRadiusY( ( float )dimY );; }
-					else { std::cerr << "ERROR: Couldn't find attribute \"RadiusY\" in Ellipsoid node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &dimY ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"RadiusY\" in Ellipsoid node" << std::endl; return NULL; 
+					}
 				}
-				else if( currentAttribute->Name() == std::string( "RadiusZ" ) || currentAttribute->Name() == std::string( "radiusZ" ) )
+				else if( currentAttribute->Name() == std::string( "RadiusZ" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &dimZ ) == TIXML_SUCCESS ) { currentImportTyped->SetRadiusZ( ( float )dimZ );; }
-					else { std::cerr << "ERROR: Couldn't find attribute \"RadiusZ\" in Ellipsoid node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &dimZ ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"RadiusZ\" in Ellipsoid node" << std::endl; return NULL; 
+					}
 				}
 			}
 
+			currentImportTyped->SetRadius( ( float )dimX, ( float )dimY, ( float )dimZ );
 			currentImport = dynamic_cast< VolumeTree::Node* >( currentImportTyped );
 		}
 	}
 	else if( _root->ValueStr() == std::string( "BlendCSG" ) )
 	{
-		std::cout << "BlendCSG"<< std::endl;
 		double a0, a1, a2; 
 		VolumeTree::CSGNode::CSGType csgImportType;
 
@@ -284,18 +268,21 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 			{
 				if( currentAttribute->Name() == std::string( "A0" ) || currentAttribute->Name() == std::string( "a0" ) ) 
 				{
-					if( currentAttribute->QueryDoubleValue( &a0 ) == TIXML_SUCCESS ) { currentImportTyped->SetFirstBlend( ( float )a0 ); }
-					else { std::cerr << "ERROR: Couldn't find attribute \"A0\" in BlendCSG node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &a0 ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"A0\" in BlendCSG node" << std::endl; return NULL; 
+					}
 				}
 				else if( currentAttribute->Name() == std::string( "A1" ) || currentAttribute->Name() == std::string( "a1" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &a1 ) == TIXML_SUCCESS ) { currentImportTyped->SetSecondBlend( ( float )a1 );; }
-					else { std::cerr << "ERROR: Couldn't find attribute \"A1\" in BlendCSG node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &a1 ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"A1\" in BlendCSG node" << std::endl; return NULL; 
+					}
 				}
 				else if( currentAttribute->Name() == std::string( "A2" ) || currentAttribute->Name() == std::string( "a2" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &a2 ) == TIXML_SUCCESS ) { currentImportTyped->SetThirdBlend( ( float )a2 );; }
-					else { std::cerr << "ERROR: Couldn't find attribute \"A2\" in BlendCSG node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &a2 ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"A2\" in BlendCSG node" << std::endl; return NULL; 
+					}
 				}
 				else if( currentAttribute->Name() == std::string( "Type" ) || currentAttribute->Name() == std::string( "type" ) )
 				{
@@ -310,6 +297,8 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 					currentImportTyped->SetCSGType( csgImportType );
 				}
 			}
+
+			currentImportTyped->SetBlendParams( a0, a1, a2 );
 
 			// Recurse children
 			if( _root->NoChildren() )
@@ -328,7 +317,6 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 	}
 	else if( _root->ValueStr() == std::string( "CSG" ) )
 	{
-		std::cout << "CSG" << std::endl;
 		VolumeTree::CSGNode::CSGType csgImportType;
 
 		if( _root->Type() == TiXmlNode::TINYXML_ELEMENT )
@@ -368,11 +356,11 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 	}
 	else if( _root->ValueStr() == std::string( "Transform" ) )
 	{
-		double tx = 0.0f, ty = 0.0f, tz = 0.0f, //translate, 0 by default
-		rx = 0.0f, ry = 0.0f, rz = 0.0f, //rotate as euler angles in radians, 0 by default
-		sx = 1.0f, sy = 1.0f, sz = 1.0f, //scale, 1 by default
-		refrx = 0.0f, refry = 0.0f, refrz = 0.0f, //reference point for rotation, 0 by default
-		refsx = 0.0f, refsy = 0.0f, refsz = 0.0f; //reference point for scale, 0 by default
+		double tx = 0.0f, ty = 0.0f, tz = 0.0f, 
+			   rx = 0.0f, ry = 0.0f, rz = 0.0f, 
+			   sx = 1.0f, sy = 1.0f, sz = 1.0f,
+		       refrx = 0.0f, refry = 0.0f, refrz = 0.0f, 
+			   refsx = 0.0f, refsy = 0.0f, refsz = 0.0f; 
 
 		if( _root->Type() == TiXmlNode::TINYXML_ELEMENT )
 		{
@@ -383,50 +371,65 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 			{
 				if( currentAttribute->Name() == std::string( "transX" ) ) 
 				{
-					if( currentAttribute->QueryDoubleValue( &tx ) == TIXML_SUCCESS ) { currentImportTyped->SetTranslate( ( float )tx, ( float )ty, ( float )tz ); }
-					else { std::cerr << "ERROR: Couldn't find attribute \"transX\" in Transform node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &tx ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"transX\" in Transform node" << std::endl; return NULL; 
+					}
 				}
 				else if( currentAttribute->Name() == std::string( "transY" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &ty ) == TIXML_SUCCESS ) { currentImportTyped->SetTranslate( ( float )tx, ( float )ty, ( float )tz ); }
-					else { std::cerr << "ERROR: Couldn't find attribute \"transY\" in Transform node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &ty ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"transY\" in Transform node" << std::endl; return NULL; 
+					}
 				}
 				else if( currentAttribute->Name() == std::string( "transZ" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &tz ) == TIXML_SUCCESS ) { currentImportTyped->SetTranslate( ( float )tx, ( float )ty, ( float )tz ); }
-					else { std::cerr << "ERROR: Couldn't find attribute \"transZ\" in Transform node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &tz ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"transZ\" in Transform node" << std::endl; return NULL; 
+					}
 				}
 				else if( currentAttribute->Name() == std::string( "angleX" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &rx ) == TIXML_SUCCESS ) { currentImportTyped->SetRotate( ( float )rx, ( float )ry, ( float )rz ); }
-					else { std::cerr << "ERROR: Couldn't find attribute \"angleX\" in Transform node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &rx ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"angleX\" in Transform node" << std::endl; return NULL; 
+					}
 				}
 				else if( currentAttribute->Name() == std::string( "angleY" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &ry ) == TIXML_SUCCESS ) { currentImportTyped->SetRotate( ( float )rx, ( float )ry, ( float )rz ); }
-					else { std::cerr << "ERROR: Couldn't find attribute \"transZ\" in Transform node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &ry ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"angleY\" in Transform node" << std::endl; return NULL; 
+					}
 				}
 				else if( currentAttribute->Name() == std::string( "angleZ" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &rz ) == TIXML_SUCCESS ) { currentImportTyped->SetRotate( ( float )rx, ( float )ry, ( float )rz ); }
-					else { std::cerr << "ERROR: Couldn't find attribute \"angleZ\" in Transform node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &rz ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"angleZ\" in Transform node" << std::endl; return NULL; 
+					}
 				}
 				else if( currentAttribute->Name() == std::string( "scaleX" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &sx ) == TIXML_SUCCESS ) { currentImportTyped->SetScale( ( float )sx, ( float )sy, ( float )sz ); }
-					else { std::cerr << "ERROR: Couldn't find attribute \"scaleX\" in Transform node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &sx ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"scaleX\" in Transform node" << std::endl; return NULL; 
+					}
 				}
 				else if( currentAttribute->Name() == std::string( "scaleY" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &sy ) == TIXML_SUCCESS ) { currentImportTyped->SetScale( ( float )sx, ( float )sy, ( float )sz ); }
-					else { std::cerr << "ERROR: Couldn't find attribute \"scaleY\" in Transform node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &sy ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"scaleY\" in Transform node" << std::endl; return NULL; 
+					}
 				}
 				else if( currentAttribute->Name() == std::string( "scaleZ" ) )
 				{
-					if( currentAttribute->QueryDoubleValue( &sz ) == TIXML_SUCCESS ) { currentImportTyped->SetScale( ( float )sx, ( float )sy, ( float )sz ); }
-					else { std::cerr << "ERROR: Couldn't find attribute \"scaleZ\" in Transform node" << std::endl; return NULL; }
+					if( currentAttribute->QueryDoubleValue( &sz ) != TIXML_SUCCESS ) { 
+						std::cerr << "ERROR: Couldn't find attribute \"scaleZ\" in Transform node" << std::endl; return NULL; 
+					}
 				}
 			}
+
+			currentImportTyped->SetTransformParams( tx, ty, tz, 
+													rx, ry, rz, 
+													sx, sy, sz, 
+													refrx, refry, refrz, 
+													refsx, refsy, refsz );
 
 			// Recursively add child
 			if( _root->NoChildren() ) {
@@ -467,8 +470,6 @@ void VolumeTree::Tree::SaveXML( std::string filename )
 
 	exportToXML( _rootNode, root ); 
 	doc.SaveFile( filename );
-
-	//ImportXML(filename);
 }
 
 
@@ -1393,32 +1394,52 @@ std::string VolumeTree::Tree::GetExportNodeID( Node *currentNode )
 
 //----------------------------------------------------------------------------------
 
-std::stack< VolumeTree::Node* > VolumeTree::Tree::getReverseTree()
+std::queue< VolumeTree::Node* > VolumeTree::Tree::getReverseTree()
 {
 	std::stack< Node* > s;
 	std::queue< Node* > q;
-	q.push( _rootNode );
+	Node* current = _rootNode;
 
-	Node* root; 
-
-	while( q.empty() == false )
+	while( !s.empty() || current )
 	{
-		root = q.front();
-		q.pop();
-		s.push( root );
-
-		Node* leftChild = root->GetFirstChild();
-		Node* rightChild = root->GetNextChild( leftChild );
-		
-		if( rightChild != NULL ){
-			q.push( rightChild );
+		if( current )
+		{
+			s.push( current );
+			current = current->GetFirstChild();
 		}
-
-		if( leftChild != NULL ) {
-			q.push( leftChild );
+		else
+		{
+			current = s.top();
+			s.pop();
+			q.push( current );
+			current = current->GetNextChild( current->GetFirstChild() );
 		}
 	}
+	//std::stack< Node* > s;
+	//std::queue< Node* > q;
+	//q.push( _rootNode );
 
-	delete root;
-	return s;
+	//Node* root; 
+
+	//while( q.empty() == false )
+	//{
+	//	root = q.front();
+	//	q.pop();
+	//	s.push( root );
+
+	//	Node* leftChild = root->GetFirstChild();
+	//	Node* rightChild = root->GetNextChild( leftChild );
+	//	
+	//	if( rightChild != NULL ){
+	//		q.push( rightChild );
+	//	}
+
+	//	if( leftChild != NULL ) {
+	//		q.push( leftChild );
+	//	}
+	//}
+
+	//delete root;
+	//return s;
+	return q;
 }

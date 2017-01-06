@@ -1,7 +1,7 @@
 ///-----------------------------------------------------------------------------------------------
 /// \file TotemController.h
 /// \brief Contains the VolumeTree and provides access to all totempole operations
-/// \author Leigh McLoughlin
+/// \author Leigh McLoughlin, Michelle Wu
 /// \date Jun 7, 2013
 /// \version 1.0
 ///-----------------------------------------------------------------------------------------------
@@ -20,6 +20,7 @@
 #include "VolumeTree/Leaves/CylinderNode.h"
 #include "Totem/TotemObject.h"
 #include "Totem/TotemOperation.h"
+#include "Totem/Operations/TotemOpDrill.h"
 
 namespace Totem
 { 
@@ -76,9 +77,9 @@ namespace Totem
 		void AddObjectNodeToTop( VolumeTree::Node* );
 		//----------------------------------------------------------------------------------
 		/// \brief Function to build up totem from loaded model
-		/// \param [in] nodeIn
+		/// \param [in] treeIn Imported tree stored in std::queue
 		//----------------------------------------------------------------------------------
-		void loadModel( VolumeTree::Node * );
+		void loadModel( std::queue< VolumeTree::Node* > treeIn );
 		//----------------------------------------------------------------------------------
 		/// \brief Select object at top of stack
 		//----------------------------------------------------------------------------------
@@ -115,10 +116,6 @@ namespace Totem
 		/// \brief Delete everything and rebuild pole
 		//----------------------------------------------------------------------------------
 		void DeleteAll();
-		//----------------------------------------------------------------------------------
-		/// \brief Clear everything
-		//----------------------------------------------------------------------------------
-		void Clear();
 		//----------------------------------------------------------------------------------
 		/// \brief Draws a bounding box around the currently selected object, default is true
 		//----------------------------------------------------------------------------------

@@ -100,6 +100,7 @@
     <ClCompile Include="..\..\src\NudgeActivity.cpp" />
     <ClCompile Include="..\..\src\RotateObjectActivity.cpp" />
     <ClCompile Include="..\..\src\ShivaModelManager.cpp" />
+    <ClCompile Include="..\..\src\tinyfiledialogs.cpp" />
     <ClCompile Include="..\..\src\UniformScaleActivity.cpp" />
     <ClCompile Include="..\..\src\VolView.cpp" />
     <ClCompile Include="..\..\src\Totem\TotemController.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="..\..\include\NudgeActivity.h" />
     <ClInclude Include="..\..\include\RotateObjectActivity.h" />
     <ClInclude Include="..\..\include\ShivaModelManager.h" />
+    <ClInclude Include="..\..\include\tinyfiledialogs.h" />
     <ClInclude Include="..\..\include\UniformScaleActivity.h" />
     <ClInclude Include="..\..\include\VolView.h" />
     <ClInclude Include="..\..\include\Totem\TotemController.h" />

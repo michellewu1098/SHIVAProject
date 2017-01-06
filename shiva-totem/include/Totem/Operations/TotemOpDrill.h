@@ -29,6 +29,8 @@ namespace Totem
 			//----------------------------------------------------------------------------------
 			Drill( float drillSize );
 			//----------------------------------------------------------------------------------
+			Drill( VolumeTree::CylinderNode* _shape, VolumeTree::TransformNode* _rotate, VolumeTree::TransformNode* _translate );
+			//----------------------------------------------------------------------------------
 			/// Default dtor. Does not delete its main node
 			//----------------------------------------------------------------------------------
 			~Drill();

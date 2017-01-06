@@ -56,11 +56,15 @@ namespace VolumeTree
 		/// \brief Load .vol file function 
 		/// \param [in] filename
 		//----------------------------------------------------------------------------------
-		bool Load( std::string filename );
+		bool Load( const char* filename );
 		//----------------------------------------------------------------------------------
 		/// \brief Save .xml file (internal format)
+		/// \param [in] filename File name
 		//----------------------------------------------------------------------------------
 		void SaveXML( std::string filename );
+		//----------------------------------------------------------------------------------
+		/// \brief Import model from .xml file
+		/// \param [in] filename File name
 		//----------------------------------------------------------------------------------
 		bool ImportXML( const char* filename );
 		//----------------------------------------------------------------------------------
@@ -137,7 +141,7 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		int GetNodeDepth( int index );
 		//----------------------------------------------------------------------------------
-		std::stack< Node* > getReverseTree();
+		std::queue< Node* > getReverseTree();
 		//----------------------------------------------------------------------------------
 
 	protected:
@@ -174,9 +178,14 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		totemio::TotemNode* BuildExportNode( Node *currentNode );
 		//----------------------------------------------------------------------------------
-		/// \brief Well, I don't know
+		/// \brief Export node tree as .xml file
+		/// \param [in] _currentNode
+		/// \param [in] _root Root element in the xml file 
 		//----------------------------------------------------------------------------------
 		void exportToXML( Node *_currentNode, TiXmlElement *_root );
+		//----------------------------------------------------------------------------------
+		/// \brief Import model from .xml file
+		/// \param [in] _root Root element in the xml file
 		//----------------------------------------------------------------------------------
 		Node* importFromXML( TiXmlElement *_root );
 		//----------------------------------------------------------------------------------

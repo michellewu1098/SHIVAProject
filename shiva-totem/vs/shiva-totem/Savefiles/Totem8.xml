@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<Model>
+    <!--This is the internal format used to save and load models built in SHIVA-->
+    <CSG Type="Union">
+        <CSG Type="Subtraction">
+            <CSG Type="Subtraction">
+                <BlendCSG A0="0.1" A1="1" A2="1" Type="Union">
+                    <Transform transX="0" transY="0" transZ="0.75" angleX="0" angleY="0" angleZ="0" scaleX="1.2" scaleY="1.2" scaleZ="1.2">
+                        <Cube DimensionX="1" DimensionY="0.5" DimensionZ="0.5" />
+                    </Transform>
+                    <BlendCSG A0="0.1" A1="1" A2="1" Type="Union">
+                        <Transform transX="0.4" transY="0" transZ="0.25" angleX="0" angleY="0" angleZ="0" scaleX="0.9" scaleY="1" scaleZ="0.9">
+                            <Cylinder RadiusX="0.25" RadiusY="0.25" Height="0.5" />
+                        </Transform>
+                        <Transform transX="-0.4" transY="0" transZ="0.25" angleX="0" angleY="0" angleZ="0" scaleX="1" scaleY="1" scaleZ="1">
+                            <Cylinder RadiusX="0.25" RadiusY="0.25" Height="0.5" />
+                        </Transform>
+                    </BlendCSG>
+                </BlendCSG>
+                <Transform transX="-0.221398" transY="0.0881805" transZ="0.673282" angleX="-0" angleY="-0" angleZ="-0" scaleX="1" scaleY="1" scaleZ="1">
+                    <Transform transX="-0" transY="-0" transZ="-0" angleX="1.45454" angleY="-0.0471871" angleZ="-0.0419986" scaleX="1" scaleY="1" scaleZ="1">
+                        <Cylinder RadiusX="0.17" RadiusY="0.17" Height="20" />
+                    </Transform>
+                </Transform>
+            </CSG>
+            <Transform transX="0.21271" transY="0.0679779" transZ="0.680376" angleX="-0" angleY="-0" angleZ="-0" scaleX="1" scaleY="1" scaleZ="1">
+                <Transform transX="-0" transY="-0" transZ="-0" angleX="1.45432" angleY="-0.0500828" angleZ="-0.0445663" scaleX="1" scaleY="1" scaleZ="1">
+                    <Cylinder RadiusX="0.17" RadiusY="0.17" Height="20" />
+                </Transform>
+            </Transform>
+        </CSG>
+        <CSG Type="Union">
+            <Transform transX="0" transY="0" transZ="1" angleX="-0" angleY="-0" angleZ="-0" scaleX="1" scaleY="1" scaleZ="1">
+                <Cylinder RadiusX="0.05" RadiusY="0.05" Height="2" />
+            </Transform>
+            <Transform transX="0" transY="0" transZ="-0.05" angleX="-0" angleY="-0" angleZ="-0" scaleX="1" scaleY="1" scaleZ="1">
+                <Cylinder RadiusX="0.5" RadiusY="0.5" Height="0.1" />
+            </Transform>
+        </CSG>
+    </CSG>
+</Model>

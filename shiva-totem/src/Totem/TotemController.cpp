@@ -149,9 +149,98 @@ void Totem::Controller::AddObjectNodeToTop( VolumeTree::Node *nodeIn )
 
 //----------------------------------------------------------------------------------
 
-void Totem::Controller::loadModel( VolumeTree::Node *nodeIn )
+void Totem::Controller::loadModel( std::queue< VolumeTree::Node* > treeIn )
 {
+	// There is probably a better way to do this, but it works so..
+	// BUG: If user saves an empty pole, when loading it, a cylinder object will be created anyway
 
+	VolumeTree::Node* node;
+	std::stack< Totem::Object* > objStack; 
+
+	while( !treeIn.empty() )
+	{
+		 node = treeIn.front();
+		 treeIn.pop();
+
+		 if( node != NULL )
+		 {
+			 std::string nodeType = node->GetNodeType();
+
+			 if( nodeType != "CSGNode" )
+			 {
+				 if( nodeType != "TransformNode" && nodeType != "BlendCSGNode" ) // If node is a primitive
+				 {
+					 VolumeTree::Node* transformNode = treeIn.front(); // Retrieve transform node for primitive
+					 treeIn.pop();
+
+					 if( transformNode->GetNodeType() == "TransformNode" )
+					 {
+						 Totem::Object *newObj = new Totem::Object( node, dynamic_cast< VolumeTree::TransformNode * >( transformNode ) );
+						 objStack.push( newObj );
+					 }
+				 }
+				 else if( nodeType == "BlendCSGNode" )
+				 {
+					 // Need to retrieve blending amount if Pump Operation is used
+					 VolumeTree::BlendCSGNode* blendNode = dynamic_cast< VolumeTree::BlendCSGNode * >( node );
+					 float junk;
+					 blendNode->GetBlendParams( _blendAmount, junk, junk );
+				 }
+			 }
+			 else
+			 {
+				 // This takes care of the global drilling operation
+				 VolumeTree::CSGNode *op = dynamic_cast< VolumeTree::CSGNode * >( node );
+				 if( op != NULL && op->GetCSGType() == VolumeTree::CSGNode::CSG_SUBTRACTION )
+				 {
+					 // Because we know that each drilling operation is made up of a CylinderNode and two TransformNodes we can do this
+					 std::vector< VolumeTree::Node* > drillNodes(3) ;
+					 for( unsigned int i = 0; i < 3; i++ )
+					 {
+						drillNodes[ i ] = treeIn.front();
+						treeIn.pop();
+					 }
+
+					 Totem::Operations::Drill* drillOp = new  Totem::Operations::Drill( dynamic_cast< VolumeTree::CylinderNode* >( drillNodes[ 0 ] ),
+																						dynamic_cast< VolumeTree::TransformNode* >( drillNodes[ 1 ] ),
+																						dynamic_cast< VolumeTree::TransformNode* >( drillNodes[ 2 ] ) );
+					 _operations.push_front( drillOp );
+			     }
+				else
+				{
+					// If it's CSG::UNION, stop while loop here because *following reasoning -> which leads to the bug previously mentioned* model 
+					// objects are on the left branch of the tree with root CSG::UNION
+					break;
+				}
+			 }
+		 }
+	}
+
+	// Now we order the objects on Totem Pole 
+	while( !objStack.empty() )
+	{
+		Totem::Object *obj = objStack.top();
+		objStack.pop();
+		
+		// Get the object translation on z (position on stack) 
+		float tz = 0.0f, junk;
+		obj->GetTranslation( junk, junk, tz );
+
+		if( _objectRoot != NULL )
+		{
+			obj->SetChild( _objectRoot );
+			_objectRoot->SetParent( obj );
+		}
+		
+		_objectRoot = obj;
+		
+		// Recalculate offsetZ: problem is that when RecalcOffsets() is called, the stacked position is calculated as if the objects where stacked one on
+		// top of each other, this obviously led to weird results when loading the models with translations
+		float offsetZ = -tz - _objectRoot->GetStackedPosition();
+		_objectRoot->AddTranslationOffset( 0.0f, 0.0f, offsetZ, false );
+	}
+
+	RebuildPole();
 }
 
 //----------------------------------------------------------------------------------
@@ -277,28 +366,6 @@ void Totem::Controller::DeleteSelectedObject()
 		_objectRoot->RecalcOffsets();
 	}
 	RebuildPole();
-}
-
-//----------------------------------------------------------------------------------
-
-void Totem::Controller::Clear()
-{
-	if( _objectRoot != NULL )
-	{
-		delete _objectRoot;
-	}
-
-	if( _operations.size() > 0 )
-	{
-		for( std::list< Operation* >::iterator it = _operations.begin(); it != _operations.end(); ++it )
-		{
-			delete ( *it );
-		}
-	}
-
-	_operations.clear();
-	_objectRoot = NULL;
-	_selectedObject = NULL;
 }
 
 //----------------------------------------------------------------------------------
