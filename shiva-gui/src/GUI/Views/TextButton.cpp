@@ -35,7 +35,7 @@ void ShivaGUI::TextButton::Inflate(TiXmlElement *xmlElement, ResourceManager *re
 	{
 		if( std::string("text") == currentAttribute->Name() )
 		{
-			_textBody = currentAttribute->Value();
+			_textBody = currentAttribute->ValueStr();
 		}
 		else if( (std::string("font") == currentAttribute->Name()) || (themePrefix+"font" == currentAttribute->Name()) )
 		{

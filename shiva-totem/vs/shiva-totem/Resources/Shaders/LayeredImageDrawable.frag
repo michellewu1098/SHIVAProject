@@ -42,5 +42,5 @@ void main()
 	layer3Result = (layer3Result.x * LayerColour3_0) + (layer3Result.y * LayerColour3_1) + (layer3Result.z * LayerColour3_2) + (layer3Result.w * LayerColour3_3);
 
 
-	gl_FragColor = layer0Result + layer1Result + layer2Result + layer3Result;//vec4(1.0, 0.0, 0.0, 1.0);
+	gl_FragColor = layer0Result + layer1Result + layer2Result + layer3Result; //vec4(1.0, 0.0, 0.0, 1.0);
 }

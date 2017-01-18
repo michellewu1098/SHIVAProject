@@ -1,9 +1,10 @@
-/*
- * BlendCSG.h
- *
- *  Created on: Jun 13, 2013
- *      Author: leigh
- */
+///-----------------------------------------------------------------------------------------------
+/// \file BlendCSG.h
+/// \brief Blend CSG node
+/// \author Leigh McLoughlin
+/// \date Jun 13, 2013
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
 #ifndef BLENDCSG_H_
 #define BLENDCSG_H_
@@ -12,36 +13,88 @@
 
 namespace VolumeTree
 {
-	/// Leaf node for a sphere
 	class BlendCSGNode : public CSGNode
 	{
 	public:
+
+		//----------------------------------------------------------------------------------
+		/// \brief Default ctor
+		//----------------------------------------------------------------------------------
 		BlendCSGNode();
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor passing childA and childB of blend CSG node
+		/// \param [in] childA
+		/// \param [in] childB
+		//----------------------------------------------------------------------------------
 		BlendCSGNode( Node *childA, Node *childB );
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor
+		//----------------------------------------------------------------------------------
 		virtual ~BlendCSGNode();
-		
+		//----------------------------------------------------------------------------------
+		/// \brief Get node type
+		/// \return "BlendCSGNode"
+		//----------------------------------------------------------------------------------
 		virtual std::string GetNodeType() { return "BlendCSGNode"; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get blending parameters
+		/// \param [out] a0
+		/// \param [out] a1
+		/// \param [out] a2
+		//----------------------------------------------------------------------------------
 		void GetBlendParams( float &a0, float &a1, float &a2 ) { a0 = _a0; a1 = _a1; a2 = _a2; }
-		void SetBlendParams( float a0, float a1, float a2 ) { _a0 = a0; _a1 = a1; _a2 = a2; }
-		
-		void SetFirstBlend( const float &a0 ) { _a0 = a0; }
-		void SetSecondBlend( const float &a1 ) { _a1 = a1; }
-		void SetThirdBlend( const float &a2 ) { _a2 = a2; }
-
-		/// Samples the function at a specific point
-		float GetFunctionValue(float x, float y, float z);
-
-		/// Returns a GLSL-compatible string for the function
-		std::string GetFunctionGLSLString(bool callCache, std::string samplePosStr);
-
-
-		virtual unsigned int GetNodeCost() {return 4;}
-
-		// TODO
-		virtual void GetBounds(float *minX,float *maxX, float *minY,float *maxY, float *minZ,float *maxZ);
+		//----------------------------------------------------------------------------------
+		/// \brief Set blending parameters
+		/// \param [in] a0
+		/// \param [in] a1
+		/// \param [in] a2
+		//----------------------------------------------------------------------------------
+		void SetBlendParams( const float &a0, const float &a1, const float &a2 ) { _a0 = a0; _a1 = a1; _a2 = a2; }
+		//----------------------------------------------------------------------------------
+		/// \brief Samples the function at a specific point
+		/// \param [in] x X coord
+		/// \param [in] y Y coord
+		/// \param [in] z Z coord
+		//----------------------------------------------------------------------------------
+		float GetFunctionValue( float x, float y, float z );
+		//----------------------------------------------------------------------------------
+		/// \brief Returns a GLSL-compatible string for the function
+		/// \param [in] callCache
+		/// \param [in] samplePosStr 
+		//----------------------------------------------------------------------------------
+		std::string GetFunctionGLSLString( bool callCache, std::string samplePosStr );
+		//----------------------------------------------------------------------------------
+		/// \brief Get node constant
+		/// \return 4
+		//----------------------------------------------------------------------------------
+		virtual unsigned int GetNodeCost() { return 4; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get boundaries
+		/// \param [out] minX
+		/// \param [out] maxX
+		/// \param [out] minY
+		/// \param [out] maxY
+		/// \param [out] minZ
+		/// \param [out] maxZ
+		//----------------------------------------------------------------------------------
+		virtual void GetBounds( float *minX, float *maxX, float *minY, float *maxY, float *minZ, float *maxZ );
+		//----------------------------------------------------------------------------------
 
 	protected:
-		float _a0, _a1, _a2;
+
+		//----------------------------------------------------------------------------------
+		/// \brief First blending param
+		//----------------------------------------------------------------------------------
+		float _a0;
+		//----------------------------------------------------------------------------------
+		/// \brief Second blending param
+		//----------------------------------------------------------------------------------
+		float _a1;
+		//----------------------------------------------------------------------------------
+		/// \brief Third blending param
+		//----------------------------------------------------------------------------------
+		float _a2;
+		//----------------------------------------------------------------------------------
 	};
 
 }

@@ -138,7 +138,7 @@
 		layout_centreX="0.7"
 		layout_centreY="0.9"
 		onClick="buttonHandler"
-		text="reset view"
+		text="reset&#10;view"
 		/>
 
 

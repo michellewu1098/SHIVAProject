@@ -33,7 +33,12 @@ Totem::Operations::Drill::Drill( VolumeTree::CylinderNode *_shape, VolumeTree::T
 //----------------------------------------------------------------------------------
 
 Totem::Operations::Drill::~Drill()
-{ }
+{
+	//delete _drillOpNode;
+	//delete _drillShapeNode;
+	//delete _drillTranslateNode;
+	//delete _drillRotateNode;
+}
 
 //----------------------------------------------------------------------------------
 

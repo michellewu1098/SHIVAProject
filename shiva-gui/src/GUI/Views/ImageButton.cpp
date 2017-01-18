@@ -4,7 +4,6 @@
 #include "GUIManager.h"
 #include "ResourceManager.h"
 
-//////////////////////////////////////////////////////////////////////////
 #include <GL/GLee.h>
 #include <iostream>
 #include <cmath>
@@ -12,6 +11,8 @@
 #ifndef PI
 #define PI 3.141592653589793238462643383279502884
 #endif
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::ImageButton::ImageButton()
 {
@@ -56,6 +57,8 @@ ShivaGUI::ImageButton::ImageButton()
 	_toggleActiveState = false;
 }
 
+//----------------------------------------------------------------------------------
+
 ShivaGUI::ImageButton::~ImageButton()
 {
 	delete _stateListDrawable;
@@ -66,7 +69,9 @@ ShivaGUI::ImageButton::~ImageButton()
 	delete _audio_hoverEnter;
 }
 
-void ShivaGUI::ImageButton::Update(float deltaTs, GUIController *guiController)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ImageButton::Update( float deltaTs, GUIController *guiController )
 {
 	if( _gazeRestIssueEvent )
 	{
@@ -92,10 +97,10 @@ void ShivaGUI::ImageButton::Update(float deltaTs, GUIController *guiController)
 			{
 				if( _gazeIsPressing )
 				{
-					if( _gazeDwellTimer > (_gazeDwellToSelectTime + _gazePressTime) )
+					if( _gazeDwellTimer > ( _gazeDwellToSelectTime + _gazePressTime ) )
 					{
 						// deselect the button (activates its callback on deselect)
-						SetSelect(false);
+						SetSelect( false );
 						//_hasGaze = false;
 						if( _gazeRepeat )
 						{
@@ -107,7 +112,7 @@ void ShivaGUI::ImageButton::Update(float deltaTs, GUIController *guiController)
 				else
 				{
 					// select the button
-					SetSelect(true);
+					SetSelect( true );
 					_gazeIsPressing = true;
 				}
 			}
@@ -121,6 +126,8 @@ void ShivaGUI::ImageButton::Update(float deltaTs, GUIController *guiController)
 		}
 	}
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::ImageButton::Draw()
 {
@@ -145,81 +152,83 @@ void ShivaGUI::ImageButton::Draw()
 	}
 }
 
-void ShivaGUI::ImageButton::Inflate(TiXmlElement *xmlElement, ResourceManager *resources, std::string themePrefix, bool rootNode )
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ImageButton::Inflate( TiXmlElement *xmlElement, ResourceManager *resources, std::string themePrefix, bool rootNode )
 {
 	if( themePrefix.empty() )
 		themePrefix = "ImageButton_";
-	View::Inflate(xmlElement,resources,themePrefix,rootNode);
+	View::Inflate( xmlElement, resources, themePrefix, rootNode );
 
 	for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 	{
-		if( (std::string("drawable") == currentAttribute->Name()) || (themePrefix+"drawable" == currentAttribute->Name())  )
+		if( ( std::string( "drawable" ) == currentAttribute->Name() ) || ( themePrefix + "drawable" == currentAttribute->Name() )  )
 		{
-			_genDrawableFromTheme = (themePrefix+"drawable" == currentAttribute->Name());
+			_genDrawableFromTheme = ( themePrefix + "drawable" == currentAttribute->Name() );
 
 			std::string resourceName( resources->GetInflationAttribute( currentAttribute->Value() ) );
 
 			// Retrieve resource and store it as correct type
 			Drawable *drawable = resources->GetDrawable( resourceName );
-			_stateListDrawable = dynamic_cast<StateListDrawable*>(drawable);
+			_stateListDrawable = dynamic_cast< StateListDrawable* >( drawable );
 			if( _stateListDrawable == NULL )
 				_generalDrawable = drawable;
 		}
-		else if( (std::string("src") == currentAttribute->Name()) || (themePrefix+"src" == currentAttribute->Name()) )
+		else if( ( std::string( "src" ) == currentAttribute->Name() ) || ( themePrefix + "src" == currentAttribute->Name() ) )
 		{
-			_contentDrawableFromTheme = (themePrefix+"src" == currentAttribute->Name());
+			_contentDrawableFromTheme = ( themePrefix + "src" == currentAttribute->Name() );
 
 			std::string resourceName( resources->GetInflationAttribute( currentAttribute->Value() ) );
 
 			// Retrieve resource and store it as correct type
 			Drawable *drawable = resources->GetDrawable( resourceName );
-			SetContent(drawable);
+			SetContent( drawable );
 		}
-		else if( (std::string("scaleContent") == currentAttribute->Name()) || (themePrefix+"scaleContent" == currentAttribute->Name()) )
+		else if( ( std::string( "scaleContent" ) == currentAttribute->Name() ) || ( themePrefix + "scaleContent" == currentAttribute->Name() ) )
 		{
 			std::string value = currentAttribute->Value();
-			_setContentScaleUp = (value == "true" || value == "1" || value == "yes");
+			_setContentScaleUp = ( value == "true" || value == "1" || value == "yes" );
 
 			if( _contentGenDrawable != NULL )
 			{
-				BitmapDrawable *bitmapContent = dynamic_cast<BitmapDrawable*>(_contentGenDrawable);
+				BitmapDrawable *bitmapContent = dynamic_cast< BitmapDrawable* >( _contentGenDrawable );
 				if( bitmapContent != NULL )
 				{
 
-					bitmapContent->SetScaleup( (value == "true" || value == "1" || value == "yes") );
+					bitmapContent->SetScaleup( ( value == "true" || value == "1" || value == "yes" ) );
 				}
 			}
 		}
-		else if( (std::string("keepContentAspectRatio") == currentAttribute->Name()) || (themePrefix+"keepContentAspectRatio" == currentAttribute->Name()) )
+		else if( ( std::string( "keepContentAspectRatio" ) == currentAttribute->Name() ) || ( themePrefix + "keepContentAspectRatio" == currentAttribute->Name() ) )
 		{
 			std::string value = currentAttribute->Value();
-			_setContentAspectRatio = (value == "true" || value == "1" || value == "yes");
+			_setContentAspectRatio = ( value == "true" || value == "1" || value == "yes" );
 
 			if( _contentGenDrawable != NULL )
 			{
-				BitmapDrawable *bitmapContent = dynamic_cast<BitmapDrawable*>(_contentGenDrawable);
+				BitmapDrawable *bitmapContent = dynamic_cast< BitmapDrawable* >( _contentGenDrawable );
 				if( bitmapContent != NULL )
 				{
 
-					bitmapContent->SetScaleKeepAspectRatio( (value == "true" || value == "1" || value == "yes") );
+					bitmapContent->SetScaleKeepAspectRatio( ( value == "true" || value == "1" || value == "yes" ) );
 				}
 			}
 		}
-		else if( std::string("onClick") == currentAttribute->Name() )
+		else if( std::string( "onClick" ) == currentAttribute->Name() )
 		{
 			_clickListenerName = currentAttribute->Value();
 
 			// Retrieve listener
-			ViewEventListener *listener = resources->GetListener(_clickListenerName);
+			ViewEventListener *listener = resources->GetListener( _clickListenerName );
 			if( listener != NULL )
 				_clickListener = listener;
 		}
-		else if( (std::string("audio_pressStart") == currentAttribute->Name()) || (themePrefix+"audio_pressStart" == currentAttribute->Name()) )
+		else if( ( std::string( "audio_pressStart" ) == currentAttribute->Name() ) || ( themePrefix + "audio_pressStart" == currentAttribute->Name() ) )
 		{
 			std::string clipName = resources->GetInflationAttribute( currentAttribute->Value() );
-			_audio_pressStart = resources->GetAudioClip(clipName);
+			_audio_pressStart = resources->GetAudioClip( clipName );
 		}
-		else if( (std::string("audio_releaseStop") == currentAttribute->Name()) || (themePrefix+"audio_releaseStop" == currentAttribute->Name()) )
+		else if( ( std::string( "audio_releaseStop" ) == currentAttribute->Name() ) || ( themePrefix + "audio_releaseStop" == currentAttribute->Name() ) )
 		{
 			std::string value = currentAttribute->Value();
 			if( value == "true" || value == "1" || value == "yes" )
@@ -231,17 +240,17 @@ void ShivaGUI::ImageButton::Inflate(TiXmlElement *xmlElement, ResourceManager *r
 				_audio_releaseStop = false;
 			}
 		}
-		else if( (std::string("toggle_button") == currentAttribute->Name()) )
+		else if( ( std::string( "toggle_button" ) == currentAttribute->Name() ) )
 		{
 			std::string value = currentAttribute->Value();
 			_useToggleActive = ( value == "true" || value == "1" || value == "yes" );
 		}
-		else if( (std::string("audio_hoverEnter") == currentAttribute->Name()) || (themePrefix+"audio_hoverEnter" == currentAttribute->Name()) )
+		else if( ( std::string( "audio_hoverEnter" ) == currentAttribute->Name() ) || ( themePrefix + "audio_hoverEnter" == currentAttribute->Name() ) )
 		{
 			std::string clipName = resources->GetInflationAttribute( currentAttribute->Value() );
-			_audio_hoverEnter = resources->GetAudioClip(clipName);
+			_audio_hoverEnter = resources->GetAudioClip( clipName );
 		}
-		else if( (std::string("eyeGaze_enable") == currentAttribute->Name()) || (themePrefix+"eyeGaze_enable" == currentAttribute->Name()) )
+		else if( ( std::string( "eyeGaze_enable" ) == currentAttribute->Name() ) || ( themePrefix + "eyeGaze_enable" == currentAttribute->Name() ) )
 		{
 			std::string value = currentAttribute->Value();
 			if( value == "true" || value == "1" || value == "yes" )
@@ -259,23 +268,23 @@ void ShivaGUI::ImageButton::Inflate(TiXmlElement *xmlElement, ResourceManager *r
 				}
 			}
 		}
-		else if( (std::string("eyeGaze_DwellToSelectTime") == currentAttribute->Name()) || (themePrefix+"eyeGaze_DwellToSelectTime" == currentAttribute->Name()) )
+		else if( ( std::string( "eyeGaze_DwellToSelectTime" ) == currentAttribute->Name() ) || ( themePrefix + "eyeGaze_DwellToSelectTime" == currentAttribute->Name() ) )
 		{
-			_gazeDwellToSelectTime = (float) currentAttribute->DoubleValue();
+			_gazeDwellToSelectTime = ( float )currentAttribute->DoubleValue();
 		}
-		else if( (std::string("eyeGaze_WanderTime") == currentAttribute->Name()) || (themePrefix+"eyeGaze_WanderTime" == currentAttribute->Name()) )
+		else if( ( std::string( "eyeGaze_WanderTime" ) == currentAttribute->Name() ) || ( themePrefix + "eyeGaze_WanderTime" == currentAttribute->Name() ) )
 		{
-			_gazeMaxWanderTime = (float) currentAttribute->DoubleValue();
+			_gazeMaxWanderTime = ( float ) currentAttribute->DoubleValue();
 		}
-		else if( (std::string("eyeGaze_PressTime") == currentAttribute->Name()) || (themePrefix+"eyeGaze_PressTime" == currentAttribute->Name()) )
+		else if( ( std::string( "eyeGaze_PressTime" ) == currentAttribute->Name() ) || ( themePrefix + "eyeGaze_PressTime" == currentAttribute->Name() ) )
 		{
 			_gazePressTime = (float) currentAttribute->DoubleValue();
 		}
-		else if( (std::string("eyeGaze_CircleSize") == currentAttribute->Name()) || (themePrefix+"eyeGaze_CircleSize" == currentAttribute->Name()) )
+		else if( ( std::string( "eyeGaze_CircleSize" ) == currentAttribute->Name() ) || ( themePrefix + "eyeGaze_CircleSize" == currentAttribute->Name() ) )
 		{
-			_gazeDwellCircleSize = (float) currentAttribute->DoubleValue();
+			_gazeDwellCircleSize = ( float ) currentAttribute->DoubleValue();
 		}
-		else if( (std::string("eyeGaze_RestButton") == currentAttribute->Name()) )
+		else if( ( std::string( "eyeGaze_RestButton" ) == currentAttribute->Name() ) )
 		{
 			std::string value = currentAttribute->Value();
 			if( value == "true" || value == "1" || value == "yes" )
@@ -292,9 +301,9 @@ void ShivaGUI::ImageButton::Inflate(TiXmlElement *xmlElement, ResourceManager *r
 				_gazeIsRestButton = false;
 			}
 		}
-		else if( (std::string("eyeGaze_Repeat") == currentAttribute->Name()) || (themePrefix+"eyeGaze_Repeat" == currentAttribute->Name()) )
+		else if( ( std::string( "eyeGaze_Repeat" ) == currentAttribute->Name() ) || ( themePrefix + "eyeGaze_Repeat" == currentAttribute->Name() ) )
 		{
-			_gazeRepeatFromTheme = themePrefix+"eyeGaze_Repeat" == currentAttribute->Name();
+			_gazeRepeatFromTheme = themePrefix + "eyeGaze_Repeat" == currentAttribute->Name();
 			std::string value = currentAttribute->Value();
 			if( value == "true" || value == "1" || value == "yes" )
 			{
@@ -309,10 +318,12 @@ void ShivaGUI::ImageButton::Inflate(TiXmlElement *xmlElement, ResourceManager *r
 	}
 }
 
-TiXmlElement* ShivaGUI::ImageButton::Deflate(ResourceManager *resources)
+//----------------------------------------------------------------------------------
+
+TiXmlElement* ShivaGUI::ImageButton::Deflate( ResourceManager *resources )
 {
-	TiXmlElement *xmlNode = View::Deflate(resources);
-	xmlNode->SetValue("ImageButton");
+	TiXmlElement *xmlNode = View::Deflate( resources );
+	xmlNode->SetValue( "ImageButton" );
 
 	// We only need to output parameters which were *not* given to us via a theme
 
@@ -331,7 +342,7 @@ TiXmlElement* ShivaGUI::ImageButton::Deflate(ResourceManager *resources)
 		// The drawable might have been generated rather than loaded from file, so only output if we have a filename to give
 		if( !srcFilename.empty() )
 		{
-			xmlNode->SetAttribute("drawable", srcFilename);
+			xmlNode->SetAttribute( "drawable", srcFilename );
 		}
 	}
 
@@ -350,41 +361,43 @@ TiXmlElement* ShivaGUI::ImageButton::Deflate(ResourceManager *resources)
 		// The source might have been generated rather than loaded from file, so only output if we have a filename to give
 		if( !srcFilename.empty() )
 		{
-			std::cout<<"INFO: ImageButton deflate: filename contains: "<<srcFilename<<std::endl;
-			xmlNode->SetAttribute("src",srcFilename );
+			std::cout << "INFO: ImageButton deflate: filename contains: " << srcFilename << std::endl;
+			xmlNode->SetAttribute( "src", srcFilename );
 		}
 	}
 	
 	if( _gazeIsRestButton )
 	{
-		xmlNode->SetAttribute("eyeGaze_RestButton", "true");
+		xmlNode->SetAttribute( "eyeGaze_RestButton", "true" );
 	}
 
 	if( _gazeRepeat && !_gazeRepeatFromTheme )
 	{
-		xmlNode->SetAttribute("eyeGaze_Repeat", "true");
+		xmlNode->SetAttribute( "eyeGaze_Repeat", "true" );
 	}
 
 	if( !_clickListenerName.empty() )
 	{
-		xmlNode->SetAttribute("onClick", _clickListenerName );
+		xmlNode->SetAttribute( "onClick", _clickListenerName );
 	}
 
 	if( _useToggleActive )
 	{
-		xmlNode->SetAttribute("toggle_button", "true" );
+		xmlNode->SetAttribute( "toggle_button", "true" );
 	}
 
 	return xmlNode;
 }
 
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::ImageButton::SetContent( Drawable *drawable )
 {
-	_contentStateListDrawable = dynamic_cast<StateListDrawable*>(drawable);
+	_contentStateListDrawable = dynamic_cast< StateListDrawable* >( drawable );
 	if( _contentStateListDrawable == NULL )
 		_contentGenDrawable = drawable;
 
-	BitmapDrawable *bitmapContent = dynamic_cast<BitmapDrawable*>(_contentGenDrawable);
+	BitmapDrawable *bitmapContent = dynamic_cast< BitmapDrawable* >( _contentGenDrawable );
 	if( bitmapContent != NULL )
 	{
 		if( _setContentScaleUp >= 0 )
@@ -394,6 +407,8 @@ void ShivaGUI::ImageButton::SetContent( Drawable *drawable )
 			bitmapContent->SetScaleKeepAspectRatio( _setContentAspectRatio != 0 );
 	}
 }
+
+//----------------------------------------------------------------------------------
 
 int ShivaGUI::ImageButton::GetWrapWidth()
 {
@@ -422,6 +437,8 @@ int ShivaGUI::ImageButton::GetWrapWidth()
 	return 0;
 }
 
+//----------------------------------------------------------------------------------
+
 int ShivaGUI::ImageButton::GetWrapHeight()
 {
 	int contentHeight = 0;
@@ -449,10 +466,13 @@ int ShivaGUI::ImageButton::GetWrapHeight()
 	return 0;
 }
 
+//----------------------------------------------------------------------------------
+
 /// For setting the focus of this View
 /// If focussed, it is expected that the view will show this visually
 /// and then allow other forms of input to be received, e.g. 'enter' button pressed etc
-void ShivaGUI::ImageButton::SetFocus(bool value)
+
+void ShivaGUI::ImageButton::SetFocus( bool value )
 {
 	if( _focussed == true && value == false )
 	{
@@ -462,7 +482,9 @@ void ShivaGUI::ImageButton::SetFocus(bool value)
 	SetStateDrawable();
 }
 
-void ShivaGUI::ImageButton::SetSelect(bool value)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ImageButton::SetSelect( bool value )
 {
 	if( _pressed == false && value == true )
 	{
@@ -480,7 +502,7 @@ void ShivaGUI::ImageButton::SetSelect(bool value)
 	{
 		// Release
 		if( _clickListener != NULL ) {
-			_clickListener->HandleEvent(this);
+			_clickListener->HandleEvent( this );
 		}
 
 		if( _gazeIsRestButton && _usingEyeGaze )
@@ -499,7 +521,9 @@ void ShivaGUI::ImageButton::SetSelect(bool value)
 	SetStateDrawable();
 }
 
-bool ShivaGUI::ImageButton::HandleEvent(InternalEvent *currentEvent)
+//----------------------------------------------------------------------------------
+
+bool ShivaGUI::ImageButton::HandleEvent( InternalEvent *currentEvent )
 {
 	if( _active && _visible )
 	{
@@ -517,22 +541,22 @@ bool ShivaGUI::ImageButton::HandleEvent(InternalEvent *currentEvent)
 				_usingEyeGaze = false;
 			}
 		}
-		if( (currentEvent->GetType() == InternalEvent::POSITIONAL_DRAG) && (!_pressed) && (!_hover) )
+		if( ( currentEvent->GetType() == InternalEvent::POSITIONAL_DRAG ) && ( !_pressed ) && ( !_hover ) )
 		{
-			int mouseX,mouseY;
-			currentEvent->GetPosition(mouseX,mouseY);
-			if( MouseHit(mouseX,mouseY) )
+			int mouseX, mouseY;
+			currentEvent->GetPosition( mouseX, mouseY );
+			if( MouseHit( mouseX, mouseY ) )
 			{
 				// This is a hover enter
 				_hover = true;
 				return OnHoverEnter();
 			}
 		}
-		if( (currentEvent->GetType() == InternalEvent::POSITIONAL_DRAG) && (!_pressed) && (_hover) )
+		if( ( currentEvent->GetType() == InternalEvent::POSITIONAL_DRAG ) && ( !_pressed ) && ( _hover ) )
 		{
-			int mouseX,mouseY;
-			currentEvent->GetPosition(mouseX,mouseY);
-			if( !MouseHit(mouseX,mouseY) )
+			int mouseX, mouseY;
+			currentEvent->GetPosition( mouseX, mouseY );
+			if( !MouseHit( mouseX, mouseY ) )
 			{
 				// This is a hover exit
 				_hover = false;
@@ -541,11 +565,11 @@ bool ShivaGUI::ImageButton::HandleEvent(InternalEvent *currentEvent)
 		}
 		else if( currentEvent->GetType() == InternalEvent::POSITIONAL_SELECT )
 		{
-			int mouseX,mouseY;
-			currentEvent->GetPosition(mouseX,mouseY);
-			if( MouseHit(mouseX,mouseY) )
+			int mouseX, mouseY;
+			currentEvent->GetPosition( mouseX, mouseY );
+			if( MouseHit( mouseX, mouseY ) )
 			{
-				SetSelect(true);
+				SetSelect( true );
 				return true;
 			}
 		}
@@ -555,52 +579,52 @@ bool ShivaGUI::ImageButton::HandleEvent(InternalEvent *currentEvent)
 			//currentEvent->GetPosition(mouseX,mouseY);
 			if( _pressed == true ) //MouseHit(mouseX,mouseY) )
 			{
-				SetSelect(false);
+				SetSelect( false );
 				return true;
 			}
 		}
 		else if( currentEvent->GetType() == InternalEvent::FIRSTFOCUS && _isFirstFocus && !_focussed )
 		{
-			SetFocus(true);
+			SetFocus( true );
 			return true;
 		}
 		else if( currentEvent->GetType() == InternalEvent::NEXTFOCUS_RIGHT && _focussed )
 		{
-			View *nextFocus = GetNextFocus(Definitions::Right);
+			View *nextFocus = GetNextFocus( Definitions::Right );
 			if( nextFocus != NULL )
 			{
-				SetFocus(false);
-				nextFocus->SetFocus(true);
+				SetFocus( false );
+				nextFocus->SetFocus( true );
 			}
 			return true;
 		}
 		else if( currentEvent->GetType() == InternalEvent::NEXTFOCUS_LEFT && _focussed )
 		{
-			View *nextFocus = GetNextFocus(Definitions::Left);
+			View *nextFocus = GetNextFocus( Definitions::Left );
 			if( nextFocus != NULL )
 			{
-				SetFocus(false);
-				nextFocus->SetFocus(true);
+				SetFocus( false );
+				nextFocus->SetFocus( true );
 			}
 			return true;
 		}
 		else if( currentEvent->GetType() == InternalEvent::NEXTFOCUS_UP && _focussed )
 		{
-			View *nextFocus = GetNextFocus(Definitions::Up);
+			View *nextFocus = GetNextFocus( Definitions::Up );
 			if( nextFocus != NULL )
 			{
-				SetFocus(false);
-				nextFocus->SetFocus(true);
+				SetFocus( false );
+				nextFocus->SetFocus( true );
 			}
 			return true;
 		}
 		else if( currentEvent->GetType() == InternalEvent::NEXTFOCUS_DOWN && _focussed )
 		{
-			View *nextFocus = GetNextFocus(Definitions::Down);
+			View *nextFocus = GetNextFocus( Definitions::Down );
 			if( nextFocus != NULL )
 			{
-				SetFocus(false);
-				nextFocus->SetFocus(true);
+				SetFocus( false );
+				nextFocus->SetFocus( true );
 			}
 			return true;
 		}
@@ -613,7 +637,7 @@ bool ShivaGUI::ImageButton::HandleEvent(InternalEvent *currentEvent)
 		else if( currentEvent->GetType() == InternalEvent::FOCUS_SELECT_HOLD && _pressed )
 		{
 			if( _clickListener != NULL )
-				_clickListener->HandleEvent(this);
+				_clickListener->HandleEvent( this );
 			SetStateDrawable();
 			return true;
 		}
@@ -621,11 +645,11 @@ bool ShivaGUI::ImageButton::HandleEvent(InternalEvent *currentEvent)
 		{
 			_pressed = false;
 			if( _clickListener != NULL )
-				_clickListener->HandleEvent(this);
+				_clickListener->HandleEvent( this );
 			SetStateDrawable();
 			return true;
 		}
-		else if( currentEvent->GetType() == InternalEvent::FOCUS_DESELECT && (_pressed || _focussed) )
+		else if( currentEvent->GetType() == InternalEvent::FOCUS_DESELECT && ( _pressed || _focussed ) )
 		{
 			_pressed = false;
 			_focussed = false;
@@ -634,51 +658,54 @@ bool ShivaGUI::ImageButton::HandleEvent(InternalEvent *currentEvent)
 		}
 		else if( currentEvent->GetType() == InternalEvent::SCAN_FIRSTFOCUS && _isFirstScan && !_focussed )
 		{
-			SetFocus(true);
+			SetFocus( true );
 			return true;
 		}
 		else if( currentEvent->GetType() == InternalEvent::SCAN_NEXTFOCUS && _focussed )
 		{
-			View *nextFocus = GetNextScan(true);
+			View *nextFocus = GetNextScan( true );
 			if( nextFocus != NULL )
 			{
-				SetFocus(false);
-				nextFocus->SetFocus(true);
+				SetFocus( false );
+				nextFocus->SetFocus( true );
 			}
 			return true;
 		}
 		else if( currentEvent->GetType() == InternalEvent::SCAN_PREVFOCUS && _focussed )
 		{
-			View *nextFocus = GetNextScan(false);
+			View *nextFocus = GetNextScan( false );
 			if( nextFocus != NULL )
 			{
-				SetFocus(false);
-				nextFocus->SetFocus(true);
+				SetFocus( false );
+				nextFocus->SetFocus( true );
 			}
 			return true;
 		}
 		else if( currentEvent->GetType() == InternalEvent::SCAN_HIGHLIGHTFOCUS && _focussed )
 		{
-			SetSelect(true);
+			SetSelect( true );
 			return true;
 		}
 		else if( currentEvent->GetType() == InternalEvent::SCAN_SELECTFOCUS && _pressed )
 		{
-			SetSelect(false);
+			SetSelect( false );
 			return true;
 		}
 	}
 	return false;
 }
 
+//----------------------------------------------------------------------------------
 
-bool ShivaGUI::ImageButton::MouseHit(int mouseX, int mouseY)
+bool ShivaGUI::ImageButton::MouseHit( int mouseX, int mouseY )
 {
-	float halfSizeX = _sizeX/2.0f;
-	float halfSizeY = _sizeY/2.0f;
-	return (mouseX < _centreX+halfSizeX) && (mouseX > _centreX-halfSizeX)
-		&& (mouseY < _centreY+halfSizeY) && (mouseY > _centreY-halfSizeY);
+	float halfSizeX = _sizeX / 2.0f;
+	float halfSizeY = _sizeY / 2.0f;
+	return ( mouseX < _centreX + halfSizeX ) && ( mouseX > _centreX - halfSizeX )
+		&& ( mouseY < _centreY + halfSizeY ) && ( mouseY > _centreY - halfSizeY );
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::ImageButton::SetStateDrawable()
 {
@@ -694,60 +721,62 @@ void ShivaGUI::ImageButton::SetStateDrawable()
 				}
 				else
 				{
-					_stateListDrawable->SetCurrentState(StateListDrawable::Pressed);
+					_stateListDrawable->SetCurrentState( StateListDrawable::Pressed );
 				}
 			}
 			else
 			{
 				if( _focussed )
 				{
-					_stateListDrawable->SetCurrentState(StateListDrawable::HasFocus);
+					_stateListDrawable->SetCurrentState( StateListDrawable::HasFocus );
 				}
 				else
 				{
 					//_stateListDrawable->SetCurrentState(StateListDrawable::Active);
 					
-					if( (_gazeIsRestButton && !_gazeRestButtonToggle) || _toggleActiveState )
+					if( ( _gazeIsRestButton && !_gazeRestButtonToggle ) || _toggleActiveState )
 					{
-						_stateListDrawable->SetCurrentState(StateListDrawable::ToggleActive);
+						_stateListDrawable->SetCurrentState( StateListDrawable::ToggleActive );
 					}
 					else
 					{
-						_stateListDrawable->SetCurrentState(StateListDrawable::Active);
+						_stateListDrawable->SetCurrentState( StateListDrawable::Active );
 					}
 				}
 			}
 		}
 		else
 		{
-			_stateListDrawable->SetCurrentState(StateListDrawable::Disabled);
+			_stateListDrawable->SetCurrentState( StateListDrawable::Disabled );
 		}
 	}
 }
 
-void ShivaGUI::ImageButton::Layout(int left, int top, int right, int bottom, int windowWidth, int windowHeight)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ImageButton::Layout( int left, int top, int right, int bottom, int windowWidth, int windowHeight )
 {
-	View::Layout(left,top,right,bottom,windowWidth,windowHeight);
+	View::Layout( left, top, right, bottom, windowWidth, windowHeight );
 
-	float contentBoundsLeft = (float) left, contentBoundsRight = (float) right, contentBoundsTop = (float) top, contentBoundsBottom = (float) bottom;
+	float contentBoundsLeft = ( float ) left, contentBoundsRight = ( float ) right, contentBoundsTop = ( float ) top, contentBoundsBottom = ( float ) bottom;
 
-	_sizeX = right-left;
+	_sizeX = right - left;
 	_sizeY = bottom - top;
 
 	//std::cout<<"INFO: ImageButton::Layout width = "<<_sizeX<<" height = "<<_sizeY<<std::endl;
 
-	_centreX = (int) (left + (_sizeX/2.0f));
-	_centreY = (int) (top + (_sizeY/2.0f));
+	_centreX = ( int ) ( left + ( _sizeX / 2.0f ) );
+	_centreY = ( int ) ( top + ( _sizeY / 2.0f ) );
 	if( _generalDrawable != NULL )
 	{
-		_generalDrawable->SetBounds((float)left,(float)top,(float)right,(float)bottom);
-		_generalDrawable->GetContentBounds(contentBoundsLeft,contentBoundsTop,contentBoundsRight,contentBoundsBottom);
+		_generalDrawable->SetBounds( ( float )left, ( float )top, ( float )right, ( float )bottom );
+		_generalDrawable->GetContentBounds( contentBoundsLeft, contentBoundsTop, contentBoundsRight, contentBoundsBottom );
 	}
 	else if( _stateListDrawable != NULL )
 	{
 		// First, set the bounds of the statelist
-		_stateListDrawable->SetBounds((float)left,(float)top,(float)right,(float)bottom);
-		_stateListDrawable->GetContentBounds(contentBoundsLeft,contentBoundsTop,contentBoundsRight,contentBoundsBottom);
+		_stateListDrawable->SetBounds( ( float )left, ( float )top, ( float )right, ( float )bottom );
+		_stateListDrawable->GetContentBounds( contentBoundsLeft, contentBoundsTop, contentBoundsRight, contentBoundsBottom );
 
 		/*
 		// The statelist will work out how big its content should be, so retrieve that:
@@ -762,13 +791,14 @@ void ShivaGUI::ImageButton::Layout(int left, int top, int right, int bottom, int
 	}
 
 	if( _contentGenDrawable != NULL )
-		_contentGenDrawable->SetBounds(contentBoundsLeft,contentBoundsTop,contentBoundsRight,contentBoundsBottom);
+		_contentGenDrawable->SetBounds( contentBoundsLeft, contentBoundsTop, contentBoundsRight, contentBoundsBottom );
 	if( _contentStateListDrawable != NULL )
-		_contentStateListDrawable->SetBounds(contentBoundsLeft,contentBoundsTop,contentBoundsRight,contentBoundsBottom);
+		_contentStateListDrawable->SetBounds( contentBoundsLeft, contentBoundsTop, contentBoundsRight, contentBoundsBottom );
 
 	SetStateDrawable();
 }
 
+//----------------------------------------------------------------------------------
 
 bool ShivaGUI::ImageButton::OnHoverEnter()
 {
@@ -788,6 +818,8 @@ bool ShivaGUI::ImageButton::OnHoverEnter()
 	return false;
 }
 
+//----------------------------------------------------------------------------------
+
 bool ShivaGUI::ImageButton::OnHoverExit()
 {
 	//std::cout<<"image button hover exit"<<std::endl;
@@ -799,24 +831,28 @@ bool ShivaGUI::ImageButton::OnHoverExit()
 	return false;
 }
 
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::ImageButton::DrawGazeIndicator()
 {
 	if( _hasGaze )
 	{
-		glBegin(GL_POLYGON);
-			glColor4f(0.0f,1.0f,0.0f,1.0f);
+		glBegin( GL_POLYGON );
+			glColor4f( 0.0f, 1.0f, 0.0f, 1.0f );
 
-			float centreX = ((float)_layoutBoundsLeft+_layoutBoundsRight)/2.0f;
-			float centreY = ((float)_layoutBoundsTop+_layoutBoundsBottom)/2.0f;
+			float centreX = ( ( float )_layoutBoundsLeft + _layoutBoundsRight ) / 2.0f;
+			float centreY = ( ( float )_layoutBoundsTop + _layoutBoundsBottom ) / 2.0f;
 
 			glVertex2f( centreX , centreY );
 
-			for( float i = 0; i < min(1.0f,(_gazeDwellTimer/_gazeDwellToSelectTime)); i+=0.01f )
+			for( float i = 0; i < min( 1.0f, ( _gazeDwellTimer / _gazeDwellToSelectTime ) ); i += 0.01f )
 			{
-				float angle = 2.0f * (float)PI * i;
-				glVertex2f( centreX + (cos(angle)*_gazeDwellCircleSize), centreY + (sin(angle)*_gazeDwellCircleSize) );
+				float angle = 2.0f * ( float )PI * i;
+				glVertex2f( centreX + ( cos( angle ) * _gazeDwellCircleSize ), centreY + ( sin( angle ) * _gazeDwellCircleSize ) );
 			}
 
 		glEnd();
 	}
 }
+
+//----------------------------------------------------------------------------------

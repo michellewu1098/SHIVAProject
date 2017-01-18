@@ -9,8 +9,10 @@
   This means you replace each channel of the original png with a colour of your choice.
   Blending works like this:
     (source_Red * colour0) + (source_Green * colour1) + ... etc -->
+  
   <Layer src="Models/colprim_sphere.png" colour0="@PrimCol0" colour1="@PrimCol1" colour2="@PrimCol2" colour3="@PrimGraphicAlpha"/>
   <Layer src="Models/colprim_bgd.png" colour0="@PrimBackground" colour1="@PrimOutline" colour2="0" colour3="@PrimBackgroundAlpha"/>
+
 </LayeredImageDrawable>
 
 <!-- 26437E00  171d33FF -->

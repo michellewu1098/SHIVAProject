@@ -64,7 +64,7 @@ VolumeTree::Node* Totem::Controller::GetNodeTree()
 
 		// TODO: clean up this memory leak (the CSG node is never deleted)
 		return new VolumeTree::CSGNode( treeRoot, _poleBaseNode );
-		//return new VolumeTree::CSGNode(_objectRoot->GetNodeTree(),_poleBaseNode);
+		//return new VolumeTree::CSGNode( _objectRoot->GetNodeTree(), _poleBaseNode );
 	}
 	return _poleBaseNode;
 }
@@ -152,7 +152,6 @@ void Totem::Controller::AddObjectNodeToTop( VolumeTree::Node *nodeIn )
 void Totem::Controller::loadModel( std::queue< VolumeTree::Node* > treeIn )
 {
 	// There is probably a better way to do this, but it works so..
-	// BUG: If user saves an empty pole, when loading it, a cylinder object will be created anyway
 
 	VolumeTree::Node* node;
 	std::stack< Totem::Object* > objStack; 
@@ -170,6 +169,15 @@ void Totem::Controller::loadModel( std::queue< VolumeTree::Node* > treeIn )
 			 {
 				 if( nodeType != "TransformNode" && nodeType != "BlendCSGNode" ) // If node is a primitive
 				 {
+					 if( nodeType == "CylinderNode" )
+					 {
+						 VolumeTree::CylinderNode* cylinderNode = dynamic_cast< VolumeTree::CylinderNode * >( node );
+						 if( cylinderNode->isPole() )
+						 {
+							 break;
+						 }
+					 }
+
 					 VolumeTree::Node* transformNode = treeIn.front(); // Retrieve transform node for primitive
 					 treeIn.pop();
 
@@ -208,7 +216,7 @@ void Totem::Controller::loadModel( std::queue< VolumeTree::Node* > treeIn )
 			     }
 				else
 				{
-					// If it's CSG::UNION, stop while loop here because *following reasoning -> which leads to the bug previously mentioned* model 
+					// If it's CSG::UNION, stop while loop here because *following reasoning* model 
 					// objects are on the left branch of the tree with root CSG::UNION
 					break;
 				}
@@ -450,9 +458,12 @@ void Totem::Controller::RebuildPole()
 	if( _poleBaseNode == NULL )
 	{
 		_poleNode = new VolumeTree::CylinderNode( 1.0f, 0.05f, 0.05f );
+		_poleNode->SetPole( true );
 		_poleTransformNode = new VolumeTree::TransformNode( _poleNode );
 		_poleTransformNode->SetTranslate( 0.0f, 0.0f, 0.5f );
-		VolumeTree::TransformNode *baseTransform = new VolumeTree::TransformNode( new VolumeTree::CylinderNode( 0.1f, 0.5f, 0.5f ) );
+		VolumeTree::CylinderNode* poleBase = new VolumeTree::CylinderNode( 0.1f, 0.5f, 0.5f );
+		poleBase->SetPole( true );
+		VolumeTree::TransformNode *baseTransform = new VolumeTree::TransformNode( poleBase );
 		baseTransform->SetTranslate( 0.0f, 0.0f, -0.05f );
 		_poleBaseNode = new VolumeTree::CSGNode( _poleTransformNode, baseTransform );
 	}

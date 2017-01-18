@@ -1,75 +1,9 @@
-﻿Build started 22/12/2016 14:28:08.
-     1>Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (build target(s)).
-     1>InitializeBuildStatus:
-         Creating "Release\shiva-gui.unsuccessfulbuild" because "AlwaysCreate" was specified.
-       ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_image" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_ttf" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_mixer" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\GUI\Views\ImageButton.cpp ..\..\src\Input\InputController.cpp ..\..\src\ResourceManager.cpp
-         ImageButton.cpp
-     1>..\..\src\GUI\Views\ImageButton.cpp(76): warning C4482: nonstandard extension used: enum 'ShivaGUI::InternalEvent::EventType' used in qualified name
-     1>..\..\src\GUI\Views\ImageButton.cpp(80): warning C4482: nonstandard extension used: enum 'ShivaGUI::InternalEvent::EventType' used in qualified name
-         InputController.cpp
-         ResourceManager.cpp
-       Lib:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib" GLee.lib Opengl32.lib SDL2.lib SDL2main.lib SDL2_mixer.lib SDL2_ttf.lib /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\glee" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL\SDL\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL\SDLmain\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_image\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_mixer\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_ttf\Release" /NOLOGO /LTCG Release\GUIManager.obj
-         Release\ResourceManager.obj
-         Release\Debouncer.obj
-         Release\InputController.obj
-         Release\InputEvent.obj
-         Release\InternalEvent.obj
-         Release\Autoscanner.obj
-         Release\Scanner.obj
-         Release\fbo.obj
-         Release\GPUProgram.obj
-         Release\GPUShader.obj
-         Release\GPUVariable.obj
-         Release\tinystr.obj
-         Release\tinyxml.obj
-         Release\tinyxmlerror.obj
-         Release\tinyxmlparser.obj
-         Release\Definitions.obj
-         Release\GUIController.obj
-         Release\BitmapDrawable.obj
-         Release\Drawable.obj
-         Release\LayeredImageDrawable.obj
-         Release\NinePatch.obj
-         Release\RectDrawable.obj
-         Release\StateListDrawable.obj
-         Release\ColourSelector.obj
-         Release\ImageButton.obj
-         Release\Slider.obj
-         Release\TextButton.obj
-         Release\TextView.obj
-         Release\View.obj
-         Release\AdapterView.obj
-         Release\DataAdapter.obj
-         Release\LayoutAdapterView.obj
-         Release\ListView.obj
-         Release\CustomLayout.obj
-         Release\CustomLayoutElement.obj
-         Release\CustomLayoutParams.obj
-         Release\LayoutParams.obj
-         Release\LinearLayout.obj
-         Release\LinearLayoutParams.obj
-         Release\ScrollContainer.obj
-         Release\ViewGroup.obj
-         Release\Activity.obj
-         Release\Bundle.obj
-         Release\ProfileManager.obj
-         Release\SharedPreferences.obj
-         Release\Window.obj
-         Release\FilesystemDataProvider.obj
-         Release\ProfileChooserActivity.obj
-         Release\AudioClip.obj
-         Release\AudioManager.obj
-     1>SDL2.lib(SDL2.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
-     1>SDL2_mixer.lib(SDL2_mixer.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
-     1>SDL2_ttf.lib(SDL2_ttf.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
-         shiva-gui.vcxproj -> C:\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib
-       FinalizeBuildStatus:
-         Deleting file "Release\shiva-gui.unsuccessfulbuild".
-         Touching "Release\shiva-gui.lastbuildstate".
-     1>Done Building Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" (build target(s)).
+﻿Build started 18/01/2017 11:19:54.
+     1>Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (clean target(s)).
+     1>_PrepareForClean:
+         Deleting file "Release\shiva-gui.lastbuildstate".
+     1>Done Building Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" (clean target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:33.12
+Time Elapsed 00:00:00.17

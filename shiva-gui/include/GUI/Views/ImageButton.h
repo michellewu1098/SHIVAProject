@@ -1,18 +1,10 @@
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 #ifndef __SHIVA_GUISYSTEM_IMAGE_BUTTON__
 #define __SHIVA_GUISYSTEM_IMAGE_BUTTON__
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 
-
-//////////////////////////////////////////////////////////////////////////
 #include "GUI/Views/View.h"
 #include "GUI/Views/ViewEventListener.h"
 #include "GUI/Drawables/StateListDrawable.h"
 #include "Audio/AudioClip.h"
-
-//////////////////////////////////////////////////////////////////////////
 
 namespace ShivaGUI
 {
@@ -21,51 +13,83 @@ namespace ShivaGUI
 	/// It's just a set of images for a set of states
 	/// It can be selected and pressed
 	/// If this is given a StateListDrawable, it will use its states
+
 	class ImageButton : public View
 	{
 	public:
+
+		//----------------------------------------------------------------------------------
+		/// \brief Default ctor
+		//----------------------------------------------------------------------------------
 		ImageButton();
+		//----------------------------------------------------------------------------------
 		//ImageButton(ResourceSystem::BitmapDrawable *drawable);
 		//ImageButton(ResourceSystem::StateListDrawable *drawable);
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor
+		//----------------------------------------------------------------------------------
 		virtual ~ImageButton();
-
+		//----------------------------------------------------------------------------------
 		/// Gives the size of the View
 		/// If this View has children, it is expected to work out the size and location of these and call Layout() on them too
-		virtual void Layout(int left, int top, int right, int bottom, int windowWidth, int windowHeight);
-
-		virtual void Update(float deltaTs, GUIController *guiController);
-
+		virtual void Layout( int left, int top, int right, int bottom, int windowWidth, int windowHeight );
+		//----------------------------------------------------------------------------------
+		virtual void Update( float deltaTs, GUIController *guiController );
+		//----------------------------------------------------------------------------------
+		/// \brief Draw method
+		//----------------------------------------------------------------------------------
 		virtual void Draw();
-
-		/// Themes allow settings to be set for all Views of a given type
+		//----------------------------------------------------------------------------------
+		/// \brief Themes allow settings to be set for all Views of a given type
 		/// The string returned from this function is the string that identifies the type in the theme xml file
 		/// It is literally prefixed to normal inflation attributes
-		virtual std::string GetThemePrefix() {return "ImageButton_";}
-
-		/// For setting the View's attributes from xml
-		virtual void Inflate(TiXmlElement*,ResourceManager*, std::string themePrefix = "", bool rootNode = false);
-		/// For saving the View's attributes to xml
+		/// \return "ImageButton_"
+		//----------------------------------------------------------------------------------
+		virtual std::string GetThemePrefix() { return "ImageButton_"; }
+		//----------------------------------------------------------------------------------
+		/// \brief For setting the View's attributes from xml
+		//----------------------------------------------------------------------------------
+		virtual void Inflate( TiXmlElement*, ResourceManager*, std::string themePrefix = "", bool rootNode = false );
+		//----------------------------------------------------------------------------------
+		/// \brief For saving the View's attributes to xml
+		/// \param [in] resources
 		/// \note This must be hierarchical and the element must include all child elements
-		virtual TiXmlElement* Deflate(ResourceManager *resources);
-
-		/// For setting the focus of this View
+		//----------------------------------------------------------------------------------
+		virtual TiXmlElement* Deflate( ResourceManager *resources );
+		//----------------------------------------------------------------------------------
+		/// \brief For setting the focus of this View
 		/// If focussed, it is expected that the view will show this visually
 		/// and then allow other forms of input to be received, e.g. 'enter' button pressed etc
-		virtual void SetFocus(bool);
-
-		virtual void SetSelect(bool);
-
-		virtual bool HandleEvent(InternalEvent*);
-
-		void SetOnClickListener(ViewEventListener *value) {_clickListener=value;}
-
+		//----------------------------------------------------------------------------------
+		virtual void SetFocus( bool );
+		//----------------------------------------------------------------------------------
+		virtual void SetSelect( bool );
+		//----------------------------------------------------------------------------------
+		/// \brief Handle internal event
+		/// \param [in] 
+		//----------------------------------------------------------------------------------
+		virtual bool HandleEvent( InternalEvent* );
+		//----------------------------------------------------------------------------------
+		/// \brief Set on click listener
+		/// \param [in] value
+		//----------------------------------------------------------------------------------
+		void SetOnClickListener( ViewEventListener *value ) { _clickListener = value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set content drawable
+		/// \param [in] value
+		//----------------------------------------------------------------------------------
 		void SetContent( Drawable *value );
-		Drawable* GetContent() {return _contentStateListDrawable==NULL? _contentGenDrawable : _contentStateListDrawable;}
-
+		//----------------------------------------------------------------------------------
+		/// \brief Get content drawable
+		//----------------------------------------------------------------------------------
+		Drawable* GetContent() { return _contentStateListDrawable == NULL ? _contentGenDrawable : _contentStateListDrawable; }
+		//----------------------------------------------------------------------------------
 		/// Requested wrap pixel dimensions for layout
 		/// \note These are used when SetLayoutParams() is called, which will be after the View has been inflated
 		virtual int GetWrapWidth();
+		//----------------------------------------------------------------------------------
 		virtual int GetWrapHeight();
+		//----------------------------------------------------------------------------------
 
 	protected:
 		int _centreX, _centreY;
@@ -101,7 +125,7 @@ namespace ShivaGUI
 		std::string _clickListenerName;
 
 
-		virtual void OnChangeActive() {SetStateDrawable();}
+		virtual void OnChangeActive() { SetStateDrawable(); }
 
 		/// Must return whether the event is absorbed (i.e. whether it should be passed on to other events)
 		bool OnHoverEnter();

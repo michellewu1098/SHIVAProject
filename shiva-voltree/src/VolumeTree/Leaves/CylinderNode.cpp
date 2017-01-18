@@ -6,6 +6,7 @@ VolumeTree::CylinderNode::CylinderNode()
 {
 	_radiusX = _radiusY = 1.0f;
 	_length = 1.0f;
+	_isPole = false;
 }
 
 //----------------------------------------------------------------------------------
@@ -15,6 +16,7 @@ VolumeTree::CylinderNode::CylinderNode( float length, float radiusX, float radiu
 	_length = length;
 	_radiusX = radiusX;
 	_radiusY = radiusY;
+	_isPole = false;
 }
 
 //----------------------------------------------------------------------------------

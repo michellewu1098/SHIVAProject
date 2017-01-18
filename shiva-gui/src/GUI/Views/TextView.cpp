@@ -47,11 +47,11 @@ void ShivaGUI::TextView::Inflate(TiXmlElement *xmlElement, ShivaGUI::ResourceMan
 
 	for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 	{
-		if( std::string("text") == currentAttribute->Name() )
+		if( std::string( "text" ) == currentAttribute->Name() )
 		{
-			_textBody = currentAttribute->Value();
+			_textBody = currentAttribute->ValueStr();
 		}
-		else if( (std::string("font") == currentAttribute->Name()) || (themePrefix+"font" == currentAttribute->Name()) )
+		else if( ( std::string( "font" ) == currentAttribute->Name()) || (themePrefix+"font" == currentAttribute->Name()) )
 		{
 			_fontNameFromTheme = (themePrefix+"font" == currentAttribute->Name());
 			_fontName = currentAttribute->Value();

@@ -190,6 +190,8 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 	else if( _root->ValueStr() == std::string( "Cylinder" ) )
 	{
 		double height, radiusX, radiusY; 
+		int isPole = 0; 
+
 		if( _root->Type() == TiXmlNode::TINYXML_ELEMENT )
 		{
 			VolumeTree::CylinderNode *currentImportTyped = new VolumeTree::CylinderNode();
@@ -214,10 +216,21 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 						std::cerr << "ERROR: Couldn't find attribute \"Height\" in Cylinder node" << std::endl; return NULL;
 					}
 				}
+				else if( currentAttribute->Name() == std::string( "isPole" ) )
+				{
+					if( currentAttribute->QueryIntValue( &isPole ) != TIXML_SUCCESS ) {
+						std::cerr << "ERROR: Couldn't find attribute \"isPole\" in Cylinder node" << std::endl; return NULL;
+					}
+				}
 			}
 
 			currentImportTyped->SetRadius( ( float )radiusX, ( float )radiusY );
 			currentImportTyped->SetLength( ( float )height );
+			if( isPole != 0 )
+			{
+				currentImportTyped->SetPole( true );
+			}
+
 			currentImport = dynamic_cast< VolumeTree::Node* >( currentImportTyped );
 		}
 	
@@ -532,6 +545,10 @@ void VolumeTree::Tree::exportToXML( Node *_currentNode, TiXmlElement *_root )
 				newRoot->SetDoubleAttribute( "RadiusX", currentTyped->GetRadiusX() );
 				newRoot->SetDoubleAttribute( "RadiusY", currentTyped->GetRadiusY() );
 				newRoot->SetDoubleAttribute( "Height",  currentTyped->GetLength() );
+				if( currentTyped->isPole() )
+				{
+					newRoot->SetAttribute( "isPole", 1 );
+				}
 
 			}
 			else {

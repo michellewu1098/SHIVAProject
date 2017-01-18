@@ -112,7 +112,7 @@ int main(int argc, char **argv)
 	{
 		int numModels = modelManager->GetNumEntries();
 		std::cout<<"INFO: ModelManager reports "<<numModels<<" models"<<std::endl;
-		totemController->SetNumPrimitives(numModels);
+		totemController->SetNumPrimitives( numModels );
 
 		for( int i = 0; i < numModels; i++ )
 		{
@@ -121,46 +121,46 @@ int main(int argc, char **argv)
 			if( modelManager->QueryAttribute(i,"primitive") )
 			{
 				// Model is a primitive
-				std::string primType = modelManager->GetAttributeString(i,"primitive");
+				std::string primType = modelManager->GetAttributeString( i, "primitive" );
 
 				if( primType == "Sphere" )
 				{
-					currentModelNode = new VolumeTree::SphereNode(0.25f,0.25f,0.25f);
+					currentModelNode = new VolumeTree::SphereNode( 0.25f, 0.25f, 0.25f );
 				}
 				else if( primType == "Cone" )
 				{
-					currentModelNode = new VolumeTree::ConeNode(0.5f,0.25f);
+					currentModelNode = new VolumeTree::ConeNode( 0.5f, 0.25f );
 				}
 				else if( primType == "Cylinder" )
 				{
-					currentModelNode = new VolumeTree::CylinderNode(0.5f,0.25f,0.25f);
+					currentModelNode = new VolumeTree::CylinderNode( 0.5f, 0.25f, 0.25f );
 				}
 				else if( primType == "Cube" )
 				{
-					currentModelNode = new VolumeTree::CubeNode(0.5f);
+					currentModelNode = new VolumeTree::CubeNode( 0.5f );
 				}
 				else if( primType == "Torus" )
 				{
-					currentModelNode = new VolumeTree::TorusNode(0.25,0.02f);
+					currentModelNode = new VolumeTree::TorusNode( 0.25, 0.02f );
 				}
 				else if( primType == "Box" )
 				{
-					currentModelNode = new VolumeTree::CubeNode(1.0f,0.5f,0.5f);
+					currentModelNode = new VolumeTree::CubeNode( 1.0f, 0.5f, 0.5f );
 				}
 				else
 				{
-					std::cerr<<"WARNING: ModelManager reports for entry "<<i<<" unknown primitive type: "<<primType<<std::endl;
+					std::cerr << "WARNING: ModelManager reports for entry " << i << " unknown primitive type: " << primType << std::endl;
 				}
 			}
 
 
 			if( currentModelNode != NULL )
 			{
-				totemController->SetPrimitiveNode(i,currentModelNode);
+				totemController->SetPrimitiveNode( i, currentModelNode );
 			}
 			else
 			{
-				std::cerr<<"WARNING: ModelManager does not give usable model"<<std::endl;
+				std::cerr << "WARNING: ModelManager does not give usable model" << std::endl;
 			}
 		}
 	}

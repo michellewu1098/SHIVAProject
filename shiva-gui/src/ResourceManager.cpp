@@ -202,10 +202,17 @@ unsigned int ShivaGUI::ResourceManager::GetSimpleText( std::string text, std::st
 
 	//std::cout<<"R = "<<(int)foregroundColour.r<<" G = "<<(int)foregroundColour.g<<" B = "<<(int)foregroundColour.b<<std::endl;
 
-	SDL_Surface *surf = TTF_RenderText_Blended( font, text.c_str(), foregroundColour );//TTF_RenderText_Shaded( font, text.c_str(), foregroundColour, backgroundColour );
+	//SDL_Surface *surf = TTF_RenderText_Blended( font, text.c_str(), foregroundColour );//TTF_RenderText_Shaded( font, text.c_str(), foregroundColour, backgroundColour );
+
+	int w = 0, h = 0;
+	int size = TTF_SizeText( font, text.c_str(), &w, &h );
+	
+	SDL_Surface *surf = TTF_RenderText_Blended_Wrapped( font, text.c_str(), foregroundColour, (unsigned int)w ); 
+
 
 	return SDLSurfaceToOpenGL( surf, false, false, false, true );
 }
+
 
 //----------------------------------------------------------------------------------
 

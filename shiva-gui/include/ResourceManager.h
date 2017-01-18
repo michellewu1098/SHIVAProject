@@ -101,6 +101,7 @@ namespace ShivaGUI
 		/// \brief Loads a Drawable from resource file. Most drawables are xml files
 		/// If the filename given is a bitmap, this function will wrap it in a BitmapDrawable
 		/// \param [in] filename
+		//----------------------------------------------------------------------------------
 		Drawable* GetDrawable( std::string filename );
 		//----------------------------------------------------------------------------------
 		/// \brief Loads a layout hierarchy from an xml file. It will first look for it in the active Profile directory, then the normal Layout directory

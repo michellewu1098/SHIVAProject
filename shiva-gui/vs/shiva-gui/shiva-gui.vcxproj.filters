@@ -234,6 +234,9 @@
     <ClCompile Include="..\..\src\Audio\AudioManager.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\ImageTextButton.cpp">
+      <Filter>Source Files\GUI\Views</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GUIManager.h">
@@ -394,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\GUI\Views\ViewGroups\ViewGroup.h">
       <Filter>Header Files\GUI\Views\ViewGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\ImageTextButton.h">
+      <Filter>Header Files\GUI\Views</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

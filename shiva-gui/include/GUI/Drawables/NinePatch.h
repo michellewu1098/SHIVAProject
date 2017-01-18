@@ -1,6 +1,6 @@
 ///-----------------------------------------------------------------------------------------------
 /// \file NinePatch.h
-/// \brief A NinePatch is a bitmap scaled in a specific way when it is resized (used with GUI buttons)
+/// \brief A NinePatch is a bitmap scaled in a specific way when it is resized (used with GUI buttons). As in Android, it is a stretchable bitmap image
 /// \author Leigh McLoughlin
 /// \version 1.0
 ///-----------------------------------------------------------------------------------------------
