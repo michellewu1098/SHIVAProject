@@ -89,6 +89,8 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		unsigned int GetBitmap( std::string filename );
 		//----------------------------------------------------------------------------------
+		unsigned int GetText( std::string text,  unsigned int alignment, std::string fontfilename, unsigned int fontsize, unsigned int fontColour = 0 );
+		//----------------------------------------------------------------------------------
 		/// \brief Renders a simple text string to OpenGL texture, returning the OpenGL texture ID
 		/// If the fontfilename is empty, it will attempt to use a default font
 		/// \param [in] text

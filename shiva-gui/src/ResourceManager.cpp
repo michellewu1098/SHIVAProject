@@ -189,9 +189,139 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string filename )
 
 //----------------------------------------------------------------------------------
 
+SDL_Rect newSDL_Rect( int xs, int ys, int dx, int dy ) {
+
+        SDL_Rect rc;
+
+                rc.x = xs; rc.y = ys;
+
+                rc.w = dx; rc.h = dy;
+
+        return( rc );
+
+}
+
+//----------------------------------------------------------------------------------
+
+unsigned int ShivaGUI::ResourceManager::GetText( std::string text, unsigned int alignment, std::string fontfilename, unsigned int fontsize, unsigned int fontColour )
+{
+	// Load the font
+	TTF_Font *font = LoadFont( fontfilename, fontsize );
+
+	if( font == NULL ) {
+		std::cerr << "WARNING: ResourceManager::GetSimpleText could not load font: " << fontfilename << std::endl;
+		return 0;
+	}
+
+	SDL_Color foregroundColour = { ( fontColour & 0xFF000000 ) >> 24, ( fontColour & 0x00FF0000 ) >> 16, ( fontColour & 0x0000FF00 ) >> 8, ( fontColour & 0x000000FF ) };
+
+	SDL_Surface *finalSurface = NULL;
+    Uint32 rmask, gmask, bmask, amask;
+
+    // SDL interprets each pixel as a 32-bit number, so our masks must depend on the endianness (byte order) of the machine
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    rmask = 0xff000000;
+    gmask = 0x00ff0000;
+    bmask = 0x0000ff00;
+    amask = 0x000000ff;
+#else
+    rmask = 0x000000ff;
+    gmask = 0x0000ff00;
+    bmask = 0x00ff0000;
+    amask = 0xff000000;
+#endif
+
+
+	// Following code, most from https://www.gamedev.net/resources/_/technical/game-programming/sdl--fonts-part-2-printstrings-r1960
+
+	int width = 0, height = 10;
+
+	// Get line-skip value
+	int lineHeight =  TTF_FontHeight( font );
+	int lineSkip = TTF_FontLineSkip( font ) - ( lineHeight / 3 ); 
+	std::vector< std::string > lines;
+
+	// Break string into lines when it finds '\n'
+	int n = 0;
+	while( n != -1 ) {
+
+		// Get until we find either \n or \0
+		std::string subString;
+		n = text.find( '\n', 0 );
+		subString = text.substr( 0, n );
+
+		if( n != -1 ) {
+			
+			text = text.substr( n + 1, -1 ); 
+		}
+
+		lines.push_back( subString );
+
+		// Get size of rendered text
+		int w = 0;
+		TTF_SizeText( font, subString.c_str(), &w, &height );
+
+		if( w > width ) {
+			width = w;
+		}
+	}
+
+	// Since width was determined earlier, get height
+	height = ( lines.size() - 1 ) * lineSkip + height; 
+
+	// Make surface to which blit the text
+	finalSurface = SDL_CreateRGBSurface( SDL_SWSURFACE, width, height, 32, rmask, gmask, bmask, amask );
+
+	if ( finalSurface == NULL) {
+        SDL_Log( "SDL_CreateRGBSurface() failed: %s", SDL_GetError() );
+        exit( 1 );
+    }
+
+
+	SDL_Surface *surf = NULL;
+	
+	// Blit text into final surface, taking into consideration "\n", perform alignment of text depending on user input 
+	for( int i = ( lines.size() - 1 ); i >= 0; i-- )
+	{
+		surf = TTF_RenderText_Blended( font, lines[i].c_str(), foregroundColour );
+
+		SDL_SetSurfaceBlendMode( surf, SDL_BLENDMODE_NONE );
+
+		SDL_Rect layout;
+
+		if( alignment == ShivaGUI::TextButton::Left ) {
+
+			layout = newSDL_Rect( 0, i * lineSkip, 0, 0 );
+		}
+		else if( alignment == ShivaGUI::TextButton::Centre ) {
+			int w = 0, h = 0; 
+			TTF_SizeText( font, lines[ i ].c_str(), &w, &h );
+
+			layout = newSDL_Rect( ( width - w ) / 2, i * lineSkip, 0, 0 );
+		}
+		else if( alignment == ShivaGUI::TextButton::Right ) {
+			int w = 0, h = 0; 
+			TTF_SizeText( font, lines[ i ].c_str(), &w, &h );
+
+			layout = newSDL_Rect( ( width - w ), i * lineSkip, 0, 0 );
+		}
+
+		if( SDL_BlitSurface( surf, NULL, finalSurface, &( SDL_Rect )layout ) != 0 )
+		{
+			std::cerr<< "ERROR: ResourceManager couldn't blit surface. " << SDL_GetError() << std::endl;
+		}
+
+		SDL_FreeSurface( surf );
+	}
+
+	return SDLSurfaceToOpenGL( finalSurface, false, false, false, true );
+}
+
+//----------------------------------------------------------------------------------
+
 unsigned int ShivaGUI::ResourceManager::GetSimpleText( std::string text, std::string fontfilename, unsigned int fontsize, unsigned int fontColour )
 {
-	TTF_Font *font = LoadFont( fontfilename,fontsize );
+	TTF_Font *font = LoadFont( fontfilename, fontsize );
 	if( font == NULL )
 	{
 		std::cerr << "WARNING: ResourceManager::GetSimpleText could not load font: " << fontfilename << std::endl;
@@ -202,13 +332,7 @@ unsigned int ShivaGUI::ResourceManager::GetSimpleText( std::string text, std::st
 
 	//std::cout<<"R = "<<(int)foregroundColour.r<<" G = "<<(int)foregroundColour.g<<" B = "<<(int)foregroundColour.b<<std::endl;
 
-	//SDL_Surface *surf = TTF_RenderText_Blended( font, text.c_str(), foregroundColour );//TTF_RenderText_Shaded( font, text.c_str(), foregroundColour, backgroundColour );
-
-	int w = 0, h = 0;
-	int size = TTF_SizeText( font, text.c_str(), &w, &h );
-	
-	SDL_Surface *surf = TTF_RenderText_Blended_Wrapped( font, text.c_str(), foregroundColour, (unsigned int)w ); 
-
+	SDL_Surface *surf = TTF_RenderText_Blended( font, text.c_str(), foregroundColour );//TTF_RenderText_Shaded( font, text.c_str(), foregroundColour, backgroundColour );
 
 	return SDLSurfaceToOpenGL( surf, false, false, false, true );
 }
@@ -775,6 +899,11 @@ void ShivaGUI::ResourceManager::SDLSurfaceToOpenGLID( SDL_Surface *image, unsign
 		if( mipmap )
 			if( gluBuild2DMipmaps( GL_TEXTURE_2D, image->format->BitsPerPixel/8, image->w, image->h, type, GL_UNSIGNED_BYTE, image->pixels ) != 0 )
 				std::cerr << "WARNING: mipmap generation error" << std::endl;
+
+
+		//if( image ) {
+		//	SDL_FreeSurface( image );
+		//}
 
 		glBindTexture( GL_TEXTURE_2D, 0 );
 	}
