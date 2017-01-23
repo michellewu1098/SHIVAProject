@@ -180,7 +180,7 @@ void ShivaGUI::ImageButton::Inflate( TiXmlElement *xmlElement, ResourceManager *
 
 			std::string resourceName( resources->GetInflationAttribute( currentAttribute->Value() ) );
 
-			// Retrieve resource and store it as correct type
+			//// Retrieve resource and store it as correct type
 			Drawable *drawable = resources->GetDrawable( resourceName );
 			SetContent( drawable );
 		}

@@ -10,6 +10,7 @@
 		layout_height="fill_parent"
 		layout_weight="0.2"
 		text="Profile Manager"
+		text_alignment = "right"
 		/>
 	
 	<LinearLayout

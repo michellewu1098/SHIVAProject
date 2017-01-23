@@ -47,6 +47,8 @@ namespace ShivaGUI
 		virtual int GetNativeWidthFromContent(int contentWidth) {return contentWidth;}
 		virtual int GetNativeHeightFromContent(int contentHeight) {return contentHeight;}
 
+		//virtual void IsUsingText() { return; }
+
 	protected:
 		std::string _filename;
 

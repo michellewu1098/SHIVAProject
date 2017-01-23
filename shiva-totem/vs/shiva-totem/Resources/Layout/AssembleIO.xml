@@ -138,7 +138,7 @@
 		layout_centreX="0.7"
 		layout_centreY="0.9"
 		onClick="buttonHandler"
-		text="reset&#10;view"
+		text="reset view"
 		/>
 
 
@@ -171,11 +171,7 @@
 		layout_centreY="0.15"
 		onClick="buttonHandler"
 		text="new"
-    
 		/>
-
-
-
 
   <TextButton
 		id="NudgeUp"

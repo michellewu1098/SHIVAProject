@@ -13,6 +13,12 @@ ShivaGUI::LayeredImageDrawable::LayeredImageDrawable()
 	_isNinePatch = false;
 	_texWidth = _texHeight = 10;
 	_keepAspectRatio = false;
+
+	_usingText = false;
+	_fontSize = 12;
+	_fontColour = 0;
+
+	_nLayers = 0;
 	
 	_centreLeftProp = _centreRightProp = _centreTopProp = _centreBottomProp = 0.0f;
 	_centreLeftBounds = _centreRightBounds = _centreTopBounds = _centreBottomBounds = 0.0f;
@@ -49,6 +55,38 @@ ShivaGUI::LayeredImageDrawable::~LayeredImageDrawable()
 	glDeleteBuffers( 1, &_squareVertexVBO );
 	glDeleteBuffers( 1, &_squareTexcoordVBO );
 	glDeleteBuffers( 1, &_squareIndexVBO );
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::LayeredImageDrawable::SetTextParams( std::string textBody, unsigned int alignment, std::string fontName, unsigned int fontSize, unsigned int fontColour )
+{
+	_textBody = textBody;
+	_textAlignment = alignment;
+	_fontName = fontName;
+	_fontSize = fontSize;
+	_fontColour = fontColour;
+
+	//_usingText = true;
+
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::LayeredImageDrawable::addTextLayer( ResourceManager* resources)
+{
+	// Add extra layer with text
+	//if( _usingText )
+	//{
+		//if( _nLayers != 0 )
+		//{
+			SetTexID( resources->GetText( _textBody, 2, _fontName, _fontSize, _fontColour ), _nLayers ); 
+			SetLayerColour( 1, _nLayers, 0 );
+			SetLayerColour( 1, _nLayers, 1 );
+			SetLayerColour( 1, _nLayers, 2 );
+			SetLayerColour( _fontColour, _nLayers, 3 );
+		//}
+	//}
 }
 
 //----------------------------------------------------------------------------------
@@ -147,6 +185,27 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *xmlElement, Resource
 			else if( value == "false" )
 				_isNinePatch = false;
 		}
+		/*else if( std::string( "isUsingText" ) == currentAttribute->Name() ) 
+		{
+			std::string value( currentAttribute->Value() );
+			if( value == "true" )
+				_usingText = true;
+		}
+		else if( std::string( "font" ) == currentAttribute->Name() )
+		{
+			_fontName = currentAttribute->Value();
+		}
+		else if( std::string( "text_size" ) == currentAttribute->Name() )
+		{
+			int value = 0;
+			
+			if( currentAttribute->QueryIntValue( &value ) == TIXML_SUCCESS ) {
+				_fontSize = value;
+			}
+			else {
+				std::cerr << "WARNING: TextButton::InflateLayoutParams attribute text_size does not have expected value type (double)" << std::endl;
+			}
+		}*/
 		else if( currentAttribute->Name() == std::string( "content_left" ) )
 		{
 			float value = ( float ) currentAttribute->DoubleValue();
@@ -246,7 +305,12 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *xmlElement, Resource
 
 				//std::cout<<"INFO: LayeredImageDrawable loading layer source: "<<resourceName<<std::endl;
 				// TODO: specifying the directory should *really* not be done here
-				SetTexID( resources->GetBitmap( std::string( "Resources/Drawables/" ) + resourceName ), imageLayerGroup );
+				//if( _usingText ) {
+				//	resources->SetExtraSpace( true );
+				//	SetTexID( resources->GetBitmap( std::string( "Resources/Drawables/" ) + resourceName, _fontName, _fontSize ), imageLayerGroup );
+				//}
+				//else
+					SetTexID( resources->GetBitmap( std::string( "Resources/Drawables/" ) + resourceName ), imageLayerGroup );
 
 			}
 			else if( std::string( "colour0" ) == currentAttribute->Name() )
@@ -268,6 +332,7 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *xmlElement, Resource
 		}
 		++imageLayerGroup;
 	}
+	_nLayers = imageLayerGroup;
 }
 
 //----------------------------------------------------------------------------------
@@ -278,6 +343,7 @@ void ShivaGUI::LayeredImageDrawable::Draw()
 
 	glEnable( GL_BLEND );
 	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+	
 
 	glColor4f( 0, 1, 0, 1 );
 	_layerProgram->On();

@@ -91,21 +91,33 @@ namespace ShivaGUI
 		virtual int GetWrapHeight();
 		//----------------------------------------------------------------------------------
 
+
 	protected:
-		int _centreX, _centreY;
+
+		//----------------------------------------------------------------------------------
+		int _centreX;
+		//----------------------------------------------------------------------------------
+		int _centreY;
+		//----------------------------------------------------------------------------------
 		int _sizeX, _sizeY;
+		//----------------------------------------------------------------------------------
 		bool _focussed;
+		//----------------------------------------------------------------------------------
 		bool _pressed;
+		//----------------------------------------------------------------------------------
 		bool _hover;
+		//----------------------------------------------------------------------------------
 		//bool _active;
 		bool _useToggleActive, _toggleActiveState;
-
+		//----------------------------------------------------------------------------------
 		Drawable *_generalDrawable;
+		//----------------------------------------------------------------------------------
 		StateListDrawable *_stateListDrawable;
-
+		//----------------------------------------------------------------------------------
 		Drawable *_contentGenDrawable;
+		//----------------------------------------------------------------------------------
 		StateListDrawable *_contentStateListDrawable;
-
+		//----------------------------------------------------------------------------------
 		/// -1 = unset, 0 = false, 1 = true
 		int _setContentScaleUp, _setContentAspectRatio;
 
@@ -128,8 +140,11 @@ namespace ShivaGUI
 		virtual void OnChangeActive() { SetStateDrawable(); }
 
 		/// Must return whether the event is absorbed (i.e. whether it should be passed on to other events)
+		//----------------------------------------------------------------------------------
 		bool OnHoverEnter();
+		//----------------------------------------------------------------------------------
 		bool OnHoverExit();
+		//----------------------------------------------------------------------------------
 
 
 		// Temporary code for limited eye-gaze support
@@ -150,17 +165,23 @@ namespace ShivaGUI
 
 			bool _gazeRepeatFromTheme;
 
-
+		//----------------------------------------------------------------------------------
 		// Audio Events
-			/// An audio event to start playing when the button is pressed
-			AudioClip *_audio_pressStart;
-			/// Whether to stop playing when the button is released
-			bool _audio_releaseStop;
+		//----------------------------------------------------------------------------------
+		/// \brief An audio event to start playing when the button is pressed
+		//----------------------------------------------------------------------------------
+		AudioClip *_audio_pressStart;
+		//----------------------------------------------------------------------------------
+		/// \brief Whether to stop playing when the button is released
+		//----------------------------------------------------------------------------------
+		bool _audio_releaseStop;
+		//----------------------------------------------------------------------------------
+		AudioClip *_audio_hoverEnter;
+		//----------------------------------------------------------------------------------
 
-			AudioClip *_audio_hoverEnter;
+		std::string _imageName;
+
 	};
-
 }
 
-//////////////////////////////////////////////////////////////////////////
 #endif

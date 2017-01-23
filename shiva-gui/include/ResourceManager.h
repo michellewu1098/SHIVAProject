@@ -88,6 +88,7 @@ namespace ShivaGUI
 		/// \return An OpenGL texture ID for the bitmap
 		//----------------------------------------------------------------------------------
 		unsigned int GetBitmap( std::string filename );
+		unsigned int GetBitmap( std::string filename, std::string fontName, unsigned int fontSize );
 		//----------------------------------------------------------------------------------
 		unsigned int GetText( std::string text,  unsigned int alignment, std::string fontfilename, unsigned int fontsize, unsigned int fontColour = 0 );
 		//----------------------------------------------------------------------------------
@@ -177,6 +178,8 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		void RegisterPostInflationLink( View *src, std::string dstID, Definitions::FocusDirection focusDir );
 		//----------------------------------------------------------------------------------
+		void SetExtraSpace( const bool &s ) { _addExtraSpace = s; }
+		//----------------------------------------------------------------------------------
 
 	protected:
 
@@ -253,6 +256,7 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		std::string _defaultFont;
 		//----------------------------------------------------------------------------------
+		bool _addExtraSpace;
 		
 		/// \brief During inflation of Layout links need to be made between Views for scanning and selection order purposes
 		/// The Views they need to link to may not have been created yet, so we save the requests using instances of this sub-class and deal with them after inflation

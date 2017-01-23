@@ -11,6 +11,8 @@
     (source_Red * colour0) + (source_Green * colour1) + ... etc -->
   <Layer src="Models/colprim_cone.png" colour0="@PrimConeCol0" colour1="@PrimConeCol1" colour2="@PrimConeCol2" colour3="@PrimGraphicAlpha"/>
   <Layer src="Models/colprim_bgd.png" colour0="@PrimBackground" colour1="@PrimOutline" colour2="0" colour3="@PrimBackgroundAlpha"/>
+  
+  
 </LayeredImageDrawable>
 
 <!-- 26437E00  171d33FF -->

@@ -11,6 +11,7 @@
 #include "GUI/Views/ImageButton.h"
 #include "GUI/Views/TextButton.h"
 #include "GUI/Views/TextView.h"
+//#include "GUI/Views/ImageTextButton.h"
 #include "GUI/Views/ViewGroups/LinearLayout.h"
 #include "GUI/Views/ViewGroups/CustomLayout.h"
 #include "GUI/Views/Slider.h"
@@ -28,6 +29,8 @@ ShivaGUI::ResourceManager::ResourceManager( ShivaGUI::GUIManager *guiManager, un
 	_windowIndex = windowIndex;
 	_mipmapImages = true;
 	_currentThemeNode = NULL;
+
+	_addExtraSpace = false;
 
 	TTF_Init();
 }
@@ -147,6 +150,104 @@ void ShivaGUI::ResourceManager::ClearManagedTexture( std::string name )
 
 //----------------------------------------------------------------------------------
 
+SDL_Rect newSDL_Rect( int xs, int ys, int dx, int dy ) {
+
+        SDL_Rect rc;
+
+                rc.x = xs; rc.y = ys;
+
+                rc.w = dx; rc.h = dy;
+
+        return( rc );
+}
+
+//----------------------------------------------------------------------------------
+
+
+unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string filename, std::string fontName, unsigned int fontSize )
+{
+	if( _glTextures.find( filename ) != _glTextures.end() )
+	{
+		return _glTextures[ filename ];
+	}
+
+	// I've had this function for so long I can't remember where it was from originally
+	// I think it was based on SDL example usage code
+
+	bool mipmap = false;
+	bool addAlpha = false;
+	bool repeat = false;
+
+	std::cout << "INFO: ResourceManager Loading Image to OpenGL: " << filename << std::endl;
+
+	SDL_Surface *image;
+
+	image = IMG_Load( filename.c_str() );
+
+	if( image == NULL )
+	{
+		std::cerr << "WARNING: ResourceManager Couldn't load: " << filename << " " << SDL_GetError() << std::endl;
+		return 0;
+	}
+
+	unsigned int texName;
+
+	if( _addExtraSpace) 
+	{
+		// Load the font
+		TTF_Font *font = LoadFont( fontName, fontSize );
+
+		if( font == NULL ) {
+			std::cerr << "WARNING: ResourceManager::GetSimpleText could not load font: " << fontName << std::endl;
+			return 0;
+		}
+
+		int lineHeight = TTF_FontLineSkip( font );
+
+		int width = image->w;
+		int height = image->h + lineHeight;
+
+		
+
+		 Uint32 rmask, gmask, bmask, amask;
+
+    // SDL interprets each pixel as a 32-bit number, so our masks must depend on the endianness (byte order) of the machine
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    rmask = 0xff000000;
+    gmask = 0x00ff0000;
+    bmask = 0x0000ff00;
+    amask = 0x000000ff;
+#else
+    rmask = 0x000000ff;
+    gmask = 0x0000ff00;
+    bmask = 0x00ff0000;
+    amask = 0xff000000;
+#endif
+
+		SDL_Surface *finalImage = SDL_CreateRGBSurface( SDL_SWSURFACE, width, height, 32, rmask, gmask, bmask, amask );
+		
+		int h = height * 0.7;
+		float scalingFactor = (float)image->h / (float) height; 
+		int w = image->w * scalingFactor * 0.7;
+
+		SDL_BlitScaled( image, NULL, finalImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - w ) / 2 ), 0, w, h ) );
+		//SDL_BlitScaled( image, NULL, finalImage, NULL );
+
+		texName = SDLSurfaceToOpenGL( finalImage, mipmap, addAlpha, repeat );
+		SDL_FreeSurface( finalImage );
+	}
+	else
+		texName = SDLSurfaceToOpenGL( image, mipmap, addAlpha, repeat );
+		SDL_FreeSurface( image );
+
+	if( texName != 0 )
+		_glTextures[ filename ] = texName;
+
+	return texName;
+}
+
+//----------------------------------------------------------------------------------
+
 unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string filename )
 {
 	if( _glTextures.find( filename ) != _glTextures.end() )
@@ -185,20 +286,6 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string filename )
 		_glTextures[ filename ] = texName;
 
 	return texName;
-}
-
-//----------------------------------------------------------------------------------
-
-SDL_Rect newSDL_Rect( int xs, int ys, int dx, int dy ) {
-
-        SDL_Rect rc;
-
-                rc.x = xs; rc.y = ys;
-
-                rc.w = dx; rc.h = dy;
-
-        return( rc );
-
 }
 
 //----------------------------------------------------------------------------------
@@ -313,6 +400,8 @@ unsigned int ShivaGUI::ResourceManager::GetText( std::string text, unsigned int 
 
 		SDL_FreeSurface( surf );
 	}
+
+	//TTF_CloseFont( font );
 
 	return SDLSurfaceToOpenGL( finalSurface, false, false, false, true );
 }
@@ -447,6 +536,10 @@ ShivaGUI::View* ShivaGUI::ResourceManager::CreateView( std::string viewName )
 	{
 		return new ImageButton();
 	}
+	//if( viewName == "ImageTextButton" )
+	//{
+	//	return new ImageTextButton();
+	//}
 	if( viewName == "TextButton" )
 	{
 		return new TextButton();

@@ -17,6 +17,7 @@
 #include "GUI/Views/TextView.h"
 #include "GUI/Views/ImageButton.h"
 #include "GUI/Views/TextButton.h"
+//#include "GUI/Views/ImageTextButton.h"
 
 
 namespace ShivaGUI
@@ -85,6 +86,8 @@ namespace ShivaGUI
 		/// Called when GetView needs to bind an image to a View
 		//----------------------------------------------------------------------------------
 		virtual void SetViewImage( ImageButton *, std::string imageResource, ResourceManager *resources );
+		//----------------------------------------------------------------------------------
+		//virtual void SetViewImage( ImageTextButton *, std::string imageResource, ResourceManager *resources );
 		//----------------------------------------------------------------------------------
 		virtual void SetViewImage( View *, std::string imageResource, ResourceManager *resources );
 		//----------------------------------------------------------------------------------

@@ -14,6 +14,12 @@
 	TextView_font="Resources/Fonts/FreeSansBold.ttf"
 	TextView_text_size="30"
 	
+	ImageTextButton_drawable="System/ThemeSystem/button.xml"
+	ImageTextButton_padding="10"
+	ImageTextButton_font="Resources/Fonts/Lato-Bold.ttf"
+	ImageTextButton_text_colour="FFFFFFFF"
+	ImageTextButton_text_size="20"
+	
 	ImageButton_drawable="System/ThemeSystem/button.xml"
 	ImageButton_padding="10"
   ImageButton_audio_pressStart="Resources/Audio/ButtonHoverTemp.wav"

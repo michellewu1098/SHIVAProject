@@ -56,6 +56,7 @@ ShivaGUI::View* ShivaGUI::DataAdapter::GetView( int index, ResourceManager *reso
 			{
 				// bind data depending on the type of View we have:
 				ImageButton *currentImageButton = dynamic_cast< ImageButton* >( currentView );
+				//ImageTextButton *currentImageTextButton = dynamic_cast< ImageTextButton* >( currentView );
 				TextView *currentTextView = dynamic_cast< TextView* >( currentView );
 				TextButton *currentTextButton = dynamic_cast< TextButton* >( currentView );
 
@@ -71,6 +72,10 @@ ShivaGUI::View* ShivaGUI::DataAdapter::GetView( int index, ResourceManager *reso
 				{
 					SetViewImage( currentImageButton, currentData, resources );
 				}
+				/*else if( currentImageTextButton != NULL )
+				{
+					SetViewImage( currentImageTextButton, currentData, resources );
+				}*/
 				else
 				{
 					SetViewImage( currentView, currentData, resources );
@@ -114,6 +119,13 @@ void ShivaGUI::DataAdapter::SetViewImage( ImageButton *view, std::string imageRe
 {
 	view->SetContent( resources->GetDrawable( imageResource ) );
 }
+
+//----------------------------------------------------------------------------------
+
+//void ShivaGUI::DataAdapter::SetViewImage( ImageTextButton *view, std::string imageResource, ResourceManager *resources )
+//{
+//	view->SetContent( resources->GetDrawable( imageResource ) );
+//}
 
 //----------------------------------------------------------------------------------
 

@@ -1,4 +1,4 @@
-﻿Build started 18/01/2017 11:19:54.
+﻿Build started 19/01/2017 13:18:11.
      1>Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (clean target(s)).
      1>_PrepareForClean:
          Deleting file "Release\shiva-gui.lastbuildstate".
@@ -6,4 +6,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.17
+Time Elapsed 00:00:00.12

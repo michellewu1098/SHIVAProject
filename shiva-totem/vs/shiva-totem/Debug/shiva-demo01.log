@@ -1,4 +1,4 @@
-﻿Build started 18/01/2017 11:11:32.
+﻿Build started 23/01/2017 13:16:33.
      1>Project "C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 2 (clean target(s)).
      1>_PrepareForClean:
          Deleting file "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.lastbuildstate".
@@ -6,4 +6,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.60
+Time Elapsed 00:00:00.07

@@ -1,9 +1,235 @@
-﻿Build started 18/01/2017 11:19:29.
-     1>Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (clean target(s)).
-     1>_PrepareForClean:
-         Deleting file "Debug\shiva-gui.lastbuildstate".
-     1>Done Building Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" (clean target(s)).
+﻿Build started 23/01/2017 13:13:10.
+     1>Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\shiva-gui.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_image" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_ttf" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_mixer" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\GUIManager.cpp ..\..\src\GUI\Drawables\BitmapDrawable.cpp ..\..\src\GUI\Drawables\Drawable.cpp ..\..\src\GUI\Drawables\LayeredImageDrawable.cpp ..\..\src\GUI\Drawables\NinePatch.cpp ..\..\src\GUI\Drawables\RectDrawable.cpp ..\..\src\GUI\Drawables\StateListDrawable.cpp ..\..\src\GUI\Views\AdapterViews\AdapterView.cpp ..\..\src\GUI\Views\AdapterViews\DataAdapter.cpp ..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp ..\..\src\GUI\Views\AdapterViews\ListView.cpp ..\..\src\GUI\Views\ColourSelector.cpp ..\..\src\GUI\Views\ImageButton.cpp ..\..\src\GUI\Views\ImageTextButton.cpp ..\..\src\GUI\Views\Slider.cpp ..\..\src\GUI\Views\TextButton.cpp ..\..\src\GUI\Views\TextView.cpp ..\..\src\GUI\Views\View.cpp ..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp ..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp ..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp ..\..\src\ResourceManager.cpp ..\..\src\System\Activities\ProfileChooserActivity.cpp
+         ResourceManager.cpp
+     1>c:\shivaproject\shiva-gui\src\resourcemanager.cpp(229): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\resourcemanager.cpp(231): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+         ImageTextButton.cpp
+         DataAdapter.cpp
+         LayeredImageDrawable.cpp
+         Generating Code...
+         Compiling...
+         ProfileChooserActivity.cpp
+         ScrollContainer.cpp
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(120): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(120): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(120): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(120): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(122): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(122): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(122): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(122): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(135): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(135): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(135): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(135): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(148): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(148): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(148): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(148): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(150): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(150): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(150): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(150): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(163): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(163): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(163): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(163): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(477): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(488): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(509): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(520): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(583): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(591): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(611): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(619): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(641): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(649): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(670): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\scrollcontainer.cpp(678): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+         CustomLayoutElement.cpp
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(100): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(100): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(100): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(100): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(105): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(105): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(105): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(105): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(346): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(347): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(356): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(357): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(368): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(369): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(378): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayoutelement.cpp(379): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+         CustomLayout.cpp
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(70): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(70): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(70): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(70): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(344): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(345): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(355): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(363): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(423): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(424): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(433): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(434): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(448): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(449): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(458): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\viewgroups\customlayout.cpp(459): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+         View.cpp
+     1>c:\shivaproject\shiva-gui\src\gui\views\view.cpp(42): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\view.cpp(42): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\view.cpp(42): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\view.cpp(42): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         TextView.cpp
+     1>c:\shivaproject\shiva-gui\src\gui\views\textview.cpp(38): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\textview.cpp(38): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\textview.cpp(38): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\textview.cpp(38): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         TextButton.cpp
+         Slider.cpp
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(278): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(279): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(280): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(281): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(286): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(286): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(286): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(286): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(288): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(288): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(288): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(288): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(303): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(303): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(303): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\slider.cpp(303): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         ImageButton.cpp
+     1>c:\shivaproject\shiva-gui\src\gui\views\imagebutton.cpp(81): warning C4482: nonstandard extension used: enum 'ShivaGUI::InternalEvent::EventType' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\imagebutton.cpp(85): warning C4482: nonstandard extension used: enum 'ShivaGUI::InternalEvent::EventType' used in qualified name
+         ColourSelector.cpp
+     1>c:\shivaproject\shiva-gui\src\gui\views\colourselector.cpp(47): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\colourselector.cpp(52): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\colourselector.cpp(53): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+         ListView.cpp
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\listview.cpp(31): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\listview.cpp(32): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\listview.cpp(168): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\listview.cpp(169): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\listview.cpp(187): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\listview.cpp(188): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\listview.cpp(189): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\listview.cpp(190): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\listview.cpp(195): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\listview.cpp(199): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\listview.cpp(206): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\listview.cpp(210): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\listview.cpp(216): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\listview.cpp(220): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+         LayoutAdapterView.cpp
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\layoutadapterview.cpp(292): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\layoutadapterview.cpp(293): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\layoutadapterview.cpp(310): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\layoutadapterview.cpp(311): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\layoutadapterview.cpp(312): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\layoutadapterview.cpp(313): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\layoutadapterview.cpp(318): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\layoutadapterview.cpp(322): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\layoutadapterview.cpp(328): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\layoutadapterview.cpp(332): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\layoutadapterview.cpp(337): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>c:\shivaproject\shiva-gui\src\gui\views\adapterviews\layoutadapterview.cpp(341): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+         AdapterView.cpp
+         StateListDrawable.cpp
+         RectDrawable.cpp
+         NinePatch.cpp
+     1>c:\shivaproject\shiva-gui\src\gui\drawables\ninepatch.cpp(157): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\gui\drawables\ninepatch.cpp(166): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+         Drawable.cpp
+         BitmapDrawable.cpp
+         GUIManager.cpp
+     1>c:\shivaproject\shiva-gui\src\guimanager.cpp(586): warning C4244: 'argument' : conversion from 'Sint32' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\guimanager.cpp(586): warning C4244: 'argument' : conversion from 'Sint32' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\guimanager.cpp(591): warning C4244: 'argument' : conversion from 'Sint32' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-gui\src\guimanager.cpp(591): warning C4244: 'argument' : conversion from 'Sint32' to 'float', possible loss of data
+         Generating Code...
+       Lib:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\Debug\shiva-gui.lib" GLee.lib Opengl32.lib glu32.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib SDL2_mixer.lib /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\glee" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL\SDL\Debug" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL\SDLmain\Debug" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_image\Debug" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_mixer\Debug" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_ttf\Debug" /NOLOGO Debug\GUIManager.obj
+         Debug\ImageTextButton.obj
+         Debug\ResourceManager.obj
+         Debug\Debouncer.obj
+         Debug\InputController.obj
+         Debug\InputEvent.obj
+         Debug\InternalEvent.obj
+         Debug\Autoscanner.obj
+         Debug\Scanner.obj
+         Debug\fbo.obj
+         Debug\GPUProgram.obj
+         Debug\GPUShader.obj
+         Debug\GPUVariable.obj
+         Debug\tinystr.obj
+         Debug\tinyxml.obj
+         Debug\tinyxmlerror.obj
+         Debug\tinyxmlparser.obj
+         Debug\Definitions.obj
+         Debug\GUIController.obj
+         Debug\BitmapDrawable.obj
+         Debug\Drawable.obj
+         Debug\LayeredImageDrawable.obj
+         Debug\NinePatch.obj
+         Debug\RectDrawable.obj
+         Debug\StateListDrawable.obj
+         Debug\ColourSelector.obj
+         Debug\ImageButton.obj
+         Debug\Slider.obj
+         Debug\TextButton.obj
+         Debug\TextView.obj
+         Debug\View.obj
+         Debug\AdapterView.obj
+         Debug\DataAdapter.obj
+         Debug\LayoutAdapterView.obj
+         Debug\ListView.obj
+         Debug\CustomLayout.obj
+         Debug\CustomLayoutElement.obj
+         Debug\CustomLayoutParams.obj
+         Debug\LayoutParams.obj
+         Debug\LinearLayout.obj
+         Debug\LinearLayoutParams.obj
+         Debug\ScrollContainer.obj
+         Debug\ViewGroup.obj
+         Debug\Activity.obj
+         Debug\Bundle.obj
+         Debug\ProfileManager.obj
+         Debug\SharedPreferences.obj
+         Debug\Window.obj
+         Debug\FilesystemDataProvider.obj
+         Debug\ProfileChooserActivity.obj
+         Debug\AudioClip.obj
+         Debug\AudioManager.obj
+     1>glu32.lib(GLU32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>glu32.lib(GLU32.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>SDL2.lib(SDL2.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2.lib(SDL2.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>SDL2_image.lib(SDL2_image.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_image.lib(SDL2_image.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>SDL2_ttf.lib(SDL2_ttf.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_ttf.lib(SDL2_ttf.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>SDL2_mixer.lib(SDL2_mixer.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_mixer.lib(SDL2_mixer.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+         shiva-gui.vcxproj -> C:\SHIVAProject\shiva-gui\vs\shiva-gui\Debug\shiva-gui.lib
+       FinalizeBuildStatus:
+         Deleting file "Debug\shiva-gui.unsuccessfulbuild".
+         Touching "Debug\shiva-gui.lastbuildstate".
+     1>Done Building Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.24
+Time Elapsed 00:00:58.43
