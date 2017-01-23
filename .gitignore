@@ -38,7 +38,6 @@ $RECYCLE.BIN/
 *.userprefs
 
 # Build results
-[Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
@@ -90,6 +89,7 @@ artifacts/
 *.tlh
 *.tmp
 *.tmp_proj
+*.tlog
 *.log
 *.vspscc
 *.vssscc
