@@ -1,9 +1,9 @@
-﻿Build started 04/01/2017 14:30:07.
+﻿Build started 23/01/2017 13:24:13.
      1>Project "C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\shiva-voltree.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\shiva-voltree.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\cml-1_0_2" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_totem" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_metamorph" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\shiva-gui\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D SHIVAVOLTREE_EXPORTS /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\VolumeRenderer\GLSLRenderer.cpp ..\..\src\VolumeRenderer\SpringyVec3.cpp ..\..\src\VolumeTree\CachingPolicies\CachingPolicy.cpp ..\..\src\VolumeTree\Node.cpp ..\..\src\VolumeTree\Nodes\TransformNode.cpp ..\..\src\VolumeTree\VolumeTree.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\cml-1_0_2" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_totem" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_metamorph" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\shiva-gui\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D SHIVAVOLTREE_EXPORTS /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\VolumeRenderer\GLSLRenderer.cpp ..\..\src\VolumeRenderer\SpringyVec3.cpp ..\..\src\VolumeTree\CachingPolicies\CachingPolicy.cpp ..\..\src\VolumeTree\Leaves\CubeNode.cpp ..\..\src\VolumeTree\Leaves\CylinderNode.cpp ..\..\src\VolumeTree\Leaves\SphereNode.cpp ..\..\src\VolumeTree\Node.cpp ..\..\src\VolumeTree\Nodes\BlendCSG.cpp ..\..\src\VolumeTree\Nodes\TransformNode.cpp ..\..\src\VolumeTree\VolumeTree.cpp
          GLSLRenderer.cpp
      1>C:\SHIVAProject\include\vol_totem\vol_totem.h(43): warning C4251: 'totemio::TotemNode::m_childNodes' : class 'std::vector<_Ty>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
                  with
@@ -115,6 +115,15 @@
                      _Traits=std::char_traits<char>,
                      _Ax=std::allocator<char>
                  ]
+         CubeNode.cpp
+     1>..\..\src\VolumeTree\Leaves\CubeNode.cpp(34): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\Leaves\CubeNode.cpp(35): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\Leaves\CubeNode.cpp(36): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\Leaves\CubeNode.cpp(37): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\Leaves\CubeNode.cpp(38): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\Leaves\CubeNode.cpp(39): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+         CylinderNode.cpp
+         SphereNode.cpp
          Node.cpp
      1>C:\SHIVAProject\include\vol_totem\vol_totem.h(43): warning C4251: 'totemio::TotemNode::m_childNodes' : class 'std::vector<_Ty>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
                  with
@@ -128,6 +137,7 @@
                      _Traits=std::char_traits<char>,
                      _Ax=std::allocator<char>
                  ]
+         BlendCSG.cpp
          TransformNode.cpp
      1>C:\SHIVAProject\include\vol_totem\vol_totem.h(43): warning C4251: 'totemio::TotemNode::m_childNodes' : class 'std::vector<_Ty>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
                  with
@@ -142,9 +152,9 @@
                      _Ax=std::allocator<char>
                  ]
      1>..\..\src\VolumeTree\Nodes\TransformNode.cpp(85): warning C4482: nonstandard extension used: enum 'cml::EulerOrder' used in qualified name
-     1>..\..\src\VolumeTree\Nodes\TransformNode.cpp(141): warning C4482: nonstandard extension used: enum 'cml::EulerOrder' used in qualified name
-     1>..\..\src\VolumeTree\Nodes\TransformNode.cpp(384): warning C4482: nonstandard extension used: enum 'GLSLRenderer::ParameterType' used in qualified name
-     1>..\..\src\VolumeTree\Nodes\TransformNode.cpp(391): warning C4482: nonstandard extension used: enum 'GLSLRenderer::ParameterType' used in qualified name
+     1>..\..\src\VolumeTree\Nodes\TransformNode.cpp(146): warning C4482: nonstandard extension used: enum 'cml::EulerOrder' used in qualified name
+     1>..\..\src\VolumeTree\Nodes\TransformNode.cpp(389): warning C4482: nonstandard extension used: enum 'GLSLRenderer::ParameterType' used in qualified name
+     1>..\..\src\VolumeTree\Nodes\TransformNode.cpp(396): warning C4482: nonstandard extension used: enum 'GLSLRenderer::ParameterType' used in qualified name
      1>C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_rotation.h(929): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
                  ..\..\src\VolumeTree\Nodes\TransformNode.cpp(85) : see reference to function template instantiation 'void cml::matrix_to_euler<cml::matrix44f_c,float>(const MatT &,Real &,Real &,Real &,cml::EulerOrder,Real)' being compiled
                  with
@@ -166,6 +176,24 @@
                      _Traits=std::char_traits<char>,
                      _Ax=std::allocator<char>
                  ]
+     1>..\..\src\VolumeTree\VolumeTree.cpp(314): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(314): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(314): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeTree\VolumeTree.cpp(445): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
        Lib:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\Release\shiva-voltree.lib" GLee.lib glu32.lib /LIBPATH:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\glee" /NOLOGO /LTCG Release\Node.obj
          Release\ParameterManager.obj
@@ -190,4 +218,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:09.25
+Time Elapsed 00:00:13.20

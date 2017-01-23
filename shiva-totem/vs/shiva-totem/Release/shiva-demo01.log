@@ -1,50 +1,9 @@
-﻿Build started 04/01/2017 15:22:38.
-     1>Project "C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 2 (build target(s)).
-     1>InitializeBuildStatus:
-         Touching "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.unsuccessfulbuild".
-       ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\include" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\include" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\include" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_image" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_mixer" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_ttf" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_metamorph" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_totem" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\\" /Fd"C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\Totem\TotemObject.cpp
-         TotemObject.cpp
-     1>C:\SHIVAProject\include\vol_totem\vol_totem.h(43): warning C4251: 'totemio::TotemNode::m_childNodes' : class 'std::vector<_Ty>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
-                 with
-                 [
-                     _Ty=totemio::TotemNode *
-                 ]
-     1>C:\SHIVAProject\include\vol_totem\vol_totem.h(44): warning C4251: 'totemio::TotemNode::m_nodeID' : class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
-                 with
-                 [
-                     _Elem=char,
-                     _Traits=std::char_traits<char>,
-                     _Ax=std::allocator<char>
-                 ]
-       Link:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\vs\shiva-gui\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\vs\shiva-voltree\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\glee" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL\SDL\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL\SDLmain\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL_image\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL_mixer\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL_ttf\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\vol_totem" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\vol_metamorph" "shiva-gui.lib" GLee.lib Opengl32.lib glu32.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib "shiva-voltree.lib" vol_totem.lib vol_metamorph.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc.lib /MANIFEST /ManifestFile:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.lib" /MACHINE:X86 "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\AssembleActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\BlendAdjustActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\DrillActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\EditMenuActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\main.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\NudgeActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\RotateObjectActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\ShivaModelManager.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\tinyfiledialogs.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\UniformScaleActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\VolView.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemController.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemObject.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemOperation.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemOpDrill.obj"
-         Generating code
-     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(69): warning C4715: 'VolumeTree::Tree::Load' : not all control paths return a value
-         Finished generating code
-     1>shiva-gui.lib(SDL_windows_main.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(SDL_windows_main.obj)' or at 'C:\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
-         shiva-demo01.vcxproj -> C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe
-       Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe;#1" /manifest "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.exe.intermediate.manifest"
-       FinalizeBuildStatus:
-         Deleting file "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.unsuccessfulbuild".
-         Touching "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.lastbuildstate".
-     1>Done Building Project "C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" (build target(s)).
+﻿Build started 23/01/2017 14:32:59.
+     1>Project "C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 2 (clean target(s)).
+     1>_PrepareForClean:
+         Deleting file "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.lastbuildstate".
+     1>Done Building Project "C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" (clean target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:11.65
+Time Elapsed 00:00:00.03

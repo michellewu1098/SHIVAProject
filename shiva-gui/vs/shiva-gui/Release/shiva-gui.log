@@ -1,9 +1,274 @@
-﻿Build started 19/01/2017 13:18:11.
-     1>Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (clean target(s)).
-     1>_PrepareForClean:
-         Deleting file "Release\shiva-gui.lastbuildstate".
-     1>Done Building Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" (clean target(s)).
+﻿Build started 23/01/2017 13:19:41.
+     1>Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\shiva-gui.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_image" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_ttf" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_mixer" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\GUIManager.cpp ..\..\src\GUI\Views\ImageTextButton.cpp ..\..\src\ResourceManager.cpp ..\..\src\Input\Debouncer.cpp ..\..\src\Input\InputController.cpp ..\..\src\Input\InputEvent.cpp ..\..\src\Input\InternalEvent.cpp ..\..\src\Input\Scanners\Autoscanner.cpp ..\..\src\Input\Scanners\Scanner.cpp ..\..\src\Utility\fbo.cpp ..\..\src\Utility\GPUProgram.cpp ..\..\src\Utility\GPUShader.cpp ..\..\src\Utility\GPUVariable.cpp ..\..\src\Utility\tinystr.cpp ..\..\src\Utility\tinyxml.cpp ..\..\src\Utility\tinyxmlerror.cpp ..\..\src\Utility\tinyxmlparser.cpp ..\..\src\GUI\Definitions.cpp ..\..\src\GUI\GUIController.cpp ..\..\src\GUI\Drawables\BitmapDrawable.cpp ..\..\src\GUI\Drawables\Drawable.cpp ..\..\src\GUI\Drawables\LayeredImageDrawable.cpp ..\..\src\GUI\Drawables\NinePatch.cpp ..\..\src\GUI\Drawables\RectDrawable.cpp ..\..\src\GUI\Drawables\StateListDrawable.cpp ..\..\src\GUI\Views\ColourSelector.cpp ..\..\src\GUI\Views\ImageButton.cpp ..\..\src\GUI\Views\Slider.cpp ..\..\src\GUI\Views\TextButton.cpp ..\..\src\GUI\Views\TextView.cpp ..\..\src\GUI\Views\View.cpp ..\..\src\GUI\Views\AdapterViews\AdapterView.cpp ..\..\src\GUI\Views\AdapterViews\DataAdapter.cpp ..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp ..\..\src\GUI\Views\AdapterViews\ListView.cpp ..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp ..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp ..\..\src\GUI\Views\ViewGroups\CustomLayoutParams.cpp ..\..\src\GUI\Views\ViewGroups\LayoutParams.cpp ..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp ..\..\src\GUI\Views\ViewGroups\LinearLayoutParams.cpp ..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp ..\..\src\GUI\Views\ViewGroups\ViewGroup.cpp ..\..\src\System\Activity.cpp ..\..\src\System\Bundle.cpp ..\..\src\System\ProfileManager.cpp ..\..\src\System\SharedPreferences.cpp ..\..\src\System\Window.cpp ..\..\src\System\Activities\FilesystemDataProvider.cpp ..\..\src\System\Activities\ProfileChooserActivity.cpp ..\..\src\Audio\AudioClip.cpp ..\..\src\Audio\AudioManager.cpp
+         GUIManager.cpp
+     1>..\..\src\GUIManager.cpp(586): warning C4244: 'argument' : conversion from 'Sint32' to 'float', possible loss of data
+     1>..\..\src\GUIManager.cpp(586): warning C4244: 'argument' : conversion from 'Sint32' to 'float', possible loss of data
+     1>..\..\src\GUIManager.cpp(591): warning C4244: 'argument' : conversion from 'Sint32' to 'float', possible loss of data
+     1>..\..\src\GUIManager.cpp(591): warning C4244: 'argument' : conversion from 'Sint32' to 'float', possible loss of data
+         ImageTextButton.cpp
+         ResourceManager.cpp
+     1>..\..\src\ResourceManager.cpp(229): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>..\..\src\ResourceManager.cpp(231): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+         Debouncer.cpp
+         InputController.cpp
+         InputEvent.cpp
+     1>..\..\src\Input\InputEvent.cpp(43): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\Input\InputEvent.cpp(44): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+         InternalEvent.cpp
+         Autoscanner.cpp
+     1>..\..\src\Input\Scanners\Autoscanner.cpp(59): warning C4244: 'initializing' : conversion from 'float' to 'unsigned int', possible loss of data
+         Scanner.cpp
+         fbo.cpp
+         GPUProgram.cpp
+         GPUShader.cpp
+         GPUVariable.cpp
+         tinystr.cpp
+         tinyxml.cpp
+         tinyxmlerror.cpp
+         tinyxmlparser.cpp
+         Definitions.cpp
+         GUIController.cpp
+         BitmapDrawable.cpp
+         Compiling...
+         Drawable.cpp
+         LayeredImageDrawable.cpp
+         NinePatch.cpp
+     1>..\..\src\GUI\Drawables\NinePatch.cpp(157): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Drawables\NinePatch.cpp(166): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+         RectDrawable.cpp
+         StateListDrawable.cpp
+         ColourSelector.cpp
+     1>..\..\src\GUI\Views\ColourSelector.cpp(47): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ColourSelector.cpp(52): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ColourSelector.cpp(53): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+         ImageButton.cpp
+     1>..\..\src\GUI\Views\ImageButton.cpp(81): warning C4482: nonstandard extension used: enum 'ShivaGUI::InternalEvent::EventType' used in qualified name
+     1>..\..\src\GUI\Views\ImageButton.cpp(85): warning C4482: nonstandard extension used: enum 'ShivaGUI::InternalEvent::EventType' used in qualified name
+         Slider.cpp
+     1>..\..\src\GUI\Views\Slider.cpp(278): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(279): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(280): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(281): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(286): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(286): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(286): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(286): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(288): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(288): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(288): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(288): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(303): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(303): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(303): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\Slider.cpp(303): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         TextButton.cpp
+         TextView.cpp
+     1>..\..\src\GUI\Views\TextView.cpp(38): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\TextView.cpp(38): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\TextView.cpp(38): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\TextView.cpp(38): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         View.cpp
+     1>..\..\src\GUI\Views\View.cpp(42): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\View.cpp(42): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\View.cpp(42): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\View.cpp(42): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         AdapterView.cpp
+         DataAdapter.cpp
+         LayoutAdapterView.cpp
+     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(292): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(293): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(310): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(311): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(312): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(313): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(318): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(322): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(328): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(332): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(337): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(341): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+         ListView.cpp
+     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(31): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(32): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(168): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(169): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(187): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(188): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(189): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(190): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(195): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(199): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(206): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(210): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(216): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(220): warning C4482: nonstandard extension used: enum 'ShivaGUI::Definitions::FocusDirection' used in qualified name
+         CustomLayout.cpp
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(70): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(70): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(70): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(70): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(344): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(345): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(355): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(363): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(423): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(424): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(433): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(434): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(448): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(449): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(458): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp(459): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+         CustomLayoutElement.cpp
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(100): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(100): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(100): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(100): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(105): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(105): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(105): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(105): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(346): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(347): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(356): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(357): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(368): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(369): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(378): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp(379): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+         CustomLayoutParams.cpp
+         LayoutParams.cpp
+         LinearLayout.cpp
+     1>..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp(49): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp(54): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp(68): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp(68): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp(77): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp(82): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp(82): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp(90): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp(95): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp(109): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp(109): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp(118): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp(123): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp(123): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+         Compiling...
+         LinearLayoutParams.cpp
+         ScrollContainer.cpp
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(120): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(120): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(120): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(120): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(122): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(122): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(122): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(122): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(135): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(135): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(135): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(135): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(148): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(148): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(148): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(148): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(150): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(150): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(150): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(150): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(163): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(163): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(163): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(163): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(477): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(488): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(509): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(520): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(583): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(591): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(611): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(619): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(641): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(649): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(670): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp(678): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+         ViewGroup.cpp
+         Activity.cpp
+         Bundle.cpp
+         ProfileManager.cpp
+     1>..\..\src\System\ProfileManager.cpp(186): warning C4101: 'ErrorCode' : unreferenced local variable
+         SharedPreferences.cpp
+         Window.cpp
+         FilesystemDataProvider.cpp
+         ProfileChooserActivity.cpp
+         AudioClip.cpp
+         AudioManager.cpp
+       Lib:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib" GLee.lib Opengl32.lib SDL2.lib SDL2main.lib SDL2_mixer.lib SDL2_ttf.lib /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\glee" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL\SDL\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL\SDLmain\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_image\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_mixer\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_ttf\Release" /NOLOGO /LTCG Release\GUIManager.obj
+         Release\ImageTextButton.obj
+         Release\ResourceManager.obj
+         Release\Debouncer.obj
+         Release\InputController.obj
+         Release\InputEvent.obj
+         Release\InternalEvent.obj
+         Release\Autoscanner.obj
+         Release\Scanner.obj
+         Release\fbo.obj
+         Release\GPUProgram.obj
+         Release\GPUShader.obj
+         Release\GPUVariable.obj
+         Release\tinystr.obj
+         Release\tinyxml.obj
+         Release\tinyxmlerror.obj
+         Release\tinyxmlparser.obj
+         Release\Definitions.obj
+         Release\GUIController.obj
+         Release\BitmapDrawable.obj
+         Release\Drawable.obj
+         Release\LayeredImageDrawable.obj
+         Release\NinePatch.obj
+         Release\RectDrawable.obj
+         Release\StateListDrawable.obj
+         Release\ColourSelector.obj
+         Release\ImageButton.obj
+         Release\Slider.obj
+         Release\TextButton.obj
+         Release\TextView.obj
+         Release\View.obj
+         Release\AdapterView.obj
+         Release\DataAdapter.obj
+         Release\LayoutAdapterView.obj
+         Release\ListView.obj
+         Release\CustomLayout.obj
+         Release\CustomLayoutElement.obj
+         Release\CustomLayoutParams.obj
+         Release\LayoutParams.obj
+         Release\LinearLayout.obj
+         Release\LinearLayoutParams.obj
+         Release\ScrollContainer.obj
+         Release\ViewGroup.obj
+         Release\Activity.obj
+         Release\Bundle.obj
+         Release\ProfileManager.obj
+         Release\SharedPreferences.obj
+         Release\Window.obj
+         Release\FilesystemDataProvider.obj
+         Release\ProfileChooserActivity.obj
+         Release\AudioClip.obj
+         Release\AudioManager.obj
+     1>SDL2.lib(SDL2.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_mixer.lib(SDL2_mixer.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_ttf.lib(SDL2_ttf.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+         shiva-gui.vcxproj -> C:\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib
+       FinalizeBuildStatus:
+         Deleting file "Release\shiva-gui.unsuccessfulbuild".
+         Touching "Release\shiva-gui.lastbuildstate".
+     1>Done Building Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.12
+Time Elapsed 00:01:04.76

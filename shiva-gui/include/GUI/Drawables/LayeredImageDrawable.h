@@ -100,6 +100,7 @@ namespace ShivaGUI
 		void SetTextParams( std::string textBody, unsigned int alignment, std::string fontName, unsigned int fontSize, unsigned int fontColour );
 		//----------------------------------------------------------------------------------
 		void addTextLayer( ResourceManager* resources);
+		//----------------------------------------------------------------------------------
 
 	protected:
 
