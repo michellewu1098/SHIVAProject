@@ -1,9 +1,210 @@
-﻿Build started 23/01/2017 15:20:56.
-     1>Project "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.vcxproj" on node 2 (clean target(s)).
-     1>_PrepareForClean:
-         Deleting file "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.lastbuildstate".
-     1>Done Building Project "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.vcxproj" (clean target(s)).
+﻿Build started 23/01/2017 15:25:05.
+     1>Project "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\include" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\shiva-gui\include" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\cml-1_0_2" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\SDL" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\SDL_image" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\SDL_ttf" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\SDL_mixer" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\vol_metamorph" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\\" /Fd"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\ColourChooser.cpp ..\..\src\GLVolumeTexture.cpp ..\..\src\main.cpp ..\..\src\ModelChooser.cpp ..\..\src\RotationChooser.cpp ..\..\src\SDFView.cpp ..\..\src\sdf\core\aabb.cpp ..\..\src\sdf\core\binary_file.cpp ..\..\src\sdf\core\mesh.cpp ..\..\src\sdf\core\obj_file.cpp ..\..\src\sdf\core\point3d.cpp ..\..\src\sdf\core\thread_work.cpp ..\..\src\sdf\core\triangle_aabb_overlap.cpp ..\..\src\sdf\core\triangle_triangle_overlap.cpp ..\..\src\sdf\discretization\discretized_field.cpp ..\..\src\sdf\discretization\grid.cpp ..\..\src\sdf\distance\distance_record.cpp ..\..\src\sdf\distance\distance_to_aabb.cpp ..\..\src\sdf\distance\distance_to_triangle.cpp ..\..\src\sdf\lookup\brute_force.cpp ..\..\src\sdf\lookup\bvh.cpp ..\..\src\sdf\lookup\bvh_accelerated.cpp ..\..\src\sdf\lookup\bvh_branch.cpp ..\..\src\sdf\lookup\cell_weights.cpp ..\..\src\sdf\lookup\grid_accelerated.cpp ..\..\src\sdf\lookup\grid_cell.cpp ..\..\src\sdf\lookup\grid_offset_cell.cpp ..\..\src\sdf\lookup\index_3d.cpp ..\..\src\sdf\lookup\octnode.cpp ..\..\src\sdf\lookup\octree.cpp ..\..\src\sdf\lookup\octree_accelerated.cpp ..\..\src\sdf\lookup\regular_grid.cpp ..\..\src\sdf\profiler\scope.cpp ..\..\src\sdf\sign\angle_weighted_average.cpp ..\..\src\sdf\sign\direct_normal.cpp ..\..\src\ShivaMetamorphosis.cpp ..\..\src\ShivaModelManager.cpp ..\..\src\VolumeLoader.cpp
+         VolumeLoader.cpp
+         ShivaModelManager.cpp
+         ShivaMetamorphosis.cpp
+         direct_normal.cpp
+         angle_weighted_average.cpp
+         scope.cpp
+         regular_grid.cpp
+         octree_accelerated.cpp
+         octree.cpp
+         octnode.cpp
+         index_3d.cpp
+         grid_offset_cell.cpp
+         grid_cell.cpp
+         grid_accelerated.cpp
+         cell_weights.cpp
+         bvh_branch.cpp
+         bvh_accelerated.cpp
+         bvh.cpp
+         brute_force.cpp
+         distance_to_triangle.cpp
+         Generating Code...
+         Compiling...
+         distance_to_aabb.cpp
+         distance_record.cpp
+         grid.cpp
+         discretized_field.cpp
+         triangle_triangle_overlap.cpp
+         triangle_aabb_overlap.cpp
+         thread_work.cpp
+         point3d.cpp
+         obj_file.cpp
+         mesh.cpp
+         binary_file.cpp
+         aabb.cpp
+         SDFView.cpp
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(49): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(201): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(201): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(201): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(201): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(214): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(218): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(222): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(227): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(231): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(235): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(239): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(255): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(255): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(255): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(314): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(314): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(314): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(391): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\include\cml-1_0_2\cml\mathlib\matrix_transform.h(547): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
+                 c:\shivaproject\include\cml-1_0_2\cml\mathlib\matrix_transform.h(571) : see reference to function template instantiation 'void cml::matrix_look_at<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major,VecT_1,VecT_2,VecT_3>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,const VecT_1 &,const VecT_2 &,const VecT_3 &,cml::Handedness)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     VecT_1=cml::vector3f,
+                     VecT_2=cml::vector3f,
+                     VecT_3=cml::vector3f,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major
+                 ]
+                 c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(42) : see reference to function template instantiation 'void cml::matrix_look_at_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major,cml::vector3f,cml::vector3f,cml::vector3f>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,const VecT_1 &,const VecT_2 &,const VecT_3 &)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     VecT_1=cml::vector3f,
+                     VecT_2=cml::vector3f,
+                     VecT_3=cml::vector3f
+                 ]
+     1>c:\shivaproject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(55): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
+                 c:\shivaproject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(105) : see reference to function template instantiation 'void cml::matrix_perspective<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+                 c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(48) : see reference to function template instantiation 'void cml::matrix_perspective_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+         RotationChooser.cpp
+         ModelChooser.cpp
+         main.cpp
+         GLVolumeTexture.cpp
+         ColourChooser.cpp
+         Generating Code...
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.exe.embed.manifest.res" C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis_manifest.rc 
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\shiva-gui\vs\shiva-gui\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\glee" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\vol_metamorph" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL\SDL\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL\SDLmain\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL_image\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL_mixer\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL_ttf\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\boost" "shiva-gui.lib" vol_metamorph.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc.lib /MANIFEST /ManifestFile:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.lib" /MACHINE:X86 "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.exe.embed.manifest.res"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\ColourChooser.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\GLVolumeTexture.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\main.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\ModelChooser.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\RotationChooser.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\SDFView.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\aabb.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\binary_file.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\mesh.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\obj_file.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\point3d.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\thread_work.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\triangle_aabb_overlap.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\triangle_triangle_overlap.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\discretized_field.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\grid.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\distance_record.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\distance_to_aabb.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\distance_to_triangle.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\brute_force.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\bvh.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\bvh_accelerated.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\bvh_branch.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\cell_weights.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\grid_accelerated.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\grid_cell.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\grid_offset_cell.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\index_3d.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\octnode.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\octree.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\octree_accelerated.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\regular_grid.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\scope.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\angle_weighted_average.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\direct_normal.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\ShivaMetamorphosis.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\ShivaModelManager.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\VolumeLoader.obj"
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.exe.embed.manifest" /manifest "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.exe.intermediate.manifest"
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.exe.embed.manifest.res" C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis_manifest.rc 
+       LinkEmbedManifest:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\shiva-gui\vs\shiva-gui\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\glee" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\vol_metamorph" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL\SDL\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL\SDLmain\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL_image\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL_mixer\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL_ttf\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\boost" "shiva-gui.lib" vol_metamorph.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc.lib /MANIFEST /ManifestFile:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.lib" /MACHINE:X86 "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.exe.embed.manifest.res"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\ColourChooser.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\GLVolumeTexture.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\main.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\ModelChooser.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\RotationChooser.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\SDFView.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\aabb.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\binary_file.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\mesh.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\obj_file.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\point3d.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\thread_work.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\triangle_aabb_overlap.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\triangle_triangle_overlap.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\discretized_field.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\grid.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\distance_record.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\distance_to_aabb.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\distance_to_triangle.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\brute_force.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\bvh.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\bvh_accelerated.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\bvh_branch.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\cell_weights.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\grid_accelerated.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\grid_cell.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\grid_offset_cell.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\index_3d.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\octnode.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\octree.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\octree_accelerated.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\regular_grid.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\scope.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\angle_weighted_average.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\direct_normal.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\ShivaMetamorphosis.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\ShivaModelManager.obj"
+         "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\VolumeLoader.obj"
+         shiva-metamorphosis.vcxproj -> C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.exe
+       FinalizeBuildStatus:
+         Deleting file "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.unsuccessfulbuild".
+         Touching "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.lastbuildstate".
+     1>Done Building Project "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.20
+Time Elapsed 00:00:33.10
