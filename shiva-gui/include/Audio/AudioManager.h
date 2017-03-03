@@ -1,21 +1,15 @@
+///-----------------------------------------------------------------------------------------------
+/// \file AudioManager.h
+/// \brief Audio manager class
+/// \author Leigh McLoughlin
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 #ifndef __SHIVA_AUDIO_AUDIOMANAGER__
 #define __SHIVA_AUDIO_AUDIOMANAGER__
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-#include <string>
-#include <map>
 
-#include <SDL.h>
-#include <SDL_mixer.h>
-
-//////////////////////////////////////////////////////////////////////////
+#include <iostream>
 #include "Audio/AudioClip.h"
-
-
-//////////////////////////////////////////////////////////////////////////
 
 namespace ShivaGUI
 {
@@ -40,39 +34,59 @@ namespace ShivaGUI
 	* Will have an AudioController which is per-Activity and has functions for RegisterEvent and IssueEvent
 	* AudioManager is used to create and destroy AudioControllers, to load and destroy Mix_chunks
 	*/
+
 	class AudioManager
 	{
 	public:
+
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor
+		//----------------------------------------------------------------------------------
 		AudioManager();
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor
+		//----------------------------------------------------------------------------------
 		~AudioManager();
-
-		//AudioController* CreateAudioController();
-
-		/// The AudioClip is a convenience thing to contain playback controls and store settings
-		/// TODO: let the thing be an xml with options for stuff like looping, volume, fade in / fade out, etc
-		AudioClip* GetSample(std::string filename);
-
-		/// This is called automatically by the AudioClip destructor, so make sure you delete those AudioClips!
-		void FreeSample(std::string filename);
-
-
+		//----------------------------------------------------------------------------------
+		/// \brief The AudioClip is a convenience thing to contain playback controls and store settings
+		/// \todo let the thing be an xml with options for stuff like looping, volume, fade in / fade out, etc
+		/// \param [in] _filename
+		//----------------------------------------------------------------------------------
+		AudioClip* GetSample( std::string _filename );
+		//----------------------------------------------------------------------------------
+		/// \brief This is called automatically by the AudioClip destructor, so make sure you delete those AudioClips!
+		/// \param [in] _filename
+		//----------------------------------------------------------------------------------
+		void FreeSample( std::string _filename );
+		//----------------------------------------------------------------------------------
 
 	protected:
 
-		bool _audioCapable;
+		//----------------------------------------------------------------------------------
+		/// \brief Whether audio capable
+		//----------------------------------------------------------------------------------
+		bool m_audioCapable;
+		//----------------------------------------------------------------------------------
+		/// \brief Get audio chunk
+		/// \param [in] _filename
+		//----------------------------------------------------------------------------------
+		Mix_Chunk* GetChunk( std::string _filename );
+		//----------------------------------------------------------------------------------
+		/// \brief Free audio chunk
+		/// \param [in] _filename
+		//----------------------------------------------------------------------------------
+		void FreeChunk( std::string _filename );
+		//----------------------------------------------------------------------------------
+		/// \brief Associates filenames with loaded audio chunks
+		//----------------------------------------------------------------------------------
+		std::map< std::string, Mix_Chunk* > m_loadedChunks;
+		//----------------------------------------------------------------------------------
+		/// \brief Number of references
+		//----------------------------------------------------------------------------------
+		std::map< std::string, int > m_sampleRefCount;
+		//----------------------------------------------------------------------------------
 
-		Mix_Chunk* GetChunk(std::string filename);
-
-		void FreeChunk(std::string filename);
-
-		/// Associates filenames with loaded audio chunks
-		std::map<std::string,Mix_Chunk*> _loadedChunks;
-
-		/// Number of references
-		std::map<std::string,int> _sampleRefCount;
 	};
 }
 
-
-//////////////////////////////////////////////////////////////////////////
 #endif
