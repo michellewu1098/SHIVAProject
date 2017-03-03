@@ -40,8 +40,8 @@ void ShivaGUI::InputEvent::SetMouseButtonEvent(bool buttonUp, int button, float 
 	else
 		_type = MOUSEBUTTONDOWN;
 	_mouseButton = button;
-	_mouseX = mouseX;
-	_mouseY = mouseY;
+	_mouseX = ( int )mouseX;
+	_mouseY = ( int )mouseY;
 	_winID = windowID;
 }
 

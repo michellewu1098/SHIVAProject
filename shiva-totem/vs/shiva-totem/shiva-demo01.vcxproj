@@ -59,8 +59,8 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>shiva-gui.lib;GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;shiva-voltree.lib;vol_totem.lib;vol_metamorph.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\vol_totem;$(ProjectDir)\..\..\..\lib\vol_metamorph;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>shiva-gui.lib;GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;shiva-voltree.lib;vol_totem.lib;vol_metamorph.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\vol_totem;$(ProjectDir)\..\..\..\lib\vol_metamorph;$(ProjectDir)\..\..\..\lib\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -81,8 +81,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>shiva-gui.lib;GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;shiva-voltree.lib;vol_totem.lib;vol_metamorph.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\vol_totem;$(ProjectDir)\..\..\..\lib\vol_metamorph;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>shiva-gui.lib;GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;shiva-voltree.lib;vol_totem.lib;vol_metamorph.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\vol_totem;$(ProjectDir)\..\..\..\lib\vol_metamorph;$(ProjectDir)\..\..\..\lib\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>

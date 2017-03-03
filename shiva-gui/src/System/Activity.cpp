@@ -1,168 +1,193 @@
 #include "System/Activity.h"
 #include "GUIManager.h"
 
-//////////////////////////////////////////////////////////////////////////
-#include <iostream>
-
+//----------------------------------------------------------------------------------
 
 ShivaGUI::Activity::Activity()
 {
-	_guiManager = NULL;
-	_startedForResult = false;
-	_numGUIControllers = 0;
-	_GUIControllers = NULL;
+	m_guiManager = NULL;
+	m_startedForResult = false;
+	m_numGUIControllers = 0;
+	m_GUIControllers = NULL;
 }
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::Activity::~Activity()
 {
-	for( unsigned int i = 0; i < _numGUIControllers ; i++ )
+	for( unsigned int i = 0; i < m_numGUIControllers ; i++ )
 	{
-		delete _GUIControllers[i];
+		delete m_GUIControllers[ i ];
 	}
-	delete [] _GUIControllers;
+	delete [] m_GUIControllers;
 }
 
+//----------------------------------------------------------------------------------
 
-
-void ShivaGUI::Activity::Create(GUIManager *guiManager, Bundle *savedState, bool startedForResult )
+void ShivaGUI::Activity::Create( GUIManager *_guiManager, Bundle *_savedState, bool _startedForResult )
 {
-	_guiManager = guiManager;
-	_startedForResult = startedForResult;
-	OnCreate(savedState);
+	m_guiManager = _guiManager;
+	m_startedForResult = _startedForResult;
+	OnCreate( _savedState );
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::Activity::Destroy()
 {
 	OnDestroy();
 }
 
-void ShivaGUI::Activity::Update(float deltaTs)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::Activity::Update( float _deltaTs )
 {
-	if( _GUIControllers != NULL )
+	if( m_GUIControllers != NULL )
 	{
-		for( unsigned int i = 0; i < _numGUIControllers; i++ )
+		for( unsigned int i = 0; i < m_numGUIControllers; i++ )
 		{
-			if( _GUIControllers[i] != NULL )
+			if( m_GUIControllers[ i ] != NULL )
 			{
-				_GUIControllers[i]->Update(deltaTs);
+				m_GUIControllers[ i ]->Update( _deltaTs );
 			}
 		}
 	}
-	OnUpdate(deltaTs);
+	OnUpdate( _deltaTs );
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::Activity::Draw()
 {
-	if( _GUIControllers != NULL )
+	if( m_GUIControllers != NULL )
 	{
-		for( unsigned int i = 0; i < _numGUIControllers; i++ )
+		for( unsigned int i = 0; i < m_numGUIControllers; i++ )
 		{
-			if( _GUIControllers[i] != NULL )
+			if( m_GUIControllers[ i ] != NULL )
 			{
-				_GUIControllers[i]->Draw();
+				m_GUIControllers[ i ]->Draw();
 			}
 		}
 	}
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::Activity::Layout()
 {
-	if( _GUIControllers != NULL )
+	if( m_GUIControllers != NULL )
 	{
-		for( unsigned int i = 0; i < _numGUIControllers; i++ )
+		for( unsigned int i = 0; i < m_numGUIControllers; i++ )
 		{
-			if( _GUIControllers[i] != NULL )
+			if( m_GUIControllers[ i ] != NULL )
 			{
-				_GUIControllers[i]->Layout();
+				m_GUIControllers[ i ]->Layout();
 			}
 		}
 	}
 }
 
-void ShivaGUI::Activity::ReturnActivityResult(Bundle *data)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::Activity::ReturnActivityResult( Bundle *_data )
 {
-	OnActivityResult(data);
+	OnActivityResult( _data );
 	// delete it here? - no, deleting it in GUIManager
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::Activity::ConfigurationChanged()
 {
 	OnConfigurationChanged();
 }
 
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::Activity::Finish()
 {
-	_guiManager->FinishActivity();
+	m_guiManager->FinishActivity();
 }
 
-void ShivaGUI::Activity::SetResult(Bundle *data)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::Activity::SetResult( Bundle *_data )
 {
-	_guiManager->SetActivityResult(data);
+	m_guiManager->SetActivityResult( _data );
 }
 
+//----------------------------------------------------------------------------------
 
-
-void ShivaGUI::Activity::SetNumGUIControllers(unsigned int numControllers)
+void ShivaGUI::Activity::SetNumGUIControllers( unsigned int _numControllers )
 {
 	// Delete existing controllers
-	for( unsigned int i = 0; i < _numGUIControllers ; i++ )
+	for( unsigned int i = 0; i < m_numGUIControllers ; i++ )
 	{
-		delete _GUIControllers[i];
+		delete m_GUIControllers[ i ];
 	}
-	_numGUIControllers = numControllers;
-	_GUIControllers = new GUIController *[numControllers];
-	for( unsigned int i = 0; i < numControllers; i++ )
-		_GUIControllers[i] = NULL;
+	m_numGUIControllers = _numControllers;
+	m_GUIControllers = new GUIController *[ _numControllers ];
+	for( unsigned int i = 0; i < _numControllers; i++ )
+		m_GUIControllers[ i ] = NULL;
 }
 
-void ShivaGUI::Activity::AddGUIController(GUIController *controller,unsigned int index)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::Activity::AddGUIController( GUIController *_controller, unsigned int _index )
 {
-	_GUIControllers[index] = controller;
+	m_GUIControllers[ _index ] = _controller;
 }
+
+//----------------------------------------------------------------------------------
 
 unsigned int ShivaGUI::Activity::GetNumGUIControllers()
 {
-	return _numGUIControllers;
+	return m_numGUIControllers;
 }
 
-ShivaGUI::GUIController* ShivaGUI::Activity::GetGUIController(unsigned int index)
+//----------------------------------------------------------------------------------
+
+ShivaGUI::GUIController* ShivaGUI::Activity::GetGUIController( unsigned int _index )
 {
-	if( index >= _numGUIControllers )
+	if( _index >= m_numGUIControllers )
 		return NULL;
-	return _GUIControllers[index];
+	return m_GUIControllers[ _index ];
 }
 
+//----------------------------------------------------------------------------------
 
-void ShivaGUI::Activity::IssueEvent(InternalEvent *currentEvent)
+void ShivaGUI::Activity::IssueEvent( InternalEvent *_currentEvent )
 {
-	if( currentEvent->GetType() == InternalEvent::QUIT )
-		_guiManager->SetExitEvent();
-	else if( currentEvent->GetType() == InternalEvent::BACK )
+	if( _currentEvent->GetType() == InternalEvent::QUIT )
+		m_guiManager->SetExitEvent();
+	else if( _currentEvent->GetType() == InternalEvent::BACK )
 		OnBackPressed();
 
-	if( _GUIControllers != NULL )
+	if( m_GUIControllers != NULL )
 	{
-		for( unsigned int i = 0; i < _numGUIControllers; i++ )
+		for( unsigned int i = 0; i < m_numGUIControllers; i++ )
 		{
-			GUIController *currentController = _GUIControllers[i];
+			GUIController *currentController = m_GUIControllers[ i ];
 			if( currentController != NULL )
 			{
-				currentController->IssueEvent(currentEvent);
+				currentController->IssueEvent( _currentEvent );
 			}
 		}
 	}
 }
 
+//----------------------------------------------------------------------------------
 
-
-ShivaGUI::Activity::UtilityEventHandler::UtilityEventHandler(Activity *parent)
+ShivaGUI::Activity::UtilityEventHandler::UtilityEventHandler( Activity *_parent )
 {
-	_parent = parent;
+	m_parent = _parent;
 }
 
-void ShivaGUI::Activity::UtilityEventHandler::HandleEvent(View *view)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::Activity::UtilityEventHandler::HandleEvent( View *_view )
 {
-	_parent->UtilityEventReceived(this,view);
+	m_parent->UtilityEventReceived( this, _view );
 }
 
+//----------------------------------------------------------------------------------

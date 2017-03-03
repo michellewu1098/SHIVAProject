@@ -13,20 +13,18 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
-#include <GL/GLee.h>
+#include <GL/glew.h>
 #include <GL/glu.h>
+#include <cml/cml.h>
 #include <sstream>
 #include <iostream>
 #include <boost/algorithm/string.hpp>
 
-#include <string>
 #include <vector>
 #include <map>
 
 #include "GUI/Definitions.h"
 #include "System/ProfileManager.h"
-#include "System/SharedPreferences.h"
-#include "Utility/tinyxml.h"
 
 namespace ShivaGUI
 {
@@ -45,10 +43,10 @@ namespace ShivaGUI
 		
 		//----------------------------------------------------------------------------------
 		/// \brief Ctor 
-		/// \param [in] 
-		/// \param [in] windowIndex
+		/// \param [in] _guiManager
+		/// \param [in] _windowIndex
 		//----------------------------------------------------------------------------------
-		ResourceManager( GUIManager*, unsigned int windowIndex );
+		ResourceManager( GUIManager *_guiManager, unsigned int _windowIndex );
 		//----------------------------------------------------------------------------------
 		/// \brief Dtor
 		//----------------------------------------------------------------------------------
@@ -68,7 +66,7 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief Set mipmap
 		//----------------------------------------------------------------------------------
-		void SetMipmap( bool value ) { _mipmapImages = value; }
+		void SetMipmap( bool value ) { m_mipmapImages = value; }
 		//----------------------------------------------------------------------------------
 		/// \brief Used when the OpenGL context has been invalidated and we need to reload all textures (Note that this cannot reload)
 		//----------------------------------------------------------------------------------
@@ -88,9 +86,10 @@ namespace ShivaGUI
 		/// \return An OpenGL texture ID for the bitmap
 		//----------------------------------------------------------------------------------
 		unsigned int GetBitmap( std::string filename );
-		unsigned int GetBitmap( std::string filename, std::string fontName, unsigned int fontSize );
 		//----------------------------------------------------------------------------------
 		unsigned int GetText( std::string text,  unsigned int alignment, std::string fontfilename, unsigned int fontsize, unsigned int fontColour = 0 );
+		//----------------------------------------------------------------------------------
+		SDL_Surface* GetTextSurface( std::string text,  unsigned int alignment, std::string fontfilename, unsigned int fontsize, unsigned int fontColour );
 		//----------------------------------------------------------------------------------
 		/// \brief Renders a simple text string to OpenGL texture, returning the OpenGL texture ID
 		/// If the fontfilename is empty, it will attempt to use a default font
@@ -156,7 +155,7 @@ namespace ShivaGUI
 		/// \brief Sets the default font
 		/// \param [in] filename
 		//----------------------------------------------------------------------------------
-		void SetDefaultFont( std::string filename ) { _defaultFont = filename; }
+		void SetDefaultFont( std::string filename ) { m_defaultFont = filename; }
 		//----------------------------------------------------------------------------------
 		/// \brief Retrieves the Listener from the current Activity's connected GUIController
 		/// \param [in] name
@@ -178,7 +177,32 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		void RegisterPostInflationLink( View *src, std::string dstID, Definitions::FocusDirection focusDir );
 		//----------------------------------------------------------------------------------
-		void SetExtraSpace( const bool &s ) { _addExtraSpace = s; }
+		void SetExtraSpace( const bool &s ) { m_addTextSpace = s; }
+		//----------------------------------------------------------------------------------
+		void SetTextInfo( const std::string &text, const std::string &fontName, const unsigned int &fontSize, const unsigned int &fontColour, const unsigned int &textAlign );
+		//----------------------------------------------------------------------------------
+		void ClearText(); 
+		unsigned int GetTextTextureName() const { return m_textTexName; }
+		unsigned int GetTexture( std::string texName ) { return m_glTextures[ texName ]; }
+		void CreateTextureFromText( const bool &y ) { m_isTextToTexture = y; }
+
+		bool IsCreatingText() const { return m_isTextToTexture; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set projection and model view matrix for rendering
+		/// \param [in] _width Corresponds to right parameter
+		/// \param [in] _height Correpsonds to top parameter
+		//----------------------------------------------------------------------------------
+		void SetMatrices( const float &_width, const float &_height );
+		//----------------------------------------------------------------------------------
+		/// \brief Returns projection matrix
+		/// \return m_projMatrix
+		//----------------------------------------------------------------------------------
+		cml::matrix44f_c GetProjectionMatrix() const { return m_projMatrix; }
+		//----------------------------------------------------------------------------------
+		/// \brie Returns modelview matrix
+		/// \retunr m_mvMatrix
+		//----------------------------------------------------------------------------------
+		cml::matrix44f_c GetModelViewMatrix() const { return m_mvMatrix; }
 		//----------------------------------------------------------------------------------
 
 	protected:
@@ -186,15 +210,15 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief GUI Manager instance
 		//----------------------------------------------------------------------------------
-		GUIManager *_GUIManager;
+		GUIManager *m_GUIManager;
 		//----------------------------------------------------------------------------------
 		/// \brief Windox index
 		//----------------------------------------------------------------------------------
-		unsigned int _windowIndex;
+		unsigned int m_windowIndex;
 		//----------------------------------------------------------------------------------
 		/// \brief Controls whether mipmaps are automatically generated for loaded images (Default value is true)
 		//----------------------------------------------------------------------------------
-		bool _mipmapImages;
+		bool m_mipmapImages;
 		//----------------------------------------------------------------------------------
 		/// \brief Recursively parses an xml layout tree
 		/// \param [in] xmlNode
@@ -209,19 +233,19 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		// TODO: properly share openGL texIDs, using smart pointers, so can delete ones no longer in use
 		//----------------------------------------------------------------------------------
-		std::map< std::string, unsigned int > _glTextures;
+		std::map< std::string, unsigned int > m_glTextures;
 		//----------------------------------------------------------------------------------
-		std::map< std::string, unsigned int > _glExternalTextures;
+		std::map< std::string, unsigned int > m_glExternalTextures;
 		//----------------------------------------------------------------------------------
 		/// \brief Constants for use when looking up xml attributes
 		//----------------------------------------------------------------------------------
-		std::map< std::string, std::string > _attribConstsTheme;
+		std::map< std::string, std::string > m_attribConstsTheme;
 		//----------------------------------------------------------------------------------
-		std::map< std::string, std::string > _attribConstsProfile;
+		std::map< std::string, std::string > m_attribConstsProfile;
 		//----------------------------------------------------------------------------------
 		/// \brief Current theme node
 		//----------------------------------------------------------------------------------
-		TiXmlElement *_currentThemeNode;
+		TiXmlElement *m_currentThemeNode;
 		//----------------------------------------------------------------------------------
 		/// \brief Utility function for converting an SDL surface to an OpenGL texture
 		/// \param [in] image
@@ -246,7 +270,7 @@ namespace ShivaGUI
 		/// \brief For storing loaded fonts
 		/// \note The size is also included in the string key
 		//----------------------------------------------------------------------------------
-		std::map< std::string, TTF_Font* > _fontcache;
+		std::map< std::string, TTF_Font* > m_fontcache;
 		//----------------------------------------------------------------------------------
 		/// \brief For loading a font
 		//----------------------------------------------------------------------------------
@@ -254,13 +278,37 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief Default font
 		//----------------------------------------------------------------------------------
-		std::string _defaultFont;
+		std::string m_defaultFont;
 		//----------------------------------------------------------------------------------
-		bool _addExtraSpace;
-		
+		bool m_addTextSpace;
+		//----------------------------------------------------------------------------------
+		// Text/Font info from ImageTextButton
+		//----------------------------------------------------------------------------------
+		std::string m_buttonText;
+		//----------------------------------------------------------------------------------
+		std::string m_buttonFontName;
+		//----------------------------------------------------------------------------------
+		unsigned int m_buttonFontSize;
+		//----------------------------------------------------------------------------------
+		unsigned int m_buttonFontColour;
+		//----------------------------------------------------------------------------------
+		unsigned int m_buttonTextAlign;
+		//----------------------------------------------------------------------------------
+		unsigned int m_textTexName;
+		//----------------------------------------------------------------------------------
+		cml::matrix44f_c m_projMatrix;
+		//----------------------------------------------------------------------------------
+		cml::matrix44f_c m_mvMatrix;
+		//----------------------------------------------------------------------------------
+
+		bool m_isRenderingText;
+
 		/// \brief During inflation of Layout links need to be made between Views for scanning and selection order purposes
 		/// The Views they need to link to may not have been created yet, so we save the requests using instances of this sub-class and deal with them after inflation
 		
+		bool m_isTextToTexture;
+
+
 		class PostInflationLink
 		{
 		public:
@@ -295,7 +343,7 @@ namespace ShivaGUI
 		};
 
 		//----------------------------------------------------------------------------------
-		std::vector< PostInflationLink > _postInflationLinks;
+		std::vector< PostInflationLink > m_postInflationLinks;
 		//----------------------------------------------------------------------------------
 		void DoPostEvaluationLinks();
 		//----------------------------------------------------------------------------------

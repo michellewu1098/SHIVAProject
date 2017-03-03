@@ -60,7 +60,7 @@
 #include "NudgeActivity.h"
 
 #include "ShivaModelManager.h"
-#include "Totem\TotemController.h"
+#include "Totem/TotemController.h"
 #include "VolView.h"
 
 #include "VolumeTree/VolumeTree.h"
@@ -79,11 +79,9 @@
 	#endif // CreateWindow
 #endif // WIN32
 
-//////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <boost/program_options.hpp>
 
-//////////////////////////////////////////////////////////////////////////
 
 // This will be used for storing our program options, which may also be loaded by command-line
 struct program_options
@@ -93,32 +91,33 @@ struct program_options
 };
 
 // Forward declaration of a function that will sort out our command-line options
-bool get_options(program_options *options, int argc, char **argv);
+bool get_options( program_options *options, int argc, char **argv );
 
 
-int main(int argc, char **argv)
+int main( int argc, char **argv )
 {
 	// Set our program options from command line
 	program_options options;
-	if( !get_options(&options,argc,argv) )
+	if( !get_options( &options, argc, argv ) )
 		return 0;
 
 
-	ShivaModelManager *modelManager = ShivaModelManager::Init("Resources/Models/index.xml");
+	ShivaModelManager *modelManager = ShivaModelManager::Init( "Resources/Models/index.xml" );
+	ShivaGUI::GUIManager *mainGUIManager = new ShivaGUI::GUIManager( "SHIVA Totem Prototype 1b", "totem1b" );
 
 	Totem::Controller *totemController = Totem::Controller::Init();
 
 	if( modelManager != NULL )
 	{
 		int numModels = modelManager->GetNumEntries();
-		std::cout<<"INFO: ModelManager reports "<<numModels<<" models"<<std::endl;
+		std::cout << "INFO: ModelManager reports " << numModels << " models" << std::endl;
 		totemController->SetNumPrimitives( numModels );
 
 		for( int i = 0; i < numModels; i++ )
 		{
 			VolumeTree::Node *currentModelNode = NULL;
 
-			if( modelManager->QueryAttribute(i,"primitive") )
+			if( modelManager->QueryAttribute( i, "primitive" ) )
 			{
 				// Model is a primitive
 				std::string primType = modelManager->GetAttributeString( i, "primitive" );
@@ -175,19 +174,17 @@ int main(int argc, char **argv)
 	totemController->SetPrimitiveNode(5, new VolumeTree::CubeNode(0.5f,1.0f,0.5f) );
 	*/
 
- 	ShivaGUI::GUIManager *mainGUIManager = new ShivaGUI::GUIManager("SHIVA Totem Prototype 1b", "totem1b");
+ 
+	mainGUIManager->RegisterActivityCreator( "AssembleActivity", AssembleActivity::Factory );
+	mainGUIManager->RegisterActivityCreator( "DrillActivity", DrillActivity::Factory );
+	mainGUIManager->RegisterActivityCreator( "EditMenuActivity", EditMenuActivity::Factory );
+	mainGUIManager->RegisterActivityCreator( "BlendAdjustActivity", BlendAdjustActivity::Factory );
+	mainGUIManager->RegisterActivityCreator( "RotateObjectActivity", RotateObjectActivity::Factory );
+	mainGUIManager->RegisterActivityCreator( "UniformScaleActivity", UniformScaleActivity::Factory );
+	mainGUIManager->RegisterActivityCreator( "NudgeActivity", NudgeActivity::Factory );
+	mainGUIManager->RegisterViewCreator( "VolView", VolView::Factory );
 
-	mainGUIManager->RegisterActivityCreator("AssembleActivity",AssembleActivity::Factory);
-	mainGUIManager->RegisterActivityCreator("DrillActivity",DrillActivity::Factory);
-	mainGUIManager->RegisterActivityCreator("EditMenuActivity",EditMenuActivity::Factory);
-	mainGUIManager->RegisterActivityCreator("BlendAdjustActivity",BlendAdjustActivity::Factory);
-	mainGUIManager->RegisterActivityCreator("RotateObjectActivity",RotateObjectActivity::Factory);
-	mainGUIManager->RegisterActivityCreator("UniformScaleActivity",UniformScaleActivity::Factory);
-	mainGUIManager->RegisterActivityCreator("NudgeActivity",NudgeActivity::Factory);
-	mainGUIManager->RegisterViewCreator("VolView",VolView::Factory);
-
-	mainGUIManager->StartWithProfileChooser("AssembleActivity",options.profileDirectory,options.profileName);
-
+	mainGUIManager->StartWithProfileChooser( "AssembleActivity", options.profileDirectory, options.profileName );
 
 	Totem::Controller::UnInit();
 
@@ -196,39 +193,39 @@ int main(int argc, char **argv)
 
 
 // This function will deal with our command line options, setting up the profile directory and profile name
-bool get_options(program_options *options, int argc, char **argv)
+bool get_options( program_options *options, int argc, char **argv )
 {
-	boost::program_options::options_description generic("Generic options");
+	boost::program_options::options_description generic( "Generic options" );
 	generic.add_options()
-		("version,v", "print version string")
-		("help,h", "produce help message");
+		( "version,v", "print version string" )
+		( "help,h", "produce help message" );
 
-	boost::program_options::options_description profile("Profile options");
+	boost::program_options::options_description profile( "Profile options" );
 	profile.add_options()
-		("profile_directory,d",
-		 boost::program_options::value<std::string>(&(options->profileDirectory))->default_value("Profiles"),
-		 "profile directory")
-		("profile_name,n",
-		 boost::program_options::value<std::string>(&(options->profileName))->default_value(""),
-		 "profile name");
+		( "profile_directory,d",
+		 boost::program_options::value< std::string >( &( options->profileDirectory ) )->default_value( "Profiles" ),
+		 "profile directory" )
+		( "profile_name,n",
+		 boost::program_options::value< std::string >( &( options->profileName ) )->default_value( "" ),
+		 "profile name" );
 
 
-	boost::program_options::options_description allOptions("Allowed options");
-	allOptions.add(generic).add(profile);
+	boost::program_options::options_description allOptions( "Allowed options" );
+	allOptions.add( generic ).add( profile );
 
 	boost::program_options::variables_map variableMap;
-	boost::program_options::store(boost::program_options::parse_command_line(argc, argv, allOptions), variableMap);
-	boost::program_options::notify(variableMap);
+	boost::program_options::store( boost::program_options::parse_command_line( argc, argv, allOptions ), variableMap );
+	boost::program_options::notify( variableMap );
 
 	// See what we have found in our command line options:
-	if( variableMap.count("help") )
+	if( variableMap.count( "help" ) )
 	{
 		// This will print out a nicely formatted help text of all our options
 	    std::cout << allOptions << std::endl;
 	    // Return false to exit the program
 	    return false;
 	}
-	else if( variableMap.count("version") )
+	else if( variableMap.count( "version" ) )
 	{
 	    std::cout << "SHIVA Demo 1.0 - simple GUI System demo" << std::endl;
 	    // Return false to exit the program

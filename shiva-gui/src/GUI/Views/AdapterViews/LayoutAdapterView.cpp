@@ -255,11 +255,11 @@ void ShivaGUI::LayoutAdapterView::RefreshFromSource()
 		delete ( *it );
 	_children.clear();
 
-	if( _prevScan != NULL && _nextScan != NULL )
+	if( m_prevScan != NULL && m_nextScan != NULL )
 	{
 		// Remove ourselves from the scan chain
-		_prevScan->SetNextScan( _nextScan, true );
-		_nextScan->SetNextScan( _prevScan, false );
+		m_prevScan->SetNextScan( m_nextScan, true );
+		m_nextScan->SetNextScan( m_prevScan, false );
 	}
 
 	_initialised = false;
@@ -272,13 +272,13 @@ void ShivaGUI::LayoutAdapterView::RefreshConnectionLinks()
 	
 	if( _children.size() > 0 )
 	{
-		if( _prevScan != NULL && _nextScan != NULL )
+		if( m_prevScan != NULL && m_nextScan != NULL )
 		{
 			std::cout << "INFO: ListView::RefreshConnectionLinks() ready to change scan links" << std::endl;
 			
 			// First child links to what we've been told is the previous scan item
 			// Children link to each other
-			View *previous = _prevScan, *current = NULL;
+			View *previous = m_prevScan, *current = NULL;
 			for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
 			{
 				current = ( *it );
@@ -286,20 +286,20 @@ void ShivaGUI::LayoutAdapterView::RefreshConnectionLinks()
 				previous->SetNextScan( current, true );
 				current->SetNextScan( previous, false );
 
-				if( previous != _prevScan )
+				if( previous != m_prevScan )
 				{
 					// Only linking children here: _prevScan is not necessarily the previous focus
-					previous->SetNextFocus( current, Definitions::FocusDirection::Down );
-					current->SetNextFocus( previous, Definitions::FocusDirection::Up );
+					previous->SetNextFocus( current, Definitions::Down );
+					current->SetNextFocus( previous, Definitions::Up );
 				}
 
 				previous = current;
 			}
 
-			current->SetNextScan( _nextScan, true );
-			_nextScan->SetNextScan( current, false );
+			current->SetNextScan( m_nextScan, true );
+			m_nextScan->SetNextScan( current, false );
 			
-			if( _isFirstScan ) // _children.front() is safe because _children.size() > 0
+			if( m_isFirstScan ) // _children.front() is safe because _children.size() > 0
 			{
 				_children.front()->SetIsFirstScan( true );
 			}
@@ -307,41 +307,41 @@ void ShivaGUI::LayoutAdapterView::RefreshConnectionLinks()
 
 		// Focus
 		// Left/right will just link all children the same:
-		View *focusLeft = GetNextFocus( Definitions::FocusDirection::Left );
-		View *focusRight = GetNextFocus( Definitions::FocusDirection::Right );
-		View *focusUp = GetNextFocus( Definitions::FocusDirection::Up );
-		View *focusDown = GetNextFocus( Definitions::FocusDirection::Down );
+		View *focusLeft = GetNextFocus( Definitions::Left );
+		View *focusRight = GetNextFocus( Definitions::Right );
+		View *focusUp = GetNextFocus( Definitions::Up );
+		View *focusDown = GetNextFocus( Definitions::Down );
 		for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
 		{
 			if( focusLeft != this )
 			{
-				( *it )->SetNextFocus( focusLeft, Definitions::FocusDirection::Left );
+				( *it )->SetNextFocus( focusLeft, Definitions::Left );
 			}
 			if( focusRight != this )
 			{
-				( *it )->SetNextFocus( focusRight, Definitions::FocusDirection::Right );
+				( *it )->SetNextFocus( focusRight, Definitions::Right );
 			}
 		}
 
 		if( focusUp != NULL && focusUp != this )
 		{
-			_children.front()->SetNextFocus( focusUp, Definitions::FocusDirection::Up );
+			_children.front()->SetNextFocus( focusUp, Definitions::Up );
 		}
 		else
 		{
-			_children.front()->SetNextFocus( _children.back(), Definitions::FocusDirection::Up );
+			_children.front()->SetNextFocus( _children.back(), Definitions::Up );
 		}
 
 		if( focusDown != NULL && focusDown != this )
 		{
-			_children.back()->SetNextFocus( focusDown, Definitions::FocusDirection::Down );
+			_children.back()->SetNextFocus( focusDown, Definitions::Down );
 		}
 		else
 		{
-			_children.back()->SetNextFocus( _children.front(), Definitions::FocusDirection::Down );
+			_children.back()->SetNextFocus( _children.front(), Definitions::Down );
 		}
 
-		if( _isFirstFocus )
+		if( m_isFirstFocus )
 		{
 			_children.front()->SetIsFirstFocus( true );
 		}

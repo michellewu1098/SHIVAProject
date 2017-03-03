@@ -90,6 +90,12 @@
     <ClCompile Include="..\..\src\VolumeRenderer\SpringyVec3.cpp">
       <Filter>Source Files\VolumeRenderer</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\VolumeRenderer\Camera.cpp">
+      <Filter>Source Files\VolumeRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VolumeRenderer\Shader.cpp">
+      <Filter>Source Files\VolumeRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\VolumeRenderer\GLSLRenderer.h">
@@ -137,8 +143,11 @@
     <ClInclude Include="..\..\include\VolumeTree\CachingPolicies\CachingPolicy.h">
       <Filter>Header Files\VolumeTree\CachingPolicies</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
+    <ClInclude Include="..\..\include\VolumeRenderer\Camera.h">
+      <Filter>Header Files\VolumeRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VolumeRenderer\Shader.h">
+      <Filter>Header Files\VolumeRenderer</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

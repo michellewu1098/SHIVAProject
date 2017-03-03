@@ -1,107 +1,121 @@
-
-#include <iostream>
 #include "System/Activities/FilesystemDataProvider.h"
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::FilesystemDataProvider::FilesystemDataProvider()
 {
-	_showFiles = _showDirectories = true;
+	m_showFiles = m_showDirectories = true;
 }
 
-void ShivaGUI::FilesystemDataProvider::SetCurrentDirectoryNew(std::string dir)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::FilesystemDataProvider::SetCurrentDirectoryNew( std::string _dir )
 {
-	if( boost::filesystem::exists(dir) )
+	if( boost::filesystem::exists( _dir ) )
 	{
-		if( boost::filesystem::is_directory(dir) )
+		if( boost::filesystem::is_directory( _dir ) )
 		{
-			_currentDir = dir;
+			m_currentDir = _dir;
 		}
 		else
-			std::cerr<< "WARNING: ShivaGUI::FilesystemDataProvider::SetCurrentDirectory, Path " <<dir<< " is not a directory!"<<std::endl;
+			std::cerr << "WARNING: ShivaGUI::FilesystemDataProvider::SetCurrentDirectory, Path " << _dir << " is not a directory!" << std::endl;
 	}
 	else
-		std::cerr<< "WARNING: ShivaGUI::FilesystemDataProvider::SetCurrentDirectory, Directory " <<dir<< " does not exist!"<<std::endl;
+		std::cerr << "WARNING: ShivaGUI::FilesystemDataProvider::SetCurrentDirectory, Directory " << _dir << " does not exist!" << std::endl;
 }
+
+//----------------------------------------------------------------------------------
 
 std::string ShivaGUI::FilesystemDataProvider::GetCurrentDirectory()
 {
-	return _currentDir.string();
+	return m_currentDir.string();
 }
 
-void ShivaGUI::FilesystemDataProvider::SetShowFiles(bool value)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::FilesystemDataProvider::SetShowFiles( bool _value )
 {
-	_showFiles = value;
+	m_showFiles = _value;
 }
 
-void ShivaGUI::FilesystemDataProvider::SetShowDirectories(bool value)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::FilesystemDataProvider::SetShowDirectories( bool _value )
 {
-	_showDirectories = value;
+	m_showDirectories = _value;
 }
 
-bool ShivaGUI::FilesystemDataProvider::QueryAttribute(int dataEntry, std::string attribute)
+//----------------------------------------------------------------------------------
+
+bool ShivaGUI::FilesystemDataProvider::QueryAttribute( int _dataEntry, std::string _attribute )
 {
-	if( dataEntry < GetNumEntries() && (
-		attribute == ""
-		) )
+	if( _dataEntry < GetNumEntries() && ( _attribute == "" ) )
 	{
 		return true;
 	}
 	return false;
 }
 
-std::string ShivaGUI::FilesystemDataProvider::GetAttributeString(int dataEntry, std::string attribute)
+//----------------------------------------------------------------------------------
+
+std::string ShivaGUI::FilesystemDataProvider::GetAttributeString( int _dataEntry, std::string _attribute )
 {
 	int numEntries = -1;
-	for( boost::filesystem::directory_iterator it(_currentDir); it != boost::filesystem::directory_iterator(); ++it )
+	for( boost::filesystem::directory_iterator it( m_currentDir ); it != boost::filesystem::directory_iterator(); ++it )
 	{
-		if( _showFiles && boost::filesystem::is_regular_file( (*it) ) )
+		if( m_showFiles && boost::filesystem::is_regular_file( ( *it ) ) )
 		{
 			++numEntries;
 		}
-		else if( _showDirectories && boost::filesystem::is_directory( (*it) ) )
+		else if( m_showDirectories && boost::filesystem::is_directory( ( *it ) ) )
 		{
-			std::cout<<"FilesystemDataProvider dir found at entry: "<<dataEntry<<std::endl;
+			std::cout << "FilesystemDataProvider dir found at entry: " << _dataEntry << std::endl;
 			++numEntries;
 		}
 
-		if( numEntries == dataEntry )
+		if( numEntries == _dataEntry )
 		{
-			if( attribute == "FULL_FORMATTED" )
+			if( _attribute == "FULL_FORMATTED" )
 			{
-				if( boost::filesystem::is_directory( (*it) ) )
+				if( boost::filesystem::is_directory( ( *it ) ) )
 				{
-					std::cout<<"FilesystemDataProvider providing attribute string for entry: "<<dataEntry<<std::endl;
-					return std::string( (*it).path().string() + " <dir>" );
+					std::cout << "FilesystemDataProvider providing attribute string for entry: " << _dataEntry << std::endl;
+					return std::string( ( *it ).path().string() + " <dir>" );
 				}
-				return (*it).path().string();
+				return ( *it ).path().string();
 			}
-			else if( attribute == "FILENAME" )
+			else if( _attribute == "FILENAME" )
 			{
-				return (*it).path().filename().string();
+				return ( *it ).path().filename().string();
 			}
-			else if( attribute == "FILENAME_NO_EXTENSION" )
+			else if( _attribute == "FILENAME_NO_EXTENSION" )
 			{
-				return (*it).path().stem().string();
+				return ( *it ).path().stem().string();
 			}
 		}
 	}
 	return "";
 }
 
+//----------------------------------------------------------------------------------
+
 int ShivaGUI::FilesystemDataProvider::GetNumEntries()
 {
 	int numEntries = 0;
-	for( boost::filesystem::directory_iterator it(_currentDir); it != boost::filesystem::directory_iterator(); ++it )
+	for( boost::filesystem::directory_iterator it( m_currentDir ); it != boost::filesystem::directory_iterator(); ++it )
 	{
-		if( _showFiles && boost::filesystem::is_regular_file( (*it) ) )
+		if( m_showFiles && boost::filesystem::is_regular_file( ( *it ) ) )
 		{
 			++numEntries;
 		}
-		else if( _showDirectories && boost::filesystem::is_directory( (*it) ) )
+		else if( m_showDirectories && boost::filesystem::is_directory( ( *it ) ) )
 		{
 			++numEntries;
 		}
 	}
 
-	std::cout<<"FilesystemDataProvider reports : "<<numEntries<<" entries"<<std::endl;
+	std::cout << "FilesystemDataProvider reports : " << numEntries << " entries" << std::endl;
 	return numEntries;
 }
+
+//----------------------------------------------------------------------------------

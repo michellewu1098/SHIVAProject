@@ -45,7 +45,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\SDL_mixer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\SDL_mixer;$(ProjectDir)\..\..\..\include\cml-1_0_2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -59,15 +59,15 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <Lib>
-      <AdditionalDependencies>GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies);glew32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\SDL_mixer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\SDL_mixer;$(ProjectDir)\..\..\..\include\cml-1_0_2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -80,8 +80,8 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <Lib>
-      <AdditionalDependencies>GLee.lib;Opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GLee.lib;Opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies);glew32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

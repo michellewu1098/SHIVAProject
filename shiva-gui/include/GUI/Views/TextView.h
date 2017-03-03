@@ -38,15 +38,15 @@ namespace ShivaGUI
 		/// \brief This is called when the drawing context is changed
 		/// All Drawables loaded from file will be automatically reloaded,
 		/// but any locally-generated textures (e.g. text caches) must be remade here
-		/// \param [in] resources
+		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
-		virtual void NotifyDrawingContextChange( ResourceManager *resources ) { BuildTextCache( resources ); }
+		virtual void NotifyDrawingContextChange( ResourceManager *_resources ) { BuildTextCache( _resources ); }
 		//----------------------------------------------------------------------------------
 		/// \brief Gives the size of the View
 		/// If this View has children, it is expected to work out the size and location of these and call Layout() on them too
 		/// The base class function will set up the background drawable, so this must be called by derived View classes that wish to retain the background
 		//----------------------------------------------------------------------------------
-		virtual void Layout( int left, int top, int right, int bottom, int windowWidth, int windowHeight );
+		virtual void Layout( int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight );
 		//----------------------------------------------------------------------------------
 		/// \brief The base class will draw a background drawable if it exists
 		/// Derived View classes must call this at an appropriate time if they want to retain the background
@@ -61,24 +61,24 @@ namespace ShivaGUI
 		virtual std::string GetThemePrefix() { return "TextView_"; }
 		//----------------------------------------------------------------------------------
 		/// \brief For setting the View's attributes from xml
-		/// \param [in] xmlElement
-		/// \param [in] resources
-		/// \param [in] themePrefix this is used when parsing a theme file. Derived classes should specify the prefix that identifies their attributes in a style. If empty, the string returned from GetThemePrefix should be used
-		/// \param [in] rootNode
+		/// \param [in] _xmlElement
+		/// \param [in] _resources
+		/// \param [in] _themePrefix this is used when parsing a theme file. Derived classes should specify the prefix that identifies their attributes in a style. If empty, the string returned from GetThemePrefix should be used
+		/// \param [in] _rootNode
 		//----------------------------------------------------------------------------------
-		virtual void Inflate( TiXmlElement*, ResourceManager*, std::string themePrefix = "", bool rootNode = false );
+		virtual void Inflate( TiXmlElement* _xmlElement, ResourceManager* _resources, std::string _themePrefix = "", bool _rootNode = false );
 		//----------------------------------------------------------------------------------
 		/// \brief For saving the View's attributes to xml
-		/// \param [in] resources
+		/// \param [in] _resources
 		/// \note This must be hierarchical and the element must include all child elements
 		//----------------------------------------------------------------------------------
-		virtual TiXmlElement* Deflate( ResourceManager *resources );
+		virtual TiXmlElement* Deflate( ResourceManager *_resources );
 		//----------------------------------------------------------------------------------
 		/// \brief For changing the body text
-		/// \param [in] text
-		/// \param [in] resources
+		/// \param [in] _text
+		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
-		void SetText( std::string text, ShivaGUI::ResourceManager * );
+		void SetText( std::string _text, ShivaGUI::ResourceManager *_resources );
 		//----------------------------------------------------------------------------------
 		/// \brief Requested wrap pixel dimensions for layout
 		/// \note These are used when SetLayoutParams() is called, which will be after the View has been inflated
@@ -95,43 +95,50 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief The text is converted to an image and stored in this drawable
 		//----------------------------------------------------------------------------------
-		BitmapDrawable *_textDrawable;
+		BitmapDrawable *m_textDrawable;
 		//----------------------------------------------------------------------------------
 		/// \brief The main body of text to display, as a string
 		//----------------------------------------------------------------------------------
-		std::string _textBody;
+		std::string m_textBody;
 		//----------------------------------------------------------------------------------
 		/// \brief Font to use
 		//----------------------------------------------------------------------------------
-		std::string _fontName;
+		std::string m_fontName;
 		//----------------------------------------------------------------------------------
 		/// \brief Font size
 		//----------------------------------------------------------------------------------
-		unsigned int _fontSize;
+		unsigned int m_fontSize;
 		//----------------------------------------------------------------------------------
 		/// \brief Font colour
 		//----------------------------------------------------------------------------------
-		unsigned int _fontColour;
+		unsigned int m_fontColour;
 		//----------------------------------------------------------------------------------
 		/// \brief Holds type of alignment for text (left/centre/right)
 		//----------------------------------------------------------------------------------
-		unsigned int _textAlignment;
+		unsigned int m_textAlignment;
 		//----------------------------------------------------------------------------------
 		/// Whether values were acquired from a theme file
 		/// Mainly for use when deflating to xml
 		//----------------------------------------------------------------------------------
-		bool _fontNameFromTheme, _fontSizeFromTheme, _fontColourFromTheme, _textAlignFromTheme;
+		bool m_fontNameFromTheme;
+		//----------------------------------------------------------------------------------
+		bool m_fontSizeFromTheme;
+		//----------------------------------------------------------------------------------
+		bool m_fontColourFromTheme;
+		//----------------------------------------------------------------------------------
+		bool m_textAlignFromTheme;
 		//----------------------------------------------------------------------------------
 		/// \brief The OpenGL texture ID of the image that holds the text
 		/// TODO: fix me. This *really* should not be here and is only here so it can be deleted properly
 		//----------------------------------------------------------------------------------
-		unsigned int _texID;
+		unsigned int m_texID;
 		//----------------------------------------------------------------------------------
 		/// \brief Makes the texture from the text
-		/// \param [in] resources
+		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
-		void BuildTextCache( ResourceManager *resources );
+		void BuildTextCache( ResourceManager *_resources );
 		//----------------------------------------------------------------------------------
+
 	};
 }
 

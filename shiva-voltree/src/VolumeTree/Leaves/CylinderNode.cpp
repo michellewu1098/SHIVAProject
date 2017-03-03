@@ -4,41 +4,41 @@
 
 VolumeTree::CylinderNode::CylinderNode()
 {
-	_radiusX = _radiusY = 1.0f;
-	_length = 1.0f;
-	_isPole = false;
+	m_radiusX = m_radiusY = 1.0f;
+	m_length = 1.0f;
+	m_isPole = false;
 }
 
 //----------------------------------------------------------------------------------
 
-VolumeTree::CylinderNode::CylinderNode( float length, float radiusX, float radiusY )
+VolumeTree::CylinderNode::CylinderNode( const float &_length, const float &_radiusX, const float &_radiusY )
 {
-	_length = length;
-	_radiusX = radiusX;
-	_radiusY = radiusY;
-	_isPole = false;
+	m_length = _length;
+	m_radiusX = _radiusX;
+	m_radiusY = _radiusY;
+	m_isPole = false;
 }
 
 //----------------------------------------------------------------------------------
 
-float VolumeTree::CylinderNode::GetFunctionValue( float x, float y, float z )
+float VolumeTree::CylinderNode::GetFunctionValue( float _x, float _y, float _z )
 {
 	//float value = (_radius*_radius) - (x*x) - (y*y);
-	float value = 1.0f - pow( x / _radiusX, 2.0f ) - pow( y / _radiusY, 2.0f );
+	float value = 1.0f - pow( _x / m_radiusX, 2.0f ) - pow( _y / m_radiusY, 2.0f );
 
-	float lowerZ = -_length * 0.5f;
-	float upperZ = _length * 0.5f;
+	float lowerZ = -m_length * 0.5f;
+	float upperZ = m_length * 0.5f;
 
 	//value = std::min(value,z - lowerZ);
 	//value = std::min(value,upperZ - z);
 
 	// R-intersection: f1+f2-sqrt(f1^2+f2^2)
 	float f1 = value;
-	float f2 = upperZ - z;
+	float f2 = upperZ - _z;
 	value = f1 + f2 - sqrt( pow( f1, 2 ) + pow( f2, 2 ) );
 
 	f1 = value;
-	f2 = z - lowerZ;
+	f2 = _z - lowerZ;
 	value = f1 + f2 - sqrt( pow( f1, 2 ) + pow( f2, 2 ) );
 
 	return value;
@@ -46,26 +46,26 @@ float VolumeTree::CylinderNode::GetFunctionValue( float x, float y, float z )
 
 //----------------------------------------------------------------------------------
 
-std::string VolumeTree::CylinderNode::GetFunctionGLSLString( bool callCache, std::string samplePosStr )
+std::string VolumeTree::CylinderNode::GetFunctionGLSLString( bool _callCache, std::string _samplePosStr )
 {
 	std::stringstream functionString;
-	functionString << "Cylinder(" << samplePosStr << "," << _length << "," << _radiusX << "," << _radiusY << ")";
+	functionString << "Cylinder(" << _samplePosStr << "," << m_length << "," << m_radiusX << "," << m_radiusY << ")";
 
 	return functionString.str();
 }
 
 //----------------------------------------------------------------------------------
 
-void VolumeTree::CylinderNode::GetBounds( float *minX, float *maxX, float *minY,float *maxY, float *minZ, float *maxZ )
+void VolumeTree::CylinderNode::GetBounds( float *_minX, float *_maxX, float *_minY, float *_maxY, float *_minZ, float *_maxZ )
 {
-	*minX = - _radiusX;
-	*maxX = _radiusX;
+	*_minX = -m_radiusX;
+	*_maxX = m_radiusX;
 	
-	*minY = - _radiusY;
-	*maxY = _radiusY;
+	*_minY = -m_radiusY;
+	*_maxY = m_radiusY;
 	
-	*minZ = -( _length * 0.5f );
-	*maxZ = _length * 0.5f;
+	*_minZ = -( m_length * 0.5f );
+	*_maxZ = m_length * 0.5f;
 }
 
 //----------------------------------------------------------------------------------

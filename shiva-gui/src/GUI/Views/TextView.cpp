@@ -1,41 +1,36 @@
 #include "GUI/Views/TextView.h"
-#include "GUI/Drawables/Drawable.h"
 #include "GUIManager.h"
-
-#include <GL/GLee.h>
-#include <sstream>
-#include <iostream>
 
 //----------------------------------------------------------------------------------
 
 ShivaGUI::TextView::TextView()
 {
-	_texID = 0;
-	_fontSize = 12;
-	_fontColour = 0;
-	_textDrawable = NULL;
+	m_texID = 0;
+	m_fontSize = 12;
+	m_fontColour = 0;
+	m_textDrawable = NULL;
 
-	_textAlignment = Left;
-	_fontNameFromTheme = _fontSizeFromTheme = _fontColourFromTheme = _textAlignFromTheme = false;
+	m_textAlignment = Left;
+	m_fontNameFromTheme = m_fontSizeFromTheme = m_fontColourFromTheme = m_textAlignFromTheme = false;
 }
 
 //----------------------------------------------------------------------------------
 
 ShivaGUI::TextView::~TextView()
 {
-	if( _texID != 0 )
-		glDeleteTextures( 1, &_texID );
-	delete _textDrawable;
+	if( m_texID != 0 )
+		glDeleteTextures( 1, &m_texID );
+	delete m_textDrawable;
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::TextView::Layout( int left, int top, int right, int bottom, int windowWidth, int windowHeight )
+void ShivaGUI::TextView::Layout( int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight )
 {
-	View::Layout( left, top, right, bottom, windowWidth, windowHeight );
+	View::Layout( _left, _top, _right, _bottom, _windowWidth, _windowHeight );
 
-	if( _textDrawable != NULL )
-		_textDrawable->SetBounds( left, top, right, bottom, _internalGravity );
+	if( m_textDrawable != NULL )
+		m_textDrawable->SetBounds( ( float )_left, ( float )_top, ( float )_right, ( float )_bottom, m_internalGravity );
 }
 
 //----------------------------------------------------------------------------------
@@ -43,116 +38,116 @@ void ShivaGUI::TextView::Layout( int left, int top, int right, int bottom, int w
 void ShivaGUI::TextView::Draw()
 {
 	View::Draw();
-	if( _visible && _textDrawable )
-		_textDrawable->Draw();
+	if( m_visible && m_textDrawable )
+		m_textDrawable->Draw();
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::TextView::Inflate(TiXmlElement *xmlElement, ShivaGUI::ResourceManager *resources, std::string themePrefix, bool rootNode )
+void ShivaGUI::TextView::Inflate( TiXmlElement *_xmlElement, ShivaGUI::ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
-	if( themePrefix.empty() )
-		themePrefix = "TextView_";
-	View::Inflate( xmlElement, resources, themePrefix, rootNode );
+	if( _themePrefix.empty() )
+		_themePrefix = "TextView_";
+	View::Inflate( _xmlElement, _resources, _themePrefix, _rootNode );
 
-	for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
+	for( TiXmlAttribute *currentAttribute = _xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 	{
 		if( std::string( "text" ) == currentAttribute->Name() )
 		{
-			_textBody = currentAttribute->ValueStr();
+			m_textBody = currentAttribute->ValueStr();
 		}
-		else if( ( std::string( "font" ) == currentAttribute->Name() ) || ( themePrefix + "font" == currentAttribute->Name() ) )
+		else if( ( std::string( "font" ) == currentAttribute->Name() ) || ( _themePrefix + "font" == currentAttribute->Name() ) )
 		{
-			_fontNameFromTheme = ( themePrefix + "font" == currentAttribute->Name() );
-			_fontName = currentAttribute->Value();
+			m_fontNameFromTheme = ( _themePrefix + "font" == currentAttribute->Name() );
+			m_fontName = currentAttribute->Value();
 		}
-		else if( ( std::string( "text_size" ) == currentAttribute->Name() ) || ( themePrefix + "text_size" == currentAttribute->Name() ) )
+		else if( ( std::string( "text_size" ) == currentAttribute->Name() ) || ( _themePrefix + "text_size" == currentAttribute->Name() ) )
 		{
-			_fontSizeFromTheme = ( themePrefix + "text_size" == currentAttribute->Name() );
+			m_fontSizeFromTheme = ( _themePrefix + "text_size" == currentAttribute->Name() );
 			int value = 0;
 
-			if( currentAttribute->QueryIntValue(&value) == TIXML_SUCCESS )
+			if( currentAttribute->QueryIntValue( &value ) == TIXML_SUCCESS )
 			{
-				_fontSize = value;
+				m_fontSize = value;
 			}
 			else
 			{
 				std::cerr << "WARNING: TextButton::InflateLayoutParams attribute text_size does not have expected value type (double)" << std::endl;
 			}
 		}
-		else if( ( std::string( "text_colour" ) == currentAttribute->Name() ) || ( themePrefix + "text_colour" == currentAttribute->Name() ) )
+		else if( ( std::string( "text_colour" ) == currentAttribute->Name() ) || ( _themePrefix + "text_colour" == currentAttribute->Name() ) )
 		{
-			_fontColourFromTheme = ( themePrefix + "text_colour" == currentAttribute->Name() );
+			m_fontColourFromTheme = ( _themePrefix + "text_colour" == currentAttribute->Name() );
 
 			std::string colourString( currentAttribute->Value() );
 			std::stringstream colourStream;
 			colourStream << std::hex << colourString;
-			colourStream >> _fontColour;
+			colourStream >> m_fontColour;
 		}
-		else if( ( std::string( "text_alignment" ) == currentAttribute->Name() ) || ( themePrefix + "text_alignment" == currentAttribute->Name() ) ) 
+		else if( ( std::string( "text_alignment" ) == currentAttribute->Name() ) || ( _themePrefix + "text_alignment" == currentAttribute->Name() ) ) 
 		{
-			_textAlignFromTheme = ( themePrefix + "text_alignment" == currentAttribute->Name() );
+			m_textAlignFromTheme = ( _themePrefix + "text_alignment" == currentAttribute->Name() );
 			
 			std::string alignment = currentAttribute->ValueStr();
 
 			if( alignment == std::string( "left" ) || alignment == std::string( "Left" ) ) {
-				_textAlignment = Left; 
+				m_textAlignment = Left; 
 			}
 			else if( alignment == std::string( "centre" ) || alignment == std::string( "center" ) || alignment == std::string( "Centre" ) || alignment == std::string( "Center" ) ) {
-				_textAlignment = Centre;
+				m_textAlignment = Centre;
 			}
 			else if( alignment == std::string( "right" ) || alignment == std::string( "Right" ) ) {
-				_textAlignment = Right;
+				m_textAlignment = Right;
 			}
 		}
 	}
 
 	// Need to do this here, after all the values have been read in
-	BuildTextCache( resources );
+	BuildTextCache( _resources );
 }
 
 //----------------------------------------------------------------------------------
 
-TiXmlElement* ShivaGUI::TextView::Deflate( ResourceManager *resources )
+TiXmlElement* ShivaGUI::TextView::Deflate( ResourceManager *_resources )
 {
-	TiXmlElement *xmlNode = View::Deflate( resources );
+	TiXmlElement *xmlNode = View::Deflate( _resources );
 	xmlNode->SetValue( "TextView" );
 
-	if( !_textBody.empty() )
-		xmlNode->SetAttribute( "text", _textBody );
+	if( !m_textBody.empty() )
+		xmlNode->SetAttribute( "text", m_textBody );
 
-	if( !_fontNameFromTheme )
-		xmlNode->SetAttribute( "font", _fontName );
-	if( !_fontSizeFromTheme )
-		xmlNode->SetAttribute( "text_size", _fontSize );
-	if( !_fontColourFromTheme )
+	if( !m_fontNameFromTheme )
+		xmlNode->SetAttribute( "font", m_fontName );
+	if( !m_fontSizeFromTheme )
+		xmlNode->SetAttribute( "text_size", m_fontSize );
+	if( !m_fontColourFromTheme )
 	{
 		std::string colourString;
 		std::stringstream colourStream;
-		colourStream << std::hex << _fontColour;
+		colourStream << std::hex << m_fontColour;
 		colourStream >> colourString;
 		xmlNode->SetAttribute( "text_colour", colourString );
 	}
-	if( !_textAlignFromTheme )
-		xmlNode->SetAttribute( "text_alignment", _textAlignment ) ;
+	if( !m_textAlignFromTheme )
+		xmlNode->SetAttribute( "text_alignment", m_textAlignment ) ;
 
 	return xmlNode;
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::TextView::SetText( std::string text, ShivaGUI::ResourceManager *resources )
+void ShivaGUI::TextView::SetText( std::string _text, ShivaGUI::ResourceManager *_resources )
 {
-	_textBody = text;
-	BuildTextCache( resources );
+	m_textBody = _text;
+	BuildTextCache( _resources );
 }
 
 //----------------------------------------------------------------------------------
 
 int ShivaGUI::TextView::GetWrapWidth()
 {
-	if( _textDrawable != NULL )
-		return _textDrawable->GetNativeWidth();
+	if( m_textDrawable != NULL )
+		return m_textDrawable->GetNativeWidth();
 	return 0;
 }
 
@@ -160,35 +155,35 @@ int ShivaGUI::TextView::GetWrapWidth()
 
 int ShivaGUI::TextView::GetWrapHeight()
 {
-	if( _textDrawable != NULL )
-		return _textDrawable->GetNativeHeight();
+	if( m_textDrawable != NULL )
+		return m_textDrawable->GetNativeHeight();
 	return 0;
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::TextView::BuildTextCache( ShivaGUI::ResourceManager *resources )
+void ShivaGUI::TextView::BuildTextCache( ShivaGUI::ResourceManager *_resources )
 {
-	if( !_textBody.empty() && resources != NULL )
+	if( !m_textBody.empty() && _resources != NULL )
 	{
-		if( _texID != 0 )
-			glDeleteTextures( 1, &_texID );
-		_texID = 0;
+		if( m_texID != 0 )
+			glDeleteTextures( 1, &m_texID );
+		m_texID = 0;
 		//_texID = resources->GetSimpleText(_textBody, _fontName, _fontSize, _fontColour );
-		_texID = resources->GetText( _textBody, _textAlignment, _fontName, _fontSize, _fontColour );
-		if( _texID != 0 )
+		m_texID = _resources->GetText( m_textBody, m_textAlignment, m_fontName, m_fontSize, m_fontColour );
+		if( m_texID != 0 )
 		{
-			_textDrawable = dynamic_cast< BitmapDrawable* >( resources->CreateDrawable( "BitmapDrawable" ) );
-			if( _textDrawable != NULL )
+			m_textDrawable = dynamic_cast< BitmapDrawable* >( _resources->CreateDrawable( "BitmapDrawable" ) );
+			if( m_textDrawable != NULL )
 			{
-				_textDrawable->SetTexID( _texID );
+				m_textDrawable->SetTexID( m_texID );
 
 				LayoutParams *params = GetLayoutParams();
 				if( params != NULL )
 				{
 					// Update our native sizes
-					params->SetWrapWidth( _textDrawable->GetNativeWidth() );
-					params->SetWrapHeight( _textDrawable->GetNativeHeight() );
+					params->SetWrapWidth( m_textDrawable->GetNativeWidth() );
+					params->SetWrapHeight( m_textDrawable->GetNativeHeight() );
 				}
 			}
 			else

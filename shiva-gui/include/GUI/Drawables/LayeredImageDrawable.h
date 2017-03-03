@@ -2,18 +2,16 @@
 /// \file LayeredImageDrawable.h
 /// \brief This drawable takes a number of bitmaps and replaces each channel with a colour
 /// The idea is to provide a mechanism for customising things like button colours
-/// \author Leigh McLoughlin
+/// \author Leigh McLoughlin, Michelle Wu
 /// \version 1.0
 ///-----------------------------------------------------------------------------------------------
 
 #ifndef __SHIVA_RESOURCESYSTEM_LAYEREDIMAGEDRAWABLE__
 #define __SHIVA_RESOURCESYSTEM_LAYEREDIMAGEDRAWABLE__
 
-#include <string>
 
 #include "Drawable.h"
 #include "Utility/GPUProgram.h"
-#include "Utility/GPUVariable.h"
 
 namespace ShivaGUI
 {
@@ -32,28 +30,28 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		//Each layerGroup consists of 4 layers, corresponding to RGBA for each texture
 		/// \brief Set texture id
-		/// \param [in] value Texture id value
-		/// \param [in] layerGroup Number of layer group
+		/// \param [in] _value Texture id value
+		/// \param [in] _layerGroup Number of layer group
 		//----------------------------------------------------------------------------------
-		void SetTexID( unsigned int value, unsigned int layerGroup );
-		//----------------------------------------------------------------------------------
-		/// \brief Set layer colour
-		/// \param [in] colour
-		/// \param [in] group
-		/// \param [in] layer
-		//----------------------------------------------------------------------------------
-		void SetLayerColour( std::string colour, unsigned int group, unsigned int layer );
+		void SetTexID( unsigned int _value, unsigned int _layerGroup );
 		//----------------------------------------------------------------------------------
 		/// \brief Set layer colour
-		/// \param [in] colour
-		/// \param [in] group
-		/// \param [in] layer
+		/// \param [in] _colour
+		/// \param [in] _group
+		/// \param [in] _layer
 		//----------------------------------------------------------------------------------
-		void SetLayerColour( unsigned int colour, unsigned int group, unsigned int layer );
+		void SetLayerColour( std::string _colour, unsigned int _group, unsigned int _layer );
+		//----------------------------------------------------------------------------------
+		/// \brief Set layer colour
+		/// \param [in] _colour
+		/// \param [in] _group
+		/// \param [in] _layer
+		//----------------------------------------------------------------------------------
+		void SetLayerColour( unsigned int _colour, unsigned int _group, unsigned int _layer );
 		//----------------------------------------------------------------------------------
 		/// \brief For setting up the Drawable from xml
 		//----------------------------------------------------------------------------------
-		virtual void Inflate( TiXmlElement*, ResourceManager* );
+		virtual void Inflate( TiXmlElement* _xmlElement, ResourceManager* _resources );
 		//----------------------------------------------------------------------------------
 		/// \brief Draw method
 		//----------------------------------------------------------------------------------
@@ -61,45 +59,43 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief Get the content's bounds
 		//----------------------------------------------------------------------------------
-		void GetContentBounds( float &left, float &top, float &right, float &bottom );
+		void GetContentBounds( float &_left, float &_top, float &_right, float &_bottom );
 		//----------------------------------------------------------------------------------
 		/// \brief Get native texture width
-		/// \return _texWidth
+		/// \return m_texWidth
 		//----------------------------------------------------------------------------------
-		virtual int GetNativeWidth() { return _texWidth; }
+		virtual int GetNativeWidth() { return m_texWidth; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get native texture height
-		/// \return _texHeight
+		/// \return m_texHeight
 		//----------------------------------------------------------------------------------
-		virtual int GetNativeHeight() { return _texHeight; }
+		virtual int GetNativeHeight() { return m_texHeight; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get native width from content width
-		/// \param [in] contentWidth
+		/// \param [in] _contentWidth
 		//----------------------------------------------------------------------------------
-		virtual int GetNativeWidthFromContent( int contentWidth );
+		virtual int GetNativeWidthFromContent( int _contentWidth );
 		//----------------------------------------------------------------------------------
 		/// \brief Get native height from content height
-		/// \param [in] contentHeight
+		/// \param [in] _contentHeight
 		//----------------------------------------------------------------------------------
-		virtual int GetNativeHeightFromContent( int contentHeight );
+		virtual int GetNativeHeightFromContent( int _contentHeight );
 		//----------------------------------------------------------------------------------
 		/// \brief If set, the image will be scaled to fill the bounds
 		/// Otherwise, it will display the image at its actual size
 		/// The default value is false
-		/// \param [in] value
+		/// \param [in] _value
 		//----------------------------------------------------------------------------------
-		void SetScaleup( bool value ) { _scaleUp = value; }
+		void SetScaleup( bool _value ) { m_scaleUp = _value; }
 		//----------------------------------------------------------------------------------
-		/// \brief Set the parameters to render the text
-		/// \param [in] _textBody Main body of text
-		/// \param [in] _alignment Text alignment: left, centre, right
-		/// \param [in] _fontName Font name
-		/// \param [in] _fontSize Font size
+		/// \brief Add text layer
 		/// \param [in] _fontColour Font colour
 		//----------------------------------------------------------------------------------
-		void SetTextParams( std::string textBody, unsigned int alignment, std::string fontName, unsigned int fontSize, unsigned int fontColour );
+		void AddTextLayer( unsigned int _fontColour );
 		//----------------------------------------------------------------------------------
-		void addTextLayer( ResourceManager* resources);
+		/// \brief This is set when we're using ImageTextButton widget
+		//----------------------------------------------------------------------------------
+		void IsRenderingText() { m_usingText = true; }
 		//----------------------------------------------------------------------------------
 
 	protected:
@@ -119,21 +115,21 @@ namespace ShivaGUI
 			~LayerGroup();
 			//----------------------------------------------------------------------------------
 			/// \brief Initilise layer group
-			/// \param [in] groupNumber Group number
-			/// \param [in] GLSLProgID Shader's id
+			/// \param [in] _groupNumber Group number
+			/// \param [in] _GLSLProgID Shader's id
 			//----------------------------------------------------------------------------------
-			void Init( unsigned int groupNumber, unsigned int GLSLProgID );
+			void Init( unsigned int _groupNumber, unsigned int _GLSLProgID );
 			//----------------------------------------------------------------------------------
 			/// \brief Set texture id
-			/// \param [in] texID
+			/// \param [in] _texID
 			//----------------------------------------------------------------------------------
-			void SetGLTexID( unsigned int texID );
+			void SetGLTexID( unsigned int _texID );
 			//----------------------------------------------------------------------------------
 			/// \brief Set layer colour
-			/// \param [in] colour
-			/// \param [in] layer
+			/// \param [in] _colour
+			/// \param [in] _layer
 			//----------------------------------------------------------------------------------
-			void SetLayerColour( unsigned int colour, unsigned int layer );
+			void SetLayerColour( unsigned int _colour, unsigned int _layer );
 			//----------------------------------------------------------------------------------
 			/// \brief Bind 
 			//----------------------------------------------------------------------------------
@@ -149,23 +145,23 @@ namespace ShivaGUI
 			//----------------------------------------------------------------------------------
 			/// \brief Layer group number
 			//----------------------------------------------------------------------------------
-			unsigned int _groupNumber;
+			unsigned int m_groupNumber;
 			//----------------------------------------------------------------------------------
 			/// \brief Texture id
 			//----------------------------------------------------------------------------------
-			unsigned int _texID;
+			unsigned int m_texID;
 			//----------------------------------------------------------------------------------
 			/// \brief Colour uniforms
 			//----------------------------------------------------------------------------------
-			int *_colourUniforms;
+			int *m_colourUniforms;
 			//----------------------------------------------------------------------------------
 			/// \brief Texture uniform
 			//----------------------------------------------------------------------------------
-			int _textureUniform;
+			int m_textureUniform;
 			//----------------------------------------------------------------------------------
 			/// \brief Layer colours
 			//----------------------------------------------------------------------------------
-			float *_layerColours;
+			float *m_layerColours;
 			//----------------------------------------------------------------------------------
 		};
 
@@ -177,123 +173,135 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief Maximum number of layer groups
 		//----------------------------------------------------------------------------------
-		unsigned int _maxLayerGroups;
+		unsigned int m_maxLayerGroups;
 		//----------------------------------------------------------------------------------
 		/// \brief Layer groups
 		//----------------------------------------------------------------------------------
-		LayerGroup *_layerGroups;
+		LayerGroup *m_layerGroups;
 		//----------------------------------------------------------------------------------
-		/*
-		unsigned int *_texID;
-		/// Replacement colours for each layer
-		int *_layerColours;
-
-//		Utility::GPUVariable *_boundsLeftUniform, *_boundsRightUniform, *_boundsBottomUniform, *_boundsTopUniform;
-		unsigned int *_layerColourUniforms;
-		*/
+		/// \brief Object vao
 		//----------------------------------------------------------------------------------
-		/// \brief Vertices VBO
-		//----------------------------------------------------------------------------------
-		unsigned int _squareVertexVBO;
-		//----------------------------------------------------------------------------------
-		/// \brief Texture coords VBO
-		//----------------------------------------------------------------------------------
-		unsigned int _squareTexcoordVBO;
-		//----------------------------------------------------------------------------------
-		/// \brief Indices VBO
-		//----------------------------------------------------------------------------------
-		unsigned int _squareIndexVBO;
+		unsigned int m_vao;
 		//----------------------------------------------------------------------------------
 		/// \brief Layer's shader program
 		//----------------------------------------------------------------------------------
-		Utility::GPUProgram *_layerProgram;
+		Utility::GPUProgram *m_shader;
 		//----------------------------------------------------------------------------------
 		// These are taken from the first layer group, we assume all layers are the same size
 		//----------------------------------------------------------------------------------
 		/// \brief Texture width
 		//----------------------------------------------------------------------------------
-		int _texWidth;
+		int m_texWidth;
 		//----------------------------------------------------------------------------------
 		/// \brief Texture height
 		//----------------------------------------------------------------------------------
-		int _texHeight;
+		int m_texHeight;
 		//----------------------------------------------------------------------------------
 		/// \brief If scaleUp is set to true and the bounds are smaller than the image size, it will scale it up
 		/// otherwise, it will display the image at its actual size
 		/// Default is true
 		//----------------------------------------------------------------------------------
-		bool _scaleUp;
+		bool m_scaleUp;
 		//----------------------------------------------------------------------------------
 		/// \brief Flag to choose whether too keep aspect ratio or not
 		//----------------------------------------------------------------------------------
-		bool _keepAspectRatio;
+		bool m_keepAspectRatio;
 		//----------------------------------------------------------------------------------
 		/// \brief Whether the Drawable should act as a 9patch when scaled up
 		/// Default is false
 		//----------------------------------------------------------------------------------
-		bool _isNinePatch;
+		bool m_isNinePatch;
 		//----------------------------------------------------------------------------------
 		// Centre bounds associated with nine-patch
 		//----------------------------------------------------------------------------------
-		float _centreLeftProp;
+		/// \brief Centre left size in proportions of image size
 		//----------------------------------------------------------------------------------
-		float _centreRightProp; 
+		float m_centreLeftProp;
 		//----------------------------------------------------------------------------------
-		float _centreTopProp;
+		/// \brief Centre right size in proportions of image size
 		//----------------------------------------------------------------------------------
-		float _centreBottomProp;
+		float m_centreRightProp;
 		//----------------------------------------------------------------------------------
-		float _centreLeftBounds;
+		/// \brief Centre top size in proportions of image size
 		//----------------------------------------------------------------------------------
-		float _centreRightBounds;
+		float m_centreTopProp;
 		//----------------------------------------------------------------------------------
-		float _centreTopBounds;
+		/// \brief Centre bottom size in proportions of image size
 		//----------------------------------------------------------------------------------
-		float _centreBottomBounds;
+		float m_centreBottomProp;
+		//----------------------------------------------------------------------------------
+		/// \brief Centre left boundaries
+		//----------------------------------------------------------------------------------
+		float m_centreLeftBounds;
+		//----------------------------------------------------------------------------------
+		/// \brief Centre right boundaries
+		//----------------------------------------------------------------------------------
+		float m_centreRightBounds;
+		//----------------------------------------------------------------------------------
+		/// \brief Centre top boundaries
+		//----------------------------------------------------------------------------------
+		float m_centreTopBounds;
+		//----------------------------------------------------------------------------------
+		/// \brief Centre bottom boundaries
+		//----------------------------------------------------------------------------------
+		float m_centreBottomBounds;
 		//----------------------------------------------------------------------------------
 		// Content size in proportions of image size
 		//----------------------------------------------------------------------------------
-		float _contentLeftProp;
+		/// \brief Content left size in proportions of image size
 		//----------------------------------------------------------------------------------
-		float _contentRightProp;
+		float m_contentLeftProp;
 		//----------------------------------------------------------------------------------
-		float _contentTopProp;
+		/// \brief Content right size in proportions of image size
 		//----------------------------------------------------------------------------------
-		float _contentBottomProp;
+		float m_contentRightProp;
+		//----------------------------------------------------------------------------------
+		/// \brief Content top size in proportions of image size
+		//----------------------------------------------------------------------------------
+		float m_contentTopProp;
+		//----------------------------------------------------------------------------------
+		/// \brief Content bottom size in proportions of image size
+		//----------------------------------------------------------------------------------
+		float m_contentBottomProp;
 		//----------------------------------------------------------------------------------
 		// Actual content pixel positions
 		//----------------------------------------------------------------------------------
-		float _contentLeftBounds;
+		/// \brief Content left boundaries
 		//----------------------------------------------------------------------------------
-		float _contentRightBounds;
+		float m_contentLeftBounds;
 		//----------------------------------------------------------------------------------
-		float _contentTopBounds;
+		/// \brief Content right boundaries
 		//----------------------------------------------------------------------------------
-		float _contentBottomBounds;
+		float m_contentRightBounds;
 		//----------------------------------------------------------------------------------
-		virtual void OnSetBounds( float left, float top, float right, float bottom, unsigned int gravity );
+		/// \brief Content top boundaries
 		//----------------------------------------------------------------------------------
-		bool _usingText; 
+		float m_contentTopBounds;
 		//----------------------------------------------------------------------------------
-		/// \brief Text body
+		/// \brief Content bottom boundaries
 		//----------------------------------------------------------------------------------
-		std::string _textBody;
+		float m_contentBottomBounds;
 		//----------------------------------------------------------------------------------
-		/// \brief Font to use
+		/// \brief Set bounds
+		/// \param [in] _left
+		/// \param [in] _top
+		/// \param [in] _right
+		/// \param [in] _bottom
+		/// \param [in] _gravity
 		//----------------------------------------------------------------------------------
-		std::string _fontName;
+		virtual void OnSetBounds( float _left, float _top, float _right, float _bottom, unsigned int _gravity );
 		//----------------------------------------------------------------------------------
-		/// \brief Font size
+		/// \brief Used to control the rendering of text below the image icon
 		//----------------------------------------------------------------------------------
-		unsigned int _fontSize;
+		bool m_usingText; 
 		//----------------------------------------------------------------------------------
-		/// \brief Font colour
+		/// \brief Number of layers in a LayeredImageDrawable from xml
 		//----------------------------------------------------------------------------------
-		unsigned int _fontColour;
+		unsigned int m_nLayers;
 		//----------------------------------------------------------------------------------
-		unsigned int _textAlignment;
+		/// \brief Handle to texture representing text
 		//----------------------------------------------------------------------------------
-		unsigned int _nLayers;
+		unsigned int m_textTextureID;
 		//----------------------------------------------------------------------------------
 
 	};

@@ -8,10 +8,8 @@
 #ifndef __SHIVA_RESOURCESYSTEM_NINEPATCH__
 #define __SHIVA_RESOURCESYSTEM_NINEPATCH__
 
-#include <GL/GLee.h>
-#include <iostream>
-
 #include "GUI/Drawables/Drawable.h"
+#include "Utility/GPUProgram.h"
 
 namespace ShivaGUI
 {
@@ -29,114 +27,163 @@ namespace ShivaGUI
 		virtual ~NinePatch();
 		//----------------------------------------------------------------------------------
 		/// \brief Set texture ID
-		/// \param [in] value
+		/// \param [in] _value
 		//----------------------------------------------------------------------------------
-		void SetTexID( unsigned int value );
+		void SetTexID( unsigned int _value );
 		//----------------------------------------------------------------------------------
 		/// \brief For setting up the Drawable from xml
-		/// \param [in] xmlElement
-		/// \param [in] resources
+		/// \param [in] _xmlElement
+		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
-		virtual void Inflate( TiXmlElement*, ResourceManager* );
+		virtual void Inflate( TiXmlElement* _xmlElement, ResourceManager* _resources );
 		//----------------------------------------------------------------------------------
 		/// \brief Draw method
 		//----------------------------------------------------------------------------------
 		virtual void Draw();
 		//----------------------------------------------------------------------------------
 		/// \brief Get content bounds
-		/// \param [in] left
-		/// \param [in] top
-		/// \param [in] right
-		/// \param [in] bottom
+		/// \param [in] _left
+		/// \param [in] _top
+		/// \param [in] _right
+		/// \param [in] _bottom
 		//----------------------------------------------------------------------------------
-		virtual void GetContentBounds(float &left, float &top, float &right, float &bottom);
+		virtual void GetContentBounds( float &_left, float &_top, float &_right, float &_bottom );
 		//----------------------------------------------------------------------------------
 		// For retrieving the actual pixel size of Drawable
 		/// \brief Get width
-		/// \return _texWidth
+		/// \return m_texWidth
 		//----------------------------------------------------------------------------------
-		virtual int GetNativeWidth() { return _texWidth; }
+		virtual int GetNativeWidth() { return m_texWidth; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get height
-		/// \return _texHeight
+		/// \return m_texHeight
 		//----------------------------------------------------------------------------------
-		virtual int GetNativeHeight() { return _texHeight; }
+		virtual int GetNativeHeight() { return m_texHeight; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get width from content
-		/// \param [in] contentWidth
+		/// \param [in] _contentWidth
 		//----------------------------------------------------------------------------------
-		virtual int GetNativeWidthFromContent( int contentWidth );
+		virtual int GetNativeWidthFromContent( int _contentWidth );
 		//----------------------------------------------------------------------------------
 		/// \brief Get height from content
-		/// \param [in] contentHeight
+		/// \param [in] _contentHeight
 		//----------------------------------------------------------------------------------
-		virtual int GetNativeHeightFromContent( int contentHeight );
+		virtual int GetNativeHeightFromContent( int _contentHeight );
+		//----------------------------------------------------------------------------------
+		/// \brief Create vbos and bind to vao
+		//----------------------------------------------------------------------------------
+		void BuildVBOs();
 		//----------------------------------------------------------------------------------
 
 	protected:
 
 		//----------------------------------------------------------------------------------
 		/// \brief Set bounds
-		/// \param [in] left
-		/// \param [in] top
-		/// \param [in] right
-		/// \param [in] bottom
-		/// \param [in] gravity
+		/// \param [in] _left
+		/// \param [in] _top
+		/// \param [in] _right
+		/// \param [in] _bottom
+		/// \param [in] _gravity
 		//----------------------------------------------------------------------------------
-		virtual void OnSetBounds( float left, float top, float right, float bottom, unsigned int gravity );
+		virtual void OnSetBounds( float _left, float _top, float _right, float _bottom, unsigned int _gravity );
 		//----------------------------------------------------------------------------------
-		float _centreLeftProp;
+		/// \brief Centre left size in proportions of image size
 		//----------------------------------------------------------------------------------
-		float _centreRightProp;
+		float m_centreLeftProp;
 		//----------------------------------------------------------------------------------
-		float _centreTopProp;
+		/// \brief Centre right size in proportions of image size
 		//----------------------------------------------------------------------------------
-		float _centreBottomProp;
+		float m_centreRightProp;
 		//----------------------------------------------------------------------------------
-		float _centreLeftBounds;
+		/// \brief Centre top size in proportions of image size
 		//----------------------------------------------------------------------------------
-		float _centreRightBounds;
+		float m_centreTopProp;
 		//----------------------------------------------------------------------------------
-		float _centreTopBounds;
+		/// \brief Centre bottom size in proportions of image size
 		//----------------------------------------------------------------------------------
-		float _centreBottomBounds;
+		float m_centreBottomProp;
+		//----------------------------------------------------------------------------------
+		/// \brief Centre left boundaries
+		//----------------------------------------------------------------------------------
+		float m_centreLeftBounds;
+		//----------------------------------------------------------------------------------
+		/// \brief Centre right boundaries
+		//----------------------------------------------------------------------------------
+		float m_centreRightBounds;
+		//----------------------------------------------------------------------------------
+		/// \brief Centre top boundaries
+		//----------------------------------------------------------------------------------
+		float m_centreTopBounds;
+		//----------------------------------------------------------------------------------
+		/// \brief Centre bottom boundaries
+		//----------------------------------------------------------------------------------
+		float m_centreBottomBounds;
 		//----------------------------------------------------------------------------------
 		// Content size in proportions of image size
 		//----------------------------------------------------------------------------------
-		float _contentLeftProp;
+		/// \brief Content left size in proportions of image size
 		//----------------------------------------------------------------------------------
-		float _contentRightProp;
+		float m_contentLeftProp;
 		//----------------------------------------------------------------------------------
-		float _contentTopProp;
+		/// \brief Content right size in proportions of image size
 		//----------------------------------------------------------------------------------
-		float _contentBottomProp;
+		float m_contentRightProp;
+		//----------------------------------------------------------------------------------
+		/// \brief Content top size in proportions of image size
+		//----------------------------------------------------------------------------------
+		float m_contentTopProp;
+		//----------------------------------------------------------------------------------
+		/// \brief Content bottom size in proportions of image size
+		//----------------------------------------------------------------------------------
+		float m_contentBottomProp;
 		//----------------------------------------------------------------------------------
 		// Actual content pixel positions
 		//----------------------------------------------------------------------------------
-		float _contentLeftBounds;
+		/// \brief Content left boundaries
 		//----------------------------------------------------------------------------------
-		float _contentRightBounds;
+		float m_contentLeftBounds;
 		//----------------------------------------------------------------------------------
-		float _contentTopBounds;
+		/// \brief Content right boundaries
 		//----------------------------------------------------------------------------------
-		float _contentBottomBounds;
+		float m_contentRightBounds;
+		//----------------------------------------------------------------------------------
+		/// \brief Content top boundaries
+		//----------------------------------------------------------------------------------
+		float m_contentTopBounds;
+		//----------------------------------------------------------------------------------
+		/// \brief Content bottom boundaries
+		//----------------------------------------------------------------------------------
+		float m_contentBottomBounds;
 		//----------------------------------------------------------------------------------
 		/// \brief Texture id
 		//----------------------------------------------------------------------------------
-		unsigned int _texID;
+		unsigned int m_texID;
 		//----------------------------------------------------------------------------------
 		/// \brief Texture width
 		//----------------------------------------------------------------------------------
-		int _texWidth; 
+		int m_texWidth; 
 		//----------------------------------------------------------------------------------
 		/// \brief Texture height
 		//----------------------------------------------------------------------------------
-		int _texHeight;
+		int m_texHeight;
 		//----------------------------------------------------------------------------------
-		bool _fixedX;
+		/// \brief Used to check if x is fixed
 		//----------------------------------------------------------------------------------
-		bool _fixedY;
+		bool m_fixedX;
 		//----------------------------------------------------------------------------------
+		/// \brief Used to check if y is fixed
+		//----------------------------------------------------------------------------------
+		bool m_fixedY;
+		//----------------------------------------------------------------------------------
+		/// \brief VAO
+		//----------------------------------------------------------------------------------
+		GLuint m_vao;
+		//----------------------------------------------------------------------------------
+		/// \brief Shader program
+		//----------------------------------------------------------------------------------
+		Utility::GPUProgram* m_shader;
+		//----------------------------------------------------------------------------------
+
 	};
 }
 

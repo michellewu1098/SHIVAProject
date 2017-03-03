@@ -3,7 +3,7 @@
 	layout_width="fill_parent"
 	layout_height="fill_parent"
 	orientation="vertical"
-  background="System/Theme02/background.xml"
+	background="System/Theme02/background.xml"
 	>
 	<TextView
 		layout_width="fill_parent"

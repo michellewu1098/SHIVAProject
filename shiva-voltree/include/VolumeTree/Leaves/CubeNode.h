@@ -9,6 +9,10 @@
 #ifndef CUBENODE_H_
 #define CUBENODE_H_
 
+#include <sstream>
+#include <cmath>
+#include <algorithm>
+
 #include "VolumeTree/Node.h"
 
 namespace VolumeTree
@@ -23,97 +27,101 @@ namespace VolumeTree
 		CubeNode();
 		//----------------------------------------------------------------------------------
 		/// \brief Ctor for cube with same side length
-		/// \param [in] length
+		/// \param [in] _length
 		//----------------------------------------------------------------------------------
-		CubeNode( float length );
+		CubeNode( const float &_length );
 		//----------------------------------------------------------------------------------
 		/// \brief Ctor for box with different side lengths
-		/// \param [in] lengthX
-		/// \param [in] lengthY
-		/// \param [in] lengthZ
+		/// \param [in] _lengthX
+		/// \param [in] _lengthY
+		/// \param [in] _lengthZ
 		//----------------------------------------------------------------------------------
-		CubeNode( float lengthX, float lengthY, float lengthZ );
+		CubeNode( const float &_lengthX, const float &_lengthY, const float &_lengthZ );
 		//----------------------------------------------------------------------------------
 		/// \brief Get node type
 		/// \return "CubeNode"
 		//----------------------------------------------------------------------------------
-		virtual std::string GetNodeType(){ return "CubeNode"; }
+		virtual std::string GetNodeType() { return "CubeNode"; }
 		//----------------------------------------------------------------------------------
 		/// \brief Set length of cube
-		/// \param [in] value
+		/// \param [in] _value
 		//----------------------------------------------------------------------------------
-		void SetLength( const float &value ) { _lengthX = _lengthY = _lengthZ = value; }
+		void SetLength( const float &_value ) { m_lengthX = m_lengthY = m_lengthZ = _value; }
 		//----------------------------------------------------------------------------------
 		/// \brief Set lengths of cube
-		/// \param [in] valueX
-		/// \param [in] valueY
-		/// \param [in] valueZ
+		/// \param [in] _valueX
+		/// \param [in] _valueY
+		/// \param [in] _valueZ
 		//----------------------------------------------------------------------------------
-		void SetLength( const float &valueX, const float &valueY, const float &valueZ) { _lengthX = valueX; _lengthY = valueY; _lengthZ = valueZ; }
+		void SetLength( const float &_valueX, const float &_valueY, const float &_valueZ) { m_lengthX = _valueX; m_lengthY = _valueY; m_lengthZ = _valueZ; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get length along x-axis
-		/// \return _lengthX
+		/// \return m_lengthX
 		//----------------------------------------------------------------------------------
-		float GetLengthX() const { return _lengthX; }
+		float GetLengthX() const { return m_lengthX; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get length along y-axis
-		/// \return _lengthY
+		/// \return m_lengthY
 		//----------------------------------------------------------------------------------
-		float GetLengthY() const { return _lengthY; }
+		float GetLengthY() const { return m_lengthY; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get length along z-axis
-		/// \return _lengthZ
+		/// \return m_lengthZ
 		//----------------------------------------------------------------------------------
-		float GetLengthZ() const { return _lengthZ; }
+		float GetLengthZ() const { return m_lengthZ; }
 		//----------------------------------------------------------------------------------
 		/// \brief Samples the function at a specific point
-		/// \param [in] x X coord
-		/// \param [in] y Y coord
-		/// \param [in] z Z coord
+		/// \param [in] _x X coord
+		/// \param [in] _y Y coord
+		/// \param [in] _z Z coord
 		//----------------------------------------------------------------------------------
-		float GetFunctionValue( float x, float y, float z );
+		float GetFunctionValue( float _x, float _y, float _z );
 		//----------------------------------------------------------------------------------
 		/// \brief Returns a GLSL-compatible string for the function
-		/// \param [in] callCache
-		/// \param [in] samplePosStr 
+		/// \param [in] _callCache
+		/// \param [in] _samplePosStr 
 		//----------------------------------------------------------------------------------
-		std::string GetFunctionGLSLString( bool callCache, std::string samplePosStr );
+		std::string GetFunctionGLSLString( bool _callCache, std::string _samplePosStr );
 		//----------------------------------------------------------------------------------
-		/// \brief Get node constant
+		/// \brief Get node cost
 		/// \return 15
 		//----------------------------------------------------------------------------------
 		virtual unsigned int GetNodeCost() { return 15; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get boundaries
-		/// \param [out] minX
-		/// \param [out] maxX
-		/// \param [out] minY
-		/// \param [out] maxY
-		/// \param [out] minZ
-		/// \param [out] maxZ
+		/// \param [out] _minX
+		/// \param [out] _maxX
+		/// \param [out] _minY
+		/// \param [out] _maxY
+		/// \param [out] _minZ
+		/// \param [out] _maxZ
 		//----------------------------------------------------------------------------------
-		virtual void GetBounds( float *minX, float *maxX, float *minY, float *maxY, float *minZ, float *maxZ );
+		virtual void GetBounds( float *_minX, float *_maxX, float *_minY, float *_maxY, float *_minZ, float *_maxZ );
 		//----------------------------------------------------------------------------------
 
 	protected:
 
-		float CSG_Intersect( float f1, float f2 );
+		//----------------------------------------------------------------------------------
+		/// \brief CSG Intersection
+		/// \param [in] _f1
+		/// \param [in] _f2
+		//----------------------------------------------------------------------------------
+		float CSG_Intersect( float _f1, float _f2 );
 		//----------------------------------------------------------------------------------
 		/// \brief Length along x-axis
 		//----------------------------------------------------------------------------------
-		float _lengthX;
+		float m_lengthX;
 		//----------------------------------------------------------------------------------
 		/// \brief Length along y-axis
 		//----------------------------------------------------------------------------------
-		float _lengthY;
+		float m_lengthY;
 		//----------------------------------------------------------------------------------
 		/// \brief Length along z-axis
 		//----------------------------------------------------------------------------------
-		float _lengthZ;
+		float m_lengthZ;
 		//----------------------------------------------------------------------------------
+	
 	};
-
 }
-
 
 #endif /* CONENODE_H_ */

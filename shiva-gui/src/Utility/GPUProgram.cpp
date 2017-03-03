@@ -1,81 +1,126 @@
 #include "Utility/GPUProgram.h"
 
-//////////////////////////////////////////////////////////////////////////
-#include <GL/GLee.h>
-#include <GL/glu.h>
 #include <fstream>
 #include <iostream>
 
+//----------------------------------------------------------------------------------
+
 Utility::GPUProgram::GPUProgram()
 {
-	_program = 0;
-	_vertexShader = NULL;
-	_fragmentShader = NULL;
+	m_program = 0;
+	m_vs = NULL;
+	m_fs = NULL;
 }
+
+//----------------------------------------------------------------------------------
 
 Utility::GPUProgram::~GPUProgram()
 {
-	if (!_program)
-		glDeleteObjectARB(_program);
-	if (!_vertexShader)
-		delete _fragmentShader;
-	if (!_fragmentShader)
-		delete _fragmentShader;
+	m_vs->DetachShader( m_program );
+	m_fs->DetachShader( m_program );
+
+	if ( !m_vs )
+		delete m_vs;
+	if ( !m_fs )
+		delete m_fs;
+
+	glDeleteProgram( m_program );
+
+	m_program = 0;
+	m_vs = NULL;
+	m_fs = NULL;
 }
 
-bool Utility::GPUProgram::Create(const std::string programFileName, ProgramType type)
+//----------------------------------------------------------------------------------
+
+bool Utility::GPUProgram::ValidateProgram( GLuint _program, GLuint _vs, GLuint _fs )
+{
+	GLint isLinked = 0;
+	glGetProgramiv( _program, GL_LINK_STATUS, ( int* )&isLinked );
+
+	if( isLinked == GL_FALSE )
+	{
+		GLint maxLength = 0;
+        glGetProgramiv( _program, GL_INFO_LOG_LENGTH, &maxLength );
+
+        char* infoLog = new char[ maxLength ];
+        glGetProgramInfoLog( _program, maxLength, &maxLength, infoLog );
+       
+		if( maxLength > 0 ) {
+            std::cerr << "Program " << _program << " link error: " << infoLog << std::endl;
+        }
+        
+		//We don't need the program anymore.
+        glDeleteProgram( _program );
+        //Don't leak shaders either.
+        glDeleteShader( _vs );
+        glDeleteShader( _fs);
+		delete[] infoLog;
+        return false;
+     }
+    return true;
+}
+//----------------------------------------------------------------------------------
+
+bool Utility::GPUProgram::Create( const std::string _programFileName, ProgramType _type )
 {
 	GLenum err = glGetError();
-	if( err != GL_NO_ERROR)
-	{
-		std::cerr<<"ERROR: Utility::GPUProgram::Create() "<<programFileName<<", OpenGL Error at entrance to function: "<< gluErrorString(err)<<std::endl;
-		return false;
+	if( err != GL_NO_ERROR ) {
+		std::cerr << "ERROR: Utility::GPUProgram::Create() " << _programFileName << ", OpenGL Error at entrance to function: " << gluErrorString( err ) << std::endl;
+		//return false;
 	}
 
-	_program = glCreateProgramObjectARB();
+	// #1 Create shader program
+
+	m_program = glCreateProgram();
 
 	err = glGetError();
-	if( err != GL_NO_ERROR)
-	{
-		std::cerr<<"ERROR: Utility::GPUProgram::Create() "<<programFileName<<", Could not create program object. Error: "<< gluErrorString(err)<<std::endl;
+	if( err != GL_NO_ERROR ) {
+		std::cerr << "ERROR: Utility::GPUProgram::Create() " << _programFileName << ", Could not create program object. Error: " << gluErrorString( err ) << std::endl;
 		return false;
 	}
 
-	if (type == VERTEX || type == VERTEX_AND_FRAGMENT)
+	// #2 Create, compile and attach the appropriate shader objs to the shader program
+
+	if ( _type == VERTEX || _type == VERTEX_AND_FRAGMENT )
 	{
-		_vertexShader = new GPUShader(GPUShader::VERTEX);
-		_vertexShader->LoadFromFile(std::string(programFileName + std::string(".vert")));
-		_vertexShader->CompileLink(_program);
+		m_vs = new GPUShader( GPUShader::VERTEX );
+		m_vs->LoadFromFile( std::string( _programFileName + std::string( ".vert" ) ) );
+		m_vs->CompileShader( m_program );
 	}
 
-	if (type == FRAGMENT || type == VERTEX_AND_FRAGMENT)
+	if ( _type == FRAGMENT || _type == VERTEX_AND_FRAGMENT )
 	{
-		_fragmentShader = new GPUShader(GPUShader::FRAGMENT);
-		_fragmentShader->LoadFromFile(std::string(programFileName + std::string(".frag")));
-		_fragmentShader->CompileLink(_program);
+		m_fs = new GPUShader( GPUShader::FRAGMENT );
+		m_fs->LoadFromFile( std::string( _programFileName + std::string( ".frag" ) ) );
+		m_fs->CompileShader( m_program );
 	}
 
-	glLinkProgramARB(_program);
+	// #3 Link shader program
 
-	GLint progLinkSuccess;
-	glGetObjectParameterivARB(_program, GL_OBJECT_LINK_STATUS_ARB, &progLinkSuccess);
-	if (!progLinkSuccess)
-	{
-		std::cerr<<"ERROR: Shader"<<programFileName<<" could not be linked"<<std::endl;
-		//std::string szOut = std::string("Shader ") + programFileName + std::string(" could not be linked");
-		//MessageBox(NULL, szOut.c_str(), "Error", MB_OK);
-		//printInfoLog(pProgram);
+	glLinkProgram( m_program );
+
+	// #4 Check that shader link phase completed successfully
+
+	if( !ValidateProgram( m_program, m_vs->GetShaderHandle(), m_fs->GetShaderHandle() ) ) {
 		return false;
 	}
+
 	return true;
 }
 
-void Utility::GPUProgram::On()
+//----------------------------------------------------------------------------------
+
+void Utility::GPUProgram::Bind()
 {
-	glUseProgramObjectARB(_program);
+	glUseProgram( m_program );
 }
 
-void Utility::GPUProgram::Off()
+//----------------------------------------------------------------------------------
+
+void Utility::GPUProgram::Unbind()
 {
-	glUseProgramObjectARB(0);
+	glUseProgram( 0 );
 }
+
+//----------------------------------------------------------------------------------

@@ -2,205 +2,211 @@
 #include "GUIManager.h"
 #include "ResourceManager.h"
 
-//////////////////////////////////////////////////////////////////////////
-#include <GL/GLee.h>
-#include <iostream>
-
+//----------------------------------------------------------------------------------
 
 ShivaGUI::Slider::Slider()
 {
-	_handlePosition = 1.0f;
-	_barDrawable = NULL;
-	_handleGeneralDrawable = NULL;
-	_handleStateListDrawable = NULL;
-	_handleHeight = 100.0f;
-	_handleWidth = 100.0f;
-	_holdingHandle = false;
-	_focussed = false;
-	_active = true;
-	_slideListener = NULL;
-	_eventOnRelease = false;
-	_barDrawableFromTheme = _handleDrawableFromTheme = _handleHeightFromTheme = _handleWidthFromTheme = false;
+	m_handlePosition = 1.0f;
+	m_barDrawable = NULL;
+	m_handleGeneralDrawable = NULL;
+	m_handleStateListDrawable = NULL;
+	m_handleHeight = 100.0f;
+	m_handleWidth = 100.0f;
+	m_holdingHandle = false;
+	m_focussed = false;
+	m_active = true;
+	m_slideListener = NULL;
+	m_eventOnRelease = false;
+	m_barDrawableFromTheme = m_handleDrawableFromTheme = m_handleHeightFromTheme = m_handleWidthFromTheme = false;
 }
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::Slider::~Slider()
 {
-	delete _barDrawable;
-	delete _handleGeneralDrawable;
-	delete _handleStateListDrawable;
+	delete m_barDrawable;
+	delete m_handleGeneralDrawable;
+	delete m_handleStateListDrawable;
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::Slider::Draw()
 {
 	View::Draw();
 
-	if( _visible )
+	if( m_visible )
 	{
-		if( _barDrawable != NULL )
-			_barDrawable->Draw();
+		if( m_barDrawable != NULL )
+			m_barDrawable->Draw();
 
-		if( _handleStateListDrawable != NULL )
-			_handleStateListDrawable->Draw();
-		else if( _handleGeneralDrawable != NULL )
-			_handleGeneralDrawable->Draw();
+		if( m_handleStateListDrawable != NULL )
+			m_handleStateListDrawable->Draw();
+		else if( m_handleGeneralDrawable != NULL )
+			m_handleGeneralDrawable->Draw();
 	}
 }
 
-void ShivaGUI::Slider::Inflate(TiXmlElement *xmlElement, ResourceManager *resources, std::string themePrefix, bool rootNode )
-{
-	if( themePrefix.empty() )
-		themePrefix = "Slider_";
-	View::Inflate(xmlElement,resources,themePrefix,rootNode);
+//----------------------------------------------------------------------------------
 
-	for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
+void ShivaGUI::Slider::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
+{
+	if( _themePrefix.empty() )
+		_themePrefix = "Slider_";
+	View::Inflate( _xmlElement, _resources, _themePrefix, _rootNode );
+
+	for( TiXmlAttribute *currentAttribute = _xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 	{
 
-		if( (std::string("barDrawable") == currentAttribute->Name()) || (themePrefix+"barDrawable" == currentAttribute->Name()) )
+		if( ( std::string( "barDrawable" ) == currentAttribute->Name() ) || ( _themePrefix + "barDrawable" == currentAttribute->Name() ) )
 		{
-			_barDrawableFromTheme = (themePrefix+"barDrawable" == currentAttribute->Name());
+			m_barDrawableFromTheme = ( _themePrefix + "barDrawable" == currentAttribute->Name() );
 			std::string resourceName( currentAttribute->Value() );
 
 			// Retrieve resource and store it as correct type
-			_barDrawable = resources->GetDrawable( resourceName );
+			m_barDrawable = _resources->GetDrawable( resourceName );
 		}
-		else if( (std::string("handleDrawable") == currentAttribute->Name()) || (themePrefix+"handleDrawable" == currentAttribute->Name()) )
+		else if( ( std::string("handleDrawable") == currentAttribute->Name() ) || ( _themePrefix + "handleDrawable" == currentAttribute->Name() ) )
 		{
-			_handleDrawableFromTheme = (themePrefix+"handleDrawable" == currentAttribute->Name());
+			m_handleDrawableFromTheme = ( _themePrefix + "handleDrawable" == currentAttribute->Name() );
 			std::string resourceName( currentAttribute->Value() );
 
 			// Retrieve resource and store it as correct type
-			Drawable *drawable = resources->GetDrawable( resourceName );
-			_handleStateListDrawable = dynamic_cast<StateListDrawable*>(drawable);
-			if( _handleStateListDrawable == NULL )
-				_handleGeneralDrawable = drawable;
+			Drawable *drawable = _resources->GetDrawable( resourceName );
+			m_handleStateListDrawable = dynamic_cast< StateListDrawable* >( drawable );
+			if( m_handleStateListDrawable == NULL )
+				m_handleGeneralDrawable = drawable;
 		}
-		else if( (std::string("handleHeight") == currentAttribute->Name()) || (themePrefix+"handleHeight" == currentAttribute->Name()) )
+		else if( ( std::string( "handleHeight" ) == currentAttribute->Name() ) || ( _themePrefix + "handleHeight" == currentAttribute->Name() ) )
 		{
-			_handleHeightFromTheme = (themePrefix+"handleHeight" == currentAttribute->Name());
-			_handleHeight = (float) currentAttribute->DoubleValue();
+			m_handleHeightFromTheme = ( _themePrefix + "handleHeight" == currentAttribute->Name() );
+			m_handleHeight = ( float )currentAttribute->DoubleValue();
 		}
-		else if( (std::string("handleWidth") == currentAttribute->Name()) || (themePrefix+"handleWidth" == currentAttribute->Name()) )
+		else if( ( std::string( "handleWidth" ) == currentAttribute->Name() ) || ( _themePrefix + "handleWidth" == currentAttribute->Name() ) )
 		{
-			_handleWidthFromTheme = (themePrefix+"handleWidth" == currentAttribute->Name());
-			_handleWidth = (float) currentAttribute->DoubleValue();
+			m_handleWidthFromTheme = ( _themePrefix + "handleWidth" == currentAttribute->Name() );
+			m_handleWidth = ( float )currentAttribute->DoubleValue();
 		}
-		else if( std::string("handlePosition") == currentAttribute->Name() )
+		else if( std::string( "handlePosition" ) == currentAttribute->Name() )
 		{
-			_handlePosition = (float) currentAttribute->DoubleValue();
-			if( _handlePosition < 0.0f )
-				_handlePosition = 0.0f;
-			else if( _handlePosition > 1.0f)
-				_handlePosition = 1.0f;
+			m_handlePosition = ( float )currentAttribute->DoubleValue();
+			if( m_handlePosition < 0.0f )
+				m_handlePosition = 0.0f;
+			else if( m_handlePosition > 1.0f )
+				m_handlePosition = 1.0f;
 		}
-		else if( std::string("onSlide") == currentAttribute->Name() )
+		else if( std::string( "onSlide" ) == currentAttribute->Name() )
 		{
-			_slideListenerName = currentAttribute->Value();
+			m_slideListenerName = currentAttribute->Value();
 
 			// Retrieve listener
-			ViewEventListener *listener = resources->GetListener(_slideListenerName);
+			ViewEventListener *listener = _resources->GetListener( m_slideListenerName );
 			if( listener != NULL )
-				_slideListener = listener;
+				m_slideListener = listener;
 		}
-		else if( std::string("eventOnRelease") == currentAttribute->Name() )
+		else if( std::string( "eventOnRelease" ) == currentAttribute->Name() )
 		{
 			std::string value( currentAttribute->Value() );
 
 			if( value == "true" )
-				_eventOnRelease = true;
+				m_eventOnRelease = true;
 			else if( value == "false" )
-				_eventOnRelease = false;
+				m_eventOnRelease = false;
 		}
-
 	}
 }
 
-TiXmlElement* ShivaGUI::Slider::Deflate(ResourceManager *resources)
+//----------------------------------------------------------------------------------
+
+TiXmlElement* ShivaGUI::Slider::Deflate( ResourceManager *_resources )
 {
-	TiXmlElement *xmlNode = View::Deflate(resources);
-	xmlNode->SetValue("Slider");
+	TiXmlElement *xmlNode = View::Deflate( _resources );
+	xmlNode->SetValue( "Slider" );
 
 
-	if( !_barDrawableFromTheme )
+	if( !m_barDrawableFromTheme )
 	{
-		if( _barDrawable != NULL )
-			xmlNode->SetAttribute("barDrawable",_barDrawable->GetFilename() );
+		if( m_barDrawable != NULL )
+			xmlNode->SetAttribute( "barDrawable", m_barDrawable->GetFilename() );
 	}
 
-	if( !_handleDrawableFromTheme )
+	if( !m_handleDrawableFromTheme )
 	{
-		if( _handleStateListDrawable != NULL )
-			xmlNode->SetAttribute("handleDrawable",_handleStateListDrawable->GetFilename() );
-		else if( _handleGeneralDrawable != NULL )
-			xmlNode->SetAttribute("handleDrawable",_handleGeneralDrawable->GetFilename() );
+		if( m_handleStateListDrawable != NULL )
+			xmlNode->SetAttribute( "handleDrawable", m_handleStateListDrawable->GetFilename() );
+		else if( m_handleGeneralDrawable != NULL )
+			xmlNode->SetAttribute( "handleDrawable", m_handleGeneralDrawable->GetFilename() );
 	}
 
-	if( !_handleHeightFromTheme )
-		xmlNode->SetDoubleAttribute("handleHeight", _handleHeight );
-	if( !_handleWidthFromTheme )
-		xmlNode->SetDoubleAttribute("handleWidth", _handleWidth );
-	xmlNode->SetDoubleAttribute("handlePosition", _handlePosition );
+	if( !m_handleHeightFromTheme )
+		xmlNode->SetDoubleAttribute( "handleHeight", m_handleHeight );
+	if( !m_handleWidthFromTheme )
+		xmlNode->SetDoubleAttribute( "handleWidth", m_handleWidth );
+	xmlNode->SetDoubleAttribute( "handlePosition", m_handlePosition );
 
-	if( !_slideListenerName.empty() )
-		xmlNode->SetAttribute("onSlide", _slideListenerName );
+	if( !m_slideListenerName.empty() )
+		xmlNode->SetAttribute( "onSlide", m_slideListenerName );
 
-	if( _eventOnRelease )
-		xmlNode->SetAttribute("eventOnRelease","true");
-
+	if( m_eventOnRelease )
+		xmlNode->SetAttribute( "eventOnRelease", "true" );
 
 	return xmlNode;
 }
 
+//----------------------------------------------------------------------------------
 
-void ShivaGUI::Slider::SetFocus(bool value)
+void ShivaGUI::Slider::SetFocus( bool _value )
 {
-	if( _active )
-		_focussed = value;
+	if( m_active )
+		m_focussed = _value;
 	SetStateDrawable();
 }
 
-bool ShivaGUI::Slider::HandleEvent(InternalEvent *currentEvent)
+//----------------------------------------------------------------------------------
+
+bool ShivaGUI::Slider::HandleEvent( InternalEvent *_currentEvent )
 {
-	if( !_active || !_visible )
+	if( !m_active || !m_visible )
 		return false;
 
-	if( currentEvent->GetType() == InternalEvent::POSITIONAL_SELECT )
+	if( _currentEvent->GetType() == InternalEvent::POSITIONAL_SELECT )
 	{
-		int mouseX,mouseY;
-		currentEvent->GetPosition(mouseX,mouseY);
-		if( MouseHit(mouseX,mouseY) == 1 )
+		int mouseX, mouseY;
+		_currentEvent->GetPosition(mouseX,mouseY);
+		if( MouseHit( mouseX, mouseY ) == 1 )
 		{
 			//SetSelect(true);
-			_holdingHandle = true;
+			m_holdingHandle = true;
 			SetStateDrawable();
 			return true;
 		}
 	}
-	else if( currentEvent->GetType() == InternalEvent::POSITIONAL_DESELECT )
+	else if( _currentEvent->GetType() == InternalEvent::POSITIONAL_DESELECT )
 	{
-		int mouseX,mouseY;
-		currentEvent->GetPosition(mouseX,mouseY);
-		if( _holdingHandle ) //MouseHit(mouseX,mouseY) )
+		int mouseX, mouseY;
+		_currentEvent->GetPosition( mouseX, mouseY );
+		if( m_holdingHandle ) //MouseHit(mouseX,mouseY) )
 		{
 			//SetSelect(false);
-			_holdingHandle = false;
+			m_holdingHandle = false;
 			SetStateDrawable();
-			if( _eventOnRelease && _slideListener != NULL )
-				_slideListener->HandleEvent(this);
+			if( m_eventOnRelease && m_slideListener != NULL )
+				m_slideListener->HandleEvent( this );
 
 			return true;
 		}
 	}
-	else if( currentEvent->GetType() == InternalEvent::POSITIONAL_DRAG )
+	else if( _currentEvent->GetType() == InternalEvent::POSITIONAL_DRAG )
 	{
-		if( _holdingHandle )
+		if( m_holdingHandle )
 		{
-			int mouseX,mouseY;
-			currentEvent->GetPosition(mouseX,mouseY);
+			int mouseX, mouseY;
+			_currentEvent->GetPosition( mouseX, mouseY );
 
 			// Translate this and set it as the new position of the handle
-			float widgetWidth = ((float)_boundsRight) - ((float)_boundsLeft) - _handleWidth;
+			float widgetWidth = ( ( float )m_boundsRight ) - ( ( float )m_boundsLeft ) - m_handleWidth;
 
-			float relativeMouseX = mouseX - _boundsLeft - (_handleWidth/2.0f);
+			float relativeMouseX = mouseX - m_boundsLeft - ( m_handleWidth / 2.0f );
 			SetHandlePosition( relativeMouseX / widgetWidth );
 
 			return true;
@@ -238,30 +244,34 @@ bool ShivaGUI::Slider::HandleEvent(InternalEvent *currentEvent)
 	return false;
 }
 
-void ShivaGUI::Slider::SetHandlePosition( float value )
-{
-	_handlePosition = value;
+//----------------------------------------------------------------------------------
 
-	if( _handlePosition < 0.0f )
-		_handlePosition = 0.0f;
-	else if( _handlePosition > 1.0f )
-		_handlePosition = 1.0f;
+void ShivaGUI::Slider::SetHandlePosition( float _value )
+{
+	m_handlePosition = _value;
+
+	if( m_handlePosition < 0.0f )
+		m_handlePosition = 0.0f;
+	else if( m_handlePosition > 1.0f )
+		m_handlePosition = 1.0f;
 
 	LayoutHandle();
-	if( !_eventOnRelease && _slideListener != NULL )
-		_slideListener->HandleEvent(this);
+
+	if( !m_eventOnRelease && m_slideListener != NULL )
+		m_slideListener->HandleEvent(this);
 }
 
-/// \return 0 on no hit, 1 on hit handle, 2 on hit bar left of handle, 3 on hit right bar
-int ShivaGUI::Slider::MouseHit(int mouseX, int mouseY)
+//----------------------------------------------------------------------------------
+
+int ShivaGUI::Slider::MouseHit( int _mouseX, int _mouseY )
 {
 	// Did it hit the thing as a whole?
-	bool hitWidget = (mouseX>_boundsLeft) && (mouseX<_boundsRight) && (mouseY>_boundsTop) && (mouseY<_boundsBottom);
+	bool hitWidget = ( _mouseX > m_boundsLeft ) && ( _mouseX < m_boundsRight ) && ( _mouseY > m_boundsTop ) && ( _mouseY < m_boundsBottom );
 
 	if( hitWidget )
 	{
 		// Did it hit the handle?
-		if( (mouseX>_handleLeft) && (mouseX<_handleRight) && (mouseY>_handleTop) && (mouseY<_handleBottom) )
+		if( ( _mouseX > m_handleLeft ) && ( _mouseX < m_handleRight ) && ( _mouseY > m_handleTop ) && ( _mouseY < m_handleBottom ) )
 			return 1;
 
 		// TODO: check hits on either side of handle
@@ -270,73 +280,79 @@ int ShivaGUI::Slider::MouseHit(int mouseX, int mouseY)
 	return 0;
 }
 
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::Slider::LayoutHandle()
 {
-	float widgetHeight = ((float)_boundsBottom) - ((float)_boundsTop);
-	float widgetWidth = ((float)_boundsRight) - ((float)_boundsLeft);
+	float widgetHeight = ( ( float )m_boundsBottom ) - ( ( float )m_boundsTop );
+	float widgetWidth = ( ( float )m_boundsRight ) - ( ( float )m_boundsLeft );
 
-	_handleBottom = ((float)_boundsBottom) - (widgetHeight/2.0f) + (_handleHeight/2.0f);
-	_handleTop    = ((float)_boundsBottom) - (widgetHeight/2.0f) - (_handleHeight/2.0f);
-	_handleLeft   = ((float)_boundsLeft) + ((widgetWidth - _handleWidth) * _handlePosition) ;
-	_handleRight   = ((float)_boundsLeft) + ((widgetWidth - _handleWidth) * _handlePosition) + (_handleWidth);
-	//_handleLeft   = ((float)_boundsLeft) + (widgetWidth * _barPosition) - (_handleWidth/2.0f);
-	//_handleRight   = ((float)_boundsLeft) + (widgetWidth * _barPosition) + (_handleWidth/2.0f);
-
-	if( _handleGeneralDrawable != NULL )
-		_handleGeneralDrawable->SetBounds(_handleLeft,_handleTop,_handleRight,_handleBottom);
-	if( _handleStateListDrawable != NULL )
-		_handleStateListDrawable->SetBounds(_handleLeft,_handleTop,_handleRight,_handleBottom);
+	m_handleBottom = ( ( float )m_boundsBottom ) - ( widgetHeight / 2.0f ) + ( m_handleHeight / 2.0f );
+	m_handleTop    = ( ( float )m_boundsBottom ) - ( widgetHeight / 2.0f ) - ( m_handleHeight / 2.0f );
+	m_handleLeft   = ( ( float )m_boundsLeft ) + ( ( widgetWidth - m_handleWidth ) * m_handlePosition );
+	m_handleRight  = ( ( float )m_boundsLeft ) + ( ( widgetWidth - m_handleWidth ) * m_handlePosition ) + ( m_handleWidth );
+	
+	if( m_handleGeneralDrawable != NULL )
+		m_handleGeneralDrawable->SetBounds( m_handleLeft, m_handleTop, m_handleRight, m_handleBottom );
+	if( m_handleStateListDrawable != NULL )
+		m_handleStateListDrawable->SetBounds( m_handleLeft, m_handleTop, m_handleRight, m_handleBottom );
 }
 
-void ShivaGUI::Slider::Layout(int left, int top, int right, int bottom, int windowWidth, int windowHeight)
-{
-	View::Layout(left,top,right,bottom,windowWidth,windowHeight);
+//----------------------------------------------------------------------------------
 
-	_boundsLeft = left;
-	_boundsRight = right;
-	_boundsTop = top;
-	_boundsBottom = bottom;
+void ShivaGUI::Slider::Layout( int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight )
+{
+	View::Layout( _left, _top, _right, _bottom, _windowWidth, _windowHeight );
+
+	m_boundsLeft = _left;
+	m_boundsRight = _right;
+	m_boundsTop = _top;
+	m_boundsBottom = _bottom;
 
 	LayoutHandle();
 
-	if( _barDrawable != NULL )
-		_barDrawable->SetBounds(left,top,right,bottom);
+	if( m_barDrawable != NULL )
+		m_barDrawable->SetBounds( ( float )_left, ( float )_top, ( float )_right, ( float )_bottom );
 
 	SetStateDrawable();
 }
 
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::Slider::SetStateDrawable()
 {
-	if( _handleStateListDrawable != NULL )
+	if( m_handleStateListDrawable != NULL )
 	{
-		if( _active )
+		if( m_active )
 		{
-			if( _holdingHandle )
+			if( m_holdingHandle )
 			{
-				if( _focussed )
+				if( m_focussed )
 				{
-					_handleStateListDrawable->SetCurrentState( StateListDrawable::Pressed | StateListDrawable::HasFocus );
+					m_handleStateListDrawable->SetCurrentState( StateListDrawable::Pressed | StateListDrawable::HasFocus );
 				}
 				else
 				{
-					_handleStateListDrawable->SetCurrentState(StateListDrawable::Pressed);
+					m_handleStateListDrawable->SetCurrentState( StateListDrawable::Pressed );
 				}
 			}
 			else
 			{
-				if( _focussed )
+				if( m_focussed )
 				{
-					_handleStateListDrawable->SetCurrentState(StateListDrawable::HasFocus);
+					m_handleStateListDrawable->SetCurrentState( StateListDrawable::HasFocus );
 				}
 				else
 				{
-					_handleStateListDrawable->SetCurrentState(StateListDrawable::Active);
+					m_handleStateListDrawable->SetCurrentState( StateListDrawable::Active );
 				}
 			}
 		}
 		else
 		{
-			_handleStateListDrawable->SetCurrentState(StateListDrawable::Disabled);
+			m_handleStateListDrawable->SetCurrentState( StateListDrawable::Disabled );
 		}
 	}
 }
+
+//----------------------------------------------------------------------------------

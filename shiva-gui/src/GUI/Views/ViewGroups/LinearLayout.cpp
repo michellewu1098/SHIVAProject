@@ -46,12 +46,12 @@ void ShivaGUI::LinearLayout::Layout(int left, int top, int right, int bottom, in
 	// This is not going to be terribly efficient...
 	if( _verticalOrientation )
 	{
-		float availableHeight = bottom - top;
+		float availableHeight = ( float )( bottom - top );
 
 		if( totalWeight > 0.0f )
 		{
 			float unitHeight = availableHeight / totalWeight;
-			float viewTop =    top;
+			float viewTop = ( float )top;
 			float viewBottom = 0.0f;
 			for( std::vector<View*>::iterator it = _views.begin(); it != _views.end(); ++it )
 			{
@@ -65,7 +65,7 @@ void ShivaGUI::LinearLayout::Layout(int left, int top, int right, int bottom, in
 						paddingBottom = params->GetPaddingBottom();
 
 					viewBottom = viewTop + (unitHeight * viewLayoutParams->GetWeight());
-					(*it)->Layout( left + paddingLeft, viewTop + paddingTop, right - paddingRight, viewBottom - paddingBottom, windowWidth, windowHeight );
+					(*it)->Layout( left + paddingLeft, ( int )( viewTop + paddingTop ), right - paddingRight, ( int )( viewBottom - paddingBottom ), windowWidth, windowHeight );
 					viewTop = viewBottom;
 				}
 			}
@@ -74,12 +74,12 @@ void ShivaGUI::LinearLayout::Layout(int left, int top, int right, int bottom, in
 		{
 			// The weights were undefined, so we make them be equal
 			float unitHeight = availableHeight / ((float) _views.size());
-			float viewTop =    top;
+			float viewTop = ( float )top;
 			float viewBottom = 0.0f;
 			for( std::vector<View*>::iterator it = _views.begin(); it != _views.end(); ++it )
 			{
 				viewBottom = viewTop + unitHeight;
-				(*it)->Layout( left, viewTop, right, viewBottom, windowWidth, windowHeight );
+				(*it)->Layout( left, ( int )viewTop, right, ( int )viewBottom, windowWidth, windowHeight );
 				viewTop = viewBottom;
 			}
 		}
@@ -87,12 +87,12 @@ void ShivaGUI::LinearLayout::Layout(int left, int top, int right, int bottom, in
 	else
 	{
 		// Horizontal orientation
-		float availableWidth = right - left;
+		float availableWidth = ( float )( right - left );
 
 		if( totalWeight > 0.0f )
 		{
 			float unitWidth = availableWidth / totalWeight;
-			float viewLeft =  left;
+			float viewLeft =  ( float )left;
 			float viewRight = 0.0f;
 			for( std::vector<View*>::iterator it = _views.begin(); it != _views.end(); ++it )
 			{
@@ -106,7 +106,7 @@ void ShivaGUI::LinearLayout::Layout(int left, int top, int right, int bottom, in
 						paddingBottom = params->GetPaddingBottom();
 
 					viewRight = viewLeft + (unitWidth * viewLayoutParams->GetWeight());
-					(*it)->Layout( viewLeft + paddingLeft, top + paddingTop, viewRight - paddingRight, bottom - paddingBottom, windowWidth, windowHeight );
+					(*it)->Layout( ( int )( viewLeft + paddingLeft ), top + paddingTop, ( int )( viewRight - paddingRight ), bottom - paddingBottom, windowWidth, windowHeight );
 					viewLeft = viewRight;
 				}
 			}
@@ -115,12 +115,12 @@ void ShivaGUI::LinearLayout::Layout(int left, int top, int right, int bottom, in
 		{
 			// The weights were undefined, so we make them be equal
 			float unitWidth = availableWidth / ((float) _views.size());
-			float viewLeft =  left;
+			float viewLeft = ( float )left;
 			float viewRight = 0.0f;
 			for( std::vector<View*>::iterator it = _views.begin(); it != _views.end(); ++it )
 			{
 				viewRight = viewLeft + unitWidth;
-				(*it)->Layout( viewLeft, top, viewRight, bottom, windowWidth, windowHeight );
+				(*it)->Layout( ( int )viewLeft, top, ( int )viewRight, bottom, windowWidth, windowHeight );
 				viewLeft = viewRight;
 			}
 		}
@@ -155,7 +155,7 @@ void ShivaGUI::LinearLayout::Draw()
 {
 	View::Draw();
 
-	if( _visible )
+	if( m_visible )
 	{
 
 		for( std::vector<View*>::iterator it = _views.begin(); it != _views.end(); ++it )

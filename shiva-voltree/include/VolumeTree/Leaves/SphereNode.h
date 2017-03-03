@@ -9,6 +9,9 @@
 #ifndef SPHERE_H_
 #define SPHERE_H_
 
+#include <cmath>
+#include <sstream>
+
 #include "VolumeTree/Node.h"
 
 namespace VolumeTree
@@ -23,11 +26,11 @@ namespace VolumeTree
 		SphereNode();
 		//----------------------------------------------------------------------------------
 		/// \brief Ctor of sphere node
-		/// \param [in] radius_x Radius X
-		/// \param [in] radius_y Radius Y
-		/// \param [in] radius_z Radius Z
+		/// \param [in] _radiusX Radius X
+		/// \param [in] _radiusY Radius Y
+		/// \param [in] _radiusZ Radius Z
 		//----------------------------------------------------------------------------------
-		SphereNode( float radius_x, float radius_y, float radius_z );
+		SphereNode( const float &_radiusX, const float &_radiusY, const float &_radiusZ );
 		//----------------------------------------------------------------------------------
 		/// \brief Get node type
 		/// \return "SphereNode"
@@ -35,54 +38,54 @@ namespace VolumeTree
 		virtual std::string GetNodeType() { return "SphereNode"; }
 		//----------------------------------------------------------------------------------
 		/// \brief Set radius 
-		/// \param [in] valueX 
-		/// \param [in] valueY
-		/// \param [in] valueZ
+		/// \param [in] _valueX 
+		/// \param [in] _valueY
+		/// \param [in] _valueZ
 		//----------------------------------------------------------------------------------
-		void SetRadius( const float &valueX, const float &valueY, const float &valueZ ) { _radiusX = valueX; _radiusY = valueY; _radiusZ = valueZ; }
+		void SetRadius( const float &_valueX, const float &_valueY, const float &_valueZ ) { m_radiusX = _valueX; m_radiusY = _valueY; m_radiusZ = _valueZ; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get radius along x-axis
-		/// \return _radiusX
+		/// \return m_radiusX
 		//----------------------------------------------------------------------------------
-		float GetRadiusX() const { return _radiusX; }
+		float GetRadiusX() const { return m_radiusX; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get radius along y-axis
-		/// \return _radiusY
+		/// \return m_radiusY
 		//----------------------------------------------------------------------------------
-		float GetRadiusY() const { return _radiusY; }
+		float GetRadiusY() const { return m_radiusY; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get radius along z-axis
-		/// \return _radiusZ
+		/// \return m_radiusZ
 		//----------------------------------------------------------------------------------
-		float GetRadiusZ() const { return _radiusZ; }
+		float GetRadiusZ() const { return m_radiusZ; }
 		//----------------------------------------------------------------------------------
 		/// \brief Samples the function at a specific point
-		/// \param [in] x X coord
-		/// \param [in] y Y coord
-		/// \param [in] z Z coord
+		/// \param [in] _x X coord
+		/// \param [in] _y Y coord
+		/// \param [in] _z Z coord
 		//----------------------------------------------------------------------------------
-		float GetFunctionValue( float x, float y, float z );
+		float GetFunctionValue( float _x, float _y, float _z );
 		//----------------------------------------------------------------------------------
 		/// \brief Returns a GLSL-compatible string for the function
-		/// \param [in] callCache
-		/// \param [in] samplePosStr 
+		/// \param [in] _callCache
+		/// \param [in] _samplePosStr 
 		//----------------------------------------------------------------------------------
-		std::string GetFunctionGLSLString( bool callCache, std::string samplePosStr );
+		std::string GetFunctionGLSLString( bool _callCache, std::string _samplePosStr );
 		//----------------------------------------------------------------------------------
-		/// \brief Get node constant
+		/// \brief Get node cost
 		/// \return 5
 		//----------------------------------------------------------------------------------
 		virtual unsigned int GetNodeCost() { return 5; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get boundaries
-		/// \param [out] minX
-		/// \param [out] maxX
-		/// \param [out] minY
-		/// \param [out] maxY
-		/// \param [out] minZ
-		/// \param [out] maxZ
+		/// \param [out] _minX
+		/// \param [out] _maxX
+		/// \param [out] _minY
+		/// \param [out] _maxY
+		/// \param [out] _minZ
+		/// \param [out] _maxZ
 		//----------------------------------------------------------------------------------
-		virtual void GetBounds( float *minX, float *maxX, float *minY, float *maxY, float *minZ, float *maxZ );
+		virtual void GetBounds( float *_minX, float *_maxX, float *_minY, float *_maxY, float *_minZ, float *_maxZ );
 		//----------------------------------------------------------------------------------
 
 	protected:
@@ -90,19 +93,17 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		/// \brief Radius X
 		//----------------------------------------------------------------------------------
-		float _radiusX;
+		float m_radiusX;
 		//----------------------------------------------------------------------------------
 		/// \brief Radius Y
 		//----------------------------------------------------------------------------------
-		float _radiusY;
+		float m_radiusY;
 		//----------------------------------------------------------------------------------
 		/// \brief Radius Z
 		//----------------------------------------------------------------------------------
-		float _radiusZ;
+		float m_radiusZ;
 		//----------------------------------------------------------------------------------
 	};
-
 }
-
 
 #endif /* SPHERE_H_ */

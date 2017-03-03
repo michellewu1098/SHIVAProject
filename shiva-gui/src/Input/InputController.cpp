@@ -3,9 +3,6 @@
 
 #include <boost/algorithm/string.hpp>
 
-//////////////////////////////////////////////////////////////////////////
-
-
 ShivaGUI::InputController::InputController(ProfileManager *profile)
 {
 	_useKeys = false;

@@ -1,11 +1,5 @@
 
-#include <GL/GLee.h>
-#include <GL/glu.h>
-
 #include "Utility/fbo.h"
-
-#include <iostream>
-#include <map>
 
 
 namespace FrameBufferObjects

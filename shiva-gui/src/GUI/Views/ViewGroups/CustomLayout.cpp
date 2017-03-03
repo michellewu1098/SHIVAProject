@@ -67,7 +67,7 @@ void ShivaGUI::CustomLayout::Layout( int left, int top, int right, int bottom, i
 	
 	if( _editDrawable != NULL )
 	{
-		_editDrawable->SetBounds( left, top, right, bottom, Definitions::CENTRE );
+		_editDrawable->SetBounds( ( float )left, ( float )top, ( float )right, ( float )bottom, Definitions::CENTRE );
 	}
 	
 	for( std::vector< View* >::iterator it = _views.begin(); it != _views.end(); ++it )
@@ -118,7 +118,7 @@ void ShivaGUI::CustomLayout::Draw()
 {
 	View::Draw();
 
-	if( _visible )
+	if( m_visible )
 	{
 		if( _editMode )
 		{
@@ -341,18 +341,18 @@ ShivaGUI::LayoutParams* ShivaGUI::CustomLayout::InflateLayoutParams( TiXmlElemen
 
 void ShivaGUI::CustomLayout::GetCoordsAsProportion( int inX, int inY, float &outX, float &outY )
 {
-	float viewWidth = _layoutBoundsRight - _layoutBoundsLeft;
-	float viewHeight = _layoutBoundsBottom - _layoutBoundsTop;
+	float viewWidth = ( float )( m_layoutBoundsRight - m_layoutBoundsLeft );
+	float viewHeight = ( float )( m_layoutBoundsBottom - m_layoutBoundsTop );
 
-	outX = ( ( float )inX - _layoutBoundsLeft ) / viewWidth;
-	outY = ( ( float )inY - _layoutBoundsTop ) / viewHeight;
+	outX = ( ( float )inX - m_layoutBoundsLeft ) / viewWidth;
+	outY = ( ( float )inY - m_layoutBoundsTop ) / viewHeight;
 }
 
 //----------------------------------------------------------------------------------
 
 float ShivaGUI::CustomLayout::GetWidthAsProportion( int widthIn )
 {
-	float viewWidth = _layoutBoundsRight - _layoutBoundsLeft;
+	float viewWidth = ( float )( m_layoutBoundsRight - m_layoutBoundsLeft );
 	return ( float )widthIn / viewWidth;
 }
 
@@ -360,7 +360,7 @@ float ShivaGUI::CustomLayout::GetWidthAsProportion( int widthIn )
 
 float ShivaGUI::CustomLayout::GetHeightAsProportion( int heightIn )
 {
-	float viewHeight = _layoutBoundsBottom - _layoutBoundsTop;
+	float viewHeight = ( float )( m_layoutBoundsBottom - m_layoutBoundsTop );
 	return ( float )heightIn / viewHeight;
 }
 
@@ -420,8 +420,8 @@ void ShivaGUI::CustomLayout::LayoutView( View *currentView, int left, int top, i
 
 			if( naturalHeight < layoutHeight )
 			{
-				childTop = top + ( centreYProportion * layoutHeight ) - ( ( float )naturalHeight / 2.0f );
-				childBottom = top + ( centreYProportion * layoutHeight ) + ( ( float )naturalHeight / 2.0f );
+				childTop = top + ( int )( ( centreYProportion * layoutHeight ) - ( ( float )naturalHeight / 2.0f ) );
+				childBottom = top + ( int )( ( centreYProportion * layoutHeight ) + ( ( float )naturalHeight / 2.0f ) );
 			}
 			// If we can't fit this, just give it the maximum size of the layout - not ideal, but it's a bit mad anyway
 		}
@@ -430,8 +430,8 @@ void ShivaGUI::CustomLayout::LayoutView( View *currentView, int left, int top, i
 			float percentageSize = viewLayoutParams->GetHeightPercent();
 			if( percentageSize > 1.0f )
 				percentageSize = 1.0f;
-			childTop = top + ( centreYProportion * layoutHeight ) - ( ( layoutHeight * percentageSize ) / 2.0f);
-			childBottom = top + ( centreYProportion * layoutHeight ) + ( ( layoutHeight * percentageSize ) / 2.0f);
+			childTop = top + ( int )( ( centreYProportion * layoutHeight ) - ( ( layoutHeight * percentageSize ) / 2.0f ) );
+			childBottom = top + ( int )( ( centreYProportion * layoutHeight ) + ( ( layoutHeight * percentageSize ) / 2.0f ) );
 		}
 
 		// Determine horizontal bounds
@@ -445,8 +445,8 @@ void ShivaGUI::CustomLayout::LayoutView( View *currentView, int left, int top, i
 			if( naturalWidth < layoutWidth )
 			{
 				//std::cout<<"INFO: CustomLayout: naturalWidth="<<naturalWidth<<std::endl;
-				childLeft = left + ( centreXProportion * layoutWidth ) - ( ( float )naturalWidth / 2.0f );
-				childRight = left + ( centreXProportion * layoutWidth ) + ( ( float )naturalWidth / 2.0f );
+				childLeft = left + ( int )( ( centreXProportion * layoutWidth ) - ( ( float )naturalWidth / 2.0f ) );
+				childRight = left + ( int)( ( centreXProportion * layoutWidth ) + ( ( float )naturalWidth / 2.0f ) );
 			}
 			// If we can't fit this, just give it the maximum size of the layout - not ideal, but it's a bit mad anyway
 		}
@@ -455,8 +455,8 @@ void ShivaGUI::CustomLayout::LayoutView( View *currentView, int left, int top, i
 			float percentageSize = viewLayoutParams->GetWidthPercent();
 			if( percentageSize > 1.0f )
 				percentageSize = 1.0f;
-			childLeft = left + ( centreXProportion * layoutWidth ) - ( ( layoutWidth * percentageSize ) / 2.0f );
-			childRight = left + ( centreXProportion * layoutWidth ) + ( ( layoutWidth * percentageSize ) / 2.0f );
+			childLeft = left + ( int )( ( centreXProportion * layoutWidth ) - ( ( layoutWidth * percentageSize ) / 2.0f ) );
+			childRight = left + ( int )( ( centreXProportion * layoutWidth ) + ( ( layoutWidth * percentageSize ) / 2.0f ) );
 		}
 
 		currentView->Layout( childLeft, childTop, childRight, childBottom, windowWidth, windowHeight );

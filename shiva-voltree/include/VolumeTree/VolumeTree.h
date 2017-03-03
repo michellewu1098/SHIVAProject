@@ -1,7 +1,7 @@
 ///-----------------------------------------------------------------------------------------------
 /// \file VolumeTree.h
 /// \brief Holds a tree and provides some extra operations for it
-/// \author Leigh McLoughlin
+/// \author Leigh McLoughlin, Michelle Wu
 /// \date Jan 9, 2013
 /// \version 1.0
 ///-----------------------------------------------------------------------------------------------
@@ -9,15 +9,12 @@
 #ifndef VOLUMETREE_H_
 #define VOLUMETREE_H_
 
-#include <iostream>
-#include <sstream>
 #include <boost/filesystem.hpp>
 #include <stack>
 #include <queue>
 
-#include "VolumeTree/Node.h"
 #include "VolumeTree/CachingPolicies/CachingPolicy.h"
-#include "Utility\tinyxml.h"
+#include "Utility/tinyxml.h"
 
 #include "vol_totem.h"
 
@@ -35,78 +32,80 @@ namespace VolumeTree
 		Tree();
 		//----------------------------------------------------------------------------------
 		/// \brief Ctor
-		/// \param [in] rootNode
+		/// \param [in] _rootNode
 		//----------------------------------------------------------------------------------
-		Tree( Node *rootNode );
+		Tree( Node *_rootNode );
 		//----------------------------------------------------------------------------------
 		/// \brief Dtor
 		//----------------------------------------------------------------------------------
 		~Tree();
 		//----------------------------------------------------------------------------------
 		/// \brief Set root node
-		/// \param [in] rootNode
+		/// \param [in] _rootNode
 		//----------------------------------------------------------------------------------
-		void SetRoot( Node *rootNode ) { _rootNode = rootNode; }
+		void SetRoot( Node *_rootNode ) { m_rootNode = _rootNode; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get root node
 		/// \return _rootNode
 		//----------------------------------------------------------------------------------
-		Node* GetRoot() const { return _rootNode; }
+		Node* GetRoot() const { return m_rootNode; }
 		//----------------------------------------------------------------------------------
 		/// \brief Load .vol file function 
-		/// \param [in] filename
+		/// \param [in] _filename
 		//----------------------------------------------------------------------------------
-		bool Load( const char* filename );
+		bool Load( const char* _filename );
 		//----------------------------------------------------------------------------------
 		/// \brief Save .xml file (internal format)
-		/// \param [in] filename File name
+		/// \param [in] _filename File name
 		//----------------------------------------------------------------------------------
-		void SaveXML( std::string filename );
+		void SaveXML( std::string _filename );
 		//----------------------------------------------------------------------------------
 		/// \brief Import model from .xml file
-		/// \param [in] filename File name
+		/// \param [in] _filename File name
 		//----------------------------------------------------------------------------------
-		bool ImportXML( const char* filename );
+		bool ImportXML( const char* _filename );
 		//----------------------------------------------------------------------------------
 		/// \brief Save .vol file function
-		/// \param [in] filename
+		/// \param [in] _filename
 		//----------------------------------------------------------------------------------
-		bool Save( std::string filename );
+		bool Save( std::string _filename );
 		//----------------------------------------------------------------------------------
 		/// \brief Calculate bounding box
 		//----------------------------------------------------------------------------------
 		void CalcBoundingBox();
 		//----------------------------------------------------------------------------------
 		/// \brief Get bounding box
-		/// \param [in] minvals
-		/// \param [in] maxvals
+		/// \param [in] _minvals
+		/// \param [in] _maxvals
 		//----------------------------------------------------------------------------------
-		void GetBoundingBox( float *minvals, float *maxvals );
+		void GetBoundingBox( float *_minvals, float *_maxvals );
 		//----------------------------------------------------------------------------------
 		/// \brief Get bounding box size
-		/// \param [in] boxSize
+		/// \param [in] -boxSize
 		//----------------------------------------------------------------------------------
-		void GetBoundingBoxSize( float *boxSize );
+		void GetBoundingBoxSize( float *_boxSize );
 		//----------------------------------------------------------------------------------
 		/// \brief Get bounding box centre
-		/// \param [in] boxSize
+		/// \param [in] _boxSize
 		//----------------------------------------------------------------------------------
-		void GetBoundingBoxCentre( float *boxSize );
+		void GetBoundingBoxCentre( float *_boxSize );
 		//----------------------------------------------------------------------------------
 		/// \brief Get bounding box maximum dimension
 		//----------------------------------------------------------------------------------
 		float GetBoundingBoxMaxDim();
 		//----------------------------------------------------------------------------------
 		/// \brief Draws any nodes which have the option selected to draw their bounding boxes
+		/// \param [in] _proj Projection matrix
+		/// \param [in] _mv ModelView matrix
 		//----------------------------------------------------------------------------------
-		void DrawBBoxes();
+		void DrawBBoxes( cml::matrix44f_c &_proj, cml::matrix44f_c &_mv );
 		//----------------------------------------------------------------------------------
 		/// \brief Samples the function at a specific point
-		/// \param [in] x
-		/// \param [in] y
-		/// \param [in] z
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
 		//----------------------------------------------------------------------------------
-		float GetFunctionValue( float x, float y, float z );
+		float GetFunctionValue( float _x, float _y, float _z );
 		//----------------------------------------------------------------------------------
 		/// \brief Returns a GLSL-compatible string for the function including caches
 		//----------------------------------------------------------------------------------
@@ -117,29 +116,31 @@ namespace VolumeTree
 		std::string GetFunctionGLSLString();
 		//----------------------------------------------------------------------------------
 		/// \brief Build caches
-		/// \param [in] policy Determines which nodes should be cached
-		/// \param [in] renderer Holds the actual caches
+		/// \param [in] _policy Determines which nodes should be cached
+		/// \param [in] _renderer Holds the actual caches
 		//----------------------------------------------------------------------------------
-		void BuildCaches( CachingPolicy *policy, GLSLRenderer *renderer );
+		void BuildCaches( CachingPolicy *_policy, GLSLRenderer *_renderer );
 		//----------------------------------------------------------------------------------
 		/// \brief Update parameters
-		/// \param [in] renderer
+		/// \param [in] _renderer
 		//----------------------------------------------------------------------------------
-		void UpdateParameters( GLSLRenderer *renderer );
+		void UpdateParameters( GLSLRenderer *_renderer );
 		//----------------------------------------------------------------------------------
 		/// \brief Get tot number of nodes
 		//----------------------------------------------------------------------------------
 		int GetNumNodes();
 		//----------------------------------------------------------------------------------
 		/// \brief Retrieves the i'th node in a consistent flattened traversal
-		/// \param [in] index
+		/// \param [in] _index
 		//----------------------------------------------------------------------------------
-		Node* GetNode( int index );
+		Node* GetNode( int _index );
 		//----------------------------------------------------------------------------------
 		/// \brief Get node depth in the tree
-		/// \param [in] index
+		/// \param [in] _index
 		//----------------------------------------------------------------------------------
-		int GetNodeDepth( int index );
+		int GetNodeDepth( int _index );
+		//----------------------------------------------------------------------------------
+		/// \brief Get tree reversed
 		//----------------------------------------------------------------------------------
 		std::queue< Node* > getReverseTree();
 		//----------------------------------------------------------------------------------
@@ -150,23 +151,23 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		/// \brief Root node
 		//----------------------------------------------------------------------------------
-		Node *_rootNode;
+		Node *m_rootNode;
 		//----------------------------------------------------------------------------------
 		/// \brief Bounding box extents
 		//----------------------------------------------------------------------------------
-		float *_bboxExtents;
+		float *m_bboxExtents;
 		//----------------------------------------------------------------------------------
 		/// \brief Bounding box centre
 		//----------------------------------------------------------------------------------
-		float *_bboxCentre;
+		float *m_bboxCentre;
 		//----------------------------------------------------------------------------------
 		/// \brief Bounding box min
 		//----------------------------------------------------------------------------------
-		float *_bboxBoundsMin;
+		float *m_bboxBoundsMin;
 		//----------------------------------------------------------------------------------
 		/// \brief Bounding box max
 		//----------------------------------------------------------------------------------
-		float *_bboxBoundsMax;
+		float *m_bboxBoundsMax;
 		//----------------------------------------------------------------------------------
 		/// \brief Recursively builds node tree
 		/// \param [in] node
@@ -191,7 +192,7 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		/// \brief Used as node ID for exporting
 		//----------------------------------------------------------------------------------
-		unsigned int _exportID;
+		unsigned int m_exportID;
 		//----------------------------------------------------------------------------------
 		/// \brief Returns a string for exporting for when the node's name doesn't matter
 		/// Increments _exportID, which should be set to zero when starting to export a new file
@@ -201,7 +202,6 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 
 	};
-
 }
 
 #endif /* VOLUMETREE_H_ */

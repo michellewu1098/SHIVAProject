@@ -1,69 +1,86 @@
-
 #include "VolumeRenderer/SpringyVec3.h"
+
+//----------------------------------------------------------------------------------
 
 SpringyVec3::SpringyVec3()
 {
-	_speed = 1.0f;
-	_interp = 1.0f;
+	m_speed = 1.0f;
+	m_interp = 1.0f;
 }
 
-SpringyVec3::SpringyVec3(cml::vector3f currentPos)
+//----------------------------------------------------------------------------------
+
+SpringyVec3::SpringyVec3( const cml::vector3f &_currentPos )
 {
-	_speed = 1.0f;
-	_interp = 1.0f;
-	_original = _current = _aim = currentPos;
+	m_speed = 1.0f;
+	m_interp = 1.0f;
+	m_original = m_current = m_aim = _currentPos;
 }
 
-SpringyVec3::SpringyVec3(cml::vector3f currentPos, cml::vector3f newPos)
+//----------------------------------------------------------------------------------
+
+SpringyVec3::SpringyVec3( const cml::vector3f &_currentPos, const cml::vector3f &_newPos )
 {
-	_speed = 1.0f;
-	_interp = 0.0f;
-	_original = _current = currentPos;
-	_aim = newPos;
+	m_speed = 1.0f;
+	m_interp = 0.0f;
+	m_original = m_current = _currentPos;
+	m_aim = _newPos;
 }
 
-SpringyVec3::SpringyVec3(cml::vector3f currentPos, cml::vector3f newPos, float speed)
+//----------------------------------------------------------------------------------
+
+SpringyVec3::SpringyVec3( const cml::vector3f &_currentPos, const cml::vector3f &_newPos, const float &_speed )
 {
-	_interp = 0.0f;
-	_original = _current = currentPos;
-	_aim = newPos;
-	_speed = speed;
+	m_interp = 0.0f;
+	m_original = m_current = _currentPos;
+	m_aim = _newPos;
+	m_speed = _speed;
 }
 
-void SpringyVec3::SetAim( cml::vector3f newPos )
+//----------------------------------------------------------------------------------
+
+void SpringyVec3::SetAim( const cml::vector3f &_aim )
 {
-	_interp = 0.0f;
-	_original = _current;
-	_aim = newPos;
+	m_interp = 0.0f;
+	m_original = m_current;
+	m_aim = _aim;
 }
 
-void SpringyVec3::Set( cml::vector3f value )
+//----------------------------------------------------------------------------------
+
+void SpringyVec3::SetPos( const cml::vector3f &_value )
 {
-	_original = _current = _aim = value;
-	_interp = 1.0f;
+	m_original = m_current = m_aim = _value;
+	m_interp = 1.0f;
 }
 
-void SpringyVec3::Update(float deltaTs)
+//----------------------------------------------------------------------------------
+
+void SpringyVec3::Update( float _deltaTs )
 {
 	// Just lerp for testing
-	if( _interp < 1.0f )
+	if( m_interp < 1.0f )
 	{
-		_interp += deltaTs / _speed;
-		if( _interp > 1.0f )
+		m_interp += _deltaTs / m_speed;
+		if( m_interp > 1.0f )
 		{
-			_interp = 1.0f;
+			m_interp = 1.0f;
 		}
-		_current = _original*(1.0f-_interp) + _aim*_interp;
+		m_current = m_original * ( 1.0f - m_interp ) + m_aim * m_interp;
 	}
 	else
 	{
-		_current = _aim;
+		m_current = m_aim;
 	}
 }
+
+//----------------------------------------------------------------------------------
 
 std::string SpringyVec3::Print()
 {
 	std::stringstream stream;
-	stream<<_current.data()[0]<<" "<<_current.data()[1]<<" "<<_current.data()[2];
+	stream << m_current.data()[ 0 ] << " " << m_current.data()[ 1 ] << " " << m_current.data()[ 2 ];
 	return stream.str();
 }
+
+//----------------------------------------------------------------------------------

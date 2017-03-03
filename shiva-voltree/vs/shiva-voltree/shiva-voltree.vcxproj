@@ -56,10 +56,10 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>GLee.lib; glu32.lib</AdditionalDependencies>
+      <AdditionalDependencies>Opengl32.lib;glu32.lib; glew32.lib;</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\glee;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,11 +76,13 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>GLee.lib; glu32.lib; </AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\glee;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Opengl32.lib; glu32.lib;glew32.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\VolumeRenderer\Camera.cpp" />
+    <ClCompile Include="..\..\src\VolumeRenderer\Shader.cpp" />
     <ClCompile Include="..\..\src\VolumeTree\Node.cpp" />
     <ClCompile Include="..\..\src\VolumeTree\ParameterManager.cpp" />
     <ClCompile Include="..\..\src\VolumeTree\VolumeTree.cpp" />
@@ -98,7 +100,9 @@
     <ClCompile Include="..\..\src\VolumeRenderer\SpringyVec3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\VolumeRenderer\Camera.h" />
     <ClInclude Include="..\..\include\VolumeRenderer\GLSLRenderer.h" />
+    <ClInclude Include="..\..\include\VolumeRenderer\Shader.h" />
     <ClInclude Include="..\..\include\VolumeRenderer\SpringyVec3.h" />
     <ClInclude Include="..\..\include\VolumeTree\Node.h" />
     <ClInclude Include="..\..\include\VolumeTree\ParameterManager.h" />
@@ -113,9 +117,6 @@
     <ClInclude Include="..\..\include\VolumeTree\Leaves\TorusNode.h" />
     <ClInclude Include="..\..\include\VolumeTree\Leaves\VolCacheNode.h" />
     <ClInclude Include="..\..\include\VolumeTree\CachingPolicies\CachingPolicy.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

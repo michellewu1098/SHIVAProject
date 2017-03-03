@@ -2,138 +2,127 @@
 #include "GUI/Drawables/BitmapDrawable.h"
 #include "GUI/Drawables/LayeredImageDrawable.h"
 
-#include <GL/GLee.h>
-#include <sstream>
-#include <iostream>
-
 //----------------------------------------------------------------------------------
 
 ShivaGUI::ImageTextButton::ImageTextButton()
 {
-	_texID = 0;
-	_fontSize = 12;
-	_fontColour = 0;
-	_textAlignment = Left;
-	_fontNameFromTheme = _fontSizeFromTheme = _fontColourFromTheme = _textAlignFromTheme = false;
+	m_fontSize = 12;
+	m_fontColour = 0;
+	m_textAlignment = Left;
+	m_fontNameFromTheme = m_fontSizeFromTheme = m_fontColourFromTheme = m_textAlignFromTheme = false;
 
-	_stateListDrawable = NULL;
-	_generalDrawable = NULL;
-	_contentGenDrawable = NULL;
-	_contentStateListDrawable = NULL;
-	_focussed = false;
-	_pressed = false;
-	_active = true;
-	_hover = false;
-	_clickListener = NULL;
-	_genDrawableFromTheme = _contentDrawableFromTheme = false;
+	m_stateListDrawable = NULL;
+	m_generalDrawable = NULL;
+	m_contentGenDrawable = NULL;
+	m_contentStateListDrawable = NULL;
+	m_focussed = false;
+	m_pressed = false;
+	m_active = true;
+	m_hover = false;
+	m_clickListener = NULL;
+	m_genDrawableFromTheme = m_contentDrawableFromTheme = false;
 	
-	_setContentScaleUp = _setContentAspectRatio = -1;
+	m_setContentScaleUp = m_setContentAspectRatio = -1;
 }
 
 //----------------------------------------------------------------------------------
 
 ShivaGUI::ImageTextButton::~ImageTextButton()
 {
-	// currently the Drawable does not delete the openGL texture (actually none of them are deleted, they're just cached)
-	// but this texture will not be reused, so we need to delete it manually
-	// TODO: fix this mess
-	if( _texID != 0 )
-		glDeleteTextures( 1, &_texID );
-
-	delete _stateListDrawable;
-	delete _generalDrawable;
-	delete _contentGenDrawable;
-	delete _contentStateListDrawable;
+	delete m_stateListDrawable;
+	delete m_generalDrawable;
+	delete m_contentGenDrawable;
+	delete m_contentStateListDrawable;
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ImageTextButton::Inflate( TiXmlElement *xmlElement, ResourceManager *resources, std::string themePrefix, bool rootNode )
+void ShivaGUI::ImageTextButton::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
-	if( themePrefix.empty() )
-		themePrefix = "ImageTextButton_";
+	if( _themePrefix.empty() )
+		_themePrefix = "ImageTextButton_";
 	
-	
-	for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
+	for( TiXmlAttribute *currentAttribute = _xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 	{
 		if( std::string( "text" ) == currentAttribute->Name() )
 		{
-			_textBody = currentAttribute->Value();
+			m_textBody = currentAttribute->Value();
 		}
-		else if( ( std::string( "font" ) == currentAttribute->Name() ) || ( themePrefix + "font" == currentAttribute->Name() ) )
+		else if( ( std::string( "font" ) == currentAttribute->Name() ) || ( _themePrefix + "font" == currentAttribute->Name() ) )
 		{
-			_fontNameFromTheme = ( themePrefix + "font" == currentAttribute->Name() );
-			_fontName = currentAttribute->Value();
+			m_fontNameFromTheme = ( _themePrefix + "font" == currentAttribute->Name() );
+			m_fontName = currentAttribute->Value();
 		}
-		else if( ( std::string( "text_size" ) == currentAttribute->Name() ) || ( themePrefix + "text_size" == currentAttribute->Name() ) )
+		else if( ( std::string( "text_size" ) == currentAttribute->Name() ) || ( _themePrefix + "text_size" == currentAttribute->Name() ) )
 		{
 			int value = 0;
-			_fontSizeFromTheme = ( themePrefix + "text_size" == currentAttribute->Name() );
+			m_fontSizeFromTheme = ( _themePrefix + "text_size" == currentAttribute->Name() );
 
 			if( currentAttribute->QueryIntValue( &value ) == TIXML_SUCCESS ) {
-				_fontSize = value;
+				m_fontSize = value;
 			}
 			else {
 				std::cerr << "WARNING: TextButton::InflateLayoutParams attribute text_size does not have expected value type (double)" << std::endl;
 			}
 		}
-		else if( ( std::string( "text_colour" ) == currentAttribute->Name() ) || ( themePrefix + "text_colour" == currentAttribute->Name() ) )
+		else if( ( std::string( "text_colour" ) == currentAttribute->Name() ) || ( _themePrefix + "text_colour" == currentAttribute->Name() ) )
 		{
-			_fontColourFromTheme = ( themePrefix + "text_colour" == currentAttribute->Name() );
+			m_fontColourFromTheme = ( _themePrefix + "text_colour" == currentAttribute->Name() );
 
 			std::string colourString( currentAttribute->Value() );
 			std::stringstream colourStream;
 			colourStream << std::hex << colourString;
-			colourStream >> _fontColour;
+			colourStream >> m_fontColour;
 		}
-		else if( ( std::string( "text_alignment" ) == currentAttribute->Name() ) || ( themePrefix + "text_alignment" == currentAttribute->Name() ) ) 
+		else if( ( std::string( "text_alignment" ) == currentAttribute->Name() ) || ( _themePrefix + "text_alignment" == currentAttribute->Name() ) ) 
 		{
-			_textAlignFromTheme = ( themePrefix + "text_alignment" == currentAttribute->Name() );
+			m_textAlignFromTheme = ( _themePrefix + "text_alignment" == currentAttribute->Name() );
 
 			std::string alignment = currentAttribute->ValueStr();
 
 			if( alignment == std::string( "left" ) || alignment == std::string( "Left" ) ) {
-				_textAlignment = Left; 
+				m_textAlignment = Left; 
 			}
 			else if( alignment == std::string( "centre" ) || alignment == std::string( "center" ) || alignment == std::string( "Centre" ) || alignment == std::string( "Center" ) ) {
-				_textAlignment = Centre;
+				m_textAlignment = Centre;
 			}
 			else if( alignment == std::string( "right" ) || alignment == std::string( "Right" ) ) {
-				_textAlignment = Right;
+				m_textAlignment = Right;
 			}
 		}
 	}
 
+	if( !m_textBody.empty() )
+		_resources->SetTextInfo( m_textBody, m_fontName, m_fontSize, m_fontColour, m_textAlignment );
+	
+	ImageButton::Inflate( _xmlElement, _resources, _themePrefix, _rootNode );
 
-	ImageButton::Inflate( xmlElement, resources, themePrefix, rootNode );
-
-	LayeredImageDrawable* image = dynamic_cast< LayeredImageDrawable* >( _contentGenDrawable );
+	LayeredImageDrawable* image = dynamic_cast< LayeredImageDrawable* >( m_contentGenDrawable );
 	if( image != NULL )
 	{
-		image->SetTextParams( _textBody, _textAlignment, _fontName, _fontSize, _fontColour );
-		image->addTextLayer( resources );
+		image->AddTextLayer( m_fontColour );
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-TiXmlElement* ShivaGUI::ImageTextButton::Deflate( ResourceManager *resources )
+TiXmlElement* ShivaGUI::ImageTextButton::Deflate( ResourceManager *_resources )
 {
-	TiXmlElement *xmlNode = ImageButton::Deflate( resources );
+	TiXmlElement *xmlNode = ImageButton::Deflate( _resources );
 	xmlNode->SetValue( "ImageTextButton" );
 
 	// We only need to output parameters which were *not* given to us via a theme
 
-	if( !_genDrawableFromTheme )
+	if( !m_genDrawableFromTheme )
 	{
 		std::string srcFilename;
-		if( _stateListDrawable != NULL )
+		if( m_stateListDrawable != NULL )
 		{
-			srcFilename = _stateListDrawable->GetFilename();
+			srcFilename = m_stateListDrawable->GetFilename();
 		}
-		else if( _generalDrawable != NULL )
+		else if( m_generalDrawable != NULL )
 		{
-			srcFilename = _generalDrawable->GetFilename();
+			srcFilename = m_generalDrawable->GetFilename();
 		}
 
 		// The drawable might have been generated rather than loaded from file, so only output if we have a filename to give
@@ -143,16 +132,16 @@ TiXmlElement* ShivaGUI::ImageTextButton::Deflate( ResourceManager *resources )
 		}
 	}
 
-	if( !_contentDrawableFromTheme )
+	if( !m_contentDrawableFromTheme )
 	{
 		std::string srcFilename;
-		if( _contentStateListDrawable != NULL )
+		if( m_contentStateListDrawable != NULL )
 		{
-			srcFilename = _contentStateListDrawable->GetFilename();
+			srcFilename = m_contentStateListDrawable->GetFilename();
 		}
-		else if( _contentGenDrawable != NULL )
+		else if( m_contentGenDrawable != NULL )
 		{
-			srcFilename = _contentGenDrawable->GetFilename();
+			srcFilename = m_contentGenDrawable->GetFilename();
 		}
 
 		// The source might have been generated rather than loaded from file, so only output if we have a filename to give
@@ -163,23 +152,23 @@ TiXmlElement* ShivaGUI::ImageTextButton::Deflate( ResourceManager *resources )
 		}
 	}
 
-	if( !_textBody.empty() )
-		xmlNode->SetAttribute( "text", _textBody );
+	if( !m_textBody.empty() )
+		xmlNode->SetAttribute( "text", m_textBody );
 
-	if( !_fontNameFromTheme )
-		xmlNode->SetAttribute( "font", _fontName );
-	if( !_fontSizeFromTheme )
-		xmlNode->SetAttribute( "text_size", _fontSize );
-	if( !_fontColourFromTheme )
+	if( !m_fontNameFromTheme )
+		xmlNode->SetAttribute( "font", m_fontName );
+	if( !m_fontSizeFromTheme )
+		xmlNode->SetAttribute( "text_size", m_fontSize );
+	if( !m_fontColourFromTheme )
 	{
 		std::string colourString;
 		std::stringstream colourStream;
-		colourStream << std::hex << _fontColour;
+		colourStream << std::hex << m_fontColour;
 		colourStream >> colourString;
 		xmlNode->SetAttribute( "text_colour", colourString );
 	}
-	if( !_textAlignFromTheme )
-		xmlNode->SetAttribute( "text_alignment", _textAlignment );
+	if( !m_textAlignFromTheme )
+		xmlNode->SetAttribute( "text_alignment", m_textAlignment );
 
 	return xmlNode;
 }

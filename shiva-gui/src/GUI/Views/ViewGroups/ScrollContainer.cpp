@@ -1,105 +1,111 @@
-
 #include "GUI/Views/ViewGroups/ScrollContainer.h"
 #include "GUI/GUIController.h"
 #include "GUI/Drawables/BitmapDrawable.h"
 
-#include <boost/algorithm/string.hpp>
-#include <iostream>
-#include <GL/GLee.h>
+//----------------------------------------------------------------------------------
 
 ShivaGUI::ScrollContainer::ScrollContainer()
 {
-	_scrollHorizontal = false;
-	_scrollVertical = false;
-	_child = NULL;
-	_scrollX = _scrollY = 0;
-	_selected = _dragSelected = false;
-	_selectedMouseX = _selectedMouseY = 0;
-	_needLayout = false;
-	_scrollCurrentX = _scrollCurrentY = 0;
-	_scrollTrackVertDrawable = _scrollTrackHorizDrawable = _scrollThumbVertDrawable = _scrollThumbHorizDrawable = NULL;
-	_scrollTrackVertFromTheme =  _scrollTrackHorizFromTheme = _scrollThumbVertFromTheme = _scrollThumbHorizFromTheme = false;
+	m_scrollHorizontal = false;
+	m_scrollVertical = false;
+	m_child = NULL;
+	m_scrollX = m_scrollY = 0;
+	m_selected = m_dragSelected = false;
+	m_selectedMouseX = m_selectedMouseY = 0;
+	m_needLayout = false;
+	m_scrollCurrentX = m_scrollCurrentY = 0;
+	m_scrollTrackVertDrawable = m_scrollTrackHorizDrawable = m_scrollThumbVertDrawable = m_scrollThumbHorizDrawable = NULL;
+	m_scrollTrackVertFromTheme =  m_scrollTrackHorizFromTheme = m_scrollThumbVertFromTheme = m_scrollThumbHorizFromTheme = false;
 
-	_showHorizBar = false;
-	_showVertBar = false;
+	m_showHorizBar = false;
+	m_showVertBar = false;
 
-	_scrollJumpAmount = 30;
-	_verticalScrollDrag = _horizontalScrollDrag = false;
-	_scrollDragOriginalTop = _scrollDragOriginalLeft = 0;
+	m_scrollJumpAmount = 30;
+	m_verticalScrollDrag = m_horizontalScrollDrag = false;
+	m_scrollDragOriginalTop = m_scrollDragOriginalLeft = 0;
 }
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::ScrollContainer::~ScrollContainer()
 {
-	delete _child;
-	delete _scrollTrackVertDrawable;
-	delete _scrollTrackHorizDrawable;
-	delete _scrollThumbVertDrawable;
-	delete _scrollThumbHorizDrawable;
+	delete m_child;
+	delete m_scrollTrackVertDrawable;
+	delete m_scrollTrackHorizDrawable;
+	delete m_scrollThumbVertDrawable;
+	delete m_scrollThumbHorizDrawable;
 }
 
-void ShivaGUI::ScrollContainer::NotifyDrawingContextChange(ResourceManager *resources)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ScrollContainer::NotifyDrawingContextChange( ResourceManager *_resources )
 {
-	if( _child != NULL )
-		_child->NotifyDrawingContextChange(resources);
+	if( m_child != NULL )
+		m_child->NotifyDrawingContextChange( _resources );
 }
 
-void ShivaGUI::ScrollContainer::Layout(int left, int top, int right, int bottom, int windowWidth, int windowHeight)
-{
-	View::Layout(left,top,right,bottom,windowWidth,windowHeight);
+//----------------------------------------------------------------------------------
 
-	if( _child != NULL )
+void ShivaGUI::ScrollContainer::Layout( int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight )
+{
+	View::Layout( _left, _top, _right, _bottom, _windowWidth, _windowHeight );
+
+	m_windowWidth = _windowWidth;
+	m_windowHeight = _windowHeight;
+
+	if( m_child != NULL )
 	{
 		// Need to layout child:
 
-		int childLeft = left, childRight = right, childTop = top, childBottom = bottom;
+		int childLeft = _left, childRight = _right, childTop = _top, childBottom = _bottom;
 
 		// Whether we need to show the scrollbars
-		_showHorizBar = false;
-		_showVertBar = false;
+		m_showHorizBar = false;
+		m_showVertBar = false;
 
-		int containerWidth = right - left;
-		int childWidth = _child->GetWrapWidth();
+		int containerWidth = _right - _left;
+		int childWidth = m_child->GetWrapWidth();
 
-		int containerHeight = bottom - top;
-		int childHeight = _child->GetWrapHeight();
+		int containerHeight = _bottom - _top;
+		int childHeight = m_child->GetWrapHeight();
 
 
 		// how are we actually going to do this scrolling stuff?
 		// from the way things work at the moment, the only way is to tell the child to be its maximum size and then clip the drawing
 		// ok, let's give this a go
-		if( _scrollHorizontal && _scrollTrackHorizDrawable != NULL && _scrollThumbHorizDrawable != NULL )
+		if( m_scrollHorizontal && m_scrollTrackHorizDrawable != NULL && m_scrollThumbHorizDrawable != NULL )
 		{
 			if( childWidth > containerWidth )
 			{
 				// We need to do some scrolling
-				_showHorizBar = true;
-				childLeft = left - _scrollX - _scrollCurrentX;
-				if( childLeft > left )
-					childLeft = left;
+				m_showHorizBar = true;
+				childLeft = _left - m_scrollX - m_scrollCurrentX;
+				if( childLeft > _left )
+					childLeft = _left;
 				childRight = childLeft + childWidth;
-				if( childRight < right )
+				if( childRight < _right )
 				{
 					// We have reached the end of the scroll
-					childRight = right;
+					childRight = _right;
 					childLeft = childRight - childWidth;
 				}
 			}
 		}
 
-		if( _scrollVertical && _scrollTrackVertDrawable != NULL && _scrollThumbVertDrawable != NULL )
+		if( m_scrollVertical && m_scrollTrackVertDrawable != NULL && m_scrollThumbVertDrawable != NULL )
 		{
 			if( childHeight > containerHeight )
 			{
 				// We need to do some scrolling
-				_showVertBar = true;
-				childTop = top - _scrollY - _scrollCurrentY;
-				if( childTop > top )
-					childTop = top;
+				m_showVertBar = true;
+				childTop = _top - m_scrollY - m_scrollCurrentY;
+				if( childTop > _top )
+					childTop = _top;
 				childBottom = childTop + childHeight;
-				if( childBottom < bottom )
+				if( childBottom < _bottom )
 				{
 					// We have reached the end of the scroll
-					childBottom = bottom;
+					childBottom = _bottom;
 					childTop = childBottom - childHeight;
 				}
 			}
@@ -112,318 +118,301 @@ void ShivaGUI::ScrollContainer::Layout(int left, int top, int right, int bottom,
 
 
 		// Sort out the scrollbars
-		if( _showHorizBar && _scrollTrackHorizDrawable != NULL )
+		if( m_showHorizBar && m_scrollTrackHorizDrawable != NULL )
 		{
 			childBottom -= scrollHeight;
 
-			if( _showVertBar )
-				_scrollTrackHorizDrawable->SetBounds(left,bottom - scrollHeight, right - scrollWidth, bottom);
+			if( m_showVertBar )
+				m_scrollTrackHorizDrawable->SetBounds( ( float )_left, ( float )( _bottom - scrollHeight ), ( float )( _right - scrollWidth ), ( float )_bottom );
 			else
-				_scrollTrackHorizDrawable->SetBounds(left,bottom - scrollHeight, right, bottom);
+				m_scrollTrackHorizDrawable->SetBounds( ( float )_left, ( float )( _bottom - scrollHeight ), ( float )_right, ( float )_bottom );
 
-			BitmapDrawable *bitDraw = dynamic_cast<BitmapDrawable*>(_scrollTrackHorizDrawable);
+			BitmapDrawable *bitDraw = dynamic_cast< BitmapDrawable* >( m_scrollTrackHorizDrawable );
 			if( bitDraw != NULL )
-				bitDraw->SetScaleup(true);
+				bitDraw->SetScaleup( true );
 
 			// Sort out the thumb thing
-			if( _scrollThumbHorizDrawable != NULL )
+			if( m_scrollThumbHorizDrawable != NULL )
 			{
 				int thumbLeft, thumbRight;
 				thumbLeft = GetScrollThumbLeft();
 				thumbRight = GetScrollThumbRight();
 
-				_scrollThumbHorizDrawable->SetBounds(thumbLeft,bottom-scrollHeight, thumbRight, bottom);
+				m_scrollThumbHorizDrawable->SetBounds( ( float )thumbLeft, ( float )( _bottom - scrollHeight ), ( float )thumbRight, ( float )_bottom );
 
-				BitmapDrawable *bitDrawThumb = dynamic_cast<BitmapDrawable*>(_scrollThumbHorizDrawable);
+				BitmapDrawable *bitDrawThumb = dynamic_cast< BitmapDrawable* >( m_scrollThumbHorizDrawable );
 				if( bitDrawThumb != NULL )
-					bitDrawThumb->SetScaleup(true);
+					bitDrawThumb->SetScaleup( true );
 			}
 		}
 
-		if( _showVertBar && _scrollTrackVertDrawable != NULL )
+		if( m_showVertBar && m_scrollTrackVertDrawable != NULL )
 		{
 			childRight -= scrollWidth;
 
-			if( _showHorizBar )
-				_scrollTrackVertDrawable->SetBounds(right-scrollWidth,top, right, bottom - scrollHeight);
+			if( m_showHorizBar )
+				m_scrollTrackVertDrawable->SetBounds( ( float )( _right - scrollWidth ), ( float )_top, ( float )_right, ( float )( _bottom - scrollHeight ) );
 			else
-				_scrollTrackVertDrawable->SetBounds(right-scrollWidth,top, right, bottom);
+				m_scrollTrackVertDrawable->SetBounds( ( float )( _right - scrollWidth ), ( float )_top, ( float )_right, ( float )_bottom );
 
-			BitmapDrawable *bitDraw = dynamic_cast<BitmapDrawable*>(_scrollTrackVertDrawable);
+			BitmapDrawable *bitDraw = dynamic_cast< BitmapDrawable* >( m_scrollTrackVertDrawable );
 			if( bitDraw != NULL )
-				bitDraw->SetScaleup(true);
+				bitDraw->SetScaleup( true );
 
 			// Sort out the thumb thing
-			if( _scrollThumbVertDrawable != NULL )
+			if( m_scrollThumbVertDrawable != NULL )
 			{
 				int thumbTop, thumbBottom;
 				thumbTop = GetScrollThumbTop();
 				thumbBottom = GetScrollThumbBottom();
 
-				_scrollThumbVertDrawable->SetBounds(right-scrollWidth,thumbTop, right, thumbBottom);
+				m_scrollThumbVertDrawable->SetBounds( ( float )( _right - scrollWidth ), ( float )thumbTop, ( float )_right, ( float )thumbBottom );
 
-				BitmapDrawable *bitDrawThumb = dynamic_cast<BitmapDrawable*>(_scrollThumbVertDrawable);
+				BitmapDrawable *bitDrawThumb = dynamic_cast< BitmapDrawable* >( m_scrollThumbVertDrawable );
 				if( bitDrawThumb != NULL )
-					bitDrawThumb->SetScaleup(true);
+					bitDrawThumb->SetScaleup( true );
 			}
 		}
 
-		//std::cout<<"INFO: ScrollContainer layout child: left: "<<childLeft<<" top: "<< childTop<<" right: "<<childRight<<" bottom: "<<childBottom<<std::endl;
-		_child->Layout(childLeft,childTop,childRight,childBottom,windowWidth,windowHeight);
+		//std::cout << "INFO: ScrollContainer layout child: left: " << childLeft << " top: " << childTop << " right: " << childRight << " bottom: " << childBottom << std::endl;
+		m_child->Layout( childLeft, childTop, childRight, childBottom, _windowWidth, _windowHeight );
 	}
-
 }
 
-void ShivaGUI::ScrollContainer::Update(float deltaTs, GUIController *guiController)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ScrollContainer::Update( float _deltaTs, GUIController *_guiController )
 {
-	if( _needLayout )
+	if( m_needLayout )
 	{
-		guiController->Layout();
-		_needLayout = false;
+		_guiController->Layout();
+		m_needLayout = false;
 	}
-	if( _child != NULL )
-		_child->Update(deltaTs,guiController);
+	if( m_child != NULL )
+		m_child->Update( _deltaTs, _guiController );
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::ScrollContainer::Draw()
 {
 	View::Draw();
 
-	if( _visible )
+	if( m_visible )
 	{
-		glEnable(GL_CLIP_PLANE0);
-		glEnable(GL_CLIP_PLANE1);
-		glEnable(GL_CLIP_PLANE2);
-		glEnable(GL_CLIP_PLANE3);
-		//glViewport(_layoutBoundsLeft,_layoutBoundsBottom,_layoutBoundsRight-_layoutBoundsLeft,_layoutBoundsBottom-_layoutBoundsTop);
+		glEnable( GL_SCISSOR_TEST );
 
-		int vertOffset = 0;
-		int horizOffset = 0;
-		if( _showHorizBar )
-			vertOffset = GetScrollbarHeight();
-		if( _showVertBar )
-			horizOffset = GetScrollbarWidth();
-
-		GLdouble planeEquationBottom[4] = {0.0, -1.0, 0.0, _layoutBoundsBottom-vertOffset};
-		GLdouble planeEquationTop[4] = {0.0, 1.0, 0.0, -_layoutBoundsTop};
-		GLdouble planeEquationRight[4] = {-1.0, 0.0, 0.0, _layoutBoundsRight-horizOffset};
-		GLdouble planeEquationLeft[4] = {1.0, 0.0, 0.0, -_layoutBoundsLeft};
-
-		glClipPlane(GL_CLIP_PLANE0,planeEquationBottom);
-		glClipPlane(GL_CLIP_PLANE1,planeEquationTop);
-		glClipPlane(GL_CLIP_PLANE2,planeEquationRight);
-		glClipPlane(GL_CLIP_PLANE3,planeEquationLeft);
-
-
-
+		glScissor( m_layoutBoundsLeft, m_windowHeight - m_layoutBoundsBottom, m_layoutBoundsRight - m_layoutBoundsLeft, m_layoutBoundsBottom - m_layoutBoundsTop );
+						
 		// Draw child
-		if( _child != NULL )
-			_child->Draw();
-		// Draw scroll-bars
-		glDisable(GL_CLIP_PLANE0);
-		glDisable(GL_CLIP_PLANE1);
-		glDisable(GL_CLIP_PLANE2);
-		glDisable(GL_CLIP_PLANE3);
-
-		if( _showHorizBar )
+		if( m_child != NULL )
 		{
-			_scrollTrackHorizDrawable->Draw();
-			_scrollThumbHorizDrawable->Draw();
+			m_child->Draw();
 		}
-		if( _showVertBar )
+
+		glDisable( GL_SCISSOR_TEST );
+
+		if( m_showHorizBar )
 		{
-			_scrollTrackVertDrawable->Draw();
-			_scrollThumbVertDrawable->Draw();
+			m_scrollTrackHorizDrawable->Draw();
+			m_scrollThumbHorizDrawable->Draw();
+		}
+		if( m_showVertBar )
+		{
+			m_scrollTrackVertDrawable->Draw();
+			m_scrollThumbVertDrawable->Draw();
 		}
 	}
 }
 
+//----------------------------------------------------------------------------------
 
-void ShivaGUI::ScrollContainer::Inflate(TiXmlElement *xmlElement, ResourceManager *resources, std::string themePrefix, bool rootNode)
+void ShivaGUI::ScrollContainer::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
-	if( themePrefix.empty() )
-		themePrefix = "ScrollContainer_";
-	ViewGroup::Inflate(xmlElement,resources,themePrefix,rootNode);
+	if( _themePrefix.empty() )
+		_themePrefix = "ScrollContainer_";
+	ViewGroup::Inflate( _xmlElement, _resources, _themePrefix, _rootNode );
 
-	for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
+	for( TiXmlAttribute *currentAttribute = _xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 	{
 
-		if( currentAttribute->Name() == std::string("scroll_horizontal") )
+		if( currentAttribute->Name() == std::string( "scroll_horizontal" ) )
 		{
 			std::string result( currentAttribute->Value() );
-			if( boost::algorithm::iequals("true",result) )
-				_scrollHorizontal = true;
+			if( boost::algorithm::iequals( "true", result ) )
+				m_scrollHorizontal = true;
 			else
-				_scrollHorizontal = false;
+				m_scrollHorizontal = false;
 		}
-		else if( currentAttribute->Name() == std::string("scroll_vertical") )
+		else if( currentAttribute->Name() == std::string( "scroll_vertical" ) )
 		{
 			std::string result( currentAttribute->Value() );
-			if( boost::algorithm::iequals("true",result) )
-				_scrollVertical= true;
+			if( boost::algorithm::iequals( "true", result ) )
+				m_scrollVertical= true;
 			else
-				_scrollVertical = false;
+				m_scrollVertical = false;
 		}
-		else if( (currentAttribute->Name() == std::string("scrollbarTrackVertical"))
-				|| (currentAttribute->Name() == (themePrefix + std::string("scrollbarTrackVertical"))) )
+		else if( ( currentAttribute->Name() == std::string( "scrollbarTrackVertical" ) )
+				|| ( currentAttribute->Name() == ( _themePrefix + std::string( "scrollbarTrackVertical" ) ) ) )
 		{
-			_scrollTrackVertName = currentAttribute->Value();
+			m_scrollTrackVertName = currentAttribute->Value();
 
-			_scrollTrackVertFromTheme = ((themePrefix+"scrollbarTrackVertical") == currentAttribute->Name());
-			_scrollTrackVertDrawable = resources->GetDrawable( _scrollTrackVertName );
+			m_scrollTrackVertFromTheme = ( ( _themePrefix + "scrollbarTrackVertical" ) == currentAttribute->Name() );
+			m_scrollTrackVertDrawable = _resources->GetDrawable( m_scrollTrackVertName );
 		}
-		else if( (currentAttribute->Name() == std::string("scrollbarTrackHorizontal"))
-				|| (currentAttribute->Name() == (themePrefix + std::string("scrollbarTrackHorizontal"))) )
+		else if( ( currentAttribute->Name() == std::string( "scrollbarTrackHorizontal" ) )
+				|| ( currentAttribute->Name() == ( _themePrefix + std::string( "scrollbarTrackHorizontal" ) ) ) )
 		{
-			_scrollTrackHorizName = currentAttribute->Value();
+			m_scrollTrackHorizName = currentAttribute->Value();
 
-			_scrollTrackHorizFromTheme = ((themePrefix+"scrollbarTrackHorizontal") == currentAttribute->Name());
-			_scrollTrackHorizDrawable = resources->GetDrawable( _scrollTrackHorizName );
+			m_scrollTrackHorizFromTheme = ( ( _themePrefix + "scrollbarTrackHorizontal" ) == currentAttribute->Name() );
+			m_scrollTrackHorizDrawable = _resources->GetDrawable( m_scrollTrackHorizName );
 		}
-		else if( (currentAttribute->Name() == std::string("scrollbarThumbVertical"))
-				|| (currentAttribute->Name() == (themePrefix + std::string("scrollbarThumbVertical"))) )
+		else if( ( currentAttribute->Name() == std::string( "scrollbarThumbVertical" ) )
+				|| ( currentAttribute->Name() == ( _themePrefix + std::string( "scrollbarThumbVertical" ) ) ) )
 		{
-			_scrollThumbVertName = currentAttribute->Value();
+			m_scrollThumbVertName = currentAttribute->Value();
 
-			_scrollThumbVertFromTheme = ((themePrefix+"scrollbarThumbVertical") == currentAttribute->Name());
-			_scrollThumbVertDrawable = resources->GetDrawable( _scrollThumbVertName );
+			m_scrollThumbVertFromTheme = ( ( _themePrefix + "scrollbarThumbVertical" ) == currentAttribute->Name() );
+			m_scrollThumbVertDrawable = _resources->GetDrawable( m_scrollThumbVertName );
 		}
-		else if( (currentAttribute->Name() == std::string("scrollbarThumbHorizontal"))
-				|| (currentAttribute->Name() == (themePrefix + std::string("scrollbarThumbHorizontal"))) )
+		else if( ( currentAttribute->Name() == std::string( "scrollbarThumbHorizontal" ) )
+				|| ( currentAttribute->Name() == ( _themePrefix + std::string( "scrollbarThumbHorizontal" ) ) ) )
 		{
-			_scrollThumbHorizName = currentAttribute->Value();
+			m_scrollThumbHorizName = currentAttribute->Value();
 
-			_scrollThumbHorizFromTheme = ((themePrefix+"scrollbarThumbHorizontal") == currentAttribute->Name());
-			_scrollThumbHorizDrawable = resources->GetDrawable( _scrollThumbHorizName );
+			m_scrollThumbHorizFromTheme = ( ( _themePrefix + "scrollbarThumbHorizontal" ) == currentAttribute->Name() );
+			m_scrollThumbHorizDrawable = _resources->GetDrawable( m_scrollThumbHorizName );
 		}
-
-
 	}
 }
 
-TiXmlElement* ShivaGUI::ScrollContainer::Deflate(ResourceManager *resources)
+//----------------------------------------------------------------------------------
+
+TiXmlElement* ShivaGUI::ScrollContainer::Deflate( ResourceManager *_resources )
 {
-	TiXmlElement *xmlNode = View::Deflate(resources);
-	xmlNode->SetValue("ScrollContainer");
+	TiXmlElement *xmlNode = View::Deflate( _resources );
+	xmlNode->SetValue( "ScrollContainer" );
 
-	if( _scrollHorizontal )
-		xmlNode->SetAttribute("scroll_horizontal","true" );
+	if( m_scrollHorizontal )
+		xmlNode->SetAttribute( "scroll_horizontal", "true" );
 	else
-		xmlNode->SetAttribute("scroll_horizontal","false" );
-	if( _scrollVertical )
-		xmlNode->SetAttribute("scroll_vertical","true" );
+		xmlNode->SetAttribute( "scroll_horizontal", "false" );
+	if( m_scrollVertical )
+		xmlNode->SetAttribute( "scroll_vertical", "true" );
 	else
-		xmlNode->SetAttribute("scroll_vertical","false" );
+		xmlNode->SetAttribute( "scroll_vertical", "false" );
 
-	if( (_scrollTrackVertDrawable != NULL) && !_scrollTrackVertFromTheme )
+	if( ( m_scrollTrackVertDrawable != NULL ) && !m_scrollTrackVertFromTheme )
 	{
-		xmlNode->SetAttribute("scrollbarTrackVertical", _scrollTrackVertName );
+		xmlNode->SetAttribute( "scrollbarTrackVertical", m_scrollTrackVertName );
 	}
-	if( (_scrollTrackHorizDrawable != NULL) && !_scrollTrackHorizFromTheme )
+	if( ( m_scrollTrackHorizDrawable != NULL ) && !m_scrollTrackHorizFromTheme )
 	{
-		xmlNode->SetAttribute("scrollbarTrackHorizontal", _scrollTrackHorizName );
+		xmlNode->SetAttribute( "scrollbarTrackHorizontal", m_scrollTrackHorizName );
 	}
-	if( (_scrollThumbVertDrawable != NULL) && !_scrollThumbVertFromTheme )
+	if( ( m_scrollThumbVertDrawable != NULL ) && !m_scrollThumbVertFromTheme )
 	{
-		xmlNode->SetAttribute("scrollbarThumbVertical", _scrollThumbVertName );
+		xmlNode->SetAttribute( "scrollbarThumbVertical", m_scrollThumbVertName );
 	}
-	if( (_scrollThumbHorizDrawable != NULL) && !_scrollThumbHorizFromTheme )
+	if( ( m_scrollThumbHorizDrawable != NULL ) && !m_scrollThumbHorizFromTheme )
 	{
-		xmlNode->SetAttribute("scrollbarTrackHorizontal", _scrollThumbHorizName );
+		xmlNode->SetAttribute( "scrollbarTrackHorizontal", m_scrollThumbHorizName );
 	}
-
-
 
 	// Child
-	if( _child != NULL )
+	if( m_child != NULL )
 	{
-		xmlNode->InsertEndChild( *_child->Deflate(resources) );
+		xmlNode->InsertEndChild( *m_child->Deflate( _resources ) );
 	}
 
 	return xmlNode;
 }
 
-void ShivaGUI::ScrollContainer::AddView(View *value, ResourceManager*)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ScrollContainer::AddView( View *_value, ResourceManager *_resources )
 {
-	_child = value;
+	m_child = _value;
 }
 
-bool ShivaGUI::ScrollContainer::HandleEvent(InternalEvent *currentEvent)
+//----------------------------------------------------------------------------------
+
+bool ShivaGUI::ScrollContainer::HandleEvent( InternalEvent *_currentEvent )
 {
 	bool eventAbsorbed = false;
 	bool passToChild = true;
 
 	// Handle scrolling
-	if( currentEvent->GetType() == InternalEvent::POSITIONAL_SELECT )
+	if( _currentEvent->GetType() == InternalEvent::POSITIONAL_SELECT )
 	{
-		if( EventHit(currentEvent) )
+		if( EventHit( _currentEvent ) )
 		{
-			currentEvent->GetPosition(_selectedMouseX,_selectedMouseY);
+			_currentEvent->GetPosition( m_selectedMouseX, m_selectedMouseY );
 			passToChild = false;
-			int dragTestVertScroll = EventHitVertScroll(currentEvent);
-			int dragTestHorizScroll = EventHitHorizScroll(currentEvent);
+			int dragTestVertScroll = EventHitVertScroll( _currentEvent );
+			int dragTestHorizScroll = EventHitHorizScroll( _currentEvent );
 			if( dragTestVertScroll == 1 ) // hit vertical scroll track at the top, so scroll a bit
 			{
-				_scrollY -= _scrollJumpAmount;
-				_needLayout = true;
+				m_scrollY -= m_scrollJumpAmount;
+				m_needLayout = true;
 			}
 			else if( dragTestVertScroll == 2 ) // hit vertical scroll thumb
 			{
-				_verticalScrollDrag = true;
-				_scrollDragOriginalTop = GetScrollThumbTop();
+				m_verticalScrollDrag = true;
+				m_scrollDragOriginalTop = GetScrollThumbTop();
 			}
 			else if( dragTestVertScroll == 3 ) // hit vertical scroll track at the bottom, so scroll a bit
 			{
-				_scrollY += _scrollJumpAmount;
-				_needLayout = true;
+				m_scrollY += m_scrollJumpAmount;
+				m_needLayout = true;
 			}
 			else if( dragTestHorizScroll == 1 ) // hit horizontal scroll track at the left, so scroll a bit
 			{
-				_scrollX -= _scrollJumpAmount;
-				_needLayout = true;
+				m_scrollX -= m_scrollJumpAmount;
+				m_needLayout = true;
 			}
 			else if( dragTestHorizScroll == 2 ) // hit horizontal scroll thumb
 			{
-				_horizontalScrollDrag = true;
-				_scrollDragOriginalLeft = GetScrollThumbLeft();
+				m_horizontalScrollDrag = true;
+				m_scrollDragOriginalLeft = GetScrollThumbLeft();
 			}
 			else if( dragTestHorizScroll == 3 ) // hit horizontal scroll track at the left, so scroll a bit
 			{
-				_scrollX += _scrollJumpAmount;
-				_needLayout = true;
+				m_scrollX += m_scrollJumpAmount;
+				m_needLayout = true;
 			}
 			else // Didn't hit a scrollbar
 			{
-				_selected = true;
+				m_selected = true;
 				eventAbsorbed = true;
 				passToChild = true;
 			}
-
 		}
 		else
 		{
 			passToChild = false;
-			_selected = false;
+			m_selected = false;
 		}
 	}
-	else if( currentEvent->GetType() == InternalEvent::POSITIONAL_DESELECT )
+	else if( _currentEvent->GetType() == InternalEvent::POSITIONAL_DESELECT )
 	{
-		_dragSelected = _selected = false;
-		_scrollX += _scrollCurrentX;
-		if( _scrollX < 0 )
-			_scrollX = 0;
-		_scrollY += _scrollCurrentY;
-		if( _scrollY < 0 )
-			_scrollY = 0;
-		_scrollCurrentX = 0;
-		_scrollCurrentY = 0;
-		_verticalScrollDrag = _horizontalScrollDrag = false;
+		m_dragSelected = m_selected = false;
+		m_scrollX += m_scrollCurrentX;
+		if( m_scrollX < 0 )
+			m_scrollX = 0;
+		m_scrollY += m_scrollCurrentY;
+		if( m_scrollY < 0 )
+			m_scrollY = 0;
+		m_scrollCurrentX = 0;
+		m_scrollCurrentY = 0;
+		m_verticalScrollDrag = m_horizontalScrollDrag = false;
 	}
-	else if( currentEvent->GetType() == InternalEvent::POSITIONAL_DRAG )
+	else if( _currentEvent->GetType() == InternalEvent::POSITIONAL_DRAG )
 	{
-		if( (!_selected) && (!_dragSelected) && (!_verticalScrollDrag) && (!_horizontalScrollDrag) )
+		if( ( !m_selected ) && ( !m_dragSelected ) && ( !m_verticalScrollDrag ) &&  ( !m_horizontalScrollDrag ) )
 		{
-			if( EventHit(currentEvent) )
+			if( EventHit( _currentEvent ) )
 			{
 				// Nothing to do with the ScrollContainer, but the event may be needed by our children, so pass it on
 				passToChild = true;
@@ -433,262 +422,277 @@ bool ShivaGUI::ScrollContainer::HandleEvent(InternalEvent *currentEvent)
 		{
 
 			int currentMouseX, currentMouseY;
-			currentEvent->GetPosition(currentMouseX, currentMouseY);
-			int offsetX = currentMouseX - _selectedMouseX;
-			int offsetY = currentMouseY - _selectedMouseY;
+			_currentEvent->GetPosition( currentMouseX, currentMouseY );
+			int offsetX = currentMouseX - m_selectedMouseX;
+			int offsetY = currentMouseY - m_selectedMouseY;
 
 			// Which part are we dragging?
-			if( _selected || _dragSelected )
+			if( m_selected || m_dragSelected )
 			{
 				passToChild = false;
-				_dragSelected = true;
+				m_dragSelected = true;
 
-				if( _scrollHorizontal )
+				if( m_scrollHorizontal )
 				{
-					_needLayout = true;
-					_scrollCurrentX = -offsetX;
+					m_needLayout = true;
+					m_scrollCurrentX = -offsetX;
 				}
-				if( _scrollVertical )
+				if( m_scrollVertical )
 				{
-					_needLayout = true;
-					_scrollCurrentY = -offsetY;
+					m_needLayout = true;
+					m_scrollCurrentY = -offsetY;
 				}
 
 				eventAbsorbed = true;
 			}
-			else if( _verticalScrollDrag )
+			else if( m_verticalScrollDrag )
 			{
 				// we need to mostly do the opposite to what we did for finding the thumb positions :S
 				// Raw sizes
-				int containerHeight = _layoutBoundsBottom - _layoutBoundsTop;
-				int childHeight = _child->GetWrapHeight();
+				int containerHeight = m_layoutBoundsBottom - m_layoutBoundsTop;
+				int childHeight = m_child->GetWrapHeight();
 
 				// Scrollbar offset sizes
 				int scrollHeight = GetScrollbarHeight();
 
 				// Container size taking into account scrollbars
 				int effectiveContainerHeight = 0;
-				if( _showHorizBar )
+				if( m_showHorizBar )
 					effectiveContainerHeight = containerHeight - scrollHeight;
 				else
 					effectiveContainerHeight = containerHeight;
 
-				float thumbHeightProportion = ((float) effectiveContainerHeight / (float) childHeight);
-				int thumbHeight = thumbHeightProportion * (float) (effectiveContainerHeight);
+				float thumbHeightProportion = ( ( float )effectiveContainerHeight / ( float )childHeight );
+				int thumbHeight = ( int )( thumbHeightProportion * ( float )( effectiveContainerHeight ) );
 
 
 				// new position of thumb tab thing
-				int newThumbTop = _scrollDragOriginalTop + offsetY;
+				int newThumbTop = m_scrollDragOriginalTop + offsetY;
 
 				// now work backwards through equations in GetScrollThumbTop()
-				float thumbTopProportion = (newThumbTop - _layoutBoundsTop) / ((float)effectiveContainerHeight - thumbHeight);
+				float thumbTopProportion = ( newThumbTop - m_layoutBoundsTop ) / ( ( float )effectiveContainerHeight - thumbHeight );
 
-				float scrollOffset = thumbTopProportion * ((float) childHeight - containerHeight);
+				float scrollOffset = thumbTopProportion * ( ( float ) childHeight - containerHeight );
 
-				_scrollY = scrollOffset;
-				_needLayout = true;
+				m_scrollY = ( int )scrollOffset;
+				m_needLayout = true;
 			}
-			else if( _horizontalScrollDrag )
+			else if( m_horizontalScrollDrag )
 			{
 				// we need to mostly do the opposite to what we did for finding the thumb positions :S
 				// Raw sizes
-				int containerWidth = _layoutBoundsRight - _layoutBoundsLeft;
-				int childWidth = _child->GetWrapWidth();
+				int containerWidth = m_layoutBoundsRight - m_layoutBoundsLeft;
+				int childWidth = m_child->GetWrapWidth();
 
 				// Scrollbar offset sizes
 				int scrollWidth = GetScrollbarWidth();
 
 				// Container size taking into account scrollbars
 				int effectiveContainerWidth = 0;
-				if( _showVertBar )
+				if( m_showVertBar )
 					effectiveContainerWidth = containerWidth - scrollWidth;
 				else
 					effectiveContainerWidth = containerWidth;
 
-				float thumbWidthProportion = ((float) effectiveContainerWidth / (float) childWidth);
-				int thumbWidth = thumbWidthProportion * (float) (effectiveContainerWidth);
+				float thumbWidthProportion = ( ( float )effectiveContainerWidth / ( float )childWidth );
+				int thumbWidth = ( int )( thumbWidthProportion * ( float )( effectiveContainerWidth ) );
 
 
 				// new position of thumb tab thing
-				int newThumbLeft = _scrollDragOriginalLeft + offsetX;
+				int newThumbLeft = m_scrollDragOriginalLeft + offsetX;
 
 				// now work backwards through equations in GetScrollThumbLeft()
-				float thumbLeftProportion = (newThumbLeft - _layoutBoundsLeft) / ((float)effectiveContainerWidth - thumbWidth);
+				float thumbLeftProportion = ( newThumbLeft - m_layoutBoundsLeft ) / ( ( float )effectiveContainerWidth - thumbWidth );
 
-				float scrollOffset = thumbLeftProportion * ((float) childWidth - containerWidth);
+				float scrollOffset = thumbLeftProportion * ( ( float )childWidth - containerWidth );
 
-				_scrollX = scrollOffset;
-				_needLayout = true;
+				m_scrollX = ( int )scrollOffset;
+				m_needLayout = true;
 			}
 		}
 	}
-
-
+	
 
 	// Pass event to child
-	if( _child != NULL && passToChild )
+	if( m_child != NULL && passToChild )
 	{
-		eventAbsorbed = _child->HandleEvent(currentEvent);
+		eventAbsorbed = m_child->HandleEvent( _currentEvent );
 	}
 
 	return eventAbsorbed;
 }
 
+//----------------------------------------------------------------------------------
 
 int ShivaGUI::ScrollContainer::GetWrapWidth()
 {
-	if( (_child != NULL) && (!_scrollHorizontal) )
-		return _child->GetWrapWidth();
+	if( ( m_child != NULL ) && ( !m_scrollHorizontal ) )
+		return m_child->GetWrapWidth();
 	return 10;
 }
+
+//----------------------------------------------------------------------------------
 
 int ShivaGUI::ScrollContainer::GetWrapHeight()
 {
-	if( (_child != NULL) && (!_scrollVertical) )
-		return _child->GetWrapHeight();
+	if( ( m_child != NULL ) && ( !m_scrollVertical ) )
+		return m_child->GetWrapHeight();
 	return 10;
 }
 
+//----------------------------------------------------------------------------------
+
 int ShivaGUI::ScrollContainer::GetScrollbarWidth()
 {
-	if( _scrollTrackVertDrawable != NULL )
-		return _scrollTrackVertDrawable->GetNativeWidth();
+	if( m_scrollTrackVertDrawable != NULL )
+		return m_scrollTrackVertDrawable->GetNativeWidth();
 	return 0;
 }
 
+//----------------------------------------------------------------------------------
+
 int ShivaGUI::ScrollContainer::GetScrollbarHeight()
 {
-	if( _scrollTrackHorizDrawable != NULL )
-		return _scrollTrackHorizDrawable->GetNativeHeight();
+	if( m_scrollTrackHorizDrawable != NULL )
+		return m_scrollTrackHorizDrawable->GetNativeHeight();
 	return 0;
 }
+
+//----------------------------------------------------------------------------------
 
 int ShivaGUI::ScrollContainer::GetScrollThumbTop()
 {
 	// Raw sizes
-	int containerHeight = _layoutBoundsBottom - _layoutBoundsTop;
-	int childHeight = _child->GetWrapHeight();
+	int containerHeight = m_layoutBoundsBottom - m_layoutBoundsTop;
+	int childHeight = m_child->GetWrapHeight();
 
 	// Scrollbar offset sizes
 	int scrollHeight = GetScrollbarHeight();
 
 	// Container size taking into account scrollbars
 	int effectiveContainerHeight = 0;
-	if( _showHorizBar )
+	if( m_showHorizBar )
 		effectiveContainerHeight = containerHeight - scrollHeight;
 	else
 		effectiveContainerHeight = containerHeight;
 
-	float thumbHeightProportion = ((float) effectiveContainerHeight / (float) childHeight);
-	int thumbHeight = thumbHeightProportion * (float) (effectiveContainerHeight);
+	float thumbHeightProportion = ( ( float )effectiveContainerHeight / ( float )childHeight );
+	int thumbHeight = ( int)( thumbHeightProportion * ( float )( effectiveContainerHeight ) );
 
-	float thumbTopProportion = ((float)_scrollY + _scrollCurrentY) / ((float) childHeight - containerHeight );
+	float thumbTopProportion = ( ( float )m_scrollY + m_scrollCurrentY) / ( ( float ) childHeight - containerHeight );
 	if( thumbTopProportion < 0.0f )
 		thumbTopProportion = 0.0f;
 	else if( thumbTopProportion > 1.0f )
 		thumbTopProportion = 1.0f;
 
-	return _layoutBoundsTop + (thumbTopProportion * ((float)effectiveContainerHeight - thumbHeight) );
+	return m_layoutBoundsTop + ( int )( ( thumbTopProportion * ( ( float )effectiveContainerHeight - thumbHeight ) ) );
 }
+
+//----------------------------------------------------------------------------------
 
 int ShivaGUI::ScrollContainer::GetScrollThumbBottom()
 {
 	// Raw sizes
-	int containerHeight = _layoutBoundsBottom - _layoutBoundsTop;
-	int childHeight = _child->GetWrapHeight();
+	int containerHeight = m_layoutBoundsBottom - m_layoutBoundsTop;
+	int childHeight = m_child->GetWrapHeight();
 
 	// Scrollbar offset sizes
 	int scrollHeight = GetScrollbarHeight();
 
 	// Container size taking into account scrollbars
 	int effectiveContainerHeight = 0;
-	if( _showHorizBar )
+	if( m_showHorizBar )
 		effectiveContainerHeight = containerHeight - scrollHeight;
 	else
 		effectiveContainerHeight = containerHeight;
 
-	float thumbHeightProportion = ((float) effectiveContainerHeight / (float) childHeight);
-	int thumbHeight = thumbHeightProportion * (float) (effectiveContainerHeight);
+	float thumbHeightProportion = ( ( float )effectiveContainerHeight / ( float )childHeight );
+	int thumbHeight = ( int )( thumbHeightProportion * ( float )( effectiveContainerHeight ) );
 
-	float thumbTopProportion = ((float)_scrollY + _scrollCurrentY) / ((float) childHeight - containerHeight );
+	float thumbTopProportion = ( ( float )m_scrollY + m_scrollCurrentY ) / ( ( float )childHeight - containerHeight );
 	if( thumbTopProportion < 0.0f )
 		thumbTopProportion = 0.0f;
 	else if( thumbTopProportion > 1.0f )
 		thumbTopProportion = 1.0f;
 
-	int thumbTop = _layoutBoundsTop + (thumbTopProportion * ((float)effectiveContainerHeight - thumbHeight) );
+	int thumbTop = m_layoutBoundsTop + ( int )( ( thumbTopProportion * ( ( float )effectiveContainerHeight - thumbHeight ) ) );
 	return thumbTop + thumbHeight;
 }
+
+//----------------------------------------------------------------------------------
 
 int ShivaGUI::ScrollContainer::GetScrollThumbLeft()
 {
 	// Raw sizes
-	int containerWidth = _layoutBoundsRight - _layoutBoundsLeft;
-	int childWidth = _child->GetWrapWidth();
+	int containerWidth = m_layoutBoundsRight - m_layoutBoundsLeft;
+	int childWidth = m_child->GetWrapWidth();
 
 	// Scrollbar offset sizes
 	int scrollWidth = GetScrollbarWidth();
 
 	// Container size taking into account scrollbars
 	int effectiveContainerWidth = 0;
-	if( _showVertBar )
+	if( m_showVertBar )
 		effectiveContainerWidth = containerWidth - scrollWidth;
 	else
 		effectiveContainerWidth = containerWidth;
 
 
-	float thumbWidthProportion = ((float) effectiveContainerWidth / (float) childWidth);
-	int thumbWidth = thumbWidthProportion * (float) (effectiveContainerWidth);
+	float thumbWidthProportion = ( ( float ) effectiveContainerWidth / ( float ) childWidth );
+	int thumbWidth = ( int )( thumbWidthProportion * ( float )( effectiveContainerWidth ) );
 
-	float thumbLeftProportion = ((float)_scrollX + _scrollCurrentX) / ((float) childWidth - containerWidth );
+	float thumbLeftProportion = ( ( float )m_scrollX + m_scrollCurrentX ) / ( ( float )childWidth - containerWidth );
 	if( thumbLeftProportion < 0.0f )
 		thumbLeftProportion = 0.0f;
 	else if( thumbLeftProportion > 1.0f )
 		thumbLeftProportion = 1.0f;
 
-	return _layoutBoundsLeft + (thumbLeftProportion * ((float)effectiveContainerWidth - thumbWidth) );
+	return m_layoutBoundsLeft + ( int )( ( thumbLeftProportion * ( ( float )effectiveContainerWidth - thumbWidth ) ) );
 }
+
+//----------------------------------------------------------------------------------
 
 int ShivaGUI::ScrollContainer::GetScrollThumbRight()
 {
 	// Raw sizes
-	int containerWidth = _layoutBoundsRight - _layoutBoundsLeft;
-	int childWidth = _child->GetWrapWidth();
+	int containerWidth = m_layoutBoundsRight - m_layoutBoundsLeft;
+	int childWidth = m_child->GetWrapWidth();
 
 	// Scrollbar offset sizes
 	int scrollWidth = GetScrollbarWidth();
 
 	// Container size taking into account scrollbars
 	int effectiveContainerWidth = 0;
-	if( _showVertBar )
+	if( m_showVertBar )
 		effectiveContainerWidth = containerWidth - scrollWidth;
 	else
 		effectiveContainerWidth = containerWidth;
 
 
-	float thumbWidthProportion = ((float) effectiveContainerWidth / (float) childWidth);
-	int thumbWidth = thumbWidthProportion * (float) (effectiveContainerWidth);
+	float thumbWidthProportion = ( ( float )effectiveContainerWidth / ( float ) childWidth );
+	int thumbWidth = ( int )( thumbWidthProportion * ( float )( effectiveContainerWidth ) );
 
-	float thumbLeftProportion = ((float)_scrollX + _scrollCurrentX) / ((float) childWidth - containerWidth );
+	float thumbLeftProportion = ( ( float )m_scrollX + m_scrollCurrentX ) / ( ( float ) childWidth - containerWidth );
 	if( thumbLeftProportion < 0.0f )
 		thumbLeftProportion = 0.0f;
 	else if( thumbLeftProportion > 1.0f )
 		thumbLeftProportion = 1.0f;
 
-	int thumbLeft = _layoutBoundsLeft + (thumbLeftProportion * ((float)effectiveContainerWidth - thumbWidth) );
+	int thumbLeft = m_layoutBoundsLeft + ( int )( ( thumbLeftProportion * ( ( float )effectiveContainerWidth - thumbWidth ) ) );
 	return thumbLeft + thumbWidth;
 }
 
+//----------------------------------------------------------------------------------
 
-int ShivaGUI::ScrollContainer::EventHitVertScroll(InternalEvent *event)
+int ShivaGUI::ScrollContainer::EventHitVertScroll( InternalEvent *_event )
 {
-	if( _showVertBar )
+	if( m_showVertBar )
 	{
 		int x, y;
-		event->GetPosition(x,y);
+		_event->GetPosition( x, y );
 		int scrollbarWidth = GetScrollbarWidth();
-		if( (x > _layoutBoundsRight - scrollbarWidth) && (x < _layoutBoundsRight)
-			&& (y > _layoutBoundsTop) && (y < _layoutBoundsBottom) )
+		if( ( x > m_layoutBoundsRight - scrollbarWidth ) && ( x < m_layoutBoundsRight )
+			&& ( y > m_layoutBoundsTop ) && ( y < m_layoutBoundsBottom ) )
 		{
 			// hit within bounds of scrollbar, now just need to find which part:
 			if( y < GetScrollThumbTop() )
@@ -701,15 +705,17 @@ int ShivaGUI::ScrollContainer::EventHitVertScroll(InternalEvent *event)
 	return 0;
 }
 
-int ShivaGUI::ScrollContainer::EventHitHorizScroll(InternalEvent *event)
+//----------------------------------------------------------------------------------
+
+int ShivaGUI::ScrollContainer::EventHitHorizScroll( InternalEvent *_event )
 {
-	if( _showHorizBar )
+	if( m_showHorizBar )
 	{
 		int x, y;
-		event->GetPosition(x,y);
+		_event->GetPosition(x,y);
 		int scrollbarHeight = GetScrollbarHeight();
-		if( (x > _layoutBoundsLeft) && (x < _layoutBoundsRight)
-			&& (y > _layoutBoundsBottom - scrollbarHeight) && (y < _layoutBoundsBottom) )
+		if( ( x > m_layoutBoundsLeft ) && ( x < m_layoutBoundsRight )
+			&& ( y > m_layoutBoundsBottom - scrollbarHeight ) && ( y < m_layoutBoundsBottom ) )
 		{
 			// hit within bounds of scrollbar, now just need to find which part:
 			if( x < GetScrollThumbLeft() )
@@ -721,3 +727,5 @@ int ShivaGUI::ScrollContainer::EventHitHorizScroll(InternalEvent *event)
 	}
 	return 0;
 }
+
+//----------------------------------------------------------------------------------

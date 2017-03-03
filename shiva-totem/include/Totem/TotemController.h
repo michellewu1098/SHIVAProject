@@ -13,9 +13,6 @@
 #include <list>
 
 #include "VolumeRenderer/SpringyVec3.h"
-#include "VolumeTree/VolumeTree.h"
-#include "VolumeTree/Nodes/CSG.h"
-#include "VolumeTree/Nodes/TransformNode.h"
 #include "VolumeTree/Leaves/VolCacheNode.h"
 #include "VolumeTree/Leaves/CylinderNode.h"
 #include "Totem/TotemObject.h"

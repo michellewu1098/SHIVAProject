@@ -1,104 +1,109 @@
 
 #include "System/ProfileManager.h"
 
-#include <iostream>
-#include <boost/algorithm/string.hpp>
+//----------------------------------------------------------------------------------
 
-//////////////////////////////////////////////////////////////////////////
-
-ShivaGUI::ProfileManager::ProfileManager( std::string authoringProgramName, std::string programOptionsDir )
+ShivaGUI::ProfileManager::ProfileManager( std::string _authoringProgramName, std::string _programOptionsDir )
 {
-	_author = authoringProgramName;
-	_profilesDir = "Profiles";
-	_prefsDir = programOptionsDir;
+	m_author = _authoringProgramName;
+	m_profilesDir = "Profiles";
+	m_prefsDir = _programOptionsDir;
 	// Add root element to the empty profile
 	TiXmlElement *profileElement = new TiXmlElement( "Profile" );
-	_profileDoc.LinkEndChild( profileElement );
+	m_profileDoc.LinkEndChild( profileElement );
 	// Add a header and an options node
 	profileElement->LinkEndChild( new TiXmlElement( "Header" ) );
 
-	_optionsNode = _currentOptionsNode = new TiXmlElement( "Options" );
-	profileElement->LinkEndChild( _optionsNode );
+	m_optionsNode = m_currentOptionsNode = new TiXmlElement( "Options" );
+	profileElement->LinkEndChild( m_optionsNode );
 
-	_preferences = NULL;
-	_optionIterator = NULL;
+	m_preferences = NULL;
+	m_optionIterator = NULL;
 }
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::ProfileManager::~ProfileManager()
 {
 	// Deletes all sub-nodes
-	_profileDoc.Clear();
+	m_profileDoc.Clear();
 
-	delete _preferences;
+	delete m_preferences;
 }
 
-bool ShivaGUI::ProfileManager::SetDirectory( std::string profileDirectory )
+//----------------------------------------------------------------------------------
+
+bool ShivaGUI::ProfileManager::SetDirectory( std::string _profileDirectory )
 {
-	if( boost::filesystem::exists(profileDirectory) )
+	if( boost::filesystem::exists( _profileDirectory ) )
 	{
-		if( boost::filesystem::is_directory(profileDirectory) )
+		if( boost::filesystem::is_directory( _profileDirectory ) )
 		{
-			_profilesDir = profileDirectory;
+			m_profilesDir = _profileDirectory;
 			return true;
 		}
 		else
-			std::cerr<< "WARNING: ShivaGUI::ProfileManager::SetDirectory, Path " <<profileDirectory<< " is not a directory!"<<std::endl;
+			std::cerr << "WARNING: ShivaGUI::ProfileManager::SetDirectory, Path " << _profileDirectory << " is not a directory!" << std::endl;
 	}
 	else
-		std::cerr<< "WARNING: ShivaGUI::ProfileManager::SetDirectory, Directory " <<profileDirectory<< " does not exist!"<<std::endl;
+		std::cerr << "WARNING: ShivaGUI::ProfileManager::SetDirectory, Directory " << _profileDirectory << " does not exist!" << std::endl;
 
 	return false;
 }
 
+//----------------------------------------------------------------------------------
+
 std::string ShivaGUI::ProfileManager::GetDirectory()
 {
-	return _profilesDir.string();
+	return m_profilesDir.string();
 }
 
-bool ShivaGUI::ProfileManager::Load( std::string profileNameXML )
-{
-	delete _preferences;
-	_preferences = NULL;
-	_optionIterator = NULL;
+//----------------------------------------------------------------------------------
 
-	_profileName = profileNameXML;
-	size_t lastdot = _profileName.find_last_of(".");
+bool ShivaGUI::ProfileManager::Load( std::string _profileNameXML )
+{
+	delete m_preferences;
+	m_preferences = NULL;
+	m_optionIterator = NULL;
+
+	m_profileName = _profileNameXML;
+	size_t lastdot = m_profileName.find_last_of( "." );
 	if( lastdot != std::string::npos )
 	{
 		// chop off the ".xml" for the _profileName
-		_profileName = _profileName.substr(0, lastdot);
+		m_profileName = m_profileName.substr( 0, lastdot );
 	}
 	else
 	{
 		// add a ".xml" for the profileName
-		profileNameXML = std::string(profileNameXML + ".xml");
+		_profileNameXML = std::string( _profileNameXML + ".xml" );
 	}
 
-	std::cout<<"INFO: ProfileManager attempting to load profile file: "<< profileNameXML<<std::endl;
+	std::cout << "INFO: ProfileManager attempting to load profile file: " << _profileNameXML << std::endl;
 
-	boost::filesystem::path profilePath(_profilesDir / profileNameXML);
+	boost::filesystem::path profilePath( m_profilesDir / _profileNameXML );
 
 	if( boost::filesystem::exists( profilePath ) )
 	{
 		if( boost::filesystem::is_regular_file( profilePath ) )
 		{
 			// This will clear all the existing data
-			_profileDoc.LoadFile( profilePath.string() );
-			_optionsNode = NULL;
+			m_profileDoc.LoadFile( profilePath.string() );
+			m_optionsNode = NULL;
 
 			// Retrieve options node
-			TiXmlElement *rootElement = _profileDoc.RootElement();
+			TiXmlElement *rootElement = m_profileDoc.RootElement();
 
 			if( rootElement != NULL )
 			{
 				// The boost iequals is a case-insensitive string comparison
-				if( boost::algorithm::iequals(rootElement->ValueStr(), "profile") )
+				if( boost::algorithm::iequals( rootElement->ValueStr(), "profile" ) )
 				{
-					_optionsNode = _currentOptionsNode = GetSubElement(rootElement, "options" );
+					m_optionsNode = m_currentOptionsNode = GetSubElement( rootElement, "options" );
 
-					if( _optionsNode == NULL )
+					if( m_optionsNode == NULL )
 					{
-						std::cerr<<"WARNING: Profile Options node not found in file: "<< profilePath <<std::endl;
+						std::cerr << "WARNING: Profile Options node not found in file: " << profilePath << std::endl;
 					}
 					else
 					{
@@ -106,140 +111,152 @@ bool ShivaGUI::ProfileManager::Load( std::string profileNameXML )
 						// With this limited checking, we will call it a valid profile
 						// TODO: If we need more rigorous checking, it should be done here
 
-						std::cerr<<"INFO: Loaded user profile: "<<profileNameXML<<std::endl;
+						std::cerr << "INFO: Loaded user profile: " << _profileNameXML << std::endl;
 						return true;
 					}
 				}
 				else
-					std::cerr<<"WARNING: Profile root element is not of value 'Profile' in file: "<< profilePath <<std::endl;
+					std::cerr << "WARNING: Profile root element is not of value 'Profile' in file: " << profilePath << std::endl;
 			}
 			else
-				std::cerr<<"WARNING: Profile Load cannot retrieve profile's root element from file: "<< profilePath <<std::endl;
+				std::cerr << "WARNING: Profile Load cannot retrieve profile's root element from file: "<< profilePath << std::endl;
 		}
 		else
-			std::cerr<< "WARNING: ShivaGUI::ProfileManager::Load, " <<profilePath<< " is not a file!"<<std::endl;
+			std::cerr << "WARNING: ShivaGUI::ProfileManager::Load, " << profilePath << " is not a file!" << std::endl;
 	}
 	else
-		std::cerr<< "WARNING: ShivaGUI::ProfileManager::Load, file " <<profileNameXML<< " does not exist in profile directory: "<< _profilesDir <<std::endl;
+		std::cerr << "WARNING: ShivaGUI::ProfileManager::Load, file " << _profileNameXML << " does not exist in profile directory: " << m_profilesDir << std::endl;
 
 	return false;
 }
 
-bool ShivaGUI::ProfileManager::Save( std::string profileNameXML )
+//----------------------------------------------------------------------------------
+
+bool ShivaGUI::ProfileManager::Save( std::string _profileNameXML )
 {
 	// Update header
 	UpdateHeader();
 
-	_profileName = profileNameXML;
-	unsigned int lastdot = _profileName.find_last_of(".");
+	m_profileName = _profileNameXML;
+	unsigned int lastdot = m_profileName.find_last_of( "." );
 	if( lastdot != std::string::npos )
 	{
 		// chop off the ".xml" for the _profileName
-		_profileName = _profileName.substr(0, lastdot);
+		m_profileName = m_profileName.substr( 0, lastdot );
 	}
 	else
 	{
 		// add a ".xml" for the profileName
-		profileNameXML = profileNameXML + ".xml";
+		_profileNameXML = _profileNameXML + ".xml";
 	}
 
-	boost::filesystem::path profilePath(_profilesDir / profileNameXML);
+	boost::filesystem::path profilePath( m_profilesDir / _profileNameXML );
 
-	if( !_profileDoc.SaveFile( profilePath.string() ) )
+	if( !m_profileDoc.SaveFile( profilePath.string() ) )
 	{
-		std::cerr<<"WARNING: failed to save profile to file: "<< profilePath <<std::endl;
+		std::cerr << "WARNING: failed to save profile to file: " << profilePath << std::endl;
 		return false;
 	}
 
 	return true;
 }
 
-bool ShivaGUI::ProfileManager::Copy( std::string profileName, std::string newProfileName )
+//----------------------------------------------------------------------------------
+
+bool ShivaGUI::ProfileManager::Copy( std::string _profileName, std::string _newProfileName )
 {
-	if( profileName.empty() )
+	if( _profileName.empty() )
 	{
-		std::cerr<<"WARNING: ProfileManager asked to copy profile but given empty profile name"<<std::endl;
+		std::cerr << "WARNING: ProfileManager asked to copy profile but given empty profile name" << std::endl;
 		return false;
 	}
-	if( newProfileName.empty() )
+	if( _newProfileName.empty() )
 	{
-		std::cerr<<"WARNING: ProfileManager asked to copy profile but given empty destination profile name"<<std::endl;
+		std::cerr << "WARNING: ProfileManager asked to copy profile but given empty destination profile name" << std::endl;
 		return false;
 	}
-	if( !boost::filesystem::exists(_profilesDir) || !boost::filesystem::is_directory(_profilesDir) )
+	if( !boost::filesystem::exists( m_profilesDir ) || !boost::filesystem::is_directory( m_profilesDir ) )
 	{
-		std::cerr<<"WARNING: ProfileManager asked to copy profile but no valid profile directory:" << _profilesDir.string() <<std::endl;
+		std::cerr << "WARNING: ProfileManager asked to copy profile but no valid profile directory:" << m_profilesDir.string() << std::endl;
 		return false;
 	}
 
 	try
 	{
 		// Copy profile xml
-		boost::filesystem::copy_file( (_profilesDir / profileName).replace_extension(".xml"),(_profilesDir / newProfileName).replace_extension(".xml"));
+		boost::filesystem::copy_file( ( m_profilesDir / _profileName ).replace_extension( ".xml" ), ( m_profilesDir / _newProfileName ).replace_extension( ".xml" ) );
 
 		// Copy profile directory if it exists
-		if( boost::filesystem::exists(_profilesDir / profileName) && boost::filesystem::is_directory(_profilesDir / profileName) )
+		if( boost::filesystem::exists( m_profilesDir / _profileName ) && boost::filesystem::is_directory( m_profilesDir / _profileName ) )
 		{
-			boost::filesystem3::copy_directory(_profilesDir / profileName, _profilesDir / newProfileName);
+			boost::filesystem3::copy_directory( m_profilesDir / _profileName, m_profilesDir / _newProfileName );
 		}
 	}
 	catch( boost::filesystem::filesystem_error &ErrorCode )
 	{
 		// TODO: properly report on error code
-		std::cerr<<"WARNING: ProfileManager::Copy threw a boost::filesystem::filesystem_error after copy_file"<<std::endl;
+		std::cerr << "WARNING: ProfileManager::Copy threw a boost::filesystem::filesystem_error after copy_file: " << ErrorCode.code().message() << std::endl;
 		return false;
 	}
 
 	return true;
 }
 
+//----------------------------------------------------------------------------------
+
 std::string ShivaGUI::ProfileManager::GetCurrentOptionsDir()
 {
-	return (_profilesDir / _profileName / _prefsDir).string();
+	return ( m_profilesDir / m_profileName / m_prefsDir ).string();
 }
+
+//----------------------------------------------------------------------------------
 
 std::string ShivaGUI::ProfileManager::GetCurrentProfileFileName()
 {
-	return _profileName;
+	return m_profileName;
 }
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::SharedPreferences* ShivaGUI::ProfileManager::GetProgSpecificOptions()
 {
-	if( _profilesDir.empty() )
+	if( m_profilesDir.empty() )
 	{
-		std::cerr<<"WARNING: ProfileManager::GetProgSpecificOptions() working with empty profile directory"<<std::endl;
+		std::cerr << "WARNING: ProfileManager::GetProgSpecificOptions() working with empty profile directory" << std::endl;
 		return NULL;
 	}
 	// Don't need to test _profilesDir for validity, should have been done when it was set - if it's changed since then, tough luck!
 
-	if( _profileName.empty() )
+	if( m_profileName.empty() )
 	{
-		std::cerr<<"WARNING: ProfileManager::GetProgSpecificOptions() working with empty profile name"<<std::endl;
+		std::cerr << "WARNING: ProfileManager::GetProgSpecificOptions() working with empty profile name" << std::endl;
 		return NULL;
 	}
 
 	// If the directory does not exist, need to create it
 
-	boost::filesystem::path prefsPath( _profilesDir / _profileName / _prefsDir );
+	boost::filesystem::path prefsPath( m_profilesDir / m_profileName / m_prefsDir );
 
-	if( !boost::filesystem::exists(prefsPath) )
+	if( !boost::filesystem::exists( prefsPath ) )
 	{
-		boost::filesystem::create_directories(prefsPath);
+		boost::filesystem::create_directories( prefsPath );
 	}
 
 	prefsPath = prefsPath / "prefs.xml";
 
-	_preferences = new SharedPreferences( prefsPath.string() );
+	m_preferences = new SharedPreferences( prefsPath.string() );
 
-	return _preferences;
+	return m_preferences;
 }
 
-int ShivaGUI::ProfileManager::ContainsOption( std::string key )
+//----------------------------------------------------------------------------------
+
+int ShivaGUI::ProfileManager::ContainsOption( std::string _key )
 {
 	int i = 0;
-	for( TiXmlNode *childNode = _currentOptionsNode->FirstChild(); childNode != NULL; childNode = childNode->NextSibling() )
+	for( TiXmlNode *childNode = m_currentOptionsNode->FirstChild(); childNode != NULL; childNode = childNode->NextSibling() )
 	{
-		if( boost::algorithm::iequals(childNode->ValueStr(), key) )
+		if( boost::algorithm::iequals( childNode->ValueStr(), _key ) )
 		{
 			i++;
 		}
@@ -248,16 +265,18 @@ int ShivaGUI::ProfileManager::ContainsOption( std::string key )
 	return i;
 }
 
-bool ShivaGUI::ProfileManager::EnterOptionNode( std::string key, int index )
+//----------------------------------------------------------------------------------
+
+bool ShivaGUI::ProfileManager::EnterOptionNode( std::string _key, int _index )
 {
 	int i = 0;
-	for( TiXmlNode *childNode = _currentOptionsNode->FirstChild(); childNode != NULL; childNode = childNode->NextSibling() )
+	for( TiXmlNode *childNode = m_currentOptionsNode->FirstChild(); childNode != NULL; childNode = childNode->NextSibling() )
 	{
-		if( boost::algorithm::iequals(childNode->ValueStr(), key) )
+		if( boost::algorithm::iequals(childNode->ValueStr(), _key) )
 		{
-			if( i == index )
+			if( i == _index )
 			{
-				_currentOptionsNode = childNode->ToElement();
+				m_currentOptionsNode = childNode->ToElement();
 				return true;
 			}
 			i++;
@@ -266,72 +285,120 @@ bool ShivaGUI::ProfileManager::EnterOptionNode( std::string key, int index )
 	return false;
 }
 
-/// Leaves a sub-node in a hierarchical option, going up the tree to the parent
-/// You cannot go higher than the options level, e.g. you cannot go to the parent and view the header
+//----------------------------------------------------------------------------------
+
+// Leaves a sub-node in a hierarchical option, going up the tree to the parent
+// You cannot go higher than the options level, e.g. you cannot go to the parent and view the header
+
 void ShivaGUI::ProfileManager::ExitOptionNode()
 {
-	if( _currentOptionsNode != _optionsNode )
-		_currentOptionsNode = _currentOptionsNode->Parent()->ToElement();
+	if( m_currentOptionsNode != m_optionsNode )
+		m_currentOptionsNode = m_currentOptionsNode->Parent()->ToElement();
 }
 
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::ProfileManager::InitIterator()
 {
-	if( _currentOptionsNode != NULL )
-		_optionIterator = _currentOptionsNode->FirstChild();
+	if( m_currentOptionsNode != NULL )
+		m_optionIterator = m_currentOptionsNode->FirstChild();
 	else
-		_optionIterator = NULL;
+		m_optionIterator = NULL;
 }
 
-std::string ShivaGUI::ProfileManager::GetNextKey(int &index)
-{
-	if( _currentOptionsNode != NULL && _optionIterator != NULL )
-	{
-		std::string retValue = _optionIterator->ValueStr();
-		_optionIterator = _optionIterator->NextSibling();
+//----------------------------------------------------------------------------------
 
-		index = 0;
-		for( TiXmlNode *childNode = _currentOptionsNode->FirstChild(); childNode != NULL && childNode != _currentOptionsNode; childNode = childNode->NextSibling() )
+std::string ShivaGUI::ProfileManager::GetNextKey( int &_index )
+{
+	if( m_currentOptionsNode != NULL && m_optionIterator != NULL )
+	{
+		std::string retValue = m_optionIterator->ValueStr();
+		m_optionIterator = m_optionIterator->NextSibling();
+
+		_index = 0;
+		for( TiXmlNode *childNode = m_currentOptionsNode->FirstChild(); childNode != NULL && childNode != m_currentOptionsNode; childNode = childNode->NextSibling() )
 		{
-			if( boost::algorithm::iequals(childNode->ValueStr(), retValue) )
+			if( boost::algorithm::iequals( childNode->ValueStr(), retValue ) )
 			{
-				++index;
+				++_index;
 			}
 		}
 
 		return retValue;
 	}
-	index = -1;
+	_index = -1;
 	return "END";
 }
 
+//----------------------------------------------------------------------------------
 
-bool ShivaGUI::ProfileManager::GetBoolean(std::string key, bool defaultValue, int index )				{return GetOption(key,defaultValue,index);}
-float ShivaGUI::ProfileManager::GetFloat(std::string key, float defaultValue, int index )				{return GetOption(key,defaultValue,index);}
-int ShivaGUI::ProfileManager::GetInt(std::string key, int defaultValue, int index )						{return GetOption(key,defaultValue,index);}
-std::string ShivaGUI::ProfileManager::GetString(std::string key, std::string defaultValue, int index )	{return GetOption(key,defaultValue,index);}
+bool ShivaGUI::ProfileManager::GetBoolean( std::string _key, bool _defaultValue, int _index )
+{
+	return GetOption( _key, _defaultValue, _index ); 
+}
+//----------------------------------------------------------------------------------
 
-void ShivaGUI::ProfileManager::SetBoolean(std::string key, bool value)						{SetOption(key,value);}
-void ShivaGUI::ProfileManager::SetFloat(std::string key, float value)							{SetOption(key,value);}
-void ShivaGUI::ProfileManager::SetInt(std::string key, int value)								{SetOption(key,value);}
-void ShivaGUI::ProfileManager::SetString(std::string key, std::string value)					{SetOption(key,value);}
+float ShivaGUI::ProfileManager::GetFloat( std::string _key, float _defaultValue, int _index )	
+{
+	return GetOption( _key, _defaultValue, _index ); 
+}
 
+//----------------------------------------------------------------------------------
 
+int ShivaGUI::ProfileManager::GetInt( std::string _key, int _defaultValue, int _index )					
+{
+	return GetOption( _key, _defaultValue, _index ); 
+}
 
+//----------------------------------------------------------------------------------
 
+std::string ShivaGUI::ProfileManager::GetString( std::string _key, std::string _defaultValue, int _index )	
+{
+	return GetOption( _key, _defaultValue, _index ); 
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ProfileManager::SetBoolean( std::string _key, bool _value )						
+{
+	SetOption( _key, _value );
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ProfileManager::SetFloat( std::string _key, float _value )
+{
+	SetOption( _key, _value );
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ProfileManager::SetInt( std::string _key, int _value )								
+{
+	SetOption( _key, _value );
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ProfileManager::SetString( std::string _key, std::string _value )					
+{
+	SetOption( _key, _value );
+}
+
+//----------------------------------------------------------------------------------
 
 bool ShivaGUI::ProfileManager::UpdateHeader()
 {
 	// Retrieve header root
 
-	TiXmlElement *rootElement = _profileDoc.RootElement();
+	TiXmlElement *rootElement = m_profileDoc.RootElement();
 
 	if( rootElement != NULL )
 	{
 		// The boost iequals is a case-insensitive string comparison
-		if( boost::algorithm::iequals(rootElement->ValueStr(), "Profile") )
+		if( boost::algorithm::iequals( rootElement->ValueStr(), "Profile" ) )
 		{
-			TiXmlElement *headerNode = GetSubElement(rootElement, "Header" );
+			TiXmlElement *headerNode = GetSubElement( rootElement, "Header" );
 
 			if( headerNode == NULL )
 			{
@@ -342,36 +409,38 @@ bool ShivaGUI::ProfileManager::UpdateHeader()
 
 			// Populate header with info
 				// Name
-				AddSubElementText(headerNode,"Name",_name);
+				AddSubElementText( headerNode, "Name", m_name );
 				// Authoring program
-				AddSubElementText(headerNode,"Author",_author);
+				AddSubElementText( headerNode, "Author", m_author );
 
 
 		}
 		else
-			std::cerr<<"WARNING: Profile UpdateHeader() root element is not of value 'Profile'"<<std::endl;
+			std::cerr << "WARNING: Profile UpdateHeader() root element is not of value 'Profile'" << std::endl;
 	}
 	else
-		std::cerr<<"WARNING: Profile UpdateHeader() cannot retrieve profile's root element"<<std::endl;
+		std::cerr << "WARNING: Profile UpdateHeader() cannot retrieve profile's root element" << std::endl;
 
 	return false;
 }
 
-TiXmlElement* ShivaGUI::ProfileManager::GetSubElement(TiXmlElement *parent, std::string value, int index)
+//----------------------------------------------------------------------------------
+
+TiXmlElement* ShivaGUI::ProfileManager::GetSubElement( TiXmlElement *_parent, std::string _value, int _index )
 {
-	if( parent == NULL )
+	if( _parent == NULL )
 	{
 		// useful for debugging
-		std::cerr<<"WARNING: ShivaGUI::ProfileManager::GetSubElement() given NULL parent node"<<std::endl;
+		std::cerr << "WARNING: ShivaGUI::ProfileManager::GetSubElement() given NULL parent node" << std::endl;
 		return NULL;
 	}
 
 	int i = 0;
-	for( TiXmlNode *childNode = parent->FirstChild(); childNode != NULL; childNode = childNode->NextSibling() )
+	for( TiXmlNode *childNode = _parent->FirstChild(); childNode != NULL; childNode = childNode->NextSibling() )
 	{
-		if( boost::algorithm::iequals(childNode->ValueStr(), value) )
+		if( boost::algorithm::iequals( childNode->ValueStr(), _value ) )
 		{
-			if( i == index )
+			if( i == _index )
 				return childNode->ToElement();
 			else
 				++i;
@@ -380,16 +449,18 @@ TiXmlElement* ShivaGUI::ProfileManager::GetSubElement(TiXmlElement *parent, std:
 	return NULL;
 }
 
-TiXmlText* ShivaGUI::ProfileManager::GetSubText(TiXmlElement *parent)
+//----------------------------------------------------------------------------------
+
+TiXmlText* ShivaGUI::ProfileManager::GetSubText( TiXmlElement *_parent )
 {
-	if( parent == NULL )
+	if( _parent == NULL )
 	{
 		// useful for debugging
-		std::cerr<<"WARNING: ShivaGUI::ProfileManager::GetSubText() given NULL parent node"<<std::endl;
+		std::cerr << "WARNING: ShivaGUI::ProfileManager::GetSubText() given NULL parent node" << std::endl;
 		return NULL;
 	}
 
-	for( TiXmlNode *childNode = parent->FirstChild(); childNode != NULL; childNode = childNode->NextSibling() )
+	for( TiXmlNode *childNode = _parent->FirstChild(); childNode != NULL; childNode = childNode->NextSibling() )
 	{
 		// Does a safe check and cast, returning NULL if not successful
 		TiXmlText *textNode = childNode->ToText();
@@ -401,47 +472,54 @@ TiXmlText* ShivaGUI::ProfileManager::GetSubText(TiXmlElement *parent)
 	return NULL;
 }
 
-void ShivaGUI::ProfileManager::AddSubElementText(TiXmlElement *parent, std::string value, std::string text)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ProfileManager::AddSubElementText( TiXmlElement *_parent, std::string _value, std::string _text )
 {
-	TiXmlElement *childNode = GetSubElement(parent, value );
+	TiXmlElement *childNode = GetSubElement( _parent, _value );
 	if( childNode == NULL )
 	{
-		childNode = new TiXmlElement( value );
-		parent->LinkEndChild( childNode );
+		childNode = new TiXmlElement( _value );
+		_parent->LinkEndChild( childNode );
 	}
-	TiXmlText *textNode = GetSubText(childNode);
+	TiXmlText *textNode = GetSubText( childNode );
 	if( textNode == NULL )
 	{
-		textNode = new TiXmlText( text );
+		textNode = new TiXmlText( _text );
 		childNode->LinkEndChild( textNode );
 	}
 	else
 	{
-		TiXmlText *newText = new TiXmlText( text );
-		childNode->ReplaceChild(textNode, *newText);
+		TiXmlText *newText = new TiXmlText( _text );
+		childNode->ReplaceChild( textNode, *newText );
 		// The replace function will delete the old node
 	}
 }
 
+//----------------------------------------------------------------------------------
 
-template <class T> T ShivaGUI::ProfileManager::GetOption(std::string key, T defaultValue, int index)
+template < class T > T ShivaGUI::ProfileManager::GetOption( std::string _key, T _defaultValue, int _index )
 {
-	TiXmlElement *optionElement = GetSubElement(_currentOptionsNode, key, index);
+	TiXmlElement *optionElement = GetSubElement( m_currentOptionsNode, _key, _index );
 
 	if( optionElement == NULL )
-		return defaultValue;
+		return _defaultValue;
 
 	std::stringstream stream( optionElement->GetText() );
 	if( !stream )
-		return defaultValue;
-	T result = defaultValue;
+		return _defaultValue;
+	T result = _defaultValue;
 	stream >> std::boolalpha >> result;
 	return result;
 }
 
-template <class T> void ShivaGUI::ProfileManager::SetOption(std::string key, T value)
+//----------------------------------------------------------------------------------
+
+template <class T> void ShivaGUI::ProfileManager::SetOption( std::string _key, T _value )
 {
 	std::stringstream streamer;
-	streamer <<std::boolalpha<< value;
-	AddSubElementText(_currentOptionsNode,key, streamer.str() );
+	streamer << std::boolalpha << _value;
+	AddSubElementText( m_currentOptionsNode, _key, streamer.str() );
 }
+
+//----------------------------------------------------------------------------------

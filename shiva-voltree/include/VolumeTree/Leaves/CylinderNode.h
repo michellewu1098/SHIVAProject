@@ -1,7 +1,7 @@
 ///-----------------------------------------------------------------------------------------------
 /// \file CylinderNode.h
 /// \brief Leaf node for a cylinder with its length in the Z-axis
-/// \author Leigh McLoughlin
+/// \author Leigh McLoughlin, Michelle Wu
 /// \date Jan 9, 2013
 /// \version 1.0
 ///-----------------------------------------------------------------------------------------------
@@ -9,9 +9,9 @@
 #ifndef CYLINDER_H_
 #define CYLINDER_H_
 
-#include <sstream>
-#include <cmath>
 #include <algorithm>
+#include <cmath>
+#include <sstream>
 
 #include "VolumeTree/Node.h"
 
@@ -27,11 +27,11 @@ namespace VolumeTree
 		CylinderNode();
 		//----------------------------------------------------------------------------------
 		/// \brief Cylinder ctor that takes as paramater user specified length, radiusX and radiusY
-		/// \param [in] length
-		/// \param [in] radiusX
-		/// \param [in] radiusY
+		/// \param [in] _length
+		/// \param [in] _radiusX
+		/// \param [in] _radiusY
 		//----------------------------------------------------------------------------------
-		CylinderNode( float length, float radiusX, float radiusY );
+		CylinderNode( const float &_length, const float &_radiusX, const float &_radiusY );
 		//----------------------------------------------------------------------------------
 		/// \brief Get node type
 		/// \return "CylinderNode"
@@ -39,85 +39,91 @@ namespace VolumeTree
 		virtual std::string GetNodeType() { return "CylinderNode"; }
 		//----------------------------------------------------------------------------------
 		/// \brief Set cylinder length
-		/// \param [in] value Length
+		/// \param [in] _value Length
 		//----------------------------------------------------------------------------------
-		void SetLength( const float &value ) { _length = value; }
+		void SetLength( const float &_value ) { m_length = _value; }
 		//----------------------------------------------------------------------------------
 		/// \brief Set cylinder radius along x- and y-axis
-		/// \param [in] valueX Radius X
-		/// \param [in] valueY Radius Y
+		/// \param [in] _valueX Radius X
+		/// \param [in] _valueY Radius Y
 		//----------------------------------------------------------------------------------
-		void SetRadius( const float &valueX, const float &valueY ) { _radiusX = valueX; _radiusY = valueY; }
+		void SetRadius( const float &_valueX, const float &_valueY ) { m_radiusX = _valueX; m_radiusY = _valueY; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get cylinder length
-		/// \return _length
+		/// \return m_length
 		//----------------------------------------------------------------------------------
-		float GetLength() const { return _length; }
+		float GetLength() const { return m_length; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get cylinder radius along x-axis
-		/// \return _radiusX
+		/// \return m_radiusX
 		//----------------------------------------------------------------------------------
-		float GetRadiusX() const { return _radiusX; }
+		float GetRadiusX() const { return m_radiusX; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get cylinder radius along y-axis
-		/// \return _radiusY
+		/// \return m_radiusY
 		//----------------------------------------------------------------------------------
-		float GetRadiusY() const { return _radiusY; }
+		float GetRadiusY() const { return m_radiusY; }
 		//----------------------------------------------------------------------------------
 		/// \brief Samples the function at a specific point
-		/// \param [in] x
-		/// \param [in] y
-		/// \param [in] z
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
 		//----------------------------------------------------------------------------------
-		float GetFunctionValue( float x, float y, float z );
+		float GetFunctionValue( float _x, float _y, float _z );
 		//----------------------------------------------------------------------------------
 		/// \brief Returns a GLSL-compatible string for the function
-		/// \param [in] callCache
-		/// \param [in] samplePosStr
+		/// \param [in] _callCache
+		/// \param [in] _samplePosStr
 		//----------------------------------------------------------------------------------
-		std::string GetFunctionGLSLString( bool callCache, std::string samplePosStr );
+		std::string GetFunctionGLSLString( bool _callCache, std::string _samplePosStr );
 		//----------------------------------------------------------------------------------
-		/// \brief Get node constant
+		/// \brief Get node cost
 		/// \return 5
 		//----------------------------------------------------------------------------------
 		virtual unsigned int GetNodeCost() { return 5; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get boundaries
-		/// \param [out] minX
-		/// \param [out] maxX
-		/// \param [out] minY
-		/// \param [out] maxY
-		/// \param [out] minZ
-		/// \param [out] maxZ
+		/// \param [out] _minX
+		/// \param [out] _maxX
+		/// \param [out] _minY
+		/// \param [out] _maxY
+		/// \param [out] _minZ
+		/// \param [out] _maxZ
 		//----------------------------------------------------------------------------------
-		virtual void GetBounds( float *minX, float *maxX, float *minY, float *maxY, float *minZ, float *maxZ );
+		virtual void GetBounds( float *_minX, float *_maxX, float *_minY, float *_maxY, float *_minZ, float *_maxZ );
 		//----------------------------------------------------------------------------------
-		void SetPole( const bool &_p ) { _isPole = _p; }  
+		/// \brief Set if cylinder represents totem pole
+		/// \param [in] _p Either true or false
 		//----------------------------------------------------------------------------------
-		bool isPole() const { return _isPole; }
+		void SetPole( const bool &_p ) { m_isPole = _p; }  
+		//----------------------------------------------------------------------------------
+		/// \brief Returns true if cylinder represents totem pole
+		/// \return m_isPole
+		//----------------------------------------------------------------------------------
+		bool isPole() const { return m_isPole; }
+		//----------------------------------------------------------------------------------
 
 	protected:
 
 		//----------------------------------------------------------------------------------
 		/// \brief Radius X
 		//----------------------------------------------------------------------------------
-		float _radiusX;
+		float m_radiusX;
 		//----------------------------------------------------------------------------------
 		/// \brief Radius Y
 		//----------------------------------------------------------------------------------
-		float _radiusY;
+		float m_radiusY;
 		//----------------------------------------------------------------------------------
 		/// \brief Length
 		//----------------------------------------------------------------------------------
-		float _length;
+		float m_length;
 		//----------------------------------------------------------------------------------
 		/// \brief Flag to check whether the cylinder represents part of the totem pole
 		//----------------------------------------------------------------------------------
-		bool _isPole;
+		bool m_isPole;
 		//----------------------------------------------------------------------------------
 
 	};
-
 }
 
 

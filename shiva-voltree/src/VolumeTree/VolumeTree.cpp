@@ -13,26 +13,26 @@
 
 VolumeTree::Tree::Tree()
 {
-	_rootNode = NULL;
+	m_rootNode = NULL;
 	
-	_bboxExtents = new float[ 3 ];
-	_bboxCentre = new float[ 3 ];
-	_bboxBoundsMin = new float[ 3 ];
-	_bboxBoundsMax = new float[ 3 ];
-	_exportID = 0;
+	m_bboxExtents = new float[ 3 ];
+	m_bboxCentre = new float[ 3 ];
+	m_bboxBoundsMin = new float[ 3 ];
+	m_bboxBoundsMax = new float[ 3 ];
+	m_exportID = 0;
 }
 
 //----------------------------------------------------------------------------------
 
-VolumeTree::Tree::Tree( Node *rootNode )
+VolumeTree::Tree::Tree( Node *_rootNode )
 {
-	_rootNode = rootNode;
+	m_rootNode = _rootNode;
 	
-	_bboxExtents = new float[ 3 ];
-	_bboxCentre = new float[ 3 ];
-	_bboxBoundsMin = new float[ 3 ];
-	_bboxBoundsMax = new float[ 3 ];
-	_exportID = 0;
+	m_bboxExtents = new float[ 3 ];
+	m_bboxCentre = new float[ 3 ];
+	m_bboxBoundsMin = new float[ 3 ];
+	m_bboxBoundsMax = new float[ 3 ];
+	m_exportID = 0;
 }
 
 //----------------------------------------------------------------------------------
@@ -41,39 +41,42 @@ VolumeTree::Tree::~Tree()
 {
 	// TODO: currently we need to leave the _rootNode because it is probably used externally :S
 
-	delete [] _bboxExtents;
-	delete [] _bboxCentre;
-	delete [] _bboxBoundsMin;
-	delete [] _bboxBoundsMax;
+	delete [] m_bboxExtents;
+	delete [] m_bboxCentre;
+	delete [] m_bboxBoundsMin;
+	delete [] m_bboxBoundsMax;
 }
 
 //----------------------------------------------------------------------------------
 
-bool VolumeTree::Tree::Load( const char* filename )
+bool VolumeTree::Tree::Load( const char* _filename )
 {
-	if( filename && !filename[ 0 ] )
+	if( _filename && !_filename[ 0 ] )
 		return false;
 
-	if( !boost::filesystem::is_regular_file( filename ) )
+	if( !boost::filesystem::is_regular_file( _filename ) )
 	{
-		std::cerr << "WARNING: VolumeTree::Tree cannot find .xml file to load: " << filename << std::endl;
+		std::cerr << "WARNING: VolumeTree::Tree cannot find .xml file to load: " << _filename << std::endl;
 		return false;
 	}
 
-	std::cout << "INFO: VolumeTree::Tree Loading from .xml file: " << filename << std::endl;
+	std::cout << "INFO: VolumeTree::Tree Loading from .xml file: " << _filename << std::endl;
 
-	if( ImportXML( filename ) )
+	if( ImportXML( _filename ) )
 	{
-		std::cout << "File " << filename << " imported successfully." << std::endl;
+		std::cout << "File " << _filename << " imported successfully." << std::endl;
+		return true;
 	}
+
+	return false;
 }
 
 //----------------------------------------------------------------------------------
 
-bool VolumeTree::Tree::ImportXML( const char* filename )
+bool VolumeTree::Tree::ImportXML( const char* _filename )
 {
 	Node *newTree = NULL;
-	TiXmlDocument doc( filename );
+	TiXmlDocument doc( _filename );
 
 	if( doc.LoadFile() ) 
 	{
@@ -98,11 +101,11 @@ bool VolumeTree::Tree::ImportXML( const char* filename )
 
 	if( newTree != NULL )
 	{
-		if( _rootNode != NULL )
+		if( m_rootNode != NULL )
 		{
-			delete _rootNode;
+			delete m_rootNode;
 		}
-		_rootNode = newTree;
+		m_rootNode = newTree;
 
 		return true;
 	}
@@ -311,7 +314,7 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 				}
 			}
 
-			currentImportTyped->SetBlendParams( a0, a1, a2 );
+			currentImportTyped->SetBlendParams( ( float )a0, ( float )a1, ( float )a2 );
 
 			// Recurse children
 			if( _root->NoChildren() )
@@ -438,11 +441,11 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 				}
 			}
 
-			currentImportTyped->SetTransformParams( tx, ty, tz, 
-													rx, ry, rz, 
-													sx, sy, sz, 
-													refrx, refry, refrz, 
-													refsx, refsy, refsz );
+			currentImportTyped->SetTransformParams( ( float )tx, ( float )ty, ( float )tz, 
+													( float )rx, ( float )ry, ( float )rz, 
+													( float )sx, ( float )sy, ( float )sz, 
+													( float )refrx, ( float )refry, ( float )refrz, 
+													( float )refsx, ( float )refsy, ( float )refsz );
 
 			// Recursively add child
 			if( _root->NoChildren() ) {
@@ -469,7 +472,7 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 
 //----------------------------------------------------------------------------------
 
-void VolumeTree::Tree::SaveXML( std::string filename )
+void VolumeTree::Tree::SaveXML( std::string _filename )
 {
 	TiXmlDocument doc;
 	TiXmlDeclaration *decl = new TiXmlDeclaration( "1.0", "", "" );
@@ -481,8 +484,8 @@ void VolumeTree::Tree::SaveXML( std::string filename )
 	TiXmlComment *comment = new TiXmlComment( "This is the internal format used to save and load models built in SHIVA" );
 	root->LinkEndChild( comment );
 
-	exportToXML( _rootNode, root ); 
-	doc.SaveFile( filename );
+	exportToXML( m_rootNode, root ); 
+	doc.SaveFile( _filename );
 }
 
 
@@ -680,21 +683,21 @@ void VolumeTree::Tree::exportToXML( Node *_currentNode, TiXmlElement *_root )
 
 //----------------------------------------------------------------------------------
 
-bool VolumeTree::Tree::Save( std::string filename )
+bool VolumeTree::Tree::Save( std::string _filename )
 {
 
-	if( _rootNode == NULL )
+	if( m_rootNode == NULL )
 	{
 		return false;
 	}
 
-	std::cout << "INFO: VolumeTree::Tree Saving to Vol file: " << filename << std::endl;
+	std::cout << "INFO: VolumeTree::Tree Saving to Vol file: " << _filename << std::endl;
 
 	// Build up tree
-	totemio::TotemNode *exportRootNode = BuildExportNode( _rootNode );
+	totemio::TotemNode *exportRootNode = BuildExportNode( m_rootNode );
 
 	// Export tree
-	bool retVal = saveVol( filename.c_str(), exportRootNode );
+	bool retVal = saveVol( _filename.c_str(), exportRootNode );
 
 	//delete exportRootNode;
 	// TODO: freeing the tree causes a crash
@@ -707,53 +710,53 @@ bool VolumeTree::Tree::Save( std::string filename )
 
 void VolumeTree::Tree::CalcBoundingBox()
 {
-	if( _rootNode != NULL )
+	if( m_rootNode != NULL )
 	{
-		_rootNode->GetBounds( &( _bboxBoundsMin[ 0 ] ), &( _bboxBoundsMax[ 0 ] ), &( _bboxBoundsMin[ 1 ] ), &( _bboxBoundsMax[ 1 ] ), &( _bboxBoundsMin[ 2 ] ), &( _bboxBoundsMax[ 2 ] ) );
-		_rootNode->GetBoundSizes( &( _bboxExtents[ 0 ] ), &( _bboxExtents[ 1 ] ), &( _bboxExtents[ 2 ] ) );
+		m_rootNode->GetBounds( &( m_bboxBoundsMin[ 0 ] ), &( m_bboxBoundsMax[ 0 ] ), &( m_bboxBoundsMin[ 1 ] ), &( m_bboxBoundsMax[ 1 ] ), &( m_bboxBoundsMin[ 2 ] ), &( m_bboxBoundsMax[ 2 ] ) );
+		m_rootNode->GetBoundSizes( &( m_bboxExtents[ 0 ] ), &( m_bboxExtents[ 1 ] ), &( m_bboxExtents[ 2 ] ) );
 
 		for( unsigned int i = 0; i < 3; i++ )
 		{
-			_bboxCentre[ i ] = _bboxBoundsMin[ i ] + ( 0.5f * _bboxExtents[ i ] );
+			m_bboxCentre[ i ] = m_bboxBoundsMin[ i ] + ( 0.5f * m_bboxExtents[ i ] );
 		}
 	}
 	else
 	{
 		for( unsigned int i = 0; i < 3; i++ )
 		{
-			_bboxCentre[ i ] = _bboxBoundsMin[ i ] = _bboxBoundsMax[ i ] = _bboxExtents[ i ] = 0.0f;
+			m_bboxCentre[ i ] = m_bboxBoundsMin[ i ] = m_bboxBoundsMax[ i ] = m_bboxExtents[ i ] = 0.0f;
 		}
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-void VolumeTree::Tree::GetBoundingBox( float *minvals, float *maxvals )
+void VolumeTree::Tree::GetBoundingBox( float *_minvals, float *_maxvals )
 {
 	for(unsigned int i = 0; i < 3; i++ )
 	{
-		minvals[ i ] = _bboxBoundsMin[ i ];
-		maxvals[ i ] = _bboxBoundsMax[ i ];
+		_minvals[ i ] = m_bboxBoundsMin[ i ];
+		_maxvals[ i ] = m_bboxBoundsMax[ i ];
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-void VolumeTree::Tree::GetBoundingBoxSize( float *boxSize )
+void VolumeTree::Tree::GetBoundingBoxSize( float *_boxSize )
 {
 	for(unsigned int i = 0; i < 3; i++ )
 	{
-		boxSize[ i ] = _bboxExtents[ i ];
+		_boxSize[ i ] = m_bboxExtents[ i ];
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-void VolumeTree::Tree::GetBoundingBoxCentre( float *boxCentre )
+void VolumeTree::Tree::GetBoundingBoxCentre( float *_boxCentre )
 {
 	for(unsigned int i = 0; i < 3; i++ )
 	{
-		boxCentre[ i ] = _bboxCentre[ i ];
+		_boxCentre[ i ] = m_bboxCentre[ i ];
 	}
 }
 
@@ -761,12 +764,12 @@ void VolumeTree::Tree::GetBoundingBoxCentre( float *boxCentre )
 
 float VolumeTree::Tree::GetBoundingBoxMaxDim()
 {
-	float bboxMaxDim = _bboxExtents[ 0 ];
+	float bboxMaxDim = m_bboxExtents[ 0 ];
 	for( unsigned int i = 1; i < 3; i++ )
 	{
-		if( _bboxExtents[ i ] > bboxMaxDim )
+		if( m_bboxExtents[ i ] > bboxMaxDim )
 		{
-			bboxMaxDim = _bboxExtents[ i ];
+			bboxMaxDim = m_bboxExtents[ i ];
 		}
 	}
 	return bboxMaxDim;
@@ -774,20 +777,20 @@ float VolumeTree::Tree::GetBoundingBoxMaxDim()
 
 //----------------------------------------------------------------------------------
 
-void VolumeTree::Tree::DrawBBoxes()
+void VolumeTree::Tree::DrawBBoxes( cml::matrix44f_c &_proj, cml::matrix44f_c &_mv )
 {
-	if( _rootNode != NULL )
+	if( m_rootNode != NULL )
 	{
-		_rootNode->DrawBBoxes();
+		m_rootNode->DrawBBoxes( _proj, _mv );
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-float VolumeTree::Tree::GetFunctionValue( float x, float y, float z )
+float VolumeTree::Tree::GetFunctionValue( float _x, float _y, float _z )
 {
-	if( _rootNode != NULL ) {
-		return _rootNode->GetFunctionValue( x, y, z );
+	if( m_rootNode != NULL ) {
+		return m_rootNode->GetFunctionValue( _x, _y, _z );
 	}
 	return 0.0f;
 }
@@ -799,9 +802,9 @@ std::string VolumeTree::Tree::GetCachedFunctionGLSLString()
 	std::stringstream functionString;
 	functionString << "float GetField(vec3 samplePosition) { return ";
 
-	if( _rootNode != NULL )
+	if( m_rootNode != NULL )
 	{
-		functionString << _rootNode->GetCachedFunctionGLSLString( "samplePosition" );
+		functionString << m_rootNode->GetCachedFunctionGLSLString( "samplePosition" );
 	}
 	else
 	{
@@ -819,9 +822,9 @@ std::string VolumeTree::Tree::GetFunctionGLSLString()
 	std::stringstream functionString;
 	functionString << "float GetField(vec3 samplePosition) { return ";
 
-	if( _rootNode != NULL )
+	if( m_rootNode != NULL )
 	{
-		functionString << _rootNode->GetFunctionGLSLString( false, "samplePosition" );
+		functionString << m_rootNode->GetFunctionGLSLString( false, "samplePosition" );
 	}
 	else
 	{
@@ -834,17 +837,17 @@ std::string VolumeTree::Tree::GetFunctionGLSLString()
 
 //----------------------------------------------------------------------------------
 
-void VolumeTree::Tree::BuildCaches( CachingPolicy *policy, GLSLRenderer *renderer )
+void VolumeTree::Tree::BuildCaches( CachingPolicy *_policy, GLSLRenderer *_renderer )
 {
-	if( _rootNode != NULL )
+	if( m_rootNode != NULL )
 	{
-		if( policy != NULL )
+		if( _policy != NULL )
 		{
 			/// The policy decides which nodes should be cached
-			policy->Process( _rootNode, renderer );
+			_policy->Process( m_rootNode, _renderer );
 		}
 		/// This will build the actual caches
-		_rootNode->BuildCaches( renderer );
+		m_rootNode->BuildCaches( _renderer );
 	}
 }
 
@@ -852,12 +855,12 @@ void VolumeTree::Tree::BuildCaches( CachingPolicy *policy, GLSLRenderer *rendere
 
 int VolumeTree::Tree::GetNumNodes()
 {
-	if( _rootNode != NULL )
+	if( m_rootNode != NULL )
 	{
 		int count = 0, depth = 0;
-		Node *result = _rootNode->RecursiveGetNode( -1, count, depth );
+		Node *result = m_rootNode->RecursiveGetNode( -1, count, depth );
 		#ifdef _DEBUG
-			std::cout<<"INFO: VolumeTree::Tree::GetNumNodes(): "<<count<<" nodes"<<std::endl;
+			std::cout << "INFO: VolumeTree::Tree::GetNumNodes(): "<< count << " nodes" << std::endl;
 		#endif
 		return count + 1;
 	}
@@ -866,15 +869,15 @@ int VolumeTree::Tree::GetNumNodes()
 
 //----------------------------------------------------------------------------------
 
-VolumeTree::Node* VolumeTree::Tree::GetNode( int index )
+VolumeTree::Node* VolumeTree::Tree::GetNode( int _index )
 {
-	if( _rootNode != NULL )
+	if( m_rootNode != NULL )
 	{
 		int count = 0, depth = 0;
-		Node *result = _rootNode->RecursiveGetNode( index, count, depth );
+		Node *result = m_rootNode->RecursiveGetNode( _index, count, depth );
 		if( result == NULL )
 		{
-			std::cerr << "WARNING: VolumeTree::Tree::GetNode(" << index << ") not found!" << std::endl;
+			std::cerr << "WARNING: VolumeTree::Tree::GetNode(" << _index << ") not found!" << std::endl;
 		}
 		return result;
 	}
@@ -883,12 +886,12 @@ VolumeTree::Node* VolumeTree::Tree::GetNode( int index )
 
 //----------------------------------------------------------------------------------
 
-int VolumeTree::Tree::GetNodeDepth( int index )
+int VolumeTree::Tree::GetNodeDepth( int _index )
 {
-	if( _rootNode != NULL )
+	if( m_rootNode != NULL )
 	{
 		int count = 0, depth = 0;
-		Node *result = _rootNode->RecursiveGetNode( index, count, depth );
+		Node *result = m_rootNode->RecursiveGetNode( _index, count, depth );
 		return depth;
 	}
 	return 0;
@@ -896,19 +899,19 @@ int VolumeTree::Tree::GetNodeDepth( int index )
 
 //----------------------------------------------------------------------------------
 
-void VolumeTree::Tree::UpdateParameters( GLSLRenderer *renderer )
+void VolumeTree::Tree::UpdateParameters( GLSLRenderer *_renderer )
 {
-	if( _rootNode != NULL )
+	if( m_rootNode != NULL )
 	{
-		_rootNode->UpdateParameters( renderer );
+		m_rootNode->UpdateParameters( _renderer );
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-VolumeTree::Node* VolumeTree::Tree::BuildImportNode( totemio::TotemNode *currentNode )
+VolumeTree::Node* VolumeTree::Tree::BuildImportNode( totemio::TotemNode *_currentNode )
 {
-	if( currentNode == NULL )
+	if( _currentNode == NULL )
 	{
 		std::cerr << "ERROR: VolumeTree::Tree::BuildImportNode given NULL root, results undefined" << std::endl;
 		return NULL;
@@ -916,9 +919,9 @@ VolumeTree::Node* VolumeTree::Tree::BuildImportNode( totemio::TotemNode *current
 
 	// Create corresponding internal node and fill with data
 	VolumeTree::Node *currentImport = NULL;
-	if( currentNode->getTypeID() == CONE_NODE_ID )
+	if( _currentNode->getTypeID() == CONE_NODE_ID )
 	{
-		totemio::ConeNode *currentTyped = dynamic_cast< totemio::ConeNode * >( currentNode );
+		totemio::ConeNode *currentTyped = dynamic_cast< totemio::ConeNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
@@ -934,9 +937,9 @@ VolumeTree::Node* VolumeTree::Tree::BuildImportNode( totemio::TotemNode *current
 			return NULL;
 		}
 	}
-	else if( currentNode->getTypeID() == BOX_NODE_ID )
+	else if( _currentNode->getTypeID() == BOX_NODE_ID )
 	{
-		totemio::BoxNode *currentTyped = dynamic_cast< totemio::BoxNode * >( currentNode );
+		totemio::BoxNode *currentTyped = dynamic_cast< totemio::BoxNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
@@ -952,9 +955,9 @@ VolumeTree::Node* VolumeTree::Tree::BuildImportNode( totemio::TotemNode *current
 			return NULL;
 		}
 	}
-	else if( currentNode->getTypeID() == CYLINDER_NODE_ID )
+	else if( _currentNode->getTypeID() == CYLINDER_NODE_ID )
 	{
-		totemio::CylinderNode *currentTyped = dynamic_cast< totemio::CylinderNode * >( currentNode );
+		totemio::CylinderNode *currentTyped = dynamic_cast< totemio::CylinderNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
@@ -970,9 +973,9 @@ VolumeTree::Node* VolumeTree::Tree::BuildImportNode( totemio::TotemNode *current
 			return NULL;
 		}
 	}
-	else if( currentNode->getTypeID() == ELLIPSOID_NODE_ID )
+	else if( _currentNode->getTypeID() == ELLIPSOID_NODE_ID )
 	{
-		totemio::EllipsoidNode *currentTyped = dynamic_cast< totemio::EllipsoidNode * >( currentNode );
+		totemio::EllipsoidNode *currentTyped = dynamic_cast< totemio::EllipsoidNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
@@ -988,9 +991,9 @@ VolumeTree::Node* VolumeTree::Tree::BuildImportNode( totemio::TotemNode *current
 			return NULL;
 		}
 	}
-	else if( currentNode->getTypeID() == TORUS_NODE_ID )
+	else if( _currentNode->getTypeID() == TORUS_NODE_ID )
 	{
-		totemio::TorusNode *currentTyped = dynamic_cast< totemio::TorusNode * >( currentNode );
+		totemio::TorusNode *currentTyped = dynamic_cast< totemio::TorusNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
@@ -1006,9 +1009,9 @@ VolumeTree::Node* VolumeTree::Tree::BuildImportNode( totemio::TotemNode *current
 			return NULL;
 		}
 	}
-	else if( currentNode->getTypeID() == CACHE_NODE_ID )
+	else if( _currentNode->getTypeID() == CACHE_NODE_ID )
 	{
-		totemio::CacheNode *currentTyped = dynamic_cast< totemio::CacheNode * >( currentNode );
+		totemio::CacheNode *currentTyped = dynamic_cast< totemio::CacheNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
@@ -1022,17 +1025,17 @@ VolumeTree::Node* VolumeTree::Tree::BuildImportNode( totemio::TotemNode *current
 			return NULL;
 		}
 	}
-	else if( (currentNode->getTypeID() == CSG_NODE_ID) || (currentNode->getTypeID() == BLENDCSG_NODE_ID) )
+	else if( ( _currentNode->getTypeID() == CSG_NODE_ID ) || ( _currentNode->getTypeID() == BLENDCSG_NODE_ID ) )
 	{
-		totemio::CSGNode *currentTyped = dynamic_cast< totemio::CSGNode * >( currentNode );
+		totemio::CSGNode *currentTyped = dynamic_cast< totemio::CSGNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
 			VolumeTree::CSGNode *currentImportTyped;
 			
-			if( currentNode->getTypeID() == BLENDCSG_NODE_ID )
+			if( _currentNode->getTypeID() == BLENDCSG_NODE_ID )
 			{
-				totemio::BlendCSGNode *blendCurrentTyped = dynamic_cast< totemio::BlendCSGNode * >( currentNode );
+				totemio::BlendCSGNode *blendCurrentTyped = dynamic_cast< totemio::BlendCSGNode * >( _currentNode );
 				VolumeTree::BlendCSGNode *blendCurrentImportTyped = new VolumeTree::BlendCSGNode();
 
 				if( blendCurrentTyped != NULL )
@@ -1069,11 +1072,11 @@ VolumeTree::Node* VolumeTree::Tree::BuildImportNode( totemio::TotemNode *current
 			currentImport = ( VolumeTree::Node* ) currentImportTyped;
 
 			// Recurse children
-			unsigned int numChildren = currentNode->getChildrenSize();
+			unsigned int numChildren = _currentNode->getChildrenSize();
 			if( numChildren == 2 )
 			{
-				currentImportTyped->SetChildA( BuildImportNode( currentNode->getChild( 0 ) ) );
-				currentImportTyped->SetChildB( BuildImportNode( currentNode->getChild( 1 ) ) );
+				currentImportTyped->SetChildA( BuildImportNode( _currentNode->getChild( 0 ) ) );
+				currentImportTyped->SetChildB( BuildImportNode( _currentNode->getChild( 1 ) ) );
 			}
 			else
 			{
@@ -1086,9 +1089,9 @@ VolumeTree::Node* VolumeTree::Tree::BuildImportNode( totemio::TotemNode *current
 			return NULL;
 		}
 	}
-	else if( currentNode->getTypeID() == TRANSFORM_NODE_ID )
+	else if( _currentNode->getTypeID() == TRANSFORM_NODE_ID )
 	{
-		totemio::TransformNode *currentTyped = dynamic_cast< totemio::TransformNode * >( currentNode );
+		totemio::TransformNode *currentTyped = dynamic_cast< totemio::TransformNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
@@ -1118,9 +1121,9 @@ VolumeTree::Node* VolumeTree::Tree::BuildImportNode( totemio::TotemNode *current
 			currentImport = ( VolumeTree::Node* ) currentImportTyped;
 
 			// Recursively add child
-			if( currentNode->getChildrenSize() == 1 )
+			if( _currentNode->getChildrenSize() == 1 )
 			{
-				currentImportTyped->SetChild( BuildImportNode( currentNode->getChild( 0 ) ) );
+				currentImportTyped->SetChild( BuildImportNode( _currentNode->getChild( 0 ) ) );
 			}
 			else
 			{
@@ -1146,9 +1149,9 @@ VolumeTree::Node* VolumeTree::Tree::BuildImportNode( totemio::TotemNode *current
 
 //----------------------------------------------------------------------------------
 
-totemio::TotemNode* VolumeTree::Tree::BuildExportNode( Node *currentNode )
+totemio::TotemNode* VolumeTree::Tree::BuildExportNode( Node *_currentNode )
 {
-	if( currentNode == NULL )
+	if( _currentNode == NULL )
 	{
 		std::cerr << "ERROR: VolumeTree::Tree::BuildExportNode given NULL root, results undefined" << std::endl;
 		return NULL;
@@ -1156,14 +1159,14 @@ totemio::TotemNode* VolumeTree::Tree::BuildExportNode( Node *currentNode )
 
 	// Create corresponding totemio node and fill with data
 	totemio::TotemNode *currentExport = NULL;
-	std::string nodeTypeStr = currentNode->GetNodeType();
+	std::string nodeTypeStr = _currentNode->GetNodeType();
 	if( nodeTypeStr == "ConeNode" )
 	{
-		VolumeTree::ConeNode *currentTyped = dynamic_cast< VolumeTree::ConeNode * >( currentNode );
+		VolumeTree::ConeNode *currentTyped = dynamic_cast< VolumeTree::ConeNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
-			totemio::ConeNode *currentExportTyped = new totemio::ConeNode( GetExportNodeID( currentNode ).c_str() );
+			totemio::ConeNode *currentExportTyped = new totemio::ConeNode( GetExportNodeID( _currentNode ).c_str() );
 			currentExportTyped->setConeParams( currentTyped->GetRadius(), currentTyped->GetLength() );
 			currentExport = ( totemio::TotemNode* ) currentExportTyped;
 		}
@@ -1175,11 +1178,11 @@ totemio::TotemNode* VolumeTree::Tree::BuildExportNode( Node *currentNode )
 	}
 	else if( nodeTypeStr == "CubeNode" )
 	{
-		VolumeTree::CubeNode *currentTyped = dynamic_cast< VolumeTree::CubeNode * >( currentNode );
+		VolumeTree::CubeNode *currentTyped = dynamic_cast< VolumeTree::CubeNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
-			totemio::BoxNode *currentExportTyped = new totemio::BoxNode( GetExportNodeID( currentNode ).c_str() );
+			totemio::BoxNode *currentExportTyped = new totemio::BoxNode( GetExportNodeID( _currentNode ).c_str() );
 			currentExportTyped->setBoxParams( currentTyped->GetLengthX(), currentTyped->GetLengthY(), currentTyped->GetLengthZ() );
 			currentExport = ( totemio::TotemNode* ) currentExportTyped;
 		}
@@ -1191,11 +1194,11 @@ totemio::TotemNode* VolumeTree::Tree::BuildExportNode( Node *currentNode )
 	}
 	else if( nodeTypeStr == "CylinderNode" )
 	{
-		VolumeTree::CylinderNode *currentTyped = dynamic_cast< VolumeTree::CylinderNode * >( currentNode );
+		VolumeTree::CylinderNode *currentTyped = dynamic_cast< VolumeTree::CylinderNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
-			totemio::CylinderNode *currentExportTyped = new totemio::CylinderNode( GetExportNodeID( currentNode ).c_str() );
+			totemio::CylinderNode *currentExportTyped = new totemio::CylinderNode( GetExportNodeID( _currentNode ).c_str() );
 			currentExportTyped->setCylinderParams( currentTyped->GetRadiusX(), currentTyped->GetRadiusY(), currentTyped->GetLength() );
 			currentExport = ( totemio::TotemNode* ) currentExportTyped;
 		}
@@ -1207,11 +1210,11 @@ totemio::TotemNode* VolumeTree::Tree::BuildExportNode( Node *currentNode )
 	}
 	else if( nodeTypeStr == "SphereNode" )
 	{
-		VolumeTree::SphereNode *currentTyped = dynamic_cast< VolumeTree::SphereNode * >( currentNode );
+		VolumeTree::SphereNode *currentTyped = dynamic_cast< VolumeTree::SphereNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
-			totemio::EllipsoidNode *currentExportTyped = new totemio::EllipsoidNode( GetExportNodeID( currentNode ).c_str() );
+			totemio::EllipsoidNode *currentExportTyped = new totemio::EllipsoidNode( GetExportNodeID( _currentNode ).c_str() );
 			currentExportTyped->setEllipsoidParams( currentTyped->GetRadiusX(), currentTyped->GetRadiusY(), currentTyped->GetRadiusZ() );
 			currentExport = ( totemio::TotemNode* ) currentExportTyped;
 		}
@@ -1223,11 +1226,11 @@ totemio::TotemNode* VolumeTree::Tree::BuildExportNode( Node *currentNode )
 	}
 	else if( nodeTypeStr == "TorusNode" )
 	{
-		VolumeTree::TorusNode *currentTyped = dynamic_cast< VolumeTree::TorusNode * >( currentNode );
+		VolumeTree::TorusNode *currentTyped = dynamic_cast< VolumeTree::TorusNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
-			totemio::TorusNode *currentExportTyped = new totemio::TorusNode( GetExportNodeID( currentNode ).c_str() );
+			totemio::TorusNode *currentExportTyped = new totemio::TorusNode( GetExportNodeID( _currentNode ).c_str() );
 			currentExportTyped->setTorusParams( currentTyped->GetSweepradius(), currentTyped->GetCircleRadius() );
 			currentExport = ( totemio::TotemNode* ) currentExportTyped;
 		}
@@ -1239,11 +1242,11 @@ totemio::TotemNode* VolumeTree::Tree::BuildExportNode( Node *currentNode )
 	}
 	else if( nodeTypeStr == "BlendCSGNode" )
 	{
-		VolumeTree::BlendCSGNode *currentTyped = dynamic_cast< VolumeTree::BlendCSGNode * >( currentNode );
+		VolumeTree::BlendCSGNode *currentTyped = dynamic_cast< VolumeTree::BlendCSGNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
-			totemio::BlendCSGNode *currentExportTyped = new totemio::BlendCSGNode( GetExportNodeID( currentNode ).c_str() );
+			totemio::BlendCSGNode *currentExportTyped = new totemio::BlendCSGNode( GetExportNodeID( _currentNode ).c_str() );
 
 			float a0,a1,a2;
 			currentTyped->GetBlendParams( a0, a1, a2 );
@@ -1269,11 +1272,11 @@ totemio::TotemNode* VolumeTree::Tree::BuildExportNode( Node *currentNode )
 	}
 	else if( nodeTypeStr == "CSGNode" )
 	{
-		VolumeTree::CSGNode *currentTyped = dynamic_cast< VolumeTree::CSGNode * >( currentNode );
+		VolumeTree::CSGNode *currentTyped = dynamic_cast< VolumeTree::CSGNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
-			totemio::CSGNode *currentExportTyped = new totemio::CSGNode( GetExportNodeID( currentNode ).c_str() );
+			totemio::CSGNode *currentExportTyped = new totemio::CSGNode( GetExportNodeID( _currentNode ).c_str() );
 
 			CSGNode::CSGType csgType = currentTyped->GetCSGType();
 			totemio::CSGNode::CSG_TYPE csgExportType;
@@ -1295,11 +1298,11 @@ totemio::TotemNode* VolumeTree::Tree::BuildExportNode( Node *currentNode )
 	}
 	else if( nodeTypeStr == "TransformNode" )
 	{
-		VolumeTree::TransformNode *currentTyped = dynamic_cast< VolumeTree::TransformNode * >( currentNode );
+		VolumeTree::TransformNode *currentTyped = dynamic_cast< VolumeTree::TransformNode * >( _currentNode );
 
 		if( currentTyped != NULL )
 		{
-			totemio::TransformNode *currentExportTyped = new totemio::TransformNode( GetExportNodeID( currentNode ).c_str() );
+			totemio::TransformNode *currentExportTyped = new totemio::TransformNode( GetExportNodeID( _currentNode ).c_str() );
 
 			//currentExportTyped->setTransformMatrix( cml::matrix44f_c().identity().data() );
 
@@ -1382,7 +1385,7 @@ totemio::TotemNode* VolumeTree::Tree::BuildExportNode( Node *currentNode )
 	}
 
 	// Recurse children
-	for( Node *currentChild = currentNode->GetFirstChild(); currentChild != NULL; currentChild = currentNode->GetNextChild( currentChild ) )
+	for( Node *currentChild = _currentNode->GetFirstChild(); currentChild != NULL; currentChild = _currentNode->GetNextChild( currentChild ) )
 	{
 		totemio::TotemNode *childExportNode = BuildExportNode( currentChild );
 		currentExport->addChild( childExportNode );
@@ -1393,19 +1396,19 @@ totemio::TotemNode* VolumeTree::Tree::BuildExportNode( Node *currentNode )
 
 //----------------------------------------------------------------------------------
 
-std::string VolumeTree::Tree::GetExportNodeID( Node *currentNode )
+std::string VolumeTree::Tree::GetExportNodeID( Node *_currentNode )
 {
-	if( currentNode == NULL || currentNode->GetIDString().empty() )
+	if( _currentNode == NULL || _currentNode->GetIDString().empty() )
 	{
 		std::stringstream IDstream;
-		IDstream<<_exportID;
-		_exportID++;
+		IDstream << m_exportID;
+		m_exportID++;
 		return IDstream.str();
 	}
 	else
 	{
 		// TODO: check string is unique!
-		return currentNode->GetIDString();
+		return _currentNode->GetIDString();
 	}
 }
 
@@ -1415,7 +1418,7 @@ std::queue< VolumeTree::Node* > VolumeTree::Tree::getReverseTree()
 {
 	std::stack< Node* > s;
 	std::queue< Node* > q;
-	Node* current = _rootNode;
+	Node* current = m_rootNode;
 
 	while( !s.empty() || current )
 	{
@@ -1460,3 +1463,5 @@ std::queue< VolumeTree::Node* > VolumeTree::Tree::getReverseTree()
 	//return s;
 	return q;
 }
+
+//----------------------------------------------------------------------------------

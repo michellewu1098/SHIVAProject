@@ -1,9 +1,7 @@
 #include "GUI/Views/ColourSelector.h"
 #include "GUIManager.h"
 
-//////////////////////////////////////////////////////////////////////////
-#include <GL/GLee.h>
-#include <iostream>
+
 
 
 ShivaGUI::ColourSelector::ColourSelector()
@@ -12,7 +10,7 @@ ShivaGUI::ColourSelector::ColourSelector()
 	_sampleBoundsLeft = _sampleBoundsRight = _sampleBoundsTop = _sampleBoundsBottom = 0;
 
 	_colourSelectorProgram = new Utility::GPUProgram();
-	_colourSelectorProgram->Create("Resources/Shaders/ColourSelector",Utility::GPUProgram::FRAGMENT);
+	_colourSelectorProgram->Create( "Resources/Shaders/ColourSelector", Utility::GPUProgram::FRAGMENT );
 
 	_sampleR = 1.0f;
 	_sampleG = 1.0f;
@@ -42,15 +40,15 @@ ShivaGUI::ColourSelector::~ColourSelector()
 
 void ShivaGUI::ColourSelector::Layout(int left, int top, int right, int bottom, int windowWidth, int windowHeight)
 {
-	_selectorBoundsLeft = left + _handleHalfSize;
-	_selectorBoundsRight = right - _handleHalfSize;
-	_selectorBoundsTop = top + 30;
-	_selectorBoundsBottom = bottom - _handleHalfSize;
+	_selectorBoundsLeft = ( float )left + _handleHalfSize;
+	_selectorBoundsRight = ( float )right - _handleHalfSize;
+	_selectorBoundsTop = ( float )top + 30.f;
+	_selectorBoundsBottom = ( float )bottom - _handleHalfSize;
 
-	_sampleBoundsLeft = left + _handleHalfSize;
-	_sampleBoundsRight = right - _handleHalfSize;
-	_sampleBoundsTop = top;
-	_sampleBoundsBottom = top + 25;
+	_sampleBoundsLeft = ( float )left + _handleHalfSize;
+	_sampleBoundsRight = ( float )right - _handleHalfSize;
+	_sampleBoundsTop = ( float )top;
+	_sampleBoundsBottom = ( float )top + 25.f;
 
 	SetHandleActualPos();
 }
@@ -58,7 +56,7 @@ void ShivaGUI::ColourSelector::Layout(int left, int top, int right, int bottom, 
 void ShivaGUI::ColourSelector::Draw()
 {
 	// Bind Shaders
-	_colourSelectorProgram->On();
+	_colourSelectorProgram->Bind();
 
 		glColor3f(1.0f,1.0f,1.0f);
 		glBegin(GL_QUADS);
@@ -68,7 +66,7 @@ void ShivaGUI::ColourSelector::Draw()
 			glTexCoord2f(0.0f,1.0f);	glVertex2f(_selectorBoundsLeft, _selectorBoundsBottom);
 		glEnd();
 
-	_colourSelectorProgram->Off();
+	_colourSelectorProgram->Unbind();
 
 	glColor3f(_sampleR,_sampleG,_sampleB);
 	glBegin(GL_QUADS);
@@ -155,7 +153,7 @@ void ShivaGUI::ColourSelector::SetSelect(bool)
 
 bool ShivaGUI::ColourSelector::HandleEvent(InternalEvent *currentEvent)
 {
-	if( _active )
+	if( m_active )
 	{
 
 		if( currentEvent->GetType() == InternalEvent::POSITIONAL_SELECT )
@@ -289,9 +287,9 @@ void ShivaGUI::ColourSelector::SetHandleActualPos()
 
 
 	if( _selectorStateListDrawable != NULL )
-		_selectorStateListDrawable->SetBounds(_handleBoundsLeft,_handleBoundsTop,_handleBoundsRight,_handleBoundsBottom);
+		_selectorStateListDrawable->SetBounds(_handleBoundsLeft,_handleBoundsTop,_handleBoundsRight,_handleBoundsBottom );
 	else if( _selectorDrawable != NULL )
-		_selectorDrawable->SetBounds(_handleBoundsLeft,_handleBoundsTop,_handleBoundsRight,_handleBoundsBottom);
+		_selectorDrawable->SetBounds(_handleBoundsLeft,_handleBoundsTop,_handleBoundsRight,_handleBoundsBottom );
 }
 
 

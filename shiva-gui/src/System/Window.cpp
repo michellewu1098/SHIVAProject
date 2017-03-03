@@ -1,171 +1,168 @@
-
 #include "System/Window.h"
 
-//////////////////////////////////////////////////////////////////////////
+//----------------------------------------------------------------------------------
 
-#include <cstdio>
-#include <SDL.h>
-#include <GL/GLee.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <iostream>
-#include <boost/algorithm/string.hpp>
-
-ShivaGUI::Window::Window(int posX, int posY, int width, int height)
+ShivaGUI::Window::Window( int _posX, int _posY, int _width, int _height )
 {
-	_window = SDL_CreateWindow("SHIVA-GUI",
-	                        posX, posY,
-	                        width, height,
-	                        SDL_WINDOW_SHOWN|SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);
+	SDL_Init( SDL_INIT_EVERYTHING );
 
-	if( _window == NULL )
-		std::cerr<<"ERROR: Window ctor, cannot create SDL Window: "<< SDL_GetError() << std::endl;
+	SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 );
+	SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 2 );
+	SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY );
+	//SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
+
+	m_window = SDL_CreateWindow(	"SHIVA-GUI",
+									_posX, _posY,
+									_width, _height,
+									SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL );
+
+	if( m_window == NULL )
+		std::cerr << "ERROR: Window ctor, cannot create SDL Window: " << SDL_GetError() << std::endl;
 
 
-    _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
+	m_GLContext = SDL_GL_CreateContext( m_window );
 
-	_GLContext = SDL_GL_CreateContext(_window);
+	if( m_GLContext == NULL )
+		std::cerr << "ERROR: Window ctor, cannot create OpenGL Context: " << SDL_GetError() << std::endl;
 
-	if( _GLContext == NULL )
-		std::cerr<<"ERROR: Window ctor, cannot create OpenGL Context: "<< SDL_GetError() <<std::endl;
+	glewExperimental = GL_TRUE;
+	GLenum glewError = glewInit(); 
+	if( glewError != GLEW_OK ) { 
+		printf( "Error initializing GLEW! %s\n", glewGetErrorString( glewError ) ); 
+	}
+
+	glClearColor( 1.0f, 1.0f, 1.0f, 0.0f );
+	glViewport( 0, 0, _width, _height );
+
+	//----------------------------------------------------------------------------------
+	
+	// Print some useful info
 
 	SDL_DisplayMode mode;
-	SDL_GetCurrentDisplayMode(0, &mode);
-	std::cout<<"INFO: Window BPP: "<< SDL_BITSPERPIXEL(mode.format)
-		   <<"\n      Vendor    : "<< glGetString(GL_VENDOR)
-		   <<"\n      Renderer  : "<< glGetString(GL_RENDERER)
-		   <<"\n      Version   : "<< glGetString(GL_VERSION)
-		   //<<"\n      Extensions: "<< glGetString(GL_EXTENSIONS)
-		   << std::endl;
+	SDL_GetCurrentDisplayMode( 0, &mode );
+	std::cout << "INFO: Window BPP: " << SDL_BITSPERPIXEL( mode.format )
+			  << "\n      Vendor    : " << glGetString( GL_VENDOR )
+			  << "\n      Renderer  : " << glGetString( GL_RENDERER )
+		      << "\n      Version   : " << glGetString( GL_VERSION )
+		      << "\n      GLSL Version: " << glGetString( GL_SHADING_LANGUAGE_VERSION )
+		      << std::endl;
 
-    //SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
-    //SDL_RenderClear(_renderer);
-    //SDL_RenderPresent(_renderer);
+	//----------------------------------------------------------------------------------
 
-    _width = width;
-    _height = height;
-    _fullscreen = false;
+	m_width = _width;
+    m_height = _height;
+    m_fullscreen = false;
 
-	//_deltaTs = 0.0f;
-
-	_requestedUse = ANYTHING;
-
-	//_lastTime = SDL_GetTicks();
+	m_requestedUse = ANYTHING;
 }
 
+//----------------------------------------------------------------------------------
 
 ShivaGUI::Window::~Window()
 {
-	SDL_DestroyWindow(_window);
+	SDL_DestroyWindow( m_window );
 }
 
-void ShivaGUI::Window::SetRequestedUse(std::string use)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::Window::SetRequestedUse( std::string _use )
 {
 	// The boost iequals is a case-insensitive string comparison
-	if( boost::algorithm::iequals(use, "ANYTHING") )
+	if( boost::algorithm::iequals( _use, "ANYTHING" ) )
 	{
-		_requestedUse = ANYTHING;
+		m_requestedUse = ANYTHING;
 	}
-	else if( boost::algorithm::iequals(use, "INPUT") )
+	else if( boost::algorithm::iequals( _use, "INPUT" ) )
 	{
-		_requestedUse = INPUT;
+		m_requestedUse = INPUT;
 	}
-	else if( boost::algorithm::iequals(use, "OUTPUT") )
+	else if( boost::algorithm::iequals( _use, "OUTPUT" ) )
 	{
-		_requestedUse = OUTPUT;
+		m_requestedUse = OUTPUT;
 	}
-	else if( boost::algorithm::iequals(use, "INPUT_OUTPUT") )
+	else if( boost::algorithm::iequals( _use, "INPUT_OUTPUT" ) )
 	{
-		_requestedUse = INPUT_OUTPUT;
+		m_requestedUse = INPUT_OUTPUT;
 	}
 	else
 	{
-		std::cerr<<"WARNING: Window::SetRequestedUse() to unknown use: "<<use<<std::endl;
+		std::cerr << "WARNING: Window::SetRequestedUse() to unknown use: " << _use << std::endl;
 	}
 }
+
+//----------------------------------------------------------------------------------
 
 unsigned int ShivaGUI::Window::GetSDLWindowID()
 {
-	return SDL_GetWindowID(_window);
+	return SDL_GetWindowID( m_window );
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::Window::MakeCurrent()
 {
-	SDL_GL_MakeCurrent(_window,_GLContext);
+	SDL_GL_MakeCurrent( m_window, m_GLContext );
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::Window::SwapBuffers()
 {
-	/*
-	GLenum err = glGetError();
-	if( err != GL_NO_ERROR)
-	{
-		std::cerr<<" ShivaGUI::Window, OpenGL Error in SwapBuffers: "<< gluErrorString(err)<<std::endl;
-	}
-	*/
-
-    //SDL_RenderPresent(_renderer);
-	SDL_GL_SwapWindow(_window);
-	glClearColor(0.0f,1.0f,0.0f,0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	/*
-	// Limiter in case we're running really quick
-	if( _deltaTs < (1.0f/50.0f) )	// not sure how accurate the SDL_Delay function is..
-		SDL_Delay((unsigned int) (((1.0f/50.0f) - _deltaTs)*1000.0f) );
-
-	unsigned int current = SDL_GetTicks();
-	_deltaTs = (float) (current - _lastTime) / 1000.0f;
-	_lastTime = current;
-
-	if( _deltaTs > 1.0f )
-		_deltaTs = 1.0f;
-	else if( _deltaTs < 0.00001f )
-		_deltaTs = 0.00001f;
-	*/
+	SDL_GL_SwapWindow( m_window );
 }
 
-void ShivaGUI::Window::GetSize(unsigned int &width, unsigned int &height)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::Window::GetSize( unsigned int &_width, unsigned int &_height )
 {
-//	width = _width;
-//	height = _height;
 	int w, h;
-	SDL_GetWindowSize(_window,&w,&h);
-	width = w;
-	height = h;
+	SDL_GetWindowSize( m_window, &w, &h );
+	_width = w;
+	_height = h;
 }
 
-void ShivaGUI::Window::SetSize(unsigned int width, unsigned int height)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::Window::SetSize( const unsigned int &_width, const unsigned int &_height )
 {
-	if( !_fullscreen )
-		SDL_SetWindowSize(_window,width,height);
+	if( !m_fullscreen )
+		SDL_SetWindowSize( m_window, _width, _height );
 }
 
-void ShivaGUI::Window::SetFullScreen(bool fullscreen)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::Window::SetFullScreen( bool _fullscreen )
 {
-	if( SDL_SetWindowFullscreen(_window,fullscreen ? SDL_TRUE : SDL_FALSE) == 0 )
+	if( SDL_SetWindowFullscreen( m_window, _fullscreen ? SDL_TRUE : SDL_FALSE ) == 0 )
 	{
-		_fullscreen = fullscreen;
-		SDL_GetWindowSize(_window,&_width,&_height);
+		m_fullscreen = _fullscreen;
+		SDL_GetWindowSize( m_window, &m_width, &m_height );
 	}
 	else
-		_fullscreen = 0;
+		m_fullscreen = 0;
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::Window::Maximise()
 {
-	SDL_MaximizeWindow(_window);
+	SDL_MaximizeWindow( m_window );
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::Window::Minimise()
 {
-	SDL_MinimizeWindow(_window);
+	SDL_MinimizeWindow( m_window );
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::Window::Restore()
 {
-	SDL_RestoreWindow(_window);
+	SDL_RestoreWindow( m_window );
 }
 
+//----------------------------------------------------------------------------------
 
 

@@ -23,10 +23,10 @@ namespace VolumeTree
 		BlendCSGNode();
 		//----------------------------------------------------------------------------------
 		/// \brief Ctor passing childA and childB of blend CSG node
-		/// \param [in] childA
-		/// \param [in] childB
+		/// \param [in] _childA
+		/// \param [in] _childB
 		//----------------------------------------------------------------------------------
-		BlendCSGNode( Node *childA, Node *childB );
+		BlendCSGNode( Node *_childA, Node *_childB );
 		//----------------------------------------------------------------------------------
 		/// \brief Dtor
 		//----------------------------------------------------------------------------------
@@ -38,46 +38,46 @@ namespace VolumeTree
 		virtual std::string GetNodeType() { return "BlendCSGNode"; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get blending parameters
-		/// \param [out] a0
-		/// \param [out] a1
-		/// \param [out] a2
+		/// \param [out] _a0
+		/// \param [out] _a1
+		/// \param [out] _a2
 		//----------------------------------------------------------------------------------
-		void GetBlendParams( float &a0, float &a1, float &a2 ) { a0 = _a0; a1 = _a1; a2 = _a2; }
+		void GetBlendParams( float &_a0, float &_a1, float &_a2 ) { _a0 = m_a0; _a1 = m_a1; _a2 = m_a2; }
 		//----------------------------------------------------------------------------------
 		/// \brief Set blending parameters
-		/// \param [in] a0
-		/// \param [in] a1
-		/// \param [in] a2
+		/// \param [in] _a0
+		/// \param [in] _a1
+		/// \param [in] _a2
 		//----------------------------------------------------------------------------------
-		void SetBlendParams( const float &a0, const float &a1, const float &a2 ) { _a0 = a0; _a1 = a1; _a2 = a2; }
+		void SetBlendParams( const float &_a0, const float &_a1, const float &_a2 ) { m_a0 = _a0; m_a1 = _a1; m_a2 = _a2; }
 		//----------------------------------------------------------------------------------
 		/// \brief Samples the function at a specific point
-		/// \param [in] x X coord
-		/// \param [in] y Y coord
-		/// \param [in] z Z coord
+		/// \param [in] _x X coord
+		/// \param [in] _y Y coord
+		/// \param [in] _z Z coord
 		//----------------------------------------------------------------------------------
-		float GetFunctionValue( float x, float y, float z );
+		float GetFunctionValue( float _x, float _y, float _z );
 		//----------------------------------------------------------------------------------
 		/// \brief Returns a GLSL-compatible string for the function
 		/// \param [in] callCache
 		/// \param [in] samplePosStr 
 		//----------------------------------------------------------------------------------
-		std::string GetFunctionGLSLString( bool callCache, std::string samplePosStr );
+		std::string GetFunctionGLSLString( bool _callCache, std::string _samplePosStr );
 		//----------------------------------------------------------------------------------
-		/// \brief Get node constant
+		/// \brief Get node cost
 		/// \return 4
 		//----------------------------------------------------------------------------------
 		virtual unsigned int GetNodeCost() { return 4; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get boundaries
-		/// \param [out] minX
-		/// \param [out] maxX
-		/// \param [out] minY
-		/// \param [out] maxY
-		/// \param [out] minZ
-		/// \param [out] maxZ
+		/// \param [out] _minX
+		/// \param [out] _maxX
+		/// \param [out] _minY
+		/// \param [out] _maxY
+		/// \param [out] _minZ
+		/// \param [out] _maxZ
 		//----------------------------------------------------------------------------------
-		virtual void GetBounds( float *minX, float *maxX, float *minY, float *maxY, float *minZ, float *maxZ );
+		virtual void GetBounds( float *_minX, float *_maxX, float *_minY, float *_maxY, float *_minZ, float *_maxZ );
 		//----------------------------------------------------------------------------------
 
 	protected:
@@ -85,15 +85,15 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		/// \brief First blending param
 		//----------------------------------------------------------------------------------
-		float _a0;
+		float m_a0;
 		//----------------------------------------------------------------------------------
 		/// \brief Second blending param
 		//----------------------------------------------------------------------------------
-		float _a1;
+		float m_a1;
 		//----------------------------------------------------------------------------------
 		/// \brief Third blending param
 		//----------------------------------------------------------------------------------
-		float _a2;
+		float m_a2;
 		//----------------------------------------------------------------------------------
 	};
 

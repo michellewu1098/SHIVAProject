@@ -4,26 +4,26 @@
 
 ShivaGUI::StateListDrawable::StateListDrawable()
 {
-	_defaultDrawable = NULL;
-	_currentState = Disabled;
+	m_defaultDrawable = NULL;
+	m_currentState = Disabled;
 }
 
 //----------------------------------------------------------------------------------
 
 ShivaGUI::StateListDrawable::~StateListDrawable()
 {
-	for( std::vector< std::pair< Drawable*, int > >::iterator it = _stateDrawables.begin(); it != _stateDrawables.end(); ++it )
+	for( std::vector< std::pair< Drawable*, int > >::iterator it = m_stateDrawables.begin(); it != m_stateDrawables.end(); ++it )
 		delete ( *it ).first;
-	delete _defaultDrawable;
+	delete m_defaultDrawable;
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::StateListDrawable::Inflate( TiXmlElement *xmlElement, ResourceManager *resources )
+void ShivaGUI::StateListDrawable::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources )
 {
 
-	for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
-	{
+	//for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
+	//{
 		// Currently no attributes to sort out
 		/*
 		if( currentAttribute->Name() == std::string("orientation") )
@@ -43,29 +43,29 @@ void ShivaGUI::StateListDrawable::Inflate( TiXmlElement *xmlElement, ResourceMan
 			}
 		}
 		*/
-	}
+	//}
 
-	for( TiXmlNode *child = xmlElement->FirstChild(); child != NULL; child = child->NextSibling() )
+	for( TiXmlNode *child = _xmlElement->FirstChild(); child != NULL; child = child->NextSibling() )
 	{
 		if( std::string( "Item" ) == child->Value() )
-			ParseItem( child->ToElement(), resources );
+			ParseItem( child->ToElement(), _resources );
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::StateListDrawable::ParseItem( TiXmlElement *xmlElement, ResourceManager *resources )
+void ShivaGUI::StateListDrawable::ParseItem( TiXmlElement *_xmlElement, ResourceManager *_resources )
 {
 	Drawable *drawable = NULL;
 	int states = 0;
 
-	for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
+	for( TiXmlAttribute *currentAttribute = _xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 	{
 		if( currentAttribute->Name() == std::string( "drawable" ) )
 		{
 			std::string filename( currentAttribute->Value() );
 
-			drawable = resources->GetDrawable( filename );
+			drawable = _resources->GetDrawable( filename );
 		}
 		else if( currentAttribute->Name() == std::string( "state_focus" ) )
 		{
@@ -97,16 +97,16 @@ void ShivaGUI::StateListDrawable::ParseItem( TiXmlElement *xmlElement, ResourceM
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::StateListDrawable::AddStateDrawable( Drawable *drawable, int states )
+void ShivaGUI::StateListDrawable::AddStateDrawable( Drawable *_drawable, int _states )
 {
-	if( states == 0 ) {
-		_defaultDrawable = drawable;
+	if( _states == 0 ) {
+		m_defaultDrawable = _drawable;
 	}
 	else {
-		_stateDrawables.push_back( std::pair< Drawable*, int >( drawable, states ) );
+		m_stateDrawables.push_back( std::pair< Drawable*, int >( _drawable, _states ) );
 	}
 
-	drawable->SetBounds( _boundsLeft, _boundsTop, _boundsRight, _boundsBottom );
+	_drawable->SetBounds( m_boundsLeft, m_boundsTop, m_boundsRight, m_boundsBottom );
 }
 
 //----------------------------------------------------------------------------------
@@ -114,15 +114,15 @@ void ShivaGUI::StateListDrawable::AddStateDrawable( Drawable *drawable, int stat
 ShivaGUI::Drawable* ShivaGUI::StateListDrawable::GetCurrentDrawable()
 {
 	// This looks through the list and uses the first drawable that matches the current state
-	for( std::vector< std::pair< Drawable*, int > >::iterator it = _stateDrawables.begin(); it != _stateDrawables.end(); ++it )
+	for( std::vector< std::pair< Drawable*, int > >::iterator it = m_stateDrawables.begin(); it != m_stateDrawables.end(); ++it )
 	{
-		if( ( *it ).second == _currentState )
+		if( ( *it ).second == m_currentState )
 		{
 			// We have a match
 			return ( *it ).first;
 		}
 	}
-	return _defaultDrawable;
+	return m_defaultDrawable;
 }
 
 //----------------------------------------------------------------------------------
@@ -130,26 +130,26 @@ ShivaGUI::Drawable* ShivaGUI::StateListDrawable::GetCurrentDrawable()
 void ShivaGUI::StateListDrawable::Draw()
 {
 	// This looks through the list and uses the first drawable that matches the current state
-	for( std::vector< std::pair< Drawable*, int > >::iterator it = _stateDrawables.begin(); it != _stateDrawables.end(); ++it )
+	for( std::vector< std::pair< Drawable*, int > >::iterator it = m_stateDrawables.begin(); it != m_stateDrawables.end(); ++it )
 	{
-		if( ( *it ).second == _currentState )
+		if( ( *it ).second == m_currentState )
 		{
 			// We have a match
 			( *it ).first->Draw();
 			return;
 		}
 	}
-	if( _defaultDrawable != NULL )
-		_defaultDrawable->Draw();
+	if( m_defaultDrawable != NULL )
+		m_defaultDrawable->Draw();
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::StateListDrawable::GetContentBounds( float &left, float &top, float &right, float &bottom )
+void ShivaGUI::StateListDrawable::GetContentBounds( float &_left, float &_top, float &_right, float &_bottom )
 {
 	Drawable *defaultDrawable = GetDefaultDrawable();
 	if( defaultDrawable != NULL ) {
-		return defaultDrawable->GetContentBounds( left, top, right, bottom );
+		return defaultDrawable->GetContentBounds( _left, _top, _right, _bottom );
 	}
 }
 
@@ -177,36 +177,36 @@ int ShivaGUI::StateListDrawable::GetNativeHeight()
 
 //----------------------------------------------------------------------------------
 
-int ShivaGUI::StateListDrawable::GetNativeWidthFromContent( int contentWidth )
+int ShivaGUI::StateListDrawable::GetNativeWidthFromContent( int _contentWidth )
 {
 	Drawable *current = GetCurrentDrawable();
 	if( current != NULL ) {
-		return current->GetNativeWidthFromContent( contentWidth );
+		return current->GetNativeWidthFromContent( _contentWidth );
 	}
 	return 0;
 }
 
 //----------------------------------------------------------------------------------
 
-int ShivaGUI::StateListDrawable::GetNativeHeightFromContent( int contentHeight )
+int ShivaGUI::StateListDrawable::GetNativeHeightFromContent( int _contentHeight )
 {
 	Drawable *current = GetCurrentDrawable();
 	if( current != NULL ) {
-		return current->GetNativeHeightFromContent( contentHeight );
+		return current->GetNativeHeightFromContent( _contentHeight );
 	}
 	return 0;
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::StateListDrawable::OnSetBounds( float left, float top, float right, float bottom, unsigned int gravity )
+void ShivaGUI::StateListDrawable::OnSetBounds( float _left, float _top, float _right, float _bottom, unsigned int _gravity )
 {
-	for( std::vector<std::pair<Drawable*,int> >::iterator it = _stateDrawables.begin(); it != _stateDrawables.end(); ++it )
+	for( std::vector<std::pair< Drawable*, int > >::iterator it = m_stateDrawables.begin(); it != m_stateDrawables.end(); ++it )
 	{
-		( *it ).first->SetBounds( left, top, right, bottom );
+		( *it ).first->SetBounds( _left, _top, _right, _bottom );
 	}
-	if( _defaultDrawable != NULL ) {
-		_defaultDrawable->SetBounds( left, top, right, bottom );
+	if( m_defaultDrawable != NULL ) {
+		m_defaultDrawable->SetBounds( _left, _top, _right, _bottom );
 	}
 }
 

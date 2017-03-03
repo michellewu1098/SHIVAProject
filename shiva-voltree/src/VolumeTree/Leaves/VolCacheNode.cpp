@@ -1,67 +1,66 @@
-
 #include "VolumeTree/Leaves/VolCacheNode.h"
-
-#include <iostream>
-#include <algorithm>
-#include <cmath>
 
 #include "vol_metamorph.h"
 #include "vol_totem.h"
 
+//----------------------------------------------------------------------------------
+
 VolumeTree::VolCacheNode::VolCacheNode()
 {
-	_requiresCache = true;
-	_boundsMinX = _boundsMaxX = _boundsMinY = _boundsMaxY = _boundsMinZ = _boundsMaxZ = 0.0f;
-	_cachedFunction = NULL;
-	_volCacheNode = NULL;
+	m_requiresCache = true;
+	m_boundsMinX = m_boundsMaxX = m_boundsMinY = m_boundsMaxY = m_boundsMinZ = m_boundsMaxZ = 0.0f;
+	m_cachedFunction = NULL;
+	m_volCacheNode = NULL;
 }
 
-VolumeTree::VolCacheNode::VolCacheNode( totemio::CacheNode *nodeIn )
+//----------------------------------------------------------------------------------
+
+VolumeTree::VolCacheNode::VolCacheNode( totemio::CacheNode *_nodeIn )
 {
-	_volCacheNode = nodeIn;
-	_requiresCache = true;
-	_boundsMinX = _boundsMaxX = _boundsMinY = _boundsMaxY = _boundsMinZ = _boundsMaxZ = 0.0f;
-	_cachedFunction = NULL;
+	m_volCacheNode = _nodeIn;
+	m_requiresCache = true;
+	m_boundsMinX = m_boundsMaxX = m_boundsMinY = m_boundsMaxY = m_boundsMinZ = m_boundsMaxZ = 0.0f;
+	m_cachedFunction = NULL;
 
 	// Just get bounds for now
-	if( _volCacheNode != NULL )
+	if( m_volCacheNode != NULL )
 	{
-		float *bounds = NULL;//new float[27];
+		float *bounds = NULL; //new float[27];
 
-		bool result = _volCacheNode->getBoundingBox(&bounds);
+		bool result = m_volCacheNode->getBoundingBox( &bounds );
 		if( result )
 		{
 			// For now enlarge bbox by 10%
 			// TODO: ensure negative shell around contents
-			float lengthX = bounds[3] - bounds[0];
-			float lengthY = bounds[4] - bounds[1];
-			float lengthZ = bounds[5] - bounds[2];
+			float lengthX = bounds[ 3 ] - bounds[ 0 ];
+			float lengthY = bounds[ 4 ] - bounds[ 1 ];
+			float lengthZ = bounds[ 5 ] - bounds[ 2 ];
 
-			_boundsMinX = bounds[0] - lengthX * 0.1f;
-			_boundsMaxX = bounds[3] + lengthX * 0.1f;
-			_boundsMinY = bounds[1] - lengthY * 0.1f;
-			_boundsMaxY = bounds[4] + lengthY * 0.1f;
-			_boundsMinZ = bounds[2] - lengthZ * 0.1f;
-			_boundsMaxZ = bounds[5] + lengthZ * 0.1f;
+			m_boundsMinX = bounds[ 0 ] - lengthX * 0.1f;
+			m_boundsMaxX = bounds[ 3 ] + lengthX * 0.1f;
+			m_boundsMinY = bounds[ 1 ] - lengthY * 0.1f;
+			m_boundsMaxY = bounds[ 4 ] + lengthY * 0.1f;
+			m_boundsMinZ = bounds[ 2 ] - lengthZ * 0.1f;
+			m_boundsMaxZ = bounds[ 5 ] + lengthZ * 0.1f;
 
-			totemio::freePointer(&bounds);
+			totemio::freePointer( &bounds );
 		}
 	}
 }
 
+//----------------------------------------------------------------------------------
 
-
-VolumeTree::VolCacheNode::VolCacheNode(std::string filename)
+VolumeTree::VolCacheNode::VolCacheNode( std::string _filename )
 {
-	_volCacheNode = NULL;
-	_requiresCache = true;
-	_filename = filename;
-	_boundsMinX = _boundsMaxX = _boundsMinY = _boundsMaxY = _boundsMinZ = _boundsMaxZ = 0.0f;
-	_cachedFunction = NULL;
+	m_volCacheNode = NULL;
+	m_requiresCache = true;
+	m_filename = _filename;
+	m_boundsMinX = m_boundsMaxX = m_boundsMinY = m_boundsMaxY = m_boundsMinZ = m_boundsMaxZ = 0.0f;
+	m_cachedFunction = NULL;
 	// Just get bounds for now
 
 	float *bounds = NULL;
-	float *data = NULL;//new float[27];
+	float *data = NULL; //new float[27];
 
 	open_params params;
 	params.m_fit_to_box = false;
@@ -69,115 +68,124 @@ VolumeTree::VolCacheNode::VolCacheNode(std::string filename)
 	params.m_fill_array = false;
 	params.m_exact_bbox = false;
 	
-	if( !openVol(filename.c_str(), 3,3,3, params, &bounds, &data ) )
+	if( !openVol( _filename.c_str(), 3,3,3, params, &bounds, &data ) )
 	{
-		std::cerr<<"WARNING: Could not open VOL file: "<<filename<<std::endl;
+		std::cerr << "WARNING: Could not open VOL file: " << _filename << std::endl;
 	}
 	else
 	{
-		_boundsMinX = bounds[0];
-		_boundsMaxX = bounds[3];
-		_boundsMinY = bounds[1];
-		_boundsMaxY = bounds[4];
-		_boundsMinZ = bounds[2];
-		_boundsMaxZ = bounds[5];
+		m_boundsMinX = bounds[ 0 ];
+		m_boundsMaxX = bounds[ 3 ];
+		m_boundsMinY = bounds[ 1 ];
+		m_boundsMaxY = bounds[ 4 ];
+		m_boundsMinZ = bounds[ 2 ];
+		m_boundsMaxZ = bounds[ 5 ];
 	}
 
 	//delete [] bounds;
 	//delete [] data;
-	freePt(&bounds);
-	freePt(&data);
+	freePt( &bounds );
+	freePt( &data );
 }
 
+//----------------------------------------------------------------------------------
 
 VolumeTree::VolCacheNode::~VolCacheNode()
 {
-	if( _volCacheNode != NULL )
+	if( m_volCacheNode != NULL )
 	{
-		totemio::freeTree(_volCacheNode);
-		totemio::freePointer(&_cachedFunction);
+		totemio::freeTree( m_volCacheNode );
+		totemio::freePointer( &m_cachedFunction );
 	}
-	else if( _cachedFunction != NULL )
+	else if( m_cachedFunction != NULL )
 	{
-		freePt(&_cachedFunction);
+		freePt( &m_cachedFunction );
 	}
 }
 
-float VolumeTree::VolCacheNode::GetFunctionValue(float x, float y, float z)
+//----------------------------------------------------------------------------------
+
+float VolumeTree::VolCacheNode::GetFunctionValue( float _x, float _y, float _z )
 {
 	// TODO: use cached function
 	// Transform coords
-	x = (x + _cacheOffsetX) * _cacheScaleX + 0.5f;
-	y = (y + _cacheOffsetY) * _cacheScaleY + 0.5f;
-	z = (z + _cacheOffsetZ) * _cacheScaleZ + 0.5f;
+	_x = ( _x + m_cacheOffsetX ) * m_cacheScaleX + 0.5f;
+	_y = ( _y + m_cacheOffsetY ) * m_cacheScaleY + 0.5f;
+	_z = ( _z + m_cacheOffsetZ ) * m_cacheScaleZ + 0.5f;
 
 	// TODO: tri-lerp
 	// For now, just use nearest filtering:
 
-	x = std::max(x,0.0f);
-	y = std::max(y,0.0f);
-	z = std::max(z,0.0f);
+	_x = ( std::max )( _x, 0.0f );
+	_y = ( std::max )( _y, 0.0f );
+	_z = ( std::max )( _z, 0.0f );
 
-	x = std::min(x,1.0f);
-	y = std::min(y,1.0f);
-	z = std::min(z,1.0f);
+	_x = ( std::min )( _x, 1.0f );
+	_y = ( std::min )( _y, 1.0f );
+	_z = ( std::min )( _z, 1.0f );
 
-	x = (x*(float)_cacheResX);
-	y = (y*(float)_cacheResY);
-	z = (z*(float)_cacheResZ);
+	_x = ( _x * ( float )m_cacheResX );
+	_y = ( _y * ( float )m_cacheResY );
+	_z = ( _z * ( float )m_cacheResZ );
 
 	float scrap;
-	x = modf(x,&scrap) < 0.5 ? floor(x) : ceil(x);
-	y = modf(y,&scrap) < 0.5 ? floor(y) : ceil(y);
-	z = modf(z,&scrap) < 0.5 ? floor(z) : ceil(z);
+	_x = modf( _x, &scrap ) < 0.5 ? floor( _x ) : ceil( _x );
+	_y = modf( _y, &scrap ) < 0.5 ? floor( _y ) : ceil( _y );
+	_z = modf( _z, &scrap ) < 0.5 ? floor( _z ) : ceil( _z );
 
-	return SampleCacheFunction((unsigned int)x,(unsigned int)y,(unsigned int)z);
+	return SampleCacheFunction( ( unsigned int )_x, ( unsigned int )_y,( unsigned int )_z );
 }
 
-std::string VolumeTree::VolCacheNode::GetFunctionGLSLString(bool callCache, std::string samplePosStr)
+//----------------------------------------------------------------------------------
+
+std::string VolumeTree::VolCacheNode::GetFunctionGLSLString( bool _callCache, std::string _samplePosStr )
 {
 	// Should never get here, this node can only be cached
-	std::cerr<<"WARNING: GetFunctionGLSLString() called on VolCacheNode"<<std::endl;
+	std::cerr << "WARNING: GetFunctionGLSLString() called on VolCacheNode" << std::endl;
 	return "-1.0";
 }
 
-void VolumeTree::VolCacheNode::GetBounds(float *minX,float *maxX, float *minY,float *maxY, float *minZ,float *maxZ)
+//----------------------------------------------------------------------------------
+
+void VolumeTree::VolCacheNode::GetBounds( float *_minX, float *_maxX, float *_minY, float *_maxY, float *_minZ, float *_maxZ )
 {
-	*minX = _boundsMinX;
-	*maxX = _boundsMaxX;
-	*minY = _boundsMinY;
-	*maxY = _boundsMaxY;
-	*minZ = _boundsMinZ;
-	*maxZ = _boundsMaxZ;
+	*_minX = m_boundsMinX;
+	*_maxX = m_boundsMaxX;
+	*_minY = m_boundsMinY;
+	*_maxY = m_boundsMaxY;
+	*_minZ = m_boundsMinZ;
+	*_maxZ = m_boundsMaxZ;
 }
 
-void VolumeTree::VolCacheNode::SetUseCache(bool useCache, unsigned int cacheID, unsigned int cacheResX, unsigned int cacheResY, unsigned int cacheResZ )
+//----------------------------------------------------------------------------------
+
+void VolumeTree::VolCacheNode::SetUseCache( bool _useCache, unsigned int _cacheID, unsigned int _cacheResX, unsigned int _cacheResY, unsigned int _cacheResZ )
 {
-	Node::SetUseCache(useCache,cacheID,cacheResX,cacheResY,cacheResZ);
-	if( useCache )
+	Node::SetUseCache( _useCache, _cacheID, _cacheResX, _cacheResY, _cacheResZ );
+	if( _useCache )
 	{
-		if( _volCacheNode )
+		if( m_volCacheNode )
 		{
 			#ifdef _DEBUG
-			std::cout<<"INFO: VolCacheNode::SetUseCache resX: "<<cacheResX<<" resY: "<<cacheResY<<" resZ: "<<cacheResZ<<std::endl;
+			std::cout << "INFO: VolCacheNode::SetUseCache resX: " << _cacheResX << " resY: " << _cacheResY << " resZ: " << _cacheResZ << std::endl;
 			#endif
-			float *bbox = new float[6];
-			bbox[0] = _boundsMinX;
-			bbox[1] = _boundsMinY;
-			bbox[2] = _boundsMinZ;
-			bbox[3] = _boundsMaxX;
-			bbox[4] = _boundsMaxY;
-			bbox[5] = _boundsMaxZ;
-			if( !_volCacheNode->generateCache(_cacheResX,_cacheResY,_cacheResZ,bbox,&_cachedFunction ) )
+			float *bbox = new float[ 6 ];
+			bbox[ 0 ] = m_boundsMinX;
+			bbox[ 1 ] = m_boundsMinY;
+			bbox[ 2 ] = m_boundsMinZ;
+			bbox[ 3 ] = m_boundsMaxX;
+			bbox[ 4 ] = m_boundsMaxY;
+			bbox[ 5 ] = m_boundsMaxZ;
+			if( !m_volCacheNode->generateCache( m_cacheResX, m_cacheResY, m_cacheResZ, bbox, &m_cachedFunction ) )
 			{
-				std::cerr<<"WARNING: Could not build cache from cache node: "<<_volCacheNode->getID()<<std::endl;
+				std::cerr << "WARNING: Could not build cache from cache node: " << m_volCacheNode->getID() << std::endl;
 			}
 		}
-		else if( !_filename.empty() )
+		else if( !m_filename.empty() )
 		{
 
 			float *bounds = NULL;
-			_cachedFunction = NULL;
+			m_cachedFunction = NULL;
 
 			open_params params;
 			params.m_fit_to_box = false;
@@ -185,23 +193,25 @@ void VolumeTree::VolCacheNode::SetUseCache(bool useCache, unsigned int cacheID, 
 			params.m_fill_array = true;
 			params.m_exact_bbox = false;
 
-			std::cout<<"INFO: Loading VOL file: "<<_filename<<std::endl;
-			if( !openVol(_filename.c_str(), _cacheResX,_cacheResY,_cacheResZ, params, &bounds, &_cachedFunction ) )
+			std::cout << "INFO: Loading VOL file: " << m_filename << std::endl;
+			if( !openVol( m_filename.c_str(), m_cacheResX, m_cacheResY, m_cacheResZ, params, &bounds, &m_cachedFunction ) )
 			{
-				std::cerr<<"WARNING: Could not build cache from VOL file: "<<_filename<<std::endl;
+				std::cerr << "WARNING: Could not build cache from VOL file: " << m_filename << std::endl;
 			}
-			freePt(&bounds);
+			freePt( &bounds );
 		}
 	}
 }
 
-void VolumeTree::VolCacheNode::PopulateCacheData(float **data, float startX, float startY, float startZ, float stepX, float stepY, float stepZ)
+//----------------------------------------------------------------------------------
+
+void VolumeTree::VolCacheNode::PopulateCacheData( float **_data, float _startX, float _startY, float _startZ, float _stepX, float _stepY, float _stepZ )
 {
-	if( _cachedFunction != NULL )
+	if( m_cachedFunction != NULL )
 	{
-		for( unsigned int i = 0; i < _cacheResX*_cacheResY*_cacheResZ; i++ )
+		for( unsigned int i = 0; i < m_cacheResX * m_cacheResY * m_cacheResZ; i++ )
 		{
-			(*data)[i] = -_cachedFunction[i];
+			( *_data)[ i ] = -m_cachedFunction[ i ];
 		}
 	}
 	/*
@@ -224,11 +234,15 @@ void VolumeTree::VolCacheNode::PopulateCacheData(float **data, float startX, flo
 	// Unfortunately we need to keep the cache in case a parent node needs caching, in which case we need to be able to sample the function
 }
 
-float VolumeTree::VolCacheNode::SampleCacheFunction(unsigned int x, unsigned int y, unsigned int z)
+//----------------------------------------------------------------------------------
+
+float VolumeTree::VolCacheNode::SampleCacheFunction( unsigned int _x, unsigned int _y, unsigned int _z )
 {
-	if( _cachedFunction != NULL && (x < _cacheResX) && (y < _cacheResY) && (z < _cacheResZ) )
+	if( m_cachedFunction != NULL && ( _x < m_cacheResX ) && ( _y < m_cacheResY ) && ( _z < m_cacheResZ ) )
 	{
-		return -_cachedFunction[x + y*_cacheResX + z*_cacheResX*_cacheResY];
+		return -m_cachedFunction[ _x + _y * m_cacheResX + _z * m_cacheResX * m_cacheResY ];
 	}
 	return -1.0f;
 }
+
+//----------------------------------------------------------------------------------

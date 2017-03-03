@@ -1,9 +1,15 @@
+///-----------------------------------------------------------------------------------------------
+/// \file BitmapDrawable.h
+/// \brief Class for bitmap drawable object
+/// \author Leigh McLoughlin, Michelle Wu
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
+
 #ifndef __SHIVA_RESOURCESYSTEM_IMAGEDRAWABLE__
 #define __SHIVA_RESOURCESYSTEM_IMAGEDRAWABLE__
 
-#include <string>
 #include "Drawable.h"
-//#include "Utility/GPUProgram.h"
+#include "Utility/GPUProgram.h"
 
 namespace ShivaGUI
 {
@@ -16,16 +22,19 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		BitmapDrawable();
 		//----------------------------------------------------------------------------------
-		BitmapDrawable( unsigned int OpenGLTexID );
+		/// \brief Ctor passing texture id
+		/// \param [in] _OpenGLTexID
+		//----------------------------------------------------------------------------------
+		BitmapDrawable( unsigned int _OpenGLTexID );
 		//----------------------------------------------------------------------------------
 		/// \brief Dtor
 		//----------------------------------------------------------------------------------
 		virtual ~BitmapDrawable();
 		//----------------------------------------------------------------------------------
 		/// \brief Set texture ID
-		/// \param [in] value
+		/// \param [in] _value
 		//----------------------------------------------------------------------------------
-		void SetTexID( unsigned int value );
+		void SetTexID( unsigned int _value );
 		//----------------------------------------------------------------------------------
 		/// \brief For setting up the Drawable from xml
 		//----------------------------------------------------------------------------------
@@ -36,25 +45,26 @@ namespace ShivaGUI
 		virtual void Draw();
 		//----------------------------------------------------------------------------------
 		/// \brief Get native width
-		/// \return _texWidth
+		/// \return m_texWidth
 		//----------------------------------------------------------------------------------
-		virtual int GetNativeWidth() { return _texWidth; }
+		virtual int GetNativeWidth() { return m_texWidth; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get native height
-		/// \return _texHeight
+		/// \return m_texHeight
 		//----------------------------------------------------------------------------------
-		virtual int GetNativeHeight() { return _texHeight; }
+		virtual int GetNativeHeight() { return m_texHeight; }
 		//----------------------------------------------------------------------------------
 		/// \brief If set, the image will be scaled to fill the bounds
 		/// Otherwise, it will display the image at its actual size
 		/// The default value is false
-		/// \param [in] value
+		/// \param [in] _value
 		//----------------------------------------------------------------------------------
-		void SetScaleup( bool value ) { _scaleUp = value; }
+		void SetScaleup( bool _value ) { m_scaleUp = _value; }
 		//----------------------------------------------------------------------------------
 		/// \brief If set, the image will keep the aspect ratio
+		/// \param [in] _value
 		//----------------------------------------------------------------------------------
-		void SetScaleKeepAspectRatio( bool value ) { _keepAspectRatio = value; }
+		void SetScaleKeepAspectRatio( bool _value ) { m_keepAspectRatio = _value; }
 		//----------------------------------------------------------------------------------
 
 	protected:
@@ -62,28 +72,46 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief Texture ID
 		//----------------------------------------------------------------------------------
-		unsigned int _texID;
+		GLuint m_texID;
 		//----------------------------------------------------------------------------------
 		/// \brief Texture width
 		//----------------------------------------------------------------------------------
-		int _texWidth;
+		GLint m_texWidth;
 		//----------------------------------------------------------------------------------
 		/// \brief Texture height
 		//----------------------------------------------------------------------------------
-		int _texHeight;
+		GLint m_texHeight;
 		//----------------------------------------------------------------------------------
 		/// \brief If scaleUp is set to true and the bounds are smaller than the image size, it will scale it up
 		/// otherwise, it will display the image at its actual size
 		//----------------------------------------------------------------------------------
-		bool _scaleUp;
+		bool m_scaleUp;
 		//----------------------------------------------------------------------------------
 		/// \brief Only used if _scaleUp is true
 		//----------------------------------------------------------------------------------
-		bool _keepAspectRatio;
+		bool m_keepAspectRatio;
 		//----------------------------------------------------------------------------------
-		virtual void OnSetBounds( float left, float top, float right, float bottom, unsigned int gravity );
+		/// \brief Set bounds
+		/// \param [in] _left 
+		/// \param [in] _top
+		/// \param [in] _right
+		/// \param [in] _bottom
+		/// \param [in] _gravity
 		//----------------------------------------------------------------------------------
-		//Utility::GPUProgram *_testProgram;
+		virtual void OnSetBounds( float _left, float _top, float _right, float _bottom, unsigned int _gravity );
+		//----------------------------------------------------------------------------------
+		/// \brief Shader
+		//----------------------------------------------------------------------------------
+		Utility::GPUProgram *m_shader;
+		//----------------------------------------------------------------------------------
+		/// \brief Creato vbos and vao for object
+		//----------------------------------------------------------------------------------
+		void BuildVBOs();
+		//----------------------------------------------------------------------------------
+		/// \brief VAO
+		//----------------------------------------------------------------------------------
+		unsigned int m_vao;
+		//----------------------------------------------------------------------------------
 
 	};
 }

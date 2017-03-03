@@ -56,7 +56,7 @@ bool ShivaGUI::Autoscanner::Update( InternalEvent::EventType &outputEvent, float
 	{
 		// Update timer
 		_scanTimer += deltaTs;
-		unsigned int modTime =  _scanTimer / _repeatRateTime;
+		unsigned int modTime =  ( unsigned int )( _scanTimer / _repeatRateTime );
 		if( modTime > _eventCount )
 		{
 			outputEvent = InternalEvent::SCAN_NEXTFOCUS;

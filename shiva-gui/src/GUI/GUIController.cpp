@@ -1,153 +1,170 @@
-
 #include "GUI/GUIController.h"
 #include "GUIManager.h"
 
-//////////////////////////////////////////////////////////////////////////
-#include <GL/GLee.h>
-#include <SDL.h>
-#include <iostream>
+//----------------------------------------------------------------------------------
 
-ShivaGUI::GUIController::GUIController(Window *inputWindow, ResourceManager *resources, GUIManager *guiman)
+ShivaGUI::GUIController::GUIController( Window *_inputWindow, ResourceManager *_resources, GUIManager *_guiman )
 {
-	_attachedWindow = inputWindow;
-	_resourceManager = resources;
-	_GUIManager = guiman;
-	_contentView = NULL;
+	m_attachedWindow = _inputWindow;
+	m_resourceManager = _resources;
+	m_GUIManager = _guiman;
+	m_contentView = NULL;
 }
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::GUIController::~GUIController()
 {
-	delete _contentView;
+	delete m_contentView;
 }
 
-void ShivaGUI::GUIController::RegisterViewID(ShivaGUI::View *view, std::string ID)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::GUIController::RegisterViewID( ShivaGUI::View *_view, std::string _id )
 {
-	if( _viewIDs.find(ID) != _viewIDs.end() )
-		std::cout<<"WARNING: GUIController registering multiple Views of ID: "<<ID<<std::endl;
-	_viewIDs[ID] = view;
+	if( m_viewIDs.find( _id ) != m_viewIDs.end() )
+		std::cout << "WARNING: GUIController registering multiple Views of ID: " << _id << std::endl;
+	m_viewIDs[ _id ] = _view;
 }
 
-ShivaGUI::View* ShivaGUI::GUIController::GetViewFromID(std::string ID)
+//----------------------------------------------------------------------------------
+
+ShivaGUI::View* ShivaGUI::GUIController::GetViewFromID( std::string _id )
 {
-	std::map<std::string,View*>::iterator it = _viewIDs.find(ID);
-	if( it != _viewIDs.end() )
-		return (*it).second;
+	std::map< std::string, View* >::iterator it = m_viewIDs.find( _id );
+	if( it != m_viewIDs.end() )
+		return ( *it ).second;
 	return NULL;
 }
 
-void ShivaGUI::GUIController::ChangeWindowSize(unsigned int width, unsigned int height)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::GUIController::ChangeWindowSize( unsigned int _width, unsigned int _height )
 {
-	if( _attachedWindow != NULL )
-		_attachedWindow->SetSize(width,height);
+	if( m_attachedWindow != NULL )
+		m_attachedWindow->SetSize( _width, _height );
 	Layout();
 }
 
-void ShivaGUI::GUIController::GetWindowSize(unsigned int &width, unsigned int &height)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::GUIController::GetWindowSize( unsigned int &_width, unsigned int &_height )
 {
-	if( _attachedWindow != NULL )
-		_attachedWindow->GetSize(width,height);
+	if( m_attachedWindow != NULL )
+		m_attachedWindow->GetSize( _width, _height );
 }
+
+//----------------------------------------------------------------------------------
 
 bool ShivaGUI::GUIController::GetFullScreen()
 {
-	if( _attachedWindow != NULL )
-		return _attachedWindow->GetFullScreen();
+	if( m_attachedWindow != NULL )
+		return m_attachedWindow->GetFullScreen();
 	return false;
 }
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::Window::RequestedUse ShivaGUI::GUIController::GetRequestedUse()
 {
-	if( _attachedWindow != NULL )
-		return _attachedWindow->GetRequestedUse();
+	if( m_attachedWindow != NULL )
+		return m_attachedWindow->GetRequestedUse();
 	return Window::ANYTHING;
 }
 
+//----------------------------------------------------------------------------------
 
-void ShivaGUI::GUIController::RegisterListener(ShivaGUI::ViewEventListener *listener, std::string name)
+void ShivaGUI::GUIController::RegisterListener( ShivaGUI::ViewEventListener *_listener, std::string _name )
 {
-	_eventListeners[name] = listener;
+	m_eventListeners[ _name ] = _listener;
 }
 
-ShivaGUI::ViewEventListener* ShivaGUI::GUIController::GetListener(std::string name)
+//----------------------------------------------------------------------------------
+
+ShivaGUI::ViewEventListener* ShivaGUI::GUIController::GetListener( std::string _name )
 {
-	return _eventListeners[name];
+	return m_eventListeners[ _name ];
 }
 
-
-
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::GUIController::Layout()
 {
-	if( _attachedWindow != NULL && _contentView != NULL )
+	if( m_attachedWindow != NULL && m_contentView != NULL )
 	{
-		_attachedWindow->MakeCurrent();
+		m_attachedWindow->MakeCurrent();
 		unsigned int resX, resY;
-		_attachedWindow->GetSize(resX,resY);
-		_contentView->Layout(0,0,resX,resY, resX,resY);
+		m_attachedWindow->GetSize( resX, resY );
+		m_contentView->Layout( 0, 0, resX, resY, resX, resY );
 	}
 }
 
+//----------------------------------------------------------------------------------
 
-
-
-bool ShivaGUI::GUIController::IssueEvent( InternalEvent *currentEvent )
+bool ShivaGUI::GUIController::IssueEvent( InternalEvent *_currentEvent )
 {
-	if( currentEvent->GetType() == InternalEvent::WINDOW_RESIZE )
+	if( _currentEvent->GetType() == InternalEvent::WINDOW_RESIZE )
 		Layout();
-	else if( currentEvent->GetType() == InternalEvent::QUIT )
-		_GUIManager->SetExitEvent(); // This event should never be here, as it's not associated with a Window, but just in case
+	else if( _currentEvent->GetType() == InternalEvent::QUIT )
+		m_GUIManager->SetExitEvent(); // This event should never be here, as it's not associated with a Window, but just in case
 //	else if( currentEvent->GetType() == InternalEvent::BACK )
 //		_GUIManager->GetCurrentActivity()->IssueEvent(currentEvent);
 
-	if( _contentView != NULL ) {
-		return _contentView->HandleEvent(currentEvent);
+	if( m_contentView != NULL ) {
+		return m_contentView->HandleEvent( _currentEvent );
 	}
 	return false;
 }
 
+//----------------------------------------------------------------------------------
 
-
-
-void ShivaGUI::GUIController::Update(float deltaTs)
+void ShivaGUI::GUIController::Update( float _deltaTs )
 {
 	// Update content View
-	if( _contentView != NULL )
-		_contentView->Update(deltaTs,this);
+	if( m_contentView != NULL )
+		m_contentView->Update( _deltaTs, this );
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::GUIController::Draw()
 {
-	if( _attachedWindow == NULL || _contentView == NULL )
+	if( m_attachedWindow == NULL || m_contentView == NULL )
 		return;
 
-	_attachedWindow->MakeCurrent();
+	m_attachedWindow->MakeCurrent();
 	unsigned int resX, resY;
-	_attachedWindow->GetSize(resX,resY);
+	m_attachedWindow->GetSize( resX, resY );
+
+	glClearColor( 1.0f, 1.0f, 1.0f, 0.0f );
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
 	// Set up OpenGL
 	// Remember that OpenGL uses lower-left corner as origin
 	// Viewport function wants lower-left corner too
-	glViewport(0,0,resX,resY);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0.0f,(float)resX,(float)resY,0.0f,-1.0f,1.0f);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	glViewport( 0, 0, resX, resY );
 
-	_contentView->Draw();
+	//m_resourceManager->SetMatrices( ( float )resX, ( float )resY );
 
-	_attachedWindow->SwapBuffers();
+	m_contentView->Draw();
+
+	m_attachedWindow->SwapBuffers();
 }
 
-void ShivaGUI::GUIController::LoadContentView(std::string layoutName)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::GUIController::LoadContentView( std::string _layoutName )
 {
-	_contentViewFilename = layoutName;
-	_attachedWindow->MakeCurrent();
-	_contentView = GetResources()->GetLayout(layoutName);
+	m_contentViewFilename = _layoutName;
+	m_attachedWindow->MakeCurrent();
+	m_contentView = GetResources()->GetLayout( _layoutName );
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::GUIController::SaveLayoutToProfile()
 {
-	_GUIManager->SaveLayoutToProfile(_contentViewFilename, _contentView, _resourceManager);
+	m_GUIManager->SaveLayoutToProfile( m_contentViewFilename, m_contentView, m_resourceManager );
 }
 
-
+//----------------------------------------------------------------------------------

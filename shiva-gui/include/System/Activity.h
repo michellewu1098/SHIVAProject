@@ -1,22 +1,16 @@
+///-----------------------------------------------------------------------------------------------
+/// \file Activity.h
+/// \brief Base class for activity
+/// \author Leigh McLoughlin
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 #ifndef __SHIVA_GUISYSTEM_ACTIVITY__
 #define __SHIVA_GUISYSTEM_ACTIVITY__
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-#include <string>
-#include <vector>
-#include <map>
 
-//////////////////////////////////////////////////////////////////////////
 #include "Input/InternalEvent.h"
-#include "GUI/Views/ViewEventListener.h"
 #include "GUI/GUIController.h"
 #include "System/Bundle.h"
-
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 
 namespace ShivaGUI
 {
@@ -24,133 +18,215 @@ namespace ShivaGUI
 	class GUIManager;
 	class ResourceManager;
 
-
 	class Activity
 	{
 	public:
 
-		// Initialisation and lifecycle - mainly for use by GUIManager
-			Activity();
-			virtual ~Activity();
+		// INITIALISATION AND LIFECYCLE - mainly for use by GUIManager
 
-			/// If this is true, when the Activity stops it is expected to return a result
-			bool GetStartedForResult() {return _startedForResult;}
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor
+		//----------------------------------------------------------------------------------
+		Activity();
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor
+		//----------------------------------------------------------------------------------
+		virtual ~Activity();
+		//----------------------------------------------------------------------------------
+		/// \brief If this is true, when the Activity stops it is expected to return a result
+		/// \return m_startedForResult
+		//----------------------------------------------------------------------------------
+		bool GetStartedForResult() { return m_startedForResult; }
+		//----------------------------------------------------------------------------------
+		/// \brief Create activity
+		/// \param [in] _guiManager
+		/// \param [in] _savedState
+		/// \param [in] _startedForResult
+		//----------------------------------------------------------------------------------
+		void Create( GUIManager *_guiManager, Bundle *_savedState, bool _startedForResult );
+		//----------------------------------------------------------------------------------
+		/// \brief Destroy
+		//----------------------------------------------------------------------------------
+		void Destroy();
+		//----------------------------------------------------------------------------------
+		/// \brief Returns GUI manager
+		/// \return m_guiManager
+		//----------------------------------------------------------------------------------
+		GUIManager* GetGUIManager() { return m_guiManager; }
+		//----------------------------------------------------------------------------------
+		/// \brief Update activity
+		/// \param [in] _deltaTs Timestep
+		//----------------------------------------------------------------------------------
+		void Update( float _deltaTs );
+		//----------------------------------------------------------------------------------
+		/// \brief Draw method
+		//----------------------------------------------------------------------------------
+		void Draw();
+		//----------------------------------------------------------------------------------
+		/// \brief This is called by the GUIManager when a child activity returns a result
+		/// \param [in] _data
+		//----------------------------------------------------------------------------------
+		void ReturnActivityResult( Bundle *_data );
+		//----------------------------------------------------------------------------------
+		// TODO: Currently unused, may never be used...
+		//----------------------------------------------------------------------------------
+		//Bundle* SaveInstanceState();
+		//----------------------------------------------------------------------------------
+		/// \brief Called after the window setup has changed and the GUIControllers have been replaced
+		//----------------------------------------------------------------------------------
+		void ConfigurationChanged();
+		//----------------------------------------------------------------------------------
+		
+		// LAYOUT METHODS
 
-			void Create(GUIManager*,Bundle*, bool startedForResult);
-			void Destroy();
+		//----------------------------------------------------------------------------------
+		/// \brief For use by GUIManager when creating the Activity
+		/// \param [in] _numControllers
+		//----------------------------------------------------------------------------------
+		void SetNumGUIControllers( unsigned int _numControllers );
+		//----------------------------------------------------------------------------------
+		/// \brief For use by GUIManager, add GUI controller
+		/// Indices must work sequentially
+		/// \param [in] _controller
+		/// \param [in] _index
+		//----------------------------------------------------------------------------------
+		void AddGUIController( GUIController *_controller, unsigned int _index );
+		//----------------------------------------------------------------------------------
+		/// \brief Returns the number of GUIControllers available to the Activity
+		/// Each GUIController is an interface to a Window and the GUI Layout that will be displayed on that Window
+		//----------------------------------------------------------------------------------
+		unsigned int GetNumGUIControllers();
+		//----------------------------------------------------------------------------------
+		/// \brief Get GUI controller
+		/// \param [in] _index
+		//----------------------------------------------------------------------------------
+		GUIController* GetGUIController( unsigned int _index );
+		//----------------------------------------------------------------------------------
+		/// \brief Must be called to arrange and correctly size the Views
+		//----------------------------------------------------------------------------------
+		void Layout();
+		//----------------------------------------------------------------------------------
 
-			GUIManager* GetGUIManager() {return _guiManager;}
+		// METHODS FOR YOU TO CALL IN DERIVED ACTIVITIES:
 
-			void Update(float deltaTs);
+		//----------------------------------------------------------------------------------
+		/// \brief Call this when you want to stop and exit the Activity
+		//----------------------------------------------------------------------------------
+		void Finish();
+		//----------------------------------------------------------------------------------
+		/// \brief For returning a result to a calling activity
+		/// \param [in] _data
+		//----------------------------------------------------------------------------------
+		void SetResult( Bundle *_data );
+		//----------------------------------------------------------------------------------
 
-			void Draw();
+		// EVENT METHODS
 
-			/// This is called by the GUIManager when a child activity returns a result
-			void ReturnActivityResult(Bundle*);
-
-			/// TODO: Currently unused, may never be used...
-			//Bundle* SaveInstanceState();
-
-			/// Called after the window setup has changed and the GUIControllers have been replaced
-			void ConfigurationChanged();
-
-
-		// Layout methods
-			/// For use by GUIManager when creating the Activity
-			void SetNumGUIControllers(unsigned int numControllers);
-			/// For use by GUIManager
-			/// Indices must work sequentially
-			void AddGUIController(GUIController*,unsigned int index);
-
-			/// Returns the number of GUIControllers available to the Activity
-			/// Each GUIController is an interface to a Window and the GUI Layout that will be displayed on that Window
-			unsigned int GetNumGUIControllers();
-			GUIController* GetGUIController(unsigned int index);
-
-			/// Must be called to arrange and correctly size the Views
-			void Layout();
-
-
-		// Methods for you to call in derived Activities:
-
-			/// Call this when you want to stop and exit the Activity
-			void Finish();
-
-			/// For returning a result to a calling activity
-			void SetResult(Bundle*);
-
-
-		// Event Methods
-
-			/// Issues events to all layout trees
-			/// If you want to issue an event to a specific layout tree, you must retrieve the GUIController for the tree you want
-			void IssueEvent(InternalEvent*);
-
-			/// Registers a Listener so it can be accessed through xml
-			/// In xml, events like button presses can specify the name of the listener that gets called
-			//void RegisterListener(ViewEventListener *listener, std::string name);
-
-			/// Retrieves an event listener
-			/// Views that generate events, such as buttons, can use this to retrieve a listener
-			//ViewEventListener* GetListener(std::string name);
+		//----------------------------------------------------------------------------------
+		/// \brief Issues events to all layout trees
+		/// If you want to issue an event to a specific layout tree, you must retrieve the GUIController for the tree you want
+		//----------------------------------------------------------------------------------
+		void IssueEvent( InternalEvent *_currentEvent );
+		//----------------------------------------------------------------------------------
+		/// \brief Registers a Listener so it can be accessed through xml
+		/// In xml, events like button presses can specify the name of the listener that gets called
+		//----------------------------------------------------------------------------------
+		//void RegisterListener( ViewEventListener *_listener, std::string _name );
+		//----------------------------------------------------------------------------------
+		/// \brief Retrieves an event listener
+		/// Views that generate events, such as buttons, can use this to retrieve a listener
+		//----------------------------------------------------------------------------------
+		//ViewEventListener* GetListener(std::string name);
+		//----------------------------------------------------------------------------------
 
 	protected:
 
+		//----------------------------------------------------------------------------------
 		virtual void OnCreate(Bundle*) {}
+		//----------------------------------------------------------------------------------
 		virtual void OnStart() {}
+		//----------------------------------------------------------------------------------
 		virtual void OnResume() {}
-
+		//----------------------------------------------------------------------------------
 		virtual void OnPause() {}
+		//----------------------------------------------------------------------------------
 		virtual void OnStop() {}
+		//----------------------------------------------------------------------------------
 		virtual void OnDestroy() {}
-
+		//----------------------------------------------------------------------------------
 		virtual void OnConfigurationChanged() {};
-		virtual void OnUpdate(float deltaTs) {};
-
+		//----------------------------------------------------------------------------------
+		virtual void OnUpdate( float _deltaTs ) {};
+		//----------------------------------------------------------------------------------
 		virtual void OnBackPressed() { Finish(); }
-
-		/// This is called when the state needs to be saved, when the Activity will be destroyed to save memory etc
+		//----------------------------------------------------------------------------------
+		/// \brief This is called when the state needs to be saved, when the Activity will be destroyed to save memory etc
 		/// TODO: Currently unused, may never be used...
+		//----------------------------------------------------------------------------------
 		//virtual Bundle* OnSaveInstanceState() {return NULL;}
-
-		/// When you start an activity that is supposed to return a result, this function is called when that activity returns the result
+		//----------------------------------------------------------------------------------
+		/// \brief When you start an activity that is supposed to return a result, this function is called when that activity returns the result
 		/// The Bundle will contain the data that was passed back from the
-		virtual void OnActivityResult(Bundle *data) {}
-
+		//----------------------------------------------------------------------------------
+		virtual void OnActivityResult( Bundle *_data ) {}
+		//----------------------------------------------------------------------------------
 
 		class UtilityEventHandler : public ViewEventListener
 		{
 		public:
-			UtilityEventHandler(Activity*);
-			virtual void HandleEvent(View *);
+			
+			//----------------------------------------------------------------------------------
+			/// \brief Ctor
+			/// \param [in] _parent
+			//----------------------------------------------------------------------------------
+			UtilityEventHandler( Activity *_parent );
+			//----------------------------------------------------------------------------------
+			/// \brief Handle event
+			/// \param [in] _view
+			//----------------------------------------------------------------------------------
+			virtual void HandleEvent( View *_view );
+			//----------------------------------------------------------------------------------
+
 		protected:
-			Activity *_parent;
+
+			//----------------------------------------------------------------------------------
+			/// \brief Parent activity
+			//----------------------------------------------------------------------------------
+			Activity *m_parent;
+			//----------------------------------------------------------------------------------
+
 		};
 
-		virtual void UtilityEventReceived(UtilityEventHandler*,View*) {}
+		//----------------------------------------------------------------------------------
+		virtual void UtilityEventReceived( UtilityEventHandler* , View* ) {}
+		//----------------------------------------------------------------------------------
 
 
 	private:
 
-		GUIController** _GUIControllers;
-		unsigned int _numGUIControllers;
-
-		/// Main parent of the visible View hierarchy
-		//View *_contentView;
-
-		/// Views for selection
-		//View *_firstFocusView, *_currentFocussedView;
-
-		std::map<std::string,ViewEventListener*> _eventListeners;
-
-		GUIManager *_guiManager;
-
-		/// Whether the Activity was started with the expectation that it would return a result
-		bool _startedForResult;
+		//----------------------------------------------------------------------------------
+		/// \brief GUI controllers
+		//----------------------------------------------------------------------------------
+		GUIController** m_GUIControllers;
+		//----------------------------------------------------------------------------------
+		/// \brief Number of GUI controllers
+		//----------------------------------------------------------------------------------
+		unsigned int m_numGUIControllers;
+		//----------------------------------------------------------------------------------
+		/// \brief Event listeners
+		//----------------------------------------------------------------------------------
+		std::map< std::string, ViewEventListener* > m_eventListeners;
+		//----------------------------------------------------------------------------------
+		/// \brief Link to GUI manager
+		//----------------------------------------------------------------------------------
+		GUIManager *m_guiManager;
+		//----------------------------------------------------------------------------------
+		/// \brief Whether the Activity was started with the expectation that it would return a result
+		//----------------------------------------------------------------------------------
+		bool m_startedForResult;
+		//----------------------------------------------------------------------------------
 
 	};
-
 }
 
-//////////////////////////////////////////////////////////////////////////
 #endif

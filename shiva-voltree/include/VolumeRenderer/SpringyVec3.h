@@ -1,44 +1,105 @@
-/*
- * SpringyVec3.h
- *
- *  Created on: Jan 10, 2013
- *      Author: leigh
- */
+///-----------------------------------------------------------------------------------------------
+/// \file SpringyVec3.h
+/// \author Leigh McLoughlin
+/// \date Jan 10, 2013
+/// \version 1.0
+/// \todo This should be templated, but I only need it for a vector3f at the moment
+///-----------------------------------------------------------------------------------------------
 
 #ifndef SPRINGYVEC3_H_
 #define SPRINGYVEC3_H_
 
 #include <cml/cml.h>
-#include <string>
 #include <sstream>
 
-#include "VolumeTree/VolumeTree.h"
-
-// TODO: This should be templated, but I only need it for a vector3f at the moment
 class SpringyVec3
 {
 public:
+
+	//----------------------------------------------------------------------------------
+	/// \brief Default ctor
+	//----------------------------------------------------------------------------------
 	SpringyVec3();
-	SpringyVec3(cml::vector3f currentPos);
-	SpringyVec3(cml::vector3f currentPos, cml::vector3f newPos);
-	SpringyVec3(cml::vector3f currentPos, cml::vector3f newPos, float speed);
-
-	cml::vector3f GetCurrent() {return _current;}
-
-	void SetAim( cml::vector3f newPos );
-	cml::vector3f GetAim() {return _aim;}
-	void Set( cml::vector3f value );
-	void Set( float x, float y, float z ) {Set( cml::vector3f(x,y,z) );}
-
-	void Update(float deltaTs);
-
+	//----------------------------------------------------------------------------------
+	/// \brief Ctor passing the current position
+	/// \param [in] _currentPos Current position 
+	//----------------------------------------------------------------------------------
+	SpringyVec3( const cml::vector3f &_currentPos );
+	//----------------------------------------------------------------------------------
+	/// \brief Ctor passing current and new position
+	/// \param [in] _currentPos Current position
+	/// \param [in] _newPos New position
+	//----------------------------------------------------------------------------------
+	SpringyVec3( const cml::vector3f &_currentPos, const cml::vector3f &_newPos );
+	//----------------------------------------------------------------------------------
+	/// \brief Ctor passing current and new position and speed value
+	/// \param [in] _currentPos Current position
+	/// \param [in] _newPos New position
+	/// \param [in] _speed Speed value
+	//----------------------------------------------------------------------------------
+	SpringyVec3( const cml::vector3f &_currentPos, const cml::vector3f &_newPos, const float &_speed );
+	//----------------------------------------------------------------------------------
+	/// \brief Returns current position
+	/// \return m_current 
+	//----------------------------------------------------------------------------------
+	cml::vector3f GetCurrent() const { return m_current; }
+	//----------------------------------------------------------------------------------
+	/// \brief Set aim
+	/// \param [in] _aim
+	//----------------------------------------------------------------------------------
+	void SetAim( const cml::vector3f &_aim );
+	//----------------------------------------------------------------------------------
+	/// \brief Returns aim
+	/// \return m_aim
+	//----------------------------------------------------------------------------------
+	cml::vector3f GetAim() const { return m_aim; }
+	//----------------------------------------------------------------------------------
+	/// \brief Set position
+	/// \param [in] _value
+	//----------------------------------------------------------------------------------
+	void SetPos( const cml::vector3f &_value );
+	//----------------------------------------------------------------------------------
+	/// \brief Set position
+	/// \param [in] _x X-coord
+	/// \param [in] _y Y-coord
+	/// \param [in] _z Z-coord
+	//----------------------------------------------------------------------------------
+	void SetPos( float _x, float _y, float _z ) { SetPos( cml::vector3f( _x, _y, _z ) ); }
+	//----------------------------------------------------------------------------------
+	/// \brief Update method
+	/// \param [in] _deltaTs Timestep
+	//----------------------------------------------------------------------------------
+	void Update( float _deltaTs );
+	//----------------------------------------------------------------------------------
+	/// \brief Print current position
+	//----------------------------------------------------------------------------------
 	std::string Print();
+	//----------------------------------------------------------------------------------
 
 protected:
 
-	cml::vector3f _original, _aim, _current;
+	//----------------------------------------------------------------------------------
+	/// \brief Original position
+	//----------------------------------------------------------------------------------
+	cml::vector3f m_original;
+	//----------------------------------------------------------------------------------
+	/// \brief Aim
+	//----------------------------------------------------------------------------------
+	cml::vector3f m_aim;
+	//----------------------------------------------------------------------------------
+	/// \brief Current position
+	//----------------------------------------------------------------------------------
+	cml::vector3f m_current;
+	//----------------------------------------------------------------------------------
+	/// \brief Speed value
+	//----------------------------------------------------------------------------------
+	float m_speed;
+	//----------------------------------------------------------------------------------
+	/// \brief Interpolation value
+	//----------------------------------------------------------------------------------
+	float m_interp;
+	//----------------------------------------------------------------------------------
 
-	float _speed, _interp;
 };
 
 #endif

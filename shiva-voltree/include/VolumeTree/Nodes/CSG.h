@@ -1,60 +1,131 @@
-/*
- * CSG.h
- *
- *  Created on: Jan 9, 2013
- *      Author: leigh
- */
+///-----------------------------------------------------------------------------------------------
+/// \file CSG.h
+/// \brief CSG node
+/// \author Leigh McLoughlin
+/// \date Jan 9, 2013
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
 #ifndef CSG_H_
 #define CSG_H_
+
+#include <sstream>
+#include <iostream>
+#include <algorithm>
+#include <cmath>
 
 #include "VolumeTree/Node.h"
 
 namespace VolumeTree
 {
-	/// Leaf node for a sphere
 	class CSGNode : public Node
 	{
 	public:
+
+		//----------------------------------------------------------------------------------
+		/// \brief CSG types
+		//----------------------------------------------------------------------------------
 		enum CSGType
 		{
 			CSG_UNION,
 			CSG_INTERSECTION,
 			CSG_SUBTRACTION
 		};
-
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor
+		//----------------------------------------------------------------------------------
 		CSGNode();
-		CSGNode(Node *childA, Node *childB);
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor passing two child nodes
+		/// \param [in] _childA
+		/// \param [in] _childB
+		//----------------------------------------------------------------------------------
+		CSGNode( Node *_childA, Node *_childB );
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor
+		//----------------------------------------------------------------------------------
 		virtual ~CSGNode();
-		
-		virtual std::string GetNodeType(){return "CSGNode";}
-
-		CSGType GetCSGType() {return _CSGType;}
-		void SetCSGType(CSGType value) {_CSGType = value;}
-
-		/// Samples the function at a specific point
-		float GetFunctionValue(float x, float y, float z);
-
-		/// Returns a GLSL-compatible string for the function
-		std::string GetFunctionGLSLString(bool callCache, std::string samplePosStr);
-
-		void SetChildA(Node *child){_childA=child;}
-		void SetChildB(Node *child){_childB=child;}
-
-		
+		//----------------------------------------------------------------------------------
+		/// \brief Get node type
+		/// \return "CSGNode"
+		//----------------------------------------------------------------------------------
+		virtual std::string GetNodeType() { return "CSGNode"; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get type
+		/// \return m_CSGType
+		//----------------------------------------------------------------------------------
+		CSGType GetCSGType() { return m_CSGType; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set type 
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetCSGType( CSGType _value ) { m_CSGType = _value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Samples the function at a specific point
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
+		//----------------------------------------------------------------------------------
+		float GetFunctionValue( float _x, float _y, float _z );
+		//----------------------------------------------------------------------------------
+		/// \brief Returns a GLSL-compatible string for the function
+		/// \param [in] _callCache
+		/// \param [in] _samplePosStr
+		//----------------------------------------------------------------------------------
+		std::string GetFunctionGLSLString( bool _callCache, std::string _samplePosStr );
+		//----------------------------------------------------------------------------------
+		/// \brief Set child A of node
+		/// \param [in] _child
+		//----------------------------------------------------------------------------------
+		void SetChildA( Node *_child ){ m_childA = _child; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set child B of node
+		/// \param [in] _child
+		//----------------------------------------------------------------------------------
+		void SetChildB( Node *_child ){ m_childB = _child; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get first child
+		//----------------------------------------------------------------------------------
 		virtual Node* GetFirstChild();
-		virtual Node* GetNextChild(Node *previousChild);
-		
-		virtual unsigned int GetNodeCost() {return 2;}
-
-		virtual void GetBounds(float *minX,float *maxX, float *minY,float *maxY, float *minZ,float *maxZ);
+		//----------------------------------------------------------------------------------
+		/// \brief Get next child of child passed to function
+		/// \param [in] _previousChild
+		//----------------------------------------------------------------------------------
+		virtual Node* GetNextChild( Node *_previousChild );
+		//----------------------------------------------------------------------------------
+		/// \brief Get node cost
+		/// \return 2
+		//----------------------------------------------------------------------------------
+		virtual unsigned int GetNodeCost() { return 2; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get boundaries
+		/// \param [out] _minX
+		/// \param [out] _maxX
+		/// \param [out] _minY
+		/// \param [out] _maxY
+		/// \param [out] _minZ
+		/// \param [out] _maxZ
+		//----------------------------------------------------------------------------------
+		virtual void GetBounds( float *_minX, float *_maxX, float *_minY, float *_maxY, float *_minZ, float *_maxZ );
+		//----------------------------------------------------------------------------------
 
 	protected:
-		Node *_childA, *_childB;
 
-		CSGType _CSGType;
+		//----------------------------------------------------------------------------------
+		/// \brief Child A
+		//----------------------------------------------------------------------------------
+		Node *m_childA;
+		//----------------------------------------------------------------------------------
+		/// \brief Child B
+		//----------------------------------------------------------------------------------
+		Node *m_childB;
+		//----------------------------------------------------------------------------------
+		/// \brief Type
+		//----------------------------------------------------------------------------------
+		CSGType m_CSGType;
+		//----------------------------------------------------------------------------------
+
 	};
-
 }
 
 

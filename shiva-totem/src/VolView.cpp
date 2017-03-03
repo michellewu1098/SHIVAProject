@@ -9,37 +9,48 @@
 VolView::VolView()
 {
 	// For mouse rotating:
-	_mousing = false;
-	_mouseLastX = _mouseLastY = 0;
-	_rotationX =_rotationZ = 0.0f;
-	_mouseRefX = _mouseRefY = 0;
+	m_mousing = false;
+	m_mouseLastX = m_mouseLastY = 0;
+	m_rotationX = m_rotationZ = 0.0f;
+	m_mouseRefX = m_mouseRefY = 0;
 
-	_mousingTimer = 0.0f;
-	_clickSelectTimeThreshold = 0.5f;
-	_allowClickSelect = false;
-	_selectVecOrigX = _selectVecOrigY = _selectVecOrigZ = 0.0f;
-	_selectVecDirX = 0.0f;_selectVecDirY = 0.0f;_selectVecDirZ = -1.0f;
+	m_mousingTimer = 0.0f;
+	m_clickSelectTimeThreshold = 0.5f;
+	m_allowClickSelect = false;
+	m_selectVecOrigX = m_selectVecOrigY = m_selectVecOrigZ = 0.0f;
+	m_selectVecDirX = 0.0f; 
+	m_selectVecDirY = 0.0f;
+	m_selectVecDirZ = -1.0f;
 
-	_showCrosshairs = false;
-	_crosshairX = _crosshairY = 0.5f;
-	_targetSize = 0.1f;
+	m_showCrosshairs = false;
+	m_crosshairX = m_crosshairY = 0.5f;
+	m_targetSize = 0.1f;
 
-	_totemController = Totem::Controller::GetInstance();
+	m_totemController = Totem::Controller::GetInstance();
 
-	_mainTree = new VolumeTree::Tree();
+	m_mainTree = new VolumeTree::Tree();
 
-	_renderer = new GLSLRenderer( 640, 480 );
-	_renderer->ReserveCaches( 10 );
-	_renderer->SetTree( _mainTree );
+	m_renderer = new GLSLRenderer( 640, 480 );
+	m_renderer->ReserveCaches( 10 );
+	m_renderer->SetTree( m_mainTree );
+
+	glGenVertexArrays( 1, &m_crosshairVAO );
+	glGenVertexArrays( 1, &m_crosshairCircleVAO );
+
+	m_crosshairShader = new Utility::GPUProgram();
+	m_crosshairShader->Create( "Resources/Shaders/Crosshair", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
+
+	m_crosshairCircleShader = new Utility::GPUProgram();
+	m_crosshairCircleShader->Create( "Resources/Shaders/Crosshair", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
 	
-	_cachePolicy = new VolumeTree::CachingPolicy();
+	m_cachePolicy = new VolumeTree::CachingPolicy();
 	
 	std::cout << "INFO: Building caches, please wait..." << std::endl;
-	_mainTree->BuildCaches( _cachePolicy, _renderer );
+	m_mainTree->BuildCaches( m_cachePolicy, m_renderer );
 	
-	std::cout << "INFO: Test tree cached GLSL output: " << _mainTree->GetCachedFunctionGLSLString() << std::endl;
+	std::cout << "INFO: Test tree cached GLSL output: " << m_mainTree->GetCachedFunctionGLSLString() << std::endl;
 
-	if( !_renderer->Initialise( "Resources/Shaders/VolRenderer.vert", "Resources/Shaders/VolRendererPart.frag" ) )
+	if( !m_renderer->Initialise( "Resources/Shaders/VolRenderer.vert", "Resources/Shaders/VolRendererPart.frag" ) )
 	{
 		std::cerr << "ERROR: Fatal Vol Renderer Initialisation Failure" << std::endl;
 	}
@@ -51,25 +62,29 @@ VolView::VolView()
 
 VolView::~VolView()
 {
-	delete _mainTree;
-	delete _renderer;
-	delete _cachePolicy;
+	delete m_mainTree;
+	delete m_renderer;
+	delete m_cachePolicy;
+	delete m_crosshairShader;
+	delete m_crosshairCircleShader;
 }
 
 //----------------------------------------------------------------------------------
 
-void VolView::Layout( int left, int top, int right, int bottom, int windowWidth, int windowHeight )
+void VolView::Layout( int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight )
 {
-	View::Layout( left, top, right, bottom, windowWidth, windowHeight );
+	View::Layout( _left, _top, _right, _bottom, _windowWidth, _windowHeight );
 
-	_boundsLeft = left;
-	_boundsRight = right;
-	_boundsTop = top;
-	_boundsBottom = bottom;
-	_windowWidth = windowWidth;
-	_windowHeight = windowHeight;
+	m_boundsLeft = _left;
+	m_boundsRight = _right;
+	m_boundsTop = _top;
+	m_boundsBottom = _bottom;
+	m_windowWidth = _windowWidth;
+	m_windowHeight = _windowHeight;
 
-	_renderer->SetWindowDimensions( ( float )( right - left ), ( float )( bottom - top ) );
+	m_renderer->SetWindowDimensions( ( float )( _right - _left ), ( float )( _bottom - _top ) );
+
+	//_renderer->SetWindowDimensions( ( float )( windowWidth), ( float )( windowHeight ) );
 
 //	float aspectRatio = ((float)right-left) / ((float)bottom-top);
 //	cml::matrix_perspective_xfov_RH(_projectionMatrix, _cameraAngle, aspectRatio, _cameraNearPlane, _cameraFarPlane, cml::z_clip_neg_one);
@@ -78,14 +93,14 @@ void VolView::Layout( int left, int top, int right, int bottom, int windowWidth,
 
 //----------------------------------------------------------------------------------
 
-void VolView::Inflate( TiXmlElement *xmlElement, ShivaGUI::ResourceManager *resources, std::string themePrefix, bool rootNode )
+void VolView::Inflate( TiXmlElement *_xmlElement, ShivaGUI::ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
-	if( themePrefix.empty() )
-		themePrefix = "VolView_";
-	View::Inflate( xmlElement, resources, themePrefix, rootNode );
+	if( _themePrefix.empty() )
+		_themePrefix = "VolView_";
+	View::Inflate( _xmlElement, _resources, _themePrefix, _rootNode );
 
-	for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
-	{
+	//for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
+	//{
 		/*
 		if( (std::string("cameraPositionX") == currentAttribute->Name()) || (themePrefix+"cameraPositionX" == currentAttribute->Name()) )
 		{
@@ -117,14 +132,14 @@ void VolView::Inflate( TiXmlElement *xmlElement, ShivaGUI::ResourceManager *reso
 			SetQuality( currentAttribute->DoubleValue() );
 		}
 		*/
-	}
+	//}
 }
 
 //----------------------------------------------------------------------------------
 
-TiXmlElement* VolView::Deflate( ShivaGUI::ResourceManager *resources )
+TiXmlElement* VolView::Deflate( ShivaGUI::ResourceManager *_resources )
 {
-	TiXmlElement *xmlNode = View::Deflate( resources );
+	TiXmlElement *xmlNode = View::Deflate( _resources );
 	xmlNode->SetValue( "VolView" );
 
 	return xmlNode;
@@ -132,11 +147,84 @@ TiXmlElement* VolView::Deflate( ShivaGUI::ResourceManager *resources )
 
 //----------------------------------------------------------------------------------
 
-void VolView::Update( float deltaTs, ShivaGUI::GUIController *guiController )
+void VolView::Update( float _deltaTs, ShivaGUI::GUIController *_guiController )
 {
-	_renderer->Update( deltaTs );
-	if( _mousing )
-		_mousingTimer += deltaTs;
+	m_renderer->Update( _deltaTs );
+	if( m_mousing )
+		m_mousingTimer += _deltaTs;
+}
+
+//----------------------------------------------------------------------------------
+
+void VolView::LoadMatricesToShader( GLuint _shaderID, cml::matrix44f_c _proj, cml::matrix44f_c _mv )
+{
+	// ModelView matrix
+	GLint mvLoc = glGetUniformLocation( _shaderID, "u_ModelViewMatrix" );
+	if( mvLoc != -1 ) { glUniformMatrix4fv( mvLoc, 1, GL_FALSE, _mv.data() ); }
+	else { std::cerr << "u_ModelViewMatrix not found in shader " << _shaderID << std::endl; }
+
+
+	// Projection matrix	
+	GLint pLoc = glGetUniformLocation( _shaderID, "u_ProjectionMatrix" );
+	if( pLoc != -1 ) { glUniformMatrix4fv( pLoc, 1, GL_FALSE, _proj.data() ); }
+	else { std::cerr << "u_ProjectionMatrix not found in shader " << _shaderID << std::endl; }
+}
+
+//----------------------------------------------------------------------------------
+
+void VolView::BuildCrosshairVBOs() 
+{
+	float verts[ 4 * 3 ] = { 0.0f, m_crosshairY, -2.0f,
+							 1.0f, m_crosshairY, -2.0f, 
+							 m_crosshairX, 0.0f, -2.0f,
+							 m_crosshairX, 1.0f, -2.0f };
+	
+	GLuint vertVBO;
+	glGenBuffers( 1, &vertVBO );
+
+	glBindBuffer( GL_ARRAY_BUFFER, vertVBO );
+	glBufferData( GL_ARRAY_BUFFER, 4 * 3 * sizeof( float ), verts, GL_STATIC_DRAW );
+	
+	glBindVertexArray( m_crosshairVAO );
+
+	glEnableVertexAttribArray( 0 );
+	glBindBuffer( GL_ARRAY_BUFFER, vertVBO );
+	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, ( GLfloat* )NULL );
+
+	glBindVertexArray( 0 );
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+}
+
+//----------------------------------------------------------------------------------
+
+void VolView::BuildCrosshairCircleVBOs()
+{
+	float camDist = m_renderer->GetCameraDistance();
+	float scaleFactor = m_targetSize * 57.0f * ( 1.0f / camDist );
+	
+	std::vector< float > verts;
+
+	for( float i = 0.0f; i < PI * 2.0f; i += 0.2f )
+	{
+		verts.push_back( m_crosshairX + ( scaleFactor * cos( i ) ) );
+		verts.push_back( m_crosshairY + ( scaleFactor * sin( i ) ) );
+		verts.push_back( -2.0f );
+	}
+
+	GLuint vertVBO;
+	glGenBuffers( 1, &vertVBO );
+
+	glBindBuffer( GL_ARRAY_BUFFER, vertVBO );
+	glBufferData( GL_ARRAY_BUFFER, verts.size() * sizeof( float ), &verts[ 0 ], GL_STATIC_DRAW );
+	
+	glBindVertexArray( m_crosshairCircleVAO );
+
+	glEnableVertexAttribArray( 0 );
+	glBindBuffer( GL_ARRAY_BUFFER, vertVBO );
+	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, ( GLfloat* )NULL );
+
+	glBindVertexArray( 0 );
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 }
 
 //----------------------------------------------------------------------------------
@@ -144,121 +232,138 @@ void VolView::Update( float deltaTs, ShivaGUI::GUIController *guiController )
 void VolView::Draw()
 {
 	View::Draw();
-	if( !_visible )
+	if( !m_visible )
 		return;
 
+	int viewport[4]; // Viewport data needed to restore the viewport after drawing the volume 
+	glGetIntegerv( GL_VIEWPORT, viewport );
+
+	//glEnable( GL_SCISSOR_TEST );
+
+	//glScissor( _boundsLeft, _windowHeight - _boundsBottom, _boundsRight - _boundsLeft, _boundsBottom - _boundsTop );
+
+
+	//glClear( GL_DEPTH_BUFFER_BIT );
 	// Set glViewport to extent of View
-	glPushAttrib( GL_VIEWPORT_BIT );
-	glPushMatrix();
-	glViewport( _boundsLeft, _windowHeight - _boundsBottom, _boundsRight - _boundsLeft, _boundsBottom - _boundsTop );
+	//glDisable( GL_SCISSOR_TEST );
 
-	_renderer->Draw();
+	glViewport( m_boundsLeft, m_windowHeight - m_boundsBottom, m_boundsRight - m_boundsLeft, m_boundsBottom - m_boundsTop );
+	// Draw the volume view
+	m_renderer->Draw();
 
-	if( _showCrosshairs )
+	
+	if( m_showCrosshairs )
 	{
-		glMatrixMode( GL_PROJECTION );
-		glPushMatrix();
-		glLoadIdentity();
-		glOrtho( 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 10.0f );
+		cml::matrix44f_c proj, mv;
+		proj.identity();
+		cml::matrix_orthographic_RH( proj, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 10.0f, cml::z_clip_neg_one );
+		mv.identity();
 
-		glMatrixMode( GL_MODELVIEW );
-		glPushMatrix();
-		glLoadIdentity();
+		// Draw crosshair
+		//----------------------------------------------------------------------------------
+
+		BuildCrosshairVBOs();
+
+		m_crosshairShader->Bind();
+
+		glUniform3f( glGetUniformLocation( m_crosshairShader->GetProgramID(), "u_Colour" ), 1.0f, 0.0f, 0.0f );
+		
+		LoadMatricesToShader( m_crosshairShader->GetProgramID(), proj, mv );
 
 		glLineWidth( 5.0f );
-		glColor3f( 1.0f, 0.0f, 0.0f );
-		glBegin( GL_LINES );
-			glVertex3f( 0.0f, _crosshairY, -2.0f );
-			glVertex3f( 1.0f, _crosshairY, -2.0f );
 
-			glVertex3f( _crosshairX, 0.0f, -2.0f );
-			glVertex3f( _crosshairX, 1.0f, -2.0f );
-		glEnd();
+		glBindVertexArray( m_crosshairVAO );
+			glDrawArrays( GL_LINES, 0, 4 );
+		glBindVertexArray( 0 );
+		
+		m_crosshairShader->Unbind();
 
-		float camDist = _renderer->GetCameraDistance();
-		float scaleFactor = _targetSize * 57.0f * ( 1.0f / camDist );
-		glBegin( GL_LINE_LOOP );
-			for( float i = 0.0f; i < PI * 2.0f; i += 0.2f )
-			{
-				glVertex3f( _crosshairX + ( scaleFactor * cos( i ) ), _crosshairY + ( scaleFactor * sin( i ) ), -2.0f );
-			}
-		glEnd();
+		// Draw crosshair circle
+		//----------------------------------------------------------------------------------
 
+		BuildCrosshairCircleVBOs();
 
-		// Restore GL matrixes for GUI system
-		glMatrixMode( GL_PROJECTION );
-		glPopMatrix();
-		glMatrixMode( GL_MODELVIEW );
-		glPopMatrix();
+		m_crosshairCircleShader->Bind();
+
+		glUniform3f( glGetUniformLocation( m_crosshairCircleShader->GetProgramID(), "u_Colour" ), 1.0f, 0.0f, 0.0f );
+		
+		LoadMatricesToShader( m_crosshairCircleShader->GetProgramID(), proj, mv );
+
+		glBindVertexArray( m_crosshairCircleVAO );
+			glDrawArrays( GL_LINE_LOOP, 0, 32 );
+		glBindVertexArray( 0 );
+
+		m_crosshairCircleShader->Unbind();
 	}
 
-	// Restore GL Viewport
-	glPopAttrib();
+	// Restore GL Viewport to previous state
+	glViewport( 0, 0, viewport[2], viewport[3] );
+	
 }
 
 //----------------------------------------------------------------------------------
 
-bool VolView::HandleEvent( ShivaGUI::InternalEvent *eventIn )
+bool VolView::HandleEvent( ShivaGUI::InternalEvent *_eventIn )
 {
-	if( eventIn->GetType() == ShivaGUI::InternalEvent::POSITIONAL_SELECT )
+	if( _eventIn->GetType() == ShivaGUI::InternalEvent::POSITIONAL_SELECT )
 	{
-		if( EventHit( eventIn ) )
+		if( EventHit( _eventIn ) )
 		{
-			_mousing = true;
+			m_mousing = true;
 			int posX, posY;
-			eventIn->GetPosition( posX, posY );
-			_mouseLastX = _mouseRefX = posX;
-			_mouseLastY = _mouseRefY = posY;
-			_mousingTimer = 0.0f;
+			_eventIn->GetPosition( posX, posY );
+			m_mouseLastX = m_mouseRefX = posX;
+			m_mouseLastY = m_mouseRefY = posY;
+			m_mousingTimer = 0.0f;
 		}
 		else
 		{
-			_mousing = false;
+			m_mousing = false;
 		}
 	}
-	else if( eventIn->GetType() == ShivaGUI::InternalEvent::POSITIONAL_DESELECT )
+	else if( _eventIn->GetType() == ShivaGUI::InternalEvent::POSITIONAL_DESELECT )
 	{
-		if( _mousing )
+		if( m_mousing )
 		{
-			_mousing = false;
-			_rotationX += _mouseLastX - _mouseRefX;
-			_rotationZ += _mouseLastY - _mouseRefY;
+			m_mousing = false;
+			m_rotationX += m_mouseLastX - m_mouseRefX;
+			m_rotationZ += m_mouseLastY - m_mouseRefY;
 			int posX,posY;
-			eventIn->GetPosition( posX, posY );
-			_mouseLastX = _mouseRefX = posX;
-			_mouseLastY = _mouseRefY = posY;
+			_eventIn->GetPosition( posX, posY );
+			m_mouseLastX = m_mouseRefX = posX;
+			m_mouseLastY = m_mouseRefY = posY;
 
-			_renderer->SetWorldAngularVelocityDegs( 0.0f, 0.0f, 0.0f );
+			m_renderer->SetWorldAngularVelocityDegs( 0.0f, 0.0f, 0.0f );
 			//renderer->SetStepsize(stationaryStepsize);
 
-			if( _mousingTimer < _clickSelectTimeThreshold )
+			if( m_mousingTimer < m_clickSelectTimeThreshold )
 			{
 				// Unproject and then pass the mouse coords to the _totemController to see if it can use them as a selection
-				float xPos = ( float ) _mouseRefX;
-				float yPos = ( float ) _mouseRefY;
+				float xPos = ( float )m_mouseRefX;
+				float yPos = ( float )m_mouseRefY;
 
 				#ifdef _DEBUG
-					std::cout<<"INFO: Attempting selection, mouse coords: "<<xPos<<" "<<yPos<<std::endl;
+					std::cout << "INFO: Attempting selection, mouse coords: " << xPos << " " << yPos << std::endl;
 				#endif
 
-				_crosshairX = ( xPos - ( float ) _boundsLeft ) / ( ( float ) _boundsRight - _boundsLeft );
-				_crosshairY = ( ( float ) _windowHeight - yPos - ( ( float ) _windowHeight - _boundsBottom ) ) / ( ( float ) _boundsBottom - _boundsTop );
-				std::cout << "INFO: crosshairY = " << _crosshairY << std::endl;
-				_renderer->Unproject( xPos,
-									  ( float ) _windowHeight - yPos, 
-									  _boundsLeft, 
-									  _windowHeight - _boundsBottom, 
-									  _boundsRight - _boundsLeft, 
-									  _boundsBottom - _boundsTop, 
-									  _selectVecOrigX,
-									  _selectVecOrigY,
-									  _selectVecOrigZ, 
-									  _selectVecDirX,
-									  _selectVecDirY,
-									  _selectVecDirZ );
+				m_crosshairX = ( xPos - ( float )m_boundsLeft ) / ( ( float )m_boundsRight - m_boundsLeft );
+				m_crosshairY = ( ( float )m_windowHeight - yPos - ( ( float )m_windowHeight - m_boundsBottom ) ) / ( ( float ) m_boundsBottom - m_boundsTop );
+				std::cout << "INFO: crosshairY = " << m_crosshairY << std::endl;
+				m_renderer->Unproject( xPos,
+									  ( float ) m_windowHeight - yPos, 
+									  m_boundsLeft, 
+									  m_windowHeight - m_boundsBottom, 
+									  m_boundsRight - m_boundsLeft, 
+									  m_boundsBottom - m_boundsTop, 
+									  m_selectVecOrigX,
+									  m_selectVecOrigY,
+									  m_selectVecOrigZ, 
+									  m_selectVecDirX,
+									  m_selectVecDirY,
+									  m_selectVecDirZ );
 
 				#ifdef _DEBUG
-					std::cout<<"INFO: Attempting selection, unproject origin: "<<_selectVecOrigX<<" "<<_selectVecOrigY<<" "<<_selectVecOrigZ<<" dir: "<<_selectVecDirX<<" "<<_selectVecDirY<<" "<<_selectVecDirZ<<std::endl;
+					std::cout << "INFO: Attempting selection, unproject origin: " << m_selectVecOrigX << " " << m_selectVecOrigY << " " << m_selectVecOrigZ << " dir: " << m_selectVecDirX << " " << m_selectVecDirY << " " << m_selectVecDirZ << std::endl;
 				#endif
 
 				/*
@@ -266,27 +371,27 @@ bool VolView::HandleEvent( ShivaGUI::InternalEvent *eventIn )
 				drill->SetDrill(_selectVecOrigX,_selectVecOrigY,_selectVecOrigZ, _selectVecDirX,_selectVecDirY,_selectVecDirZ, 100.0f);
 				_totemController->AddOperation(drill);
 				*/
-				if( _allowClickSelect )
+				if( m_allowClickSelect )
 				{
-					_totemController->SelectIntersectingObject( _selectVecOrigX, _selectVecOrigY, _selectVecOrigZ, _selectVecDirX, _selectVecDirY, _selectVecDirZ );
+					m_totemController->SelectIntersectingObject( m_selectVecOrigX, m_selectVecOrigY, m_selectVecOrigZ, m_selectVecDirX, m_selectVecDirY, m_selectVecDirZ );
 				}
 			}
 		}
 	}
-	else if( eventIn->GetType() == ShivaGUI::InternalEvent::POSITIONAL_DRAG )
+	else if( _eventIn->GetType() == ShivaGUI::InternalEvent::POSITIONAL_DRAG )
 	{
-		if( _mousing )
+		if( m_mousing )
 		{
 			int posX, posY;
-			eventIn->GetPosition( posX, posY );
-			int diffX = posX - _mouseRefX;
-			int diffY = posY - _mouseRefY;
+			_eventIn->GetPosition( posX, posY );
+			int diffX = posX - m_mouseRefX;
+			int diffY = posY - m_mouseRefY;
 
-			_renderer->SetWorldAngularVelocityDegs( 0.5f * ( ( float ) diffY ), 0.0f, 0.5f * ( ( float ) diffX ) );
+			m_renderer->SetWorldAngularVelocityDegs( 0.5f * ( ( float )diffY ), 0.0f, 0.5f * ( ( float )diffX ) );
 			//renderer->AddWorldRotationOffsetDegs((float)diffY,0.0f,(float)diffX);
 
-			_mouseLastX = posX;
-			_mouseLastY = posY;
+			m_mouseLastX = posX;
+			m_mouseLastY = posY;
 		}
 	}
 	return false;
@@ -294,68 +399,68 @@ bool VolView::HandleEvent( ShivaGUI::InternalEvent *eventIn )
 
 //----------------------------------------------------------------------------------
 
-void VolView::SetCameraAngle( float angleDeg )
+void VolView::SetCameraAngle( float _angleDeg )
 {
-	_renderer->SetCameraAngle( angleDeg );
+	m_renderer->SetCameraAngle( _angleDeg );
 }
 
 //----------------------------------------------------------------------------------
 
-void VolView::GetSelectionVector( float &originX, float &originY, float &originZ, float &dirX, float &dirY, float &dirZ )
+void VolView::GetSelectionVector( float &_originX, float &_originY, float &_originZ, float &_dirX, float &_dirY, float &_dirZ )
 {
-	float xPos = ( _crosshairX * ( ( float ) _boundsRight - _boundsLeft ) ) + ( float ) _boundsLeft;
-	float yPos = ( ( float ) _windowHeight ) - ( ( _crosshairY * ( ( float ) _boundsBottom - _boundsTop ) ) + ( ( float ) _windowHeight - _boundsBottom ) );
+	float xPos = ( m_crosshairX * ( ( float )m_boundsRight - m_boundsLeft ) ) + ( float )m_boundsLeft;
+	float yPos = ( ( float )m_windowHeight ) - ( ( m_crosshairY * ( ( float )m_boundsBottom - m_boundsTop ) ) + ( ( float )m_windowHeight - m_boundsBottom ) );
 
-	_renderer->Unproject( xPos, 
-						  ( float ) _windowHeight - yPos, 
-						  _boundsLeft, 
-						  _windowHeight - _boundsBottom, 
-						  _boundsRight - _boundsLeft, 
-						  _boundsBottom - _boundsTop, 
-						  _selectVecOrigX, 
-						  _selectVecOrigY, 
-						  _selectVecOrigZ, 
-						  _selectVecDirX, 
-						  _selectVecDirY, 
-						  _selectVecDirZ );
+	m_renderer->Unproject( xPos, 
+						  ( float ) m_windowHeight - yPos, 
+						  m_boundsLeft, 
+						  m_windowHeight - m_boundsBottom, 
+						  m_boundsRight - m_boundsLeft, 
+						  m_boundsBottom - m_boundsTop, 
+						  m_selectVecOrigX, 
+						  m_selectVecOrigY, 
+						  m_selectVecOrigZ, 
+						  m_selectVecDirX, 
+						  m_selectVecDirY, 
+						  m_selectVecDirZ );
 
-	originX = _selectVecOrigX;
-	originY = _selectVecOrigY;
-	originZ = _selectVecOrigZ;
+	_originX = m_selectVecOrigX;
+	_originY = m_selectVecOrigY;
+	_originZ = m_selectVecOrigZ;
 
-	dirX = _selectVecDirX;
-	dirY = _selectVecDirY;
-	dirZ = _selectVecDirZ;
+	_dirX = m_selectVecDirX;
+	_dirY = m_selectVecDirY;
+	_dirZ = m_selectVecDirZ;
 }
 
 //----------------------------------------------------------------------------------
 
 void VolView::ResetWorldRotation()
 {
-	_renderer->ResetWorldRotation();
+	m_renderer->ResetWorldRotation();
 }
 
 //----------------------------------------------------------------------------------
 
-void VolView::AddWorldRotationOffsetDegs( float rotX, float rotY, float rotZ )
+void VolView::AddWorldRotationOffsetDegs( float _rotX, float _rotY, float _rotZ )
 {
-	_renderer->AddWorldRotationOffsetDegs( rotX, rotY, rotZ );
+	m_renderer->AddWorldRotationOffsetDegs( _rotX, _rotY, _rotZ );
 }
 
 //----------------------------------------------------------------------------------
 
-void VolView::AddWorldRotationOffsetRads( float rotX, float rotY, float rotZ )
+void VolView::AddWorldRotationOffsetRads( float _rotX, float _rotY, float _rotZ )
 {
-	_renderer->AddWorldRotationOffsetRads( rotX, rotY, rotZ );
+	m_renderer->AddWorldRotationOffsetRads( _rotX, _rotY, _rotZ );
 }
 
 //----------------------------------------------------------------------------------
 
 void VolView::RefreshTree()
 {
-	_mainTree->SetRoot( _totemController->GetNodeTree() );
-	_mainTree->BuildCaches( _cachePolicy, _renderer );
-	_renderer->RebuildTree();
+	m_mainTree->SetRoot( m_totemController->GetNodeTree() );
+	m_mainTree->BuildCaches( m_cachePolicy, m_renderer );
+	m_renderer->RebuildTree();
 	
 	CalcStepsize();
 }
@@ -364,13 +469,13 @@ void VolView::RefreshTree()
 
 void VolView::RefreshTreeParams()
 {
-	if( _renderer->ParametersStillAvailable() )
+	if( m_renderer->ParametersStillAvailable() )
 	{
-		_mainTree->UpdateParameters( _renderer );
+		m_mainTree->UpdateParameters( m_renderer );
 		// This is the best way to see if it failed
-		if( _renderer->ParametersStillAvailable() )
+		if( m_renderer->ParametersStillAvailable() )
 		{
-			_renderer->BuildParameterUniformLists();
+			m_renderer->BuildParameterUniformLists();
 			CalcStepsize();
 		}
 		else
@@ -386,36 +491,36 @@ void VolView::RefreshTreeParams()
 
 //----------------------------------------------------------------------------------
 
-void VolView::SetObjectColour( float R, float G, float B )
+void VolView::SetObjectColour( float _r, float _g, float _b )
 {
-	_renderer->SetObjectColour( R, G, B );
+	m_renderer->SetObjectColour( _r, _g, _b );
 }
 
 //----------------------------------------------------------------------------------
 
-void VolView::NudgeCrosshairs( float x, float y )
+void VolView::NudgeCrosshairs( float _x, float _y )
 {
-	_crosshairX += x;
-	if( _crosshairX < 0.0f )
-		_crosshairX = 0.0f;
-	if( _crosshairX > 1.0f )
-		_crosshairX = 1.0f;
-	_crosshairY += y;
-	if( _crosshairY < 0.0f )
-		_crosshairY = 0.0f;
-	if( _crosshairY > 1.0f )
-		_crosshairY = 1.0f;
+	m_crosshairX += _x;
+	if( m_crosshairX < 0.0f )
+		m_crosshairX = 0.0f;
+	if( m_crosshairX > 1.0f )
+		m_crosshairX = 1.0f;
+	m_crosshairY += _y;
+	if( m_crosshairY < 0.0f )
+		m_crosshairY = 0.0f;
+	if( m_crosshairY > 1.0f )
+		m_crosshairY = 1.0f;
 }
 
 //----------------------------------------------------------------------------------
 
 void VolView::CalcStepsize()
 {
-	float bboxMaxDim = _mainTree->GetBoundingBoxMaxDim();
+	float bboxMaxDim = m_mainTree->GetBoundingBoxMaxDim();
 
 	float stepsize = bboxMaxDim / 170.0f;
 	std::cout << "INFO: new stepsize: " << stepsize << std::endl;
-	_renderer->SetStepsize( stepsize );
+	m_renderer->SetStepsize( stepsize );
 }
 
 //----------------------------------------------------------------------------------

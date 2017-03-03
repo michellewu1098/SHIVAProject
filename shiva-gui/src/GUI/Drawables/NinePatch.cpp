@@ -4,44 +4,57 @@
 
 ShivaGUI::NinePatch::NinePatch()
 {
-	_contentLeftProp = 0.0f;
-	_contentRightProp = 1.0f;
-	_contentTopProp = 0.0f;
-	_contentBottomProp = 1.0f;
-	_centreLeftBounds = _centreRightBounds = _centreTopBounds = _centreBottomBounds = 0.0f;
-	_fixedX = _fixedY = false;
+	m_contentLeftProp = 0.0f;
+	m_contentRightProp = 1.0f;
+	m_contentTopProp = 0.0f;
+	m_contentBottomProp = 1.0f;
+	m_centreLeftBounds = m_centreRightBounds = m_centreTopBounds = m_centreBottomBounds = 0.0f;
+	m_fixedX = m_fixedY = false;
+
+	glGenVertexArrays( 1, &m_vao );
+
+	BuildVBOs();
+
+	m_shader = new Utility::GPUProgram();
+	m_shader->Create( "Resources/Shaders/Drawable", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
+	
+	m_projMat.identity();
+	m_mvMat.identity();
 }
 
 //----------------------------------------------------------------------------------
 
 ShivaGUI::NinePatch::~NinePatch()
-{ }
+{
+	glDeleteVertexArrays( 1, &m_vao );
+	delete m_shader;
+}
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::NinePatch::SetTexID( unsigned int value )
+void ShivaGUI::NinePatch::SetTexID( unsigned int _value )
 {
-	_texID = value;
+	m_texID = _value;
 	// Not very efficient, but we're not into rendering yet and this is easier for the moment...
-	glBindTexture( GL_TEXTURE_2D, _texID );
-	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &_texWidth );
-	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &_texHeight );
+	glBindTexture( GL_TEXTURE_2D, m_texID );
+	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &m_texWidth );
+	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &m_texHeight );
 	glBindTexture( GL_TEXTURE_2D, 0 );
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::NinePatch::Inflate( TiXmlElement *xmlElement, ResourceManager *resources )
+void ShivaGUI::NinePatch::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources )
 {
 
-	for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
+	for( TiXmlAttribute *currentAttribute = _xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 	{
 		if( currentAttribute->Name() == std::string( "src" ) )
 		{
 			std::string filename( currentAttribute->Value() );
 
 			// TODO: specifying the directory should *really* not be done here
-			SetTexID( resources->GetBitmap( std::string( "Resources/Drawables/" ) + filename ) );
+			SetTexID( _resources->GetBitmap( std::string( "Resources/Drawables/" ) + filename ) );
 		}
 
 		else if( currentAttribute->Name() == std::string( "content_left" ) )
@@ -51,7 +64,7 @@ void ShivaGUI::NinePatch::Inflate( TiXmlElement *xmlElement, ResourceManager *re
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_contentLeftProp = value;
+			m_contentLeftProp = value;
 		}
 		else if( currentAttribute->Name() == std::string( "content_right" ) )
 		{
@@ -60,7 +73,7 @@ void ShivaGUI::NinePatch::Inflate( TiXmlElement *xmlElement, ResourceManager *re
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_contentRightProp = value;
+			m_contentRightProp = value;
 		}
 		else if( currentAttribute->Name() == std::string( "content_top" ) )
 		{
@@ -69,7 +82,7 @@ void ShivaGUI::NinePatch::Inflate( TiXmlElement *xmlElement, ResourceManager *re
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_contentTopProp = value;
+			m_contentTopProp = value;
 		}
 		else if( currentAttribute->Name() == std::string("content_bottom" ) )
 		{
@@ -78,7 +91,7 @@ void ShivaGUI::NinePatch::Inflate( TiXmlElement *xmlElement, ResourceManager *re
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_contentBottomProp = value;
+			m_contentBottomProp = value;
 		}
 
 		else if( currentAttribute->Name() == std::string( "centre_left" ) )
@@ -88,7 +101,7 @@ void ShivaGUI::NinePatch::Inflate( TiXmlElement *xmlElement, ResourceManager *re
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_centreLeftProp = value;
+			m_centreLeftProp = value;
 		}
 		else if( currentAttribute->Name() == std::string( "centre_right" ) )
 		{
@@ -97,7 +110,7 @@ void ShivaGUI::NinePatch::Inflate( TiXmlElement *xmlElement, ResourceManager *re
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_centreRightProp = value;
+			m_centreRightProp = value;
 		}
 		else if( currentAttribute->Name() == std::string( "centre_top" ) )
 		{
@@ -106,7 +119,7 @@ void ShivaGUI::NinePatch::Inflate( TiXmlElement *xmlElement, ResourceManager *re
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_centreTopProp = value;
+			m_centreTopProp = value;
 		}
 		else if( currentAttribute->Name() == std::string( "centre_bottom" ) )
 		{
@@ -115,7 +128,7 @@ void ShivaGUI::NinePatch::Inflate( TiXmlElement *xmlElement, ResourceManager *re
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_centreBottomProp = value;
+			m_centreBottomProp = value;
 		}
 
 		else if( ( std::string )( "fixedX" ) == currentAttribute->Name() )
@@ -123,219 +136,212 @@ void ShivaGUI::NinePatch::Inflate( TiXmlElement *xmlElement, ResourceManager *re
 			std::string value( currentAttribute->Value() );
 
 			if( value == "true" )
-				_fixedX = true;
+				m_fixedX = true;
 			else if( value == "false" )
-				_fixedX = false;
+				m_fixedX = false;
 		}
 		else if( ( std::string )( "fixedY" ) == currentAttribute->Name() )
 		{
 			std::string value( currentAttribute->Value() );
 
 			if( value == "true" )
-				_fixedY = true;
+				m_fixedY = true;
 			else if( value == "false" )
-				_fixedY = false;
+				m_fixedY = false;
 		}
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::NinePatch::GetContentBounds( float &left, float &top, float &right, float &bottom )
+void ShivaGUI::NinePatch::GetContentBounds( float &_left, float &_top, float &_right, float &_bottom )
 {
-	left = _contentLeftBounds;
-	right = _contentRightBounds;
-	top = _contentTopBounds;
-	bottom = _contentBottomBounds;
+	_left	= m_contentLeftBounds;
+	_right	= m_contentRightBounds;
+	_top	= m_contentTopBounds;
+	_bottom	= m_contentBottomBounds;
 }
 
 //----------------------------------------------------------------------------------
 
-int ShivaGUI::NinePatch::GetNativeWidthFromContent( int contentWidth )
+int ShivaGUI::NinePatch::GetNativeWidthFromContent( int _contentWidth )
 {
 	// is multiplying by the texWidth wrong??
-	int value = ( ( _contentLeftProp + ( 1.0f - _contentRightProp ) ) * ( float ) _texWidth ) + contentWidth;
+	int value = ( int )( ( m_contentLeftProp + ( 1.0f - m_contentRightProp ) ) * ( float ) m_texWidth ) + _contentWidth;
 	//std::cout<<"INFO: NinePatch::GetNativeWidthFromContent, contentWidth = "<<contentWidth<<" result = "<< value<<std::endl;
 	return value;
 }
 
 //----------------------------------------------------------------------------------
 
-int ShivaGUI::NinePatch::GetNativeHeightFromContent( int contentHeight )
+int ShivaGUI::NinePatch::GetNativeHeightFromContent( int _contentHeight )
 {
-	int value = ( ( _contentTopProp + ( 1.0f - _contentBottomProp ) ) * ( float ) _texHeight ) + contentHeight;
+	int value = ( int )( ( m_contentTopProp + ( 1.0f - m_contentBottomProp ) ) * ( float ) m_texHeight ) + _contentHeight;
 	//std::cout<<"INFO: NinePatch::GetNativeHeightFromContent, _contentTopProp = "<<_contentTopProp<<" _contentBottomProp = "<< _contentBottomProp<<" texHeight = "<<_texHeight<<" contentHeight = "<<contentHeight<<" result = "<< value<<std::endl;
 	return value;
 }
 
 //----------------------------------------------------------------------------------
 
+void ShivaGUI::NinePatch::BuildVBOs()
+{
+	float verts[ 16 * 2 ] = {	m_boundsLeft, m_boundsTop,
+								m_centreLeftBounds, m_boundsTop,
+								m_centreRightBounds, m_boundsTop,
+								m_boundsRight, m_boundsTop,
+
+								m_boundsLeft, m_centreTopBounds,
+								m_centreLeftBounds, m_centreTopBounds,
+								m_centreRightBounds, m_centreTopBounds,
+								m_boundsRight, m_centreTopBounds,
+									 
+								m_boundsLeft, m_centreBottomBounds,
+								m_centreLeftBounds, m_centreBottomBounds,
+								m_centreRightBounds, m_centreBottomBounds,
+								m_boundsRight, m_centreBottomBounds,
+									 
+								m_boundsLeft, m_boundsBottom,
+								m_centreLeftBounds, m_boundsBottom,
+								m_centreRightBounds, m_boundsBottom,
+								m_boundsRight, m_boundsBottom };
+
+		float uvs[ 16 * 2 ] = { 0.0f, 0.0f,
+								m_centreLeftProp, 0.0f,
+								m_centreRightProp, 0.0f,
+								1.0f, 0.0f,
+
+								0.0f, m_centreTopProp,
+								m_centreLeftProp, m_centreTopProp,
+								m_centreRightProp, m_centreTopProp,
+								1.0f, m_centreTopProp,
+									 
+								0.0f, m_centreBottomProp,
+								m_centreLeftProp, m_centreBottomProp,
+								m_centreRightProp, m_centreBottomProp,
+								1.0f, m_centreBottomProp,
+									 
+								0.0f, 1.0f,
+								m_centreLeftProp, 1.0f,
+								m_centreRightProp, 1.0f,
+								1.0f, 1.0f };
+		
+		int indices[ 9 * 4 ] = {  0,  1,  5,  4,
+								  1,  2,  6,  5,
+								  2,  3,  7,  6,
+								  4,  5,  9,  8,
+								  5,  6, 10,  9,
+								  6,  7, 11, 10,
+								  8,  9, 13, 12,
+								  9, 10, 14, 13,
+								  10, 11, 15, 14 };
+
+		GLuint vertVBO, uvsVBO, indicesVBO;
+
+		glGenBuffers( 1, &vertVBO );
+		glGenBuffers( 1, &uvsVBO );
+		glGenBuffers( 1, &indicesVBO );
+
+		glBindBuffer( GL_ARRAY_BUFFER, vertVBO );
+		glBufferData( GL_ARRAY_BUFFER, 16 * 2 * sizeof( float ), verts, GL_STATIC_DRAW );
+		
+		glBindBuffer( GL_ARRAY_BUFFER, uvsVBO );
+		glBufferData( GL_ARRAY_BUFFER, 16 * 2 * sizeof( float ), uvs, GL_STATIC_DRAW );
+		
+		glBindVertexArray( m_vao );
+
+		glEnableVertexAttribArray( 0 );
+		glBindBuffer( GL_ARRAY_BUFFER, vertVBO );
+		glVertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, 0, ( GLfloat* )NULL );
+
+		glEnableVertexAttribArray( 1 );
+		glBindBuffer( GL_ARRAY_BUFFER, uvsVBO );
+		glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 0, ( GLfloat* )NULL );
+
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, indicesVBO );
+		glBufferData( GL_ELEMENT_ARRAY_BUFFER, 9 * 4 * sizeof( int ), indices, GL_STATIC_DRAW );
+
+		glBindVertexArray( 0 );
+		glBindBuffer( GL_ARRAY_BUFFER, 0 );
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+}
+
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::NinePatch::Draw()
 {
-	// TODO: clean all this up ;)
-	glEnable( GL_TEXTURE_2D );
-	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE ) ;
-	glBindTexture( GL_TEXTURE_2D, _texID );
-	glColor3f( 1.0f, 1.0f, 1.0f );
-
 	glEnable( GL_BLEND );
 	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+	glColor3f( 1.0f, 1.0f, 1.0f );
 
-	glBegin( GL_QUADS );
+	m_shader->Bind();
 
-		glTexCoord2f( 0.0f,0.0f );								glVertex2f( _boundsLeft, _boundsTop );
-		glTexCoord2f( _centreLeftProp, 0.0f );					glVertex2f( _centreLeftBounds, _boundsTop );
-		glTexCoord2f( _centreLeftProp, _centreTopProp );		glVertex2f( _centreLeftBounds, _centreTopBounds );
-		glTexCoord2f( 0.0f, _centreTopProp );					glVertex2f( _boundsLeft, _centreTopBounds );
+	glActiveTexture( GL_TEXTURE0 );
+	glEnable( GL_TEXTURE_2D );
+	glBindTexture( GL_TEXTURE_2D, m_texID );
 
-		glTexCoord2f( _centreLeftProp, 0.0f );					glVertex2f( _centreLeftBounds, _boundsTop );
-		glTexCoord2f( _centreRightProp, 0.0f );					glVertex2f( _centreRightBounds, _boundsTop );
-		glTexCoord2f( _centreRightProp, _centreTopProp );		glVertex2f( _centreRightBounds, _centreTopBounds );
-		glTexCoord2f( _centreLeftProp, _centreTopProp );		glVertex2f( _centreLeftBounds, _centreTopBounds );
+	glUniform1i( glGetUniformLocation( m_shader->GetProgramID(), "tex" ), 0 );
 
-		glTexCoord2f( _centreRightProp, 0.0f );					glVertex2f( _centreRightBounds, _boundsTop );
-		glTexCoord2f( 1.0f, 0.0f );								glVertex2f( _boundsRight, _boundsTop );
-		glTexCoord2f( 1.0f, _centreTopProp );					glVertex2f( _boundsRight, _centreTopBounds );
-		glTexCoord2f( _centreRightProp, _centreTopProp );		glVertex2f( _centreRightBounds, _centreTopBounds );
+	int viewport[4]; // Shouldn't really do this, but temporarily it's fine
+	glGetIntegerv( GL_VIEWPORT, viewport );
 
+	cml::matrix_orthographic_RH( m_projMat, 0.f, ( float )viewport[ 2 ], ( float )viewport[ 3 ], 0.f, -1.f, 1.f, cml::z_clip_neg_one );
+	LoadMatricesToShader( m_shader->GetProgramID(), m_projMat, m_mvMat );
 
-		glTexCoord2f( 0.0f,_centreTopProp );					glVertex2f( _boundsLeft, _centreTopBounds );
-		glTexCoord2f( _centreLeftProp, _centreTopProp );		glVertex2f( _centreLeftBounds, _centreTopBounds );
-		glTexCoord2f( _centreLeftProp,_centreBottomProp );		glVertex2f( _centreLeftBounds, _centreBottomBounds );
-		glTexCoord2f( 0.0f,_centreBottomProp );					glVertex2f( _boundsLeft, _centreBottomBounds );
+	glBindVertexArray( m_vao );
+		glDrawElements( GL_QUADS, 9 * 4, GL_UNSIGNED_INT, ( void* )( 0 )  );
+	glBindVertexArray( 0 );
 
-		glTexCoord2f( _centreLeftProp, _centreTopProp );		glVertex2f( _centreLeftBounds, _centreTopBounds );
-		glTexCoord2f( _centreRightProp, _centreTopProp );		glVertex2f( _centreRightBounds, _centreTopBounds );
-		glTexCoord2f( _centreRightProp, _centreBottomProp );	glVertex2f( _centreRightBounds, _centreBottomBounds );
-		glTexCoord2f( _centreLeftProp, _centreBottomProp );		glVertex2f( _centreLeftBounds, _centreBottomBounds );
-
-		glTexCoord2f( _centreRightProp, _centreTopProp );		glVertex2f( _centreRightBounds, _centreTopBounds );
-		glTexCoord2f( 1.0f, _centreTopProp );					glVertex2f( _boundsRight, _centreTopBounds );
-		glTexCoord2f( 1.0f, _centreBottomProp );				glVertex2f( _boundsRight, _centreBottomBounds );
-		glTexCoord2f( _centreRightProp, _centreBottomProp );	glVertex2f( _centreRightBounds, _centreBottomBounds );
-
-
-		glTexCoord2f( 0.0f, _centreBottomProp );				glVertex2f( _boundsLeft, _centreBottomBounds );
-		glTexCoord2f( _centreLeftProp, _centreBottomProp );		glVertex2f( _centreLeftBounds, _centreBottomBounds );
-		glTexCoord2f( _centreLeftProp, 1.0f );					glVertex2f( _centreLeftBounds, _boundsBottom );
-		glTexCoord2f( 0.0f, 1.0f );								glVertex2f( _boundsLeft, _boundsBottom );
-
-		glTexCoord2f( _centreLeftProp, _centreBottomProp );		glVertex2f( _centreLeftBounds, _centreBottomBounds );
-		glTexCoord2f( _centreRightProp, _centreBottomProp );	glVertex2f( _centreRightBounds, _centreBottomBounds );
-		glTexCoord2f( _centreRightProp, 1.0f );					glVertex2f( _centreRightBounds, _boundsBottom );
-		glTexCoord2f( _centreLeftProp, 1.0f );					glVertex2f( _centreLeftBounds, _boundsBottom );
-
-		glTexCoord2f( _centreRightProp, _centreBottomProp );	glVertex2f( _centreRightBounds, _centreBottomBounds );
-		glTexCoord2f( 1.0f, _centreBottomProp );				glVertex2f( _boundsRight, _centreBottomBounds );
-		glTexCoord2f( 1.0f, 1.0f );								glVertex2f( _boundsRight, _boundsBottom );
-		glTexCoord2f( _centreRightProp, 1.0f );					glVertex2f( _centreRightBounds, _boundsBottom );
-
-/*
-		glTexCoord2f(0.0f,0.0f);	glVertex2f(_boundsLeft, _boundsTop);
-		glTexCoord2f(1.0f,0.0f);	glVertex2f(_boundsRight, _boundsTop);
-		glTexCoord2f(1.0f,1.0f);	glVertex2f(_boundsRight, _boundsBottom);
-		glTexCoord2f(0.0f,1.0f);	glVertex2f(_boundsLeft, _boundsBottom);
-		*/
-	glEnd();
+	m_shader->Unbind();
 
 	glDisable( GL_BLEND );
-
 	glDisable( GL_TEXTURE_2D );
 	glBindTexture( GL_TEXTURE_2D, 0 );
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::NinePatch::OnSetBounds( float left, float top, float right, float bottom, unsigned int gravity )
+void ShivaGUI::NinePatch::OnSetBounds( float _left, float _top, float _right, float _bottom, unsigned int _gravity )
 {
-//	float width = right - left;
-	float height = bottom - top;
+	float height = _bottom - _top;
 
-/*
-	_contentLeftBounds   = left + (_contentLeftProp * width);
-	_contentRightBounds  = left + (_contentRightProp * width);
-	_centreLeftBounds   = left + (_centreLeftProp * _texWidth);
-	_centreRightBounds  = right - ( (1.0f-_centreRightProp) * _texWidth);
-
-	_contentTopBounds    = top  + (_contentTopProp * height);
-	_contentBottomBounds = top  + (_contentBottomProp * height);
-	_centreTopBounds    = top  + (_centreTopProp * _texHeight);
-	_centreBottomBounds = bottom  - ( (1.0f-_centreRightProp) * _texWidth);
-*/
-	if( _fixedX )
+	if( m_fixedX )
 	{
-		_contentLeftBounds   = left + ( _contentLeftProp * _texWidth );
-		_contentRightBounds  = right - ( ( 1.0f - _contentRightProp ) * _texWidth );
-		_centreLeftBounds   = left + ( _centreLeftProp * _texWidth );
-		_centreRightBounds  = right - ( ( 1.0f - _centreRightProp) * _texWidth );
+		m_contentLeftBounds  = _left + ( m_contentLeftProp * m_texWidth );
+		m_contentRightBounds = _right - ( ( 1.0f - m_contentRightProp ) * m_texWidth );
+		m_centreLeftBounds	 = _left + ( m_centreLeftProp * m_texWidth );
+		m_centreRightBounds  = _right - ( ( 1.0f - m_centreRightProp) * m_texWidth );
 	}
 	else
 	{
-		_contentLeftBounds   = left + ( _contentLeftProp * _texWidth );
-		_contentRightBounds  = right - ( ( 1.0f - _contentRightProp ) * _texWidth );
-		_centreLeftBounds   = left + ( _centreLeftProp * _texWidth );
-		_centreRightBounds  = right - ( ( 1.0f - _centreRightProp ) * _texWidth );
+		m_contentLeftBounds  = _left + ( m_contentLeftProp * m_texWidth );
+		m_contentRightBounds = _right - ( ( 1.0f - m_contentRightProp ) * m_texWidth );
+		m_centreLeftBounds   = _left + ( m_centreLeftProp * m_texWidth );
+		m_centreRightBounds  = _right - ( ( 1.0f - m_centreRightProp ) * m_texWidth );
 	}
 
-	//std::cout<<"INFO: NinePatch::OnSetBounds width = "<<width<<" _contentLeftProp = "<<_contentLeftProp<<" _contentRightProp = "<<_contentRightProp<<std::endl;
-	//std::cout<<"INFO: NinePatch::OnSetBounds texWidth = "<<_texWidth<<" _contentLeftProp*texWidth = "<<_contentLeftProp*_texWidth<<" 1-_contentRightProp*texWidth = "<<(1.0f-_contentRightProp)*_texWidth<<std::endl;
-	//std::cout<<"INFO: NinePatch::OnSetBounds resulting content width = "<< _contentRightBounds - _contentLeftBounds<<std::endl;
-
-	if( _fixedY )
+	if( m_fixedY )
 	{
-		_contentTopBounds    = top  + ( height / 2.0f ) - ( ( float ) _texHeight / 2.0f );
-		_contentBottomBounds = bottom - ( height / 2.0f ) + ( ( float ) _texHeight / 2.0f );
-		_contentBottomBounds = bottom - ( ( 1.0f - _contentBottomProp ) * _texHeight );
-		_centreTopBounds    = _contentTopBounds  + ( _centreTopProp * _texHeight / 2.0f );
-		_centreBottomBounds = _contentBottomBounds - ( ( 1.0f - _centreBottomProp ) * _texHeight / 2.0f );
+		m_contentTopBounds		= _top  + ( height / 2.0f ) - ( ( float ) m_texHeight / 2.0f );
+		m_contentBottomBounds	= _bottom - ( height / 2.0f ) + ( ( float ) m_texHeight / 2.0f );
+		m_contentBottomBounds	= _bottom - ( ( 1.0f - m_contentBottomProp ) * m_texHeight );
+		m_centreTopBounds		= m_contentTopBounds  + ( m_centreTopProp * m_texHeight / 2.0f );
+		m_centreBottomBounds	= m_contentBottomBounds - ( ( 1.0f - m_centreBottomProp ) * m_texHeight / 2.0f );
 	}
 	else
 	{
-		//_centreLeftBounds   = left + (_centreLeftProp * _texWidth);
-		//_centreRightBounds  = right - ( (1.0f-_centreRightProp) * _texWidth);
-		//_centreTopBounds    = top  + (_centreTopProp * _texHeight);
-		//_centreBottomBounds = bottom  - ( (1.0f-_centreBottomProp) * _texHeight);
-
-		_contentTopBounds    = top  + ( _contentTopProp * _texHeight );
-		_contentBottomBounds = bottom - ( ( 1.0f - _contentBottomProp ) * _texHeight );
-		_centreTopBounds    = top  + ( _centreTopProp * _texHeight );
-		_centreBottomBounds = bottom - ( ( 1.0f - _centreBottomProp ) * _texHeight );
+		m_contentTopBounds		= _top  + ( m_contentTopProp * m_texHeight );
+		m_contentBottomBounds	= _bottom - ( ( 1.0f - m_contentBottomProp ) * m_texHeight );
+		m_centreTopBounds		= _top  + ( m_centreTopProp * m_texHeight );
+		m_centreBottomBounds	= _bottom - ( ( 1.0f - m_centreBottomProp ) * m_texHeight );
 	}
 
-	//std::cout<<"INFO: NinePatch::OnSetBounds height = "<<height<<" _contentTopProp = "<<_contentTopProp<<" _contentBottomProp = "<<_contentBottomProp<<std::endl;
-	//std::cout<<"INFO: NinePatch::OnSetBounds texHeight = "<<_texHeight<<" _contentTopProp*texHeight = "<<_contentTopProp*_texHeight<<" 1-_contentBottomProp*texHeight = "<<(1.0f-_contentBottomProp)*_texHeight<<std::endl;
-	//std::cout<<"INFO: NinePatch::OnSetBounds resulting content height = "<< _contentBottomBounds - _contentTopBounds<<std::endl;
-
-	if( _centreBottomBounds < _centreTopBounds )
+	if( m_centreBottomBounds < m_centreTopBounds )
 	{
-		float average = ( _centreBottomBounds + _centreTopBounds ) / 2.0f;
-		_centreBottomBounds = _centreTopBounds = average;
+		float average = ( m_centreBottomBounds + m_centreTopBounds ) / 2.0f;
+		m_centreBottomBounds = m_centreTopBounds = average;
 	}
 
-	/*
-	_contentLeftBounds   = left + (_contentLeftProp * width);
-	_contentRightBounds  = left + (_contentRightProp * width);
-	_centreLeftBounds   = left + (_centreLeftProp * _texWidth);
-	_centreRightBounds  = right - ( (1.0f-_centreRightProp) * _texWidth);
-
-	_contentTopBounds    = top  + (_contentTopProp * height);
-	_contentBottomBounds = top  + (_contentBottomProp * height);
-	_centreTopBounds    = top  + (_centreTopProp * _texHeight);
-	_centreBottomBounds = bottom  - ( (1.0f-_centreRightProp) * _texWidth);
-	 */
-
-
-	/*
-	_contentLeftBounds   = left + (_contentLeftProp * width);
-	_contentRightBounds  = left + (_contentRightProp * width);
-	_contentTopBounds    = top  + (_contentTopProp * height);
-	_contentBottomBounds = top  + (_contentBottomProp * height);
-
-	_centreLeftBounds   = left + (_centreLeftProp * _texWidth);
-	_centreRightBounds  = right - ( (1.0f-_centreRightProp) * _texWidth);
-	_centreTopBounds    = top  + (_centreTopProp * _texHeight);
-	_centreBottomBounds = bottom  - ( (1.0f-_centreRightProp) * _texWidth);
-	*/
+	BuildVBOs();
 }
 
 //----------------------------------------------------------------------------------

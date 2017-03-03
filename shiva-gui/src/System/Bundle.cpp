@@ -1,62 +1,75 @@
 #include "System/Bundle.h"
 
-//////////////////////////////////////////////////////////////////////////
-
+//----------------------------------------------------------------------------------
 
 ShivaGUI::Bundle::Bundle()
-{
+{ }
 
-}
+//----------------------------------------------------------------------------------
 
 ShivaGUI::Bundle::~Bundle()
-{
+{ }
 
-}
+//----------------------------------------------------------------------------------
 
-bool ShivaGUI::Bundle::ContainsKey(std::string key)
+bool ShivaGUI::Bundle::ContainsKey( std::string _key )
 {
-	if( _integers.find(key) != _integers.end() )
+	if( m_integers.find( _key ) != m_integers.end() )
 		return true;
-	if( _floats.find(key) != _floats.end() )
+	if( m_floats.find( _key ) != m_floats.end() )
 		return true;
-	if( _strings.find(key) != _strings.end() )
+	if( m_strings.find( _key ) != m_strings.end() )
 		return true;
 
 	return false;
 }
 
-void ShivaGUI::Bundle::PutInteger(std::string key, int value)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::Bundle::PutInteger( std::string _key, int _value )
 {
-	_integers[key] = value;
+	m_integers[ _key ] = _value;
 }
 
-int ShivaGUI::Bundle::GetInteger(std::string key)
+//----------------------------------------------------------------------------------
+
+int ShivaGUI::Bundle::GetInteger( std::string _key )
 {
-	if( _integers.find(key) == _integers.end() )
+	if( m_integers.find( _key ) == m_integers.end() )
 		return false;
-	return _integers[key];
+	return m_integers[ _key ];
 }
 
-void ShivaGUI::Bundle::PutFloat(std::string key, float value)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::Bundle::PutFloat( std::string _key, float _value )
 {
-	_floats[key] = value;
+	m_floats[ _key ] = _value;
 }
 
-float ShivaGUI::Bundle::GetFloat(std::string key)
+//----------------------------------------------------------------------------------
+
+float ShivaGUI::Bundle::GetFloat( std::string _key )
 {
-	if( _floats.find(key) == _floats.end() )
+	if( m_floats.find( _key ) == m_floats.end() )
 		return 0.0f;
-	return _floats[key];
+	return m_floats[ _key ];
 }
 
-void ShivaGUI::Bundle::PutString(std::string key, std::string value)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::Bundle::PutString( std::string _key, std::string _value )
 {
-	_strings[key] = value;
+	m_strings[ _key ] = _value;
 }
 
-std::string ShivaGUI::Bundle::GetString(std::string key)
+//----------------------------------------------------------------------------------
+
+std::string ShivaGUI::Bundle::GetString( std::string _key )
 {
-	if( _strings.find(key) == _strings.end() )
+	if( m_strings.find( _key ) == m_strings.end() )
 		return "";
-	return _strings[key];
+	return m_strings[ _key ];
 }
+
+//----------------------------------------------------------------------------------

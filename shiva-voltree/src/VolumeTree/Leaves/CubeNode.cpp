@@ -1,81 +1,77 @@
-
 #include "VolumeTree/Leaves/CubeNode.h"
-#include <sstream>
-#include <cmath>
-#include <algorithm>
 
 //----------------------------------------------------------------------------------
 
 VolumeTree::CubeNode::CubeNode()
 {
-	_lengthX = _lengthY = _lengthZ = 1.0f;
+	m_lengthX = m_lengthY = m_lengthZ = 1.0f;
 }
 
 //----------------------------------------------------------------------------------
 
-VolumeTree::CubeNode::CubeNode( float length )
+VolumeTree::CubeNode::CubeNode( const float &_length )
 {
-	_lengthX = _lengthY = _lengthZ = length;
+	m_lengthX = m_lengthY = m_lengthZ = _length;
 }
 
 //----------------------------------------------------------------------------------
 
-VolumeTree::CubeNode::CubeNode( float lengthX, float lengthY, float lengthZ )
+VolumeTree::CubeNode::CubeNode( const float &_lengthX, const float &_lengthY, const float &_lengthZ )
 {
-	_lengthX = lengthX;
-	_lengthY = lengthY;
-	_lengthZ = lengthZ;
+	m_lengthX = _lengthX;
+	m_lengthY = _lengthY;
+	m_lengthZ = _lengthZ;
 }
 
 //----------------------------------------------------------------------------------
 
-float VolumeTree::CubeNode::GetFunctionValue( float x, float y, float z )
+float VolumeTree::CubeNode::GetFunctionValue( float _x, float _y, float _z )
 {
-	float lowerX = -_lengthX * 0.5;
-	float upperX = _lengthX * 0.5;
-	float lowerY = -_lengthX * 0.5;
-	float upperY = _lengthX * 0.5;
-	float lowerZ = -_lengthX * 0.5;
-	float upperZ = _lengthX * 0.5;
+	float lowerX = -m_lengthX * 0.5f;
+	float upperX = m_lengthX * 0.5f;
+	float lowerY = -m_lengthX * 0.5f;
+	float upperY = m_lengthX * 0.5f;
+	float lowerZ = -m_lengthX * 0.5f;
+	float upperZ = m_lengthX * 0.5f;
 	
-	float value = CSG_Intersect( upperZ - z, z - lowerZ );
-	value = CSG_Intersect( value, upperY - y );
-	value = CSG_Intersect( value, y - lowerY );
-	value = CSG_Intersect( value, upperX - x );
-	value = CSG_Intersect( value, x - lowerX );
+	float value = CSG_Intersect( upperZ - _z, _z - lowerZ );
+	value = CSG_Intersect( value, upperY - _y );
+	value = CSG_Intersect( value, _y - lowerY );
+	value = CSG_Intersect( value, upperX - _x );
+	value = CSG_Intersect( value, _x - lowerX );
 	
 	return value;
 }
 
 //----------------------------------------------------------------------------------
 
-float VolumeTree::CubeNode::CSG_Intersect( float f1, float f2 )
+float VolumeTree::CubeNode::CSG_Intersect( float _f1, float _f2 )
 {
-	return f1 + f2 - sqrt( pow( f1, 2 ) + pow( f2, 2 ) );
+	return _f1 + _f2 - sqrt( pow( _f1, 2 ) + pow( _f2, 2 ) );
 }
 
 //----------------------------------------------------------------------------------
 
-std::string VolumeTree::CubeNode::GetFunctionGLSLString( bool callCache, std::string samplePosStr )
+std::string VolumeTree::CubeNode::GetFunctionGLSLString( bool _callCache, std::string _samplePosStr )
 {
 	std::stringstream functionString;
-	functionString << "Cube(" << samplePosStr << ",vec3(" << _lengthX << "," << _lengthY << "," << _lengthZ << "))";
+	functionString << "Cube(" << _samplePosStr << ",vec3(" << m_lengthX << "," << m_lengthY << "," << m_lengthZ << "))";
 
 	return functionString.str();
 }
 
 //----------------------------------------------------------------------------------
 
-void VolumeTree::CubeNode::GetBounds( float *minX, float *maxX, float *minY, float *maxY, float *minZ, float *maxZ )
+void VolumeTree::CubeNode::GetBounds( float *_minX, float *_maxX, float *_minY, float *_maxY, float *_minZ, float *_maxZ )
 {
-	*minX = -_lengthX * 0.5f;
-	*maxX = _lengthX * 0.5f;
+	*_minX = -m_lengthX * 0.5f;
+	*_maxX = m_lengthX * 0.5f;
 	
-	*minY = - _lengthY * 0.5f;
-	*maxY = _lengthY * 0.5f;
+	*_minY = -m_lengthY * 0.5f;
+	*_maxY = m_lengthY * 0.5f;
 	 
-	*minZ = -_lengthZ * 0.5f;
-	*maxZ = _lengthZ * 0.5f;
+	*_minZ = -m_lengthZ * 0.5f;
+	*_maxZ = m_lengthZ * 0.5f;
 }
 
 //----------------------------------------------------------------------------------

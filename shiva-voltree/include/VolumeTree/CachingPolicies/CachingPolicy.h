@@ -1,14 +1,13 @@
-/*
- * CachingPolicy.h
- *
- *  Created on: May 23, 2013
- *      Author: leigh
- */
+//------------------------------------------------------------------------------------
+/// \file CachingPolicy.h
+/// \brief The base class is useable but only caches nodes that say they require it
+/// \author Leigh McLoughlin
+/// \version 1.0
+/// \date May 23, 2013
+//------------------------------------------------------------------------------------
 
 #ifndef CACHINGPOLICY_H
 #define CACHINGPOLICY_H
-
-#include <string>
 
 #include "VolumeTree/Node.h"
 
@@ -19,24 +18,42 @@ namespace VolumeTree
 {
 	class Tree;
 
-	/// The base class is useable but only caches nodes that say they require it
 	class CachingPolicy
 	{
 	public:
-		CachingPolicy();
-		virtual ~CachingPolicy();
 
-		/// This must determine which (if any) nodes in the tree should be cached
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor
+		//----------------------------------------------------------------------------------
+		CachingPolicy();
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor
+		//----------------------------------------------------------------------------------
+		virtual ~CachingPolicy();
+		//----------------------------------------------------------------------------------
+		/// \brief This must determine which (if any) nodes in the tree should be cached
 		/// It should examine the node sub-tree and tell individual nodes to cache their sub-trees (and what resolution cache to use)
 		/// It can use information from the renderer to figure out the optimal use of caching and cache sizes etc
-		virtual void Process( Node *, GLSLRenderer *);
+		/// \param [in] _rootNode
+		/// \param [in] _renderer
+		//----------------------------------------------------------------------------------
+		virtual void Process( Node *_rootNode, GLSLRenderer *_renderer );
+		//----------------------------------------------------------------------------------
 
 	protected:
 
-		unsigned int TreeTraverse( Node *, GLSLRenderer *, float cacheDensity, unsigned int maxNodeVoxels, unsigned int currentCacheID);
-	};
+		//----------------------------------------------------------------------------------
+		/// Tree traversing
+		/// \param [in] _currentNode
+		/// \param [in] _renderer
+		/// \param [in] _cacheDensity
+		/// \param [in] _maxNodeVoxels
+		/// \param [in] _currentCacheID
+		//----------------------------------------------------------------------------------
+		unsigned int TreeTraverse( Node *_currentNode, GLSLRenderer *_renderer, float _cacheDensity, unsigned int _maxNodeVoxels, unsigned int _currentCacheID );
+		//----------------------------------------------------------------------------------
 
+	};
 }
 
-
-#endif /* NODE_H_ */
+#endif // CACHINGPOLICY_H_ 

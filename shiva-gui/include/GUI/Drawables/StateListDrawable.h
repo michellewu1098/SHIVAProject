@@ -9,10 +9,7 @@
 #ifndef __SHIVA_RESOURCESYSTEM_STATELISTDRAWABLE__
 #define __SHIVA_RESOURCESYSTEM_STATELISTDRAWABLE__
 
-#include <vector>
 #include <utility>
-#include <string>
-#include <iostream>
 
 #include "GUI/Drawables/Drawable.h"
 #include "Utility/tinyxml.h"
@@ -45,48 +42,48 @@ namespace ShivaGUI
 		virtual ~StateListDrawable();
 		//----------------------------------------------------------------------------------
 		/// \brief For setting up the Drawable from xml
-		/// \param [in] xmlElement
-		/// \param [in] resources
+		/// \param [in] _xmlElement
+		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
-		virtual void Inflate( TiXmlElement*, ResourceManager* );
+		virtual void Inflate( TiXmlElement* _xmlElement, ResourceManager* _resources );
 		//----------------------------------------------------------------------------------
 		/// \brief Set current state
-		/// \param [in] value
+		/// \param [in] _value
 		//----------------------------------------------------------------------------------
-		void SetCurrentState( int value ) { _currentState = value; }
+		void SetCurrentState( int _value ) { m_currentState = _value; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get current state
-		/// \return _currentState
+		/// \return m_currentState
 		//----------------------------------------------------------------------------------
-		int GetCurrentState() { return _currentState; }
+		int GetCurrentState() { return m_currentState; }
 		//----------------------------------------------------------------------------------
 		/// \brief Assign a drawable to a state, or set of states. Note that state = 0 is the default, which will be 
 		/// used if no drawables match the current state
-		/// \param [in] drawable
-		/// \param [in] states
+		/// \param [in] _drawable
+		/// \param [in] _states
 		//----------------------------------------------------------------------------------
-		void AddStateDrawable( Drawable*, int states );
+		void AddStateDrawable( Drawable* _drawable, int _states );
 		//----------------------------------------------------------------------------------
 		/// \brief Get current drawable
 		//----------------------------------------------------------------------------------
 		Drawable* GetCurrentDrawable();
 		//----------------------------------------------------------------------------------
 		/// \brief Get default drawable
-		/// \return _defaultDrawable
+		/// \return m_defaultDrawable
 		//----------------------------------------------------------------------------------
-		Drawable* GetDefaultDrawable() { return _defaultDrawable; }
+		Drawable* GetDefaultDrawable() { return m_defaultDrawable; }
 		//----------------------------------------------------------------------------------
 		/// \brief Draw method
 		//----------------------------------------------------------------------------------
 		virtual void Draw();
 		//----------------------------------------------------------------------------------
 		/// \brief Get content bounds
-		/// \param [out] left
-		/// \param [out] top
-		/// \param [out] right
-		/// \param [out] bottom
+		/// \param [out] _left
+		/// \param [out] _top
+		/// \param [out] _right
+		/// \param [out] _bottom
 		//----------------------------------------------------------------------------------
-		virtual void GetContentBounds( float &left, float &top, float &right, float &bottom );
+		virtual void GetContentBounds( float &_left, float &_top, float &_right, float &_bottom );
 		//----------------------------------------------------------------------------------
 		// For retrieving the actual pixel size of Drawable
 		//----------------------------------------------------------------------------------
@@ -99,14 +96,14 @@ namespace ShivaGUI
 		virtual int GetNativeHeight();
 		//----------------------------------------------------------------------------------
 		/// \brief Get native width of current Drawable
-		/// \param [in] contentWidth
+		/// \param [in] _contentWidth
 		//----------------------------------------------------------------------------------
-		virtual int GetNativeWidthFromContent( int contentWidth );
+		virtual int GetNativeWidthFromContent( int _contentWidth );
 		//----------------------------------------------------------------------------------
 		/// \brief Get native height of current Drawable
-		/// \param [in] contentHeight
+		/// \param [in] _contentHeight
 		//----------------------------------------------------------------------------------
-		virtual int GetNativeHeightFromContent( int contentHeight );
+		virtual int GetNativeHeightFromContent( int _contentHeight );
 		//----------------------------------------------------------------------------------
 
 	protected:
@@ -114,30 +111,30 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief Container for states of Drawables
 		//----------------------------------------------------------------------------------
-		std::vector< std::pair< Drawable*, int > > _stateDrawables;
+		std::vector< std::pair< Drawable*, int > > m_stateDrawables;
 		//----------------------------------------------------------------------------------
 		/// \brief Default Drawable
 		//----------------------------------------------------------------------------------
-		Drawable *_defaultDrawable;
+		Drawable *m_defaultDrawable;
 		//----------------------------------------------------------------------------------
 		/// \brief Current state
 		//----------------------------------------------------------------------------------
-		int _currentState;
+		int m_currentState;
 		//----------------------------------------------------------------------------------
 		/// \brief Set bounds
-		/// \param [in] left
-		/// \param [in] top
-		/// \param [in] right
-		/// \param [in] bottom
-		/// \param [in] gravity
+		/// \param [in] _left
+		/// \param [in] _top
+		/// \param [in] _right
+		/// \param [in] _bottom
+		/// \param [in] _gravity
 		//----------------------------------------------------------------------------------
-		virtual void OnSetBounds( float left, float top, float right, float bottom, unsigned int gravity );
+		virtual void OnSetBounds( float _left, float _top, float _right, float _bottom, unsigned int _gravity );
 		//----------------------------------------------------------------------------------
 		/// \brief For parsing a single drawable and getting the states for it
-		/// \param [in] xmlElement
-		/// \param [in] resources
+		/// \param [in] _xmlElement
+		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
-		void ParseItem( TiXmlElement*, ResourceManager* );
+		void ParseItem( TiXmlElement* _xmlElement, ResourceManager* _resources );
 		//----------------------------------------------------------------------------------
 	};
 }

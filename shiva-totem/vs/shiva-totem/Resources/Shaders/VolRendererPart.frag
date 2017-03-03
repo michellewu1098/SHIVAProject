@@ -1,19 +1,23 @@
+#version 330
 
 uniform sampler3D CacheTexture0;
 uniform sampler3D CacheTexture1;
 uniform sampler3D CacheTexture2;
 uniform sampler3D CacheTexture3;
 
-varying vec3 viewSpacePos;
-varying vec3 worldSpacePos;
-varying vec3 worldSpaceCam;
+in vec3 o_WorldSpacePos;
+in vec3 o_WorldSpaceCam;
+in mat4 o_MVP;
 
 uniform vec3 fragboundmin;
 uniform vec3 fragboundmax;
 uniform vec4 parameters;
-uniform vec3 objectcolour = vec3( 0.88, 0.78, 0.54 );
-uniform float stepsize = 0.03;
-uniform float gradDelta = 0.001;
+uniform vec3 objectcolour;
+
+uniform float stepsize;
+uniform float gradDelta;
+
+out vec4 fragColour;
 
 //----------------------------------------------------------------------------------
 
@@ -100,11 +104,6 @@ float DistPointToUnitAABB( vec3 samplePosition )
 
 float Sphere( vec3 samplePosition, vec3 radius )
 {
-	//return radius - sqrt( pow(samplePosition.x-centre.x,2) + pow(samplePosition.y-centre.y,2) + pow(samplePosition.z-centre.z,2) );
-	// Oleg's code:
-	//vec3 vecDiff = samplePosition - centre;
-	//return radius*radius - dot(vecDiff, vecDiff);
-	
 	vec3 vecDiff = samplePosition / radius;
 	return 1.0 - dot( vecDiff, vecDiff );
 }
@@ -113,14 +112,6 @@ float Sphere( vec3 samplePosition, vec3 radius )
 
 float CSG_Union( float f1, float f2 )
 {
-	// AMD graphics cards cannot handle sqrt
-	//return max(f1,f2);
-	//double a = (f1*f1)+(f2*f2);
-	//double b = sqrt( a );
-	//return f1 + f2;//f2;
-	//return (f1+f2)+sqrt( (f1*f1)+(f2*f2) );
-	//return f1+f2+sqrt( pow(f1,2)+pow(f2,2));
-
 	return f1 + f2 + length( vec2( f1, f2 ) );
 }
 
@@ -136,16 +127,13 @@ float CSG_Subtract( float f1, float f2 )
 
 float CSG_Intersect( float f1, float f2 )
 {
-	//return min(f1,f2);
-	return f1 + f2 - length( vec2( f1, f2 ) ); //sqrt( pow(f1,2)+pow(f2,2));
+	return f1 + f2 - length( vec2( f1, f2 ) ); 
 }
 
 //----------------------------------------------------------------------------------
 
 float BlendDisp( float f1, float f2, float a0, float a1, float a2 )
 {
-	//return -0.1f*(f1+f2);
-	//return a0 / (1+pow(f1/a1,2) + pow(f2/a2,2));
 	return ( a0 ) / ( 1 + ( ( f1 / a1 ) * ( f1 / a1 ) ) + ( ( f2 / a2 ) * ( f2 / a2 ) ) );
 }
 
@@ -179,23 +167,10 @@ float Cylinder( vec3 samplePosition, float length, float radiusX, float radiusY 
     float upperZ = length * 0.5;
     vec2 diff = vec2( samplePosition.x / radiusX, samplePosition.y / radiusY );
     float value = 1.0 - dot( diff, diff );
-    //float value = 1.0 - pow(samplePosition.x/radiusX,2) - pow(samplePosition.y/radiusY,2);//dot(samplePosition.xy/radiusX, samplePosition.xy/radiusY);
+   
     value = CSG_Intersect( value, samplePosition.z - lowerZ );
     value = CSG_Intersect( value, upperZ - samplePosition.z );
     return value;
-    
-/*
-	float lowerZ = -length*0.5;
-	float upperZ = length*0.5;
-	samplePosition.xy = samplePosition.xy / radius;
-	float value = 1.0 - dot(samplePosition.xy, samplePosition.xy);
-//	float value = radius*radius - dot(samplePosition.xy, samplePosition.xy);
-
-	value = CSG_Intersect( value, samplePosition.z - lowerZ );
-	value = CSG_Intersect( value, upperZ - samplePosition.z );
-
-	return value;
-*/
 }
 
 //----------------------------------------------------------------------------------
@@ -204,7 +179,6 @@ float Cone( vec3 samplePosition, float length, float radius )
 {
 	float lowerZ = -length * 0.5;
 	float upperZ = length * 0.5;
-//	radius = radius * (1.0/length);
 	float value = ( samplePosition.z - upperZ ) * ( samplePosition.z - upperZ ) - dot( samplePosition.xy * length / radius, samplePosition.xy * length / radius );
 	
 	value = CSG_Intersect( value, upperZ - samplePosition.z );
@@ -234,9 +208,6 @@ float Cube( vec3 samplePosition, vec3 length )
 float Torus( vec3 samplePosition, float circleRadius, float sweepRadius )
 {
 	return ( circleRadius * circleRadius ) - dot( samplePosition, samplePosition ) - ( sweepRadius * sweepRadius ) + 2.0 * sweepRadius * sqrt( dot( samplePosition.xy, samplePosition.xy ) );
-	
-	// 'normalised' version
-	//return circleRadius - sqrt(dot(samplePosition, samplePosition)+(sweepRadius*sweepRadius)-2.0*sweepRadius*sqrt( dot(samplePosition.xz,samplePosition.xz) ));
 }
 
 //----------------------------------------------------------------------------------
@@ -246,17 +217,15 @@ float Cache( vec3 samplePosition, sampler3D tex, vec3 posOffset, vec3 scaleOffse
 	vec3 sampleCoords = ( samplePosition + posOffset ) * scaleOffset + vec3( 0.5 );
 	if( all( greaterThan( sampleCoords, vec3( -0.0001 ) ) ) && all( lessThan( sampleCoords, vec3( 1.0001 ) ) ) )
 	{
-		float value = texture3D( tex, sampleCoords ).a;
+		float value = texture( tex, sampleCoords ).a;
 		if( value < -9999 )
 			return value * 0.001;
 		return value;
 	}
 	else
 	{
-		//return -999.0;
-		
-		float dist = DistPointToUnitAABB( sampleCoords );//length(sampleCoords);
-		float value = texture3D( tex, sampleCoords ).a;
+		float dist = DistPointToUnitAABB( sampleCoords );
+		float value = texture( tex, sampleCoords ).a;
 		value = -abs( value );
 		return value - abs( dist );
 	}
@@ -279,8 +248,6 @@ vec3 Transform( vec3 samplePosition, mat4 transMatrix )
 //----------------------------------------------------------------------------------
 
 float GetField( vec3 samplePosition );
-//float GetField(vec3 samplePosition) { return CSG_Union(Cylinder(Translate(samplePosition,vec3(0,0,0.5)),1,0.05),Cylinder(Translate(samplePosition,vec3(0,0,-0.05)),0.1,0.5));}
-//float GetField(vec3 samplePosition) { return Cylinder(Translate(samplePosition,vec3(0,0,-0.05)),0.1,0.5); }
 
 //----------------------------------------------------------------------------------
 
@@ -304,7 +271,7 @@ vec3 bsearch( vec3 previous, vec3 current )
                         end = midPos;
         }
 
-        return ( begin + end ) * 0.5; //worldToTextureCoords((begin+end)*0.5);
+        return ( begin + end ) * 0.5;
 }
 
 //----------------------------------------------------------------------------------
@@ -341,9 +308,9 @@ void main ()
 
 	// Mat's code (reduced)
 
-    vec3 cam = worldSpaceCam;
-    vec3 pos = worldSpacePos;
-    vec3 dir = normalize( worldSpacePos - cam );
+    vec3 cam = o_WorldSpaceCam;
+    vec3 pos = o_WorldSpacePos;
+    vec3 dir = normalize( pos - cam );
 	// pos += dir * stepsize * 0.5; // Make sure we dont miss straight away
     vec3 norm = vec3( 0, 0, 1 );
     
@@ -359,9 +326,6 @@ void main ()
  		if( functionValue > 0.0f )
  		{
  			pos = bsearch( pos - stepsize * dir, pos );
- 			//norm = getGradient(pos);
- 			//gl_FragColor = vec4(1,0,0,0);
- 			//return;
  			break;
  		}
  		else
@@ -386,25 +350,21 @@ void main ()
     vec3 I = normalize( cam - pos );
     vec3 N = normalize( norm );
     float LdotN = max( dot( I, N ), 0.0 );
-    gl_FragColor = vec4( clamp( ( objectcolour * LdotN ) * 0.9 + 0.1, 0.0, 1.0 ), 1 );
-    
+
+    fragColour = vec4( clamp( ( objectcolour * LdotN ) * 0.9 + 0.1, 0.0, 1.0 ), 1 );
 	
-	//gl_FragColor = vec4(clamp((vec3(0.88,0.78,0.54) * LdotN)*0.9+0.1,0.0,1.0),1);
-    //gl_FragColor = vec4(fieldColor(N),1);
-	//gl_FragColor = vec4(1,0,0,1);
-	
+
 	// Depth calculation code from: 
 	// http://stackoverflow.com/questions/10264949/glsl-gl-fragcoord-z-calculation-and-setting-gl-fragdepth
 	
 	float far = gl_DepthRange.far; 
 	float near = gl_DepthRange.near;
 
-	vec4 eye_space_pos = gl_ModelViewMatrix * vec4( pos, 1 );
-	vec4 clip_space_pos = gl_ProjectionMatrix * eye_space_pos;
+	vec4 clip_space_pos = o_MVP * vec4( pos, 1 );
 
 	float ndc_depth = clip_space_pos.z / clip_space_pos.w;
-
-	float depth = ( ( ( far - near ) * ndc_depth ) + near + far) / 2.0;
+	
+	float depth = ( ( ( far - near ) * ndc_depth ) + near + far) * 0.5;
 	gl_FragDepth = depth;
 		
 }

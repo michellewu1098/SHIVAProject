@@ -405,7 +405,7 @@ void Totem::Controller::ShowSelection( bool value )
 	_showSelection = value;
 	if( _selectedObject != NULL )
 	{
-		_selectedObject->SetDrawBBox( _showSelection );
+		//_selectedObject->SetDrawBBox( _showSelection );
 	}
 }
 

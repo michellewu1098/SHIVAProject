@@ -1,80 +1,76 @@
-/*
- * BlendCSG.h
- *
- *  Created on: Jan 9, 2013
- *      Author: leigh
- */
-
 #include "VolumeTree/Nodes/BlendCSG.h"
-#include <sstream>
-#include <iostream>
-#include <algorithm>
 
-#include <cmath>
-
+//----------------------------------------------------------------------------------
 
 VolumeTree::BlendCSGNode::BlendCSGNode()
 {
-	_childA = _childB = NULL;
-	_a0 = 0.1f;
-	_a1 = 1.0f;
-	_a2 = 1.0f;
+	m_childA = m_childB = NULL;
+	m_a0 = 0.1f;
+	m_a1 = 1.0f;
+	m_a2 = 1.0f;
 }
 
-VolumeTree::BlendCSGNode::BlendCSGNode(Node *childA, Node *childB)
+//----------------------------------------------------------------------------------
+
+VolumeTree::BlendCSGNode::BlendCSGNode( Node *_childA, Node *_childB )
 {
-	_childA = childA;
-	_childB = childB;
-	_a0 = 0.1f;
-	_a1 = 1.0f;
-	_a2 = 1.0f;
+	m_childA = _childA;
+	m_childB = _childB;
+	m_a0 = 0.1f;
+	m_a1 = 1.0f;
+	m_a2 = 1.0f;
 }
+
+//----------------------------------------------------------------------------------
 
 VolumeTree::BlendCSGNode::~BlendCSGNode()
-{
-}
+{ }
 
-float VolumeTree::BlendCSGNode::GetFunctionValue(float x, float y, float z)
+//----------------------------------------------------------------------------------
+
+float VolumeTree::BlendCSGNode::GetFunctionValue( float _x, float _y, float _z )
 {
 	//return std::max<float>(_childA->GetFunctionValue(x,y,z),_childB->GetFunctionValue(x,y,z));//fmax(_childA->GetFunctionValue(x,y,z),_childB->GetFunctionValue(x,y,z));
 
 	// TODO: CSG types other than union!!!
 
 	// R-intersection: f1+f2-sqrt(f1^2+f2^2)
-	float f1 = _childA->GetFunctionValue(x,y,z);
-	float f2 = _childB->GetFunctionValue(x,y,z);
-	float value = f1+f2+sqrt( pow(f1,2)+pow(f2,2));
+	float f1 = m_childA->GetFunctionValue( _x, _y, _z );
+	float f2 = m_childB->GetFunctionValue( _x, _y, _z );
+	float value = f1 + f2 + sqrt( pow( f1, 2 ) + pow( f2, 2 ) );
 
-	value += _a0 / (1.0f+pow(f1/_a1,2) + pow(f2/_a2,2));
+	value += m_a0 / ( 1.0f + pow( f1 / m_a1, 2 ) + pow( f2 / m_a2, 2 ) );
 	return value;
 }
 
-std::string VolumeTree::BlendCSGNode::GetFunctionGLSLString(bool callCache, std::string samplePosStr)
+//----------------------------------------------------------------------------------
+
+std::string VolumeTree::BlendCSGNode::GetFunctionGLSLString( bool _callCache, std::string _samplePosStr )
 {
-	if( _childA != NULL && _childB != NULL )
+	if( m_childA != NULL && m_childB != NULL )
 	{
 
 		std::stringstream functionString;
-		if( _CSGType == CSG_UNION )
+		if( m_CSGType == CSG_UNION )
 		{
-			functionString<<"BlendCSG_Union(";
+			functionString << "BlendCSG_Union(";
 		}
-		else if( _CSGType == CSG_SUBTRACTION )
+		else if( m_CSGType == CSG_SUBTRACTION )
 		{
-			functionString<<"BlendCSG_Subtract(";
+			functionString << "BlendCSG_Subtract(";
 		}
-		else if( _CSGType == CSG_INTERSECTION )
+		else if( m_CSGType == CSG_INTERSECTION )
 		{
-			functionString<<"BlendCSG_Intersect(";
+			functionString << "BlendCSG_Intersect(";
 		}
 
-		if( callCache )
+		if( _callCache )
 		{
-			functionString<<_childA->GetCachedFunctionGLSLString(samplePosStr)<<","<<_childB->GetCachedFunctionGLSLString(samplePosStr)<<","<<_a0<<","<<_a1<<","<<_a2<<")";
+			functionString << m_childA->GetCachedFunctionGLSLString( _samplePosStr ) << "," << m_childB->GetCachedFunctionGLSLString( _samplePosStr ) << "," << m_a0 << "," << m_a1 << "," << m_a2 << ")";
 		}
 		else
 		{
-			functionString<<_childA->GetFunctionGLSLString(false,samplePosStr)<<","<<_childB->GetFunctionGLSLString(false,samplePosStr)<<","<<_a0<<","<<_a1<<","<<_a2<<")";
+			functionString << m_childA->GetFunctionGLSLString( false, _samplePosStr ) << "," << m_childB->GetFunctionGLSLString( false, _samplePosStr ) << "," << m_a0 << "," << m_a1 << "," << m_a2 <<")";
 		}
 
 /*
@@ -91,22 +87,22 @@ std::string VolumeTree::BlendCSGNode::GetFunctionGLSLString(bool callCache, std:
 	}
 	else
 	{
-		std::cerr<<"WARNING: BlendCSGNode has one or more invalid children"<<std::endl;
+		std::cerr << "WARNING: BlendCSGNode has one or more invalid children" << std::endl;
 		return "-1";
 	}
 }
 
+//----------------------------------------------------------------------------------
 
-
-void VolumeTree::BlendCSGNode::GetBounds(float *minX,float *maxX, float *minY,float *maxY, float *minZ,float *maxZ)
+void VolumeTree::BlendCSGNode::GetBounds( float *_minX, float *_maxX, float *_minY, float *_maxY, float *_minZ, float *_maxZ )
 {
-	if( _childA != NULL && _childB != NULL )
+	if( m_childA != NULL && m_childB != NULL )
 	{
 		// This is the normal case
 
-		if( _CSGType == CSG_SUBTRACTION )
+		if( m_CSGType == CSG_SUBTRACTION )
 		{
-			_childA->GetBounds(minX,maxX,minY,maxY,minZ,maxZ);
+			m_childA->GetBounds( _minX, _maxX, _minY, _maxY, _minZ, _maxZ );
 			//std::cout<<"INFO: ********************** subtraction"<<std::endl;
 		}
 		else
@@ -117,51 +113,50 @@ void VolumeTree::BlendCSGNode::GetBounds(float *minX,float *maxX, float *minY,fl
 
 			float AminX, AmaxX, AminY, AmaxY, AminZ, AmaxZ;
 			float BminX, BmaxX, BminY, BmaxY, BminZ, BmaxZ;
-			_childA->GetBounds(&AminX, &AmaxX, &AminY, &AmaxY, &AminZ, &AmaxZ);
-			_childB->GetBounds(&BminX, &BmaxX, &BminY, &BmaxY, &BminZ, &BmaxZ);
+			m_childA->GetBounds( &AminX, &AmaxX, &AminY, &AmaxY, &AminZ, &AmaxZ );
+			m_childB->GetBounds( &BminX, &BmaxX, &BminY, &BmaxY, &BminZ, &BmaxZ );
 
-			*minX = std::min<float>(AminX,BminX);
-			*maxX = std::max<float>(AmaxX,BmaxX);
-			*minY = std::min<float>(AminY,BminY);
-			*maxY = std::max<float>(AmaxY,BmaxY);
-			*minZ = std::min<float>(AminZ,BminZ);
-			*maxZ = std::max<float>(AmaxZ,BmaxZ);
+			*_minX = std::min< float >( AminX, BminX );
+			*_maxX = std::max< float >( AmaxX, BmaxX );
+			*_minY = std::min< float >( AminY, BminY );
+			*_maxY = std::max< float >( AmaxY, BmaxY );
+			*_minZ = std::min< float >( AminZ, BminZ );
+			*_maxZ = std::max< float >( AmaxZ, BmaxZ );
 		}
 
-		float lengthX = (*maxX) - (*minX);
-		float lengthY = (*maxY) - (*minY);
-		float lengthZ = (*maxZ) - (*minZ);
+		float lengthX = ( *_maxX ) - ( *_minX );
+		float lengthY = ( *_maxY ) - ( *_minY );
+		float lengthZ = ( *_maxZ ) - ( *_minZ );
 
-		*minX -= std::max(0.0f,_a0*lengthX*0.20f);
-		*maxX += std::max(0.0f,_a0*lengthX*0.20f);
-		*minY -= std::max(0.0f,_a0*lengthY*0.20f);
-		*maxY += std::max(0.0f,_a0*lengthY*0.20f);
-		*minZ -= std::max(0.0f,_a0*lengthZ*0.20f);
-		*maxZ += std::max(0.0f,_a0*lengthZ*0.20f);
+		*_minX -= ( std::max )( 0.0f, m_a0 * lengthX * 0.20f );
+		*_maxX += ( std::max )( 0.0f, m_a0 * lengthX * 0.20f );
+		*_minY -= ( std::max )( 0.0f, m_a0 * lengthY * 0.20f );
+		*_maxY += ( std::max )( 0.0f, m_a0 * lengthY * 0.20f );
+		*_minZ -= ( std::max )( 0.0f, m_a0 * lengthZ * 0.20f );
+		*_maxZ += ( std::max )( 0.0f, m_a0 * lengthZ * 0.20f );
 
 	}
-	else if( _childA != NULL && _childB == NULL )
+	else if( m_childA != NULL && m_childB == NULL )
 	{
-		_childA->GetBounds(minX,maxX,minY,maxY,minZ,maxZ);
+		m_childA->GetBounds( _minX, _maxX, _minY, _maxY, _minZ, _maxZ );
 	}
-	else if( _childA == NULL && _childB != NULL )
+	else if( m_childA == NULL && m_childB != NULL )
 	{
-		_childB->GetBounds(minX,maxX,minY,maxY,minZ,maxZ);
+		m_childB->GetBounds( _minX, _maxX, _minY, _maxY, _minZ, _maxZ );
 	}
 	else
 	{
 		// Results undefined
-		*minX = 0.0f;
-		*maxX = 0.0f;
-		*minY = 0.0f;
-		*maxY = 0.0f;
-		*minZ = 0.0f;
-		*maxZ = 0.0f;
+		*_minX = 0.0f;
+		*_maxX = 0.0f;
+		*_minY = 0.0f;
+		*_maxY = 0.0f;
+		*_minZ = 0.0f;
+		*_maxZ = 0.0f;
 	}
 }
 
-
-
+//----------------------------------------------------------------------------------
 
 /*
 TODO
@@ -203,3 +198,5 @@ void VolumeTree::BlendCSGNode::GetBounds(float *minX,float *maxX, float *minY,fl
 	}
 }
 */
+
+//----------------------------------------------------------------------------------

@@ -11,7 +11,7 @@
 #include "GUI/Views/ImageButton.h"
 #include "GUI/Views/TextButton.h"
 #include "GUI/Views/TextView.h"
-//#include "GUI/Views/ImageTextButton.h"
+#include "GUI/Views/ImageTextButton.h"
 #include "GUI/Views/ViewGroups/LinearLayout.h"
 #include "GUI/Views/ViewGroups/CustomLayout.h"
 #include "GUI/Views/Slider.h"
@@ -23,14 +23,21 @@
 
 //----------------------------------------------------------------------------------
 
-ShivaGUI::ResourceManager::ResourceManager( ShivaGUI::GUIManager *guiManager, unsigned int windowIndex )
+ShivaGUI::ResourceManager::ResourceManager( ShivaGUI::GUIManager *_guiManager, unsigned int _windowIndex )
 {
-	_GUIManager = guiManager;
-	_windowIndex = windowIndex;
-	_mipmapImages = true;
-	_currentThemeNode = NULL;
+	m_GUIManager = _guiManager;
+	m_windowIndex = _windowIndex;
+	m_mipmapImages = true;
+	m_currentThemeNode = NULL;
+	m_textTexName = 0;
 
-	_addExtraSpace = false;
+	m_addTextSpace = false; 
+	m_isTextToTexture = false;
+
+	m_isRenderingText = false;
+
+	m_projMatrix.identity();
+	m_mvMatrix.identity();
 
 	TTF_Init();
 }
@@ -38,21 +45,29 @@ ShivaGUI::ResourceManager::ResourceManager( ShivaGUI::GUIManager *guiManager, un
 //----------------------------------------------------------------------------------
 
 ShivaGUI::ResourceManager::~ResourceManager()
-{ }
+{ 
+	// Clearing font cache
+	std::map< std::string, TTF_Font* >::const_iterator fontIt;
+	for( fontIt = m_fontcache.begin(); fontIt != m_fontcache.end(); fontIt++ )
+	{
+		TTF_CloseFont( fontIt->second );
+	}
+	m_fontcache.clear();
+}
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ResourceManager::RegisterViewID( View *view, std::string ID )
+void ShivaGUI::ResourceManager::RegisterViewID( View *_view, std::string _id )
 {
-	if( _GUIManager != NULL )
+	if( m_GUIManager != NULL )
 	{
-		Activity *currentActivity = _GUIManager->GetCurrentActivity();
+		Activity *currentActivity = m_GUIManager->GetCurrentActivity();
 		if( currentActivity != NULL )
 		{
-			GUIController *currentGUIController = currentActivity->GetGUIController( _windowIndex );
+			GUIController *currentGUIController = currentActivity->GetGUIController( m_windowIndex );
 			if( currentGUIController != NULL )
 			{
-				currentGUIController->RegisterViewID( view, ID );
+				currentGUIController->RegisterViewID( _view, _id );
 			}
 			else
 				std::cerr << "ShivaGUI::ResourceManager::RegisterViewID failed to retrieve currentGUIController" << std::endl;
@@ -66,17 +81,27 @@ void ShivaGUI::ResourceManager::RegisterViewID( View *view, std::string ID )
 
 //----------------------------------------------------------------------------------
 
-ShivaGUI::View* ShivaGUI::ResourceManager::GetViewFromID( std::string ID )
+void ShivaGUI::ResourceManager::SetMatrices( const float &_width, const float &_height )
 {
-	if( _GUIManager != NULL )
+	m_projMatrix.identity();
+	cml::matrix_orthographic_RH( m_projMatrix, 0.f, _width, _height, 0.f, -1.f, 1.f, cml::z_clip_neg_one );
+	
+	m_mvMatrix.identity();
+}
+
+//----------------------------------------------------------------------------------
+
+ShivaGUI::View* ShivaGUI::ResourceManager::GetViewFromID( std::string _id )
+{
+	if( m_GUIManager != NULL )
 	{
-		Activity *currentActivity = _GUIManager->GetCurrentActivity();
+		Activity *currentActivity = m_GUIManager->GetCurrentActivity();
 		if( currentActivity != NULL )
 		{
-			GUIController *currentGUIController = currentActivity->GetGUIController( _windowIndex );
+			GUIController *currentGUIController = currentActivity->GetGUIController( m_windowIndex );
 			if( currentGUIController != NULL )
 			{
-				return currentGUIController->GetViewFromID( ID );
+				return currentGUIController->GetViewFromID( _id );
 			}
 			else
 				std::cerr << "ShivaGUI::ResourceManager::GetViewFromID failed to retrieve currentGUIController" << std::endl;
@@ -93,7 +118,7 @@ ShivaGUI::View* ShivaGUI::ResourceManager::GetViewFromID( std::string ID )
 
 void ShivaGUI::ResourceManager::ReloadTextures()
 {
-	for( std::map< std::string, unsigned int >::iterator it = _glTextures.begin(); it != _glTextures.end(); ++it )
+	for( std::map< std::string, unsigned int >::iterator it = m_glTextures.begin(); it != m_glTextures.end(); ++it )
 	{
 		bool mipmap = false;
 		bool addAlpha = false;
@@ -110,7 +135,7 @@ void ShivaGUI::ResourceManager::ReloadTextures()
 
 		if( image == NULL )
 		{
-			std::cerr <<"WARNING: ResourceManager Couldn't load: "<< it->first << " " << SDL_GetError() << std::endl;
+			std::cerr << "WARNING: ResourceManager Couldn't load: " << it->first << " " << SDL_GetError() << std::endl;
 		}
 
 		SDLSurfaceToOpenGLID( image, it->second, mipmap, addAlpha, repeat );
@@ -122,185 +147,178 @@ void ShivaGUI::ResourceManager::ReloadTextures()
 
 //----------------------------------------------------------------------------------
 
-bool ShivaGUI::ResourceManager::GetManagedTexture( std::string name, unsigned int *texID )
+bool ShivaGUI::ResourceManager::GetManagedTexture( std::string _name, unsigned int *_texID )
 {
-	if( _glExternalTextures.find( name ) != _glExternalTextures.end() )
+	if( m_glExternalTextures.find( _name ) != m_glExternalTextures.end() )
 	{
-		*texID = _glExternalTextures[ name ];
+		*_texID = m_glExternalTextures[ _name ];
 		return false;
 	}
 
-	glGenTextures( 1, texID );
-	_glExternalTextures[ name ] = *texID;
+	glGenTextures( 1, _texID );
+	m_glExternalTextures[ _name ] = *_texID;
 	return true;
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ResourceManager::ClearManagedTexture( std::string name )
+void ShivaGUI::ResourceManager::ClearManagedTexture( std::string _name )
 {
-	if( _glExternalTextures.find( name ) != _glExternalTextures.end() )
+	if( m_glExternalTextures.find( _name ) != m_glExternalTextures.end() )
 	{
-		unsigned int texID = _glExternalTextures[ name ];
+		unsigned int texID = m_glExternalTextures[ _name ];
 
 		glDeleteTextures( 1, &texID );
-		_glExternalTextures.erase( name );
+		m_glExternalTextures.erase( _name );
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-SDL_Rect newSDL_Rect( int xs, int ys, int dx, int dy ) {
-
-        SDL_Rect rc;
-
-                rc.x = xs; rc.y = ys;
-
-                rc.w = dx; rc.h = dy;
-
-        return( rc );
+void ShivaGUI::ResourceManager::ClearText()
+{
+	m_buttonText.clear();
 }
 
 //----------------------------------------------------------------------------------
 
-
-unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string filename, std::string fontName, unsigned int fontSize )
+void ShivaGUI::ResourceManager::SetTextInfo( const std::string &_text, const std::string &_fontName, const unsigned int &_fontSize, const unsigned int &_fontColour, const unsigned int &_textAlign )
 {
-	if( _glTextures.find( filename ) != _glTextures.end() )
+	m_buttonText = _text;
+	m_buttonFontName = _fontName;
+	m_buttonFontSize = _fontSize;
+	m_buttonFontColour = _fontColour;
+	m_buttonTextAlign = _textAlign;
+
+	if( !m_buttonText.empty() )
+		m_isRenderingText = true;
+}
+
+//----------------------------------------------------------------------------------
+
+SDL_Rect newSDL_Rect( int _xs, int _ys, int _dx, int _dy ) 
+{
+	SDL_Rect rc;
+	rc.x = _xs; rc.y = _ys;
+	rc.w = _dx; rc.h = _dy;
+
+    return( rc );
+}
+
+//----------------------------------------------------------------------------------
+
+unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename )
+{
+	if( m_glTextures.find( _filename ) != m_glTextures.end() )
 	{
-		return _glTextures[ filename ];
+		return m_glTextures[ _filename ];
 	}
 
 	// I've had this function for so long I can't remember where it was from originally
 	// I think it was based on SDL example usage code
 
 	bool mipmap = false;
-	bool addAlpha = false;
+	bool addAlpha = true;
 	bool repeat = false;
 
-	std::cout << "INFO: ResourceManager Loading Image to OpenGL: " << filename << std::endl;
+	std::cout << "INFO: ResourceManager Loading Image to OpenGL: " << _filename << std::endl;
 
 	SDL_Surface *image;
+	// Loading image as a SDL_Surface
+	image = IMG_Load( _filename.c_str() );
 
-	image = IMG_Load( filename.c_str() );
-
-	if( image == NULL )
-	{
-		std::cerr << "WARNING: ResourceManager Couldn't load: " << filename << " " << SDL_GetError() << std::endl;
+	if( image == NULL ){
+		std::cerr << "WARNING: ResourceManager Couldn't load: " << _filename << " " << SDL_GetError() << std::endl;
 		return 0;
 	}
 
 	unsigned int texName;
 
-	if( _addExtraSpace) 
+	if( m_addTextSpace ) // For ImageTextButtons
 	{
-		// Load the font
-		TTF_Font *font = LoadFont( fontName, fontSize );
-
-		if( font == NULL ) {
-			std::cerr << "WARNING: ResourceManager::GetSimpleText could not load font: " << fontName << std::endl;
-			return 0;
-		}
-
-		int lineHeight = TTF_FontLineSkip( font );
-
-		int width = image->w;
-		int height = image->h + lineHeight;
-
+		// Creating the text surface from text body and attributes set for the font
+		SDL_Surface* textSurf = GetTextSurface( m_buttonText, m_buttonTextAlign, m_buttonFontName, m_buttonFontSize, m_buttonFontColour );
 		
+		// At the moment, we're using the width of the previously loaded image as the "final" width of the image/icon+text that will be rendered
+		int width = image->w;
+		int height = image->h + textSurf->h + 10; // Adding some padding
 
-		 Uint32 rmask, gmask, bmask, amask;
+		Uint32 rmask = 0x000000ff;
+		Uint32 gmask = 0x0000ff00;
+		Uint32 bmask = 0x00ff0000;
+		Uint32 amask = 0xff000000;
 
-    // SDL interprets each pixel as a 32-bit number, so our masks must depend on the endianness (byte order) of the machine
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    rmask = 0xff000000;
-    gmask = 0x00ff0000;
-    bmask = 0x0000ff00;
-    amask = 0x000000ff;
-#else
-    rmask = 0x000000ff;
-    gmask = 0x0000ff00;
-    bmask = 0x00ff0000;
-    amask = 0xff000000;
-#endif
-
+		// Create the surface that will hold the final image scaled/resized based on the dimensions of the text
 		SDL_Surface *finalImage = SDL_CreateRGBSurface( SDL_SWSURFACE, width, height, 32, rmask, gmask, bmask, amask );
 		
-		int h = height * 0.7;
-		float scalingFactor = (float)image->h / (float) height; 
-		int w = image->w * scalingFactor * 0.7;
+		// If we assume that image will occupy 60% of total space, and text will occupy 40% of total space
+		float imageH = height * 0.6f;
+		float scalingFactor = imageH / ( float )image->h;
+		float imageW = width * scalingFactor;
 
-		SDL_BlitScaled( image, NULL, finalImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - w ) / 2 ), 0, w, h ) );
-		//SDL_BlitScaled( image, NULL, finalImage, NULL );
+		SDL_SetSurfaceBlendMode( image, SDL_BLENDMODE_NONE );
+
+		SDL_BlitScaled( image, NULL, finalImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )imageW ) / 2 ), 5, ( int )imageW, ( int )imageH ) );
+		
+		if ( m_isTextToTexture ) // If we are rendering the text (which we will do only once)
+		{
+			// Now check if there is already a texture for the text (it shouldn't be there, but oh well)
+			if( m_glTextures.find( std::string( "Text/" )  + _filename ) == m_glTextures.end() )
+			{
+				unsigned int textID;
+
+				SDL_Surface *textImage = SDL_CreateRGBSurface( SDL_SWSURFACE, width, height, 32, rmask, gmask, bmask, amask );
+				
+				float textH = height * 0.4f;
+				float textScalingFactor = textH / ( float )textSurf->h;
+				float textW = textSurf->w * textScalingFactor;
+		
+				SDL_SetSurfaceBlendMode( textSurf, SDL_BLENDMODE_NONE );
+		
+				SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )textW ) / 2 ), ( int )imageH + 5, textSurf->w, textSurf->h ) );
+
+				textID = SDLSurfaceToOpenGL( textImage, mipmap, addAlpha, repeat );
+
+				SDL_FreeSurface( textImage );
+
+				if( textID != 0 )
+					m_glTextures[ std::string( "Text/" ) + _filename ] = textID;
+			}
+		}
 
 		texName = SDLSurfaceToOpenGL( finalImage, mipmap, addAlpha, repeat );
+		
 		SDL_FreeSurface( finalImage );
+		SDL_FreeSurface( textSurf );
+
+		m_isRenderingText = false;
 	}
 	else
+	{
 		texName = SDLSurfaceToOpenGL( image, mipmap, addAlpha, repeat );
+		// Free the allocated BMP surface
 		SDL_FreeSurface( image );
+	}
 
 	if( texName != 0 )
-		_glTextures[ filename ] = texName;
-
+		m_glTextures[ _filename ] = texName;
+	
 	return texName;
 }
 
 //----------------------------------------------------------------------------------
 
-unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string filename )
-{
-	if( _glTextures.find( filename ) != _glTextures.end() )
-	{
-		return _glTextures[ filename ];
-	}
-
-	// I've had this function for so long I can't remember where it was from originally
-	// I think it was based on SDL example usage code
-
-	bool mipmap = false;
-	bool addAlpha = false;
-	bool repeat = false;
-
-	std::cout << "INFO: ResourceManager Loading Image to OpenGL: " << filename << std::endl;
-
-	SDL_Surface *image;
-
-	// Load the BMP file into a surface
-	//image = SDL_LoadBMP(filename.c_str());
-
-	image = IMG_Load( filename.c_str() );
-
-	if( image == NULL )
-	{
-		std::cerr << "WARNING: ResourceManager Couldn't load: " << filename << " " << SDL_GetError() << std::endl;
-		return 0;
-	}
-
-	unsigned int texName = SDLSurfaceToOpenGL( image, mipmap, addAlpha, repeat );
-
-	// Free the allocated BMP surface
-	SDL_FreeSurface( image );
-
-	if( texName != 0 )
-		_glTextures[ filename ] = texName;
-
-	return texName;
-}
-
-//----------------------------------------------------------------------------------
-
-unsigned int ShivaGUI::ResourceManager::GetText( std::string text, unsigned int alignment, std::string fontfilename, unsigned int fontsize, unsigned int fontColour )
+SDL_Surface* ShivaGUI::ResourceManager::GetTextSurface( std::string _text, unsigned int _alignment, std::string _fontfilename, unsigned int _fontsize, unsigned int _fontColour )
 {
 	// Load the font
-	TTF_Font *font = LoadFont( fontfilename, fontsize );
+	TTF_Font *font = LoadFont( _fontfilename, _fontsize );
 
 	if( font == NULL ) {
-		std::cerr << "WARNING: ResourceManager::GetSimpleText could not load font: " << fontfilename << std::endl;
+		std::cerr << "WARNING: ResourceManager::GetSimpleText could not load font: " << _fontfilename << std::endl;
 		return 0;
 	}
 
-	SDL_Color foregroundColour = { ( fontColour & 0xFF000000 ) >> 24, ( fontColour & 0x00FF0000 ) >> 16, ( fontColour & 0x0000FF00 ) >> 8, ( fontColour & 0x000000FF ) };
+	SDL_Color foregroundColour = { ( _fontColour & 0xFF000000 ) >> 24, ( _fontColour & 0x00FF0000 ) >> 16, ( _fontColour & 0x0000FF00 ) >> 8, ( _fontColour & 0x000000FF ) };
 
 	SDL_Surface *finalSurface = NULL;
     Uint32 rmask, gmask, bmask, amask;
@@ -318,7 +336,6 @@ unsigned int ShivaGUI::ResourceManager::GetText( std::string text, unsigned int 
     amask = 0xff000000;
 #endif
 
-
 	// Following code, most from https://www.gamedev.net/resources/_/technical/game-programming/sdl--fonts-part-2-printstrings-r1960
 
 	int width = 0, height = 10;
@@ -334,12 +351,12 @@ unsigned int ShivaGUI::ResourceManager::GetText( std::string text, unsigned int 
 
 		// Get until we find either \n or \0
 		std::string subString;
-		n = text.find( '\n', 0 );
-		subString = text.substr( 0, n );
+		n = _text.find( '\n', 0 );
+		subString = _text.substr( 0, n );
 
 		if( n != -1 ) {
 			
-			text = text.substr( n + 1, -1 ); 
+			_text = _text.substr( n + 1, -1 ); 
 		}
 
 		lines.push_back( subString );
@@ -376,17 +393,17 @@ unsigned int ShivaGUI::ResourceManager::GetText( std::string text, unsigned int 
 
 		SDL_Rect layout;
 
-		if( alignment == ShivaGUI::TextButton::Left ) {
+		if( _alignment == ShivaGUI::TextButton::Left ) {
 
 			layout = newSDL_Rect( 0, i * lineSkip, 0, 0 );
 		}
-		else if( alignment == ShivaGUI::TextButton::Centre ) {
+		else if( _alignment == ShivaGUI::TextButton::Centre ) {
 			int w = 0, h = 0; 
 			TTF_SizeText( font, lines[ i ].c_str(), &w, &h );
 
 			layout = newSDL_Rect( ( width - w ) / 2, i * lineSkip, 0, 0 );
 		}
-		else if( alignment == ShivaGUI::TextButton::Right ) {
+		else if( _alignment == ShivaGUI::TextButton::Right ) {
 			int w = 0, h = 0; 
 			TTF_SizeText( font, lines[ i ].c_str(), &w, &h );
 
@@ -401,27 +418,32 @@ unsigned int ShivaGUI::ResourceManager::GetText( std::string text, unsigned int 
 		SDL_FreeSurface( surf );
 	}
 
-	//TTF_CloseFont( font );
-
-	return SDLSurfaceToOpenGL( finalSurface, false, false, false, true );
+	return finalSurface;
 }
 
 //----------------------------------------------------------------------------------
 
-unsigned int ShivaGUI::ResourceManager::GetSimpleText( std::string text, std::string fontfilename, unsigned int fontsize, unsigned int fontColour )
+unsigned int ShivaGUI::ResourceManager::GetText( std::string _text, unsigned int _alignment, std::string _fontfilename, unsigned int _fontsize, unsigned int _fontColour )
 {
-	TTF_Font *font = LoadFont( fontfilename, fontsize );
+	return SDLSurfaceToOpenGL( GetTextSurface( _text, _alignment, _fontfilename, _fontsize, _fontColour ), false, false, false, true );
+}
+
+//----------------------------------------------------------------------------------
+
+unsigned int ShivaGUI::ResourceManager::GetSimpleText( std::string _text, std::string _fontfilename, unsigned int _fontsize, unsigned int _fontColour )
+{
+	TTF_Font *font = LoadFont( _fontfilename, _fontsize );
 	if( font == NULL )
 	{
-		std::cerr << "WARNING: ResourceManager::GetSimpleText could not load font: " << fontfilename << std::endl;
+		std::cerr << "WARNING: ResourceManager::GetSimpleText could not load font: " << _fontfilename << std::endl;
 		return 0;
 	}
 
-	SDL_Color foregroundColour = { ( fontColour & 0xFF000000 ) >> 24, ( fontColour & 0x00FF0000 ) >> 16, ( fontColour & 0x0000FF00 ) >> 8, ( fontColour & 0x000000FF ) };//{255,255,255,255};
+	SDL_Color foregroundColour = { ( _fontColour & 0xFF000000 ) >> 24, ( _fontColour & 0x00FF0000 ) >> 16, ( _fontColour & 0x0000FF00 ) >> 8, ( _fontColour & 0x000000FF ) };//{255,255,255,255};
 
 	//std::cout<<"R = "<<(int)foregroundColour.r<<" G = "<<(int)foregroundColour.g<<" B = "<<(int)foregroundColour.b<<std::endl;
 
-	SDL_Surface *surf = TTF_RenderText_Blended( font, text.c_str(), foregroundColour );//TTF_RenderText_Shaded( font, text.c_str(), foregroundColour, backgroundColour );
+	SDL_Surface *surf = TTF_RenderText_Blended( font, _text.c_str(), foregroundColour ); //TTF_RenderText_Shaded( font, text.c_str(), foregroundColour, backgroundColour );
 
 	return SDLSurfaceToOpenGL( surf, false, false, false, true );
 }
@@ -429,63 +451,63 @@ unsigned int ShivaGUI::ResourceManager::GetSimpleText( std::string text, std::st
 
 //----------------------------------------------------------------------------------
 
-TTF_Font* ShivaGUI::ResourceManager::LoadFont( std::string filename, unsigned int size )
+TTF_Font* ShivaGUI::ResourceManager::LoadFont( std::string _filename, unsigned int _size )
 {
-	if( filename.empty() )
-		filename = _defaultFont;
+	if( _filename.empty() )
+		_filename = m_defaultFont;
 	std::stringstream key;
-	key << filename << size;
+	key << _filename << _size;
 
-	std::map< std::string, TTF_Font* >::iterator fontIt = _fontcache.find( key.str() );
-	if( fontIt != _fontcache.end() )
+	std::map< std::string, TTF_Font* >::iterator fontIt = m_fontcache.find( key.str() );
+	if( fontIt != m_fontcache.end() )
 	{
 		return fontIt->second;
 	}
-	TTF_Font *currentFont = TTF_OpenFont( filename.c_str(), size );
+	TTF_Font *currentFont = TTF_OpenFont( _filename.c_str(), _size );
 
 	if( currentFont != NULL )
-		_fontcache[ key.str() ] = currentFont;
+		m_fontcache[ key.str() ] = currentFont;
 
 	return currentFont;
 }
 
 //----------------------------------------------------------------------------------
 
-ShivaGUI::Drawable* ShivaGUI::ResourceManager::GetDrawable( std::string filename )
+ShivaGUI::Drawable* ShivaGUI::ResourceManager::GetDrawable( std::string _filename )
 {
 	// If the first character is an '@' we will assume it's a constant for replacement
-	if( filename.at( 0 ) == '@' )
-		filename = GetInflationAttribute( filename );
+	if( _filename.at( 0 ) == '@' )
+		_filename = GetInflationAttribute( _filename );
 
 
-	if( filename.empty() )
+	if( _filename.empty() )
 	{
 		std::cerr << "WARNING: ResourceManager::GetDrawable given empty filename" << std::endl;
 		return NULL;
 	}
 
-	if( filename.compare( filename.size() - 4, 4, ".png" ) == 0 )
+	if( _filename.compare( _filename.size() - 4, 4, ".png" ) == 0 )
 	{
 		// We are being asked to load a png file
-		Drawable *output = new BitmapDrawable( GetBitmap( std::string( "Resources/Drawables/" ) + filename ) );
-		output->SetFilename( filename );
+		Drawable *output = new BitmapDrawable( GetBitmap( std::string( "Resources/Drawables/" ) + _filename ) );
+		output->SetFilename( _filename );
 		return output;
 	}
-	else if( filename.compare( filename.size() - 4, 4, ".xml" ) == 0 )
+	else if( _filename.compare( _filename.size() - 4, 4, ".xml" ) == 0 )
 	{
 		// We are being asked to load a drawable from xml file
 
-		TiXmlDocument doc( ( std::string( "Resources/Drawables/" ) + filename ).c_str() );
+		TiXmlDocument doc( ( std::string( "Resources/Drawables/" ) + _filename ).c_str() );
 
 		if( doc.LoadFile() )
 		{
 			Drawable *output = ParseDrawableElement( &doc );
-			output->SetFilename( filename );
+			output->SetFilename( _filename );
 			return output;
 		}
 		else
 		{
-			std::cerr << "WARNING: ResourceManager::GetDrawable Could not load drawable from xml: " << filename << std::endl;
+			std::cerr << "WARNING: ResourceManager::GetDrawable Could not load drawable from xml: " << _filename << std::endl;
 			return NULL;
 		}
 	}
@@ -495,114 +517,117 @@ ShivaGUI::Drawable* ShivaGUI::ResourceManager::GetDrawable( std::string filename
 
 //----------------------------------------------------------------------------------
 
-ShivaGUI::Drawable* ShivaGUI::ResourceManager::CreateDrawable( std::string drawableName )
+ShivaGUI::Drawable* ShivaGUI::ResourceManager::CreateDrawable( std::string _drawableName )
 {
-	if( drawableName == "BitmapDrawable" )
+	if( _drawableName == "BitmapDrawable" )
 	{
 		return new BitmapDrawable();
 	}
-	else if( drawableName == "StateListDrawable" )
+	else if( _drawableName == "StateListDrawable" )
 	{
 		return new StateListDrawable();
 	}
-	else if( drawableName == "NinePatch" )
+	else if( _drawableName == "NinePatch" )
 	{
 		return new NinePatch();
 	}
-	else if( drawableName == "RectDrawable" )
+	else if( _drawableName == "RectDrawable" )
 	{
 		return new RectDrawable();
 	}
-	else if( drawableName == "LayeredImageDrawable" )
+	else if( _drawableName == "LayeredImageDrawable" )
 	{
-		return new LayeredImageDrawable();
+		if( m_isRenderingText ) {
+			LayeredImageDrawable* drawable = new LayeredImageDrawable();
+			drawable->IsRenderingText();
+			return drawable;
+		}
+		else {
+			return new LayeredImageDrawable();
+		}
 	}
 	return NULL;
 }
 
 //----------------------------------------------------------------------------------
 
-ShivaGUI::View* ShivaGUI::ResourceManager::CreateView( std::string viewName )
+ShivaGUI::View* ShivaGUI::ResourceManager::CreateView( std::string _viewName )
 {
-	if( viewName == "View" )
+	if( _viewName == "View" )
 	{
 		return new View();
 	}
-	if( viewName == "AbsoluteLayout" )
-	{
-		//return new AbsoluteLayout();
-	}
-	if( viewName == "ImageButton" )
+	if( _viewName == "ImageButton" )
 	{
 		return new ImageButton();
 	}
-	//if( viewName == "ImageTextButton" )
-	//{
-	//	return new ImageTextButton();
-	//}
-	if( viewName == "TextButton" )
+	if( _viewName == "ImageTextButton" )
+	{
+		return new ImageTextButton();
+	}
+	if( _viewName == "TextButton" )
 	{
 		return new TextButton();
 	}
-	if( viewName == "LinearLayout" )
+	if( _viewName == "LinearLayout" )
 	{
 		return new LinearLayout();
 	}
-	if( viewName == "Slider" )
+	if( _viewName == "Slider" )
 	{
 		return new Slider();
 	}
-	if( viewName == "ColourSelector" )
+	if( _viewName == "ColourSelector" )
 	{
 		return new ColourSelector();
 	}
-	if( viewName == "TextView" )
+	if( _viewName == "TextView" )
 	{
 		return new TextView();
 	}
-	if( viewName == "CustomLayout" )
+	if( _viewName == "CustomLayout" )
 	{
 		return new CustomLayout();
 	}
-	if( viewName == "ScrollContainer" )
+	if( _viewName == "ScrollContainer" )
 	{
 		return new ScrollContainer();
 	}
-	if( viewName == "ListView" )
+	if( _viewName == "ListView" )
 	{
 		return new ListView();
 	}
-	if( viewName == "LayoutAdapterView" )
+	if( _viewName == "LayoutAdapterView" )
 	{
 		return new LayoutAdapterView();
 	}
 
-	View *customView = _GUIManager->CreateView( viewName );
+	View *customView = m_GUIManager->CreateView( _viewName );
 	if( customView != NULL ) {
 		return customView;
 	}
 
-	std::cerr << "WARNING: ResourceManager::GetView could not create View of unknown type: " << viewName << std::endl;
+	std::cerr << "WARNING: ResourceManager::GetView could not create View of unknown type: " << _viewName << std::endl;
 	return NULL;
 }
 
 //----------------------------------------------------------------------------------
 
-ShivaGUI::AudioClip* ShivaGUI::ResourceManager::GetAudioClip( std::string filename )
+ShivaGUI::AudioClip* ShivaGUI::ResourceManager::GetAudioClip( std::string _filename )
 {
-	return _GUIManager->GetAudioManager()->GetSample( filename );
+	return m_GUIManager->GetAudioManager()->GetSample( _filename );
 }
 
 //----------------------------------------------------------------------------------
 
-ShivaGUI::View* ShivaGUI::ResourceManager::GetLayout( std::string filenameInput )
+ShivaGUI::View* ShivaGUI::ResourceManager::GetLayout( std::string _filenameInput )
 {
 	// Strip off any leading path stuff initially:
-	boost::filesystem::path filename( filenameInput );
+	boost::filesystem::path filename( _filenameInput );
 	filename = filename.filename();
 
 	// First, see if a version of the layout exists in the options directory:
-	boost::filesystem::path optionsPath( _GUIManager->GetProfileOptionsDir() );
+	boost::filesystem::path optionsPath( m_GUIManager->GetProfileOptionsDir() );
 	optionsPath = optionsPath / "Layout" / filename;
 
 	TiXmlDocument doc;
@@ -632,48 +657,48 @@ ShivaGUI::View* ShivaGUI::ResourceManager::GetLayout( std::string filenameInput 
 
 //----------------------------------------------------------------------------------
 
-bool ShivaGUI::ResourceManager::OutputLayout( std::string filename, View *rootNode )
+bool ShivaGUI::ResourceManager::OutputLayout( std::string _filename, View *_rootNode )
 {
-	if( filename.empty() || rootNode == NULL )
+	if( _filename.empty() || _rootNode == NULL )
 		return false;
 
-	std::cout << "INFO: ResourceManager Deflating Layout to file: " << filename << std::endl;
+	std::cout << "INFO: ResourceManager Deflating Layout to file: " << _filename << std::endl;
 
-	TiXmlDocument doc( filename.c_str() );
+	TiXmlDocument doc( _filename.c_str() );
 
-	doc.InsertEndChild( *rootNode->Deflate( this ) );
+	doc.InsertEndChild( *_rootNode->Deflate( this ) );
 
 	return doc.SaveFile();
 }
 
 //----------------------------------------------------------------------------------
 
-std::string ShivaGUI::ResourceManager::GetInflationAttribute( std::string originalAttrib )
+std::string ShivaGUI::ResourceManager::GetInflationAttribute( std::string _originalAttrib )
 {
-	if( originalAttrib.at( 0 ) == '@' )
+	if( _originalAttrib.at( 0 ) == '@' )
 	{
 		//std::cout<<"*********INFO: Const replacement for: "<<originalAttrib<<std::endl;
 		// Check against consts in Profile
-		if( _attribConstsProfile.find( originalAttrib ) != _attribConstsProfile.end() )
+		if( m_attribConstsProfile.find( _originalAttrib ) != m_attribConstsProfile.end() )
 		{
-			std::cout << "INFO: Const replacement for: " << originalAttrib << " from Profile with: " << _attribConstsProfile[ originalAttrib ] << std::endl;
-			return _attribConstsProfile[ originalAttrib ];
+			//std::cout << "INFO: Const replacement for: " << originalAttrib << " from Profile with: " << _attribConstsProfile[ originalAttrib ] << std::endl;
+			return m_attribConstsProfile[ _originalAttrib ];
 		}
 		// Check against consts in Theme
-		if( _attribConstsTheme.find( originalAttrib ) != _attribConstsTheme.end() )
+		if( m_attribConstsTheme.find( _originalAttrib ) != m_attribConstsTheme.end() )
 		{
-			std::cout << "INFO: Const replacement for: " << originalAttrib << " from Theme with: " << _attribConstsTheme[ originalAttrib ] << std::endl;
-			return _attribConstsTheme[ originalAttrib ];
+			//std::cout << "INFO: Const replacement for: " << originalAttrib << " from Theme with: " << _attribConstsTheme[ originalAttrib ] << std::endl;
+			return m_attribConstsTheme[ _originalAttrib ];
 		}
 	}
-	return originalAttrib;
+	return _originalAttrib;
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ResourceManager::LoadProfileAttributeConsts( ProfileManager *profileManager )
+void ShivaGUI::ResourceManager::LoadProfileAttributeConsts( ProfileManager *_profileManager )
 {
-	_attribConstsProfile.clear();
+	m_attribConstsProfile.clear();
 
 	/*
 	xml for consts should look like this  (same format in profile and theme)
@@ -691,46 +716,46 @@ void ShivaGUI::ResourceManager::LoadProfileAttributeConsts( ProfileManager *prof
 
 	*/
 
-	profileManager->EnterOptionNode( "constGroup" );
-	int numConsts = profileManager->ContainsOption( "const" );
+	_profileManager->EnterOptionNode( "constGroup" );
+	int numConsts = _profileManager->ContainsOption( "const" );
 	for( int i = 0; i < numConsts; i++ )
 	{
-		if( profileManager->EnterOptionNode( "const", i ) )
+		if( _profileManager->EnterOptionNode( "const", i ) )
 		{
 			// We can now query our const replacements
-			std::string key = profileManager->GetString( "key", "@INVALID" );
-			std::string value = profileManager->GetString( "value", "@INVALID" );
+			std::string key = _profileManager->GetString( "key", "@INVALID" );
+			std::string value = _profileManager->GetString( "value", "@INVALID" );
 
-			_attribConstsProfile[ key ] = value;
+			m_attribConstsProfile[ key ] = value;
 
 			std::cout << "INFO: LoadProfileAttributeConsts, key: " << key << " value: " << value << std::endl;
 
-			profileManager->ExitOptionNode();
+			_profileManager->ExitOptionNode();
 		}
 	}
-	profileManager->ExitOptionNode();
+	_profileManager->ExitOptionNode();
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ResourceManager::SetTheme( std::string filename )
+void ShivaGUI::ResourceManager::SetTheme( std::string _filename )
 {
-	_attribConstsTheme.clear();
+	m_attribConstsTheme.clear();
 
-	if( filename.empty() )
+	if( _filename.empty() )
 	{
-		delete _currentThemeNode;
-		_currentThemeNode = NULL;
+		delete m_currentThemeNode;
+		m_currentThemeNode = NULL;
 		return;
 	}
-	TiXmlDocument doc( filename.c_str() );
+	TiXmlDocument doc( _filename.c_str() );
 
 	if( doc.LoadFile() )
 	{
-		delete _currentThemeNode;
-		_currentThemeNode = NULL;
+		delete m_currentThemeNode;
+		m_currentThemeNode = NULL;
 		// Grab a copy of the root element node
-		_currentThemeNode = ( TiXmlElement* ) doc.RootElement()->Clone();
+		m_currentThemeNode = ( TiXmlElement* ) doc.RootElement()->Clone();
 
 		// Load consts list
 		/*
@@ -748,9 +773,9 @@ void ShivaGUI::ResourceManager::SetTheme( std::string filename )
 		</constGroup>
 
 		*/
-		if( _currentThemeNode != NULL )
+		if( m_currentThemeNode != NULL )
 		{
-			TiXmlElement *constContainerNode = _currentThemeNode->FirstChildElement( "constGroup" );
+			TiXmlElement *constContainerNode = m_currentThemeNode->FirstChildElement( "constGroup" );
 			if( constContainerNode != NULL )
 			{
 				TiXmlNode *child = 0;
@@ -764,7 +789,7 @@ void ShivaGUI::ResourceManager::SetTheme( std::string filename )
 						{
 							std::string key = keyElement->GetText();//Value();
 							std::string value = valueElement->GetText();//Value();
-							_attribConstsTheme[ key ] = value;
+							m_attribConstsTheme[ key ] = value;
 
 							std::cout << "INFO: Load Theme Attribute Consts, key: " << key << " value: " << value << std::endl;
 						}
@@ -784,23 +809,23 @@ void ShivaGUI::ResourceManager::SetTheme( std::string filename )
 	}
 	else
 	{
-		std::cerr << "WARNING: ResourceManager::SetTheme Could not load theme from xml: " << filename << std::endl;
+		std::cerr << "WARNING: ResourceManager::SetTheme Could not load theme from xml: " << _filename << std::endl;
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-ShivaGUI::ViewEventListener* ShivaGUI::ResourceManager::GetListener( std::string name )
+ShivaGUI::ViewEventListener* ShivaGUI::ResourceManager::GetListener( std::string _name )
 {
-	if( _GUIManager != NULL )
+	if( m_GUIManager != NULL )
 	{
-		Activity *currentActivity = _GUIManager->GetCurrentActivity();
+		Activity *currentActivity = m_GUIManager->GetCurrentActivity();
 		if( currentActivity != NULL )
 		{
-			GUIController *currentGUIController = currentActivity->GetGUIController( _windowIndex );
+			GUIController *currentGUIController = currentActivity->GetGUIController( m_windowIndex );
 			if( currentGUIController != NULL )
 			{
-				return currentGUIController->GetListener( name );
+				return currentGUIController->GetListener( _name );
 			}
 		}
 	}
@@ -810,18 +835,18 @@ ShivaGUI::ViewEventListener* ShivaGUI::ResourceManager::GetListener( std::string
 
 //----------------------------------------------------------------------------------
 
-ShivaGUI::View* ShivaGUI::ResourceManager::ParseLayoutElement( TiXmlNode *parentNode, bool rootNode )
+ShivaGUI::View* ShivaGUI::ResourceManager::ParseLayoutElement( TiXmlNode *_parentNode, bool _rootNode )
 {
 	// Useful tinyxml links:
 	// http://www.grinninglizard.com/tinyxmldocs/index.html
 	// http://www.grinninglizard.com/tinyxmldocs/tutorial0.html
 	 
-	int nodeType = parentNode->Type();
+	int nodeType = _parentNode->Type();
 
 	switch( nodeType )
 	{
 		case TiXmlNode::TINYXML_DOCUMENT:
-			for( TiXmlNode *childNode = parentNode->FirstChild(); childNode != NULL; childNode = childNode->NextSibling() )
+			for( TiXmlNode *childNode = _parentNode->FirstChild(); childNode != NULL; childNode = childNode->NextSibling() )
 			{
 				// We return the first element that is a valid view
 				View *result = ParseLayoutElement( childNode, true );
@@ -832,29 +857,29 @@ ShivaGUI::View* ShivaGUI::ResourceManager::ParseLayoutElement( TiXmlNode *parent
 
 		case TiXmlNode::TINYXML_ELEMENT:
 			{
-				View *parentView = CreateView( parentNode->Value() );
+				View *parentView = CreateView( _parentNode->Value() );
 				if( parentView != NULL )
 				{
 					// If we have a themes file, we must send this for inflation before we send the actual Layout node
 					// This sets the View to the 'defaults' provided by the theme,
 					// but also gives our Layout a chance to override anything it wants
-					if( _currentThemeNode != NULL )
-						parentView->Inflate( _currentThemeNode, this, "", rootNode );
-					parentView->Inflate( parentNode->ToElement(), this );
+					if( m_currentThemeNode != NULL )
+						parentView->Inflate( m_currentThemeNode, this, "", _rootNode );
+					parentView->Inflate( _parentNode->ToElement(), this );
 
 					// Only check for children if View is a ViewGroup
 					ViewGroup *parentContainer = dynamic_cast<ViewGroup*>( parentView );
 					if( parentContainer != NULL )
 					{
-						for( TiXmlNode *childNode = parentNode->FirstChild(); childNode != NULL; childNode = childNode->NextSibling())
+						for( TiXmlNode *childNode = _parentNode->FirstChild(); childNode != NULL; childNode = childNode->NextSibling())
 						{
 							View *childView = ParseLayoutElement( childNode );
 							if( childView != NULL )
 							{
 								LayoutParams *childLayoutParams;
-								if( _currentThemeNode != NULL )
+								if( m_currentThemeNode != NULL )
 								{
-									childLayoutParams = parentContainer->InflateLayoutParams( _currentThemeNode, NULL, childView->GetThemePrefix() );
+									childLayoutParams = parentContainer->InflateLayoutParams( m_currentThemeNode, NULL, childView->GetThemePrefix() );
 									parentContainer->InflateLayoutParams( childNode->ToElement(), childLayoutParams );
 								}
 								else
@@ -895,14 +920,14 @@ ShivaGUI::View* ShivaGUI::ResourceManager::ParseLayoutElement( TiXmlNode *parent
 
 //----------------------------------------------------------------------------------
 
-ShivaGUI::Drawable* ShivaGUI::ResourceManager::ParseDrawableElement( TiXmlNode *parentNode )
+ShivaGUI::Drawable* ShivaGUI::ResourceManager::ParseDrawableElement( TiXmlNode *_parentNode )
 {
-	int nodeType = parentNode->Type();
+	int nodeType = _parentNode->Type();
 
 	switch( nodeType )
 	{
 		case TiXmlNode::TINYXML_DOCUMENT:
-			for( TiXmlNode *childNode = parentNode->FirstChild(); childNode != NULL; childNode = childNode->NextSibling() )
+			for( TiXmlNode *childNode = _parentNode->FirstChild(); childNode != NULL; childNode = childNode->NextSibling() )
 			{
 				// We return the first element that is a valid view
 				Drawable *result = ParseDrawableElement( childNode );
@@ -913,10 +938,10 @@ ShivaGUI::Drawable* ShivaGUI::ResourceManager::ParseDrawableElement( TiXmlNode *
 
 		case TiXmlNode::TINYXML_ELEMENT:
 		{
-			Drawable *drawable = CreateDrawable( parentNode->Value() );
+			Drawable *drawable = CreateDrawable( _parentNode->Value() );
 			if( drawable != NULL )
 			{
-				drawable->Inflate( parentNode->ToElement(), this );
+				drawable->Inflate( _parentNode->ToElement(), this );
 
 				return drawable;
 			}
@@ -931,28 +956,28 @@ ShivaGUI::Drawable* ShivaGUI::ResourceManager::ParseDrawableElement( TiXmlNode *
 
 //----------------------------------------------------------------------------------
 
-unsigned int ShivaGUI::ResourceManager::SDLSurfaceToOpenGL( SDL_Surface *image, bool mipmap, bool addAlpha, bool repeat, bool reverseOrder )
+unsigned int ShivaGUI::ResourceManager::SDLSurfaceToOpenGL( SDL_Surface *_image, bool _mipmap, bool _addAlpha, bool _repeat, bool _reverseOrder )
 {
 	unsigned int texName = 0;
 	glGenTextures( 1, &texName );
-	SDLSurfaceToOpenGLID( image, texName, mipmap, addAlpha, repeat, reverseOrder );
+	SDLSurfaceToOpenGLID( _image, texName, _mipmap, _addAlpha, _repeat, _reverseOrder );
 	return texName;
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ResourceManager::SDLSurfaceToOpenGLID( SDL_Surface *image, unsigned int OpenGLTexID, bool mipmap, bool addAlpha, bool repeat, bool reverseOrder )
+void ShivaGUI::ResourceManager::SDLSurfaceToOpenGLID( SDL_Surface *_image, unsigned int _OpenGLTexID, bool _mipmap, bool _addAlpha, bool _repeat, bool _reverseOrder )
 {
 
 	GLenum type = GL_RGBA;
 
-	if( image->format->BitsPerPixel == 32 )
+	if( _image->format->BitsPerPixel == 32 )
 	{
-		type = reverseOrder ? GL_BGRA : GL_RGBA;
+		type = _reverseOrder ? GL_BGRA : GL_RGBA;
 	}
-	else if( image->format->BitsPerPixel == 24 )
+	else if( _image->format->BitsPerPixel == 24 )
 	{
-		type = reverseOrder ? GL_BGR : GL_RGB;
+		type = _reverseOrder ? GL_BGR : GL_RGB;
 	}
 	else
 	{
@@ -960,11 +985,11 @@ void ShivaGUI::ResourceManager::SDLSurfaceToOpenGLID( SDL_Surface *image, unsign
 		//SDL_FreeSurface(image);
 	}
 
-	if( OpenGLTexID != 0 )
+	if( _OpenGLTexID != 0 )
 	{
-		glBindTexture( GL_TEXTURE_2D, OpenGLTexID );
+		glBindTexture( GL_TEXTURE_2D, _OpenGLTexID );
 
-		if( repeat )
+		if( _repeat )
 		{
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
@@ -977,20 +1002,20 @@ void ShivaGUI::ResourceManager::SDLSurfaceToOpenGLID( SDL_Surface *image, unsign
 
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
-		if( mipmap )
+		if( _mipmap )
 		{
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
 		}
 		else
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 
-		if( addAlpha )
-			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, image->w, image->h, 0, type, GL_UNSIGNED_BYTE, image->pixels );
+		if( _addAlpha )
+			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, _image->w, _image->h, 0, type, GL_UNSIGNED_BYTE, _image->pixels );
 		else
-			glTexImage2D( GL_TEXTURE_2D, 0, image->format->BitsPerPixel/8, image->w, image->h, 0, type, GL_UNSIGNED_BYTE, image->pixels );
+			glTexImage2D( GL_TEXTURE_2D, 0, _image->format->BitsPerPixel/8, _image->w, _image->h, 0, type, GL_UNSIGNED_BYTE, _image->pixels );
 
-		if( mipmap )
-			if( gluBuild2DMipmaps( GL_TEXTURE_2D, image->format->BitsPerPixel/8, image->w, image->h, type, GL_UNSIGNED_BYTE, image->pixels ) != 0 )
+		if( _mipmap )
+			if( gluBuild2DMipmaps( GL_TEXTURE_2D, _image->format->BitsPerPixel/8, _image->w, _image->h, type, GL_UNSIGNED_BYTE, _image->pixels ) != 0 )
 				std::cerr << "WARNING: mipmap generation error" << std::endl;
 
 
@@ -1004,23 +1029,23 @@ void ShivaGUI::ResourceManager::SDLSurfaceToOpenGLID( SDL_Surface *image, unsign
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ResourceManager::RegisterPostInflationLink( View *src, std::string dstID, bool scanForward )
+void ShivaGUI::ResourceManager::RegisterPostInflationLink( View *_src, std::string _dstID, bool _scanForward )
 {
-	_postInflationLinks.push_back( PostInflationLink( src, dstID, scanForward ) );
+	m_postInflationLinks.push_back( PostInflationLink( _src, _dstID, _scanForward ) );
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ResourceManager::RegisterPostInflationLink( View *src, std::string dstID, Definitions::FocusDirection focusDir )
+void ShivaGUI::ResourceManager::RegisterPostInflationLink( View *_src, std::string _dstID, Definitions::FocusDirection _focusDir )
 {
-	_postInflationLinks.push_back( PostInflationLink( src, dstID, focusDir) );
+	m_postInflationLinks.push_back( PostInflationLink( _src, _dstID, _focusDir) );
 }
 
 //----------------------------------------------------------------------------------
 
 void ShivaGUI::ResourceManager::DoPostEvaluationLinks()
 {
-	for( std::vector< PostInflationLink >::iterator it = _postInflationLinks.begin(); it != _postInflationLinks.end(); ++it )
+	for( std::vector< PostInflationLink >::iterator it = m_postInflationLinks.begin(); it != m_postInflationLinks.end(); ++it )
 	{
 		View *dstView = GetViewFromID( it->dstID );
 		if( dstView != NULL && it->src != NULL )
@@ -1041,7 +1066,7 @@ void ShivaGUI::ResourceManager::DoPostEvaluationLinks()
 			std::cerr << "WARNING: ResourceManager::DoPostEvaluationLinks() cannot resolve Views, dstID = " << it->dstID << std::endl;
 		}
 	}
-	_postInflationLinks.clear();
+	m_postInflationLinks.clear();
 }
 
 //----------------------------------------------------------------------------------

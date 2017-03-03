@@ -1,9 +1,10 @@
-/*
- * CSG.h
- *
- *  Created on: Jun 4, 2013
- *      Author: leigh
- */
+///-----------------------------------------------------------------------------------------------
+/// \file TransformNode.h
+/// \brief Transformations are split up to save on data being sent to the shader
+/// \author Leigh McLoughlin
+/// \date Jun 4, 2013
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
 #ifndef TRANSLATENODE_H_
 #define TRANSLATENODE_H_
@@ -13,93 +14,310 @@
 
 namespace VolumeTree
 {
-	/// Transformations are split up to save on data being sent to the shader
 	class TransformNode : public Node
 	{
 	public:
-		TransformNode(bool useParams = false);
-		TransformNode(Node *child, bool useParams = false);
+
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor
+		//----------------------------------------------------------------------------------
+		TransformNode( bool _useParams = false );
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor passing child
+		/// \param [in] _child
+		//----------------------------------------------------------------------------------
+		TransformNode( Node *_child, bool _useParams = false );
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor
+		//----------------------------------------------------------------------------------
 		virtual ~TransformNode();
-		
-		virtual std::string GetNodeType(){return "TransformNode";}
-
-		cml::matrix44f_c& GetTransformMatrix() {return _transformMatrix;}
-
-		void SetTranslate(float x, float y, float z);
-		void AddTranslate(float x, float y, float z);
-		void GetTranslate(float &x, float &y, float &z);
-
-		/// Builds a rotation matrix that rotates a vector(0,0,1) to the specified direction
-		void SetRotate(float dirX, float dirY, float dirZ);
-
-		void SetScale( float value ) {SetScale(value,value,value);}
-		void SetScale(float x, float y, float z);
-
-		void SetRotation( float rx, float ry , float rz );
-
-		
-		void SetTransformParams(float tx, float ty, float tz, //translate, 0 by default
-								float rx, float ry, float rz, //rotate as euler angles in radians, 0 by default
-								float sx, float sy, float sz, //scale, 1 by default
-								float refrx, float refry, float refrz, //reference point for rotation, 0 by default
-								float refsx, float refsy, float refsz); //reference point for scale, 0 by default
-
-		void GetTransformParams(float &tx, float &ty, float &tz, //translate, 0 by default
-								float &rx, float &ry, float &rz, //rotate as euler angles in radians, 0 by default
-								float &sx, float &sy, float &sz, //scale, 1 by default
-								float &refrx, float &refry, float &refrz, //reference point for rotation, 0 by default
-								float &refsx, float &refsy, float &refsz); //reference point for scale, 0 by default
-
-
-
-		/// Returns true if more than one type is true, indicating it uses a full matrix
-		bool GetTransformTypes(bool &translation, bool &rotation, bool &scale);
-
-
-		/// Samples the function at a specific point
-		float GetFunctionValue(float x, float y, float z);
-
-		/// Returns a GLSL-compatible string for the function
-		std::string GetFunctionGLSLString(bool callCache, std::string samplePosStr);
-
-		void SetChild(Node *child){ _child = child;}
-		
+		//----------------------------------------------------------------------------------
+		/// \brief Returns node type
+		/// \return "TransformNode"
+		//----------------------------------------------------------------------------------
+		virtual std::string GetNodeType() { return "TransformNode"; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns transform matrix
+		/// \return m_transformMatrix
+		//----------------------------------------------------------------------------------
+		cml::matrix44f_c& GetTransformMatrix() { return m_transformMatrix; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set translation
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
+		//----------------------------------------------------------------------------------
+		void SetTranslate( float _x, float _y, float _z );
+		//----------------------------------------------------------------------------------
+		/// \brief Add translation
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
+		//----------------------------------------------------------------------------------
+		void AddTranslate( float _x, float _y, float _z );
+		//----------------------------------------------------------------------------------
+		/// \brief Returns translation
+		/// \param [out] _x
+		/// \param [out] _y
+		/// \param [out] _z
+		//----------------------------------------------------------------------------------
+		void GetTranslate( float &_x, float &_y, float &_z );
+		//----------------------------------------------------------------------------------
+		/// \brief Builds a rotation matrix that rotates a vector(0,0,1) to the specified direction
+		/// \param [in] _dirX
+		/// \param [in] _dirY
+		/// \param [in] _dirZ
+		//----------------------------------------------------------------------------------
+		void SetRotate( float _dirX, float _dirY, float _dirZ );
+		//----------------------------------------------------------------------------------
+		/// \brief Set scaling
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetScale( float _value ) { SetScale( _value, _value, _value ); }
+		//----------------------------------------------------------------------------------
+		/// \brief Set scaling
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
+		//----------------------------------------------------------------------------------
+		void SetScale( float _x, float _y, float _z );
+		//----------------------------------------------------------------------------------
+		/// \brief Set rotation
+		/// \param [in] _rx
+		/// \param [in] _ry
+		/// \param [in] _rz
+		//----------------------------------------------------------------------------------
+		void SetRotation( float _rx, float _ry , float _rz );
+		//----------------------------------------------------------------------------------
+		/// \brief Set transformation parameters
+		/// \param [in] _tx
+		/// \param [in] _ty
+		/// \param [in] _tz
+		/// \param [in] _rx
+		/// \param [in] _ry
+		/// \param [in] _rz
+		/// \param [in] _sx
+		/// \param [in] _sy
+		/// \param [in] _sz
+		/// \param [in] _refrx
+		/// \param [in] _refry
+		/// \param [in] _refrz
+		/// \param [in] _refsx
+		/// \param [in] _refsy
+		/// \param [in] _refsz
+		//----------------------------------------------------------------------------------
+		void SetTransformParams( float _tx, float _ty, float _tz, //translate, 0 by default
+								 float _rx, float _ry, float _rz, //rotate as euler angles in radians, 0 by default
+								 float _sx, float _sy, float _sz, //scale, 1 by default
+								 float _refrx, float _refry, float _refrz, //reference point for rotation, 0 by default
+								 float _refsx, float _refsy, float _refsz ); //reference point for scale, 0 by default
+		//----------------------------------------------------------------------------------
+		/// \brief Get transformation parameters
+		/// \param [out] _tx
+		/// \param [out] _ty
+		/// \param [out] _tz
+		/// \param [out] _rx
+		/// \param [out] _ry
+		/// \param [out] _rz
+		/// \param [out] _sx
+		/// \param [out] _sy
+		/// \param [out] _sz
+		/// \param [out] _refrx
+		/// \param [out] _refry
+		/// \param [out] _refrz
+		/// \param [out] _refsx
+		/// \param [out] _refsy
+		/// \param [out] _refsz
+		//----------------------------------------------------------------------------------
+		void GetTransformParams( float &_tx, float &_ty, float &_tz, //translate, 0 by default
+								 float &_rx, float &_ry, float &_rz, //rotate as euler angles in radians, 0 by default
+								 float &_sx, float &_sy, float &_sz, //scale, 1 by default
+								 float &_refrx, float &_refry, float &_refrz, //reference point for rotation, 0 by default
+								 float &_refsx, float &_refsy, float &_refsz ); //reference point for scale, 0 by default
+		//----------------------------------------------------------------------------------
+		/// \brief Returns true if more than one type is true, indicating it uses a full matrix
+		/// \param [out] _translation
+		/// \param [out] _rotation
+		/// \param [out] _scale
+		//----------------------------------------------------------------------------------
+		bool GetTransformTypes( bool &_translation, bool &_rotation, bool &_scale );
+		//----------------------------------------------------------------------------------
+		/// \brief Samples the function at a specific point
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
+		//----------------------------------------------------------------------------------
+		float GetFunctionValue( float _x, float _y, float _z );
+		//----------------------------------------------------------------------------------
+		/// \brief Returns a GLSL-compatible string for the function
+		/// \param [in] _callCache
+		/// \param [in] _samplePosStr
+		//----------------------------------------------------------------------------------
+		std::string GetFunctionGLSLString( bool _callCache, std::string _samplePosStr );
+		//----------------------------------------------------------------------------------
+		/// \brief Set child
+		/// \param [in] _child
+		//----------------------------------------------------------------------------------
+		void SetChild( Node *_child ){ m_child = _child; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get first child
+		//----------------------------------------------------------------------------------
 		virtual Node* GetFirstChild();
-		virtual Node* GetNextChild(Node *previousChild);
-		
+		//----------------------------------------------------------------------------------
+		/// \brief Get next child base on child passed
+		/// \param [in] _previousChild
+		//----------------------------------------------------------------------------------
+		virtual Node* GetNextChild( Node *_previousChild );
+		//----------------------------------------------------------------------------------
+		/// \brief Get node cost
+		//----------------------------------------------------------------------------------
 		virtual unsigned int GetNodeCost();
-
-		virtual void GetBounds(float *minX,float *maxX, float *minY,float *maxY, float *minZ,float *maxZ);
-
-		/// Sets all transformations to zero (identity matrix)
+		//----------------------------------------------------------------------------------
+		/// \brief Get boundaries
+		/// \param [out] _minX
+		/// \param [out] _maxX
+		/// \param [out] _minY
+		/// \param [out] _maxY
+		/// \param [out] _minZ
+		/// \param [out] _maxZ
+		//----------------------------------------------------------------------------------
+		virtual void GetBounds( float *_minX, float *_maxX, float *_minY, float *_maxY, float *_minZ, float *_maxZ );
+		//----------------------------------------------------------------------------------
+		/// \brief Sets all transformations to zero (identity matrix)
+		//----------------------------------------------------------------------------------
 		void Reset();
+		//----------------------------------------------------------------------------------
 
 	protected:
-		Node *_child;
-		
-		bool _useParams;
-		/// I was hoping to avoid this, but it needs to be able to free up the params when it gets deleted
-		GLSLRenderer *_paramRenderer;
-		unsigned int _translationParam;
-		std::string _translationParamString;
-		unsigned int _matrixParam;
-		std::string _matrixParamString;
-		/// Node is expected to register any parameters it wants to use
-		virtual void OnBuildParameters( GLSLRenderer *renderer );
-		/// Node is expected to tell the renderer the values of its parameters
-		virtual void OnUpdateParameters( GLSLRenderer *renderer );
 
-		bool _applyTranslate, _applyRotate, _applyScale;
-
-		cml::matrix44f_c _transformMatrix;
-
-		float	_tx, _ty, _tz, //translate, 0 by default
-				_rx, _ry, _rz, //rotate as euler angles in radians, 0 by default
-				_sx,  _sy,  _sz, //scale, 1 by default
-				_refrx,  _refry,  _refrz, //reference point for rotation, 0 by default
-				_refsx,  _refsy,  _refsz; //reference point for scale, 0 by default
+		//----------------------------------------------------------------------------------
+		/// \brief Child
+		//----------------------------------------------------------------------------------
+		Node *m_child;
+		//----------------------------------------------------------------------------------
+		/// \brief Flag to set use of parameters
+		//----------------------------------------------------------------------------------
+		bool m_useParams;
+		//----------------------------------------------------------------------------------
+		//I was hoping to avoid this, but it needs to be able to free up the params when it gets deleted
+		//----------------------------------------------------------------------------------
+		/// \brief Parameter renderer
+		//----------------------------------------------------------------------------------
+		GLSLRenderer *m_paramRenderer;
+		//----------------------------------------------------------------------------------
+		/// \brief Translation parameter
+		//----------------------------------------------------------------------------------
+		unsigned int m_translationParam;
+		//----------------------------------------------------------------------------------
+		/// \brief Translation parameter string
+		//----------------------------------------------------------------------------------
+		std::string m_translationParamString;
+		//----------------------------------------------------------------------------------
+		/// \brief Matrix parameter
+		//----------------------------------------------------------------------------------
+		unsigned int m_matrixParam;
+		//----------------------------------------------------------------------------------
+		/// \brief Matrix parameter string
+		//----------------------------------------------------------------------------------
+		std::string m_matrixParamString;
+		//----------------------------------------------------------------------------------
+		/// \brief Node is expected to register any parameters it wants to use
+		/// \param [in] _renderer
+		//----------------------------------------------------------------------------------
+		virtual void OnBuildParameters( GLSLRenderer *_renderer );
+		//----------------------------------------------------------------------------------
+		/// \brief Node is expected to tell the renderer the values of its parameters
+		/// \param [in] _parameter
+		//----------------------------------------------------------------------------------
+		virtual void OnUpdateParameters( GLSLRenderer *_renderer );
+		//----------------------------------------------------------------------------------
+		/// \brief Flag to apply translation
+		//----------------------------------------------------------------------------------
+		bool m_applyTranslate;
+		//----------------------------------------------------------------------------------
+		/// \brief Flag to apply rotation
+		//----------------------------------------------------------------------------------
+		bool m_applyRotate;
+		//----------------------------------------------------------------------------------
+		/// \brief Flag to apply scaling
+		//----------------------------------------------------------------------------------
+		bool m_applyScale;
+		//----------------------------------------------------------------------------------
+		/// \brief Transformation matrix
+		//----------------------------------------------------------------------------------
+		cml::matrix44f_c m_transformMatrix;
+		//----------------------------------------------------------------------------------
+		// Translation parameters
+		//----------------------------------------------------------------------------------
+		/// \brief Translation along x-axis
+		//----------------------------------------------------------------------------------
+		float m_tx;
+		//----------------------------------------------------------------------------------
+		/// \brief Translation along y-axis
+		//----------------------------------------------------------------------------------
+		float m_ty;
+		//----------------------------------------------------------------------------------
+		/// \brief Translation along z-axis
+		//----------------------------------------------------------------------------------
+		float m_tz; 
+		//----------------------------------------------------------------------------------
+		// Rotate as euler angles in radians
+		//----------------------------------------------------------------------------------
+		/// \brief Rotation about x-axis
+		//----------------------------------------------------------------------------------
+		float m_rx;
+		//----------------------------------------------------------------------------------
+		/// \brief Rotation about y-axis
+		//----------------------------------------------------------------------------------
+		float m_ry;
+		//----------------------------------------------------------------------------------
+		/// \brief Rotation about z-axis
+		//----------------------------------------------------------------------------------
+		float m_rz;
+		//----------------------------------------------------------------------------------
+		// Scale, 1 by default
+		//----------------------------------------------------------------------------------
+		/// \brief Scaling along x-axis
+		//----------------------------------------------------------------------------------
+		float m_sx;
+		//----------------------------------------------------------------------------------
+		/// \brief Scaling along y-axis
+		//----------------------------------------------------------------------------------
+		float m_sy;
+		//----------------------------------------------------------------------------------
+		/// \brief Scaling along z-axis
+		//----------------------------------------------------------------------------------
+		float m_sz;
+		//----------------------------------------------------------------------------------
+		// Reference point for rotation, 0 by default
+		//----------------------------------------------------------------------------------
+		/// \brief X-coord of reference point for rotation
+		//----------------------------------------------------------------------------------
+		float m_refrx;
+		//----------------------------------------------------------------------------------
+		/// \brief Y-coord of reference point for rotation
+		//----------------------------------------------------------------------------------
+		float m_refry;
+		//----------------------------------------------------------------------------------
+		/// \brief Z-coord of reference point for rotation
+		//----------------------------------------------------------------------------------
+		float m_refrz; 
+		//----------------------------------------------------------------------------------
+		// Reference point for scale, 0 by default
+		//----------------------------------------------------------------------------------
+		/// \brief X-coord of reference point for scaling
+		//----------------------------------------------------------------------------------
+		float m_refsx;
+		//----------------------------------------------------------------------------------
+		/// \brief Y-coord of reference point for scaling
+		//----------------------------------------------------------------------------------
+		float m_refsy;
+		//----------------------------------------------------------------------------------
+		/// \brief Z-coord of reference point for scaling
+		//----------------------------------------------------------------------------------
+		float m_refsz; 
+		//----------------------------------------------------------------------------------
 	};
-
 }
 
 

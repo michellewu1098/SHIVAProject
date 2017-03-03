@@ -15,38 +15,38 @@ ShivaGUI::ViewGroup::~ViewGroup()
 
 }
 
-ShivaGUI::LayoutParams* ShivaGUI::ViewGroup::InflateLayoutParams(TiXmlElement *xmlElement, LayoutParams *params, std::string themePrefix )
+ShivaGUI::LayoutParams* ShivaGUI::ViewGroup::InflateLayoutParams( TiXmlElement *xmlElement, LayoutParams *params, std::string themePrefix )
 {
 	if( params == NULL )
 	{
-		std::cerr<<"WARNING: ViewGroup::InflateLayoutParams given NULL input, creating base LayoutParams instance"<<std::endl;
+		std::cerr << "WARNING: ViewGroup::InflateLayoutParams given NULL input, creating base LayoutParams instance" << std::endl;
 		params = new LayoutParams();
 	}
 
 	for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 	{
-		if( (std::string("layout_width") == currentAttribute->Name()) || (themePrefix+"layout_width" == currentAttribute->Name()) )
+		if( ( std::string( "layout_width" ) == currentAttribute->Name() ) || ( themePrefix + "layout_width" == currentAttribute->Name() ) )
 		{
 			double value = 0.0;
-			if( currentAttribute->QueryDoubleValue(&value) == TIXML_SUCCESS )
+			if( currentAttribute->QueryDoubleValue( &value ) == TIXML_SUCCESS )
 			{
-				params->SetWidthConst(LayoutParams::PERCENTAGE_PARENT);
-				params->SetWidthPercent((float) value);
+				params->SetWidthConst( LayoutParams::PERCENTAGE_PARENT );
+				params->SetWidthPercent( ( float ) value );
 			}
 			else
 			{
 				std::string strValue( currentAttribute->Value() );
-				if( boost::algorithm::iequals(strValue,"fill_parent") )
+				if( boost::algorithm::iequals( strValue, "fill_parent" ) )
 				{
-					params->SetWidthConst(LayoutParams::FILL_PARENT);
+					params->SetWidthConst( LayoutParams::FILL_PARENT );
 				}
-				else if( boost::algorithm::iequals(strValue,"wrap_content") )
+				else if( boost::algorithm::iequals( strValue, "wrap_content" ) )
 				{
-					params->SetWidthConst(LayoutParams::WRAP_CONTENT);
+					params->SetWidthConst( LayoutParams::WRAP_CONTENT );
 				}
 				else
 				{
-					std::cerr<<"WARNING: ViewGroup::InflateLayoutParams attribute layout_width does not have a recognised const value: "<<strValue<<std::endl;
+					std::cerr << "WARNING: ViewGroup::InflateLayoutParams attribute layout_width does not have a recognised const value: " << strValue << std::endl;
 				}
 			}
 		}

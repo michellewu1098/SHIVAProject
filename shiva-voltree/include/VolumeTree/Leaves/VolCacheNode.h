@@ -1,17 +1,20 @@
-/*
- * VolCache.h
- *
- *  Created on: Jun 3, 2013
- *      Author: leigh
- */
+///-----------------------------------------------------------------------------------------------
+/// \file VolCacheNode.h
+/// \brief Leaf node for volume cache
+/// \author Leigh McLoughlin
+/// \date Jun 3, 2013
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
 #ifndef VOLCACHE_H_
 #define VOLCACHE_H_
 
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+
 #include "VolumeTree/Node.h"
 
-//#include "vol_metamorph.h"
-//#include "vol_totem.h"
 namespace totemio
 {
 	class CacheNode;
@@ -19,45 +22,131 @@ namespace totemio
 
 namespace VolumeTree
 {
-	/// Leaf node for a sphere
 	class VolCacheNode : public Node
 	{
 	public:
+
+		//----------------------------------------------------------------------------------
+		/// \brief Default ctor
+		//----------------------------------------------------------------------------------
 		VolCacheNode();
-		VolCacheNode(std::string filename);
-		VolCacheNode( totemio::CacheNode* );
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor passing filename
+		/// \param [in] _fileName
+		//----------------------------------------------------------------------------------
+		VolCacheNode( std::string _fileName );
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor passing node
+		/// \param [in] _nodeIn
+		//----------------------------------------------------------------------------------
+		VolCacheNode( totemio::CacheNode* _nodeIn );
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor
+		//----------------------------------------------------------------------------------
 		virtual ~VolCacheNode();
-		
-		virtual std::string GetNodeType(){return "VolCacheNode";}
-
-		/// Samples the function at a specific point
-		float GetFunctionValue(float x, float y, float z);
-
-		/// Returns a GLSL-compatible string for the function
-		std::string GetFunctionGLSLString(bool callCache, std::string samplePosStr);
-
-		virtual void SetUseCache(bool useCache, unsigned int cacheID, unsigned int cacheResX, unsigned int cacheResY, unsigned int cacheResZ );
-
-		
-		virtual unsigned int GetNodeCost() {return 2;}
-
-		virtual void GetBounds(float *minX,float *maxX, float *minY,float *maxY, float *minZ,float *maxZ);
+		//----------------------------------------------------------------------------------
+		/// \brief Returns node type
+		/// \return "VolCacheNode"
+		//----------------------------------------------------------------------------------
+		virtual std::string GetNodeType() { return "VolCacheNode"; }
+		//----------------------------------------------------------------------------------
+		/// \brief Samples the function at a specific point
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
+		//----------------------------------------------------------------------------------
+		float GetFunctionValue( float _x, float _y, float _z );
+		//----------------------------------------------------------------------------------
+		/// \brief Returns a GLSL-compatible string for the function
+		/// \param [in] _callCache
+		/// \param [in] _samplePosStr
+		//----------------------------------------------------------------------------------
+		std::string GetFunctionGLSLString( bool _callCache, std::string _samplePosStr );
+		//----------------------------------------------------------------------------------
+		/// \brief Set to use cache
+		/// \param [in] _useCache
+		/// \param [in] _cacheID
+		/// \param [in] _cacheResX
+		/// \param [in] _cacheResY
+		/// \param [in] _cacheResZ
+		//----------------------------------------------------------------------------------
+		virtual void SetUseCache( bool _useCache, unsigned int _cacheID, unsigned int _cacheResX, unsigned int _cacheResY, unsigned int _cacheResZ );
+		//----------------------------------------------------------------------------------
+		/// \brief Get node cost
+		/// \return 2
+		//----------------------------------------------------------------------------------
+		virtual unsigned int GetNodeCost() { return 2; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get boundaries
+		/// \param [in] _minX
+		/// \param [in] _maxX
+		/// \param [in] _minY 
+		/// \param [in] _maxY
+		/// \param [in] _minZ
+		/// \param [in] _maxZ
+		//----------------------------------------------------------------------------------
+		virtual void GetBounds( float *_minX, float *_maxX, float *_minY, float *_maxY, float *_minZ, float *_maxZ );
+		//----------------------------------------------------------------------------------
 
 	protected:
 
-		std::string _filename;
-		totemio::CacheNode *_volCacheNode;
+		//----------------------------------------------------------------------------------
+		/// \brief Filename
+		//----------------------------------------------------------------------------------
+		std::string m_filename;
+		//----------------------------------------------------------------------------------
+		/// \brief Volume cache node
+		//----------------------------------------------------------------------------------
+		totemio::CacheNode *m_volCacheNode;
+		//----------------------------------------------------------------------------------
+		/// \brief Minimum X boundary
+		//----------------------------------------------------------------------------------
+		float m_boundsMinX;
+		//----------------------------------------------------------------------------------
+		/// \brief Maximum X boundary
+		//----------------------------------------------------------------------------------
+		float m_boundsMaxX;
+		//----------------------------------------------------------------------------------
+		/// \brief Minimum Y boundary
+		//----------------------------------------------------------------------------------
+		float m_boundsMinY;
+		//----------------------------------------------------------------------------------
+		/// \brief Maximum Y boundary
+		//----------------------------------------------------------------------------------
+		float m_boundsMaxY;
+		//----------------------------------------------------------------------------------
+		/// \brief Minimum Z boundary
+		//----------------------------------------------------------------------------------
+		float m_boundsMinZ;
+		//----------------------------------------------------------------------------------
+		/// \brief Maximum Z boundary
+		//----------------------------------------------------------------------------------
+		float m_boundsMaxZ;
+		//----------------------------------------------------------------------------------
+		/// \brief Populate cache data
+		/// \param [in] _data
+		/// \param [in] _startX
+		/// \param [in] _startY
+		/// \param [in] _startZ
+		/// \param [in] _stepX
+		/// \param [in] _stepY
+		/// \param [in] _stepZ
+		//----------------------------------------------------------------------------------
+		virtual void PopulateCacheData( float **_data, float _startX, float _startY, float _startZ, float _stepX, float _stepY, float _stepZ );
+		//----------------------------------------------------------------------------------
+		/// \brief Cached function
+		//----------------------------------------------------------------------------------
+		float *m_cachedFunction;
+		//----------------------------------------------------------------------------------
+		/// \brief Uses nearest sampling 
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
+		//----------------------------------------------------------------------------------
+		float SampleCacheFunction( unsigned int _x, unsigned int _y, unsigned int _z );
+		//----------------------------------------------------------------------------------
 
-		float _boundsMinX, _boundsMaxX, _boundsMinY, _boundsMaxY, _boundsMinZ, _boundsMaxZ;
-		
-		virtual void PopulateCacheData(float **data, float startX, float startY, float startZ, float stepX, float stepY, float stepZ);
-
-		float *_cachedFunction;
-
-		/// Uses nearest sampling 
-		float SampleCacheFunction(unsigned int x, unsigned int y, unsigned int z);
 	};
 }
-
 
 #endif

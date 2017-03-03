@@ -39,7 +39,7 @@ namespace ShivaGUI
 
 		bool _loopPlayback;
 
-		AudioManager *_audioManager;
+		AudioManager *m_audioManager;
 
 		std::string _filename;
 

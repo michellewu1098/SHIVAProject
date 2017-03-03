@@ -383,12 +383,12 @@ float Totem::Object::SelectIntersectingObject( Totem::Object **selection, float 
 		float ttopX = invRX * ( boxmaxX - originX ); float ttopY = invRY * ( boxmaxY - originY ); float ttopZ = invRZ * ( boxmaxZ - originZ );
 
 		// re-order intersections to find smallest and largest on each axis
-		float tminX = std::min( ttopX, tbotX ); float tminY = std::min( ttopY, tbotY ); float tminZ = std::min( ttopZ, tbotZ );
-		float tmaxX = std::max( ttopX, tbotX ); float tmaxY = std::max( ttopY, tbotY ); float tmaxZ = std::max( ttopZ, tbotZ );
+		float tminX = (std::min)( ttopX, tbotX ); float tminY = (std::min)( ttopY, tbotY ); float tminZ = (std::min)( ttopZ, tbotZ );
+		float tmaxX = (std::max)( ttopX, tbotX ); float tmaxY = (std::max)( ttopY, tbotY ); float tmaxZ = (std::max)( ttopZ, tbotZ );
 
 		// find the largest tmin and the smallest tmax
-		float largest_tmin = std::max( std::max( tminX, tminY ), std::max( tminX, tminZ ) );
-		float smallest_tmax = std::min( std::min( tmaxX, tmaxY ), std::min( tmaxX, tmaxZ ) );
+		float largest_tmin = (std::max)( (std::max)( tminX, tminY ), (std::max)( tminX, tminZ ) );
+		float smallest_tmax = (std::min)( (std::min)( tmaxX, tmaxY ), (std::min)( tmaxX, tmaxZ ) );
 
 		ourDist = largest_tmin;
 		//*tfar = smallest_tmax;

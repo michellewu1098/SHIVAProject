@@ -1,54 +1,56 @@
 #include "Utility/GPUVariable.h"
 
-//////////////////////////////////////////////////////////////////////////
-#include <GL/GLee.h>
-#include <GL/glu.h>
-#include <iostream>
+//----------------------------------------------------------------------------------
 
-Utility::GPUVariable::GPUVariable(GPUProgram *program, GPUShader *shader, std::string variableName)
+Utility::GPUVariable::GPUVariable( GLuint _programID, std::string _variableName )
 {
-	_ID = -1;
-	_object = 0;
-
-	_object = program->GetProgramID();//glCreateProgramObjectARB();
-	//glUseProgramObjectARB(_object);
-	//shader->AttachObject(_object);
-
-	GLenum err = glGetError();
-	if( err != GL_NO_ERROR)
-		std::cerr<<"ERROR: GPUVariable Ctor: OpenGL Error: "<< gluErrorString(err)<<std::endl;
-
-	//glLinkProgramARB(_object);
-	//glUseProgramObjectARB(_object);
-	_ID = glGetUniformLocationARB(_object, variableName.c_str());
+	m_loc = glGetUniformLocation( _programID, _variableName.c_str() );
+	if( m_loc == -1 )
+	{
+		GLenum err = glGetError();
+		if( err != GL_NO_ERROR )
+			std::cerr << "ERROR: GPUVariable Ctor: OpenGL Error: " << gluErrorString( err ) << std::endl;
+	}
 }
+
+//----------------------------------------------------------------------------------
 
 Utility::GPUVariable::~GPUVariable()
-{
+{ }
 
+//----------------------------------------------------------------------------------
+
+void Utility::GPUVariable::UniformInt( int _value )
+{
+	glUniform1i( m_loc, _value );
 }
 
-void Utility::GPUVariable::UniformInt(int value)
+//----------------------------------------------------------------------------------
+
+void Utility::GPUVariable::UniformFloat( float _value )
 {
-	glUniform1iARB(_ID, value);
+	glUniform1f( m_loc, _value );
 }
 
-void Utility::GPUVariable::UniformFloat(float value)
+//----------------------------------------------------------------------------------
+
+void Utility::GPUVariable::UniformFloat3( float *_value )
 {
-	glUniform1fARB(_ID, value);
+	glUniform3fv( m_loc, 1, _value );
 }
 
-void Utility::GPUVariable::UniformFloat3(float *value)
+//----------------------------------------------------------------------------------
+
+void Utility::GPUVariable::UniformFloat4( float *_value )
 {
-	glUniform3fvARB(_ID, 1, value);
+	glUniform4fv( m_loc, 1, _value );
 }
 
-void Utility::GPUVariable::UniformFloat4(float *value)
+//----------------------------------------------------------------------------------
+
+void Utility::GPUVariable::UniformMatrix4( float *_value )
 {
-	glUniform4fvARB(_ID, 1, value);
+	glUniformMatrix4fv( m_loc, 1, GL_FALSE, _value );
 }
 
-void Utility::GPUVariable::UniformMatrix4(float *value)
-{
-	glUniformMatrix4fvARB(_ID, 1, GL_TRUE, value);
-}
+//----------------------------------------------------------------------------------

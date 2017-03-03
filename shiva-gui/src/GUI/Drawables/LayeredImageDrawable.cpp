@@ -1,211 +1,165 @@
 #include "GUI/Drawables/LayeredImageDrawable.h"
 
-#include <GL/GLee.h>
-#include <iostream>
-#include <sstream>
-
 //----------------------------------------------------------------------------------
 
 ShivaGUI::LayeredImageDrawable::LayeredImageDrawable()
 {
-	_maxLayerGroups = 4;
-	_scaleUp = true;
-	_isNinePatch = false;
-	_texWidth = _texHeight = 10;
-	_keepAspectRatio = false;
+	m_maxLayerGroups = 4;
+	m_scaleUp = true;
+	m_isNinePatch = false;
+	m_texWidth = m_texHeight = 10;
+	m_keepAspectRatio = false;
 
-	_usingText = false;
-	_fontSize = 12;
-	_fontColour = 0;
-
-	_nLayers = 0;
+	m_usingText = false;
+	m_nLayers = 0;
 	
-	_centreLeftProp = _centreRightProp = _centreTopProp = _centreBottomProp = 0.0f;
-	_centreLeftBounds = _centreRightBounds = _centreTopBounds = _centreBottomBounds = 0.0f;
+	m_centreLeftProp = m_centreRightProp = m_centreTopProp = m_centreBottomProp = 0.0f;
+	m_centreLeftBounds = m_centreRightBounds = m_centreTopBounds = m_centreBottomBounds = 0.0f;
 
-	_contentLeftProp = 0.0f;
-	_contentRightProp = 1.0f;
-	_contentTopProp = 0.0f;
-	_contentBottomProp = 1.0f;
-	_contentLeftBounds = _contentRightBounds = _contentTopBounds = _contentBottomBounds = 0.0f;
+	m_contentLeftProp = 0.0f;
+	m_contentRightProp = 1.0f;
+	m_contentTopProp = 0.0f;
+	m_contentBottomProp = 1.0f;
+	m_contentLeftBounds = m_contentRightBounds = m_contentTopBounds = m_contentBottomBounds = 0.0f;
 
-	// Create vertex buffer objects
-	glGenBuffers( 1, &_squareVertexVBO );
-	glGenBuffers( 1, &_squareTexcoordVBO );
-	glGenBuffers( 1, &_squareIndexVBO );
+	// Create VAO for this object
+	glGenVertexArrays( 1, &m_vao );
 
 	BuildVBOs();
 
-	_layerProgram = new Utility::GPUProgram();
-	_layerProgram->Create( "Resources/Shaders/LayeredImageDrawable", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
+	m_shader = new Utility::GPUProgram();
+	m_shader->Create( "Resources/Shaders/LayeredImageDrawable", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
 
-	_layerGroups = new LayerGroup[ _maxLayerGroups ];
-	for( unsigned int i = 0; i < _maxLayerGroups; ++i )
+	m_layerGroups = new LayerGroup[ m_maxLayerGroups ];
+	for( unsigned int i = 0; i < m_maxLayerGroups; ++i )
 	{
-		_layerGroups[ i ].Init( i, _layerProgram->GetProgramID() );
+		m_layerGroups[ i ].Init( i, m_shader->GetProgramID() );
 	}
+
+	m_projMat.identity();
+	m_mvMat.identity();
 }
 
 //----------------------------------------------------------------------------------
 
 ShivaGUI::LayeredImageDrawable::~LayeredImageDrawable()
 {
-	delete _layerProgram;
-
-	glDeleteBuffers( 1, &_squareVertexVBO );
-	glDeleteBuffers( 1, &_squareTexcoordVBO );
-	glDeleteBuffers( 1, &_squareIndexVBO );
+	glDeleteVertexArrays( 1, &m_vao );
+	delete m_shader;
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayeredImageDrawable::SetTextParams( std::string textBody, unsigned int alignment, std::string fontName, unsigned int fontSize, unsigned int fontColour )
-{
-	_textBody = textBody;
-	_textAlignment = alignment;
-	_fontName = fontName;
-	_fontSize = fontSize;
-	_fontColour = fontColour;
-
-	//_usingText = true;
-
-}
-
-//----------------------------------------------------------------------------------
-
-void ShivaGUI::LayeredImageDrawable::addTextLayer( ResourceManager* resources)
+void ShivaGUI::LayeredImageDrawable::AddTextLayer( unsigned int _fontColour )
 {
 	// Add extra layer with text
-	//if( _usingText )
-	//{
-		//if( _nLayers != 0 )
-		//{
-			SetTexID( resources->GetText( _textBody, 2, _fontName, _fontSize, _fontColour ), _nLayers ); 
-			SetLayerColour( 1, _nLayers, 0 );
-			SetLayerColour( 1, _nLayers, 1 );
-			SetLayerColour( 1, _nLayers, 2 );
-			SetLayerColour( _fontColour, _nLayers, 3 );
-		//}
-	//}
+	if( m_usingText )
+	{
+		SetTexID( m_textTextureID, m_nLayers ); 
+		SetLayerColour( 1, m_nLayers, 0 );
+		SetLayerColour( 1, m_nLayers, 1 );
+		SetLayerColour( 1, m_nLayers, 2 );
+		SetLayerColour( _fontColour, m_nLayers, 3 );
+		m_usingText = false;
+	}
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayeredImageDrawable::SetTexID( unsigned int OpenGLTexID, unsigned int layerGroup )
+void ShivaGUI::LayeredImageDrawable::SetTexID( unsigned int _OpenGLTexID, unsigned int _layerGroup )
 {
-	if( layerGroup >= _maxLayerGroups )
+	if( _layerGroup >= m_maxLayerGroups )
 	{
 		std::cerr << "WARNING: LayeredImageDrawable given layer group >= _maxLayerGroups" << std::endl;
 		return;
 	}
-	//std::cout<<"INFO: LayeredImageDrawable::SetTexID OpenGLTexID = "<<OpenGLTexID<<std::endl;
-	_layerGroups[ layerGroup ].SetGLTexID( OpenGLTexID );
+
+	m_layerGroups[ _layerGroup ].SetGLTexID( _OpenGLTexID );
 
 	// Not very efficient, but we're not into rendering yet and this is easier for the moment...
-	glBindTexture( GL_TEXTURE_2D, OpenGLTexID );
-	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &_texWidth );
-	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &_texHeight );
+	glBindTexture( GL_TEXTURE_2D, _OpenGLTexID );
+	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &m_texWidth );
+	glGetTexLevelParameteriv( GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &m_texHeight );
 	glBindTexture( GL_TEXTURE_2D, 0 );
-	//std::cout<<"INFO: BitmapDrawable dimensions: "<<_texWidth<<" "<<_texHeight<<std::endl;
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayeredImageDrawable::GetContentBounds( float &left, float &top, float &right, float &bottom )
+void ShivaGUI::LayeredImageDrawable::GetContentBounds( float &_left, float &_top, float &_right, float &_bottom )
 {
-	left = _contentLeftBounds;
-	right = _contentRightBounds;
-	top = _contentTopBounds;
-	bottom = _contentBottomBounds;
+	_left	= m_contentLeftBounds;
+	_right	= m_contentRightBounds;
+	_top	= m_contentTopBounds;
+	_bottom	= m_contentBottomBounds;
 }
 
 //----------------------------------------------------------------------------------
 
-int ShivaGUI::LayeredImageDrawable::GetNativeWidthFromContent( int contentWidth )
+int ShivaGUI::LayeredImageDrawable::GetNativeWidthFromContent( int _contentWidth )
 {
-	return ( int )( ( ( _contentLeftProp + ( 1.0f - _contentRightProp ) ) * ( float )_texWidth ) + contentWidth );
+	return ( int )( ( ( m_contentLeftProp + ( 1.0f - m_contentRightProp ) ) * ( float )m_texWidth ) + _contentWidth );
 }
 
 //----------------------------------------------------------------------------------
 
-int ShivaGUI::LayeredImageDrawable::GetNativeHeightFromContent(int contentHeight)
+int ShivaGUI::LayeredImageDrawable::GetNativeHeightFromContent( int _contentHeight )
 {
-	return ( int )( ( ( _contentTopProp + ( 1.0f - _contentBottomProp ) ) * ( float )_texHeight ) + contentHeight );
+	return ( int )( ( ( m_contentTopProp + ( 1.0f - m_contentBottomProp ) ) * ( float )m_texHeight ) + _contentHeight );
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayeredImageDrawable::SetLayerColour( std::string colourString, unsigned int group, unsigned int layer )
+void ShivaGUI::LayeredImageDrawable::SetLayerColour( std::string _colourString, unsigned int _group, unsigned int _layer )
 {
 	unsigned int fontColour = 0;
 	std::stringstream colourStream;
-	colourStream << std::hex << colourString;
+	colourStream << std::hex << _colourString;
 	colourStream >> fontColour;
-	SetLayerColour( fontColour, group, layer );
+	SetLayerColour( fontColour, _group, _layer );
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayeredImageDrawable::SetLayerColour( unsigned int colour, unsigned int group, unsigned int layer )
+void ShivaGUI::LayeredImageDrawable::SetLayerColour( unsigned int _colour, unsigned int _group, unsigned int _layer )
 {
-	if( group >= ( _maxLayerGroups ) )
+	if( _group >= ( m_maxLayerGroups ) )
 	{
 		std::cerr << "WARNING: LayeredImageDrawable given layer group >= _maxLayerGroups" << std::endl;
 		return;
 	}
-	if( layer >= 4 )
+	if( _layer >= 4 )
 	{
 		std::cerr << "WARNING: LayeredImageDrawable given layer >= 4" << std::endl;
 		return;
 	}
-	_layerGroups[ group ].SetLayerColour( colour, layer );
+	m_layerGroups[ _group ].SetLayerColour( _colour, _layer );
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *xmlElement, ResourceManager *resources )
+void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources )
 {
-	for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
+
+	for( TiXmlAttribute *currentAttribute = _xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 	{
 		if( ( std::string )( "scaleUp" ) == currentAttribute->Name() )
 		{
 			std::string value( currentAttribute->Value() );
 
 			if( value == "true" )
-				_scaleUp = true;
+				m_scaleUp = true;
 			else if( value == "false" )
-				_scaleUp = false;
+				m_scaleUp = false;
 		}
 		else if( ( std::string )( "isNinePatch" ) == currentAttribute->Name() )
 		{
 			std::string value( currentAttribute->Value() );
 
 			if( value == "true" )
-				_isNinePatch = true;
+				m_isNinePatch = true;
 			else if( value == "false" )
-				_isNinePatch = false;
+				m_isNinePatch = false;
 		}
-		/*else if( std::string( "isUsingText" ) == currentAttribute->Name() ) 
-		{
-			std::string value( currentAttribute->Value() );
-			if( value == "true" )
-				_usingText = true;
-		}
-		else if( std::string( "font" ) == currentAttribute->Name() )
-		{
-			_fontName = currentAttribute->Value();
-		}
-		else if( std::string( "text_size" ) == currentAttribute->Name() )
-		{
-			int value = 0;
-			
-			if( currentAttribute->QueryIntValue( &value ) == TIXML_SUCCESS ) {
-				_fontSize = value;
-			}
-			else {
-				std::cerr << "WARNING: TextButton::InflateLayoutParams attribute text_size does not have expected value type (double)" << std::endl;
-			}
-		}*/
 		else if( currentAttribute->Name() == std::string( "content_left" ) )
 		{
 			float value = ( float ) currentAttribute->DoubleValue();
@@ -213,7 +167,7 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *xmlElement, Resource
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_contentLeftProp = value;
+			m_contentLeftProp = value;
 		}
 		else if( currentAttribute->Name() == std::string( "content_right" ) )
 		{
@@ -222,7 +176,7 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *xmlElement, Resource
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_contentRightProp = value;
+			m_contentRightProp = value;
 		}
 		else if( currentAttribute->Name() == std::string( "content_top" ) )
 		{
@@ -231,7 +185,7 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *xmlElement, Resource
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_contentTopProp = value;
+			m_contentTopProp = value;
 		}
 		else if( currentAttribute->Name() == std::string( "content_bottom" ) )
 		{
@@ -240,7 +194,7 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *xmlElement, Resource
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_contentBottomProp = value;
+			m_contentBottomProp = value;
 		}
 
 		else if( currentAttribute->Name() == std::string( "centre_left" ) )
@@ -250,7 +204,7 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *xmlElement, Resource
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_centreLeftProp = value;
+			m_centreLeftProp = value;
 		}
 		else if( currentAttribute->Name() == std::string( "centre_right" ) )
 		{
@@ -259,7 +213,7 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *xmlElement, Resource
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_centreRightProp = value;
+			m_centreRightProp = value;
 		}
 		else if( currentAttribute->Name() == std::string( "centre_top" ) )
 		{
@@ -268,7 +222,7 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *xmlElement, Resource
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_centreTopProp = value;
+			m_centreTopProp = value;
 		}
 		else if( currentAttribute->Name() == std::string( "centre_bottom" ) )
 		{
@@ -277,25 +231,30 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *xmlElement, Resource
 				value = 0.0f;
 			else if( value > 1.0f )
 				value = 1.0f;
-			_centreBottomProp = value;
+			m_centreBottomProp = value;
 		}
 		else if( ( std::string )( "keepAspectRatio" ) == currentAttribute->Name() )
 		{
 			std::string value( currentAttribute->Value() );
 
 			if( value == "true" )
-				_keepAspectRatio = true;
+				m_keepAspectRatio = true;
 			else if( value == "false" )
-				_keepAspectRatio = false;
+				m_keepAspectRatio = false;
 		}
 	}
 
 	// Each layer is a child of the LayeredImageDrawable element
 	// Each layer child contains its properties as attributes
 
+	if( m_usingText ) {
+		_resources->CreateTextureFromText( true );
+		_resources->SetExtraSpace( true );
+	}
+
 	unsigned int imageLayerGroup = 0;
 	
-	for( TiXmlElement *currentChild = xmlElement->FirstChildElement( "Layer" ); currentChild != NULL; currentChild = currentChild->NextSiblingElement( "Layer" ) )
+	for( TiXmlElement *currentChild = _xmlElement->FirstChildElement( "Layer" ); currentChild != NULL; currentChild = currentChild->NextSiblingElement( "Layer" ) )
 	{
 		for( TiXmlAttribute *currentAttribute = currentChild->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 		{
@@ -303,36 +262,52 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *xmlElement, Resource
 			{
 				std::string resourceName( currentAttribute->Value() );
 
-				//std::cout<<"INFO: LayeredImageDrawable loading layer source: "<<resourceName<<std::endl;
 				// TODO: specifying the directory should *really* not be done here
-				//if( _usingText ) {
-				//	resources->SetExtraSpace( true );
-				//	SetTexID( resources->GetBitmap( std::string( "Resources/Drawables/" ) + resourceName, _fontName, _fontSize ), imageLayerGroup );
-				//}
-				//else
-					SetTexID( resources->GetBitmap( std::string( "Resources/Drawables/" ) + resourceName ), imageLayerGroup );
+
+				if( m_usingText ) {
+					SetTexID( _resources->GetBitmap( std::string( "Resources/Drawables/" ) + resourceName ), imageLayerGroup );
+					if( _resources->IsCreatingText() )
+					{
+						m_textTextureID = _resources->GetTexture( std::string( "Text/Resources/Drawables/" ) + resourceName );
+						if( !m_textTextureID )
+						{
+							std::cerr << "ERROR: Resource Manager didn't create the text texture." << std::endl;
+						}
+					}
+				}
+				else
+					SetTexID( _resources->GetBitmap( std::string( "Resources/Drawables/" ) + resourceName ), imageLayerGroup );
 
 			}
 			else if( std::string( "colour0" ) == currentAttribute->Name() )
 			{
-				SetLayerColour( resources->GetInflationAttribute( currentAttribute->Value() ), imageLayerGroup, 0 );
+				SetLayerColour( _resources->GetInflationAttribute( currentAttribute->Value() ), imageLayerGroup, 0 );
 			}
 			else if( std::string( "colour1" ) == currentAttribute->Name() )
 			{
-				SetLayerColour( resources->GetInflationAttribute( currentAttribute->Value() ), imageLayerGroup, 1 );
+				SetLayerColour( _resources->GetInflationAttribute( currentAttribute->Value() ), imageLayerGroup, 1 );
 			}
 			else if( std::string( "colour2" ) == currentAttribute->Name() )
 			{
-				SetLayerColour( resources->GetInflationAttribute( currentAttribute->Value() ), imageLayerGroup, 2 );
+				SetLayerColour( _resources->GetInflationAttribute( currentAttribute->Value() ), imageLayerGroup, 2 );
 			}
 			else if( std::string( "colour3" ) == currentAttribute->Name() )
 			{
-				SetLayerColour( resources->GetInflationAttribute( currentAttribute->Value() ), imageLayerGroup, 3 );
+				SetLayerColour( _resources->GetInflationAttribute( currentAttribute->Value() ), imageLayerGroup, 3 );
 			}
 		}
 		++imageLayerGroup;
+		
+		if( m_usingText )
+			_resources->CreateTextureFromText( false );
 	}
-	_nLayers = imageLayerGroup;
+	
+	if( m_usingText )
+	{
+		_resources->SetExtraSpace( false );
+		_resources->ClearText();
+		m_nLayers = imageLayerGroup;	
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -345,262 +320,280 @@ void ShivaGUI::LayeredImageDrawable::Draw()
 	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 	
 
-	glColor4f( 0, 1, 0, 1 );
-	_layerProgram->On();
+	glColor4f( 0.f, 1.f, 0.f, 1.f );
+	m_shader->Bind();
 
-	for( unsigned int i = 0; i < _maxLayerGroups; i++ )
+	int viewport[4]; // Shouldn't really do this, but temporarily it's fine
+	glGetIntegerv( GL_VIEWPORT, viewport );
+
+	cml::matrix_orthographic_RH( m_projMat, 0.f, (float)viewport[ 2 ], (float)viewport[ 3 ], 0.f, -1.f, 1.f, cml::z_clip_neg_one );
+	LoadMatricesToShader( m_shader->GetProgramID(), m_projMat, m_mvMat );
+
+	for( unsigned int i = 0; i < m_maxLayerGroups; i++ )
 	{
-		_layerGroups[ i ].Bind();
+		m_layerGroups[ i ].Bind();
 	}
 
-/*
-	glBegin(GL_QUADS);
-		glTexCoord2f(0.0f,0.0f);	glVertex2f(_boundsLeft, _boundsTop);
-		glTexCoord2f(1.0f,0.0f);	glVertex2f(_boundsRight, _boundsTop);
-		glTexCoord2f(1.0f,1.0f);	glVertex2f(_boundsRight, _boundsBottom);
-		glTexCoord2f(0.0f,1.0f);	glVertex2f(_boundsLeft, _boundsBottom);
-	glEnd();
-*/
-
-	// Bind VBOs
-	glBindBufferARB( GL_ARRAY_BUFFER, _squareVertexVBO );
-	glEnableClientState( GL_VERTEX_ARRAY );
-	glVertexPointer( 2, GL_FLOAT, 0, 0 );
-
-	glBindBufferARB( GL_ARRAY_BUFFER, _squareTexcoordVBO );
-	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-	glTexCoordPointer( 2, GL_FLOAT, 0, 0 );
-
-	glBindBufferARB( GL_ELEMENT_ARRAY_BUFFER, _squareIndexVBO );
-
-		if( _isNinePatch )
-			glDrawElements( GL_QUADS, 9 * 4, GL_UNSIGNED_INT, 0 );
+	glBindVertexArray( m_vao );
+    
+		if( m_isNinePatch )
+			glDrawElements( GL_QUADS, 9 * 4, GL_UNSIGNED_INT, ( void* )( 0 )  );
 		else
-			glDrawElements( GL_QUADS, 4, GL_UNSIGNED_INT, 0 );
+			glDrawElements( GL_QUADS, 4, GL_UNSIGNED_INT, ( void* )( 0 )  );
 
-	glDisableClientState( GL_VERTEX_ARRAY );
-	glBindBuffer( GL_ARRAY_BUFFER, 0 );
-	glBindBufferARB( GL_ELEMENT_ARRAY_BUFFER, 0 );
+    glBindVertexArray( 0 );
 
-
-	_layerProgram->Off();
+	m_shader->Unbind();
 
 	glDisable( GL_BLEND );
 
-	for( unsigned int i = 0; i < _maxLayerGroups; i++ )
+	for( unsigned int i = 0; i < m_maxLayerGroups; i++ )
 	{
-		_layerGroups[ i ].Unbind();
+		m_layerGroups[ i ].Unbind();
 	}
-
-	glActiveTexture( GL_TEXTURE0 );
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayeredImageDrawable::OnSetBounds( float left, float top, float right, float bottom, unsigned int gravity )
+void ShivaGUI::LayeredImageDrawable::OnSetBounds( float _left, float _top, float _right, float _bottom, unsigned int _gravity )
 {
-	float width = right - left;
-	float height = bottom - top;
+	float width = _right - _left;
+	float height = _bottom - _top;
 
-	if( _scaleUp )
+	if( m_scaleUp )
 	{
-		if( _keepAspectRatio )
+		if( m_keepAspectRatio )
 		{
-			float horizRatio = width / ( float ) _texWidth;
-			float vertRatio = height / ( float ) _texHeight;
+			float horizRatio = width / ( float ) m_texWidth;
+			float vertRatio = height / ( float ) m_texHeight;
 
 			if( horizRatio > vertRatio )
 			{
-				_boundsTop = top;
-				_boundsBottom = bottom;
+				m_boundsTop = _top;
+				m_boundsBottom = _bottom;
 
-				_boundsLeft = left + ( width / 2.0f ) - ( ( ( float )_texWidth ) * 0.5f * vertRatio );
-				_boundsRight = left + ( width / 2.0f ) + ( ( ( float )_texWidth ) * 0.5f * vertRatio );
+				m_boundsLeft = _left + ( width / 2.0f ) - ( ( ( float )m_texWidth ) * 0.5f * vertRatio );
+				m_boundsRight = _left + ( width / 2.0f ) + ( ( ( float )m_texWidth ) * 0.5f * vertRatio );
 			}
 			else
 			{
-				_boundsLeft = left;
-				_boundsRight = right;
+				m_boundsLeft = _left;
+				m_boundsRight = _right;
 
-				_boundsTop = top + ( height / 2.0f ) - ( ( ( float )_texHeight ) * 0.5f * horizRatio );
-				_boundsBottom = top + ( height / 2.0f ) + ( ( ( float )_texHeight ) * 0.5f * horizRatio );
+				m_boundsTop = _top + ( height / 2.0f ) - ( ( ( float )m_texHeight ) * 0.5f * horizRatio );
+				m_boundsBottom = _top + ( height / 2.0f ) + ( ( ( float )m_texHeight ) * 0.5f * horizRatio );
 			}
 		}
 		else
 		{
-			_boundsLeft = left;
-			_boundsRight = right;
-			_boundsTop = top;
-			_boundsBottom = bottom;
+			m_boundsLeft = _left;
+			m_boundsRight = _right;
+			m_boundsTop = _top;
+			m_boundsBottom = _bottom;
 		}
 
-		if( _isNinePatch )
+		if( m_isNinePatch )
 		{
-			_contentLeftBounds  = left + ( _contentLeftProp * _texWidth );
-			_contentRightBounds = right - ( ( 1.0f - _contentRightProp ) * _texWidth );
-			_centreLeftBounds   = left + ( _centreLeftProp * _texWidth );
-			_centreRightBounds  = right - ( ( 1.0f - _centreRightProp ) * _texWidth );
+			m_contentLeftBounds  = _left + ( m_contentLeftProp * m_texWidth );
+			m_contentRightBounds = _right - ( ( 1.0f - m_contentRightProp ) * m_texWidth );
+			m_centreLeftBounds   = _left + ( m_centreLeftProp * m_texWidth );
+			m_centreRightBounds  = _right - ( ( 1.0f - m_centreRightProp ) * m_texWidth );
 
-			_contentTopBounds    = top  + ( _contentTopProp * _texHeight );
-			_contentBottomBounds = bottom - ( ( 1.0f - _contentBottomProp ) * _texHeight );
-			_centreTopBounds     = top  + ( _centreTopProp * _texHeight );
-			_centreBottomBounds  = bottom  - ( ( 1.0f - _centreBottomProp ) * _texHeight );
+			m_contentTopBounds    = _top  + ( m_contentTopProp * m_texHeight );
+			m_contentBottomBounds = _bottom - ( ( 1.0f - m_contentBottomProp ) * m_texHeight );
+			m_centreTopBounds     = _top  + ( m_centreTopProp * m_texHeight );
+			m_centreBottomBounds  = _bottom  - ( ( 1.0f - m_centreBottomProp ) * m_texHeight );
 
-			if( _centreBottomBounds < _centreTopBounds )
+			if( m_centreBottomBounds < m_centreTopBounds )
 			{
-				float average = ( _centreBottomBounds + _centreTopBounds ) / 2.0f;
-				_centreBottomBounds = _centreTopBounds = average;
+				float average = ( m_centreBottomBounds + m_centreTopBounds ) / 2.0f;
+				m_centreBottomBounds = m_centreTopBounds = average;
 			}
 
-			if( _centreRightBounds < _centreLeftBounds )
+			if( m_centreRightBounds < m_centreLeftBounds )
 			{
-				float average = ( _centreRightBounds + _centreLeftBounds ) / 2.0f;
-				_centreRightBounds = _centreLeftBounds = average;
+				float average = ( m_centreRightBounds + m_centreLeftBounds ) / 2.0f;
+				m_centreRightBounds = m_centreLeftBounds = average;
 			}
 		}
 	}
 	else
 	{
-		float width = right - left;
-		float height = bottom - top;
-
-		if( width > _texWidth )
+		if( width > m_texWidth )
 		{
-			if( ( gravity == Definitions::CENTRE ) ||
-				( ( gravity & Definitions::HORIZONTAL_MASK ) == Definitions::CENTRE_HORIZONTAL ) )
+			if( ( _gravity == Definitions::CENTRE ) ||
+				( ( _gravity & Definitions::HORIZONTAL_MASK ) == Definitions::CENTRE_HORIZONTAL ) )
 			{
-				_boundsLeft  = left  + ( width / 2.0f ) - ( ( float )_texWidth / 2.0f );
-				_boundsRight = right - ( width / 2.0f ) + ( ( float )_texWidth / 2.0f );
+				m_boundsLeft  = _left  + ( width / 2.0f ) - ( ( float )m_texWidth / 2.0f );
+				m_boundsRight = _right - ( width / 2.0f ) + ( ( float )m_texWidth / 2.0f );
 			}
-			else if( ( gravity & Definitions::HORIZONTAL_MASK ) == Definitions::LEFT )
+			else if( ( _gravity & Definitions::HORIZONTAL_MASK ) == Definitions::LEFT )
 			{
-				_boundsLeft  = left;
-				_boundsRight = left + ( ( float )_texWidth );
+				m_boundsLeft  = _left;
+				m_boundsRight = _left + ( ( float )m_texWidth );
 			}
-			else if( ( gravity & Definitions::HORIZONTAL_MASK ) == Definitions::RIGHT )
+			else if( ( _gravity & Definitions::HORIZONTAL_MASK ) == Definitions::RIGHT )
 			{
-				_boundsLeft  = right - ( ( float )_texWidth );
-				_boundsRight = right;
+				m_boundsLeft  = _right - ( ( float )m_texWidth );
+				m_boundsRight = _right;
 			}
 		}
-		if( height > _texHeight )
+		if( height > m_texHeight )
 		{
-			if( ( gravity == Definitions::CENTRE ) ||
-				( ( gravity & Definitions::VERTICAL_MASK ) == Definitions::CENTRE_VERTICAL ) )
+			if( ( _gravity == Definitions::CENTRE ) ||
+				( ( _gravity & Definitions::VERTICAL_MASK ) == Definitions::CENTRE_VERTICAL ) )
 			{
-				_boundsTop    =    top + ( height / 2.0f ) - ( ( float )_texHeight / 2.0f );
-				_boundsBottom = bottom - ( height / 2.0f ) + ( ( float )_texHeight / 2.0f );
+				m_boundsTop    =    _top + ( height / 2.0f ) - ( ( float )m_texHeight / 2.0f );
+				m_boundsBottom = _bottom - ( height / 2.0f ) + ( ( float )m_texHeight / 2.0f );
 			}
-			else if( ( gravity & Definitions::VERTICAL_MASK ) == Definitions::TOP )
+			else if( ( _gravity & Definitions::VERTICAL_MASK ) == Definitions::TOP )
 			{
-				_boundsTop = top;
-				_boundsBottom = top + ( ( float )_texHeight );
+				m_boundsTop = _top;
+				m_boundsBottom = _top + ( ( float )m_texHeight );
 			}
-			else if( ( gravity & Definitions::VERTICAL_MASK ) == Definitions::BOTTOM )
+			else if( ( _gravity & Definitions::VERTICAL_MASK ) == Definitions::BOTTOM )
 			{
-				_boundsTop = bottom - ( ( float )_texHeight );
-				_boundsBottom = bottom;
+				m_boundsTop = _bottom - ( ( float )m_texHeight );
+				m_boundsBottom = _bottom;
 			}
 		}
 	}
 	
 	BuildVBOs();
-	//std::cout<<"LayeredImageDrawable bounds: "<<_boundsLeft<<" "<<_boundsRight<<" "<<_boundsTop<<" "<<_boundsBottom<<std::endl;
 }
 
 //----------------------------------------------------------------------------------
 
 void ShivaGUI::LayeredImageDrawable::BuildVBOs()
 {
-	if( _isNinePatch )
+	if( m_isNinePatch )
 	{
-		float squareVertices[ 16 * 2 ] = { _boundsLeft, _boundsTop,
-										   _centreLeftBounds, _boundsTop,
-										   _centreRightBounds, _boundsTop,
-									       _boundsRight, _boundsTop,
+		float verts[ 16 * 2 ] = { m_boundsLeft, m_boundsTop,
+								  m_centreLeftBounds, m_boundsTop,
+								  m_centreRightBounds, m_boundsTop,
+								  m_boundsRight, m_boundsTop,
 
-										   _boundsLeft, _centreTopBounds,
-										   _centreLeftBounds, _centreTopBounds,
-										   _centreRightBounds, _centreTopBounds,
-										   _boundsRight, _centreTopBounds,
+								  m_boundsLeft, m_centreTopBounds,
+								  m_centreLeftBounds, m_centreTopBounds,
+								  m_centreRightBounds, m_centreTopBounds,
+								  m_boundsRight, m_centreTopBounds,
 									 
-										   _boundsLeft, _centreBottomBounds,
-										   _centreLeftBounds, _centreBottomBounds,
-										   _centreRightBounds, _centreBottomBounds,
-										   _boundsRight, _centreBottomBounds,
+								  m_boundsLeft, m_centreBottomBounds,
+								  m_centreLeftBounds, m_centreBottomBounds,
+								  m_centreRightBounds, m_centreBottomBounds,
+								  m_boundsRight, m_centreBottomBounds,
 									 
-										   _boundsLeft, _boundsBottom,
-										   _centreLeftBounds, _boundsBottom,
-										   _centreRightBounds, _boundsBottom,
-										   _boundsRight, _boundsBottom };
+								  m_boundsLeft, m_boundsBottom,
+								  m_centreLeftBounds, m_boundsBottom,
+								  m_centreRightBounds, m_boundsBottom,
+								  m_boundsRight, m_boundsBottom };
 
-		float squareTexcoords[ 16 * 2 ] = { 0.0f, 0.0f,
-											_centreLeftProp, 0.0f,
-											_centreRightProp, 0.0f,
-											1.0f, 0.0f,
+		float uvs[ 16 * 2 ] = { 0.0f, 0.0f,
+								m_centreLeftProp, 0.0f,
+								m_centreRightProp, 0.0f,
+								1.0f, 0.0f,
 
-											0.0f, _centreTopProp,
-											_centreLeftProp, _centreTopProp,
-											_centreRightProp, _centreTopProp,
-											1.0f, _centreTopProp,
+								0.0f, m_centreTopProp,
+								m_centreLeftProp, m_centreTopProp,
+								m_centreRightProp, m_centreTopProp,
+								1.0f, m_centreTopProp,
 									 
-											0.0f, _centreBottomProp,
-											_centreLeftProp, _centreBottomProp,
-											_centreRightProp, _centreBottomProp,
-											1.0f, _centreBottomProp,
+								0.0f, m_centreBottomProp,
+								m_centreLeftProp, m_centreBottomProp,
+								m_centreRightProp, m_centreBottomProp,
+								1.0f, m_centreBottomProp,
 									 
-											0.0f, 1.0f,
-											_centreLeftProp, 1.0f,
-											_centreRightProp, 1.0f,
-											1.0f, 1.0f };
+								0.0f, 1.0f,
+								m_centreLeftProp, 1.0f,
+								m_centreRightProp, 1.0f,
+								1.0f, 1.0f };
 		
-		int squareIndices[ 9 * 4 ] = {  0,  1,  5,  4,
-									    1,  2,  6,  5,
-									    2,  3,  7,  6,
-									    4,  5,  9,  8,
-									    5,  6, 10,  9,
-									    6,  7, 11, 10,
-									    8,  9, 13, 12,
-									    9, 10, 14, 13,
-									   10, 11, 15, 14 };
+		int indices[ 9 * 4 ] = {  0,  1,  5,  4,
+								  1,  2,  6,  5,
+								  2,  3,  7,  6,
+								  4,  5,  9,  8,
+								  5,  6, 10,  9,
+								  6,  7, 11, 10,
+								  8,  9, 13, 12,
+								  9, 10, 14, 13,
+								  10, 11, 15, 14 };
 
-		glBindBuffer( GL_ARRAY_BUFFER, _squareVertexVBO );
-		glBufferData( GL_ARRAY_BUFFER, 16 * 2 * sizeof( float ), squareVertices, GL_STATIC_DRAW );
+		GLuint vertVBO, uvsVBO, indicesVBO;
+
+		glGenBuffers( 1, &vertVBO );
+		glGenBuffers( 1, &uvsVBO );
+		glGenBuffers( 1, &indicesVBO );
+
+		glBindBuffer( GL_ARRAY_BUFFER, vertVBO );
+		glBufferData( GL_ARRAY_BUFFER, 16 * 2 * sizeof( float ), verts, GL_STATIC_DRAW );
+		
+		glBindBuffer( GL_ARRAY_BUFFER, uvsVBO );
+		glBufferData( GL_ARRAY_BUFFER, 16 * 2 * sizeof( float ), uvs, GL_STATIC_DRAW );
+		
+		glBindVertexArray( m_vao );
+
+		glEnableVertexAttribArray( 0 );
+		glBindBuffer( GL_ARRAY_BUFFER, vertVBO );
+		glVertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, 0, ( GLfloat* )NULL );
+
+		glEnableVertexAttribArray( 1 );
+		glBindBuffer( GL_ARRAY_BUFFER, uvsVBO );
+		glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 0, ( GLfloat* )NULL );
+
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, indicesVBO );
+		glBufferData( GL_ELEMENT_ARRAY_BUFFER, 9 * 4 * sizeof( int ), indices, GL_STATIC_DRAW );
+
+		
+		glBindVertexArray( 0 );
 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
-		
-		glBindBuffer( GL_ARRAY_BUFFER, _squareTexcoordVBO );
-		glBufferData( GL_ARRAY_BUFFER, 16 * 2 * sizeof( float ), squareTexcoords, GL_STATIC_DRAW );
-		glBindBuffer( GL_ARRAY_BUFFER, 0 );
-		
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, _squareIndexVBO );
-		glBufferData( GL_ELEMENT_ARRAY_BUFFER, 9 * 4 * sizeof( int ), squareIndices, GL_STATIC_DRAW );
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+
 	}
 	else
 	{
-		float squareVertices[ 4 * 2 ] = { _boundsLeft, _boundsTop,
-										  _boundsRight, _boundsTop,
-										  _boundsRight, _boundsBottom,
-										  _boundsLeft, _boundsBottom };
+		float verts[ 4 * 2 ] = {	m_boundsLeft, m_boundsTop,
+									m_boundsRight, m_boundsTop,
+									m_boundsRight, m_boundsBottom,
+									m_boundsLeft, m_boundsBottom };
 
-		float squareTexcoords[ 4 * 2 ] = { 0.0f, 0.0f,
-										   1.0f, 0.0f,
-										   1.0f, 1.0f,
-										   0.0f, 1.0f };
+		float uvs[ 4 * 2 ] = {	0.0f, 0.0f,
+								1.0f, 0.0f,
+								1.0f, 1.0f,
+								0.0f, 1.0f };
 
-		int squareIndices[ 4 ] = { 0, 1, 2, 3 };
+		int indices[ 4 ] = { 0, 1, 2, 3 };
 
-		glBindBuffer( GL_ARRAY_BUFFER, _squareVertexVBO );
-		glBufferData( GL_ARRAY_BUFFER, 4 * 2 * sizeof( float ), squareVertices, GL_STATIC_DRAW );
-		glBindBuffer( GL_ARRAY_BUFFER, 0 );
+		GLuint vertVBO, uvsVBO, indicesVBO;
+
+		glGenBuffers( 1, &vertVBO );
+		glGenBuffers( 1, &uvsVBO );
+		glGenBuffers( 1, &indicesVBO );
+
+
+		glBindBuffer( GL_ARRAY_BUFFER, vertVBO );
+		glBufferData( GL_ARRAY_BUFFER, 4 * 2 * sizeof( float ), verts, GL_STATIC_DRAW );
 		
-		glBindBuffer( GL_ARRAY_BUFFER, _squareTexcoordVBO );
-		glBufferData( GL_ARRAY_BUFFER, 4 * 2 * sizeof( float ), squareTexcoords, GL_STATIC_DRAW );
-		glBindBuffer( GL_ARRAY_BUFFER, 0 );
+		glBindBuffer( GL_ARRAY_BUFFER, uvsVBO );
+		glBufferData( GL_ARRAY_BUFFER, 4 * 2 * sizeof( float ), uvs, GL_STATIC_DRAW );
 		
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, _squareIndexVBO );
-		glBufferData( GL_ELEMENT_ARRAY_BUFFER, 4 * sizeof( int ), squareIndices, GL_STATIC_DRAW );
+		glBindVertexArray( m_vao );
+
+		glEnableVertexAttribArray( 0 );
+		glBindBuffer( GL_ARRAY_BUFFER, vertVBO );
+		glVertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, 0, ( GLfloat* )NULL );
+
+		glEnableVertexAttribArray( 1 );
+		glBindBuffer( GL_ARRAY_BUFFER, uvsVBO );
+		glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 0, ( GLfloat* )NULL );
+
+
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, indicesVBO );
+		glBufferData( GL_ELEMENT_ARRAY_BUFFER, 4 * sizeof( int ), indices, GL_STATIC_DRAW );
+		
+		glBindVertexArray( 0 );
+		glBindBuffer( GL_ARRAY_BUFFER, 0 );
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+
 	}
 }
 
@@ -608,16 +601,16 @@ void ShivaGUI::LayeredImageDrawable::BuildVBOs()
 
 ShivaGUI::LayeredImageDrawable::LayerGroup::LayerGroup()
 {
-	_texID = 0;
-	_colourUniforms = new int[ 4 ];
-	_layerColours = new float[ 4 * 4 ];
-	_groupNumber = 0;
-	_textureUniform = -1;
+	m_texID = 0;
+	m_colourUniforms = new int[ 4 ];
+	m_layerColours = new float[ 4 * 4 ];
+	m_groupNumber = 0;
+	m_textureUniform = -1;
 	for( unsigned int i = 0; i < 4; ++i )
 	{
-		_colourUniforms[ i ] = -1;
+		m_colourUniforms[ i ] = -1;
 		for( unsigned int j = 0; j < 4; ++j )
-			_layerColours[ i * 4 + j ] = 0;
+			m_layerColours[ i * 4 + j ] = 0;
 	}
 }
 
@@ -625,35 +618,35 @@ ShivaGUI::LayeredImageDrawable::LayerGroup::LayerGroup()
 
 ShivaGUI::LayeredImageDrawable::LayerGroup::~LayerGroup()
 {
-	delete [] _colourUniforms;
-	delete [] _layerColours;
+	delete [] m_colourUniforms;
+	delete [] m_layerColours;
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayeredImageDrawable::LayerGroup::SetGLTexID( unsigned int texID )
+void ShivaGUI::LayeredImageDrawable::LayerGroup::SetGLTexID( unsigned int _texID )
 { 
-	_texID = texID; 
+	m_texID = _texID; 
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayeredImageDrawable::LayerGroup::Init( unsigned int groupNumber, unsigned int GLSLProgID )
+void ShivaGUI::LayeredImageDrawable::LayerGroup::Init( unsigned int _groupNumber, unsigned int _GLSLProgID )
 {
-	_groupNumber = groupNumber;
+	m_groupNumber = _groupNumber;
 	std::stringstream texName;
-	texName << "ImageLayer" << groupNumber;
-	_textureUniform = glGetUniformLocation( GLSLProgID, texName.str().c_str() );
+	texName << "ImageLayer" << _groupNumber;
+	m_textureUniform = glGetUniformLocation( _GLSLProgID, texName.str().c_str() );
 
-	if( _textureUniform < 0 )
-		std::cout << "WARNING: LayerGroup::Init _textureUniform " << texName.str().c_str() << " = " << _textureUniform << std::endl;
+	if( m_textureUniform < 0 )
+		std::cout << "WARNING: LayerGroup::Init _textureUniform " << texName.str().c_str() << " = " << m_textureUniform << std::endl;
 
 	for( unsigned int j = 0; j < 4; j++ )
 	{
 		std::stringstream temp;
-		temp << "LayerColour" << groupNumber << "_" << j;
-		_colourUniforms[ j ] = glGetUniformLocation( GLSLProgID, temp.str().c_str() );
-		if( _colourUniforms[ j ] < 0 )
+		temp << "LayerColour" << _groupNumber << "_" << j;
+		m_colourUniforms[ j ] = glGetUniformLocation( _GLSLProgID, temp.str().c_str() );
+		if( m_colourUniforms[ j ] < 0 )
 		{
 			std::cerr << "WARNING: LayerGroup Init could not find GLSL uniform: " << temp.str().c_str() << std::endl;
 		}
@@ -662,45 +655,43 @@ void ShivaGUI::LayeredImageDrawable::LayerGroup::Init( unsigned int groupNumber,
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayeredImageDrawable::LayerGroup::SetLayerColour( unsigned int colour, unsigned int layer )
+void ShivaGUI::LayeredImageDrawable::LayerGroup::SetLayerColour( unsigned int _colour, unsigned int _layer )
 {
-	_layerColours[ layer * 4 + 0 ] = ( ( float )( ( colour & 0xFF000000 ) >> 24 ) ) / 255.0f;
-	_layerColours[ layer * 4 + 1 ] = ( ( float )( ( colour & 0x00FF0000 ) >> 16 ) ) / 255.0f;
-	_layerColours[ layer * 4 + 2 ] = ( ( float )( ( colour & 0x0000FF00 ) >> 8  ) ) / 255.0f;
-	_layerColours[ layer * 4 + 3 ] = ( ( float )( colour & 0x000000FF ) ) / 255.0f;
+	m_layerColours[ _layer * 4 + 0 ] = ( ( float )( ( _colour & 0xFF000000 ) >> 24 ) ) / 255.0f;
+	m_layerColours[ _layer * 4 + 1 ] = ( ( float )( ( _colour & 0x00FF0000 ) >> 16 ) ) / 255.0f;
+	m_layerColours[ _layer * 4 + 2 ] = ( ( float )( ( _colour & 0x0000FF00 ) >> 8  ) ) / 255.0f;
+	m_layerColours[ _layer * 4 + 3 ] = ( ( float )( _colour & 0x000000FF ) ) / 255.0f;
 
-	//std::cout<<"INFO: LayeredImageDrawable setting layer colours to: "<<_layerColours[layer*4+0]<<" "<<_layerColours[layer*4+1]<<" "<<_layerColours[layer*4+2]<<" "<<_layerColours[layer*4+3]<<std::endl;
+	//std::cout << "INFO: LayeredImageDrawable setting layer colours to: " << m_layerColours[ layer * 4 + 0 ] << " " << m_layerColours[ layer * 4 + 1 ] << " " << m_layerColours[ layer * 4 + 2 ] << " " << m_layerColours[ layer * 4 + 3 ] << std::endl;
 }
 
 //----------------------------------------------------------------------------------
 
 void ShivaGUI::LayeredImageDrawable::LayerGroup::Bind()
 {
-	if( _texID != 0 )
+	if( m_texID != 0 )
 	{
-		glActiveTexture( GL_TEXTURE0 + _groupNumber );
-		//glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
+		glActiveTexture( GL_TEXTURE0 + m_groupNumber );
 		glEnable( GL_TEXTURE_2D );
-		glBindTexture( GL_TEXTURE_2D, _texID );
+		glBindTexture( GL_TEXTURE_2D, m_texID );
 
-		if( _textureUniform >= 0 )
+		if( m_textureUniform >= 0 )
 		{
-			glUniform1i( _textureUniform, _groupNumber );
+			glUniform1i( m_textureUniform, m_groupNumber );
 		}
 	}
 	else
 	{
-		glActiveTexture( GL_TEXTURE0 + _groupNumber );
+		glActiveTexture( GL_TEXTURE0 + m_groupNumber );
 		glDisable( GL_TEXTURE_2D );
 		glBindTexture( GL_TEXTURE_2D, 0 );
 	}
 
 	for( unsigned int currentLayer = 0; currentLayer < 4; currentLayer++ )
 	{
-		if( _colourUniforms[ currentLayer ] >= 0 )
+		if( m_colourUniforms[ currentLayer ] >= 0 )
 		{
-			glUniform4fv( _colourUniforms[ currentLayer ], 1, &( _layerColours[ currentLayer * 4 ] ) );
-			//glUniform4f(_colourUniforms[currentLayer],1.0f,0,0,1.0f);
+			glUniform4fv( m_colourUniforms[ currentLayer ], 1, &( m_layerColours[ currentLayer * 4 ] ) );
 		}
 	}
 }
@@ -709,7 +700,7 @@ void ShivaGUI::LayeredImageDrawable::LayerGroup::Bind()
 
 void ShivaGUI::LayeredImageDrawable::LayerGroup::Unbind()
 {
-	glActiveTexture( GL_TEXTURE0 + _groupNumber );
+	glActiveTexture( GL_TEXTURE0 + m_groupNumber );
 	glDisable( GL_TEXTURE_2D );
 	glBindTexture( GL_TEXTURE_2D, 0 );
 }

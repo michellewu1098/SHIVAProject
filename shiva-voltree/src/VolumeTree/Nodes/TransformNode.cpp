@@ -1,222 +1,245 @@
 
 #include "VolumeTree/Nodes/TransformNode.h"
-
 #include "VolumeRenderer/GLSLRenderer.h"
 
-VolumeTree::TransformNode::TransformNode( bool useParams)
+//----------------------------------------------------------------------------------
+
+VolumeTree::TransformNode::TransformNode( bool _useParams )
 {
-	_useParams = useParams;
-	_child = NULL;
+	m_useParams = _useParams;
+	m_child = NULL;
 	Reset();
-	_matrixParam = 0;
-	_translationParam = 0;
-	_paramRenderer = NULL;
+	m_matrixParam = 0;
+	m_translationParam = 0;
+	m_paramRenderer = NULL;
 	#ifdef _DEBUG
-	std::cout<<"INFO: Creating TransformNode"<<std::endl;
+	std::cout << "INFO: Creating TransformNode" << std::endl;
 	#endif
 }
 
-VolumeTree::TransformNode::TransformNode(Node *child, bool useParams)
+//----------------------------------------------------------------------------------
+
+VolumeTree::TransformNode::TransformNode( Node *_child, bool _useParams )
 {
-	_useParams = useParams;
-	_child = child;
+	m_useParams = _useParams;
+	m_child = _child;
 	Reset();
-	_matrixParam = 0;
-	_translationParam = 0;
-	_paramRenderer = NULL;
+	m_matrixParam = 0;
+	m_translationParam = 0;
+	m_paramRenderer = NULL;
 	#ifdef _DEBUG
-	std::cout<<"INFO: Creating TransformNode"<<std::endl;
+	std::cout << "INFO: Creating TransformNode" << std::endl;
 	#endif
 }
+
+//----------------------------------------------------------------------------------
 
 VolumeTree::TransformNode::~TransformNode()
 {
-	if( _paramRenderer != NULL )
+	if( m_paramRenderer != NULL )
 	{
-		_paramRenderer->DeleteParameter(_matrixParam);
-		_paramRenderer->DeleteParameter(_translationParam);
+		m_paramRenderer->DeleteParameter( m_matrixParam );
+		m_paramRenderer->DeleteParameter( m_translationParam );
 	}
 	#ifdef _DEBUG
-	std::cout<<"INFO: Deleting TransformNode"<<std::endl;
+	std::cout << "INFO: Deleting TransformNode" << std::endl;
 	#endif
 }
 
-void VolumeTree::TransformNode::SetTranslate(float x, float y, float z)
+//----------------------------------------------------------------------------------
+
+void VolumeTree::TransformNode::SetTranslate( float _x, float _y, float _z )
 {
-	_applyTranslate = true;
-	//std::cout<<"INFO: VolumeTree::TransformNode::SetTranslate: "<<x<<" "<<y<<" "<<z<<std::endl;
-	cml::matrix_set_translation(_transformMatrix,-x,-y,-z);
-	_tx = -x;
-	_ty = -y;
-	_tz = -z;
+	m_applyTranslate = true;
+	//std::cout << "INFO: VolumeTree::TransformNode::SetTranslate: " << _x << " " << _y << " " << _z << std::endl;
+	cml::matrix_set_translation( m_transformMatrix, -_x, -_y, -_z );
+	m_tx = -_x;
+	m_ty = -_y;
+	m_tz = -_z;
 }
 
-void VolumeTree::TransformNode::AddTranslate(float x, float y, float z)
+//----------------------------------------------------------------------------------
+void VolumeTree::TransformNode::AddTranslate( float _x, float _y, float _z )
 {
-	_applyTranslate = true;
+	m_applyTranslate = true;
 	//std::cout<<"INFO: VolumeTree::TransformNode::SetTranslate: "<<x<<" "<<y<<" "<<z<<std::endl;
 	cml::matrix44f_c temp;
 	temp.identity();
-	cml::matrix_set_translation(temp,-x,-y,-z);
-	_transformMatrix = _transformMatrix*temp;
-	_tx -= x;
-	_ty -= y;
-	_tz -= z;
+	cml::matrix_set_translation( temp, -_x, -_y, -_z );
+	m_transformMatrix = m_transformMatrix * temp;
+	m_tx -= _x;
+	m_ty -= _y;
+	m_tz -= _z;
 }
 
-void VolumeTree::TransformNode::GetTranslate(float &x, float &y, float &z)
+//----------------------------------------------------------------------------------
+
+void VolumeTree::TransformNode::GetTranslate( float &_x, float &_y, float &_z )
 {
 	float tX, tY, tZ;
-	cml::matrix_get_translation(_transformMatrix,tX,tY,tZ);
-	x = -tX;
-	y = -tY;
-	z = -tZ;
+	cml::matrix_get_translation( m_transformMatrix, tX, tY, tZ );
+	_x = -tX;
+	_y = -tY;
+	_z = -tZ;
 }
 
-void VolumeTree::TransformNode::SetRotate(float dirX, float dirY, float dirZ)
+//----------------------------------------------------------------------------------
+
+void VolumeTree::TransformNode::SetRotate( float _dirX, float _dirY, float _dirZ )
 {
-	_applyRotate = true;
+	m_applyRotate = true;
 	cml::matrix44f_c temp;
 	temp.identity();
-	cml::matrix_rotation_vec_to_vec(temp, cml::vector3f(0.0f,0.0f,1.0f), cml::vector3f(dirX,dirY,-dirZ),true);
-	_transformMatrix = _transformMatrix*temp;
+	cml::matrix_rotation_vec_to_vec( temp, cml::vector3f( 0.0f, 0.0f, 1.0f ), cml::vector3f( _dirX, _dirY,-_dirZ ), true );
+	m_transformMatrix = m_transformMatrix * temp;
 
 	float angle0 = 0.0f, angle1 = 0.0f, angle2 = 0.0f;
-	cml::matrix_to_euler(temp,angle0,angle1,angle2,cml::EulerOrder::euler_order_yzx);
-	_rx = angle2;
-	_ry = angle0;
-	_rz = angle1;
+	cml::matrix_to_euler( temp, angle0, angle1, angle2, cml::euler_order_yzx );
+	m_rx = angle2;
+	m_ry = angle0;
+	m_rz = angle1;
 }
 
-void VolumeTree::TransformNode::SetScale(float x, float y, float z)
+//----------------------------------------------------------------------------------
+
+void VolumeTree::TransformNode::SetScale( float _x, float _y, float _z )
 {
-	_applyScale = true;
-	_sx = x; _sy = y; _sz = z;
-	cml::matrix_scale(_transformMatrix,x,y,z);
+	m_applyScale = true;
+	m_sx = _x; m_sy = _y; m_sz = _z;
+	cml::matrix_scale( m_transformMatrix, _x, _y, _z );
 }
 
-void VolumeTree::TransformNode::SetRotation( float rx, float ry, float rz )
+//----------------------------------------------------------------------------------
+
+void VolumeTree::TransformNode::SetRotation( float _rx, float _ry, float _rz )
 {
-	_rx = -rx; _ry = -ry; _rz = -rz;
+	m_rx = -_rx; m_ry = -_ry; m_rz = -_rz;
 }
 
-void VolumeTree::TransformNode::SetTransformParams(	float tx, float ty, float tz, //translate, 0 by default
-													float rx, float ry, float rz, //rotate as euler angles in radians, 0 by default
-													float sx, float sy, float sz, //scale, 1 by default
-													float refrx, float refry, float refrz, //reference point for rotation, 0 by default
-													float refsx, float refsy, float refsz) //reference point for scale, 0 by default
+//----------------------------------------------------------------------------------
+
+void VolumeTree::TransformNode::SetTransformParams(	float _tx, float _ty, float _tz, //translate, 0 by default
+													float _rx, float _ry, float _rz, //rotate as euler angles in radians, 0 by default
+													float _sx, float _sy, float _sz, //scale, 1 by default
+													float _refrx, float _refry, float _refrz, //reference point for rotation, 0 by default
+													float _refsx, float _refsy, float _refsz ) //reference point for scale, 0 by default
 {
 	Reset();
 	
-	_tx = -tx; _ty = -ty; _tz = -tz;
-	_rx = -rx; _ry = -ry; _rz = -rz;
-	_sx = sx; _sy = sy; _sz = sz;
-	_refrx = refrx; _refry = refry; _refrz = refrz;
-	_refsx = refsx; _refsy = refsy; _refsz = refsz;
+	m_tx = -_tx; m_ty = -_ty; m_tz = -_tz;
+	m_rx = -_rx; m_ry = -_ry; m_rz = -_rz;
+	m_sx = _sx; m_sy = _sy; m_sz = _sz;
+	m_refrx = _refrx; m_refry = _refry; m_refrz = _refrz;
+	m_refsx = _refsx; m_refsy = _refsy; m_refsz = _refsz;
 
 #ifdef _DEBUG
 
-	std::cout<<"INFO: TransformNode::SetTransformParams() rx: "<<rx<<" ry: "<<ry<<" rz: "<<rz<<std::endl;
-	std::cout<<"INFO:                                     tx: "<<tx<<" ty: "<<ty<<" tz: "<<tz<<std::endl;
-	std::cout<<"INFO:                                     sx: "<<sx<<" sy: "<<sy<<" sz: "<<sz<<std::endl;
+	std::cout << "INFO: TransformNode::SetTransformParams() rx: " << _rx << " ry: " << _ry << " rz: " << _rz << std::endl;
+	std::cout << "INFO:                                     tx: " << _tx << " ty: " << _ty << " tz: " << _tz << std::endl;
+	std::cout << "INFO:                                     sx: " << _sx << " sy: " << _sy << " sz: " << _sz << std::endl;
 
 #endif
-
-
-
+	
 	cml::matrix44f_c preScaleTrans;
 	preScaleTrans.identity();
-	cml::matrix_set_translation(preScaleTrans,-refsx,-refsy,-refsz);
+	cml::matrix_set_translation( preScaleTrans, -_refsx, -_refsy, -_refsz );
 
 	cml::matrix44f_c scaleMat;
 	scaleMat.identity();
-	cml::matrix_scale(scaleMat,1.0f/sx,1.0f/sy,1.0f/sz);
+	cml::matrix_scale( scaleMat, 1.0f / _sx, 1.0f / _sy, 1.0f / _sz );
 
 	cml::matrix44f_c postScaleTrans;
 	postScaleTrans.identity();
-	cml::matrix_set_translation(postScaleTrans,refsx,refsy,refsz);
+	cml::matrix_set_translation( postScaleTrans, _refsx, _refsy, _refsz );
 
 
 	cml::matrix44f_c preRotTrans;
 	preRotTrans.identity();
-	cml::matrix_set_translation(preRotTrans,-refrx,-refry,-refrz);
+	cml::matrix_set_translation( preRotTrans, -_refrx, -_refry, -_refrz );
 
 	cml::matrix44f_c rotationMat;
 	rotationMat.identity();
-	cml::matrix_rotation_euler(rotationMat, -ry, -rz, -rx, cml::EulerOrder::euler_order_yzx);
+	cml::matrix_rotation_euler( rotationMat, -_ry, -_rz, -_rx, cml::euler_order_yzx );
 
 	cml::matrix44f_c postRotTrans;
 	postRotTrans.identity();
-	cml::matrix_set_translation(postRotTrans,refrx,refry,refrz);
+	cml::matrix_set_translation( postRotTrans, _refrx, _refry, _refrz );
 
 
 	cml::matrix44f_c translateMat;
 	translateMat.identity();
-	cml::matrix_set_translation(translateMat,-tx,-ty,-tz);
+	cml::matrix_set_translation( translateMat, -_tx, -_ty, -_tz );
 
-	_transformMatrix = postScaleTrans * scaleMat * preScaleTrans * postRotTrans * rotationMat * preRotTrans  * translateMat * _transformMatrix;
+	m_transformMatrix = postScaleTrans * scaleMat * preScaleTrans * postRotTrans * rotationMat * preRotTrans  * translateMat * m_transformMatrix;
 
-	_applyRotate = _applyTranslate = _applyScale = true;
+	m_applyRotate = m_applyTranslate = m_applyScale = true;
 }
 
+//----------------------------------------------------------------------------------
 
-void VolumeTree::TransformNode::GetTransformParams(	float &tx, float &ty, float &tz, //translate, 0 by default
-													float &rx, float &ry, float &rz, //rotate as euler angles in radians, 0 by default
-													float &sx, float &sy, float &sz, //scale, 1 by default
-													float &refrx, float &refry, float &refrz, //reference point for rotation, 0 by default
-													float &refsx, float &refsy, float &refsz) //reference point for scale, 0 by default
+void VolumeTree::TransformNode::GetTransformParams(	float &_tx, float &_ty, float &_tz, //translate, 0 by default
+													float &_rx, float &_ry, float &_rz, //rotate as euler angles in radians, 0 by default
+													float &_sx, float &_sy, float &_sz, //scale, 1 by default
+													float &_refrx, float &_refry, float &_refrz, //reference point for rotation, 0 by default
+													float &_refsx, float &_refsy, float &_refsz ) //reference point for scale, 0 by default
 {
-	tx = _tx; ty = _ty; tz = _tz;
-	rx = _rx; ry = _ry; rz = _rz;
-	sx = _sx; sy = _sy; sz = _sz;
-	refrx = _refrx; refry = _refry; refrz = _refrz;
-	refsx = _refsx; refsy = _refsy; refsz = _refsz;
+	_tx = m_tx; _ty = m_ty; _tz = m_tz;
+	_rx = m_rx; _ry = m_ry; _rz = m_rz;
+	_sx = m_sx; _sy = m_sy; _sz = m_sz;
+	_refrx = m_refrx; _refry = m_refry; _refrz = m_refrz;
+	_refsx = m_refsx; _refsy = m_refsy; _refsz = m_refsz;
 }
 
-bool VolumeTree::TransformNode::GetTransformTypes(bool &translation, bool &rotation, bool &scale)
+//----------------------------------------------------------------------------------
+
+bool VolumeTree::TransformNode::GetTransformTypes( bool &_translation, bool &_rotation, bool &_scale )
 {
-	translation=_applyTranslate;
-	rotation=_applyRotate;
-	scale=_applyScale;
-	return ((int)_applyTranslate + (int)_applyRotate + (int)_applyScale) > 1;
+	_translation = m_applyTranslate;
+	_rotation = m_applyRotate;
+	_scale = m_applyScale;
+	return ( ( int )m_applyTranslate + ( int )m_applyRotate + ( int )m_applyScale ) > 1;
 }
 
-float VolumeTree::TransformNode::GetFunctionValue(float x, float y, float z)
+//----------------------------------------------------------------------------------
+
+float VolumeTree::TransformNode::GetFunctionValue( float _x, float _y, float _z )
 {
 	// transform the sample position then send it to the child
 
-	cml::vector4f coords(x,y,z,1);
-	cml::matrix44f_c inverseTransform = cml::inverse(_transformMatrix);
+	cml::vector4f coords( _x, _y, _z, 1 );
+	cml::matrix44f_c inverseTransform = cml::inverse( m_transformMatrix );
 	coords = inverseTransform * coords;
 
-	if( _child != NULL )
+	if( m_child != NULL )
 	{
-		return _child->GetFunctionValue(coords.data()[0],coords.data()[1],coords.data()[2]);
+		return m_child->GetFunctionValue( coords.data()[ 0 ], coords.data()[ 1 ], coords.data()[ 2 ] );
 	}
 	return -1.0f;
 }
 
-std::string VolumeTree::TransformNode::GetFunctionGLSLString(bool callCache, std::string samplePosStr)
+//----------------------------------------------------------------------------------
+
+std::string VolumeTree::TransformNode::GetFunctionGLSLString( bool _callCache, std::string _samplePosStr )
 {
-	if( _child != NULL)
+	if( m_child != NULL)
 	{
-		if( _applyTranslate && !_applyRotate && !_applyScale )
+		if( m_applyTranslate && !m_applyRotate && !m_applyScale )
 		{
-			if( _translationParamString.empty() )
+			if( m_translationParamString.empty() )
 			{
 				// Need to wrap the 'samplePosition' in samplePosStr with a Translate function
 				std::stringstream functionString;
-				cml::vector3f translate = cml::matrix_get_translation(_transformMatrix);
+				cml::vector3f translate = cml::matrix_get_translation( m_transformMatrix );
 
-				functionString<<"Translate("<<samplePosStr<<",vec3("<<translate.data()[0]<<","<<translate.data()[1]<<","<<translate.data()[2]<<"))";
-				samplePosStr = functionString.str();
+				functionString << "Translate(" << _samplePosStr << ",vec3(" << translate.data()[ 0 ] << "," << translate.data()[ 1 ] << "," << translate.data()[ 2 ] << "))";
+				_samplePosStr = functionString.str();
 			}
 			else
 			{
 				std::stringstream functionString;
 
-				functionString<<"Translate("<<samplePosStr<<","<<_translationParamString<<")";
-				samplePosStr = functionString.str();
+				functionString << "Translate(" << _samplePosStr << "," << m_translationParamString << ")";
+				_samplePosStr = functionString.str();
 			}
 		}
 		else
@@ -225,89 +248,96 @@ std::string VolumeTree::TransformNode::GetFunctionGLSLString(bool callCache, std
 			//cml::matrix44f_c tempMat = _transformMatrix;
 			//tempMat = cml::inverse(tempMat);
 			std::stringstream functionString;
-			functionString<<"Transform("<<samplePosStr<<",";
-			if( _matrixParamString.empty() )
+			functionString << "Transform(" << _samplePosStr << ",";
+			if( m_matrixParamString.empty() )
 			{
-				functionString<<"mat4(";
+				functionString << "mat4(";
 				for( unsigned int i = 0; i < 16; i++ )
 				{
-					functionString<<_transformMatrix.data()[i];
+					functionString << m_transformMatrix.data()[ i ];
 					if( i != 15 )
-						functionString<<",";
+						functionString << ",";
 				}
-				functionString<<"))";
+				functionString << "))";
 			}
 			else
 			{
-				functionString<<_matrixParamString;
-				functionString<<")";
+				functionString << m_matrixParamString;
+				functionString << ")";
 			}
-			samplePosStr = functionString.str();
+			_samplePosStr = functionString.str();
 		}
 
-		if( callCache )
+		if( _callCache )
 		{
-			return _child->GetCachedFunctionGLSLString(samplePosStr);
+			return m_child->GetCachedFunctionGLSLString( _samplePosStr );
 		}
 		else
 		{
-			return _child->GetFunctionGLSLString(false,samplePosStr);
+			return m_child->GetFunctionGLSLString( false, _samplePosStr );
 		}
 	}
 	else
 	{
-		std::cerr<<"WARNING: TransformNode has invalid child"<<std::endl;
+		std::cerr << "WARNING: TransformNode has invalid child" << std::endl;
 		return "-1";
 	}
 }
 
+//----------------------------------------------------------------------------------
 
 VolumeTree::Node* VolumeTree::TransformNode::GetFirstChild()
 {
-	return _child;
+	return m_child;
 }
 
-VolumeTree::Node* VolumeTree::TransformNode::GetNextChild(Node *previousChild)
+//----------------------------------------------------------------------------------
+
+VolumeTree::Node* VolumeTree::TransformNode::GetNextChild( Node *_previousChild )
 {
-	if( previousChild == NULL )
-		return _child;
+	if( _previousChild == NULL )
+		return m_child;
 	return NULL;
 }
+
+//----------------------------------------------------------------------------------
 
 unsigned int VolumeTree::TransformNode::GetNodeCost()
 {
 	unsigned int cost = 0;
-	if( _applyTranslate ) cost += 1;
-	if( _applyRotate ) cost += 3;
-	if( _applyScale ) cost += 1;
+	if( m_applyTranslate ) cost += 1;
+	if( m_applyRotate ) cost += 3;
+	if( m_applyScale ) cost += 1;
 	return cost;
 }
 
-void VolumeTree::TransformNode::GetBounds(float *minX,float *maxX, float *minY,float *maxY, float *minZ,float *maxZ)
+//----------------------------------------------------------------------------------
+
+void VolumeTree::TransformNode::GetBounds( float *_minX, float *_maxX, float *_minY, float *_maxY, float *_minZ, float *_maxZ )
 {
-	if( _child != NULL )
+	if( m_child != NULL )
 	{
 		// Get child bounds then transform them
 		
 		float AminX, AmaxX, AminY, AmaxY, AminZ, AmaxZ;
-		_child->GetBounds(&AminX, &AmaxX, &AminY, &AmaxY, &AminZ, &AmaxZ);
+		m_child->GetBounds( &AminX, &AmaxX, &AminY, &AmaxY, &AminZ, &AmaxZ );
 
 		//cml::vector4f minvals(AminX,AminY,AminZ,1);
 		//cml::vector4f maxvals(AmaxX,AmaxY,AmaxZ,1);
 
 		// Points from all 8 corners
-		cml::vector4f point0(AminX,AminY,AminZ,1.0f);
-		cml::vector4f point1(AminX,AminY,AmaxZ,1.0f);
-		cml::vector4f point2(AminX,AmaxY,AminZ,1.0f);
-		cml::vector4f point3(AminX,AmaxY,AmaxZ,1.0f);
+		cml::vector4f point0( AminX, AminY, AminZ, 1.0f );
+		cml::vector4f point1( AminX, AminY, AmaxZ, 1.0f );
+		cml::vector4f point2( AminX, AmaxY, AminZ, 1.0f );
+		cml::vector4f point3( AminX, AmaxY, AmaxZ, 1.0f );
 		
-		cml::vector4f point4(AmaxX,AminY,AminZ,1.0f);
-		cml::vector4f point5(AmaxX,AminY,AmaxZ,1.0f);
-		cml::vector4f point6(AmaxX,AmaxY,AminZ,1.0f);
-		cml::vector4f point7(AmaxX,AmaxY,AmaxZ,1.0f);
+		cml::vector4f point4( AmaxX, AminY, AminZ, 1.0f );
+		cml::vector4f point5( AmaxX, AminY, AmaxZ, 1.0f );
+		cml::vector4f point6( AmaxX, AmaxY, AminZ, 1.0f );
+		cml::vector4f point7( AmaxX, AmaxY, AmaxZ, 1.0f );
 
 		// Transform all points
-		cml::matrix44f_c inverseTransform = cml::inverse(_transformMatrix);
+		cml::matrix44f_c inverseTransform = cml::inverse( m_transformMatrix );
 		point0 = inverseTransform * point0;
 		point1 = inverseTransform * point1;
 		point2 = inverseTransform * point2;
@@ -318,17 +348,17 @@ void VolumeTree::TransformNode::GetBounds(float *minX,float *maxX, float *minY,f
 		point7 = inverseTransform * point7;
 
 		// Work out new min/max
-		float minvals[3];
-		float maxvals[3];
+		float minvals[ 3 ];
+		float maxvals[ 3 ];
 		for( unsigned int i = 0; i < 3; i++ )
 		{
-			float min0 = std::min<float>( std::min<float>(point0[i],point1[i]), std::min<float>(point2[i],point3[i]) );
-			float min1 = std::min<float>( std::min<float>(point4[i],point5[i]), std::min<float>(point6[i],point7[i]) );
-			minvals[i] = std::min<float>(min0,min1);
+			float min0 = std::min< float >( std::min< float >( point0[ i ], point1[ i ] ), std::min< float >( point2[ i ], point3[ i ] ) );
+			float min1 = std::min< float >( std::min< float >( point4[ i ], point5[ i ] ), std::min< float >( point6[ i ], point7[ i ] ) );
+			minvals[ i ] = std::min< float >( min0, min1 );
 
-			float max0 = std::max<float>( std::max<float>(point0[i],point1[i]), std::max<float>(point2[i],point3[i]) );
-			float max1 = std::max<float>( std::max<float>(point4[i],point5[i]), std::max<float>(point6[i],point7[i]) );
-			maxvals[i] = std::max<float>(max0,max1);
+			float max0 = std::max< float >( std::max< float >( point0[ i ], point1[ i ] ), std::max< float >( point2[ i ], point3[ i ] ) );
+			float max1 = std::max< float >( std::max< float >( point4[ i ], point5[ i ] ), std::max< float >( point6[ i ], point7[ i ] ) );
+			maxvals[ i ] = std::max< float >( max0, max1 );
 		};
 
 /*
@@ -346,93 +376,100 @@ void VolumeTree::TransformNode::GetBounds(float *minX,float *maxX, float *minY,f
 		//maxvals -= translate;
 */
 
-		*minX = minvals[0];
-		*maxX = maxvals[0];
-		*minY = minvals[1];
-		*maxY = maxvals[1];
-		*minZ = minvals[2];
-		*maxZ = maxvals[2];
+		*_minX = minvals[ 0 ];
+		*_maxX = maxvals[ 0 ];
+		*_minY = minvals[ 1 ];
+		*_maxY = maxvals[ 1 ];
+		*_minZ = minvals[ 2 ];
+		*_maxZ = maxvals[ 2 ];
 		
 	}
 	else
 	{
 		// Results undefined
-		*minX = 0.0f;
-		*maxX = 0.0f;
-		*minY = 0.0f;
-		*maxY = 0.0f;
-		*minZ = 0.0f;
-		*maxZ = 0.0f;
+		*_minX = 0.0f;
+		*_maxX = 0.0f;
+		*_minY = 0.0f;
+		*_maxY = 0.0f;
+		*_minZ = 0.0f;
+		*_maxZ = 0.0f;
 	}
-
 }
+
+//----------------------------------------------------------------------------------
 
 void VolumeTree::TransformNode::Reset()
 {
-	_tx = _ty = _tz = 0.0f; //translate, 0 by default
-	_rx = _ry = _rz = 0.0f; //rotate as euler angles in radians, 0 by default
-	_sx = _sy = _sz = 1.0f; //scale, 1 by default
-	_refrx = _refry = _refrz = 0.0f; //reference point for rotation, 0 by default
-	_refsx = _refsy = _refsz = 0.0f; //reference point for scale, 0 by default
+	m_tx = m_ty = m_tz = 0.0f; //translate, 0 by default
+	m_rx = m_ry = m_rz = 0.0f; //rotate as euler angles in radians, 0 by default
+	m_sx = m_sy = m_sz = 1.0f; //scale, 1 by default
+	m_refrx = m_refry = m_refrz = 0.0f; //reference point for rotation, 0 by default
+	m_refsx = m_refsy = m_refsz = 0.0f; //reference point for scale, 0 by default
 
-	_applyTranslate = _applyRotate = _applyScale = false;
-	_transformMatrix.identity();
+	m_applyTranslate = m_applyRotate = m_applyScale = false;
+	m_transformMatrix.identity();
 }
 
-void VolumeTree::TransformNode::OnBuildParameters( GLSLRenderer *renderer )
+//----------------------------------------------------------------------------------
+
+void VolumeTree::TransformNode::OnBuildParameters( GLSLRenderer *_renderer )
 {
-	_paramRenderer = renderer;
-	if( _useParams && (_matrixParam == 0) )
+	m_paramRenderer = _renderer;
+	if( m_useParams && ( m_matrixParam == 0) )
 	{
-		if( _applyTranslate && !_applyRotate && !_applyScale )
+		if( m_applyTranslate && !m_applyRotate && !m_applyScale )
 		{
-			_translationParam = renderer->NewParameter( GLSLRenderer::ParameterType::VEC3 );
+			m_translationParam = _renderer->NewParameter( GLSLRenderer::VEC3 );
 			#ifdef _DEBUG
-			std::cout<<"INFO: TransformNode retrieved param for translation: "<<_translationParam<<std::endl;
+			std::cout << "INFO: TransformNode retrieved param for translation: " << m_translationParam << std::endl;
 			#endif
 		}
-		else if( _applyTranslate || _applyRotate || _applyScale )
+		else if( m_applyTranslate || m_applyRotate || m_applyScale )
 		{
-			_matrixParam = renderer->NewParameter( GLSLRenderer::ParameterType::MAT4 );
+			m_matrixParam = _renderer->NewParameter( GLSLRenderer::MAT4 );
 			#ifdef _DEBUG
-			std::cout<<"INFO: TransformNode retrieved param for matrix: "<<_matrixParam<<std::endl;
+			std::cout << "INFO: TransformNode retrieved param for matrix: " << m_matrixParam << std::endl;
 			#endif
 		}
 	}
 }
 
-void VolumeTree::TransformNode::OnUpdateParameters( GLSLRenderer *renderer )
+//----------------------------------------------------------------------------------
+
+void VolumeTree::TransformNode::OnUpdateParameters( GLSLRenderer *_renderer )
 {
-	if( _useParams )
+	if( m_useParams )
 	{
 		// Unfortunately this needs updating regularly, since we don't know if nodes with lower ID's have been removed or not
-		if( _matrixParam > 0 )
+		if( m_matrixParam > 0 )
 		{
-			renderer->SetParameter( _matrixParam, _transformMatrix.data() );
-			_matrixParamString = renderer->GetParameterString( _matrixParam );
+			_renderer->SetParameter( m_matrixParam, m_transformMatrix.data() );
+			m_matrixParamString = _renderer->GetParameterString( m_matrixParam );
 			#ifdef _DEBUG
-			//std::cout<<"INFO: TransformNode retrieved string for matrix, ID: "<<_matrixParam<<" string: "<<_matrixParamString<<std::endl;
+			//std::cout << "INFO: TransformNode retrieved string for matrix, ID: " << m_matrixParam << " string: " << m_matrixParamString << std::endl;
 			#endif
 		}
 		else
 		{
-			_matrixParamString.clear();
+			m_matrixParamString.clear();
 		}
-		if( _translationParam > 0 )
+		if( m_translationParam > 0 )
 		{
-			float *data = new float[3];
-			data[0] = _tx;
-			data[1] = _ty;
-			data[2] = _tz;
-			renderer->SetParameter( _translationParam, data );
-			_translationParamString = renderer->GetParameterString( _translationParam );
+			float *data = new float[ 3 ];
+			data[ 0 ] = m_tx;
+			data[ 1 ] = m_ty;
+			data[ 2 ] = m_tz;
+			_renderer->SetParameter( m_translationParam, data );
+			m_translationParamString = _renderer->GetParameterString( m_translationParam );
 			#ifdef _DEBUG
-			//std::cout<<"INFO: TransformNode retrieved string for translation, ID: "<<_translationParam<<" string: "<<_translationParamString<<std::endl;
+			//std::cout << "INFO: TransformNode retrieved string for translation, ID: " << m_translationParam << " string: " << m_translationParamString << std::endl;
 			#endif
 		}
 		else
 		{
-			_translationParamString.clear();
+			m_translationParamString.clear();
 		}
 	}
 }
+
+//----------------------------------------------------------------------------------

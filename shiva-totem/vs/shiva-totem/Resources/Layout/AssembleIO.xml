@@ -52,19 +52,20 @@
 		/>
 
 
-	<ImageButton
+	<ImageTextButton
 		id="RotateUp"
-		layout_width="0.12"
-		layout_height="0.2"
+		layout_width="0.16"
+		layout_height="0.23"
 		layout_centreX="0.7"
 		layout_centreY="0.5"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
+		text="Rotate&#10;Up"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Up.xml"
-    eyeGaze_Repeat="true"
+		eyeGaze_Repeat="true"
     
-    scan_prev="RotateLeft"
+		scan_prev="RotateLeft"
     
 		next_focus_left="RotateDown"
 		next_focus_right="NudgeUp"
@@ -72,19 +73,20 @@
 		next_focus_down="RotateRight"
 		/>
 		
-	<ImageButton
+	<ImageTextButton
 		id="RotateDown"
-		layout_width="0.12"
-		layout_height="0.2"
+		layout_width="0.16"
+		layout_height="0.23"
 		layout_centreX="0.3"
 		layout_centreY="0.5"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
+		text = "Rotate&#10;Down"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Down.xml"
-    eyeGaze_Repeat="true"
+		eyeGaze_Repeat="true"
     
-    scan_prev="RotateRight"
+		scan_prev="RotateRight"
     
 		next_focus_left="PrimitiveList"
 		next_focus_up="RotateLeft"
@@ -92,36 +94,38 @@
 		next_focus_right="RotateUp"
 		/>
 
-	<ImageButton
+	<ImageTextButton
 		id="RotateRight"
 		layout_width="0.2"
-		layout_height="0.12"
+		layout_height="0.16"
 		layout_centreX="0.5"
-		layout_centreY="0.9"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		layout_centreY="0.91"
+		scaleContent="true"
+		keepContentAspectRatio="true"
+		text = "Rotate Right"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Right.xml"
-    eyeGaze_Repeat="true"
+		eyeGaze_Repeat="true"
     
 		next_focus_up="RotateLeft"
 		next_focus_left="RotateDown"
 		next_focus_right="RotateUp"
 		/>
 
-  <ImageButton
+  <ImageTextButton
 		id="RotateLeft"
 		layout_width="0.2"
-		layout_height="0.12"
+		layout_height="0.16"
 		layout_centreX="0.5"
 		layout_centreY="0.2"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
+		text = "Rotate Left"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Left.xml"
-    eyeGaze_Repeat="true"
+		eyeGaze_Repeat="true"
     
-    scan_prev="PrimitiveList"
+		scan_prev="PrimitiveList"
         first_scan="true"
     
     

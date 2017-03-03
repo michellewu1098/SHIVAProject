@@ -252,7 +252,7 @@ void DrillActivity::InitIOWindow(ShivaGUI::GUIController *guiController, ShivaGU
 	// Here we are going to initialise an I/O window, which will have a couple of buttons
 
 	// Register our UtilityEventHandlers with the GUIController.
-	guiController->RegisterListener(_buttonHandler,"buttonHandler");
+	guiController->RegisterListener( _buttonHandler, "buttonHandler" );
 
 	// The layout xml is where the widget hierarchy is specified
 	// This function will load the file and expand the hierarchy ready for display on screen

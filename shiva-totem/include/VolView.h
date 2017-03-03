@@ -1,27 +1,26 @@
 ///-----------------------------------------------------------------------------------------------
 /// \file VolView.h
 /// \brief This is for displaying 3D objects
-/// \author Leigh McLoughlin
+/// \author Leigh McLoughlin, Michelle Wu
 /// \version 1.0
 ///-----------------------------------------------------------------------------------------------
 
 #ifndef __SHIVA_GUISYSTEM_VOLVIEW__
 #define __SHIVA_GUISYSTEM_VOLVIEW__
 
-#include <cml/cml.h>
-#include <GL/GLee.h>
-#include <GL/glu.h>
 #include <cmath>
-#include <iostream>
 
 #include "GUI/Views/View.h"
 #include "VolumeRenderer/GLSLRenderer.h"
-#include "Totem\TotemController.h"
+#include "Totem/TotemController.h"
+#include "Utility/GPUProgram.h"
 
 class VolView : public ShivaGUI::View
 {
 public:
 
+	//----------------------------------------------------------------------------------
+	/// \brief Returns a volume view instance
 	//----------------------------------------------------------------------------------
 	static ShivaGUI::View* Factory() { return new VolView(); }
 	//----------------------------------------------------------------------------------
@@ -35,33 +34,33 @@ public:
 	//----------------------------------------------------------------------------------
 	/// \brief Gives the size of the View
 	/// If this View has children, it is expected to work out the size and location of these and call Layout() on them too
-	/// \param [in] left
-	/// \param [in] top
-	/// \param [in] right
-	/// \param [in] bottom
-	/// \param [in] windowWidth
-	/// \param [in] windowHeight
+	/// \param [in] _left
+	/// \param [in] _top
+	/// \param [in] _right
+	/// \param [in] _bottom
+	/// \param [in] _windowWidth
+	/// \param [in] _windowHeight
 	//----------------------------------------------------------------------------------
-	virtual void Layout( int left, int top, int right, int bottom, int windowWidth, int windowHeight );
+	virtual void Layout( int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight );
 	//----------------------------------------------------------------------------------
 	/// \brief For setting the View's attributes from xml
-	/// \param [in] xmlElement
-	/// \param [in] resources
-	/// \param [in] themePrefix
-	/// \param [in] rootNode
+	/// \param [in] _xmlElement
+	/// \param [in] _resources
+	/// \param [in] _themePrefix
+	/// \param [in] _rootNode
 	//----------------------------------------------------------------------------------
-	virtual void Inflate( TiXmlElement*, ShivaGUI::ResourceManager*, std::string themePrefix = "", bool rootNode = false );
+	virtual void Inflate( TiXmlElement* _xmlElement, ShivaGUI::ResourceManager* _resources, std::string _themePrefix = "", bool _rootNode = false );
 	//----------------------------------------------------------------------------------
 	/// \brief
-	/// \param [in] resources
+	/// \param [in] _resources
 	//----------------------------------------------------------------------------------
-	virtual TiXmlElement* Deflate( ShivaGUI::ResourceManager *resources );
+	virtual TiXmlElement* Deflate( ShivaGUI::ResourceManager *_resources );
 	//----------------------------------------------------------------------------------
 	/// \brief Update method
-	/// \param [in] deltaTs
-	/// \param [in] guiController
+	/// \param [in] _deltaTs
+	/// \param [in] _guiController
 	//----------------------------------------------------------------------------------
-	virtual void Update( float deltaTs, ShivaGUI::GUIController *guiController );
+	virtual void Update( float _deltaTs, ShivaGUI::GUIController *_guiController );
 	//----------------------------------------------------------------------------------
 	/// \brief Draw method
 	//----------------------------------------------------------------------------------
@@ -77,57 +76,48 @@ public:
 	// This View does not accept focus
 	//----------------------------------------------------------------------------------
 	/// \brief Input event given to View, expected to filter down hierarchy
+	/// \param [in] _eventIn
 	/// \return false if event is not absorbed (e.g. did not hit button etc)
 	//----------------------------------------------------------------------------------
-	virtual bool HandleEvent( ShivaGUI::InternalEvent* );
+	virtual bool HandleEvent( ShivaGUI::InternalEvent* _eventIn );
 	//----------------------------------------------------------------------------------
 	/// \brief Set camera angle. Will probably need to rebuild the tree after changing this
-	/// \param [in] angleDeg
+	/// \param [in] _angleDeg
 	//----------------------------------------------------------------------------------
-	void SetCameraAngle( float angleDeg );
+	void SetCameraAngle( float _angleDeg );
 	//----------------------------------------------------------------------------------
 	/// \brief If true, short selection events will be used to select parts of the totem
-	/// \param [in] value Default is false
+	/// \param [in] _value Default is false
 	//----------------------------------------------------------------------------------
-	void AllowObjectClickSelection( bool value ) { _allowClickSelect = value; }
+	void AllowObjectClickSelection( bool _value ) { m_allowClickSelect = _value; }
 	//----------------------------------------------------------------------------------
 	/// \brief Get selection vector
-	/// \param [in] originX
-	/// \param [in] originY
-	/// \param [in] originZ
-	/// \param [in] dirX
-	/// \param [in] dirY
-	/// \param [in] dirZ
+	/// \param [in] _originX
+	/// \param [in] _originY
+	/// \param [in] _originZ
+	/// \param [in] _dirX
+	/// \param [in] _dirY
+	/// \param [in] _dirZ
 	//----------------------------------------------------------------------------------
-	void GetSelectionVector( float &originX, float &originY, float &originZ, float &dirX, float &dirY, float &dirZ );
+	void GetSelectionVector( float &_originX, float &_originY, float &_originZ, float &_dirX, float &_dirY, float &_dirZ );
 	//----------------------------------------------------------------------------------
 	/// \brief Reset world rotation
 	//----------------------------------------------------------------------------------
 	void ResetWorldRotation();
 	//----------------------------------------------------------------------------------
 	/// \brief Add world rotation offset in degress
-	/// \param [in] rotX
-	/// \param [in] rotY
-	/// \param [in] rotZ
+	/// \param [in] _rotX
+	/// \param [in] _rotY
+	/// \param [in] _rotZ
 	//----------------------------------------------------------------------------------
-	void AddWorldRotationOffsetDegs( float rotX, float rotY, float rotZ );
+	void AddWorldRotationOffsetDegs( float _rotX, float _rotY, float _rotZ );
 	//----------------------------------------------------------------------------------
 	/// \brief Add world rotation offset in radians
-	/// \param [in] rotX
-	/// \param [in] rotY
-	/// \param [in] rotZ
+	/// \param [in] _rotX
+	/// \param [in] _rotY
+	/// \param [in] _rotZ
 	//----------------------------------------------------------------------------------
-	void AddWorldRotationOffsetRads( float rotX, float rotY, float rotZ );
-	//----------------------------------------------------------------------------------
-/*
-	void SetBlendParam(float value) {_blendValue=value;}
-	void SetRotationSpeed(float value) {_rotationSpeed=value;}
-	void AddRotationOffsetDegs(float rotX, float rotY, float rotZ);
-	void AddRotationOffsetRads(float rotX, float rotY, float rotZ);
-	void SetColour(float R, float G, float B) {_colourR=R;_colourG=G;_colourB=B;}
-	void SetPauseRotation( bool value ) {_pauseRotation = value;}
-	void SetQuality( float value );
-*/
+	void AddWorldRotationOffsetRads( float _rotX, float _rotY, float _rotZ );
 	//----------------------------------------------------------------------------------
 	/// \brief Rebuilds the whole tree, sends it to the renderer
 	//----------------------------------------------------------------------------------
@@ -140,119 +130,162 @@ public:
 	void RefreshTreeParams();
 	//----------------------------------------------------------------------------------
 	/// \brief Set object colour: values are expected between 0 and 1
-	/// \param [in] R red
-	/// \param [in] G green
-	/// \param [in] B blue
+	/// \param [in] _r red
+	/// \param [in] _g green
+	/// \param [in] _b blue
 	//----------------------------------------------------------------------------------
-	void SetObjectColour( float R, float G, float B );
+	void SetObjectColour( float _r, float _g, float _b );
 	//----------------------------------------------------------------------------------
 	// Overlays
 	//----------------------------------------------------------------------------------
 	/// \brief Show overlays
-	/// \param [in] show
+	/// \param [in] _show
 	//----------------------------------------------------------------------------------
-	void ShowCrosshairs( bool show ) { _showCrosshairs = show; }
+	void ShowCrosshairs( bool _show ) { m_showCrosshairs = _show; }
 	//----------------------------------------------------------------------------------
 	/// \brief When crosshairs are enabled they set the selection vector as well
 	/// You can thus retrieve the crosshair location with GetSelectionVector()
-	/// \param [in] x
-	/// \param [in] y
-	/// \return _showCrosshairs
+	/// \param [in] _x
+	/// \param [in] _y
+	/// \return m_showCrosshairs
 	//----------------------------------------------------------------------------------	
-	bool GetCrosshairs( float &x, float &y ) { x = _crosshairX; y = _crosshairY; return _showCrosshairs; }
+	bool GetCrosshairs( float &_x, float &_y ) { _x = m_crosshairX; _y = m_crosshairY; return m_showCrosshairs; }
 	//----------------------------------------------------------------------------------
 	/// \brief Moves the crosshairs by a small amount. Range between 0 and 1
-	/// \param [in] x
-	/// \param [in] y
+	/// \param [in] _x
+	/// \param [in] _y
 	//----------------------------------------------------------------------------------
-	void NudgeCrosshairs( float x, float y );
+	void NudgeCrosshairs( float _x, float _y );
 	//----------------------------------------------------------------------------------
 	/// \brief Set overlay size
-	/// \param [in] value
+	/// \param [in] _value
 	//----------------------------------------------------------------------------------
-	void SetCrosshairSize( float value ) { _targetSize = value; }
+	void SetCrosshairSize( float _value ) { m_targetSize = _value; }
+	//----------------------------------------------------------------------------------
+	/// \brief Create vbo and vao for crosshair
+	//----------------------------------------------------------------------------------
+	void BuildCrosshairVBOs();
+	//----------------------------------------------------------------------------------
+	/// \brief Load matrices to shader
+	/// \param [in] _shaderID Shader's id
+	/// \param [in] _proj Projection matrix
+	/// \param [in] _mv Modelview matrix 
+	//----------------------------------------------------------------------------------
+	void LoadMatricesToShader( GLuint _shaderID, cml::matrix44f_c _proj, cml::matrix44f_c _mv );
+	//----------------------------------------------------------------------------------
+	/// \brief Create vbo and vao for crosshair circle
+	//----------------------------------------------------------------------------------
+	void BuildCrosshairCircleVBOs();
 	//----------------------------------------------------------------------------------
 
 protected:
 
 	//----------------------------------------------------------------------------------
-	bool _mousing;
+	/// \brief Flag used for checking whether mouse is used
 	//----------------------------------------------------------------------------------
-	int _mouseLastX;
+	bool m_mousing;
 	//----------------------------------------------------------------------------------
-	int _mouseLastY;
+	/// \brief Mouse last pos (x-coord)
 	//----------------------------------------------------------------------------------
-	int _mouseRefX;
+	int m_mouseLastX;
 	//----------------------------------------------------------------------------------
-	int _mouseRefY;
+	/// \brief Mouse last pos (y-coord)
 	//----------------------------------------------------------------------------------
-	float _rotationX;
+	int m_mouseLastY;
 	//----------------------------------------------------------------------------------
-	float _rotationZ;
+	/// \brief Mouse reference (x-coord)
+	//----------------------------------------------------------------------------------
+	int m_mouseRefX;
+	//----------------------------------------------------------------------------------
+	/// \brief Mouse reference (y-coord)
+	//----------------------------------------------------------------------------------
+	int m_mouseRefY;
+	//----------------------------------------------------------------------------------
+	/// \brief Rotation about x
+	//----------------------------------------------------------------------------------
+	float m_rotationX;
+	//----------------------------------------------------------------------------------
+	/// \brief Rotation about z
+	//----------------------------------------------------------------------------------
+	float m_rotationZ;
 	//----------------------------------------------------------------------------------
 	/// \brief Used to determine if an event is a click select or a drag rotate
 	//----------------------------------------------------------------------------------
-	float _mousingTimer; 
+	float m_mousingTimer; 
 	//----------------------------------------------------------------------------------
-	float _clickSelectTimeThreshold;
+	/// \brief Time threshold
+	//----------------------------------------------------------------------------------
+	float m_clickSelectTimeThreshold;
 	//----------------------------------------------------------------------------------
 	/// \brief Flag to control click select. Default is false
 	//----------------------------------------------------------------------------------
-	bool _allowClickSelect;
+	bool m_allowClickSelect;
 	//----------------------------------------------------------------------------------
-	float _selectVecOrigX;
+	/// \brief Select vector origin x-coord
 	//----------------------------------------------------------------------------------
-	float _selectVecOrigY;
+	float m_selectVecOrigX;
 	//----------------------------------------------------------------------------------
-	float _selectVecOrigZ;
+	/// \brief Select vector origin y-coord
 	//----------------------------------------------------------------------------------
-	float _selectVecDirX;
+	float m_selectVecOrigY;
 	//----------------------------------------------------------------------------------
-	float _selectVecDirY;
+	/// \brief Select vector origin z-coord
 	//----------------------------------------------------------------------------------
-	float _selectVecDirZ;
+	float m_selectVecOrigZ;
+	//----------------------------------------------------------------------------------
+	/// \brief Select vector direction x-coord
+	//----------------------------------------------------------------------------------
+	float m_selectVecDirX;
+	//----------------------------------------------------------------------------------
+	/// \brief Select vector direction y-coord
+	//----------------------------------------------------------------------------------
+	float m_selectVecDirY;
+	//----------------------------------------------------------------------------------
+	/// \brief Select vector direction z-coord
+	//----------------------------------------------------------------------------------
+	float m_selectVecDirZ;
 	//----------------------------------------------------------------------------------
 	// Bounds for the View's place in the GUI System
 	//----------------------------------------------------------------------------------
 	/// \brief Left bounds
 	//----------------------------------------------------------------------------------
-	int _boundsLeft;
+	int m_boundsLeft;
 	//----------------------------------------------------------------------------------
 	/// \brief Top bounds
 	//----------------------------------------------------------------------------------
-	int _boundsTop;
+	int m_boundsTop;
 	//----------------------------------------------------------------------------------
 	/// \brief Right bounds
 	//----------------------------------------------------------------------------------
-	int _boundsRight;
+	int m_boundsRight;
 	//----------------------------------------------------------------------------------
 	/// \brief Bottom bounds
 	//----------------------------------------------------------------------------------
-	int _boundsBottom;
+	int m_boundsBottom;
 	//----------------------------------------------------------------------------------
 	/// \brief Window width
 	//----------------------------------------------------------------------------------
-	int _windowWidth;
+	int m_windowWidth;
 	//----------------------------------------------------------------------------------
 	/// \brief Window height
 	//----------------------------------------------------------------------------------
-	int _windowHeight;
+	int m_windowHeight;
 	//----------------------------------------------------------------------------------
 	/// \brief Renderer
 	//----------------------------------------------------------------------------------
-	GLSLRenderer *_renderer;
+	GLSLRenderer *m_renderer;
 	//----------------------------------------------------------------------------------
 	/// \brief Our main tree
 	//----------------------------------------------------------------------------------
-	VolumeTree::Tree *_mainTree;
+	VolumeTree::Tree *m_mainTree;
 	//----------------------------------------------------------------------------------
 	/// \brief Cache policy
 	//----------------------------------------------------------------------------------
-	VolumeTree::CachingPolicy *_cachePolicy;
+	VolumeTree::CachingPolicy *m_cachePolicy;
 	//----------------------------------------------------------------------------------
 	/// \brief Our totem controller
 	//----------------------------------------------------------------------------------
-	Totem::Controller *_totemController;
+	Totem::Controller *m_totemController;
 	//----------------------------------------------------------------------------------
 	/// \brief Calculate step size for positioning objects on pole
 	//----------------------------------------------------------------------------------
@@ -262,15 +295,37 @@ protected:
 	//----------------------------------------------------------------------------------
 	/// \brief Crosshairs with a centre dot
 	//----------------------------------------------------------------------------------
-	bool _showCrosshairs;
+	bool m_showCrosshairs;
 	//----------------------------------------------------------------------------------
 	// Dimensions are proportion of window size
 	//----------------------------------------------------------------------------------
-	float _crosshairX;
+	/// \brief Crosshair x-dimension
 	//----------------------------------------------------------------------------------
-	float _crosshairY;
+	float m_crosshairX;
 	//----------------------------------------------------------------------------------
-	float _targetSize;
+	/// \brief Crosshair y-dimension
+	//----------------------------------------------------------------------------------
+	float m_crosshairY;
+	//----------------------------------------------------------------------------------
+	/// \brief Target size
+	//----------------------------------------------------------------------------------
+	float m_targetSize;
+	//----------------------------------------------------------------------------------
+	/// \brief Crosshair vao
+	//----------------------------------------------------------------------------------
+	GLuint m_crosshairVAO;
+	//----------------------------------------------------------------------------------
+	/// \brief Crosshair circle vao
+	//----------------------------------------------------------------------------------
+	GLuint m_crosshairCircleVAO;
+	//----------------------------------------------------------------------------------
+	/// \brief Shader for drawing crosshair
+	//----------------------------------------------------------------------------------
+	Utility::GPUProgram* m_crosshairShader;
+	//----------------------------------------------------------------------------------
+	/// \brief Shader for drawing crosshair circle
+	//----------------------------------------------------------------------------------
+	Utility::GPUProgram* m_crosshairCircleShader;
 	//----------------------------------------------------------------------------------
 
 };
