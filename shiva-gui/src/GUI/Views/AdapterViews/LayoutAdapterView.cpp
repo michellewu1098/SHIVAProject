@@ -5,85 +5,85 @@
 
 ShivaGUI::LayoutAdapterView::LayoutAdapterView()
 {
-	_initialised = false;
-	_containerGroup = NULL;
+	m_initialised = false;
+	m_containerGroup = NULL;
 }
 
 //----------------------------------------------------------------------------------
 
 ShivaGUI::LayoutAdapterView::~LayoutAdapterView()
 {
-	if( _containerGroup != NULL )
+	if( m_containerGroup != NULL )
 	{
 		// If we have a containergroup, let that delete the children
-		delete _containerGroup;
+		delete m_containerGroup;
 	}
 	else
 	{
-		for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+		for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 			delete ( *it );
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayoutAdapterView::NotifyDrawingContextChange( ResourceManager *resources )
+void ShivaGUI::LayoutAdapterView::NotifyDrawingContextChange( ResourceManager *_resources )
 {
-	if( _containerGroup != NULL )
+	if( m_containerGroup != NULL )
 	{
-		_containerGroup->NotifyDrawingContextChange( resources );
+		m_containerGroup->NotifyDrawingContextChange( _resources );
 	}
 	else
 	{
-	for( std::vector<View*>::iterator it = _children.begin(); it != _children.end(); ++it )
-		( *it )->NotifyDrawingContextChange( resources );
+	for( std::vector<View*>::iterator it = m_children.begin(); it != m_children.end(); ++it )
+		( *it )->NotifyDrawingContextChange( _resources );
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayoutAdapterView::Layout( int left, int top, int right, int bottom, int windowWidth, int windowHeight )
+void ShivaGUI::LayoutAdapterView::Layout( int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight )
 {
-	if( _containerGroup != NULL )
+	if( m_containerGroup != NULL )
 	{
-		_containerGroup->Layout( left, top, right, bottom, windowWidth, windowHeight );
+		m_containerGroup->Layout( _left, _top, _right, _bottom, _windowWidth, _windowHeight );
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayoutAdapterView::Update( float deltaTs, GUIController *guiController )
+void ShivaGUI::LayoutAdapterView::Update( float _deltaTs, GUIController *_guiController )
 {
-	if( !_initialised && _adapter != NULL  )
+	if( !m_initialised && _adapter != NULL  )
 	{
 		int numChildren = _adapter->GetNumEntries();
 		for( int i = 0; i < numChildren; ++i )
 		{
-			View *currentChild = _adapter->GetView( i, guiController->GetResources() );
+			View *currentChild = _adapter->GetView( i, _guiController->GetResources() );
 			if( currentChild != NULL )
 			{
-				_children.push_back( currentChild );
-				if( _containerGroup != NULL )
+				m_children.push_back( currentChild );
+				if( m_containerGroup != NULL )
 				{
-					_containerGroup->AddView( currentChild, guiController->GetResources() );
+					m_containerGroup->AddView( currentChild, _guiController->GetResources() );
 				}
 			}
 		}
 
 		RefreshConnectionLinks();
 
-		_initialised = true;
-		guiController->Layout();
+		m_initialised = true;
+		_guiController->Layout();
 	}
 
-	if( _containerGroup != NULL )
+	if( m_containerGroup != NULL )
 	{
-		_containerGroup->Update( deltaTs, guiController );
+		m_containerGroup->Update( _deltaTs, _guiController );
 	}
 	else
 	{
-		for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
-			( *it )->Update( deltaTs, guiController );
+		for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
+			( *it )->Update( _deltaTs, _guiController );
 	}
 }
 
@@ -91,29 +91,29 @@ void ShivaGUI::LayoutAdapterView::Update( float deltaTs, GUIController *guiContr
 
 void ShivaGUI::LayoutAdapterView::Draw()
 {
-	if( _containerGroup != NULL )
+	if( m_containerGroup != NULL )
 	{
-		_containerGroup->Draw();
+		m_containerGroup->Draw();
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayoutAdapterView::Inflate( TiXmlElement *xmlElement, ResourceManager *resources, std::string themePrefix, bool rootNode )
+void ShivaGUI::LayoutAdapterView::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
-	if( themePrefix.empty() )
-		themePrefix = "LayoutAdapterView_";
-	View::Inflate( xmlElement, resources, themePrefix, rootNode );
+	if( _themePrefix.empty() )
+		_themePrefix = "LayoutAdapterView_";
+	View::Inflate( _xmlElement, _resources, _themePrefix, _rootNode );
 
 	// First time through this function the xmlElement will be the theme node
 	// Second time through it will be the layout node
-	if( xmlElement->Value() != "theme" )
+	if( _xmlElement->Value() != "theme" )
 	{
 		// Look for a child - this will be the container group
-		TiXmlNode *childNode = xmlElement->FirstChild();
+		TiXmlNode *childNode = _xmlElement->FirstChild();
 		if( childNode->Type() == TiXmlNode::TINYXML_ELEMENT )
 		{
-			View *typeView = resources->CreateView( childNode->Value() );
+			View *typeView = _resources->CreateView( childNode->Value() );
 
 			if( typeView != NULL )
 			{
@@ -122,12 +122,12 @@ void ShivaGUI::LayoutAdapterView::Inflate( TiXmlElement *xmlElement, ResourceMan
 				if( groupView != NULL )
 				{
 					// Loads settings for ViewGroup from the xml
-					groupView->Inflate( childNode->ToElement(), resources, "" );
+					groupView->Inflate( childNode->ToElement(), _resources, "" );
 
 					// Children are added procedurally, not in layout xml, so don't deflate to xml
 					groupView->SetDeflateChildren( false );
 
-					_containerGroup = groupView;
+					m_containerGroup = groupView;
 				}
 				else
 				{
@@ -166,14 +166,14 @@ void ShivaGUI::LayoutAdapterView::Inflate( TiXmlElement *xmlElement, ResourceMan
 
 //----------------------------------------------------------------------------------
 
-TiXmlElement* ShivaGUI::LayoutAdapterView::Deflate( ResourceManager *resources )
+TiXmlElement* ShivaGUI::LayoutAdapterView::Deflate( ResourceManager *_resources )
 {
-	TiXmlElement *xmlNode = View::Deflate( resources );
+	TiXmlElement *xmlNode = View::Deflate( _resources );
 	xmlNode->SetValue( "LayoutAdapterView" );
 
-	if( _containerGroup != NULL )
+	if( m_containerGroup != NULL )
 	{
-		xmlNode->InsertEndChild( *( _containerGroup->Deflate( resources ) ) );
+		xmlNode->InsertEndChild( *( m_containerGroup->Deflate( _resources ) ) );
 	}
 
 	// Children don't get deflated because they are pulled from the DataAdapter
@@ -183,28 +183,28 @@ TiXmlElement* ShivaGUI::LayoutAdapterView::Deflate( ResourceManager *resources )
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::LayoutAdapterView::SetFocus( bool value )
+void ShivaGUI::LayoutAdapterView::SetFocus( bool _value )
 {
 	// We give focus to our first child
-	if( _children.size() > 0 )
+	if( m_children.size() > 0 )
 	{
-		_children.front()->SetFocus( value );
+		m_children.front()->SetFocus( _value );
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-bool ShivaGUI::LayoutAdapterView::HandleEvent( InternalEvent *event )
+bool ShivaGUI::LayoutAdapterView::HandleEvent( InternalEvent *_event )
 {
-	if( _containerGroup != NULL )
+	if( m_containerGroup != NULL )
 	{
-		return _containerGroup->HandleEvent( event );
+		return m_containerGroup->HandleEvent( _event );
 	}
 	else
 	{
 		bool absorbed = false;
-		for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
-			absorbed = absorbed || ( *it )->HandleEvent( event );
+		for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
+			absorbed = absorbed || ( *it )->HandleEvent( _event );
 		return absorbed;
 	}
 }
@@ -213,9 +213,9 @@ bool ShivaGUI::LayoutAdapterView::HandleEvent( InternalEvent *event )
 
 int ShivaGUI::LayoutAdapterView::GetWrapWidth()
 {
-	if( _containerGroup != NULL )
+	if( m_containerGroup != NULL )
 	{
-		return _containerGroup->GetWrapWidth();
+		return m_containerGroup->GetWrapWidth();
 	}
 
 	return 10;
@@ -225,9 +225,9 @@ int ShivaGUI::LayoutAdapterView::GetWrapWidth()
 
 int ShivaGUI::LayoutAdapterView::GetWrapHeight()
 {
-	if( _containerGroup != NULL )
+	if( m_containerGroup != NULL )
 	{
-		return _containerGroup->GetWrapHeight();
+		return m_containerGroup->GetWrapHeight();
 	}
 
 	return 10;
@@ -235,12 +235,12 @@ int ShivaGUI::LayoutAdapterView::GetWrapHeight()
 
 //----------------------------------------------------------------------------------
 
-int ShivaGUI::LayoutAdapterView::GetDataIndex( View *value )
+int ShivaGUI::LayoutAdapterView::GetDataIndex( View *_value )
 {
 	unsigned int i = 0;
-	for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+	for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 	{
-		if( ( *it ) == value )
+		if( ( *it ) == _value )
 			return i;
 		++i;
 	}
@@ -251,9 +251,9 @@ int ShivaGUI::LayoutAdapterView::GetDataIndex( View *value )
 
 void ShivaGUI::LayoutAdapterView::RefreshFromSource()
 {
-	for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+	for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 		delete ( *it );
-	_children.clear();
+	m_children.clear();
 
 	if( m_prevScan != NULL && m_nextScan != NULL )
 	{
@@ -262,7 +262,7 @@ void ShivaGUI::LayoutAdapterView::RefreshFromSource()
 		m_nextScan->SetNextScan( m_prevScan, false );
 	}
 
-	_initialised = false;
+	m_initialised = false;
 }
 
 //----------------------------------------------------------------------------------
@@ -270,7 +270,7 @@ void ShivaGUI::LayoutAdapterView::RefreshFromSource()
 void ShivaGUI::LayoutAdapterView::RefreshConnectionLinks()
 {
 	
-	if( _children.size() > 0 )
+	if( m_children.size() > 0 )
 	{
 		if( m_prevScan != NULL && m_nextScan != NULL )
 		{
@@ -279,7 +279,7 @@ void ShivaGUI::LayoutAdapterView::RefreshConnectionLinks()
 			// First child links to what we've been told is the previous scan item
 			// Children link to each other
 			View *previous = m_prevScan, *current = NULL;
-			for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+			for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 			{
 				current = ( *it );
 
@@ -301,7 +301,7 @@ void ShivaGUI::LayoutAdapterView::RefreshConnectionLinks()
 			
 			if( m_isFirstScan ) // _children.front() is safe because _children.size() > 0
 			{
-				_children.front()->SetIsFirstScan( true );
+				m_children.front()->SetIsFirstScan( true );
 			}
 		}
 
@@ -311,7 +311,7 @@ void ShivaGUI::LayoutAdapterView::RefreshConnectionLinks()
 		View *focusRight = GetNextFocus( Definitions::Right );
 		View *focusUp = GetNextFocus( Definitions::Up );
 		View *focusDown = GetNextFocus( Definitions::Down );
-		for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+		for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 		{
 			if( focusLeft != this )
 			{
@@ -325,25 +325,25 @@ void ShivaGUI::LayoutAdapterView::RefreshConnectionLinks()
 
 		if( focusUp != NULL && focusUp != this )
 		{
-			_children.front()->SetNextFocus( focusUp, Definitions::Up );
+			m_children.front()->SetNextFocus( focusUp, Definitions::Up );
 		}
 		else
 		{
-			_children.front()->SetNextFocus( _children.back(), Definitions::Up );
+			m_children.front()->SetNextFocus( m_children.back(), Definitions::Up );
 		}
 
 		if( focusDown != NULL && focusDown != this )
 		{
-			_children.back()->SetNextFocus( focusDown, Definitions::Down );
+			m_children.back()->SetNextFocus( focusDown, Definitions::Down );
 		}
 		else
 		{
-			_children.back()->SetNextFocus( _children.front(), Definitions::Down );
+			m_children.back()->SetNextFocus( m_children.front(), Definitions::Down );
 		}
 
 		if( m_isFirstFocus )
 		{
-			_children.front()->SetIsFirstFocus( true );
+			m_children.front()->SetIsFirstFocus( true );
 		}
 	}
 }

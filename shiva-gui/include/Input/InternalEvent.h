@@ -1,22 +1,25 @@
+///-----------------------------------------------------------------------------------------------
+/// \file InternalEvent.h
+/// \brief These are the processed events that are sent to the GUI System by the Input Controller
+/// \author Leigh McLoughlin
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
 #ifndef __SHIVA_GUI_INPUTSYSTEM_INTERNALEVENT__
 #define __SHIVA_GUI_INPUTSYSTEM_INTERNALEVENT__
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 
+#include <boost/algorithm/string.hpp>
 #include <string>
-//////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////////////////////////////////////////////////
 
 namespace ShivaGUI
 {
-
-	/// These are the processed events that are sent to the GUI System by the Input Controller
 	class InternalEvent
 	{
 	public:
 
+		//----------------------------------------------------------------------------------
+		// \brief Event type
+		//----------------------------------------------------------------------------------
 		enum EventType
 		{
 			INVALID,
@@ -58,29 +61,72 @@ namespace ShivaGUI
 			EDIT_CUSTOMLAYOUT	// Activates the edit mode for any custom layouts
 		};
 
-		/// Parses a string to convert to an EventType enum
-		static EventType ConvertEventType(std::string);
-
-		InternalEvent(EventType);
-
-
-		EventType GetType() {return _type;}
-
-		void SetWindowSize(int w, int h) {_winWidth = w; _winHeight=h;}
-		void GetWindowSize(int &w, int &h) {w=_winWidth;h=_winHeight;}
-
-		void SetPosition(int x, int y) {_posX=x; _posY=y;}
-		void GetPosition(int &x, int &y) {x = _posX; y = _posY;}
+		//----------------------------------------------------------------------------------
+		/// \brief Parses a string to convert to an EventType enum
+		/// \param [in] _inputString
+		//----------------------------------------------------------------------------------
+		static EventType ConvertEventType( std::string _inputString );
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor 
+		/// \param [in] _inputType
+		//----------------------------------------------------------------------------------
+		InternalEvent( EventType _inputType );
+		//----------------------------------------------------------------------------------
+		/// \brief Returns event type
+		/// \return m_type
+		//----------------------------------------------------------------------------------
+		EventType GetType() { return m_type; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set window size
+		/// \param [in] _w Width
+		/// \param [in] _h Height
+		//----------------------------------------------------------------------------------
+		void SetWindowSize( int _w, int _h ) { m_winWidth = _w; m_winHeight = _h; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get window size
+		/// \param [out] _w
+		/// \param [out] _h
+		//----------------------------------------------------------------------------------
+		void GetWindowSize( int &_w, int &_h ) { _w = m_winWidth; _h = m_winHeight; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set position
+		/// \param [in] _x
+		/// \param [in] _y
+		//----------------------------------------------------------------------------------
+		void SetPosition( int _x, int _y) { m_posX = _x; m_posY = _y; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get position
+		/// \param [out] _x
+		/// \param [out] _y
+		//----------------------------------------------------------------------------------
+		void GetPosition( int &_x, int &_y) { _x = m_posX; _y = m_posY; }
+		//----------------------------------------------------------------------------------
 
 	protected:
-		EventType _type;
 
-		int _winWidth, _winHeight;
+		//----------------------------------------------------------------------------------
+		/// \brief Event type
+		//----------------------------------------------------------------------------------
+		EventType m_type;
+		//----------------------------------------------------------------------------------
+		/// \brief Window width
+		//----------------------------------------------------------------------------------
+		int m_winWidth;
+		//----------------------------------------------------------------------------------
+		/// \brief Window height
+		//----------------------------------------------------------------------------------
+		int m_winHeight;
+		//----------------------------------------------------------------------------------
+		/// \brief Position x-coord
+		//----------------------------------------------------------------------------------
+		int m_posX;
+		//----------------------------------------------------------------------------------
+		/// \brief Position y-coord
+		//----------------------------------------------------------------------------------
+		int m_posY;
+		//----------------------------------------------------------------------------------
 
-		int _posX, _posY;
 	};
-
 }
 
-//////////////////////////////////////////////////////////////////////////
 #endif

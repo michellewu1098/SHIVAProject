@@ -6,35 +6,35 @@
 
 ShivaGUI::DataAdapter::DataAdapter()
 {
-	_provider = NULL;
+	m_provider = NULL;
 
-	_mappingAttributes = NULL;
-	_mappingViews = NULL;
-	_mappingLength = 0;
+	m_mappingAttributes = NULL;
+	m_mappingViews = NULL;
+	m_mappingLength = 0;
 }
 
 //----------------------------------------------------------------------------------
 
 ShivaGUI::DataAdapter::~DataAdapter()
 {
-	delete [] _mappingAttributes;
-	delete [] _mappingViews;
+	delete [] m_mappingAttributes;
+	delete [] m_mappingViews;
 }
 
 //----------------------------------------------------------------------------------
 
 int ShivaGUI::DataAdapter::GetNumEntries()
 {
-	if( _provider != NULL )
-		return _provider->GetNumEntries();
+	if( m_provider != NULL )
+		return m_provider->GetNumEntries();
 	return 0;
 }
 
 //----------------------------------------------------------------------------------
 
-ShivaGUI::View* ShivaGUI::DataAdapter::GetView( int index, ResourceManager *resources )
+ShivaGUI::View* ShivaGUI::DataAdapter::GetView( int _index, ResourceManager *_resources )
 {
-	View *rootView = resources->GetLayout( _layoutFile );
+	View *rootView = _resources->GetLayout( m_layoutFile );
 
 	if( rootView == NULL )
 	{
@@ -43,14 +43,14 @@ ShivaGUI::View* ShivaGUI::DataAdapter::GetView( int index, ResourceManager *reso
 	}
 
 	// Need to populate Views with data according to the mapping
-	if( _provider != NULL && _mappingLength > 0 )
+	if( m_provider != NULL && m_mappingLength > 0 )
 	{
-		for( unsigned int i = 0; i < _mappingLength; ++i )
+		for( unsigned int i = 0; i < m_mappingLength; ++i )
 		{
 			// Retrieve View:
-			View *currentView = resources->GetViewFromID( _mappingViews[ i ] );
+			View *currentView = _resources->GetViewFromID( m_mappingViews[ i ] );
 			// Retrieve data:
-			std::string currentData = _provider->GetAttributeString( index, _mappingAttributes[ i ] );
+			std::string currentData = m_provider->GetAttributeString( _index, m_mappingAttributes[ i ] );
 
 			if( currentView != NULL &&  !currentData.empty() )
 			{
@@ -62,23 +62,23 @@ ShivaGUI::View* ShivaGUI::DataAdapter::GetView( int index, ResourceManager *reso
 
 				if( currentTextButton != NULL )
 				{
-					SetViewText( currentTextButton, currentData, resources );
+					SetViewText( currentTextButton, currentData, _resources );
 				}
 				else if( currentTextView != NULL )
 				{
-					SetViewText( currentTextView, currentData, resources );
+					SetViewText( currentTextView, currentData, _resources );
 				}
 				else if( currentImageButton != NULL )
 				{
-					SetViewImage( currentImageButton, currentData, resources );
+					SetViewImage( currentImageButton, currentData, _resources );
 				}
 				else if( currentImageTextButton != NULL )
 				{
-					SetViewImage( currentImageTextButton, currentData, resources );
+					SetViewImage( currentImageTextButton, currentData, _resources );
 				}
 				else
 				{
-					SetViewImage( currentView, currentData, resources );
+					SetViewImage( currentView, currentData, _resources );
 				}
 			}
 		}
@@ -89,63 +89,63 @@ ShivaGUI::View* ShivaGUI::DataAdapter::GetView( int index, ResourceManager *reso
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::DataAdapter::SetMapping( std::string *from_attribute, std::string *to_view, unsigned int arrayLength )
+void ShivaGUI::DataAdapter::SetMapping( std::string *_from_attribute, std::string *_to_view, unsigned int _arrayLength )
 {
-	delete [] _mappingAttributes;
-	delete [] _mappingViews;
-	_mappingAttributes = NULL;
-	_mappingViews = NULL;
-	_mappingLength = 0;
+	delete [] m_mappingAttributes;
+	delete [] m_mappingViews;
+	m_mappingAttributes = NULL;
+	m_mappingViews = NULL;
+	m_mappingLength = 0;
 
-	if( arrayLength == 0 )
+	if( _arrayLength == 0 )
 	{
 		// Treat this as a reset
 		return;
 	}
 
-	_mappingAttributes = new std::string[ arrayLength ];
-	_mappingViews = new std::string[ arrayLength ];
-	for( unsigned int i = 0; i < arrayLength; ++i )
+	m_mappingAttributes = new std::string[ _arrayLength ];
+	m_mappingViews = new std::string[ _arrayLength ];
+	for( unsigned int i = 0; i < _arrayLength; ++i )
 	{
-		_mappingAttributes[ i ] = from_attribute[ i ];
-		_mappingViews[ i ] = to_view[ i ];
+		m_mappingAttributes[ i ] = _from_attribute[ i ];
+		m_mappingViews[ i ] = _to_view[ i ];
 	}
-	_mappingLength = arrayLength;
+	m_mappingLength = _arrayLength;
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::DataAdapter::SetViewImage( ImageButton *view, std::string imageResource, ResourceManager *resources )
+void ShivaGUI::DataAdapter::SetViewImage( ImageButton *_view, std::string _imageResource, ResourceManager *_resources )
 {
-	view->SetContent( resources->GetDrawable( imageResource ) );
+	_view->SetContent( _resources->GetDrawable( _imageResource ) );
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::DataAdapter::SetViewImage( ImageTextButton *view, std::string imageResource, ResourceManager *resources )
+void ShivaGUI::DataAdapter::SetViewImage( ImageTextButton *_view, std::string _imageResource, ResourceManager *_resources )
 {
-	view->SetContent( resources->GetDrawable( imageResource ) );
+	_view->SetContent( _resources->GetDrawable( _imageResource ) );
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::DataAdapter::SetViewImage( View *view, std::string imageResource, ResourceManager *resources )
+void ShivaGUI::DataAdapter::SetViewImage( View *_view, std::string _imageResource, ResourceManager *_resources )
 {
-	view->SetBackground( resources->GetDrawable( imageResource ) );
+	_view->SetBackground( _resources->GetDrawable( _imageResource ) );
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::DataAdapter::SetViewText( TextView *view, std::string text, ResourceManager *resources )
+void ShivaGUI::DataAdapter::SetViewText( TextView *_view, std::string _text, ResourceManager *_resources )
 {
-	view->SetText( text, resources );
+	_view->SetText( _text, _resources );
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::DataAdapter::SetViewText( TextButton *view, std::string text, ResourceManager *resources )
+void ShivaGUI::DataAdapter::SetViewText( TextButton *_view, std::string _text, ResourceManager *_resources )
 {
-	view->SetText( text, resources );
+	_view->SetText( _text, _resources );
 }
 
 //----------------------------------------------------------------------------------

@@ -1,196 +1,199 @@
-
 #include "Input/InputController.h"
 
-#include <boost/algorithm/string.hpp>
+//----------------------------------------------------------------------------------
 
-ShivaGUI::InputController::InputController(ProfileManager *profile)
+ShivaGUI::InputController::InputController( ProfileManager *_profile )
 {
-	_useKeys = false;
-	_shareKeyInputs = false;
-	_debounce = false;
-	_needFirstFocus = true;
-	_autoFirstSelect = false;
+	m_useKeys = false;
+	m_shareKeyInputs = false;
+	m_debounce = false;
+	m_needFirstFocus = true;
+	m_autoFirstSelect = false;
 
-	_globalDebounceTrailTime = 0.0f;
-	_globalDebounceSupTime = 0.0f;
-	_globalDebounceDelayTime = 0.0f;
+	m_globalDebounceTrailTime = 0.0f;
+	m_globalDebounceSupTime = 0.0f;
+	m_globalDebounceDelayTime = 0.0f;
 
-	_globalRepeatEnable = false;
-	_globalRepeatDebounced = false;
-	_globalRepeatDelayTime = 1.0f;
-	_globalRepeatRateTime = 0.1f;
+	m_globalRepeatEnable = false;
+	m_globalRepeatDebounced = false;
+	m_globalRepeatDelayTime = 1.0f;
+	m_globalRepeatRateTime = 0.1f;
 
-	_scanner = NULL;
+	m_scanner = NULL;
 
-	LoadSettings(profile);
+	LoadSettings( _profile );
 }
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::InputController::~InputController()
 {
-	delete _scanner;
+	delete m_scanner;
 
-	for( std::map<int,Debouncer*>::iterator it = _debouncers.begin(); it != _debouncers.end(); ++it )
+	for( std::map< int, Debouncer* >::iterator it = m_debouncers.begin(); it != m_debouncers.end(); ++it )
 	{
-		delete (*it).second;
+		delete ( *it ).second;
 	}
 }
 
-void ShivaGUI::InputController::LoadSettings(ProfileManager *profile)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::InputController::LoadSettings( ProfileManager *_profile )
 {
-	if( profile == NULL )
+	if( _profile == NULL )
 		return;
 
 	// Retrieve keyboard settings
-	if( profile->ContainsOption("keyinput") )
+	if( _profile->ContainsOption( "keyinput" ) )
 	{
 		// We will only use the first option group of this name
-		profile->EnterOptionNode("keyinput");
+		_profile->EnterOptionNode( "keyinput" );
 
-		if( profile->ContainsOption("enablekeys") )
+		if( _profile->ContainsOption( "enablekeys" ) )
 		{
-			_useKeys = true;
+			m_useKeys = true;
 		}
-		if( profile->ContainsOption("autofirstselect") )
+		if( _profile->ContainsOption( "autofirstselect" ) )
 		{
-			_autoFirstSelect = true;
+			m_autoFirstSelect = true;
 		}
-		if( profile->ContainsOption("shareinputs") )
+		if( _profile->ContainsOption( "shareinputs" ) )
 		{
-			_shareKeyInputs = true;
+			m_shareKeyInputs = true;
 		}
-		if( profile->ContainsOption("debounce") )
+		if( _profile->ContainsOption( "debounce" ) )
 		{
-			profile->EnterOptionNode("debounce");
-			_debounce = true;
+			_profile->EnterOptionNode( "debounce" );
+			m_debounce = true;
 
-			_globalDebounceTrailTime = profile->GetFloat("trailTime", _globalDebounceTrailTime);
-			_globalDebounceSupTime = profile->GetFloat("suppressionTime", _globalDebounceSupTime);
-			_globalDebounceDelayTime = profile->GetFloat("delayTime",_globalDebounceDelayTime);
+			m_globalDebounceTrailTime = _profile->GetFloat( "trailTime", m_globalDebounceTrailTime );
+			m_globalDebounceSupTime = _profile->GetFloat( "suppressionTime", m_globalDebounceSupTime );
+			m_globalDebounceDelayTime = _profile->GetFloat( "delayTime", m_globalDebounceDelayTime );
 
-			_globalRepeatEnable = profile->GetBoolean("repeatEnable",_globalRepeatEnable);
-			_globalRepeatDebounced = profile->GetBoolean("repeatDebounced",_globalRepeatDebounced);
-			_globalRepeatDelayTime = profile->GetFloat("repeatDelay",_globalRepeatDelayTime);
-			_globalRepeatRateTime = profile->GetFloat("repeatRate",_globalRepeatRateTime);
+			m_globalRepeatEnable = _profile->GetBoolean( "repeatEnable", m_globalRepeatEnable );
+			m_globalRepeatDebounced = _profile->GetBoolean( "repeatDebounced", m_globalRepeatDebounced );
+			m_globalRepeatDelayTime = _profile->GetFloat( "repeatDelay", m_globalRepeatDelayTime );
+			m_globalRepeatRateTime = _profile->GetFloat( "repeatRate", m_globalRepeatRateTime );
 
-			profile->ExitOptionNode();
+			_profile->ExitOptionNode();
 		}
-		if( profile->ContainsOption("map") )
+		if( _profile->ContainsOption( "map" ) )
 		{
-			unsigned int numMapGroups = profile->ContainsOption("map");
+			unsigned int numMapGroups = _profile->ContainsOption( "map" );
 			for( unsigned int currentMapGroup = 0; currentMapGroup < numMapGroups; ++currentMapGroup )
 			{
-				profile->EnterOptionNode("map",currentMapGroup);
+				_profile->EnterOptionNode( "map", currentMapGroup );
 
-				float groupDebounceTrailTime = _globalDebounceTrailTime;
-				float groupDebounceSupTime = _globalDebounceSupTime;
-				float groupDebounceDelayTime = _globalDebounceDelayTime;
+				float groupDebounceTrailTime = m_globalDebounceTrailTime;
+				float groupDebounceSupTime = m_globalDebounceSupTime;
+				float groupDebounceDelayTime = m_globalDebounceDelayTime;
 				bool groupDebounce = false;
 
-				bool groupRepeatEnable = _globalRepeatEnable;
-				bool groupRepeatDebounced = _globalRepeatDebounced;
-				float groupRepeatDelayTime = _globalRepeatDelayTime;
-				float groupRepeatRateTime = _globalRepeatRateTime;
+				bool groupRepeatEnable = m_globalRepeatEnable;
+				bool groupRepeatDebounced = m_globalRepeatDebounced;
+				float groupRepeatDelayTime = m_globalRepeatDelayTime;
+				float groupRepeatRateTime = m_globalRepeatRateTime;
 
-				if( profile->ContainsOption("debounce") )
+				if( _profile->ContainsOption( "debounce" ) )
 				{
-					profile->EnterOptionNode("debounce");
-					_debounce = groupDebounce = true;
+					_profile->EnterOptionNode( "debounce" );
+					m_debounce = groupDebounce = true;
 
-					groupDebounceTrailTime = profile->GetFloat("trailTime", groupDebounceTrailTime);
-					groupDebounceSupTime = profile->GetFloat("suppressionTime", groupDebounceSupTime);
-					groupDebounceDelayTime = profile->GetFloat("delayTime",groupDebounceDelayTime);
+					groupDebounceTrailTime = _profile->GetFloat( "trailTime", groupDebounceTrailTime );
+					groupDebounceSupTime = _profile->GetFloat( "suppressionTime", groupDebounceSupTime );
+					groupDebounceDelayTime = _profile->GetFloat( "delayTime", groupDebounceDelayTime );
 
-					groupRepeatEnable = profile->GetBoolean("repeatEnable",groupRepeatEnable);
-					groupRepeatDebounced = profile->GetBoolean("repeatDebounced",groupRepeatDebounced);
-					groupRepeatDelayTime = profile->GetFloat("repeatDelay",groupRepeatDelayTime);
-					groupRepeatRateTime = profile->GetFloat("repeatRate",groupRepeatRateTime);
+					groupRepeatEnable = _profile->GetBoolean( "repeatEnable", groupRepeatEnable );
+					groupRepeatDebounced = _profile->GetBoolean( "repeatDebounced", groupRepeatDebounced );
+					groupRepeatDelayTime = _profile->GetFloat( "repeatDelay", groupRepeatDelayTime );
+					groupRepeatRateTime = _profile->GetFloat( "repeatRate", groupRepeatRateTime );
 
-					profile->ExitOptionNode();
+					_profile->ExitOptionNode();
 				}
 
-				unsigned int numKeys = profile->ContainsOption("key");
+				unsigned int numKeys = _profile->ContainsOption( "key" );
 				for( unsigned int i = 0; i < numKeys; i++ )
 				{
-					int key = profile->GetInt("key",0,i);
+					int key = _profile->GetInt( "key", 0, i );
 
-					profile->EnterOptionNode("key",i);
+					_profile->EnterOptionNode( "key", i );
 
-					InternalEvent::EventType pressType = InternalEvent::ConvertEventType( profile->GetString("pressEvent","invalid") );
-					InternalEvent::EventType delayType = InternalEvent::ConvertEventType( profile->GetString("delayEvent","invalid") );
-					InternalEvent::EventType repeatType = InternalEvent::ConvertEventType( profile->GetString("repeatEvent","invalid") );
-					InternalEvent::EventType releaseType = InternalEvent::ConvertEventType( profile->GetString("releaseEvent","invalid") );
+					InternalEvent::EventType pressType = InternalEvent::ConvertEventType( _profile->GetString( "pressEvent", "invalid" ) );
+					InternalEvent::EventType delayType = InternalEvent::ConvertEventType( _profile->GetString( "delayEvent", "invalid" ) );
+					InternalEvent::EventType repeatType = InternalEvent::ConvertEventType( _profile->GetString( "repeatEvent", "invalid" ) );
+					InternalEvent::EventType releaseType = InternalEvent::ConvertEventType( _profile->GetString( "releaseEvent", "invalid" ) );
 
-					std::cout<<"INFO: InputController Keymapping: "<<key<<" to pressType: "<<pressType<<" delay: "<<delayType<<" release: "<<releaseType<<std::endl;
+					std::cout << "INFO: InputController Keymapping: " << key << " to pressType: " << pressType << " delay: " << delayType << " release: " << releaseType << std::endl;
 
-					_keymapping[key] = MappingEventGroup(pressType,delayType,repeatType,releaseType);
+					m_keymapping[ key ] = MappingEventGroup( pressType, delayType, repeatType, releaseType );
 
 					// If we have options for the group or global debounce settings
-					if( groupDebounce || _debounce )
+					if( groupDebounce || m_debounce )
 					{
 						Debouncer *eventDebouncer = new Debouncer();
-						eventDebouncer->SetTrailTime(groupDebounceTrailTime);
-						eventDebouncer->SetSuppressionTime(groupDebounceSupTime);
-						eventDebouncer->SetDelayTime(groupDebounceDelayTime);
-						eventDebouncer->SetRepeat(groupRepeatEnable,groupRepeatRateTime,groupRepeatDelayTime,groupRepeatDebounced);
-						_debouncers[key] = eventDebouncer;
+						eventDebouncer->SetTrailTime( groupDebounceTrailTime );
+						eventDebouncer->SetSuppressionTime( groupDebounceSupTime );
+						eventDebouncer->SetDelayTime( groupDebounceDelayTime );
+						eventDebouncer->SetRepeat( groupRepeatEnable, groupRepeatRateTime, groupRepeatDelayTime, groupRepeatDebounced );
+						m_debouncers[ key ] = eventDebouncer;
 					}
 
-					profile->ExitOptionNode();
+					_profile->ExitOptionNode();
 				}
-				profile->ExitOptionNode();
+				_profile->ExitOptionNode();
 			}
 		}
-		if( profile->ContainsOption("scanning") )
+		if( _profile->ContainsOption( "scanning" ) )
 		{
-			profile->EnterOptionNode("scanning");
+			_profile->EnterOptionNode( "scanning" );
 
-			std::string scannerType = profile->GetString("type", "MISSING TAG");
+			std::string scannerType = _profile->GetString( "type", "MISSING TAG" );
 
-			if( boost::algorithm::iequals(scannerType,"autoscanner") )
+			if( boost::algorithm::iequals( scannerType, "autoscanner" ) )
 			{
 				Autoscanner *currentScanner = new Autoscanner();
-				_scanner = currentScanner;
-				std::cout<<"INFO: Profile loaded using Autoscanner"<<std::endl;
-				float delayTime = profile->GetFloat("delayTime", 1.0f);
-				currentScanner->SetDelayTime(delayTime);
+				m_scanner = currentScanner;
+				std::cout << "INFO: Profile loaded using Autoscanner" << std::endl;
+				float delayTime = _profile->GetFloat( "delayTime", 1.0f );
+				currentScanner->SetDelayTime( delayTime );
 			}
 			else
 			{
-				std::cerr<<"WARNING: profile requests unknown scanner type: "<<scannerType<<std::endl;
+				std::cerr << "WARNING: profile requests unknown scanner type: " << scannerType << std::endl;
 			}
 
-			profile->ExitOptionNode();
+			_profile->ExitOptionNode();
 		}
 
-		profile->ExitOptionNode();
+		_profile->ExitOptionNode();
 	}
-
-
 }
 
-void ShivaGUI::InputController::Update(float deltaTs, Activity *currentActivity)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::InputController::Update( float _deltaTs, Activity *_currentActivity )
 {
-	if( _debounce )
+	if( m_debounce )
 	{
-		for( std::map<int,Debouncer*>::iterator it = _debouncers.begin(); it != _debouncers.end(); ++it )
+		for( std::map< int, Debouncer* >::iterator it = m_debouncers.begin(); it != m_debouncers.end(); ++it )
 		{
 			// We assume that we have a mapping entry for this key, as this is done during setup for each key in the _debouncers map
 
 			// Update our Debouncer and see if it gives any output
-			Debouncer::OutputType currentResult = (*it).second->Update(deltaTs);
+			Debouncer::OutputType currentResult = ( *it ).second->Update( _deltaTs );
 			if( currentResult != Debouncer::OUT_NONE )
 			{
 				// Map the output of the Debouncer to an InternalEvent
-				int keyID = (*it).first;
+				int keyID = ( *it ).first;
 				InternalEvent::EventType outputEventType = InternalEvent::INVALID;
 				if( currentResult == Debouncer::OUT_LEADING )
-					outputEventType = _keymapping[keyID].PressEvent;
+					outputEventType = m_keymapping[ keyID ].PressEvent;
 				else if( currentResult == Debouncer::OUT_DELAYED )
-					outputEventType = _keymapping[keyID].DelayEvent;
+					outputEventType = m_keymapping[ keyID ].DelayEvent;
 				else if( currentResult == Debouncer::OUT_REPEATING )
-					outputEventType = _keymapping[keyID].RepeatEvent;
+					outputEventType = m_keymapping[ keyID ].RepeatEvent;
 				else if( currentResult == Debouncer::OUT_TRAILING )
-					outputEventType = _keymapping[keyID].ReleaseEvent;
+					outputEventType = m_keymapping[ keyID ].ReleaseEvent;
 
 				if( outputEventType != InternalEvent::INVALID )
 				{
@@ -203,18 +206,18 @@ void ShivaGUI::InputController::Update(float deltaTs, Activity *currentActivity)
 						outputEventType == InternalEvent::NEXTFOCUS_UP ||
 						outputEventType == InternalEvent::NEXTFOCUS_DOWN )
 					{
-						if( _needFirstFocus )
+						if( m_needFirstFocus )
 						{
-							IssueKeyEvent( new InternalEvent(InternalEvent::FIRSTFOCUS), currentActivity, NULL);
-							_needFirstFocus = false;
+							IssueKeyEvent( new InternalEvent( InternalEvent::FIRSTFOCUS ), _currentActivity, NULL );
+							m_needFirstFocus = false;
 						}
 						else
 						{
-							IssueKeyEvent( new InternalEvent(outputEventType), currentActivity, NULL);
+							IssueKeyEvent( new InternalEvent( outputEventType ), _currentActivity, NULL );
 						}
 					}
 					else
-						IssueKeyEvent( new InternalEvent(outputEventType), currentActivity, NULL);
+						IssueKeyEvent( new InternalEvent( outputEventType ), _currentActivity, NULL );
 				}
 
 			}
@@ -226,57 +229,59 @@ void ShivaGUI::InputController::Update(float deltaTs, Activity *currentActivity)
 			*/
 		}
 	}
-	if( _scanner != NULL )
+	if( m_scanner != NULL )
 	{
 		InternalEvent::EventType currentResult;
-		if( _scanner->Update( currentResult, deltaTs ) )
+		if( m_scanner->Update( currentResult, _deltaTs ) )
 		{
-			IssueKeyEvent( new InternalEvent(currentResult), currentActivity, NULL);
+			IssueKeyEvent( new InternalEvent( currentResult ), _currentActivity, NULL );
 		}
 	}
 }
 
-void ShivaGUI::InputController::IssueEvent(InputEvent *currentInputEvent, Activity *currentActivity)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::InputController::IssueEvent( InputEvent *_currentInputEvent, Activity *_currentActivity )
 {
-	if( currentInputEvent == NULL || currentActivity == NULL )
+	if( _currentInputEvent == NULL || _currentActivity == NULL )
 		return;
 
-	GUIController *targetGUIController = currentActivity->GetGUIController( currentInputEvent->GetWindowID() );
+	GUIController *targetGUIController = _currentActivity->GetGUIController( _currentInputEvent->GetWindowID() );
 
 	if( targetGUIController != NULL )
 	{
-		if( currentInputEvent->GetType() == InputEvent::WINDOWCLOSE )
-			targetGUIController->IssueEvent( new InternalEvent(InternalEvent::QUIT) );
-		else if( currentInputEvent->GetType() == InputEvent::WINDOWRESIZE )
+		if( _currentInputEvent->GetType() == InputEvent::WINDOWCLOSE )
+			targetGUIController->IssueEvent( new InternalEvent( InternalEvent::QUIT ) );
+		else if( _currentInputEvent->GetType() == InputEvent::WINDOWRESIZE )
 		{
-			InternalEvent *currentOutputEvent = new InternalEvent(InternalEvent::WINDOW_RESIZE);
-			int w,h;
-			currentInputEvent->GetWindowSize(w,h);
-			currentOutputEvent->SetWindowSize(w,h);
+			InternalEvent *currentOutputEvent = new InternalEvent( InternalEvent::WINDOW_RESIZE );
+			int w, h;
+			_currentInputEvent->GetWindowSize( w, h );
+			currentOutputEvent->SetWindowSize( w, h );
 			targetGUIController->IssueEvent( currentOutputEvent );
 		}
-		else if( currentInputEvent->GetType() == InputEvent::MOUSEBUTTONDOWN )
+		else if( _currentInputEvent->GetType() == InputEvent::MOUSEBUTTONDOWN )
 		{
-			InternalEvent *currentOutputEvent = new InternalEvent(InternalEvent::POSITIONAL_SELECT);
+			InternalEvent *currentOutputEvent = new InternalEvent( InternalEvent::POSITIONAL_SELECT );
 			int x, y;
-			currentInputEvent->GetMousePosition(x,y);
-			currentOutputEvent->SetPosition(x,y);
+			_currentInputEvent->GetMousePosition( x, y );
+			currentOutputEvent->SetPosition( x, y );
 			targetGUIController->IssueEvent( currentOutputEvent );
 		}
-		else if( currentInputEvent->GetType() == InputEvent::MOUSEBUTTONUP )
+		else if( _currentInputEvent->GetType() == InputEvent::MOUSEBUTTONUP )
 		{
-			InternalEvent *currentOutputEvent = new InternalEvent(InternalEvent::POSITIONAL_DESELECT);
+			InternalEvent *currentOutputEvent = new InternalEvent( InternalEvent::POSITIONAL_DESELECT );
 			int x, y;
-			currentInputEvent->GetMousePosition(x,y);
-			currentOutputEvent->SetPosition(x,y);
+			_currentInputEvent->GetMousePosition( x, y );
+			currentOutputEvent->SetPosition( x, y );
 			targetGUIController->IssueEvent( currentOutputEvent );
 		}
-		else if( currentInputEvent->GetType() == InputEvent::MOUSEMOTION )
+		else if( _currentInputEvent->GetType() == InputEvent::MOUSEMOTION )
 		{
-			InternalEvent *currentOutputEvent = new InternalEvent(InternalEvent::POSITIONAL_DRAG);
+			InternalEvent *currentOutputEvent = new InternalEvent( InternalEvent::POSITIONAL_DRAG );
 			int x, y;
-			currentInputEvent->GetMousePosition(x,y);
-			currentOutputEvent->SetPosition(x,y);
+			_currentInputEvent->GetMousePosition( x, y );
+			currentOutputEvent->SetPosition( x, y );
 			targetGUIController->IssueEvent( currentOutputEvent );
 		}
 	}
@@ -284,54 +289,62 @@ void ShivaGUI::InputController::IssueEvent(InputEvent *currentInputEvent, Activi
 //	if( currentInputEvent->GetType() == InputEvent::QUIT )
 //		currentActivity->IssueEvent( new InternalEvent(InternalEvent::QUIT) );
 
-	if( _useKeys && (currentInputEvent->GetType() == InputEvent::KEYDOWN || currentInputEvent->GetType() == InputEvent::KEYUP) )
-		HandleImmediateKeys(currentInputEvent,currentActivity,targetGUIController);
-
+	if( m_useKeys && ( _currentInputEvent->GetType() == InputEvent::KEYDOWN || _currentInputEvent->GetType() == InputEvent::KEYUP) )
+		HandleImmediateKeys( _currentInputEvent, _currentActivity, targetGUIController );
 }
 
-void ShivaGUI::InputController::HandleImmediateKeys(InputEvent *currentInputEvent, Activity *currentActivity, GUIController *targetGUIController)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::InputController::HandleImmediateKeys( InputEvent *_currentInputEvent, Activity *_currentActivity, GUIController *_targetGUIController )
 {
 	// Already checked: currentActivity != NULL && currentInputEvent != NULL
 
-	if( _debounce )
+	if( m_debounce )
 	{
-		int keycode = currentInputEvent->GetKeycode();
+		int keycode = _currentInputEvent->GetKeycode();
 
-		if( _debouncers.count(keycode) > 0 )
+		if( m_debouncers.count(keycode) > 0 )
 		{
-			//std::cout<<"issuing debounce input for key: "<<keycode<<std::endl;
-			_debouncers[keycode]->SetInput( currentInputEvent->GetType() == InputEvent::KEYDOWN );
+			//std::cout << "issuing debounce input for key: " << keycode << std::endl;
+			m_debouncers[ keycode ]->SetInput( _currentInputEvent->GetType() == InputEvent::KEYDOWN );
 		}
 	}
 }
 
-void ShivaGUI::InputController::IssueKeyEvent(InternalEvent *outputEvent, Activity *currentActivity, GUIController *targetGUIController)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::InputController::IssueKeyEvent( InternalEvent *_outputEvent, Activity *_currentActivity, GUIController *_targetGUIController )
 {
 	// Scanning goes in here - events are passed to the scanner as well as the Activity
-	if( _scanner != NULL )
-		_scanner->SetInput( outputEvent->GetType() );
+	if( m_scanner != NULL )
+		m_scanner->SetInput( _outputEvent->GetType() );
 
-	if( _shareKeyInputs || targetGUIController == NULL )
+	if( m_shareKeyInputs || _targetGUIController == NULL )
 	{
-		currentActivity->IssueEvent( outputEvent );
+		_currentActivity->IssueEvent( _outputEvent );
 	}
 	else
-		targetGUIController->IssueEvent( outputEvent );
+		_targetGUIController->IssueEvent( _outputEvent );
 }
 
+//----------------------------------------------------------------------------------
 
 ShivaGUI::InputController::MappingEventGroup::MappingEventGroup()
 {
-	PressEvent=InternalEvent::INVALID;
-	DelayEvent=InternalEvent::INVALID;
-	RepeatEvent=InternalEvent::INVALID;
-	ReleaseEvent=InternalEvent::INVALID;
+	PressEvent = InternalEvent::INVALID;
+	DelayEvent = InternalEvent::INVALID;
+	RepeatEvent = InternalEvent::INVALID;
+	ReleaseEvent = InternalEvent::INVALID;
 }
 
-ShivaGUI::InputController::MappingEventGroup::MappingEventGroup(InternalEvent::EventType press, InternalEvent::EventType delay, InternalEvent::EventType repeat, InternalEvent::EventType release)
+//----------------------------------------------------------------------------------
+
+ShivaGUI::InputController::MappingEventGroup::MappingEventGroup( InternalEvent::EventType _press, InternalEvent::EventType _delay, InternalEvent::EventType _repeat, InternalEvent::EventType _release )
 {
-	PressEvent=press;
-	DelayEvent=delay;
-	RepeatEvent=repeat;
-	ReleaseEvent=release;
+	PressEvent = _press;
+	DelayEvent = _delay;
+	RepeatEvent = _repeat;
+	ReleaseEvent = _release;
 }
+
+//----------------------------------------------------------------------------------

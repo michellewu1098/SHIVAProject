@@ -4,7 +4,7 @@
 
 ShivaGUI::AdapterView::AdapterView()
 {
-	_adapter = NULL;
+	m_adapter = NULL;
 }
 
 //----------------------------------------------------------------------------------

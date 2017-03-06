@@ -1,35 +1,38 @@
+///-----------------------------------------------------------------------------------------------
+/// \file Debouncer.h
+/// \brief This keeps track of a single input source
+/// \author Leigh McLoughlin
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 #ifndef __SHIVA_GUI_INPUTSYSTEM_DEBOUNCER__
 #define __SHIVA_GUI_INPUTSYSTEM_DEBOUNCER__
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 
+#include <iostream>
 #include <sstream>
-//////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////////////////////////////////////////////////
 
 namespace ShivaGUI
 {
 
-	/// This keeps track of a single input source
-	/// How's this going to work?
-	/// * input -> inputPotential = true and store timestamp, activate output if leading edge
-	/// * time passes, activate output if delayed leading edge
-	/// * no input for certain time -> inputPotential = false
-	///
-	/// Need:
-	/// * Repeat bool - if it will repeat output if continuously pressed
-	/// * Repeat delay - time of continuous activation before repeat starts
-	/// * Repeat period - time between outputs of repeat
-	///
-	/// * also need option to suppress actual input after a block has completed for a period of time
+	// This keeps track of a single input source
+	// How's this going to work?
+	// * input -> inputPotential = true and store timestamp, activate output if leading edge
+	// * time passes, activate output if delayed leading edge
+	// * no input for certain time -> inputPotential = false
+	
+	// Need:
+	// * Repeat bool - if it will repeat output if continuously pressed
+	// * Repeat delay - time of continuous activation before repeat starts
+	// * Repeat period - time between outputs of repeat
+	// * also need option to suppress actual input after a block has completed for a period of time
+
 	class Debouncer
 	{
 	public:
 
+		//----------------------------------------------------------------------------------
+		/// \brief Phase type
+		//----------------------------------------------------------------------------------
 		enum Phase
 		{
 			INACTIVE,	// There is no input
@@ -37,7 +40,9 @@ namespace ShivaGUI
 			TRAILING,	// Actual inputs have stopped but we are still active
 			SUPPRESSING	// We are inactive and are preventing inputs from reactivating us
 		};
-
+		//----------------------------------------------------------------------------------
+		/// \brief Output type
+		//----------------------------------------------------------------------------------
 		enum OutputType
 		{
 			OUT_NONE = 0,	// There is no active output
@@ -46,111 +51,139 @@ namespace ShivaGUI
 			OUT_TRAILING,	// The output is trailing
 			OUT_REPEATING	// The output is a repeating one
 		};
-
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor
+		//----------------------------------------------------------------------------------
 		Debouncer();
-
-		void SetTrailTime( float timeS ) {_trailMaxTime=timeS;}//{_trailTimeTicks = 1000 * timeS;}
-		void SetSuppressionTime( float timeS ) {_suppressionMaxTime=timeS;}//{_suppressionTicks = 1000 * timeS;}
-		void SetDelayTime( float timeS ) {_delayedOutputMaxTime=timeS;}//{_delayedOutputTicks = 1000 * timeS;}
-
-		//void SetOutputState(int state) {SetOutputState(state==1,state==2,state==3);}
-		//void SetOutputState(bool leading, bool delayed, bool trailing) {_outputLeading=leading; _outputDelayed=delayed; _outputTrailing=trailing;}
-
-		void SetRepeat(bool enable, float rateTimeS, float delayTimeS, bool repeatDebounced ) {_repeatEnable=enable; _repeatRateTime = rateTimeS; _repeatDelayTime = delayTimeS; _repeatDebounced=repeatDebounced;}
-
-		/// Processes the input
+		//----------------------------------------------------------------------------------
+		/// \brief Set trail time
+		/// \param [in] _timeS
+		//----------------------------------------------------------------------------------
+		void SetTrailTime( float _timeS ) { m_trailMaxTime = _timeS; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set suppression time
+		/// \param [in] _timeS
+		//----------------------------------------------------------------------------------
+		void SetSuppressionTime( float _timeS ) { m_suppressionMaxTime = _timeS; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set delay time
+		/// \param [in] _timeS
+		//----------------------------------------------------------------------------------
+		void SetDelayTime( float _timeS ) { m_delayedOutputMaxTime = _timeS; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set repeat
+		//----------------------------------------------------------------------------------
+		void SetRepeat( bool _enable, float _rateTimeS, float _delayTimeS, bool _repeatDebounced ) { m_repeatEnable = _enable; m_repeatRateTime = _rateTimeS; m_repeatDelayTime = _delayTimeS; m_repeatDebounced = _repeatDebounced; }
+		//----------------------------------------------------------------------------------
+		/// \brief Processes the input
 		/// Returns true if an event should be issued
-		OutputType Update(float deltaTs);
-
-		void SetInput(bool value);
-
-
+		/// \param [in] _deltaTs
+		//----------------------------------------------------------------------------------
+		OutputType Update( float _deltaTs );
+		//----------------------------------------------------------------------------------
+		/// \brief Set input
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetInput( bool _value );
+		//----------------------------------------------------------------------------------
 
 	protected:
 
-		/// Settings
-			/// Number of system clock ticks between the last input and the trailing edge of activation
-			//unsigned int _trailTimeTicks;
-			float _trailMaxTime;
+		/// SETTINGS
 
-			/// Number of ticks after an activation period to prevent reactivation
-			//unsigned int _suppressionTicks;
-			float _suppressionMaxTime;
+		//----------------------------------------------------------------------------------
+		/// \brief Max trail time 
+		//----------------------------------------------------------------------------------
+		float m_trailMaxTime;
+		//----------------------------------------------------------------------------------
+		/// \brief Max suppression time
+		//----------------------------------------------------------------------------------
+		float m_suppressionMaxTime;
+		//----------------------------------------------------------------------------------
+		/// \brief Max delayed output time
+		//----------------------------------------------------------------------------------
+		float m_delayedOutputMaxTime;
+		//----------------------------------------------------------------------------------
+		/// \brief Whether repeat is enabled
+		//----------------------------------------------------------------------------------
+		bool m_repeatEnable;
+		//----------------------------------------------------------------------------------
+		/// \brief Will allow the debounced output to trigger a repeat (i.e. a messy long input will be treated as a single press)
+		/// default is false
+		//----------------------------------------------------------------------------------
+		bool m_repeatDebounced;
+		//----------------------------------------------------------------------------------
+		/// \brief Time between issuing repeat events, after the initial repeat delay
+		//----------------------------------------------------------------------------------
+		float m_repeatRateTime;
+		//----------------------------------------------------------------------------------
+		/// \brief Time of continued input before first repeat event
+		//----------------------------------------------------------------------------------
+		float m_repeatDelayTime;
+		//----------------------------------------------------------------------------------
 
-			/// Time from start of input to issuing an output event
-			//unsigned int _delayedOutputTicks;
-			float _delayedOutputMaxTime;
+		/// VARIABLES
 
-			bool _repeatEnable;
-
-			/// Will allow the debounced output to trigger a repeat (i.e. a messy long input will be treated as a single press)
-			/// default is false
-			bool _repeatDebounced;
-
-			/// Time between issuing repeat events, after the initial repeat delay
-			float _repeatRateTime;
-
-			/// Time of continued input before first repeat event
-			float _repeatDelayTime;
-
-		/// Variables
-
-			Phase _currentPhase;
-
-
-			/// If we are timing the block
-			//bool _timingBlock;
-			/// Timer for the block
-			float _blockTimer;
-
-			/// If we are timing a trail
-			//bool _timingTrail;
-			/// Timer for the trail
-			float _trailTimer;
-
-			bool _timingDelay;
-
-			float _delayTimer;
-
-			float _suppressionTimer;
-
-
-			/// Tracks the actual input
-			bool _inputPotential;
-
-			/// Flags that are set when giving output
-			bool _leadingEdgeOutput, _delayedLeadOutput, _trailingEdgeOutput;
-
-
-
-			bool _timingRepeat;
-
-			bool _firstRepeat;
-
-			float _repeatTimer;
-
-			void StartRepeatTimer();
-
-/*
-			/// If we are timing a delayed output
-			bool _delaying;
-
-
-			/// Number of system clock ticks since the current input 'block' started and stopped
-			//unsigned int _blockStartTicks, _blockTrailingTicks, _blockStopTicks;
-			float _blockTimer, _blockTrailingTimer, _blockStopTimer;
-
-			/// Used when repeat doesn't follow the debounced block
-			//unsigned int _repeatStartTicks;
-
-			/// Counter for issuing repeat outputs
-			unsigned int _repeatOutputCount;
-*/
-			void DebugOutput(std::string);
+		//----------------------------------------------------------------------------------
+		/// \brief Current phase
+		//----------------------------------------------------------------------------------
+		Phase m_currentPhase;
+		//----------------------------------------------------------------------------------
+		/// \brief Timer for the block
+		//----------------------------------------------------------------------------------
+		float m_blockTimer;
+		//----------------------------------------------------------------------------------
+		/// \brief Timer for the trail
+		//----------------------------------------------------------------------------------
+		float m_trailTimer;
+		//----------------------------------------------------------------------------------
+		/// \brief If we're timing the delay
+		//----------------------------------------------------------------------------------
+		bool m_timingDelay;
+		//----------------------------------------------------------------------------------
+		/// \brief Timer for the delay
+		//----------------------------------------------------------------------------------
+		float m_delayTimer;
+		//----------------------------------------------------------------------------------
+		/// \brief Timer for the suppression
+		//----------------------------------------------------------------------------------
+		float m_suppressionTimer;
+		//----------------------------------------------------------------------------------
+		/// \brief Tracks the actual input
+		//----------------------------------------------------------------------------------
+		bool m_inputPotential;
+		//----------------------------------------------------------------------------------
+		// Flags that are set when giving output
+		//----------------------------------------------------------------------------------
+		bool m_leadingEdgeOutput;
+		//----------------------------------------------------------------------------------
+		bool m_delayedLeadOutput;
+		//----------------------------------------------------------------------------------
+		bool m_trailingEdgeOutput;
+		//----------------------------------------------------------------------------------
+		/// \brief Whether to time repeat
+		//----------------------------------------------------------------------------------
+		bool m_timingRepeat;
+		//----------------------------------------------------------------------------------
+		/// \brief Whether is first repeat
+		//----------------------------------------------------------------------------------
+		bool m_firstRepeat;
+		//----------------------------------------------------------------------------------
+		/// \brief Timer for repeat
+		//----------------------------------------------------------------------------------
+		float m_repeatTimer;
+		//----------------------------------------------------------------------------------
+		/// \brief Start repeat timer
+		//----------------------------------------------------------------------------------
+		void StartRepeatTimer();
+		//----------------------------------------------------------------------------------
+		/// \brief Debug output
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void DebugOutput( std::string _value );
+		//----------------------------------------------------------------------------------
 
 	};
-
 }
 
-//////////////////////////////////////////////////////////////////////////
 #endif

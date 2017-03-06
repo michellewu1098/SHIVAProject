@@ -45,7 +45,7 @@ namespace ShivaGUI
 		/// \brief Set the data provider
 		/// \param [in] value
 		//----------------------------------------------------------------------------------
-		virtual void SetDataProvider( DataProvider *value ) { _provider = value; }
+		virtual void SetDataProvider( DataProvider *_value ) { m_provider = _value; }
 		//----------------------------------------------------------------------------------
 		/// \brief Retrieve the number of entries of DataProvider
 		//----------------------------------------------------------------------------------
@@ -56,11 +56,11 @@ namespace ShivaGUI
 		/// \param [in] index
 		/// \param [in] resources
 		//----------------------------------------------------------------------------------
-		virtual View* GetView( int index, ResourceManager *resources );
+		virtual View* GetView( int _index, ResourceManager *_resources );
 		//----------------------------------------------------------------------------------
 		/// \brief Specifies the Layout file that defines the View hierarchy that is returned by the DataAdapter
 		//----------------------------------------------------------------------------------
-		virtual void SetLayoutFile( std::string xmlfile ) { _layoutFile = xmlfile; }
+		virtual void SetLayoutFile( std::string _xmlfile ) { m_layoutFile = _xmlfile; }
 		//----------------------------------------------------------------------------------
 		/// \brief This specifies the mapping from the DataProvider to the Views in the Layout file
 		/// The idea here is that you set the attribute that would appear in the DataProvider and map this to a View ID in the Layout
@@ -69,7 +69,7 @@ namespace ShivaGUI
 		///  and then puts the data in the View before returning it
 		/// \note This function makes an internal copy of the arrays you give it
 		//----------------------------------------------------------------------------------
-		virtual void SetMapping( std::string *from_attribute, std::string *to_view, unsigned int arrayLength );
+		virtual void SetMapping( std::string *_from_attribute, std::string *_to_view, unsigned int _arrayLength );
 		//----------------------------------------------------------------------------------
 
 	protected:
@@ -77,32 +77,60 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief Data provider
 		//----------------------------------------------------------------------------------
-		DataProvider *_provider;
+		DataProvider *m_provider;
 		//----------------------------------------------------------------------------------
 		/// \brief Name of file containing layout 
 		//----------------------------------------------------------------------------------
-		std::string _layoutFile;
+		std::string m_layoutFile;
 		//----------------------------------------------------------------------------------
-		/// Called when GetView needs to bind an image to a View
+		/// \brief Called when GetView needs to bind an image to a View
+		/// \param [in] _view
+		/// \param [in] _imageResource
+		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
-		virtual void SetViewImage( ImageButton *, std::string imageResource, ResourceManager *resources );
+		virtual void SetViewImage( ImageButton *_view, std::string _imageResource, ResourceManager *_resources );
 		//----------------------------------------------------------------------------------
-		virtual void SetViewImage( ImageTextButton *, std::string imageResource, ResourceManager *resources );
+		/// \brief Called when GetView needs to bind an image to a View
+		/// \param [in] _view
+		/// \param [in] _imageResource
+		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
-		virtual void SetViewImage( View *, std::string imageResource, ResourceManager *resources );
+		virtual void SetViewImage( ImageTextButton *_view, std::string _imageResource, ResourceManager *_resources );
 		//----------------------------------------------------------------------------------
-		// Called when GetView needs to bind a piece of text to a View
+		/// \brief Called when GetView needs to bind an image to a View
+		/// \param [in] _view
+		/// \param [in] _imageResource
+		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
-		virtual void SetViewText( TextView *, std::string text, ResourceManager *resources );
+		virtual void SetViewImage( View *_view, std::string _imageResource, ResourceManager *_resources );
 		//----------------------------------------------------------------------------------
-		virtual void SetViewText( TextButton *, std::string text, ResourceManager *resources );
+		/// \brief Called when GetView needs to bind a piece of text to a View
+		/// \param [in] _view
+		/// \param [in] _text
+		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
-		std::string *_mappingAttributes;
+		virtual void SetViewText( TextView *_view, std::string _text, ResourceManager *_resources );
 		//----------------------------------------------------------------------------------
-		std::string *_mappingViews;
+		/// \brief Called when GetView needs to bind a piece of text to a View
+		/// \param [in] _view
+		/// \param [in] _text
+		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
-		unsigned int _mappingLength;
+		virtual void SetViewText( TextButton *_view, std::string _text, ResourceManager *_resources );
 		//----------------------------------------------------------------------------------
+		/// \brief Attributes
+		//----------------------------------------------------------------------------------
+		std::string *m_mappingAttributes;
+		//----------------------------------------------------------------------------------
+		/// \brief Views
+		//----------------------------------------------------------------------------------
+		std::string *m_mappingViews;
+		//----------------------------------------------------------------------------------
+		/// \brief Length
+		//----------------------------------------------------------------------------------
+		unsigned int m_mappingLength;
+		//----------------------------------------------------------------------------------
+
 	};
 }
 

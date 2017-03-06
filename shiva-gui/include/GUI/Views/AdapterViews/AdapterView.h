@@ -20,8 +20,9 @@ namespace ShivaGUI
 	// maybe have a separate container for it?
 	// Android puts it in the base View class - that seems a bit overkill to me...
 	// Ok, we now have a ScrollContainer that can be used to hold one of these (or anything) and make it scroll :)
-	//
+	
 	// At which point does the AdapterView pull the child Views from the DataAdapter?
+
 	class AdapterView : public View
 	{
 	public:
@@ -38,12 +39,12 @@ namespace ShivaGUI
 		/// \brief Set the Adapter
 		/// \param [in] value
 		//----------------------------------------------------------------------------------
-		virtual void SetAdapter( DataAdapter *value ) { _adapter = value; }
+		virtual void SetAdapter( DataAdapter *_value ) { m_adapter = _value; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get the Adapter
 		/// \return _adapter
 		//----------------------------------------------------------------------------------
-		virtual DataAdapter* GetAdapter( void ) { return _adapter; }
+		virtual DataAdapter* GetAdapter( void ) { return m_adapter; }
 		//----------------------------------------------------------------------------------
 		/// \brief For retrieving the original data entry index that was used to generate the View
 		/// Returns the index or -1 if the View that was given is not recognised
@@ -63,7 +64,7 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief The Adapter
 		//----------------------------------------------------------------------------------
-		DataAdapter *_adapter;
+		DataAdapter *m_adapter;
 		//----------------------------------------------------------------------------------
 
 	};

@@ -31,27 +31,27 @@ namespace ShivaGUI
 		/// \brief This is called when the drawing context is changed
 		/// All Drawables loaded from file will be automatically reloaded,
 		/// but any locally-generated textures (e.g. text caches) must be remade here
-		/// \param [in] resources Reference to resource manager
+		/// \param [in] _resources Reference to resource manager
 		//----------------------------------------------------------------------------------
-		virtual void NotifyDrawingContextChange( ResourceManager *resources );
+		virtual void NotifyDrawingContextChange( ResourceManager *_resources );
 		//----------------------------------------------------------------------------------
 		/// \brief Gives the size of the View
 		/// If this View has children, it is expected to work out the size and location of these and call Layout() on them too
 		/// The base class function will set up the background drawable, so this must be called by derived View classes that wish to retain the background
-		/// \param [in] left
-		/// \param [in] top
-		/// \param [in] right
-		/// \param [in] bottom
-		/// \param [in] windowWidth
-		/// \param [in] windowHeight
+		/// \param [in] _left
+		/// \param [in] _top
+		/// \param [in] _right
+		/// \param [in] _bottom
+		/// \param [in] _windowWidth
+		/// \param [in] _windowHeight
 		//----------------------------------------------------------------------------------
-		virtual void Layout( int left, int top, int right, int bottom, int windowWidth, int windowHeight );
+		virtual void Layout( int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight );
 		//----------------------------------------------------------------------------------
 		/// \brief Update method
-		/// \param [in] deltaTs
-		/// \param [in] guiController Reference to GUI controller
+		/// \param [in] _deltaTs
+		/// \param [in] _guiController Reference to GUI controller
 		//----------------------------------------------------------------------------------
-		virtual void Update( float deltaTs, GUIController* guiController );
+		virtual void Update( float _deltaTs, GUIController* _guiController );
 		//----------------------------------------------------------------------------------
 		/// \brief The base class will draw a background drawable if it exists
 		/// Derived View classes must call this at an appropriate time if they want to retain the background
@@ -66,18 +66,18 @@ namespace ShivaGUI
 		virtual std::string GetThemePrefix() { return "ListView_"; }
 		//----------------------------------------------------------------------------------
 		/// \brief For setting the View's attributes from xml
-		/// \param [in] xmlElement
-		/// \param [in] resources Reference to resource manager
-		/// \param [in] themePrefix this is used when parsing a theme file. Derived classes should specify the prefix that identifies their attributes in a style. If empty, the string returned from GetThemePrefix should be used
-		/// \param [in] rootNode
+		/// \param [in] _xmlElement
+		/// \param [in] _resources Reference to resource manager
+		/// \param [in] _themePrefix this is used when parsing a theme file. Derived classes should specify the prefix that identifies their attributes in a style. If empty, the string returned from GetThemePrefix should be used
+		/// \param [in] _rootNode
 		//----------------------------------------------------------------------------------
-		virtual void Inflate( TiXmlElement*, ResourceManager*, std::string themePrefix = "", bool rootNode = false );
+		virtual void Inflate( TiXmlElement* _xmlElement, ResourceManager* _resources, std::string _themePrefix = "", bool _rootNode = false );
 		//----------------------------------------------------------------------------------
 		/// \brief For saving the View's attributes to xml
-		/// \param [in] resources Reference to resource manager
+		/// \param [in] _resources Reference to resource manager
 		/// \note This must be hierarchical and the element must include all child elements
 		//----------------------------------------------------------------------------------
-		virtual TiXmlElement* Deflate( ResourceManager *resources );
+		virtual TiXmlElement* Deflate( ResourceManager *_resources );
 		//----------------------------------------------------------------------------------
 		/// \brief For setting the focus of this View
 		/// If focussed, it is expected that the view will show this visually
@@ -117,16 +117,16 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief Children views
 		//----------------------------------------------------------------------------------
-		std::vector< View* > _children;
+		std::vector< View* > m_children;
 		//----------------------------------------------------------------------------------
 		/// \brief Whether it has attempted to retrieve the Views from the DataAdapter
 		//----------------------------------------------------------------------------------
-		bool _initialised;
+		bool m_initialised;
 		//----------------------------------------------------------------------------------
 		/// \param [in] value
 		/// \param [in] forward
 		//----------------------------------------------------------------------------------
-		void OnSetNextScan( View *value, bool forward ) { RefreshConnectionLinks(); }
+		void OnSetNextScan( View *_value, bool _forward ) { RefreshConnectionLinks(); }
 		//----------------------------------------------------------------------------------
 		virtual void OnSetNextFocus( View*, Definitions::FocusDirection ) { RefreshConnectionLinks(); }
 		//----------------------------------------------------------------------------------

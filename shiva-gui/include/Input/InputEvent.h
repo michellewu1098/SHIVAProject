@@ -1,24 +1,23 @@
+///-----------------------------------------------------------------------------------------------
+/// \file InputEvent.h
+/// \brief These are the raw events that come in from the Window and are sent to the Input Controller for processing
+/// \author Leigh McLoughlin
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 #ifndef __SHIVA_GUI_INPUTSYSTEM_INPUTEVENT__
 #define __SHIVA_GUI_INPUTSYSTEM_INPUTEVENT__
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 
-
-//////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////////////////////////////////////////////////
 
 namespace ShivaGUI
 {
-
-	/// These are the raw events that come in from the Window and are sent to the Input Controller for processing
 	class InputEvent
 	{
 	public:
 
+		//----------------------------------------------------------------------------------
+		/// \brief Event types
+		//----------------------------------------------------------------------------------
 		enum EventType
 		{
 			INVALID,
@@ -32,43 +31,119 @@ namespace ShivaGUI
 			WINDOWEXPOSE,
 			WINDOWCLOSE
 		};
-
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor
+		//----------------------------------------------------------------------------------
 		InputEvent();
-
+		//----------------------------------------------------------------------------------
+		/// \brief Set qui event
+		//----------------------------------------------------------------------------------
 		void SetQuitEvent();
-		void SetKeyEvent(bool keyUp, int key, int windowID);
-		void SetMouseMotionEvent(int mouseX, int mouseY, int windowID);
-		void SetMouseButtonEvent(bool buttonUp, int button, float mouseX, float mouseY, int windowID);
-		void SetWindowSizeEvent(int w, int h, int windowID);
-		void SetWindowCloseEvent(int windowID);
-
-
-
-		EventType GetType() {return _type;}
-
-		int GetKeycode() {return _key;}
-
-		/// Returns the Window index or -1 if this event is not associated with a Window
-		int GetWindowID() {return _winID;}
-
-		/// These are only guaranteed to make sense if the event is mouse-related
+		//----------------------------------------------------------------------------------
+		/// \brief Set key event
+		/// \param [in] _keyUp
+		/// \param [in] _key
+		/// \param [in] _windowID
+		//----------------------------------------------------------------------------------
+		void SetKeyEvent( bool _keyUp, int _key, int _windowID );
+		//----------------------------------------------------------------------------------
+		/// \brief Set mouse motion event
+		/// \param [in] _mouseX
+		/// \param [in] _mouseY
+		/// \param [in] _windowID
+		//----------------------------------------------------------------------------------
+		void SetMouseMotionEvent( int _mouseX, int _mouseY, int _windowID );
+		//----------------------------------------------------------------------------------
+		/// \brief Set mouse button event
+		/// \param [in] _buttonUp
+		/// \param [in] _button
+		/// \param [in] _mouseX
+		/// \param [in] _mouseY
+		/// \param [in] _windowID
+		//----------------------------------------------------------------------------------
+		void SetMouseButtonEvent( bool _buttonUp, int _button, float _mouseX, float _mouseY, int _windowID );
+		//----------------------------------------------------------------------------------
+		/// \brief Set window size event
+		/// \param [in] _w Width
+		/// \param [in] _h Height
+		/// \param [in] _windowID Window index
+		//----------------------------------------------------------------------------------
+		void SetWindowSizeEvent( int _w, int _h, int _windowID );
+		//----------------------------------------------------------------------------------
+		/// \brief Set window close event
+		/// \param [in] _windowID
+		//----------------------------------------------------------------------------------
+		void SetWindowCloseEvent( int _windowID );
+		//----------------------------------------------------------------------------------
+		/// \brief Returns event type
+		/// \param [out] m_type
+		//----------------------------------------------------------------------------------
+		EventType GetType() const { return m_type; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns key code
+		/// \return m_key
+		//----------------------------------------------------------------------------------
+		int GetKeycode() const { return m_key; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns the Window index or -1 if this event is not associated with a Window
+		/// \return m_winID
+		//----------------------------------------------------------------------------------
+		int GetWindowID() const { return m_winID; }
+		//----------------------------------------------------------------------------------
+		/// \brief These are only guaranteed to make sense if the event is mouse-related
 		/// Positions are in the same space (coordinate system) that the GUI system uses
-		void GetMousePosition(int &mouseX, int &mouseY) {mouseX=_mouseX;mouseY=_mouseY;}
-
-		int GetMouseButton() {return _mouseButton;}
-
-		void GetWindowSize(int &w, int &h) {w=_winW;h=_winH;}
+		/// \param [out] _mouseX
+		/// \param [out] _mouseY
+		//----------------------------------------------------------------------------------
+		void GetMousePosition( int &_mouseX, int &_mouseY ) { _mouseX = m_mouseX; _mouseY = m_mouseY; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns mouse button
+		/// \return m_mouseButton
+		//----------------------------------------------------------------------------------
+		int GetMouseButton() { return m_mouseButton; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns window height and width
+		//----------------------------------------------------------------------------------
+		void GetWindowSize( int &_w, int &_h ) { _w = m_winW; _h = m_winH; }
+		//----------------------------------------------------------------------------------
 
 	protected:
-		EventType _type;
-		int _mouseX, _mouseY;
-		int _winW, _winH;
-		int _key;
-		int _mouseButton;
-		int _winID;
+
+		//----------------------------------------------------------------------------------
+		/// \brief Event type
+		//----------------------------------------------------------------------------------
+		EventType m_type;
+		//----------------------------------------------------------------------------------
+		/// \brief Mouse x-coord
+		//----------------------------------------------------------------------------------
+		int m_mouseX;
+		//----------------------------------------------------------------------------------
+		/// \brief Mouse y-coord
+		//----------------------------------------------------------------------------------
+		int m_mouseY;
+		//----------------------------------------------------------------------------------
+		/// \brief Window width
+		//----------------------------------------------------------------------------------
+		int m_winW;
+		//----------------------------------------------------------------------------------
+		/// \brief Window height
+		//----------------------------------------------------------------------------------
+		int m_winH;
+		//----------------------------------------------------------------------------------
+		/// \brief Key code
+		//----------------------------------------------------------------------------------
+		int m_key;
+		//----------------------------------------------------------------------------------
+		/// \brief Mouse button
+		//----------------------------------------------------------------------------------
+		int m_mouseButton;
+		//----------------------------------------------------------------------------------
+		/// \brief Window index
+		//----------------------------------------------------------------------------------
+		int m_winID;
+		//----------------------------------------------------------------------------------
 
 	};
-
 }
 
 #endif

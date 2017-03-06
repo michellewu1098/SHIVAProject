@@ -5,14 +5,14 @@
 
 ShivaGUI::ListView::ListView()
 {
-	_initialised = false;
+	m_initialised = false;
 }
 
 //----------------------------------------------------------------------------------
 
 ShivaGUI::ListView::~ListView()
 {
-	for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+	for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 	{
 		delete ( *it );
 	}
@@ -20,49 +20,49 @@ ShivaGUI::ListView::~ListView()
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ListView::NotifyDrawingContextChange( ResourceManager *resources )
+void ShivaGUI::ListView::NotifyDrawingContextChange( ResourceManager *_resources )
 {
-	for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+	for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 	{
-		( *it )->NotifyDrawingContextChange( resources );
+		( *it )->NotifyDrawingContextChange( _resources );
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ListView::Layout( int left, int top, int right, int bottom, int windowWidth, int windowHeight )
+void ShivaGUI::ListView::Layout( int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight )
 {
-	int lastBottom = top, n = 0;
-	float childSize = ( ( float )bottom - top ) / ( ( float )_children.size() );
-	for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+	int lastBottom = _top, n = 0;
+	float childSize = ( ( float )_bottom - _top ) / ( ( float )m_children.size() );
+	for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 	{
 		++n;
-		( *it )->Layout( left, lastBottom, right, ( lastBottom + ( int )childSize ), windowWidth, windowHeight );
-		lastBottom = top + ( int )( childSize * n );
+		( *it )->Layout( _left, lastBottom, _right, ( lastBottom + ( int )childSize ), _windowWidth, _windowHeight );
+		lastBottom = _top + ( int )( childSize * n );
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ListView::Update( float deltaTs, GUIController *guiController )
+void ShivaGUI::ListView::Update( float _deltaTs, GUIController *_guiController )
 {
-	if( !_initialised && _adapter != NULL  )
+	if( !m_initialised && _adapter != NULL  )
 	{
 		int numChildren = _adapter->GetNumEntries();
 		for( int i = 0; i < numChildren; ++i )
 		{
-			_children.push_back( _adapter->GetView( i, guiController->GetResources() ) );
+			m_children.push_back( _adapter->GetView( i, _guiController->GetResources() ) );
 		}
 
 		RefreshConnectionLinks();
 
-		_initialised = true;
-		guiController->Layout();
+		m_initialised = true;
+		_guiController->Layout();
 	}
 
-	for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+	for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 	{
-		( *it )->Update( deltaTs, guiController );
+		( *it )->Update( _deltaTs, _guiController );
 	}
 }
 
@@ -70,7 +70,7 @@ void ShivaGUI::ListView::Update( float deltaTs, GUIController *guiController )
 
 void ShivaGUI::ListView::Draw()
 {
-	for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+	for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 	{
 		( *it )->Draw();
 	}
@@ -78,18 +78,18 @@ void ShivaGUI::ListView::Draw()
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ListView::Inflate( TiXmlElement *xmlElement, ResourceManager *resources, std::string themePrefix, bool rootNode )
+void ShivaGUI::ListView::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
-	if( themePrefix.empty() )
-		themePrefix = "ListView_";
-	View::Inflate( xmlElement, resources, themePrefix, rootNode );
+	if( _themePrefix.empty() )
+		_themePrefix = "ListView_";
+	View::Inflate( _xmlElement, _resources, _themePrefix, _rootNode );
 }
 
 //----------------------------------------------------------------------------------
 
-TiXmlElement* ShivaGUI::ListView::Deflate( ResourceManager *resources )
+TiXmlElement* ShivaGUI::ListView::Deflate( ResourceManager *_resources )
 {
-	TiXmlElement *xmlNode = View::Deflate( resources );
+	TiXmlElement *xmlNode = View::Deflate( _resources );
 	xmlNode->SetValue( "ListView" );
 
 	// Children don't get deflated because they are pulled from the DataAdapter
@@ -99,22 +99,22 @@ TiXmlElement* ShivaGUI::ListView::Deflate( ResourceManager *resources )
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ListView::SetFocus( bool value )
+void ShivaGUI::ListView::SetFocus( bool _value )
 {
 	// We give focus to our first child
-	if( _children.size() > 0 )
+	if( m_children.size() > 0 )
 	{
-		_children.front()->SetFocus( value );
+		m_children.front()->SetFocus( _value );
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-bool ShivaGUI::ListView::HandleEvent( InternalEvent *event )
+bool ShivaGUI::ListView::HandleEvent( InternalEvent *_event )
 {
 	bool absorbed = false;
-	for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
-		absorbed = absorbed || ( *it )->HandleEvent( event );
+	for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
+		absorbed = absorbed || ( *it )->HandleEvent( _event );
 	return absorbed;
 }
 
@@ -123,7 +123,7 @@ bool ShivaGUI::ListView::HandleEvent( InternalEvent *event )
 int ShivaGUI::ListView::GetWrapWidth()
 {
 	int maxWidth = 0;
-	for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+	for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 	{
 		int currentWidth = ( *it )->GetWrapWidth();
 		if( currentWidth > maxWidth )
@@ -137,7 +137,7 @@ int ShivaGUI::ListView::GetWrapWidth()
 int ShivaGUI::ListView::GetWrapHeight()
 {
 	int totalHeight = 0;
-	for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+	for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 	{
 		totalHeight += ( *it )->GetWrapHeight();
 	}
@@ -146,12 +146,12 @@ int ShivaGUI::ListView::GetWrapHeight()
 
 //----------------------------------------------------------------------------------
 
-int ShivaGUI::ListView::GetDataIndex( View *value )
+int ShivaGUI::ListView::GetDataIndex( View *_value )
 {
 	unsigned int i = 0;
-	for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+	for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 	{
-		if( ( *it ) == value )
+		if( ( *it ) == _value )
 			return i;
 		++i;
 	}
@@ -162,9 +162,9 @@ int ShivaGUI::ListView::GetDataIndex( View *value )
 
 void ShivaGUI::ListView::RefreshFromSource()
 {
-	for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+	for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 		delete ( *it );
-	_children.clear();
+	m_children.clear();
 
 	if( m_prevScan != NULL && m_nextScan != NULL )
 	{
@@ -173,14 +173,14 @@ void ShivaGUI::ListView::RefreshFromSource()
 		m_nextScan->SetNextScan( m_prevScan, false );
 	}
 
-	_initialised = false;
+	m_initialised = false;
 }
 
 //----------------------------------------------------------------------------------
 
 void ShivaGUI::ListView::RefreshConnectionLinks()
 {	
-	if( _children.size() > 0 )
+	if( m_children.size() > 0 )
 	{
 		if( m_prevScan != NULL && m_nextScan != NULL )
 		{
@@ -189,7 +189,7 @@ void ShivaGUI::ListView::RefreshConnectionLinks()
 			// First child links to what we've been told is the previous scan item
 			// Children link to each other
 			View *previous = m_prevScan, *current = NULL;
-			for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+			for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 			{
 				current = ( *it );
 
@@ -211,7 +211,7 @@ void ShivaGUI::ListView::RefreshConnectionLinks()
 			
 			if( m_isFirstScan ) // _children.front() is safe because _children.size() > 0
 			{
-				_children.front()->SetIsFirstScan( true );
+				m_children.front()->SetIsFirstScan( true );
 			}
 		}
 
@@ -221,7 +221,7 @@ void ShivaGUI::ListView::RefreshConnectionLinks()
 		View *focusRight = GetNextFocus( Definitions::Right );
 		View *focusUp = GetNextFocus( Definitions::Up );
 		View *focusDown = GetNextFocus( Definitions::Down );
-		for( std::vector< View* >::iterator it = _children.begin(); it != _children.end(); ++it )
+		for( std::vector< View* >::iterator it = m_children.begin(); it != m_children.end(); ++it )
 		{
 			if( focusLeft != this )
 			{
@@ -236,26 +236,26 @@ void ShivaGUI::ListView::RefreshConnectionLinks()
 
 		if( focusUp != NULL && focusUp != this )
 		{
-			_children.front()->SetNextFocus( focusUp, Definitions::Up );
+			m_children.front()->SetNextFocus( focusUp, Definitions::Up );
 		}
 		else
 		{
-			_children.front()->SetNextFocus( _children.back(), Definitions::Up );
+			m_children.front()->SetNextFocus( m_children.back(), Definitions::Up );
 		}
 
 
 		if( focusDown != NULL && focusDown != this )
 		{
-			_children.back()->SetNextFocus( focusDown, Definitions::Down );
+			m_children.back()->SetNextFocus( focusDown, Definitions::Down );
 		}
 		else
 		{
-			_children.back()->SetNextFocus( _children.front(), Definitions::Down );
+			m_children.back()->SetNextFocus( m_children.front(), Definitions::Down );
 		}
 
 		if( m_isFirstFocus )
 		{
-			_children.front()->SetIsFirstFocus( true );
+			m_children.front()->SetIsFirstFocus( true );
 		}
 	}	
 }
