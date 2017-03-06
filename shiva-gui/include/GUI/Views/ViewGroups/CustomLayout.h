@@ -9,6 +9,7 @@
 #define __SHIVA_GUISYSTEM_CUSTOMLAYOUT__
 
 #include <vector>
+#include <iostream>
 
 #include "GUI/Views/View.h"
 #include "GUI/Views/ViewGroups/ViewGroup.h"
@@ -34,20 +35,20 @@ namespace ShivaGUI
 		/// All Drawables loaded from file will be automatically reloaded,
 		/// but any locally-generated textures (e.g. text caches) must be remade here
 		/// This must be passed down to any children of the View
-		/// \param [in] resources
+		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
-		virtual void NotifyDrawingContextChange( ResourceManager *resources );
+		virtual void NotifyDrawingContextChange( ResourceManager *_resources );
 		//----------------------------------------------------------------------------------
 		/// \brief Gives the size of the View
 		/// If this View has children, it is expected to work out the size and location of these and call Layout() on them too
 		//----------------------------------------------------------------------------------
-		virtual void Layout( int left, int top, int right, int bottom, int windowWidth, int windowHeight );
+		virtual void Layout( int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight );
 		//----------------------------------------------------------------------------------
 		/// \brief Update function
-		/// \param [in] deltaTs
-		/// \param [in] guiController
+		/// \param [in] _deltaTs
+		/// \param [in] _guiController
 		//----------------------------------------------------------------------------------
-		virtual void Update( float deltaTs, GUIController *guiController );
+		virtual void Update( float _deltaTs, GUIController *_guiController );
 		//----------------------------------------------------------------------------------
 		/// \brief Needs to draw its children
 		//----------------------------------------------------------------------------------
@@ -61,51 +62,55 @@ namespace ShivaGUI
 		virtual std::string GetThemePrefix() { return "CustomLayout_"; }
 		//----------------------------------------------------------------------------------
 		/// \brief For setting the View's attributes from xml
+		/// \param [in] _xmlElement
+		/// \param [in] _resources
+		/// \param [in] _themePrefix
+		/// \param [in] _rootNode
 		//----------------------------------------------------------------------------------
-		virtual void Inflate( TiXmlElement*, ResourceManager*, std::string themePrefix = "", bool rootNode = false );
+		virtual void Inflate( TiXmlElement* _xmlElement, ResourceManager* _resources, std::string _themePrefix = "", bool _rootNode = false );
 		//----------------------------------------------------------------------------------
 		/// \brief For saving the View's attributes to xml
-		/// \param [in] resources
+		/// \param [in] _resources
 		/// \note This must be hierarchical and the element must include all child elements
 		//----------------------------------------------------------------------------------
-		virtual TiXmlElement* Deflate( ResourceManager *resources );
+		virtual TiXmlElement* Deflate( ResourceManager *_resources );
 		//----------------------------------------------------------------------------------
 		/// \brief Input event given to View, expected to filter down hierarchy
 		/// \return false if event is not absorbed (e.g. did not hit button etc)
 		//----------------------------------------------------------------------------------
-		virtual bool HandleEvent( InternalEvent* );
+		virtual bool HandleEvent( InternalEvent* _event );
 		//----------------------------------------------------------------------------------
 		/// \brief Adds a child view to the group
-		/// \param [in] value
-		/// \param [in] resources
+		/// \param [in] _value
+		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
-		virtual void AddView( View*, ResourceManager* );
+		virtual void AddView( View* _value, ResourceManager* _resources );
 		//----------------------------------------------------------------------------------
 		/// \brief For creating a relevant LayoutParams object from xml
 		/// LayoutParams are used by children of a ViewGroup to tell the parent ViewGroup how they want to be arranged
 		/// You must pass in the child element and this function should find the relevant attributes
 		//----------------------------------------------------------------------------------
-		virtual LayoutParams* InflateLayoutParams( TiXmlElement*, LayoutParams *params = NULL, std::string themePrefix = "" );
+		virtual LayoutParams* InflateLayoutParams( TiXmlElement* _xmlElement, LayoutParams *_params = NULL, std::string _themePrefix = "" );
 		//----------------------------------------------------------------------------------
 		/// \brief For transforming coordinates from literal screen pixel-coords into a proportional space relative to the parent's position and size
-		/// \param [in] inX
-		/// \param [in] inY
-		/// \param [out] outX
-		/// \param [out] outY
+		/// \param [in] _inX
+		/// \param [in] _inY
+		/// \param [out] _outX
+		/// \param [out] _outY
 		//----------------------------------------------------------------------------------
-		void GetCoordsAsProportion( int inX, int inY, float &outX, float &outY );
+		void GetCoordsAsProportion( int _inX, int _inY, float &_outX, float &_outY );
 		//----------------------------------------------------------------------------------
 		/// \brief For transforming width into proportional space relative to the parent's position and size
 		/// \param [in] widthIn
 		//----------------------------------------------------------------------------------
-		float GetWidthAsProportion( int widthIn );
+		float GetWidthAsProportion( int _widthIn );
 		//----------------------------------------------------------------------------------
 		/// \brief For transforming height into proportional space relative to the parent's position and size
 		/// \param [in] heigthIn
 		//----------------------------------------------------------------------------------
-		float GetHeightAsProportion( int heightIn );
+		float GetHeightAsProportion( int _heightIn );
 		//----------------------------------------------------------------------------------
-		int GridSnapPosition( int value );
+		int GridSnapPosition( int _value );
 		//----------------------------------------------------------------------------------
 
 	protected:
@@ -113,36 +118,38 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief Vector of views
 		//----------------------------------------------------------------------------------
-		std::vector< View* > _views;
+		std::vector< View* > m_views;
 		//----------------------------------------------------------------------------------
 		/// \brief Views that are part of the edit mode
 		//----------------------------------------------------------------------------------
-		std::vector< View* > _internalViews;
+		std::vector< View* > m_internalViews;
 		//----------------------------------------------------------------------------------
 		/// \brief If the layout is in its edit mode, to allow the user to move its children around etc
 		/// Edit select is a mode that is activated first, usually by a special key press, then the user must select the layout to edit, putting it in actual edit mode
-		bool _editSelect, _editMode;
+		bool m_editSelect;
+		//----------------------------------------------------------------------------------
+		bool m_editMode;
 		//----------------------------------------------------------------------------------
 		/// \brief Something to give a highlight when in edit mode
 		//----------------------------------------------------------------------------------
-		RectDrawable *_editDrawable;
+		RectDrawable *m_editDrawable;
 		//----------------------------------------------------------------------------------
 		/// \brief Button that appears in edit mode which allows the user to exit that mode
 		//----------------------------------------------------------------------------------
-		TextButton *_editExitButton;
+		TextButton *m_editExitButton;
 		//----------------------------------------------------------------------------------
 		/// \brief Button that appears in edit mode which allows the user to save the current layout
 		//----------------------------------------------------------------------------------
-		TextButton *_editSaveButton;
+		TextButton *m_editSaveButton;
 		//----------------------------------------------------------------------------------
 		/// \brief Set edit mode
-		/// \param [in] value
+		/// \param [in] _value
 		//----------------------------------------------------------------------------------
-		void SetEditMode( bool value );
+		void SetEditMode( bool _value );
 		//----------------------------------------------------------------------------------
 		/// \brief For laying out an individual View
 		//----------------------------------------------------------------------------------
-		void LayoutView( View *, int left, int top, int right, int bottom, int windowWidth, int windowHeight );
+		void LayoutView( View *_currentView, int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight );
 		//----------------------------------------------------------------------------------
 		// Used to get events from our buttons
 		//----------------------------------------------------------------------------------
@@ -154,14 +161,14 @@ namespace ShivaGUI
 			/// \brief Ctor
 			/// \param [in] parent
 			//----------------------------------------------------------------------------------
-			CustomLayoutEventHandler( CustomLayout *parent );
+			CustomLayoutEventHandler( CustomLayout *_parent );
 			//----------------------------------------------------------------------------------
 			/// \brif Function to handle events
 			/// \param [in] view
 			//----------------------------------------------------------------------------------
-			virtual void HandleEvent( View *view )
+			virtual void HandleEvent( View *_view )
 			{
-				_parent->CustomEventReceived( this, view );
+				m_parent->CustomEventReceived( this, _view );
 			}
 			//----------------------------------------------------------------------------------
 
@@ -170,7 +177,7 @@ namespace ShivaGUI
 			//----------------------------------------------------------------------------------
 			/// \brief Parent layout
 			//----------------------------------------------------------------------------------
-			CustomLayout *_parent;
+			CustomLayout *m_parent;
 			//----------------------------------------------------------------------------------
 		};
 
@@ -181,23 +188,26 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief Event handlers for exit button press
 		//----------------------------------------------------------------------------------
-		CustomLayoutEventHandler *_handlerExitButton;
+		CustomLayoutEventHandler *m_handlerExitButton;
 		//----------------------------------------------------------------------------------
 		/// \brief Event handlers for save button press
 		//----------------------------------------------------------------------------------
-		CustomLayoutEventHandler *_handlerSaveButton;
+		CustomLayoutEventHandler *m_handlerSaveButton;
 		//----------------------------------------------------------------------------------
 		/// \brief Set if we've had children added and need Layout to be called again
 		//----------------------------------------------------------------------------------
-		bool _needLayout;
+		bool m_needLayout;
 		//----------------------------------------------------------------------------------
 		/// \brief Will save the layout on next Update() call
 		//----------------------------------------------------------------------------------
-		bool _needSave;
+		bool m_needSave;
 		//----------------------------------------------------------------------------------
-		bool _useGridSnap;
+		/// \brief Whether to use grid snap
+		bool m_useGridSnap;
 		//----------------------------------------------------------------------------------
-		int _gridSnapSize;
+		/// \brief Grid snap size
+		//----------------------------------------------------------------------------------
+		int m_gridSnapSize;
 		//----------------------------------------------------------------------------------
 
 	};

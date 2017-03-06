@@ -1,11 +1,17 @@
 #include "GUI/Views/ViewGroups/LinearLayoutParams.h"
 
+//----------------------------------------------------------------------------------
+
 ShivaGUI::LinearLayoutParams::LinearLayoutParams() : LayoutParams()
 {
-	_weight = 1.0f;
+	m_weight = 1.0f;
 }
 
-ShivaGUI::LinearLayoutParams::LinearLayoutParams(float weight) : LayoutParams()
+//----------------------------------------------------------------------------------
+
+ShivaGUI::LinearLayoutParams::LinearLayoutParams( float _weight) : LayoutParams()
 {
-	_weight = weight;
+	m_weight = _weight;
 }
+
+//----------------------------------------------------------------------------------

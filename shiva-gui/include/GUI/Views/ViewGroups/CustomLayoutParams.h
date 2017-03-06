@@ -1,45 +1,72 @@
+///-----------------------------------------------------------------------------------------------
+/// \file CustomLayoutParams.h
+/// \brief Views use these for storing info about how the it wants to be arranged inside the Layout
+/// \author Leigh McLoughlin
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 #ifndef __SHIVA_GUISYSTEM_CUSTOMLAYOUTPARAMS__
 #define __SHIVA_GUISYSTEM_CUSTOMLAYOUTPARAMS__
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 
-
-//////////////////////////////////////////////////////////////////////////
 #include "GUI/Views/ViewGroups/LayoutParams.h"
+#include "Utility/tinyxml.h"
 
-//////////////////////////////////////////////////////////////////////////
 
 namespace ShivaGUI
 {
-
-	/// Views use these for storing info about how the it wants to be arranged inside the Layout
 	class CustomLayoutParams : public LayoutParams
 	{
 	public:
 
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor
+		//----------------------------------------------------------------------------------
 		CustomLayoutParams();
-
-		/// For saving the LayoutParam's attributes to xml
-		virtual void Deflate(TiXmlElement*,ResourceManager *resources);
-
+		//----------------------------------------------------------------------------------
+		/// \brief For saving the LayoutParam's attributes to xml
+		/// \param [in] _xmlElement
+		/// \param [in] _resources
+		//----------------------------------------------------------------------------------
+		virtual void Deflate( TiXmlElement* _xmlElement, ResourceManager *_resources );
+		//----------------------------------------------------------------------------------
 		// Use the base class's GetWidth/HeightPercent() for the width and height of the View
-
-		// These positions are a proportion of the parent layout and must lie between 0 and 1
-		void SetCentreX(float value) {_centreX = norm(value);}
-		void SetCentreY(float value) {_centreY = norm(value);}
-		float GetCentreX() {return _centreX;}
-		float GetCentreY() {return _centreY;}
+		//----------------------------------------------------------------------------------
+		/// \brief Set centre x-coord. These positions are a proportion of the parent layout and must lie between 0 and 1
+		//----------------------------------------------------------------------------------
+		void SetCentreX( float _value ) { m_centreX = norm( _value ); }
+		//----------------------------------------------------------------------------------
+		/// \brief Set centre y-coord. These positions are a proportion of the parent layout and must lie between 0 and 1
+		//----------------------------------------------------------------------------------
+		void SetCentreY( float _value ) { m_centreY = norm( _value ); }
+		//----------------------------------------------------------------------------------
+		/// \brief Get centre x-coord
+		/// \return m_centreX
+		//----------------------------------------------------------------------------------
+		float GetCentreX() { return m_centreX; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get centre y-coord
+		/// \return m_centreY
+		//----------------------------------------------------------------------------------
+		float GetCentreY() { return m_centreY; }
+		//----------------------------------------------------------------------------------
 
 	protected:
-		float _centreX, _centreY;
 
-		float norm(float);
+		//----------------------------------------------------------------------------------
+		/// \brief Centre x-coord
+		//----------------------------------------------------------------------------------
+		float m_centreX;
+		//----------------------------------------------------------------------------------
+		/// \brief Centre y-coord
+		//----------------------------------------------------------------------------------
+		float m_centreY;
+		//----------------------------------------------------------------------------------
+		/// \brief Normalise
+		//----------------------------------------------------------------------------------
+		float norm( float );
+		//----------------------------------------------------------------------------------
+
 	};
-
 }
 
-//////////////////////////////////////////////////////////////////////////
 #endif

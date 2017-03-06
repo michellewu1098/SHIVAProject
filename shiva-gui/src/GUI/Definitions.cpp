@@ -1,15 +1,18 @@
-
 #include "GUI/Definitions.h"
 
-ShivaGUI::Definitions::FocusDirection ShivaGUI::Definitions::GetOppositeFocusDirection(FocusDirection dir)
+//----------------------------------------------------------------------------------
+
+ShivaGUI::Definitions::FocusDirection ShivaGUI::Definitions::GetOppositeFocusDirection( FocusDirection _dir )
 {
-	if( dir == Left )
+	if( _dir == Left )
 		return Right;
-	if( dir == Right )
+	if( _dir == Right )
 		return Left;
-	if( dir == Up )
+	if( _dir == Up )
 		return Down;
-	if( dir == Down )
+	if( _dir == Down )
 		return Up;
 	return INVALID;
 }
+
+//----------------------------------------------------------------------------------

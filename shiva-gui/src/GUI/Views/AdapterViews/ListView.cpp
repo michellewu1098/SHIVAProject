@@ -46,12 +46,12 @@ void ShivaGUI::ListView::Layout( int _left, int _top, int _right, int _bottom, i
 
 void ShivaGUI::ListView::Update( float _deltaTs, GUIController *_guiController )
 {
-	if( !m_initialised && _adapter != NULL  )
+	if( !m_initialised && m_adapter != NULL  )
 	{
-		int numChildren = _adapter->GetNumEntries();
+		int numChildren = m_adapter->GetNumEntries();
 		for( int i = 0; i < numChildren; ++i )
 		{
-			m_children.push_back( _adapter->GetView( i, _guiController->GetResources() ) );
+			m_children.push_back( m_adapter->GetView( i, _guiController->GetResources() ) );
 		}
 
 		RefreshConnectionLinks();

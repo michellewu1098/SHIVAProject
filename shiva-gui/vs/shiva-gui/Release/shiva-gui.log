@@ -1,28 +1,17 @@
-﻿Build started 06/03/2017 13:05:05.
+﻿Build started 06/03/2017 15:12:59.
      1>Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\shiva-gui.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_image" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_ttf" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_mixer" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\GUIManager.cpp ..\..\src\GUI\Views\AdapterViews\AdapterView.cpp ..\..\src\GUI\Views\AdapterViews\DataAdapter.cpp ..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp ..\..\src\GUI\Views\AdapterViews\ListView.cpp ..\..\src\ResourceManager.cpp ..\..\src\System\Activities\FilesystemDataProvider.cpp ..\..\src\System\Activities\ProfileChooserActivity.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_image" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_ttf" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_mixer" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\GUIManager.cpp ..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp ..\..\src\GUI\Views\AdapterViews\ListView.cpp ..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp ..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp ..\..\src\GUI\Views\ViewGroups\LinearLayout.cpp ..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp ..\..\src\GUI\Views\ViewGroups\ViewGroup.cpp ..\..\src\ResourceManager.cpp ..\..\src\System\Activities\ProfileChooserActivity.cpp
          GUIManager.cpp
-         AdapterView.cpp
-         DataAdapter.cpp
          LayoutAdapterView.cpp
-     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(57): error C2065: '_adapter' : undeclared identifier
-     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(59): error C2065: '_adapter' : undeclared identifier
-     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(59): error C2227: left of '->GetNumEntries' must point to class/struct/union/generic type
-                 type is ''unknown-type''
-     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(62): error C2065: '_adapter' : undeclared identifier
-     1>..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp(62): error C2227: left of '->GetView' must point to class/struct/union/generic type
-                 type is ''unknown-type''
          ListView.cpp
-     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(49): error C2065: '_adapter' : undeclared identifier
-     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(51): error C2065: '_adapter' : undeclared identifier
-     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(51): error C2227: left of '->GetNumEntries' must point to class/struct/union/generic type
-                 type is ''unknown-type''
-     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(54): error C2065: '_adapter' : undeclared identifier
-     1>..\..\src\GUI\Views\AdapterViews\ListView.cpp(54): error C2227: left of '->GetView' must point to class/struct/union/generic type
-                 type is ''unknown-type''
+         CustomLayout.cpp
+         CustomLayoutElement.cpp
+         LinearLayout.cpp
+         ScrollContainer.cpp
+         ViewGroup.cpp
          ResourceManager.cpp
      1>C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
                  C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
@@ -47,10 +36,70 @@
                      Layout=cml::col_major,
                      E=float
                  ]
-         FilesystemDataProvider.cpp
          ProfileChooserActivity.cpp
-     1>Done Building Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" (build target(s)) -- FAILED.
+       Lib:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib" GLee.lib Opengl32.lib SDL2.lib SDL2main.lib SDL2_mixer.lib SDL2_ttf.lib glew32.lib /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\glee" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL\SDL\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL\SDLmain\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_image\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_mixer\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_ttf\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\glew" /NOLOGO /LTCG Release\GUIManager.obj
+         Release\ImageTextButton.obj
+         Release\ResourceManager.obj
+         Release\Debouncer.obj
+         Release\InputController.obj
+         Release\InputEvent.obj
+         Release\InternalEvent.obj
+         Release\Autoscanner.obj
+         Release\Scanner.obj
+         Release\fbo.obj
+         Release\GPUProgram.obj
+         Release\GPUShader.obj
+         Release\GPUVariable.obj
+         Release\tinystr.obj
+         Release\tinyxml.obj
+         Release\tinyxmlerror.obj
+         Release\tinyxmlparser.obj
+         Release\Definitions.obj
+         Release\GUIController.obj
+         Release\BitmapDrawable.obj
+         Release\Drawable.obj
+         Release\LayeredImageDrawable.obj
+         Release\NinePatch.obj
+         Release\RectDrawable.obj
+         Release\StateListDrawable.obj
+         Release\ColourSelector.obj
+         Release\ImageButton.obj
+         Release\Slider.obj
+         Release\TextButton.obj
+         Release\TextView.obj
+         Release\View.obj
+         Release\AdapterView.obj
+         Release\DataAdapter.obj
+         Release\LayoutAdapterView.obj
+         Release\ListView.obj
+         Release\CustomLayout.obj
+         Release\CustomLayoutElement.obj
+         Release\CustomLayoutParams.obj
+         Release\LayoutParams.obj
+         Release\LinearLayout.obj
+         Release\LinearLayoutParams.obj
+         Release\ScrollContainer.obj
+         Release\ViewGroup.obj
+         Release\Activity.obj
+         Release\Bundle.obj
+         Release\ProfileManager.obj
+         Release\SharedPreferences.obj
+         Release\Window.obj
+         Release\FilesystemDataProvider.obj
+         Release\ProfileChooserActivity.obj
+         Release\AudioClip.obj
+         Release\AudioManager.obj
+     1>SDL2.lib(SDL2.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_mixer.lib(SDL2_mixer.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_ttf.lib(SDL2_ttf.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>glew32.lib(glew32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+         shiva-gui.vcxproj -> C:\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib
+       FinalizeBuildStatus:
+         Deleting file "Release\shiva-gui.unsuccessfulbuild".
+         Touching "Release\shiva-gui.lastbuildstate".
+     1>Done Building Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" (build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:21.16
+Time Elapsed 00:00:32.35

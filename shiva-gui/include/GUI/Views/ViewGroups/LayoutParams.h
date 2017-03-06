@@ -1,92 +1,232 @@
+///-----------------------------------------------------------------------------------------------
+/// \file LayoutParams.h
+/// \brief Views use these for storing info about how the it wants to be arranged inside the Layout 
+/// \author Leigh McLoughlin
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 #ifndef __SHIVA_GUISYSTEM_LAYOUTPARAMS__
 #define __SHIVA_GUISYSTEM_LAYOUTPARAMS__
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 
-
-//////////////////////////////////////////////////////////////////////////
+#include "Utility/tinyxml.h"
 
 class TiXmlElement;
-
-//////////////////////////////////////////////////////////////////////////
 
 namespace ShivaGUI
 {
 	class ResourceManager;
 
-	/// Views use these for storing info about how the it wants to be arranged inside the Layout
 	class LayoutParams
 	{
 	public:
 
+		//----------------------------------------------------------------------------------
+		/// \brief Fill types
+		//----------------------------------------------------------------------------------
 		enum FillType
 		{
 			FILL_PARENT,
 			WRAP_CONTENT,
 			PERCENTAGE_PARENT	// A percentage of the parent's size
 		};
-
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor
+		//----------------------------------------------------------------------------------
 		LayoutParams();
-		LayoutParams(float width, float height);
-		LayoutParams( FillType width, FillType height );
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor passing width and height percent
+		/// \param [in] _width
+		/// \param [in] _height
+		//----------------------------------------------------------------------------------
+		LayoutParams( float _width, float _height );
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor passing width and height const
+		/// \param [in] _width
+		/// \param [in] _height
+		//----------------------------------------------------------------------------------
+		LayoutParams( FillType _width, FillType _height );
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor
+		//----------------------------------------------------------------------------------
 		virtual ~LayoutParams();
-
-		/// For saving the LayoutParam's attributes to xml
-		virtual void Deflate(TiXmlElement*,ResourceManager *resources);
-
-
-		/// Specifies that the basic layout size is given in percentages
-		bool GetSizeUsesPercent() {return _usesPercent;}
-
-		/// Specifies that the basic layout size is given with a special const that matches the parent in some way
-		bool GetSizeUsesConst() {return _usesConst;}
-
-		void SetHeightPercent(float value) {_heightPercent=value; _usesPercent = true; _usesConst = false;}
-		void SetWidthPercent(float value) {_widthPercent=value; _usesPercent = true; _usesConst = false;}
-		float GetHeightPercent() {return _heightPercent;}
-		float GetWidthPercent() {return _widthPercent;}
-
-		void SetHeightConst( FillType value ) {_heightConst=value;}
-		void SetWidthConst( FillType value ) {_widthConst=value;}
-		FillType GetHeightConst() {return _heightConst;}
-		FillType GetWidthConst() {return _widthConst;}
-
-		int GetPaddingLeft()   {return _paddingLeft;}
-		int GetPaddingRight()  {return _paddingRight;}
-		int GetPaddingTop()    {return _paddingTop;}
-		int GetPaddingBottom() {return _paddingBottom;}
-
-		void SetPadding(int left, int right, int bottom, int top) {_paddingLeft=left;_paddingRight=right;_paddingBottom=bottom;_paddingTop=top;}
-		void SetPaddingLeft(int value)  {_paddingLeft=value;}
-		void SetPaddingRight(int value) {_paddingRight=value;}
-		void SetPaddingTop(int value)    {_paddingTop=value;}
-		void SetPaddingBottom(int value)  {_paddingBottom=value;}
-
-		/// The pixel sizes requested when using WRAP_CONTENT
-		void SetWrapWidth(int value) {_wrapWidth=value;}
-		void SetWrapHeight(int value) {_wrapHeight=value;}
-		int GetWrapWidth(){return _wrapWidth;}
-		int GetWrapHeight(){return _wrapHeight;}
+		//----------------------------------------------------------------------------------
+		/// \brief For saving the LayoutParam's attributes to xml
+		//----------------------------------------------------------------------------------
+		virtual void Deflate( TiXmlElement* _xmlNode, ResourceManager *_resources );
+		//----------------------------------------------------------------------------------
+		/// \brief Specifies that the basic layout size is given in percentages
+		/// \return m_usesPercent
+		//----------------------------------------------------------------------------------
+		bool GetSizeUsesPercent() const { return m_usesPercent; }
+		//----------------------------------------------------------------------------------
+		/// \brief Specifies that the basic layout size is given with a special const that matches the parent in some way
+		//----------------------------------------------------------------------------------
+		bool GetSizeUsesConst() const { return m_usesConst; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set height percent
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetHeightPercent( float _value) { m_heightPercent = _value; m_usesPercent = true; m_usesConst = false; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set width percent
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetWidthPercent( float _value) { m_widthPercent = _value; m_usesPercent = true; m_usesConst = false; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns height percent
+		//----------------------------------------------------------------------------------
+		float GetHeightPercent() const { return m_heightPercent; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns width percent
+		//----------------------------------------------------------------------------------
+		float GetWidthPercent() const { return m_widthPercent; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set height constant
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetHeightConst( FillType _value ) { m_heightConst = _value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set width constant
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetWidthConst( FillType _value ) { m_widthConst = _value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns height constant
+		/// \return m_heightConst
+		//----------------------------------------------------------------------------------
+		FillType GetHeightConst() { return m_heightConst; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns width constant
+		/// \return m_widthConst
+		//----------------------------------------------------------------------------------
+		FillType GetWidthConst() { return m_widthConst; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns padding left
+		/// \return m_paddingLeft
+		//----------------------------------------------------------------------------------
+		int GetPaddingLeft()   { return m_paddingLeft; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns padding right
+		/// \return m_paddingRight
+		//----------------------------------------------------------------------------------
+		int GetPaddingRight()  { return m_paddingRight; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns padding top
+		/// \return m_paddingTop
+		//----------------------------------------------------------------------------------
+		int GetPaddingTop()    { return m_paddingTop; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns padding bottom
+		/// \return m_paddingBottom
+		//----------------------------------------------------------------------------------
+		int GetPaddingBottom() { return m_paddingBottom; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set padding
+		/// \param [in] _left
+		/// \param [in] _right
+		/// \param [in] _bottom 
+		/// \param [in] _top
+		//----------------------------------------------------------------------------------
+		void SetPadding( int _left, int _right, int _bottom, int _top ) { m_paddingLeft = _left; m_paddingRight = _right; m_paddingBottom = _bottom; m_paddingTop = _top; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set padding left
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetPaddingLeft( int _value )   { m_paddingLeft = _value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set padding right
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetPaddingRight( int _value )  { m_paddingRight = _value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set padding top
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetPaddingTop( int _value )    { m_paddingTop = _value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set padding bottom
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetPaddingBottom( int _value ) { m_paddingBottom = _value; }
+		//----------------------------------------------------------------------------------
+		// The pixel sizes requested when using WRAP_CONTENT
+		//----------------------------------------------------------------------------------
+		/// \brief Set wrap width
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetWrapWidth( int _value ) { m_wrapWidth = _value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set wrap height
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetWrapHeight( int _value ) { m_wrapHeight = _value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set wrap width
+		/// \return m_wrapWidth
+		//----------------------------------------------------------------------------------
+		int GetWrapWidth() { return m_wrapWidth; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set wrap width
+		/// \return m_wrapHeight
+		//----------------------------------------------------------------------------------
+		int GetWrapHeight() { return m_wrapHeight; }
+		//----------------------------------------------------------------------------------
 
 	protected:
-		/// These are percentages
-		float _heightPercent, _widthPercent;
 
-		FillType _heightConst, _widthConst;
-
-		bool _usesPercent, _usesConst;
-
-		/// Inset padding, in pixel sizes
-		int _paddingLeft, _paddingRight, _paddingTop, _paddingBottom;
-
-		int _wrapWidth, _wrapHeight;
+		//----------------------------------------------------------------------------------
+		/// \brief Height percent
+		//----------------------------------------------------------------------------------
+		float m_heightPercent;
+		//----------------------------------------------------------------------------------
+		/// \brief Width percent
+		//----------------------------------------------------------------------------------
+		float m_widthPercent;
+		//----------------------------------------------------------------------------------
+		/// \brief Height constant
+		FillType m_heightConst;
+		//----------------------------------------------------------------------------------
+		/// \brief Width constant
+		//----------------------------------------------------------------------------------
+		FillType m_widthConst;
+		//----------------------------------------------------------------------------------
+		/// \brief If it uses percent
+		//----------------------------------------------------------------------------------
+		bool m_usesPercent;
+		//----------------------------------------------------------------------------------
+		/// \brief If it uses constant
+		//----------------------------------------------------------------------------------
+		bool m_usesConst;
+		//----------------------------------------------------------------------------------
+		// Inset padding, in pixel sizes
+		//----------------------------------------------------------------------------------
+		/// \brief Left padding
+		//----------------------------------------------------------------------------------
+		int m_paddingLeft;
+		//----------------------------------------------------------------------------------
+		/// \brief Right padding
+		//----------------------------------------------------------------------------------
+		int m_paddingRight;
+		//----------------------------------------------------------------------------------
+		/// \biref Top padding
+		//----------------------------------------------------------------------------------
+		int m_paddingTop;
+		//----------------------------------------------------------------------------------
+		/// \brief Bottom padding
+		//----------------------------------------------------------------------------------
+		int m_paddingBottom;
+		//----------------------------------------------------------------------------------
+		/// \brief Wrap width
+		//----------------------------------------------------------------------------------
+		int m_wrapWidth;
+		//----------------------------------------------------------------------------------
+		/// \brief Wrap height
+		//----------------------------------------------------------------------------------
+		int m_wrapHeight;
+		//----------------------------------------------------------------------------------
 
 	};
-
 }
 
-//////////////////////////////////////////////////////////////////////////
+
 #endif

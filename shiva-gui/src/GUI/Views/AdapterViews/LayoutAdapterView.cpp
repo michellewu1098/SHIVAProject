@@ -54,12 +54,12 @@ void ShivaGUI::LayoutAdapterView::Layout( int _left, int _top, int _right, int _
 
 void ShivaGUI::LayoutAdapterView::Update( float _deltaTs, GUIController *_guiController )
 {
-	if( !m_initialised && _adapter != NULL  )
+	if( !m_initialised && m_adapter != NULL  )
 	{
-		int numChildren = _adapter->GetNumEntries();
+		int numChildren = m_adapter->GetNumEntries();
 		for( int i = 0; i < numChildren; ++i )
 		{
-			View *currentChild = _adapter->GetView( i, _guiController->GetResources() );
+			View *currentChild = m_adapter->GetView( i, _guiController->GetResources() );
 			if( currentChild != NULL )
 			{
 				m_children.push_back( currentChild );

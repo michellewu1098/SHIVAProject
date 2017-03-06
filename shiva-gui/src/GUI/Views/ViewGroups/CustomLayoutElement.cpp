@@ -1,47 +1,47 @@
-
 #include "GUI/Views/ViewGroups/CustomLayout.h"
 #include "GUI/Views/ViewGroups/CustomLayoutElement.h"
 #include "GUI/Views/ViewGroups/CustomLayoutParams.h"
 
-//////////////////////////////////////////////////////////////////////////
-#include <iostream>
+//----------------------------------------------------------------------------------
 
-ShivaGUI::CustomLayoutElement::CustomLayoutElement(View *child, ResourceManager *resources, CustomLayout *parent)
+ShivaGUI::CustomLayoutElement::CustomLayoutElement( View *_child, ResourceManager *_resources, CustomLayout *_parent )
 {
-	_child = child;
-	_parent = parent;
+	m_child = _child;
+	m_parent = _parent;
 
-	_editDrawable = new RectDrawable();
-	_editDrawable->SetFillColour(0.9f,0.5f,0.4f,0.3f);
-	_editDrawable->SetBorderColour(0.9f,0.5f,0.4f,1.0f);
+	m_editDrawable = new RectDrawable();
+	m_editDrawable->SetFillColour( 0.9f, 0.5f, 0.4f, 0.3f );
+	m_editDrawable->SetBorderColour( 0.9f, 0.5f, 0.4f, 1.0f );
 
-	_resizeDrawable = new RectDrawable();
-	_resizeDrawable->SetFillColour(0.9f,0.5f,0.4f,0.3f);
-	_resizeDrawable->SetBorderColour(0.9f,0.5f,0.4f,1.0f);
+	m_resizeDrawable = new RectDrawable();
+	m_resizeDrawable->SetFillColour( 0.9f, 0.5f, 0.4f, 0.3f );
+	m_resizeDrawable->SetBorderColour( 0.9f, 0.5f, 0.4f, 1.0f );
 
-	_eventHandler = new CustomElementEventHandler(this);
+	m_eventHandler = new CustomElementEventHandler( this );
 
 
-	_editVisibilityButton = new ImageButton();
+	m_editVisibilityButton = new ImageButton();
 	CustomLayoutParams *buttonParams = new CustomLayoutParams();
-	buttonParams->SetWidthConst(LayoutParams::PERCENTAGE_PARENT);
-	buttonParams->SetHeightConst(LayoutParams::PERCENTAGE_PARENT);
-	buttonParams->SetWidthPercent(0.1f);
-	buttonParams->SetHeightPercent(0.1f);
-	buttonParams->SetCentreX(0.5f);
-	buttonParams->SetCentreY(0.9f);
+	buttonParams->SetWidthConst( LayoutParams::PERCENTAGE_PARENT );
+	buttonParams->SetHeightConst( LayoutParams::PERCENTAGE_PARENT );
+	buttonParams->SetWidthPercent( 0.1f );
+	buttonParams->SetHeightPercent( 0.1f );
+	buttonParams->SetCentreX( 0.5f );
+	buttonParams->SetCentreY( 0.9f );
 	//_editVisibilityButton->SetText("Visible",resources);
-		// Set background images
-		RectDrawable *bgd = new RectDrawable();
-		bgd->SetFillColour(0.4f,0.0f,0.6f,0.1f);
-		bgd->SetBorderColour(0.4f,0.0f,0.6f,0.8f);
-	_editVisibilityButton->SetVisibility(false);
-	_editVisibilityButton->SetBackground(bgd);
-	_editVisibilityButton->SetLayoutParams(buttonParams);		// Must be done last, as it gets the size here
-	_editVisibilityButton->SetOnClickListener(_eventHandler);
-	_internalViews.push_back(_editVisibilityButton);
+	
+	// Set background images
+	RectDrawable *bgd = new RectDrawable();
+	bgd->SetFillColour( 0.4f, 0.0f, 0.6f, 0.1f );
+	bgd->SetBorderColour( 0.4f, 0.0f, 0.6f, 0.8f );
+	
+	m_editVisibilityButton->SetVisibility( false );
+	m_editVisibilityButton->SetBackground( bgd );
+	m_editVisibilityButton->SetLayoutParams( buttonParams );		// Must be done last, as it gets the size here
+	m_editVisibilityButton->SetOnClickListener( m_eventHandler );
+	m_internalViews.push_back( m_editVisibilityButton );
 
-	_editWrapSizeButton = new ImageButton();
+	m_editWrapSizeButton = new ImageButton();
 	buttonParams = new CustomLayoutParams();
 	buttonParams->SetWidthConst(LayoutParams::PERCENTAGE_PARENT);
 	buttonParams->SetHeightConst(LayoutParams::PERCENTAGE_PARENT);
@@ -50,86 +50,96 @@ ShivaGUI::CustomLayoutElement::CustomLayoutElement(View *child, ResourceManager 
 	buttonParams->SetCentreX(0.1f);
 	buttonParams->SetCentreY(0.9f);
 	//_editWrapSizeButton->SetText("Size Wrap",resources);
-		// Set background images
-		bgd = new RectDrawable();
-		bgd->SetFillColour(0.4f,0.0f,0.6f,0.1f);
-		bgd->SetBorderColour(0.4f,0.0f,0.6f,0.8f);
-	_editWrapSizeButton->SetVisibility(false);
-	_editWrapSizeButton->SetBackground(bgd);
-	_editWrapSizeButton->SetLayoutParams(buttonParams);		// Must be done last, as it gets the size here
-	_editWrapSizeButton->SetOnClickListener(_eventHandler);
-	_internalViews.push_back(_editWrapSizeButton);
 
-	_selected = _dragSelected = _resizeSelected = false;
-	_selectedX = _selectedY = 0.0f;
-	_selectedXProp = _selectedYProp = 0.0f;
-	_selectedWidth = _selectedHeight = 0.0f;
+	// Set background images
+	bgd = new RectDrawable();
+	bgd->SetFillColour( 0.4f, 0.0f, 0.6f, 0.1f );
+	bgd->SetBorderColour( 0.4f, 0.0f, 0.6f, 0.8f );
+
+	m_editWrapSizeButton->SetVisibility( false );
+	m_editWrapSizeButton->SetBackground( bgd );
+	m_editWrapSizeButton->SetLayoutParams( buttonParams );		// Must be done last, as it gets the size here
+	m_editWrapSizeButton->SetOnClickListener( m_eventHandler );
+	m_internalViews.push_back( m_editWrapSizeButton );
+
+	m_selected = m_dragSelected = m_resizeSelected = false;
+	m_selectedX = m_selectedY = 0.0f;
+	m_selectedXProp = m_selectedYProp = 0.0f;
+	m_selectedWidth = m_selectedHeight = 0.0f;
 
 }
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::CustomLayoutElement::~CustomLayoutElement()
 {
 	// Must not delete child
-	for( std::vector<View*>::iterator it = _internalViews.begin(); it != _internalViews.end(); ++it )
+	for( std::vector< View* >::iterator it = m_internalViews.begin(); it != m_internalViews.end(); ++it )
 	{
 		delete *it;
 	}
-	delete _editDrawable;
+	delete m_editDrawable;
 	//delete _editVisibilityButton; // This is in the _internalViews vector
-	delete _eventHandler;
+	delete m_eventHandler;
 }
 
-void ShivaGUI::CustomLayoutElement::NotifyDrawingContextChange(ResourceManager *resources)
-{
-	_child->NotifyDrawingContextChange(resources);
+//----------------------------------------------------------------------------------
 
-	for( std::vector<View*>::iterator it = _internalViews.begin(); it != _internalViews.end(); ++it )
+void ShivaGUI::CustomLayoutElement::NotifyDrawingContextChange( ResourceManager *_resources )
+{
+	m_child->NotifyDrawingContextChange( _resources );
+
+	for( std::vector< View* >::iterator it = m_internalViews.begin(); it != m_internalViews.end(); ++it )
 	{
-		(*it)->NotifyDrawingContextChange(resources);
+		( *it )->NotifyDrawingContextChange( _resources );
 	}
 }
 
-void ShivaGUI::CustomLayoutElement::Layout(int left, int top, int right, int bottom, int windowWidth, int windowHeight)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::CustomLayoutElement::Layout( int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight )
 {
-	View::Layout(left,top,right,bottom,windowWidth,windowHeight);
+	View::Layout( _left, _top, _right, _bottom, _windowWidth, _windowHeight );
 
 	//std::cout<<"INFO: CustomLayoutElement::Layout: left="<<left<<" top="<<top<<" right="<<right<<" bottom="<<bottom<<std::endl;
 
-	if( _editDrawable != NULL )
+	if( m_editDrawable != NULL )
 	{
-		_editDrawable->SetBounds( ( float )left, ( float )top, ( float )right, ( float )bottom, Definitions::CENTRE );
+		m_editDrawable->SetBounds( ( float )_left, ( float )_top, ( float )_right, ( float )_bottom, Definitions::CENTRE );
 	}
 
-	if( _resizeDrawable != NULL )
+	if( m_resizeDrawable != NULL )
 	{
-		_resizeDrawable->SetBounds( ( float )right - 20.f, ( float )bottom - 20.f, ( float )right, ( float )bottom, Definitions::CENTRE );
+		m_resizeDrawable->SetBounds( ( float )_right - 20.f, ( float )_bottom - 20.f, ( float )_right, ( float )_bottom, Definitions::CENTRE );
 	}
 
-	if( _child != NULL )
+	if( m_child != NULL )
 	{
-		_child->Layout(left,top,right,bottom,windowWidth,windowHeight);
-		//LayoutView(_child, left, top, right, bottom, windowWidth, windowHeight);
+		m_child->Layout( _left, _top, _right, _bottom, _windowWidth, _windowHeight );
 	}
 
-	for( std::vector<View*>::iterator it = _internalViews.begin(); it != _internalViews.end(); ++it )
+	for( std::vector<View*>::iterator it = m_internalViews.begin(); it != m_internalViews.end(); ++it )
 	{
-		LayoutView(*it, left, top, right, bottom, windowWidth, windowHeight);
+		LayoutView(*it, _left, _top, _right, _bottom, _windowWidth, _windowHeight );
 	}
-
 }
 
-void ShivaGUI::CustomLayoutElement::Update(float deltaTs, GUIController *guiController)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::CustomLayoutElement::Update( float _deltaTs, GUIController *_guiController )
 {
-	if( _child != NULL )
+	if( m_child != NULL )
 	{
-		_child->Update(deltaTs,guiController);
+		m_child->Update( _deltaTs, _guiController );
 	}
 
-	for( std::vector<View*>::iterator it = _internalViews.begin(); it != _internalViews.end(); ++it )
+	for( std::vector<View*>::iterator it = m_internalViews.begin(); it != m_internalViews.end(); ++it )
 	{
-		(*it)->Update(deltaTs,guiController);
+		(*it)->Update( _deltaTs, _guiController );
 	}
 }
+
+//----------------------------------------------------------------------------------
 
 void ShivaGUI::CustomLayoutElement::Draw()
 {
@@ -137,110 +147,110 @@ void ShivaGUI::CustomLayoutElement::Draw()
 
 	if( m_visible )
 	{
-		_child->Draw();
+		m_child->Draw();
 
-		_editDrawable->Draw();
-		_resizeDrawable->Draw();
+		m_editDrawable->Draw();
+		m_resizeDrawable->Draw();
 
-		for( std::vector<View*>::iterator it = _internalViews.begin(); it != _internalViews.end(); ++it )
+		for( std::vector< View* >::iterator it = m_internalViews.begin(); it != m_internalViews.end(); ++it )
 		{
-			(*it)->Draw();
+			( *it )->Draw();
 		}
 	}
 }
 
-void ShivaGUI::CustomLayoutElement::Inflate(TiXmlElement *xmlElement, ResourceManager *resources, std::string themePrefix, bool rootNode )
-{
-	if( themePrefix.empty() )
-		themePrefix = "CustomLayoutElement_";
-	View::Inflate(xmlElement,resources,themePrefix,rootNode);
+//----------------------------------------------------------------------------------
 
+void ShivaGUI::CustomLayoutElement::Inflate(TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
+{
+	if( _themePrefix.empty() )
+		_themePrefix = "CustomLayoutElement_";
+	View::Inflate( _xmlElement, _resources, _themePrefix, _rootNode );
 }
 
-bool ShivaGUI::CustomLayoutElement::HandleEvent(InternalEvent *currentEvent)
+//----------------------------------------------------------------------------------
+
+bool ShivaGUI::CustomLayoutElement::HandleEvent( InternalEvent *_currentEvent )
 {
 	bool eventAbsorbed = false;
-	if( currentEvent->GetType() == InternalEvent::POSITIONAL_SELECT )
+	if( _currentEvent->GetType() == InternalEvent::POSITIONAL_SELECT )
 	{
-		if( SetSelected( EventHit(currentEvent) ) )
+		if( SetSelected( EventHit( _currentEvent ) ) )
 		{
-			if( EventHitResize(currentEvent) )
+			if( EventHitResize( _currentEvent ) )
 			{
 				// The select was for the resize widget
-				_resizeSelected = true;
+				m_resizeSelected = true;
 				eventAbsorbed = true;
 			}
 			else
 			{
 				// This was a selection within the body of the View
 				// It might turn into a drag, so set dragSelected
-				_dragSelected = true;
+				m_dragSelected = true;
 			}
 
 			// Whatever happens, we need to store the current mouse position, relative to the centre of the View
 			// Retrieve mouse hit coords
 			int mouseX, mouseY;
-			currentEvent->GetPosition(mouseX,mouseY);
+			_currentEvent->GetPosition( mouseX, mouseY );
 
-			CustomLayoutParams *params = dynamic_cast<CustomLayoutParams*>( GetLayoutParams() );
+			CustomLayoutParams *params = dynamic_cast< CustomLayoutParams* >( GetLayoutParams() );
 			if( params != NULL )
 			{
 				// The coords space is a proportional one, relative to the parent
 				// So we must ask the parent to work out the positions
 				float mousePropX, mousePropY;
-				_parent->GetCoordsAsProportion(mouseX,mouseY, mousePropX,mousePropY);
+				m_parent->GetCoordsAsProportion( mouseX, mouseY, mousePropX, mousePropY );
 				// These coords are offsets from the centre of the child View
-				_selectedXProp = mousePropX;
-				_selectedYProp = mousePropY;
-				_selectedX = mousePropX - params->GetCentreX();
-				_selectedY = mousePropY - params->GetCentreY();
-				GetCurrentSizeProp(_selectedWidth,_selectedHeight);
-
-				//std::cout<<"INFO: CustomLayoutElement storing _selectedX = "<< _selectedX <<" _selectedY = "<< _selectedY <<std::endl;
+				m_selectedXProp = mousePropX;
+				m_selectedYProp = mousePropY;
+				m_selectedX = mousePropX - params->GetCentreX();
+				m_selectedY = mousePropY - params->GetCentreY();
+				GetCurrentSizeProp( m_selectedWidth, m_selectedHeight );
 			}
-
 		}
 	}
-	else if( currentEvent->GetType() == InternalEvent::POSITIONAL_DESELECT )
+	else if( _currentEvent->GetType() == InternalEvent::POSITIONAL_DESELECT )
 	{
-		if( EventHit(currentEvent) )
+		if( EventHit( _currentEvent ) )
 		{
-			SetSelected(_selected,false);
-			_resizeSelected = false;
+			SetSelected( m_selected, false );
+			m_resizeSelected = false;
 		}
 	}
-	else if( currentEvent->GetType() == InternalEvent::POSITIONAL_DRAG )
+	else if( _currentEvent->GetType() == InternalEvent::POSITIONAL_DRAG )
 	{
-		if( _dragSelected )
+		if( m_dragSelected )
 		{
 			// We are moving the whole View
 
-			SetSelected(true,true);
+			SetSelected( true, true );
 			// Retrieve mouse hit coords
 			int mouseX, mouseY;
-			currentEvent->GetPosition(mouseX,mouseY);
+			_currentEvent->GetPosition( mouseX, mouseY );
 
-			CustomLayoutParams *params = dynamic_cast<CustomLayoutParams*>( GetLayoutParams() );
+			CustomLayoutParams *params = dynamic_cast< CustomLayoutParams* >( GetLayoutParams() );
 			if( params != NULL )
 			{
 				// The coords space is a proportional one, relative to the parent
 				// So we must ask the parent to work out the positions
 				float mousePropX, mousePropY;
-				_parent->GetCoordsAsProportion( mouseX,mouseY, mousePropX,mousePropY );
-				params->SetCentreX( mousePropX - _selectedX );
-				params->SetCentreY( mousePropY - _selectedY );
+				m_parent->GetCoordsAsProportion( mouseX, mouseY, mousePropX, mousePropY );
+				params->SetCentreX( mousePropX - m_selectedX );
+				params->SetCentreY( mousePropY - m_selectedY );
 			}
 			eventAbsorbed = true;
 		}
-		else if( _resizeSelected )
+		else if( m_resizeSelected )
 		{
 			// We are resizing the View
 
 			// Retrieve mouse hit coords
 			int mouseX, mouseY;
-			currentEvent->GetPosition(mouseX,mouseY);
+			_currentEvent->GetPosition( mouseX, mouseY );
 
-			CustomLayoutParams *params = dynamic_cast<CustomLayoutParams*>( GetLayoutParams() );
+			CustomLayoutParams *params = dynamic_cast< CustomLayoutParams* >( GetLayoutParams() );
 			if( params != NULL )
 			{
 
@@ -248,23 +258,19 @@ bool ShivaGUI::CustomLayoutElement::HandleEvent(InternalEvent *currentEvent)
 //					float currentWidth, currentHeight;
 //					GetCurrentSizeProp(currentWidth,currentHeight);
 
-				params->SetWidthConst(LayoutParams::PERCENTAGE_PARENT);
-				params->SetHeightConst(LayoutParams::PERCENTAGE_PARENT);
+				params->SetWidthConst( LayoutParams::PERCENTAGE_PARENT );
+				params->SetHeightConst( LayoutParams::PERCENTAGE_PARENT );
 
 				// The coords space is a proportional one, relative to the parent
 				// So we must ask the parent to work out the positions
 				float mousePropX, mousePropY;
-				_parent->GetCoordsAsProportion(mouseX,mouseY, mousePropX,mousePropY);
+				m_parent->GetCoordsAsProportion( mouseX, mouseY, mousePropX, mousePropY );
 
-				float newWidth = _selectedWidth + (mousePropX - _selectedXProp)*2.0f;
-				float newHeight = _selectedHeight + (mousePropY - _selectedYProp)*2.0f;
+				float newWidth = m_selectedWidth + ( mousePropX - m_selectedXProp ) * 2.0f;
+				float newHeight = m_selectedHeight + ( mousePropY - m_selectedYProp ) * 2.0f;
 
-				params->SetWidthPercent(newWidth);
-				params->SetHeightPercent(newHeight);
-
-
-				//std::cout<<"INFO: CustomLayoutElement resizing, _selectedWidth = "<<_selectedWidth<<" mousePropX = "<<mousePropX<<" _selectedXProp = "<<_selectedXProp<<std::endl;
-
+				params->SetWidthPercent( newWidth );
+				params->SetHeightPercent( newHeight );
 
 			}
 
@@ -276,65 +282,69 @@ bool ShivaGUI::CustomLayoutElement::HandleEvent(InternalEvent *currentEvent)
 		return true;
 	// If the event was absorbed, the child should not be given it
 
-	for( std::vector<View*>::iterator it = _internalViews.begin(); it != _internalViews.end(); ++it )
+	for( std::vector<View*>::iterator it = m_internalViews.begin(); it != m_internalViews.end(); ++it )
 	{
-		if( (*it)->HandleEvent(currentEvent) )
+		if( ( *it )->HandleEvent( _currentEvent ) )
 			return true;
 	}
 	return eventAbsorbed;
 }
 
-bool ShivaGUI::CustomLayoutElement::SetSelected(bool value, bool drag)
-{
-	_selected = value;
-	_dragSelected = false;
+//----------------------------------------------------------------------------------
 
-	if( drag )
+bool ShivaGUI::CustomLayoutElement::SetSelected( bool _value, bool _drag )
+{
+	m_selected = _value;
+	m_dragSelected = false;
+
+	if( _drag )
 	{
-		_dragSelected = true;
-		_editDrawable->SetFillColour(0.0f,1.0f,0.0f,0.3f);
-		_editDrawable->SetBorderColour(0.0f,1.0f,1.0f,1.0f);
-		_resizeDrawable->SetFillColour(0.0f,1.0f,0.0f,0.3f);
-		_resizeDrawable->SetBorderColour(0.0f,1.0f,1.0f,1.0f);
-		_editVisibilityButton->SetVisibility(false);
-		_editWrapSizeButton->SetVisibility(false);
+		m_dragSelected = true;
+		m_editDrawable->SetFillColour( 0.0f, 1.0f, 0.0f, 0.3f );
+		m_editDrawable->SetBorderColour( 0.0f, 1.0f, 1.0f, 1.0f );
+		m_resizeDrawable->SetFillColour( 0.0f, 1.0f, 0.0f, 0.3f );
+		m_resizeDrawable->SetBorderColour( 0.0f, 1.0f, 1.0f, 1.0f );
+		m_editVisibilityButton->SetVisibility( false );
+		m_editWrapSizeButton->SetVisibility( false );
 	}
-	else if( _selected )
+	else if( m_selected )
 	{
-		_editDrawable->SetFillColour(0.0f,1.0f,0.0f,0.3f);
-		_editDrawable->SetBorderColour(0.0f,1.0f,0.0f,1.0f);
-		_resizeDrawable->SetFillColour(0.0f,1.0f,0.0f,0.3f);
-		_resizeDrawable->SetBorderColour(0.0f,1.0f,0.0f,1.0f);
-		_editVisibilityButton->SetVisibility(true);
-		_editWrapSizeButton->SetVisibility(true);
+		m_editDrawable->SetFillColour( 0.0f, 1.0f, 0.0f, 0.3f );
+		m_editDrawable->SetBorderColour( 0.0f, 1.0f, 0.0f, 1.0f );
+		m_resizeDrawable->SetFillColour( 0.0f, 1.0f, 0.0f, 0.3f );
+		m_resizeDrawable->SetBorderColour( 0.0f, 1.0f, 0.0f, 1.0f );
+		m_editVisibilityButton->SetVisibility( true );
+		m_editWrapSizeButton->SetVisibility( true );
 	}
 	else
 	{
-		_editDrawable->SetFillColour(0.9f,0.5f,0.4f,0.3f);
-		_editDrawable->SetBorderColour(0.9f,0.5f,0.4f,1.0f);
-		_resizeDrawable->SetFillColour(0.9f,0.5f,0.4f,0.3f);
-		_resizeDrawable->SetBorderColour(0.9f,0.5f,0.4f,1.0f);
-		_editVisibilityButton->SetVisibility(false);
-		_editWrapSizeButton->SetVisibility(false);
+		m_editDrawable->SetFillColour( 0.9f, 0.5f, 0.4f, 0.3f );
+		m_editDrawable->SetBorderColour( 0.9f, 0.5f, 0.4f, 1.0f );
+		m_resizeDrawable->SetFillColour( 0.9f, 0.5f, 0.4f, 0.3f );
+		m_resizeDrawable->SetBorderColour( 0.9f, 0.5f, 0.4f, 1.0f );
+		m_editVisibilityButton->SetVisibility( false );
+		m_editWrapSizeButton->SetVisibility( false );
 	}
-	return _selected;
+	return m_selected;
 }
 
-void ShivaGUI::CustomLayoutElement::LayoutView(View *currentView, int left, int top, int right, int bottom, int windowWidth, int windowHeight)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::CustomLayoutElement::LayoutView( View *_currentView, int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight )
 {
-	if( currentView == NULL )
+	if( _currentView == NULL )
 		return;
 
-	int layoutWidth = right - left;
-	int layoutHeight = bottom - top;
+	int layoutWidth = _right - _left;
+	int layoutHeight = _bottom - _top;
 
-	LayoutParams *params = currentView->GetLayoutParams();
-	CustomLayoutParams *viewLayoutParams = dynamic_cast<CustomLayoutParams*>(params);
+	LayoutParams *params = _currentView->GetLayoutParams();
+	CustomLayoutParams *viewLayoutParams = dynamic_cast< CustomLayoutParams* >( params );
 	if( viewLayoutParams != NULL )
 	{
-		int childLeft = left, childRight = right, childTop = top, childBottom = bottom;
-		float centreXProportion   = viewLayoutParams->GetCentreX(),
-			centreYProportion   = viewLayoutParams->GetCentreY();
+		int childLeft = _left, childRight = _right, childTop = _top, childBottom = _bottom;
+		float centreXProportion   = viewLayoutParams->GetCentreX();
+		float centreYProportion   = viewLayoutParams->GetCentreY();
 
 		// Determine vertical bounds
 		if( viewLayoutParams->GetHeightConst() == LayoutParams::WRAP_CONTENT )
@@ -343,8 +353,8 @@ void ShivaGUI::CustomLayoutElement::LayoutView(View *currentView, int left, int 
 			int naturalHeight = params->GetWrapHeight();
 			if( naturalHeight < layoutHeight )
 			{
-				childTop = top + ( int )( ( centreYProportion * layoutHeight ) - ( ( float )naturalHeight / 2.0f ) );
-				childBottom = top + ( int )( ( centreYProportion * layoutHeight ) + ( ( float )naturalHeight / 2.0f ) );
+				childTop = _top + ( int )( ( centreYProportion * layoutHeight ) - ( ( float )naturalHeight / 2.0f ) );
+				childBottom = _top + ( int )( ( centreYProportion * layoutHeight ) + ( ( float )naturalHeight / 2.0f ) );
 			}
 			// If we can't fit this, just give it the maximum size of the layout - not ideal, but it's a bit mad anyway
 		}
@@ -353,8 +363,8 @@ void ShivaGUI::CustomLayoutElement::LayoutView(View *currentView, int left, int 
 			float percentageSize = viewLayoutParams->GetHeightPercent();
 			if( percentageSize > 1.0f )
 				percentageSize = 1.0f;
-			childTop = top + ( int )((centreYProportion * layoutHeight) - ( ( layoutHeight * percentageSize ) / 2.0f));
-			childBottom = top + ( int )((centreYProportion * layoutHeight) + ( ( layoutHeight * percentageSize ) / 2.0f));
+			childTop = _top + ( int )( ( centreYProportion * layoutHeight ) - ( ( layoutHeight * percentageSize ) / 2.0f ) );
+			childBottom = _top + ( int )( ( centreYProportion * layoutHeight ) + ( ( layoutHeight * percentageSize ) / 2.0f ) );
 		}
 
 		// Determine horizontal bounds
@@ -364,9 +374,9 @@ void ShivaGUI::CustomLayoutElement::LayoutView(View *currentView, int left, int 
 			int naturalWidth = params->GetWrapWidth();
 			if( naturalWidth < layoutWidth )
 			{
-				//std::cout<<"INFO: CustomLayout: naturalWidth="<<naturalWidth<<std::endl;
-				childLeft = left + ( int )( ( centreXProportion * layoutWidth ) - ( ( float )naturalWidth / 2.0f ) );
-				childRight = left + ( int )( ( centreXProportion * layoutWidth ) + ( ( float )naturalWidth / 2.0f ) );
+				//std::cout << "INFO: CustomLayout: naturalWidth= " << naturalWidth << std::endl;
+				childLeft = _left + ( int )( ( centreXProportion * layoutWidth ) - ( ( float )naturalWidth / 2.0f ) );
+				childRight = _left + ( int )( ( centreXProportion * layoutWidth ) + ( ( float )naturalWidth / 2.0f ) );
 			}
 			// If we can't fit this, just give it the maximum size of the layout - not ideal, but it's a bit mad anyway
 		}
@@ -375,82 +385,94 @@ void ShivaGUI::CustomLayoutElement::LayoutView(View *currentView, int left, int 
 			float percentageSize = viewLayoutParams->GetWidthPercent();
 			if( percentageSize > 1.0f )
 				percentageSize = 1.0f;
-			childLeft = left + ( int )( (centreXProportion * layoutWidth) - ( ( layoutWidth * percentageSize ) / 2.0f) );
-			childRight = left + ( int )( (centreXProportion * layoutWidth) + ( ( layoutWidth * percentageSize ) / 2.0f) );
+			childLeft = _left + ( int )( (centreXProportion * layoutWidth) - ( ( layoutWidth * percentageSize ) / 2.0f ) );
+			childRight = _left + ( int )( (centreXProportion * layoutWidth) + ( ( layoutWidth * percentageSize ) / 2.0f ) );
 		}
 
-		currentView->Layout( childLeft, childTop, childRight, childBottom, windowWidth, windowHeight );
+		_currentView->Layout( childLeft, childTop, childRight, childBottom, _windowWidth, _windowHeight );
 	}
 }
 
-bool ShivaGUI::CustomLayoutElement::EventHitResize(InternalEvent *event)
+//----------------------------------------------------------------------------------
+
+bool ShivaGUI::CustomLayoutElement::EventHitResize( InternalEvent *_event )
 {
-	float left,right,bottom,top;
-	_resizeDrawable->GetBounds(left,top,right,bottom);
+	float left, right, bottom, top;
+	m_resizeDrawable->GetBounds( left, top, right, bottom );
 	int x, y;
-	event->GetPosition(x,y);
-	return (x > left) && (x < right)
-			&& (y > top) && (y < bottom);
+	_event->GetPosition( x, y );
+	return ( x > left ) && ( x < right )
+			&& ( y > top ) && ( y < bottom );
 }
 
-void ShivaGUI::CustomLayoutElement::GetCurrentSizeProp(float &currentWidth, float &currentHeight)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::CustomLayoutElement::GetCurrentSizeProp( float &_currentWidth, float &_currentHeight )
 {
-	CustomLayoutParams *params = dynamic_cast<CustomLayoutParams*>( GetLayoutParams() );
+	CustomLayoutParams *params = dynamic_cast< CustomLayoutParams* >( GetLayoutParams() );
 	if( params == NULL )
 	{
-		std::cerr<<"ERROR: CustomLayoutElement::GetCurrentSizeProp() cannot retrieve layout params"<<std::endl;
-		currentWidth = currentHeight = 0.0f;
+		std::cerr << "ERROR: CustomLayoutElement::GetCurrentSizeProp() cannot retrieve layout params" << std::endl;
+		_currentWidth = _currentHeight = 0.0f;
 		return;
 	}
 
 	if( params->GetWidthConst() == LayoutParams::FILL_PARENT )
 	{
 		// View will be 100% of parent's width
-		currentWidth = 1.0f;
+		_currentWidth = 1.0f;
 	}
 	else if( params->GetWidthConst() == LayoutParams::WRAP_CONTENT )
 	{
-		int absoluteWidth = _child->GetWrapWidth();
+		int absoluteWidth = m_child->GetWrapWidth();
 
-		currentWidth = _parent->GetWidthAsProportion(absoluteWidth);
+		_currentWidth = m_parent->GetWidthAsProportion( absoluteWidth );
 	}
 	else if( params->GetWidthConst() == LayoutParams::PERCENTAGE_PARENT )
 	{
-		currentWidth = params->GetWidthPercent();
+		_currentWidth = params->GetWidthPercent();
 	}
 
 	if( params->GetHeightConst() == LayoutParams::FILL_PARENT )
 	{
 		// View will be 100% of parent's height
-		currentHeight = 1.0f;
+		_currentHeight = 1.0f;
 	}
 	else if( params->GetHeightConst() == LayoutParams::WRAP_CONTENT )
 	{
-		int absoluteHeight = _child->GetWrapHeight();
+		int absoluteHeight = m_child->GetWrapHeight();
 
-		currentHeight = _parent->GetHeightAsProportion(absoluteHeight);
+		_currentHeight = m_parent->GetHeightAsProportion( absoluteHeight );
 	}
 	else if( params->GetHeightConst() == LayoutParams::PERCENTAGE_PARENT )
 	{
-		currentHeight = params->GetHeightPercent();
+		_currentHeight = params->GetHeightPercent();
 	}
-
 }
 
-ShivaGUI::CustomLayoutElement::CustomElementEventHandler::CustomElementEventHandler(CustomLayoutElement *parent) {_parent = parent;}
+//----------------------------------------------------------------------------------
 
-void ShivaGUI::CustomLayoutElement::CustomEventReceived(CustomElementEventHandler *handler, View *inputView)
+ShivaGUI::CustomLayoutElement::CustomElementEventHandler::CustomElementEventHandler( CustomLayoutElement *_parent ) 
+{
+	m_parent = _parent;
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::CustomLayoutElement::CustomEventReceived( CustomElementEventHandler *_handler, View *_inputView )
 {
 //	std::cout<<"CustomLayoutElement::CustomEventReceived"<<std::endl;
-	if( inputView == _editVisibilityButton )
+	if( _inputView == m_editVisibilityButton )
 	{
-		_child->SetVisibility( !_child->GetVisibility() );
+		m_child->SetVisibility( !m_child->GetVisibility() );
 	}
-	else if( inputView == _editWrapSizeButton )
+	else if( _inputView == m_editWrapSizeButton )
 	{
-		GetLayoutParams()->SetHeightConst(LayoutParams::WRAP_CONTENT);
-		GetLayoutParams()->SetWidthConst(LayoutParams::WRAP_CONTENT);
+		GetLayoutParams()->SetHeightConst( LayoutParams::WRAP_CONTENT );
+		GetLayoutParams()->SetWidthConst( LayoutParams::WRAP_CONTENT );
 	}
 }
+
+//----------------------------------------------------------------------------------
 
 

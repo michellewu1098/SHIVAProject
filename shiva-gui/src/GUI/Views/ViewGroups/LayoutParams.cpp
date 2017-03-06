@@ -1,78 +1,87 @@
 #include "GUI/Views/ViewGroups/LayoutParams.h"
-
 #include "ResourceManager.h"
-#include "Utility/tinyxml.h"
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::LayoutParams::LayoutParams()
 {
-	_usesPercent = _usesConst = false;
-	_heightPercent = _widthPercent = 0.0f;
-	_heightConst = _widthConst = FILL_PARENT;
-	_paddingLeft = _paddingRight = _paddingTop = _paddingBottom = 0;
-	_wrapWidth = _wrapHeight = 0;
+	m_usesPercent = m_usesConst = false;
+	m_heightPercent = m_widthPercent = 0.0f;
+	m_heightConst = m_widthConst = FILL_PARENT;
+	m_paddingLeft = m_paddingRight = m_paddingTop = m_paddingBottom = 0;
+	m_wrapWidth = m_wrapHeight = 0;
 }
 
-ShivaGUI::LayoutParams::LayoutParams(float width, float height)
+//----------------------------------------------------------------------------------
+
+ShivaGUI::LayoutParams::LayoutParams( float _width, float _height )
 {
-	_usesPercent = true;
-	_widthPercent = width;
-	_heightPercent = height;
-	_usesConst = false;
-	_heightConst = _widthConst = FILL_PARENT;
-	_paddingLeft = _paddingRight = _paddingTop = _paddingBottom = 0;
+	m_usesPercent = true;
+	m_widthPercent = _width;
+	m_heightPercent = _height;
+	m_usesConst = false;
+	m_heightConst = m_widthConst = FILL_PARENT;
+	m_paddingLeft = m_paddingRight = m_paddingTop = m_paddingBottom = 0;
 }
 
-ShivaGUI::LayoutParams::LayoutParams(FillType width, FillType height)
+//----------------------------------------------------------------------------------
+
+ShivaGUI::LayoutParams::LayoutParams( FillType _width, FillType _height )
 {
-	_usesPercent = false;
-	_heightPercent = _widthPercent = 0.0f;
-	_usesConst = true;
-	_heightConst = height;
-	_widthConst = width;
-	_paddingLeft = _paddingRight = _paddingTop = _paddingBottom = 0;
+	m_usesPercent = false;
+	m_heightPercent = m_widthPercent = 0.0f;
+	m_usesConst = true;
+	m_heightConst = _height;
+	m_widthConst = _width;
+	m_paddingLeft = m_paddingRight = m_paddingTop = m_paddingBottom = 0;
 }
+
+//----------------------------------------------------------------------------------
 
 ShivaGUI::LayoutParams::~LayoutParams()
 {
 
 }
 
-void ShivaGUI::LayoutParams::Deflate(TiXmlElement *xmlNode, ResourceManager *resources)
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::LayoutParams::Deflate( TiXmlElement *_xmlNode, ResourceManager *_resources )
 {
-	if( _heightConst == FILL_PARENT )
-		xmlNode->SetAttribute("layout_height","FILL_PARENT");
-	else if( _heightConst == WRAP_CONTENT )
-		xmlNode->SetAttribute("layout_height","WRAP_CONTENT");
-	else if( _heightConst == PERCENTAGE_PARENT )
+	if( m_heightConst == FILL_PARENT )
+		_xmlNode->SetAttribute( "layout_height", "FILL_PARENT" );
+	else if( m_heightConst == WRAP_CONTENT )
+		_xmlNode->SetAttribute( "layout_height", "WRAP_CONTENT" );
+	else if( m_heightConst == PERCENTAGE_PARENT )
 	{
-		xmlNode->SetDoubleAttribute("layout_height",_heightPercent);
+		_xmlNode->SetDoubleAttribute( "layout_height", m_heightPercent );
 		//xmlNode->SetDoubleAttribute("layout_height_percent",_heightPercent);
 	}
 
-	if( _widthConst == FILL_PARENT )
-		xmlNode->SetAttribute("layout_width","FILL_PARENT");
-	else if( _widthConst == WRAP_CONTENT )
-		xmlNode->SetAttribute("layout_width","WRAP_CONTENT");
-	else if( _widthConst == PERCENTAGE_PARENT )
+	if( m_widthConst == FILL_PARENT )
+		_xmlNode->SetAttribute( "layout_width", "FILL_PARENT" );
+	else if( m_widthConst == WRAP_CONTENT )
+		_xmlNode->SetAttribute( "layout_width", "WRAP_CONTENT" );
+	else if( m_widthConst == PERCENTAGE_PARENT )
 	{
-		xmlNode->SetDoubleAttribute("layout_width",_widthPercent);
+		_xmlNode->SetDoubleAttribute( "layout_width", m_widthPercent );
 		//xmlNode->SetDoubleAttribute("layout_Width_percent",_widthPercent);
 	}
 
-	if( (_paddingLeft == _paddingRight) && (_paddingLeft == _paddingTop) && (_paddingLeft == _paddingBottom) && (_paddingLeft > 0) )
+	if( ( m_paddingLeft == m_paddingRight ) && ( m_paddingLeft == m_paddingTop ) && ( m_paddingLeft == m_paddingBottom ) && ( m_paddingLeft > 0 ) )
 	{
-		xmlNode->SetAttribute("padding",_paddingLeft);
+		_xmlNode->SetAttribute( "padding", m_paddingLeft );
 	}
 	else
 	{
-		if( _paddingLeft > 0 )
-			xmlNode->SetAttribute("padding_left",_paddingLeft);
-		if( _paddingRight > 0 )
-			xmlNode->SetAttribute("padding_right",_paddingRight);
-		if( _paddingTop > 0 )
-			xmlNode->SetAttribute("padding_top",_paddingTop);
-		if( _paddingBottom > 0 )
-			xmlNode->SetAttribute("padding_bottom",_paddingBottom);
+		if( m_paddingLeft > 0 )
+			_xmlNode->SetAttribute( "padding_left", m_paddingLeft );
+		if( m_paddingRight > 0 )
+			_xmlNode->SetAttribute( "padding_right", m_paddingRight );
+		if( m_paddingTop > 0 )
+			_xmlNode->SetAttribute( "padding_top", m_paddingTop );
+		if( m_paddingBottom > 0 )
+			_xmlNode->SetAttribute( "padding_bottom", m_paddingBottom );
 	}
-
 }
+
+//----------------------------------------------------------------------------------

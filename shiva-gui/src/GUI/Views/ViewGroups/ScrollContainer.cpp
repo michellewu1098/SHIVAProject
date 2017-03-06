@@ -712,7 +712,7 @@ int ShivaGUI::ScrollContainer::EventHitHorizScroll( InternalEvent *_event )
 	if( m_showHorizBar )
 	{
 		int x, y;
-		_event->GetPosition(x,y);
+		_event->GetPosition( x, y );
 		int scrollbarHeight = GetScrollbarHeight();
 		if( ( x > m_layoutBoundsLeft ) && ( x < m_layoutBoundsRight )
 			&& ( y > m_layoutBoundsBottom - scrollbarHeight ) && ( y < m_layoutBoundsBottom ) )
