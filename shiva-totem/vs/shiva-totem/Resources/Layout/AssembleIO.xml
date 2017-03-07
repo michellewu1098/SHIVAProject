@@ -2,9 +2,7 @@
 <CustomLayout
 	layout_width="fill_parent"
 	layout_height="fill_parent"
-  background="@RootViewBackground">
-	
-	
+	background="@RootViewBackground">
 	
 	<ScrollContainer
 		layout_width="0.2"
@@ -134,7 +132,6 @@
 		/>
 
 
-
   <TextButton
 		id="RotateReset"
 		layout_width="0.2"
@@ -144,7 +141,6 @@
 		onClick="buttonHandler"
 		text="reset view"
 		/>
-
 
   <TextButton
 		id="NudgeActivity"
@@ -159,13 +155,12 @@
   <TextButton
 		id="EyeGazeRest"
 		layout_width="0.2"
-		layout_height="0.3"
+		layout_height="wrap_content"
 		layout_centreX="0.7"
-		layout_centreY="0.25"
-    eyeGaze_RestButton="true"
+		layout_centreY="0.15"
+		eyeGaze_RestButton="true"
 		text="rest"
 		/>
-
 
   <TextButton
 		id="New"

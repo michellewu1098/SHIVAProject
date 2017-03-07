@@ -791,7 +791,7 @@ void ShivaGUI::ResourceManager::SetTheme( std::string _filename )
 							std::string value = valueElement->GetText();//Value();
 							m_attribConstsTheme[ key ] = value;
 
-							std::cout << "INFO: Load Theme Attribute Consts, key: " << key << " value: " << value << std::endl;
+							//std::cout << "INFO: Load Theme Attribute Consts, key: " << key << " value: " << value << std::endl;
 						}
 					}
 				}

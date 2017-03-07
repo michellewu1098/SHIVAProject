@@ -16,12 +16,6 @@ VolumeTree::Node::Node()
 
 	m_cacheBuilt = false;
 	m_cacheDirty = false;
-
-	//m_bboxShader = new Shader( "Resources/Shaders/Simple.vert", "Resources/Shaders/Simple.frag" );
-	//m_bboxShader->init( m_bboxShader->fileRead( "Resources/Shaders/Simple.vert" ), m_bboxShader->fileRead( "Resources/Shaders/Simple.frag" ) );
-
-	//m_bboxSidesShader = new Shader( "Resources/Shader/Colour.vert", "Resources/Shaders/Colour.frag" );
-	//m_bboxSidesShader->init( m_bboxSidesShader->fileRead( "Resources/Shaders/Colour.vert" ), m_bboxSidesShader->fileRead( "Resources/Shaders/Colour.frag" ) );
 }
 
 //----------------------------------------------------------------------------------
@@ -52,15 +46,6 @@ void VolumeTree::Node::SetUseCache( bool _useCache, unsigned int _cacheID, unsig
 void VolumeTree::Node::SetDrawBBox( const bool &_value )
 {
 	m_drawBBox = _value;
-
-	if( m_drawBBox )
-	{
-		m_bboxShader = new Shader( "Resources/Shaders/Simple.vert", "Resources/Shaders/Simple.frag" );
-		m_bboxShader->init( m_bboxShader->fileRead( "Resources/Shaders/Simple.vert" ), m_bboxShader->fileRead( "Resources/Shaders/Simple.frag" ) );
-
-		m_bboxSidesShader = new Shader( "Resources/Shader/Colour.vert", "Resources/Shaders/Colour.frag" );
-		m_bboxSidesShader->init( m_bboxSidesShader->fileRead( "Resources/Shaders/Colour.vert" ), m_bboxSidesShader->fileRead( "Resources/Shaders/Colour.frag" ) );
-	}
 }
 
 //----------------------------------------------------------------------------------
@@ -229,11 +214,17 @@ void VolumeTree::Node::BuildBBoxesVBOs()
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 
+	m_bboxShader = new Shader( "Resources/Shaders/Simple.vert", "Resources/Shaders/Simple.frag" );
+	m_bboxShader->init( m_bboxShader->fileRead( "Resources/Shaders/Simple.vert" ), m_bboxShader->fileRead( "Resources/Shaders/Simple.frag" ) );
+
+	m_bboxSidesShader = new Shader( "Resources/Shader/Colour.vert", "Resources/Shaders/Colour.frag" );
+	m_bboxSidesShader->init( m_bboxSidesShader->fileRead( "Resources/Shaders/Colour.vert" ), m_bboxSidesShader->fileRead( "Resources/Shaders/Colour.frag" ) );
+
 }
 
 //----------------------------------------------------------------------------------
 
-void LoadMatricesToShader( GLuint _shaderID, cml::matrix44f_c &_proj, cml::matrix44f_c &_mv )
+void VolumeTree::Node::LoadMatricesToShader( GLuint _shaderID, cml::matrix44f_c &_proj, cml::matrix44f_c &_mv )
 {
 	// ModelView matrix
 	GLint mvLoc = glGetUniformLocation( _shaderID, "u_ModelViewMatrix" );

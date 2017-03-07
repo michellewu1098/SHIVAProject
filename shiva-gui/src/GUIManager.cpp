@@ -173,7 +173,7 @@ bool ShivaGUI::GUIManager::BootstrapChangeProfile( std::string _profileName )
 
 				// Bind windows to current Activity, creating the Window -> InputController -> GUIController chains
 				unsigned int index = 0;
-				for( std::vector<WindowGroup>::iterator it = m_windows.begin(); it != m_windows.end(); ++it )
+				for( std::vector< WindowGroup >::iterator it = m_windows.begin(); it != m_windows.end(); ++it )
 				{
 					currentActivity->AddGUIController( new GUIController( it->m_window, it->m_resourceManager, this ), index );
 					++index;

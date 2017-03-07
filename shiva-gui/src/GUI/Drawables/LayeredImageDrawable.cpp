@@ -326,7 +326,7 @@ void ShivaGUI::LayeredImageDrawable::Draw()
 	int viewport[4]; // Shouldn't really do this, but temporarily it's fine
 	glGetIntegerv( GL_VIEWPORT, viewport );
 
-	cml::matrix_orthographic_RH( m_projMat, 0.f, (float)viewport[ 2 ], (float)viewport[ 3 ], 0.f, -1.f, 1.f, cml::z_clip_neg_one );
+	cml::matrix_orthographic_RH( m_projMat, 0.f, ( float )viewport[ 2 ], ( float )viewport[ 3 ], 0.f, -1.f, 1.f, cml::z_clip_neg_one );
 	LoadMatricesToShader( m_shader->GetProgramID(), m_projMat, m_mvMat );
 
 	for( unsigned int i = 0; i < m_maxLayerGroups; i++ )

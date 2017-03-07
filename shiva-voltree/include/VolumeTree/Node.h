@@ -183,6 +183,13 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		void UpdateParameters( GLSLRenderer *_renderer );
 		//----------------------------------------------------------------------------------
+		/// \brief Load matrices to shader
+		/// \param [in] _shaderID Shader id
+		/// \param [in] _proj Projection matrix
+		/// \param [in] _mv ModelView matrix
+		//----------------------------------------------------------------------------------
+		void LoadMatricesToShader( GLuint _shaderID, cml::matrix44f_c &_proj, cml::matrix44f_c &_mv );
+		//----------------------------------------------------------------------------------
 
 	protected:
 
