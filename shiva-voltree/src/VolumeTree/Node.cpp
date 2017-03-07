@@ -46,6 +46,11 @@ void VolumeTree::Node::SetUseCache( bool _useCache, unsigned int _cacheID, unsig
 void VolumeTree::Node::SetDrawBBox( const bool &_value )
 {
 	m_drawBBox = _value;
+	if( !m_drawBBox && m_bboxShader != NULL && m_bboxSidesShader != NULL )
+	{
+		delete m_bboxShader;
+		delete m_bboxSidesShader;
+	}
 }
 
 //----------------------------------------------------------------------------------

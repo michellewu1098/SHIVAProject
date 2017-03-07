@@ -1,4 +1,4 @@
-﻿Build started 07/03/2017 13:59:49.
+﻿Build started 07/03/2017 14:10:37.
      1>Project "C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -31,4 +31,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.92
+Time Elapsed 00:00:00.87

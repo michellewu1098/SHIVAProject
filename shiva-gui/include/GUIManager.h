@@ -32,8 +32,9 @@ namespace ShivaGUI
 	{
 	public:
 
-		//----------------------------------------------------------------------------------
+		
 		// INITIALISATION
+		
 		//----------------------------------------------------------------------------------
 		/// \brief Ctor
 		/// \param [in] _programName The name of your program, to be used for user profile authorship - human readable (i.e. can be long and include spaces etc)
@@ -130,7 +131,9 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		SharedPreferences* GetProgSpecificOptions();
 		//----------------------------------------------------------------------------------
+		
 		// ACTIVITIES
+		
 		//----------------------------------------------------------------------------------
 		/// \brief Register an activity
 		/// \param [in] _activityName
@@ -176,7 +179,9 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		bool CommandQueueEmpty() { return m_currentActivityCommand == NONE; }
 		//----------------------------------------------------------------------------------
+		
 		// RUNNING
+		
 		//----------------------------------------------------------------------------------
 		/// \brief Main loop entry point, exits when program needs to exit
 		/// You can interrupt this with SetExitEvent()

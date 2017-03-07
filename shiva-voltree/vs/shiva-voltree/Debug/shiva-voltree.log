@@ -1,4 +1,4 @@
-﻿Build started 07/03/2017 13:56:48.
+﻿Build started 07/03/2017 14:10:33.
      1>Project "C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\shiva-voltree.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\shiva-voltree.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -47,4 +47,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.42
+Time Elapsed 00:00:02.13

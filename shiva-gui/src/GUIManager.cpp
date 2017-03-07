@@ -526,7 +526,7 @@ ShivaGUI::Activity* ShivaGUI::GUIManager::CreateActivity( std::string _name )
 			// Bind windows to current Activity, creating the Window -> InputController -> GUIController chains
 			currentActivity->SetNumGUIControllers( m_windows.size() );
 			unsigned int index = 0;
-			for( std::vector<WindowGroup>::iterator it = m_windows.begin(); it != m_windows.end(); ++it )
+			for( std::vector< WindowGroup >::iterator it = m_windows.begin(); it != m_windows.end(); ++it )
 			{
 				currentActivity->AddGUIController( new GUIController( it->m_window, it->m_resourceManager, this ), index );
 				++index;
@@ -662,7 +662,7 @@ int ShivaGUI::GUIManager::GetWindowIDFromSDLID( int _inputID )
 	{
 		for( unsigned int i = 0; i < m_windows.size(); i++ )
 		{
-			if( m_windowSDLIDs[i] == _inputID )
+			if( m_windowSDLIDs[ i ] == _inputID )
 			{
 				return i;
 			}
