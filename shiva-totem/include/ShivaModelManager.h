@@ -23,26 +23,26 @@ public:
 
 	//----------------------------------------------------------------------------------
 	/// \brief Initiliase ModelManager
-	/// \param [in] indexFile 
+	/// \param [in] _indexFile 
 	//----------------------------------------------------------------------------------
-	static ShivaModelManager* Init( std::string indexFile );
+	static ShivaModelManager* Init( std::string _indexFile );
 	//----------------------------------------------------------------------------------
 	/// \brief Get an instance of the ModelManager
-	/// \return _instance
+	/// \return m_instance
 	//----------------------------------------------------------------------------------
-	static ShivaModelManager* GetInstance() { return _instance; }
+	static ShivaModelManager* GetInstance() { return m_instance; }
 	//----------------------------------------------------------------------------------
 	/// \brief Query an attribute from an entry
-	/// \param [in] dataEntry
-	/// \param [in] attribute
+	/// \param [in] _dataEntry
+	/// \param [in] _attribute
 	//----------------------------------------------------------------------------------
-	virtual bool QueryAttribute( int dataEntry, std::string attribute );
+	virtual bool QueryAttribute( int _dataEntry, std::string _attribute );
 	//----------------------------------------------------------------------------------
 	/// \brief Retrieves an attribute from an entry
-	/// \param [in] dataEntry
-	/// \param [in] attribute
+	/// \param [in] _dataEntry
+	/// \param [in] _attribute
 	//----------------------------------------------------------------------------------
-	virtual std::string GetAttributeString( int dataEntry, std::string attribute );
+	virtual std::string GetAttributeString( int _dataEntry, std::string _attribute );
 	//----------------------------------------------------------------------------------
 	/// \brief Retrieves the number of entries in this Provider
 	//----------------------------------------------------------------------------------
@@ -52,16 +52,16 @@ public:
 protected:
 
 	//----------------------------------------------------------------------------------
-	static ShivaModelManager *_instance;
+	static ShivaModelManager *m_instance;
 	//----------------------------------------------------------------------------------
 	/// \brief Ctor
-	/// \param [in] indexFile
+	/// \param [in] _indexFile
 	//----------------------------------------------------------------------------------
-	ShivaModelManager( std::string indexFile );
+	ShivaModelManager( std::string _indexFile );
 	//----------------------------------------------------------------------------------
 	/// \brief Each entry is accessed by it's index, then there are specific entries according to the type of data that is stored
 	//----------------------------------------------------------------------------------
-	std::map< std::string, std::map< std::string, std::string >* > _modelIndices;
+	std::map< std::string, std::map< std::string, std::string >* > m_modelIndices;
 	//----------------------------------------------------------------------------------
 };
 

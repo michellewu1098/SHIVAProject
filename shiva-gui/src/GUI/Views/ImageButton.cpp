@@ -430,8 +430,6 @@ int ShivaGUI::ImageButton::GetWrapWidth()
 		contentWidth = m_contentGenDrawable->GetNativeWidth();
 	}
 
-	//std::cout<<"INFO: ImageButton::GetWrapWidth, contentWidth = "<<contentWidth<<std::endl;
-
 	if( m_stateListDrawable != NULL )
 	{
 		return m_stateListDrawable->GetNativeWidthFromContent( contentWidth );
@@ -770,10 +768,11 @@ void ShivaGUI::ImageButton::Layout( int _left, int _top, int _right, int _bottom
 	m_sizeX = _right - _left;
 	m_sizeY = _bottom - _top;
 
-	//std::cout<<"INFO: ImageButton::Layout width = "<<_sizeX<<" height = "<<_sizeY<<std::endl;
+	//std::cout << "INFO: ImageButton::Layout width = " << m_sizeX << " height = " << m_sizeY << std::endl;
 
 	m_centreX = ( int ) ( _left + ( m_sizeX / 2.0f ) );
 	m_centreY = ( int ) ( _top + ( m_sizeY / 2.0f ) );
+
 	if( m_generalDrawable != NULL )
 	{
 		m_generalDrawable->SetBounds( ( float )_left, ( float )_top, ( float )_right, ( float )_bottom );

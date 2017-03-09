@@ -141,6 +141,18 @@ ShivaGUI::LayoutParams* ShivaGUI::ViewGroup::InflateLayoutParams( TiXmlElement *
 				std::cerr << "WARNING: ViewGroup::InflateLayoutParams attribute padding_bottom does not have expected value type (int)" << std::endl;
 			}
 		}
+		else if( ( std::string( "height_constrained" ) == currentAttribute->Name() ) || ( _themePrefix + "height_constrained" == currentAttribute->Name() ) )
+		{
+			std::string value = currentAttribute->Value();
+			if( value == "true" || value == "1" || value == "yes" )
+			{
+				_params->SetHeightConstrained( true );
+			}
+			else
+			{
+				_params->SetHeightConstrained( false );
+			}
+		}
 	}
 
 	return _params;

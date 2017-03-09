@@ -2,43 +2,43 @@
 
 //----------------------------------------------------------------------------------
 
-Totem::Object::Object( VolumeTree::Node *mainNodeIn )
+Totem::Object::Object( VolumeTree::Node *_mainNodeIn )
 {
-	_mainNode = mainNodeIn;
+	m_mainNode = _mainNodeIn;
 	// Using params currently only works if we have one renderer, which we don't (each Activity has a different renderer)
-	_mainTransform = new VolumeTree::TransformNode( false );
-	_child = _parent = NULL;
+	m_mainTransform = new VolumeTree::TransformNode( false );
+	m_child = m_parent = NULL;
 
-	_offsetX = _offsetY = _offsetZ = 0.0f;
-	_tx = _ty = _tz = 0.0f;
-	_rx = _ry = _rz = 0.0f;
-	_sx = _sy = _sz = 1.0f;
+	m_offsetX = m_offsetY = m_offsetZ = 0.0f;
+	m_tx = m_ty = m_tz = 0.0f;
+	m_rx = m_ry = m_rz = 0.0f;
+	m_sx = m_sy = m_sz = 1.0f;
 }
 
 //----------------------------------------------------------------------------------
 
-Totem::Object::Object( VolumeTree::Node *mainNodeIn, VolumeTree::TransformNode *mainTransformIn )
+Totem::Object::Object( VolumeTree::Node *_mainNodeIn, VolumeTree::TransformNode *_mainTransformIn )
 {
-	_mainNode = mainNodeIn;
-	_mainTransform = mainTransformIn;
+	m_mainNode = _mainNodeIn;
+	m_mainTransform = _mainTransformIn;
 
-	_child = _parent = NULL;
+	m_child = m_parent = NULL;
 
-	_tx = _ty = _tz = 0.0f;
-	_rx = _ry = _rz = 0.0f;
-	_sx = _sy = _sz = 1.0f;
+	m_tx = m_ty = m_tz = 0.0f;
+	m_rx = m_ry = m_rz = 0.0f;
+	m_sx = m_sy = m_sz = 1.0f;
 
 	float junk;
 	// Retrieve translation, rotation and scale info from imported transform node
-	_mainTransform->GetTransformParams( _tx, _ty, _tz, 
-										_rx, _ry, _rz, 
-										_sx, _sy, _sz, 
-										junk, junk, junk, 
-										junk, junk, junk );
+	m_mainTransform->GetTransformParams( m_tx, m_ty, m_tz, 
+										 m_rx, m_ry, m_rz, 
+										 m_sx, m_sy, m_sz, 
+										 junk, junk, junk, 
+										 junk, junk, junk );
 
-	_offsetX = -_tx;
-	_offsetY = -_ty;
-	_offsetZ = 0.0f;
+	m_offsetX = -m_tx;
+	m_offsetY = -m_ty;
+	m_offsetZ = 0.0f;
 
 }
 
@@ -46,114 +46,114 @@ Totem::Object::Object( VolumeTree::Node *mainNodeIn, VolumeTree::TransformNode *
 
 Totem::Object::~Object()
 {
-	delete _child;
-	delete _mainTransform;
+	delete m_child;
+	delete m_mainTransform;
 }
 
 //----------------------------------------------------------------------------------
 
-void Totem::Object::ShiftOrder( bool up, bool swapOffsets )
+void Totem::Object::ShiftOrder( bool _up, bool _swapOffsets )
 {
 	float stackedPosition = GetStackedPosition();
-	if( up )
+	if( _up )
 	{
-		if( _parent != NULL )
+		if( m_parent != NULL )
 		{
 			// Offset of object we are swapping with, which will become our new offset if swapOffsets is true
 			float ourNewOffsetX, ourNewOffsetY, ourNewOffsetZ;
-			_parent->GetTranslationOffset( ourNewOffsetX, ourNewOffsetY, ourNewOffsetZ );
+			m_parent->GetTranslationOffset( ourNewOffsetX, ourNewOffsetY, ourNewOffsetZ );
 			float theirPrevActualPos = 0.0f, junk;
-			_parent->GetTranslation( junk, junk, theirPrevActualPos );
-			float theirPrevStackedPos = _parent->GetStackedPosition();
+			m_parent->GetTranslation( junk, junk, theirPrevActualPos );
+			float theirPrevStackedPos = m_parent->GetStackedPosition();
 
-			Totem::Object *grandparent = _parent->GetParent();
+			Totem::Object *grandparent = m_parent->GetParent();
 			// Remove ourselves from list
-			_parent->SetChild( _child );
-			if( _child != NULL )
+			m_parent->SetChild( m_child );
+			if( m_child != NULL )
 			{
-				_child->SetParent( _parent );
+				m_child->SetParent( m_parent );
 			}
 
 			// Parent becomes child
-			_child = _parent;
-			_child->SetParent( this );
+			m_child = m_parent;
+			m_child->SetParent( this );
 
 			// If old parent had a parent, that becomes our new parent
-			_parent = grandparent;
-			if( _parent != NULL )
+			m_parent = grandparent;
+			if( m_parent != NULL )
 			{
-				_parent->SetChild( this );
+				m_parent->SetChild( this );
 			}
 
-			if( swapOffsets )
+			if( _swapOffsets )
 			{
-				_child->SetTranslationOffset( _offsetX, _offsetY, _offsetZ );
-				_offsetX = ourNewOffsetX;
-				_offsetY = ourNewOffsetY;
-				_offsetZ = ourNewOffsetZ;
+				m_child->SetTranslationOffset( m_offsetX, m_offsetY, m_offsetZ );
+				m_offsetX = ourNewOffsetX;
+				m_offsetY = ourNewOffsetY;
+				m_offsetZ = ourNewOffsetZ;
 			}
 			else
 			{
-				float theirNewStackedPos = _child->GetStackedPosition();
+				float theirNewStackedPos = m_child->GetStackedPosition();
 				// The stacked position of the parent will change, we want to use the difference as the new offset
 				// Difference between where parent was to where it is now
 				float theirNewOffsetZ = theirPrevActualPos - theirNewStackedPos;
-				_child->AddTranslationOffset( 0.0f, 0.0f, theirNewOffsetZ - ourNewOffsetZ, false );
+				m_child->AddTranslationOffset( 0.0f, 0.0f, theirNewOffsetZ - ourNewOffsetZ, false );
 
 				//std::cout<<"INFO: Order Change: offsetZ = "<<offsetZ<<" _offsetZ = "<<_offsetZ<<std::endl;
 
 				// For our new offset, need to subtract difference in stacked positions of parent
 				float ourOffsetChange = theirPrevStackedPos - theirNewStackedPos;
-				_offsetZ -= ourOffsetChange;
+				m_offsetZ -= ourOffsetChange;
 			}
 		}
 	}
 	else
 	{
-		if( _child != NULL )
+		if( m_child != NULL )
 		{
 			
 			// Offset of object we are swapping with, which will become our new offset if swapOffsets is true
 			float ourNewOffsetX, ourNewOffsetY, ourNewOffsetZ;
-			_child->GetTranslationOffset( ourNewOffsetX, ourNewOffsetY, ourNewOffsetZ );
+			m_child->GetTranslationOffset( ourNewOffsetX, ourNewOffsetY, ourNewOffsetZ );
 			float theirPrevActualPos = 0.0f, junk;
-			_child->GetTranslation( junk, junk, theirPrevActualPos );
-			float theirPrevStackedPos = _child->GetStackedPosition();
+			m_child->GetTranslation( junk, junk, theirPrevActualPos );
+			float theirPrevStackedPos = m_child->GetStackedPosition();
 
-			Totem::Object *grandchild = _child->GetChild();
+			Totem::Object *grandchild = m_child->GetChild();
 			// Remove ourselves from list
-			_child->SetParent( _parent );
-			Totem::Object *prevParent = _parent;
-			if( _parent != NULL )
+			m_child->SetParent( m_parent );
+			Totem::Object *prevParent = m_parent;
+			if( m_parent != NULL )
 			{
-				_parent->SetChild( _child );
+				m_parent->SetChild( m_child );
 			}
 
 			// Child becomes parent
-			_parent = _child;
-			_child = grandchild; // Put this here because setting children/parents causes rebuild of offsets which requires a valid child
-			_parent->SetChild( this );
+			m_parent = m_child;
+			m_child = grandchild; // Put this here because setting children/parents causes rebuild of offsets which requires a valid child
+			m_parent->SetChild( this );
 
 			// If old child had a child, that becomes our new child
-			if( _child != NULL )
+			if( m_child != NULL )
 			{
-				_child->SetParent( this );
+				m_child->SetParent( this );
 			}
 			
-			if( swapOffsets )
+			if( _swapOffsets )
 			{
-				_parent->SetTranslationOffset( _offsetX, _offsetY, _offsetZ );
-				_offsetX = ourNewOffsetX;
-				_offsetY = ourNewOffsetY;
-				_offsetZ = ourNewOffsetZ;
+				m_parent->SetTranslationOffset( m_offsetX, m_offsetY, m_offsetZ );
+				m_offsetX = ourNewOffsetX;
+				m_offsetY = ourNewOffsetY;
+				m_offsetZ = ourNewOffsetZ;
 			}
 			else
 			{
-				float theirNewStackedPos = _parent->GetStackedPosition();
+				float theirNewStackedPos = m_parent->GetStackedPosition();
 				// The stacked position of the parent will change, we want to use the difference as the new offset
 				// Difference between where parent was to where it is now
 				float theirNewOffsetZ = theirPrevActualPos - theirNewStackedPos;
-				_parent->AddTranslationOffset( 0.0f, 0.0f, theirNewOffsetZ - ourNewOffsetZ, false );
+				m_parent->AddTranslationOffset( 0.0f, 0.0f, theirNewOffsetZ - ourNewOffsetZ, false );
 				
 				// If old parent, need to update its position?!
 				if( prevParent != NULL )
@@ -166,7 +166,7 @@ void Totem::Object::ShiftOrder( bool up, bool swapOffsets )
 
 				// For our new offset, need to subtract difference in stacked positions of parent
 				float ourOffsetChange = theirNewStackedPos - theirPrevStackedPos;
-				_offsetZ += ourOffsetChange;
+				m_offsetZ += ourOffsetChange;
 			}
 		}
 	}
@@ -178,26 +178,26 @@ void Totem::Object::ShiftOrder( bool up, bool swapOffsets )
 
 Totem::Object* Totem::Object::GetRoot()
 {
-	if( _parent != NULL )
+	if( m_parent != NULL )
 	{
-		return _parent->GetRoot();
+		return m_parent->GetRoot();
 	}
 	return this;
 }
 
 //----------------------------------------------------------------------------------
 
-VolumeTree::Node* Totem::Object::GetNodeTree( float blendAmount )
+VolumeTree::Node* Totem::Object::GetNodeTree( float _blendAmount )
 {
-	_mainTransform->SetChild( _mainNode );
+	m_mainTransform->SetChild( m_mainNode );
 
-	VolumeTree::Node *rootNode = _mainTransform;
+	VolumeTree::Node *rootNode = m_mainTransform;
 
-	if( _child != NULL )
+	if( m_child != NULL )
 	{
 		// TODO: fix this memory leak
-		VolumeTree::BlendCSGNode *blendNode = new VolumeTree::BlendCSGNode( rootNode, _child->GetNodeTree( blendAmount ) );
-		blendNode->SetBlendParams( blendAmount, 1.0f, 1.0f );
+		VolumeTree::BlendCSGNode *blendNode = new VolumeTree::BlendCSGNode( rootNode, m_child->GetNodeTree( _blendAmount ) );
+		blendNode->SetBlendParams( _blendAmount, 1.0f, 1.0f );
 		rootNode = ( VolumeTree::Node* ) blendNode;
 	}
 
@@ -206,30 +206,30 @@ VolumeTree::Node* Totem::Object::GetNodeTree( float blendAmount )
 
 //----------------------------------------------------------------------------------
 
-void Totem::Object::SetDrawBBox( bool value )
+void Totem::Object::SetDrawBBox( bool _value )
 {
-	_mainTransform->SetDrawBBox( value );
+	m_mainTransform->SetDrawBBox( _value );
 }
 
 //----------------------------------------------------------------------------------
 
-void Totem::Object::SetTranslationOffset( float x, float y, float z, bool checkOrder )
+void Totem::Object::SetTranslationOffset( float _x, float _y, float _z, bool _checkOrder )
 {
-	_offsetX = x;
-	_offsetY = y;
-	_offsetZ = z;
-	AddTranslationOffset( 0.0f, 0.0f, 0.0f, checkOrder );
+	m_offsetX = _x;
+	m_offsetY = _y;
+	m_offsetZ = _z;
+	AddTranslationOffset( 0.0f, 0.0f, 0.0f, _checkOrder );
 }
 
 //----------------------------------------------------------------------------------
 
-void Totem::Object::AddTranslationOffset( float x, float y, float z, bool checkOrder )
+void Totem::Object::AddTranslationOffset( float _x, float _y, float _z, bool _checkOrder )
 {
-	_offsetX += x;
-	_offsetY += y;
-	_offsetZ += z;
+	m_offsetX += _x;
+	m_offsetY += _y;
+	m_offsetZ += _z;
 
-	std::cout << "OffsetX: " << _offsetX << " OffsetY: " << _offsetY << " Offset Z: " << _offsetZ << std::endl;
+	std::cout << "OffsetX: " << m_offsetX << " OffsetY: " << m_offsetY << " Offset Z: " << m_offsetZ << std::endl;
 	
 	RecalcOffsets();
 	/* // RecalcOffsets() call replaces this part:
@@ -255,14 +255,14 @@ void Totem::Object::AddTranslationOffset( float x, float y, float z, bool checkO
 
 	// Now see if the translation has changed the effective order of objects on the pole
 	// To do this we check to see if its centre has moved past the centre of its child or parent
-	float centreZ = _tz;
+	float centreZ = m_tz;
 	
-	if( checkOrder )
+	if( _checkOrder )
 	{
-		if( _child != NULL )
+		if( m_child != NULL )
 		{
 			float tempX, tempY, tempZ;
-			_child->GetTranslation( tempX, tempY, tempZ );
+			m_child->GetTranslation( tempX, tempY, tempZ );
 			float childZ = tempZ;
 			if( centreZ < childZ )
 			{
@@ -271,10 +271,10 @@ void Totem::Object::AddTranslationOffset( float x, float y, float z, bool checkO
 				ShiftOrder( false, false );
 			}
 		}
-		if( _parent != NULL )
+		if( m_parent != NULL )
 		{
 			float tempX, tempY, tempZ;
-			_parent->GetTranslation( tempX, tempY, tempZ );
+			m_parent->GetTranslation( tempX, tempY, tempZ );
 			float parentZ = tempZ;
 			if( centreZ > parentZ )
 			{
@@ -282,7 +282,7 @@ void Totem::Object::AddTranslationOffset( float x, float y, float z, bool checkO
 
 				ShiftOrder( true, false );
 
-				std::cout << "INFO: totem translate, new tz: " << _tz << std::endl;
+				std::cout << "INFO: totem translate, new tz: " << m_tz << std::endl;
 			}
 		}
 	}
@@ -292,10 +292,10 @@ void Totem::Object::AddTranslationOffset( float x, float y, float z, bool checkO
 
 float Totem::Object::GetBBoxZ()
 {
-	if( _mainNode != NULL )
+	if( m_mainNode != NULL )
 	{
-		float x,y,z;
-		_mainNode->GetBoundSizes( &x, &y, &z );
+		float x, y, z;
+		m_mainNode->GetBoundSizes( &x, &y, &z );
 		return z;
 	}
 	return 0.0f;
@@ -306,9 +306,9 @@ float Totem::Object::GetBBoxZ()
 float Totem::Object::GetBaseOffset()
 {
 	float total = GetBBoxZ();
-	if( _child != NULL )
+	if( m_child != NULL )
 	{
-		total += _child->GetBaseOffset();
+		total += m_child->GetBaseOffset();
 	}
 	return total;
 }
@@ -317,14 +317,14 @@ float Totem::Object::GetBaseOffset()
 
 void Totem::Object::RecalcOffsets()
 {
-	_tx = _offsetX;
-	_ty = _offsetY;
-	_tz = GetStackedPosition() + _offsetZ;
+	m_tx = m_offsetX;
+	m_ty = m_offsetY;
+	m_tz = GetStackedPosition() + m_offsetZ;
 	UpdateTransform();
 
-	if( _child != NULL )
+	if( m_child != NULL )
 	{
-		_child->RecalcOffsets();
+		m_child->RecalcOffsets();
 	}
 }
 
@@ -333,15 +333,15 @@ void Totem::Object::RecalcOffsets()
 float Totem::Object::GetStackedPosition()
 {
 	float z = 0.0f;
-	if( _child != NULL )
+	if( m_child != NULL )
 	{
-		z += _child->GetBaseOffset();
+		z += m_child->GetBaseOffset();
 	}
 	
-	if( _mainNode != NULL )
+	if( m_mainNode != NULL )
 	{
 		float bx, by, bz;
-		_mainNode->GetBoundSizes( &bx, &by, &bz );
+		m_mainNode->GetBoundSizes( &bx, &by, &bz );
 		z += bz * 0.5f;
 	}
 	return z;
@@ -349,11 +349,11 @@ float Totem::Object::GetStackedPosition()
 
 //----------------------------------------------------------------------------------
 
-float Totem::Object::SelectIntersectingObject( Totem::Object **selection, float originX, float originY, float originZ, float dirX, float dirY, float dirZ )
+float Totem::Object::SelectIntersectingObject( Totem::Object **_selection, float _originX, float _originY, float _originZ, float _dirX, float _dirY, float _dirZ )
 {
-	if( _mainNode == NULL || _mainTransform == NULL )
+	if( m_mainNode == NULL || m_mainTransform == NULL )
 	{
-		*selection = NULL;
+		*_selection = NULL;
 		return -1.0f;
 	}
 
@@ -365,7 +365,7 @@ float Totem::Object::SelectIntersectingObject( Totem::Object **selection, float 
 
 	//_mainTransform->SetChild(_mainNode);
 	float boxminX, boxminY, boxminZ, boxmaxX, boxmaxY, boxmaxZ;
-	_mainTransform->GetBounds( &boxminX, &boxmaxX, &boxminY, &boxmaxY, &boxminZ, &boxmaxZ );
+	m_mainTransform->GetBounds( &boxminX, &boxmaxX, &boxminY, &boxmaxY, &boxminZ, &boxmaxZ );
 
 	
 	#ifdef _DEBUG
@@ -378,17 +378,17 @@ float Totem::Object::SelectIntersectingObject( Totem::Object **selection, float 
 	// bool intersectBox(Ray r, float3 boxmin, float3 boxmax, float *tnear, float *tfar)
 	{
 		// compute intersection of ray with all six bbox planes
-		float invRX = 1.0f / dirX; float invRY = 1.0f / dirY; float invRZ = 1.0f / dirZ;
-		float tbotX = invRX * ( boxminX - originX ); float tbotY = invRY * ( boxminY - originY ); float tbotZ = invRZ * ( boxminZ - originZ );
-		float ttopX = invRX * ( boxmaxX - originX ); float ttopY = invRY * ( boxmaxY - originY ); float ttopZ = invRZ * ( boxmaxZ - originZ );
+		float invRX = 1.0f / _dirX; float invRY = 1.0f / _dirY; float invRZ = 1.0f / _dirZ;
+		float tbotX = invRX * ( boxminX - _originX ); float tbotY = invRY * ( boxminY - _originY ); float tbotZ = invRZ * ( boxminZ - _originZ );
+		float ttopX = invRX * ( boxmaxX - _originX ); float ttopY = invRY * ( boxmaxY - _originY ); float ttopZ = invRZ * ( boxmaxZ - _originZ );
 
 		// re-order intersections to find smallest and largest on each axis
-		float tminX = (std::min)( ttopX, tbotX ); float tminY = (std::min)( ttopY, tbotY ); float tminZ = (std::min)( ttopZ, tbotZ );
-		float tmaxX = (std::max)( ttopX, tbotX ); float tmaxY = (std::max)( ttopY, tbotY ); float tmaxZ = (std::max)( ttopZ, tbotZ );
+		float tminX = ( std::min )( ttopX, tbotX ); float tminY = ( std::min )( ttopY, tbotY ); float tminZ = ( std::min )( ttopZ, tbotZ );
+		float tmaxX = ( std::max )( ttopX, tbotX ); float tmaxY = ( std::max )( ttopY, tbotY ); float tmaxZ = ( std::max )( ttopZ, tbotZ );
 
 		// find the largest tmin and the smallest tmax
-		float largest_tmin = (std::max)( (std::max)( tminX, tminY ), (std::max)( tminX, tminZ ) );
-		float smallest_tmax = (std::min)( (std::min)( tmaxX, tmaxY ), (std::min)( tmaxX, tmaxZ ) );
+		float largest_tmin = ( std::max )( ( std::max )( tminX, tminY ), ( std::max )( tminX, tminZ ) );
+		float smallest_tmax = ( std::min )( ( std::min )( tmaxX, tmaxY ), ( std::min )( tmaxX, tmaxZ ) );
 
 		ourDist = largest_tmin;
 		//*tfar = smallest_tmax;
@@ -402,15 +402,15 @@ float Totem::Object::SelectIntersectingObject( Totem::Object **selection, float 
 
 
 	// Send instruction to children
-	if( _child != NULL )
+	if( m_child != NULL )
 	{
 		Totem::Object *childSelection = NULL;
-		float childDist = _child->SelectIntersectingObject( &childSelection, originX, originY, originZ, dirX, dirY, dirZ );
+		float childDist = m_child->SelectIntersectingObject( &childSelection, _originX, _originY, _originZ, _dirX, _dirY, _dirZ );
 
 		// childSelection will be non-NULL only if an intersection was found
 		if( ( childSelection != NULL ) && ( !ourHit || ( childDist < ourDist ) ) )
 		{
-			*selection = childSelection;
+			*_selection = childSelection;
 			return childDist;
 		}
 	}
@@ -418,12 +418,12 @@ float Totem::Object::SelectIntersectingObject( Totem::Object **selection, float 
 	// If the logic gets to here, either there was no child hit or we are closer than our children, or there is no hit at all
 	if( ourHit )
 	{
-		*selection = this;
+		*_selection = this;
 		return ourDist;
 	}
 	else
 	{
-		*selection = NULL;
+		*_selection = NULL;
 		return -1.0f;
 	}
 }
@@ -432,12 +432,11 @@ float Totem::Object::SelectIntersectingObject( Totem::Object **selection, float 
 
 void  Totem::Object::UpdateTransform()
 {
-
-	_mainTransform->SetTransformParams(	_tx,   _ty,  _tz,
-										_rx,   _ry,  _rz,
-										_sx,   _sy,  _sz,
-										0.0f, 0.0f, 0.0f,
-										0.0f, 0.0f, 0.0f );
+	m_mainTransform->SetTransformParams( m_tx, m_ty, m_tz,
+										 m_rx, m_ry, m_rz,
+										 m_sx, m_sy, m_sz,
+										 0.0f, 0.0f, 0.0f,
+										 0.0f, 0.0f, 0.0f );
 }
 
 //----------------------------------------------------------------------------------

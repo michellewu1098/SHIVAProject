@@ -3,20 +3,20 @@
 //----------------------------------------------------------------------------------
 // Initialise statics
 
-ShivaModelManager *ShivaModelManager::_instance = NULL;
+ShivaModelManager *ShivaModelManager::m_instance = NULL;
 
-ShivaModelManager* ShivaModelManager::Init( std::string indexFile )
+ShivaModelManager* ShivaModelManager::Init( std::string _indexFile )
 {
-	_instance = new ShivaModelManager( indexFile );
-	return _instance;
+	m_instance = new ShivaModelManager( _indexFile );
+	return m_instance;
 }
 
 //----------------------------------------------------------------------------------
 
-ShivaModelManager::ShivaModelManager( std::string indexFile )
+ShivaModelManager::ShivaModelManager( std::string _indexFile )
 {
 	// need to populate the model indices data
-	TiXmlDocument doc( indexFile );
+	TiXmlDocument doc( _indexFile );
 	if( doc.LoadFile() )
 	{
 		TiXmlElement *rootElement = doc.RootElement();
@@ -46,40 +46,40 @@ ShivaModelManager::ShivaModelManager( std::string indexFile )
 							}
 						}
 						else
-							std::cerr << "WARNING: ShivaModelManager parsing xml file: " << indexFile << " strange error: model node is not an element, cannot retrieve attributes" << std::endl;
+							std::cerr << "WARNING: ShivaModelManager parsing xml file: " << _indexFile << " strange error: model node is not an element, cannot retrieve attributes" << std::endl;
 
 						if( !ID.empty() )
 						{
-							_modelIndices[ ID ] = currentData;
+							m_modelIndices[ ID ] = currentData;
 						}
 						else
 						{
-							std::cerr << "WARNING: ShivaModelManager parsing xml file: " << indexFile << " cannot store Model entry with no ID" << std::endl;
+							std::cerr << "WARNING: ShivaModelManager parsing xml file: " << _indexFile << " cannot store Model entry with no ID" << std::endl;
 							delete currentData;
 						}
 					}
 				}
 			}
 			else
-				std::cerr << "WARNING: ShivaModelManager root element is not of value 'ModelIndexFile' in xml file: " << indexFile << std::endl;
+				std::cerr << "WARNING: ShivaModelManager root element is not of value 'ModelIndexFile' in xml file: " << _indexFile << std::endl;
 		}
 		else
-			std::cerr << "WARNING: ShivaModelManager cannot retrieve root element from xml file: " << indexFile << std::endl;
+			std::cerr << "WARNING: ShivaModelManager cannot retrieve root element from xml file: " << _indexFile << std::endl;
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-bool ShivaModelManager::QueryAttribute( int entry, std::string attribute )
+bool ShivaModelManager::QueryAttribute( int _entry, std::string _attribute )
 {
 	std::stringstream stream;
-	stream << entry;
+	stream << _entry;
 	std::string modelID( stream.str() );
-	if( _modelIndices.find( modelID ) != _modelIndices.end() )
+	if( m_modelIndices.find( modelID ) != m_modelIndices.end() )
 	{
-		std::map< std::string, std::string > *modelData = ( _modelIndices[ modelID ] );
+		std::map< std::string, std::string > *modelData = ( m_modelIndices[ modelID ] );
 
-		if( modelData->find( attribute ) != modelData->end() )
+		if( modelData->find( _attribute ) != modelData->end() )
 		{
 			return true;
 		}
@@ -89,18 +89,18 @@ bool ShivaModelManager::QueryAttribute( int entry, std::string attribute )
 
 //----------------------------------------------------------------------------------
 
-std::string ShivaModelManager::GetAttributeString( int entry, std::string attribute )
+std::string ShivaModelManager::GetAttributeString( int _entry, std::string _attribute )
 {
 	std::stringstream stream;
-	stream << entry;
+	stream << _entry;
 	std::string modelID( stream.str() );
-	if( _modelIndices.find( modelID ) != _modelIndices.end() )
+	if( m_modelIndices.find( modelID ) != m_modelIndices.end() )
 	{
-		std::map< std::string, std::string > *modelData = ( _modelIndices[ modelID ] );
+		std::map< std::string, std::string > *modelData = ( m_modelIndices[ modelID ] );
 
-		if( modelData->find( attribute ) != modelData->end() )
+		if( modelData->find( _attribute ) != modelData->end() )
 		{
-			return ( *modelData )[ attribute ];
+			return ( *modelData )[ _attribute ];
 		}
 	}
 	return "";
@@ -110,7 +110,7 @@ std::string ShivaModelManager::GetAttributeString( int entry, std::string attrib
 
 int ShivaModelManager::GetNumEntries()
 {
-	return _modelIndices.size();
+	return m_modelIndices.size();
 }
 
 //----------------------------------------------------------------------------------

@@ -25,9 +25,11 @@ namespace Totem
 
 			//----------------------------------------------------------------------------------
 			/// \brief Ctor
-			/// \param [in] drillSize
+			/// \param [in] _drillSize
 			//----------------------------------------------------------------------------------
-			Drill( float drillSize );
+			Drill( float _drillSize );
+			//----------------------------------------------------------------------------------
+			/// \brief Ctor
 			//----------------------------------------------------------------------------------
 			Drill( VolumeTree::CylinderNode* _shape, VolumeTree::TransformNode* _rotate, VolumeTree::TransformNode* _translate );
 			//----------------------------------------------------------------------------------
@@ -36,21 +38,21 @@ namespace Totem
 			~Drill();
 			//----------------------------------------------------------------------------------
 			/// \brief This function must add the operation's nodes to the childNode subtree
-			/// \param [in] childNode
-			/// \return _drillOpNode
+			/// \param [in] _childNode
+			/// \return m_drillOpNode
 			//----------------------------------------------------------------------------------
-			virtual VolumeTree::Node* GetNodeTree( VolumeTree::Node *childNode );
+			virtual VolumeTree::Node* GetNodeTree( VolumeTree::Node *_childNode );
 			//----------------------------------------------------------------------------------
 			/// \brief Set paramters for drill
-			/// \param [in] originX
-			/// \param [in] originY
-			/// \param [in] originZ
-			/// \param [in] dirX
-			/// \param [in] dirY
-			/// \param [in] dirZ
-			/// \param [in] length
+			/// \param [in] _originX
+			/// \param [in] _originY
+			/// \param [in] _originZ
+			/// \param [in] _dirX
+			/// \param [in] _dirY
+			/// \param [in] _dirZ
+			/// \param [in] _length
 			//----------------------------------------------------------------------------------
-			void SetDrill( float originX, float originY, float originZ, float dirX, float dirY, float dirZ, float length );
+			void SetDrill( float _originX, float _originY, float _originZ, float _dirX, float _dirY, float _dirZ, float _length );
 			//----------------------------------------------------------------------------------
 
 		protected:
@@ -58,19 +60,19 @@ namespace Totem
 			//----------------------------------------------------------------------------------
 			/// \brief Drilling operation node
 			//----------------------------------------------------------------------------------
-			VolumeTree::CSGNode *_drillOpNode;
+			VolumeTree::CSGNode *m_drillOpNode;
 			//----------------------------------------------------------------------------------
 			/// \brief Drill shape node
 			//----------------------------------------------------------------------------------
-			VolumeTree::CylinderNode *_drillShapeNode;
+			VolumeTree::CylinderNode *m_drillShapeNode;
 			//----------------------------------------------------------------------------------
 			/// \brief Drill translation node
 			//----------------------------------------------------------------------------------
-			VolumeTree::TransformNode *_drillTranslateNode;
+			VolumeTree::TransformNode *m_drillTranslateNode;
 			//----------------------------------------------------------------------------------
 			/// \brief Drill rotation node
 			//----------------------------------------------------------------------------------
-			VolumeTree::TransformNode *_drillRotateNode;
+			VolumeTree::TransformNode *m_drillRotateNode;
 			//----------------------------------------------------------------------------------
 		};
 	}

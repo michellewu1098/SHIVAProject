@@ -1,60 +1,59 @@
-
 #include "Totem/Operations/TotemOpDrill.h"
 
 //----------------------------------------------------------------------------------
 
-Totem::Operations::Drill::Drill( float drillSize )
+Totem::Operations::Drill::Drill( float _drillSize )
 {
-	_drillOpNode = new VolumeTree::CSGNode();
-	_drillOpNode->SetCSGType( VolumeTree::CSGNode::CSG_SUBTRACTION );
+	m_drillOpNode = new VolumeTree::CSGNode();
+	m_drillOpNode->SetCSGType( VolumeTree::CSGNode::CSG_SUBTRACTION );
 
-	_drillShapeNode = new VolumeTree::CylinderNode( 20.0f, drillSize, drillSize );
+	m_drillShapeNode = new VolumeTree::CylinderNode( 20.0f, _drillSize, _drillSize );
 	
-	_drillRotateNode = new VolumeTree::TransformNode( _drillShapeNode );
-	_drillTranslateNode = new VolumeTree::TransformNode( _drillRotateNode );
+	m_drillRotateNode = new VolumeTree::TransformNode( m_drillShapeNode );
+	m_drillTranslateNode = new VolumeTree::TransformNode( m_drillRotateNode );
 
-	_drillOpNode->SetChildB( _drillTranslateNode );
+	m_drillOpNode->SetChildB( m_drillTranslateNode );
 }
 
 //----------------------------------------------------------------------------------
 
 Totem::Operations::Drill::Drill( VolumeTree::CylinderNode *_shape, VolumeTree::TransformNode *_rotate, VolumeTree::TransformNode *_translate )
 {
-	_drillOpNode = new VolumeTree::CSGNode();
-	_drillOpNode->SetCSGType( VolumeTree::CSGNode::CSG_SUBTRACTION );
+	m_drillOpNode = new VolumeTree::CSGNode();
+	m_drillOpNode->SetCSGType( VolumeTree::CSGNode::CSG_SUBTRACTION );
 
-	_drillShapeNode = _shape;
-	_drillRotateNode = _rotate;
-	_drillTranslateNode = _translate;
+	m_drillShapeNode = _shape;
+	m_drillRotateNode = _rotate;
+	m_drillTranslateNode = _translate;
 
-	_drillOpNode->SetChildB( _drillTranslateNode );
+	m_drillOpNode->SetChildB( m_drillTranslateNode );
 }
 
 //----------------------------------------------------------------------------------
 
 Totem::Operations::Drill::~Drill()
 {
-	//delete _drillOpNode;
-	//delete _drillShapeNode;
-	//delete _drillTranslateNode;
-	//delete _drillRotateNode;
+	//delete m_drillOpNode;
+	//delete m_drillShapeNode;
+	//delete m_drillTranslateNode;
+	//delete m_drillRotateNode;
 }
 
 //----------------------------------------------------------------------------------
 
-VolumeTree::Node* Totem::Operations::Drill::GetNodeTree( VolumeTree::Node *childNode )
+VolumeTree::Node* Totem::Operations::Drill::GetNodeTree( VolumeTree::Node *_childNode )
 {
-	_drillOpNode->SetChildA( childNode );
-	return _drillOpNode;
+	m_drillOpNode->SetChildA( _childNode );
+	return m_drillOpNode;
 }
 
 //----------------------------------------------------------------------------------
 
-void Totem::Operations::Drill::SetDrill( float originX, float originY, float originZ, float dirX, float dirY, float dirZ, float length )
+void Totem::Operations::Drill::SetDrill( float _originX, float _originY, float _originZ, float _dirX, float _dirY, float _dirZ, float _length )
 {
 	// Set the transform
-	_drillRotateNode->SetRotate( dirX, dirY, dirZ );
-	_drillTranslateNode->SetTranslate( originX, originY, originZ );
+	m_drillRotateNode->SetRotate( _dirX, _dirY, _dirZ );
+	m_drillTranslateNode->SetTranslate( _originX, _originY, _originZ );
 }
 
 //----------------------------------------------------------------------------------

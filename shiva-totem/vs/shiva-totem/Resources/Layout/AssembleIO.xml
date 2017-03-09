@@ -56,6 +56,7 @@
 		layout_height="0.23"
 		layout_centreX="0.7"
 		layout_centreY="0.5"
+		height_constrained="true"
 		scaleContent="true"
 		keepContentAspectRatio="true"
 		text="Rotate&#10;Up"
@@ -77,6 +78,7 @@
 		layout_height="0.23"
 		layout_centreX="0.3"
 		layout_centreY="0.5"
+		height_constrained="true"
 		scaleContent="true"
 		keepContentAspectRatio="true"
 		text = "Rotate&#10;Down"
@@ -98,6 +100,7 @@
 		layout_height="0.16"
 		layout_centreX="0.5"
 		layout_centreY="0.91"
+		height_constrained="true"
 		scaleContent="true"
 		keepContentAspectRatio="true"
 		text = "Rotate Right"
@@ -116,6 +119,7 @@
 		layout_height="0.16"
 		layout_centreX="0.5"
 		layout_centreY="0.2"
+		height_constrained="true"
 		scaleContent="true"
 		keepContentAspectRatio="true"
 		text = "Rotate Left"
@@ -135,7 +139,7 @@
   <TextButton
 		id="RotateReset"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.7"
 		layout_centreY="0.9"
 		onClick="buttonHandler"
@@ -145,9 +149,11 @@
   <TextButton
 		id="NudgeActivity"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.3"
 		layout_centreY="0.9"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="launchActivityHandler"
 		text="nudge"
 		/>
@@ -155,7 +161,7 @@
   <TextButton
 		id="EyeGazeRest"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.7"
 		layout_centreY="0.15"
 		eyeGaze_RestButton="true"
@@ -165,7 +171,7 @@
   <TextButton
 		id="New"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.3"
 		layout_centreY="0.15"
 		onClick="buttonHandler"
@@ -175,7 +181,7 @@
   <TextButton
 		id="NudgeUp"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.05"
 		onClick="buttonHandler"
@@ -189,7 +195,7 @@
   <TextButton
 		id="SwapAbove"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.15"
 		onClick="buttonHandler"
@@ -204,7 +210,7 @@
   <TextButton
 		id="SelectAbove"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.25"
 		onClick="buttonHandler"
@@ -219,7 +225,7 @@
 	<TextButton
 		id="DeleteSelected"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.35"
 		onClick="buttonHandler"
@@ -234,7 +240,7 @@
 	<TextButton
 		id="EditMenuActivity"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.45"
 		onClick="launchActivityHandler"
@@ -249,7 +255,7 @@
   <TextButton
 		id="SelectBelow"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.55"
 		onClick="buttonHandler"
@@ -264,7 +270,7 @@
   <TextButton
 		id="SwapBelow"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.65"
 		onClick="buttonHandler"
@@ -279,7 +285,7 @@
   <TextButton
 		id="NudgeDown"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.75"
 		onClick="buttonHandler"
@@ -305,7 +311,7 @@
   <TextButton
 		id="Save"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.95"
 		onClick="saveHandler"
@@ -322,7 +328,7 @@
 	<TextButton
 		id="Load"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.85"
 		onClick="loadHandler"

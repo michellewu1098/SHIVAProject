@@ -1,4 +1,3 @@
-
 #include "AssembleActivity.h"
 #include "ShivaModelManager.h"
 
@@ -8,66 +7,66 @@
 
 //----------------------------------------------------------------------------------
 
-void AssembleActivity::OnCreate( ShivaGUI::Bundle *data )
+void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
 {
 	// This is like our constructor
 	// We use it to initialise our variables and load the layouts to window
 
-	_totemController = Totem::Controller::GetInstance();
+	m_totemController = Totem::Controller::GetInstance();
 
-	_showSaveConfirmation = false;
-	_saveTextCounter = 0.0f;
+	m_showSaveConfirmation = false;
+	m_saveTextCounter = 0.0f;
 
-	_objectColourR = 0.88f;
-	_objectColourG = 0.78f;
-	_objectColourB = 0.54f;
-	_setObjectColour = false;
+	m_objectColourR = 0.88f;
+	m_objectColourG = 0.78f;
+	m_objectColourB = 0.54f;
+	m_setObjectColour = false;
 
-	_rotationStepsize = 7.5f;
-	_rotationX = _rotationY = _rotationZ = 0.0f;
+	m_rotationStepsize = 7.5f;
+	m_rotationX = m_rotationY = m_rotationZ = 0.0f;
 
-	_saveRescaleSize = 20.0f;
+	m_saveRescaleSize = 20.0f;
 	
-	_saveDir = "Savefiles/";
-	_saveName = "Totem";
+	m_saveDir = "Savefiles/";
+	m_saveName = "Totem";
 	ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
-	_originalBlendingAmount = 0.0f;
+	m_originalBlendingAmount = 0.0f;
 	if( prefs != NULL )
 	{
-		_saveDir = prefs->GetString( "SaveDirectory", _saveDir );
-		_saveName = prefs->GetString( "SaveFilename", _saveName );
+		m_saveDir = prefs->GetString( "SaveDirectory", m_saveDir );
+		m_saveName = prefs->GetString( "SaveFilename", m_saveName );
 
-		_originalBlendingAmount = prefs->GetFloat( "BlendingAmount", _originalBlendingAmount );
+		m_originalBlendingAmount = prefs->GetFloat( "BlendingAmount", m_originalBlendingAmount );
 		
 		if( prefs->Contains( "ObjectColourR" ) && prefs->Contains( "ObjectColourG" ) && prefs->Contains( "ObjectColourB" ) )
 		{
-			_objectColourR = prefs->GetFloat( "ObjectColourR", _objectColourR );
-			_objectColourG = prefs->GetFloat( "ObjectColourG", _objectColourG );
-			_objectColourB = prefs->GetFloat( "ObjectColourB", _objectColourB );
-			_setObjectColour = true;
+			m_objectColourR = prefs->GetFloat( "ObjectColourR", m_objectColourR );
+			m_objectColourG = prefs->GetFloat( "ObjectColourG", m_objectColourG );
+			m_objectColourB = prefs->GetFloat( "ObjectColourB", m_objectColourB );
+			m_setObjectColour = true;
 		}
 		
-		_rotationStepsize = prefs->GetFloat( "RotationStepsize", _rotationStepsize );
+		m_rotationStepsize = prefs->GetFloat( "RotationStepsize", m_rotationStepsize );
 
-		_saveRescaleSize = prefs->GetFloat( "SaveRescaleSize", _saveRescaleSize );
+		m_saveRescaleSize = prefs->GetFloat( "SaveRescaleSize", m_saveRescaleSize );
 	}
-	_totemController->SetBlend( _originalBlendingAmount );
+	m_totemController->SetBlend( m_originalBlendingAmount );
 
 	// Create the button event handlers
-	_buttonHandler = new UtilityEventHandler( this );
-	_addPrimitiveHandler = new UtilityEventHandler( this );
-	_launchActivityHandler = new UtilityEventHandler( this );
+	m_buttonHandler = new UtilityEventHandler( this );
+	m_addPrimitiveHandler = new UtilityEventHandler( this );
+	m_launchActivityHandler = new UtilityEventHandler( this );
 
 	// Create and configure our list adapter
-	_modelListAdapter =  new ShivaGUI::DataAdapter();
-	_modelListAdapter->SetDataProvider( ShivaModelManager::GetInstance() );
+	m_modelListAdapter =  new ShivaGUI::DataAdapter();
+	m_modelListAdapter->SetDataProvider( ShivaModelManager::GetInstance() );
 
 	// create mapping:
 	std::string fromAttrib( "thumbnail_file" ); // This must correspond to the entry in the Resources/Models/index.xml that we want to map
 	std::string toView( "imagebutton" );		// This must be the View ID in the layout xml that we want to map the above data to
 
-	_modelListAdapter->SetMapping( &fromAttrib, &toView, 1 );
-	_modelListAdapter->SetLayoutFile( "ModelListEntry.xml" );	// This is the layout xml that specifies the single entry for the ListView
+	m_modelListAdapter->SetMapping( &fromAttrib, &toView, 1 );
+	m_modelListAdapter->SetLayoutFile( "ModelListEntry.xml" );	// This is the layout xml that specifies the single entry for the ListView
 
 
 	// We will now tell the system what to display on the windows
@@ -80,7 +79,7 @@ void AssembleActivity::OnCreate( ShivaGUI::Bundle *data )
 	{
 		// We retrieve a GUIController
 		// This is our main method of accessing the resources associated with a Window
-		ShivaGUI::GUIController *guiController = GetGUIController(i);
+		ShivaGUI::GUIController *guiController = GetGUIController( i );
 
 		// The User Profile can specify how the windows are supposed to be used
 		// We can retrieve this using the GUIController and load a different window layout
@@ -88,12 +87,12 @@ void AssembleActivity::OnCreate( ShivaGUI::Bundle *data )
 		if( windowUse == ShivaGUI::Window::OUTPUT )
 		{
 			// This window should be used for output information only, with no buttons etc
-			InitOutputWindow( guiController, data );
+			InitOutputWindow( guiController, _data );
 		}
 		else
 		{
 			// We just assume that this is a generic input/output window
-			InitIOWindow( guiController, data );
+			InitIOWindow( guiController, _data );
 		}
 	}
 }
@@ -102,7 +101,7 @@ void AssembleActivity::OnCreate( ShivaGUI::Bundle *data )
 
 void AssembleActivity::OnResume()
 {
-	_totemController->ShowSelection( true );
+	m_totemController->ShowSelection( true );
 	std::cout << "INFO: Assemble Activity OnResume()" << std::endl;
 }
 
@@ -111,27 +110,21 @@ void AssembleActivity::OnResume()
 void AssembleActivity::OnDestroy()
 {
 	// This is like our destructor, so delete our data etc
-//	delete _rotateLeftHandler;
-//	delete _rotateRightHandler;
-//	delete _rotateUpHandler;
-//	delete _rotateDownHandler;
-//	delete _deleteTopHandler;
-//	delete _editHandler;
-	delete _buttonHandler;
-	delete _addPrimitiveHandler;
-	delete _modelListAdapter;
+	delete m_buttonHandler;
+	delete m_addPrimitiveHandler;
+	delete m_modelListAdapter;
 }
 
 //----------------------------------------------------------------------------------
 
-void AssembleActivity::OnUpdate( float deltaTs )
+void AssembleActivity::OnUpdate( float _deltaTs )
 {
-	if( _showSaveConfirmation )
+	if( m_showSaveConfirmation )
 	{
-		_saveTextCounter -= deltaTs;
-		if( _saveTextCounter <= 0.0f )
+		m_saveTextCounter -= _deltaTs;
+		if( m_saveTextCounter <= 0.0f )
 		{
-			_showSaveConfirmation = false;
+			m_showSaveConfirmation = false;
 			UpdateViews();
 		}
 	}
@@ -139,7 +132,7 @@ void AssembleActivity::OnUpdate( float deltaTs )
 
 //----------------------------------------------------------------------------------
 
-void AssembleActivity::UtilityEventReceived( UtilityEventHandler *handler, ShivaGUI::View *view )
+void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGUI::View *_view )
 {
 	// This function is called when an event is received
 	// the handler we are given should be one of those we registered
@@ -173,87 +166,87 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *handler, Shiva
 		RebuildTrees();
 	}
 	*/
-	if( handler == _buttonHandler )
+	if( _handler == m_buttonHandler )
 	{
-		if( view->GetID() == "RotateLeft" )
+		if( _view->GetID() == "RotateLeft" )
 		{
 			std::cout << "INFO: AssembleActivity request to rotate left" << std::endl;
-			_rotationZ -= _rotationStepsize;
+			m_rotationZ -= m_rotationStepsize;
 		}
-		else if( view->GetID() == "RotateRight" )
+		else if( _view->GetID() == "RotateRight" )
 		{
 			std::cout << "INFO: AssembleActivity request to rotate right" << std::endl;
-			_rotationZ += _rotationStepsize;
+			m_rotationZ += m_rotationStepsize;
 		}
-		else if( view->GetID() == "RotateUp" )
+		else if( _view->GetID() == "RotateUp" )
 		{
 			std::cout << "INFO: AssembleActivity request to rotate up" << std::endl;
-			_rotationX -= _rotationStepsize;
+			m_rotationX -= m_rotationStepsize;
 		}
-		else if( view->GetID() == "RotateDown" )
+		else if( _view->GetID() == "RotateDown" )
 		{
 			std::cout << "INFO: AssembleActivity request to rotate down" << std::endl;
-			_rotationX += _rotationStepsize;
+			m_rotationX += m_rotationStepsize;
 		}
-		else if( view->GetID() == "DeleteSelected" )
+		else if( _view->GetID() == "DeleteSelected" )
 		{
 			std::cout << "INFO: AssembleActivity request to delete selected object" << std::endl;
-			_totemController->DeleteSelectedObject();
+			m_totemController->DeleteSelectedObject();
 			RebuildTrees();
 		}
-		else if( view->GetID() == "SelectAbove" )
+		else if( _view->GetID() == "SelectAbove" )
 		{
 			std::cout << "INFO: AssembleActivity request to select object above" << std::endl;
-			_totemController->SelectObjectAbove();
+			m_totemController->SelectObjectAbove();
 		}
-		else if( view->GetID() == "SelectBelow" )
+		else if( _view->GetID() == "SelectBelow" )
 		{
 			std::cout << "INFO: AssembleActivity request to select object below" << std::endl;
-			_totemController->SelectObjectBelow();
+			m_totemController->SelectObjectBelow();
 		}
-		else if( view->GetID() == "SwapAbove" )
+		else if( _view->GetID() == "SwapAbove" )
 		{
 			std::cout << "INFO: AssembleActivity request to swap with object above" << std::endl;
-			_totemController->ReorderSelectedObject( true );
+			m_totemController->ReorderSelectedObject( true );
 			RebuildTrees();
 		}
-		else if( view->GetID() == "SwapBelow" )
+		else if( _view->GetID() == "SwapBelow" )
 		{
 			std::cout << "INFO: AssembleActivity request to swap with object below" << std::endl;
-			_totemController->ReorderSelectedObject( false );
+			m_totemController->ReorderSelectedObject( false );
 			RebuildTrees();
 		}
-		else if( view->GetID() == "NudgeUp" )
+		else if( _view->GetID() == "NudgeUp" )
 		{
 			std::cout << "INFO: AssembleActivity request to nudge object upward" << std::endl;
-			_totemController->MoveSelectedObject( 0.0f, 0.0f, 0.1f );
+			m_totemController->MoveSelectedObject( 0.0f, 0.0f, 0.1f );
 			RebuildTrees(true);
 		}
-		else if( view->GetID() == "NudgeDown" )
+		else if( _view->GetID() == "NudgeDown" )
 		{
 			std::cout << "INFO: AssembleActivity request to nudge object downward" << std::endl;
-			_totemController->MoveSelectedObject( 0.0f, 0.0f, -0.1f );
+			m_totemController->MoveSelectedObject( 0.0f, 0.0f, -0.1f );
 			RebuildTrees( true );
 		}
-		else if( view->GetID() == "RotateReset" )
+		else if( _view->GetID() == "RotateReset" )
 		{
 			ResetRotation();
 		}
-		else if( view->GetID() == "Edit" )
+		else if( _view->GetID() == "Edit" )
 		{
 			// If we say we expect a result we will be notified when it returns, so we can rebuild the trees
 			GetGUIManager()->StartActivityForResult( "EditMenuActivity", NULL );
 		}
-		else if( view->GetID() == "New" )
+		else if( _view->GetID() == "New" )
 		{
-			_totemController->DeleteAll();
-			_totemController->SetBlend( _originalBlendingAmount );
+			m_totemController->DeleteAll();
+			m_totemController->SetBlend( m_originalBlendingAmount );
 			ResetRotation();
 			RebuildTrees( true );
 		}
-		else if( view->GetID() == "Load" )
+		else if( _view->GetID() == "Load" )
 		{
-			char const * lFilterPatterns[2] = { "*.xml", "*.vol" };
+			char const * lFilterPatterns[ 2 ] = { "*.xml", "*.vol" };
 			char const* fileName = tinyfd_openFileDialog( "SHIVA Models", "Savefiles/", 2, lFilterPatterns, NULL, 0 );
 			
 			if ( !fileName )
@@ -262,22 +255,22 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *handler, Shiva
 			}
 			else
 			{
-				_totemController->DeleteAll();
-				_totemController->SetBlend( _originalBlendingAmount );
+				m_totemController->DeleteAll();
+				m_totemController->SetBlend( m_originalBlendingAmount );
 				ResetRotation();
 			
 				VolumeTree::Tree tmpTree;
 
 				if( tmpTree.Load( fileName ) )
 				{ 
-					_totemController->loadModel( tmpTree.getReverseTree() );
-				    _totemController->SelectTopObject();
+					m_totemController->loadModel( tmpTree.getReverseTree() );
+				    m_totemController->SelectTopObject();
 				}
 			
 				RebuildTrees( true );
 			}
 		}
-		else if( view->GetID() == "Save" )
+		else if( _view->GetID() == "Save" )
 		{
 			std::cout << "INFO: AssembleActivity request to save tree" << std::endl;
 			VolumeTree::Tree tempTree;
@@ -319,7 +312,7 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *handler, Shiva
 			//	std::cerr << "WARNING: Cannot save file. Try removing previous files, limit is 10000 files" << std::endl;
 			//}
 
-			tempTree.SetRoot( _totemController->GetNodeTree() );
+			tempTree.SetRoot( m_totemController->GetNodeTree() );
 			bool fileFound = false;
 			std::string fullFilename;
 			std::string extension = ".xml";
@@ -328,23 +321,23 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *handler, Shiva
 			{
 				std::stringstream fileNum;
 				fileNum<<i;
-				fullFilename = _saveDir + _saveName + fileNum.str() + extension;
+				fullFilename = m_saveDir + m_saveName + fileNum.str() + extension;
 				fileFound = !boost::filesystem::exists( fullFilename );
 				i++;
 			}
-			while( (i < 10000) && !fileFound );
+			while( ( i < 10000 ) && !fileFound );
 
 			if( fileFound )
 			{
-				if( !boost::filesystem::exists( _saveDir ) )
+				if( !boost::filesystem::exists( m_saveDir ) )
 				{
-					boost::filesystem::create_directory( _saveDir );
+					boost::filesystem::create_directory( m_saveDir );
 				}
 
 				tempTree.SaveXML( fullFilename );
 
-				_showSaveConfirmation = true;
-				_saveTextCounter = 3.0f;
+				m_showSaveConfirmation = true;
+				m_saveTextCounter = 3.0f;
 			}
 			else
 			{
@@ -352,7 +345,7 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *handler, Shiva
 			}
 		}
 	}
-	else if( handler == _addPrimitiveHandler )
+	else if( _handler == m_addPrimitiveHandler )
 	{
 		// We have received a request to add a primitive to the totempole
 		// We don't know which button was selected though, so we need to find out:
@@ -360,13 +353,13 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *handler, Shiva
 		//std::cout<<"INFO: AssembleActivity attempting to add primitive: "<<modelManager->GetAttributeString(dataEntryIndex,"name")<<std::endl;
 
 		int dataEntryIndex = -1;
-		std::vector< std::pair< ShivaGUI::AdapterView*, ShivaGUI::GUIController* > >::iterator it = _listViews.begin();
+		std::vector< std::pair< ShivaGUI::AdapterView*, ShivaGUI::GUIController* > >::iterator it = m_listViews.begin();
 		do
 		{
-			dataEntryIndex = ( *it ).first->GetDataIndex( view );
+			dataEntryIndex = ( *it ).first->GetDataIndex( _view );
 			++it;
 		}
-		while( it != _listViews.end() && dataEntryIndex < 0 );
+		while( it != m_listViews.end() && dataEntryIndex < 0 );
 
 		if( dataEntryIndex == -1 )
 		{
@@ -375,8 +368,8 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *handler, Shiva
 		}
 
 		// We use the button index to create that primitive:
-		_totemController->AddObjectToTop( dataEntryIndex );
-		_totemController->SelectTopObject();
+		m_totemController->AddObjectToTop( dataEntryIndex );
+		m_totemController->SelectTopObject();
 
 		// The Views now need to rebuild their trees:
 		RebuildTrees();
@@ -400,13 +393,13 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *handler, Shiva
 		AddTopObject(filename);
 		*/
 	}
-	else if( handler == _launchActivityHandler )
+	else if( _handler == m_launchActivityHandler )
 	{
-		if( view != NULL )
+		if( _view != NULL )
 		{
 			// Use the ID of the view as the activity name
 			// If we say we expect a result we will be notified when it returns, so we can rebuild the trees
-			GetGUIManager()->StartActivityForResult( view->GetID(), NULL );
+			GetGUIManager()->StartActivityForResult( _view->GetID(), NULL );
 		}
 	}
 	/*
@@ -455,7 +448,7 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *handler, Shiva
 
 //----------------------------------------------------------------------------------
 
-void AssembleActivity::OnActivityResult( ShivaGUI::Bundle *data )
+void AssembleActivity::OnActivityResult( ShivaGUI::Bundle *_data )
 {
 	RebuildTrees();
 }
@@ -464,15 +457,15 @@ void AssembleActivity::OnActivityResult( ShivaGUI::Bundle *data )
 
 void AssembleActivity::UpdateViews()
 {
-	for( std::vector< std::pair< VolView*, ShivaGUI::GUIController* > >::iterator it = _VolViews.begin(); it != _VolViews.end(); ++it )
+	for( std::vector< std::pair< VolView*, ShivaGUI::GUIController* > >::iterator it = m_volViews.begin(); it != m_volViews.end(); ++it )
 	{
-		( *it ).first->AddWorldRotationOffsetDegs( _rotationX, _rotationY, _rotationZ );
+		( *it ).first->AddWorldRotationOffsetDegs( m_rotationX, m_rotationY, m_rotationZ );
 	}
-	_rotationX = _rotationY = _rotationZ = 0.0f;
+	m_rotationX = m_rotationY = m_rotationZ = 0.0f;
 
-	for( std::vector< std::pair< ShivaGUI::TextView*, ShivaGUI::GUIController* > >::iterator it = _saveConfirmViews.begin(); it != _saveConfirmViews.end(); ++it )
+	for( std::vector< std::pair< ShivaGUI::TextView*, ShivaGUI::GUIController* > >::iterator it = m_saveConfirmViews.begin(); it != m_saveConfirmViews.end(); ++it )
 	{
-		( *it ).first->SetVisibility( _showSaveConfirmation );
+		( *it ).first->SetVisibility( m_showSaveConfirmation );
 	}
 }
 
@@ -480,21 +473,21 @@ void AssembleActivity::UpdateViews()
 
 void AssembleActivity::ResetRotation()
 {
-	for( std::vector< std::pair< VolView*, ShivaGUI::GUIController* > >::iterator it = _VolViews.begin(); it != _VolViews.end(); ++it )
+	for( std::vector< std::pair< VolView*, ShivaGUI::GUIController* > >::iterator it = m_volViews.begin(); it != m_volViews.end(); ++it )
 	{
 		( *it ).first->ResetWorldRotation();
 	}
-	_rotationX = _rotationY = _rotationZ = 0.0f;
+	m_rotationX = m_rotationY = m_rotationZ = 0.0f;
 }
 
 //----------------------------------------------------------------------------------
 
-void AssembleActivity::RebuildTrees( bool justparams )
+void AssembleActivity::RebuildTrees( bool _justparams )
 {
-	for( std::vector< std::pair< VolView*, ShivaGUI::GUIController* > >::iterator it = _VolViews.begin(); it != _VolViews.end(); ++it )
+	for( std::vector< std::pair< VolView*, ShivaGUI::GUIController* > >::iterator it = m_volViews.begin(); it != m_volViews.end(); ++it )
 	{
 		( *it ).second->MakeCurrent();
-		if( justparams )
+		if( _justparams )
 		{
 			( *it ).first->RefreshTree();
 			//(*it).first->RefreshTreeParams();
@@ -508,7 +501,7 @@ void AssembleActivity::RebuildTrees( bool justparams )
 
 //----------------------------------------------------------------------------------
 
-void AssembleActivity::InitIOWindow(ShivaGUI::GUIController *guiController, ShivaGUI::Bundle *data)
+void AssembleActivity::InitIOWindow( ShivaGUI::GUIController *_guiController, ShivaGUI::Bundle *_data )
 {
 	// Here we are going to initialise an I/O window, which will have a couple of buttons
 
@@ -521,63 +514,65 @@ void AssembleActivity::InitIOWindow(ShivaGUI::GUIController *guiController, Shiv
 	guiController->RegisterListener(_deleteTopHandler,"deleteTopHandler");
 	guiController->RegisterListener(_editHandler,"editHandler");
 	*/
-	guiController->RegisterListener( _buttonHandler,"buttonHandler" );
-	guiController->RegisterListener( _buttonHandler,"saveHandler" );
+	_guiController->RegisterListener( m_buttonHandler, "buttonHandler" );
+	_guiController->RegisterListener( m_buttonHandler, "saveHandler" );
+	
 	// For load event
-	guiController->RegisterListener( _buttonHandler,"loadHandler" );
-	guiController->RegisterListener( _addPrimitiveHandler,"addPrimitiveHandler" );
-	guiController->RegisterListener( _launchActivityHandler,"launchActivityHandler" );
+	
+	_guiController->RegisterListener( m_buttonHandler, "loadHandler" );
+	_guiController->RegisterListener( m_addPrimitiveHandler, "addPrimitiveHandler" );
+	_guiController->RegisterListener( m_launchActivityHandler, "launchActivityHandler" );
 
 	// The layout xml is where the widget hierarchy is specified
 	// This function will load the file and expand the hierarchy ready for display on screen
-	guiController->LoadContentView( "AssembleIO.xml" );
+	_guiController->LoadContentView( "AssembleIO.xml" );
 
 	// Retrieve primitive list
-	ShivaGUI::AdapterView *primListView = dynamic_cast< ShivaGUI::AdapterView* >( guiController->GetResources()->GetViewFromID( "PrimitiveList" ) );
+	ShivaGUI::AdapterView *primListView = dynamic_cast< ShivaGUI::AdapterView* >( _guiController->GetResources()->GetViewFromID( "PrimitiveList" ) );
 	if( primListView != NULL )
 	{
-		primListView->SetAdapter( _modelListAdapter );
-		_listViews.push_back( std::pair< ShivaGUI::AdapterView*, ShivaGUI::GUIController* >( primListView, guiController ) );
+		primListView->SetAdapter( m_modelListAdapter );
+		m_listViews.push_back( std::pair< ShivaGUI::AdapterView*, ShivaGUI::GUIController* >( primListView, _guiController ) );
 	}
 
-	VolView *volView = dynamic_cast< VolView* >( guiController->GetResources()->GetViewFromID( "MainVolView" ) );
+	VolView *volView = dynamic_cast< VolView* >( _guiController->GetResources()->GetViewFromID( "MainVolView" ) );
 	if( volView != NULL )
 	{
 		// For the assemble activity we want to allow the user to click to select primitives
 		volView->AllowObjectClickSelection( true );
-		_VolViews.push_back( std::pair< VolView*, ShivaGUI::GUIController* >( volView, guiController ) );
-		if( _setObjectColour )
+		m_volViews.push_back( std::pair< VolView*, ShivaGUI::GUIController* >( volView, _guiController ) );
+		if( m_setObjectColour )
 		{
-			volView->SetObjectColour( _objectColourR, _objectColourG, _objectColourB );
+			volView->SetObjectColour( m_objectColourR, m_objectColourG, m_objectColourB );
 		}
 	}
 
-	ShivaGUI::TextView *saveConfirmView = dynamic_cast< ShivaGUI::TextView* >( guiController->GetResources()->GetViewFromID( "saveConfirmationText" ) );
+	ShivaGUI::TextView *saveConfirmView = dynamic_cast< ShivaGUI::TextView* >( _guiController->GetResources()->GetViewFromID( "saveConfirmationText" ) );
 	if( saveConfirmView != NULL )
 	{
-		_saveConfirmViews.push_back( std::pair< ShivaGUI::TextView*, ShivaGUI::GUIController* >( saveConfirmView, guiController ) );
+		m_saveConfirmViews.push_back( std::pair< ShivaGUI::TextView*, ShivaGUI::GUIController* >( saveConfirmView, _guiController ) );
 	}
 	UpdateViews();
 }
 
 //----------------------------------------------------------------------------------
 
-void AssembleActivity::InitOutputWindow( ShivaGUI::GUIController *guiController, ShivaGUI::Bundle *data )
+void AssembleActivity::InitOutputWindow( ShivaGUI::GUIController *_guiController, ShivaGUI::Bundle *_data )
 {
 	// This window will be used for output only, so we don't need to register the listeners as there are no buttons
 
 	// Just load the layout xml
 	// Note that this is a different xml file to the IO window, so it will show different things (i.e. no buttons)
-	guiController->LoadContentView( "VolViewOutput.xml" );
+	_guiController->LoadContentView( "VolViewOutput.xml" );
 
 
-	VolView *volView = dynamic_cast< VolView* >( guiController->GetResources()->GetViewFromID( "MainVolView" ) );
+	VolView *volView = dynamic_cast< VolView* >( _guiController->GetResources()->GetViewFromID( "MainVolView" ) );
 	if( volView != NULL )
 	{
-		_VolViews.push_back( std::pair< VolView*, ShivaGUI::GUIController* >( volView, guiController ) );
-		if( _setObjectColour )
+		m_volViews.push_back( std::pair< VolView*, ShivaGUI::GUIController* >( volView, _guiController ) );
+		if( m_setObjectColour )
 		{
-			volView->SetObjectColour( _objectColourR, _objectColourG, _objectColourB );
+			volView->SetObjectColour( m_objectColourR, m_objectColourG, m_objectColourB );
 		}
 	}
 	UpdateViews();

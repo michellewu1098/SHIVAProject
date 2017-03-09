@@ -14,9 +14,7 @@
 
 #include "VolumeRenderer/SpringyVec3.h"
 #include "VolumeTree/Leaves/VolCacheNode.h"
-#include "VolumeTree/Leaves/CylinderNode.h"
 #include "Totem/TotemObject.h"
-#include "Totem/TotemOperation.h"
 #include "Totem/Operations/TotemOpDrill.h"
 
 namespace Totem
@@ -30,7 +28,7 @@ namespace Totem
 		//----------------------------------------------------------------------------------
 		static Controller* Init();
 		//----------------------------------------------------------------------------------
-		static Controller* GetInstance() { return _instance; }
+		static Controller* GetInstance() { return m_instance; }
 		//----------------------------------------------------------------------------------
 		static void UnInit();
 		//----------------------------------------------------------------------------------
@@ -41,20 +39,20 @@ namespace Totem
 		// Object loading
 		//----------------------------------------------------------------------------------
 		/// \brief Set number of primitives
-		/// \param [in] value
+		/// \param [in] _value
 		//----------------------------------------------------------------------------------
-		void SetNumPrimitives( unsigned int value );
+		void SetNumPrimitives( unsigned int _value );
 		//----------------------------------------------------------------------------------
 		/// \brief Set primitive node
-		/// \param [in] ID
-		/// \param [in] primNode
+		/// \param [in] _ID
+		/// \param [in] _primNode
 		//----------------------------------------------------------------------------------
-		void SetPrimitiveNode( unsigned int ID, VolumeTree::Node* );
+		void SetPrimitiveNode( unsigned int _ID, VolumeTree::Node* _primNode );
 		//----------------------------------------------------------------------------------
 		/// \brief Get primitive node
-		/// \param [in] ID
+		/// \param [in] _ID
 		//----------------------------------------------------------------------------------
-		VolumeTree::Node* GetPrimitiveNode( unsigned int ID );
+		VolumeTree::Node* GetPrimitiveNode( unsigned int _ID );
 		//----------------------------------------------------------------------------------
 		// For loading caches of the objects even if they are not currently in use
 		//void PrecacheObject(std::string filename);
@@ -64,19 +62,19 @@ namespace Totem
 		//void AddObjectToTop(std::string filename);
 		//----------------------------------------------------------------------------------
 		/// \brief Add object to top of stack of objects on pole
-		/// \param [in] primID
+		/// \param [in] _primID
 		//----------------------------------------------------------------------------------
-		void AddObjectToTop( unsigned int primID );
+		void AddObjectToTop( unsigned int _primID );
 		//----------------------------------------------------------------------------------
 		/// \brief Add object node to top of stack
-		/// \param [in] nodeIn
+		/// \param [in] _nodeIn
 		//----------------------------------------------------------------------------------
-		void AddObjectNodeToTop( VolumeTree::Node* );
+		void AddObjectNodeToTop( VolumeTree::Node* _nodeIn );
 		//----------------------------------------------------------------------------------
 		/// \brief Function to build up totem from loaded model
-		/// \param [in] treeIn Imported tree stored in std::queue
+		/// \param [in] _treeIn Imported tree stored in std::queue
 		//----------------------------------------------------------------------------------
-		void loadModel( std::queue< VolumeTree::Node* > treeIn );
+		void loadModel( std::queue< VolumeTree::Node* > _treeIn );
 		//----------------------------------------------------------------------------------
 		/// \brief Select object at top of stack
 		//----------------------------------------------------------------------------------
@@ -91,16 +89,16 @@ namespace Totem
 		void SelectObjectBelow();
 		//----------------------------------------------------------------------------------
 		/// \brief Reorder selected object
-		/// \param [in] moveUp
+		/// \param [in] _moveUp
 		//----------------------------------------------------------------------------------
-		void ReorderSelectedObject( bool moveUp );
+		void ReorderSelectedObject( bool _moveUp );
 		//----------------------------------------------------------------------------------
 		/// \brief Move selected object
 		/// \param [in] x
 		/// \param [in] y
 		/// \param [in] z
 		//----------------------------------------------------------------------------------
-		void MoveSelectedObject( float x, float y, float z );
+		void MoveSelectedObject( float _x, float _y, float _z );
 		//----------------------------------------------------------------------------------
 		/// \brief Reset selected object
 		//----------------------------------------------------------------------------------
@@ -121,39 +119,39 @@ namespace Totem
 		/// \brief Get selected object
 		/// \return _selectedObject
 		//----------------------------------------------------------------------------------
-		Totem::Object* GetSelected() { return _selectedObject; }
+		Totem::Object* GetSelected() { return m_selectedObject; }
 		//----------------------------------------------------------------------------------
 		/// \brief Will select the first object who's bounding box intersects with the line (if any)
 		//----------------------------------------------------------------------------------
-		bool SelectIntersectingObject( float originX, float originY, float originZ, float dirX, float dirY, float dirZ );
+		bool SelectIntersectingObject( float _originX, float _originY, float _originZ, float _dirX, float _dirY, float _dirZ );
 		//----------------------------------------------------------------------------------
 		// Global Operations
 		// Probably best to have a generic operation class and just store a stack of them here
 		// How will local operations be dealt with?
 		//----------------------------------------------------------------------------------
 		/// \brief Add operation
-		/// \param [in] inOp
+		/// \param [in] _inOp
 		//----------------------------------------------------------------------------------
-		void AddOperation( Operation* );
+		void AddOperation( Operation* _inOp );
 		//----------------------------------------------------------------------------------
 		/// \brief Remove latest operation
 		//----------------------------------------------------------------------------------
 		void RemoveLastOperation();
 		//----------------------------------------------------------------------------------
 		/// \brief Adjust blending amount
-		/// \param [in] value
+		/// \param [in] _value
 		//----------------------------------------------------------------------------------
-		void AdjustBlend( float value ) { _blendAmount += value; }
+		void AdjustBlend( float _value ) { m_blendAmount += _value; }
 		//----------------------------------------------------------------------------------
 		/// \brief Set blending amount
-		/// \param [in] value
+		/// \param [in] _value
 		//----------------------------------------------------------------------------------
-		void SetBlend( float value ) { _blendAmount = value; }
+		void SetBlend( float _value ) { m_blendAmount = _value; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get blending amount
-		/// \return _blendAmount
+		/// \return m_blendAmount
 		//----------------------------------------------------------------------------------
-		float GetBlend() const { return _blendAmount; }
+		float GetBlend() const { return m_blendAmount; }
 		//----------------------------------------------------------------------------------
 
 	protected:
@@ -169,7 +167,7 @@ namespace Totem
 		//----------------------------------------------------------------------------------
 		/// \brief Controller instance
 		//----------------------------------------------------------------------------------
-		static Controller *_instance;
+		static Controller *m_instance;
 		//----------------------------------------------------------------------------------
 		/// \brief Function to rebuild pole: 1. If there's no totem pole, it rebuilds it from zero
 		/// 2. If we add an object to the pole, we lengthen it and translate it
@@ -179,48 +177,48 @@ namespace Totem
 		//----------------------------------------------------------------------------------
 		/// \brief Root object
 		//----------------------------------------------------------------------------------
-		Totem::Object *_objectRoot;
+		Totem::Object *m_objectRoot;
 		//----------------------------------------------------------------------------------
 		/// \brief Selected object
 		//----------------------------------------------------------------------------------
-		Totem::Object *_selectedObject;
+		Totem::Object *m_selectedObject;
 		//----------------------------------------------------------------------------------
 		/// \brief Number of primitives
 		//----------------------------------------------------------------------------------
-		unsigned int _numPrimitives;
+		unsigned int m_numPrimitives;
 		//----------------------------------------------------------------------------------
 		/// \brief Primitives
 		//----------------------------------------------------------------------------------
-		VolumeTree::Node **_primitives;
+		VolumeTree::Node **m_primitives;
 		//----------------------------------------------------------------------------------
 		/// \brief Node for pole base
 		//----------------------------------------------------------------------------------
-		VolumeTree::CSGNode *_poleBaseNode;
+		VolumeTree::CSGNode *m_poleBaseNode;
 		//----------------------------------------------------------------------------------
 		/// \brief Node for pole (cylinder)
 		//----------------------------------------------------------------------------------
-		VolumeTree::CylinderNode *_poleNode;
+		VolumeTree::CylinderNode *m_poleNode;
 		//----------------------------------------------------------------------------------
 		/// \brief Node for pole transform
 		//----------------------------------------------------------------------------------
-		VolumeTree::TransformNode *_poleTransformNode;
+		VolumeTree::TransformNode *m_poleTransformNode;
 		//----------------------------------------------------------------------------------
 		/// \brief Flag used to show selection of object
 		//----------------------------------------------------------------------------------
-		bool _showSelection;
+		bool m_showSelection;
 		//----------------------------------------------------------------------------------
 		// I suspect we will need to traverse this in either direction
 		//----------------------------------------------------------------------------------
 		/// \brief List of operations
 		//----------------------------------------------------------------------------------
-		std::list< Operation* > _operations;
+		std::list< Operation* > m_operations;
 		//----------------------------------------------------------------------------------
 		// TODO
 		//std::map<std::string,VolumeTree::VolCacheNode*> _objectMap;
 		//----------------------------------------------------------------------------------
 		/// \brief Blend amount
 		//----------------------------------------------------------------------------------
-		float _blendAmount;
+		float m_blendAmount;
 		//----------------------------------------------------------------------------------
 
 	};

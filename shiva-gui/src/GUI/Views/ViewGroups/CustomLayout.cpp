@@ -430,6 +430,14 @@ void ShivaGUI::CustomLayout::LayoutView( View *_currentView, int _left, int _top
 				percentageSize = 1.0f;
 			childTop = _top + ( int )( ( centreYProportion * layoutHeight ) - ( ( layoutHeight * percentageSize ) / 2.0f ) );
 			childBottom = _top + ( int )( ( centreYProportion * layoutHeight ) + ( ( layoutHeight * percentageSize ) / 2.0f ) );
+
+			int naturalHeight = params->GetWrapHeight();
+			
+			if( std::abs( childTop - childBottom ) < naturalHeight && !viewLayoutParams->GetHeightConstrained() )
+			{
+				childTop = _top + ( int )( ( centreYProportion * layoutHeight ) - ( ( float )naturalHeight / 2.0f ) );
+				childBottom = _top + ( int )( ( centreYProportion * layoutHeight ) + ( ( float )naturalHeight / 2.0f ) );
+			}
 		}
 
 		// Determine horizontal bounds
@@ -442,7 +450,7 @@ void ShivaGUI::CustomLayout::LayoutView( View *_currentView, int _left, int _top
 
 			if( naturalWidth < layoutWidth )
 			{
-				//std::cout<<"INFO: CustomLayout: naturalWidth="<<naturalWidth<<std::endl;
+				//std::cout << "INFO: CustomLayout: naturalWidth=" << naturalWidth << std::endl;
 				childLeft = _left + ( int )( ( centreXProportion * layoutWidth ) - ( ( float )naturalWidth / 2.0f ) );
 				childRight = _left + ( int)( ( centreXProportion * layoutWidth ) + ( ( float )naturalWidth / 2.0f ) );
 			}

@@ -45,52 +45,64 @@ protected:
 	virtual void OnDestroy();
 	//----------------------------------------------------------------------------------
 	/// \brief This function is called when the Activity is updated
+	/// \param [in] _deltaTs
 	//----------------------------------------------------------------------------------
-	virtual void OnUpdate( float deltaTs );
+	virtual void OnUpdate( float _deltaTs );
 	//----------------------------------------------------------------------------------
 	/// \brief This will handle events from buttons etc
-	/// \param [in] handler
-	/// \param [in] view
+	/// \param [in] _handler
+	/// \param [in] _view
 	//----------------------------------------------------------------------------------
-	virtual void UtilityEventReceived( UtilityEventHandler*, ShivaGUI::View* );
+	virtual void UtilityEventReceived( UtilityEventHandler* _handler, ShivaGUI::View* _view );
 	//----------------------------------------------------------------------------------
 	/// \brief When you start an activity that is supposed to return a result, this function is called when that activity returns the result
 	/// The Bundle will contain the data that was passed back from the
-	/// \param [in] data
+	/// \param [in] _data
 	//----------------------------------------------------------------------------------
-	virtual void OnActivityResult( ShivaGUI::Bundle *data );
+	virtual void OnActivityResult( ShivaGUI::Bundle *_data );
 	//----------------------------------------------------------------------------------
-	//UtilityEventHandler *_rotateLeftHandler, *_rotateRightHandler, *_rotateUpHandler, *_rotateDownHandler;
-	//UtilityEventHandler *_deleteTopHandler, *_editHandler;
+	// These will be registered with the GUI System and will be given to the UtilityEventReceived function when an event
+	// It's not a brilliant way of doing things, more a lazy way as there's less code for the library user
 	//----------------------------------------------------------------------------------
-	/// \brief These will be registered with the GUI System and will be given to the UtilityEventReceived function when an event
-	/// It's not a brilliant way of doing things, more a lazy way as there's less code for the library user
+	/// \brief Button handler
 	//----------------------------------------------------------------------------------
-	UtilityEventHandler *_buttonHandler;
+	UtilityEventHandler *m_buttonHandler;
 	//----------------------------------------------------------------------------------
-	UtilityEventHandler *_addPrimitiveHandler;
+	/// \brief Adding primitive handler
 	//----------------------------------------------------------------------------------
-	UtilityEventHandler *_launchActivityHandler;
+	UtilityEventHandler *m_addPrimitiveHandler;
 	//----------------------------------------------------------------------------------
-	float _rotationStepsize;
+	/// \brief Launching activity handler
 	//----------------------------------------------------------------------------------
-	float _rotationX;
+	UtilityEventHandler *m_launchActivityHandler;
 	//----------------------------------------------------------------------------------
-	float _rotationY;
+	/// \brief Rotation stepsize
 	//----------------------------------------------------------------------------------
-	float _rotationZ;
+	float m_rotationStepsize;
 	//----------------------------------------------------------------------------------
-	// A list of Vol Views, mainly for updating them with new objects etc
+	/// \brief Rotation about x
 	//----------------------------------------------------------------------------------
-	std::vector< std::pair< VolView*, ShivaGUI::GUIController* > > _VolViews;
+	float m_rotationX;
 	//----------------------------------------------------------------------------------
-	std::vector< std::pair< ShivaGUI::AdapterView*, ShivaGUI::GUIController* > > _listViews;
+	/// \brief Rotation about y
 	//----------------------------------------------------------------------------------
-	std::vector< std::pair< ShivaGUI::TextView*, ShivaGUI::GUIController* > > _saveConfirmViews;
+	float m_rotationY;
+	//----------------------------------------------------------------------------------
+	/// \brief Rotation about z
+	//----------------------------------------------------------------------------------
+	float m_rotationZ;
+	//----------------------------------------------------------------------------------
+	/// \brief A list of Vol Views, mainly for updating them with new objects etc
+	//----------------------------------------------------------------------------------
+	std::vector< std::pair< VolView*, ShivaGUI::GUIController* > > m_volViews;
+	//----------------------------------------------------------------------------------
+	std::vector< std::pair< ShivaGUI::AdapterView*, ShivaGUI::GUIController* > > m_listViews;
+	//----------------------------------------------------------------------------------
+	std::vector< std::pair< ShivaGUI::TextView*, ShivaGUI::GUIController* > > m_saveConfirmViews;
 	//----------------------------------------------------------------------------------
 	/// \brief This will convert the data provided by the ShivaModelManager into a format usable by a ListView
 	//----------------------------------------------------------------------------------
-	ShivaGUI::DataAdapter *_modelListAdapter;
+	ShivaGUI::DataAdapter *m_modelListAdapter;
 	//----------------------------------------------------------------------------------
 	/// \brief Mainly for updating current Vol Views
 	//----------------------------------------------------------------------------------
@@ -101,51 +113,63 @@ protected:
 	void ResetRotation();
 	//----------------------------------------------------------------------------------
 	/// \brief Rebuild tree
-	/// \param [in] justparams 
+	/// \param [in] _justparams 
 	//----------------------------------------------------------------------------------
-	void RebuildTrees( bool justparams = false );
+	void RebuildTrees( bool _justparams = false );
 	//----------------------------------------------------------------------------------
 	/// \brief Initialises a main window with input and output capabilities
-	/// \param [in] guiController
-	/// \param [in] data
+	/// \param [in] _guiController
+	/// \param [in] _data
 	//----------------------------------------------------------------------------------
-	void InitIOWindow( ShivaGUI::GUIController *guiController, ShivaGUI::Bundle *data );
+	void InitIOWindow( ShivaGUI::GUIController *_guiController, ShivaGUI::Bundle *_data );
 	//----------------------------------------------------------------------------------
 	/// \brief Initialises a display-only window with no inputs
-	/// \param [in] guiController
-	/// \param [in] data
+	/// \param [in] _guiController
+	/// \param [in] _data
 	//----------------------------------------------------------------------------------
-	void InitOutputWindow( ShivaGUI::GUIController *guiController, ShivaGUI::Bundle *data );
+	void InitOutputWindow( ShivaGUI::GUIController *_guiController, ShivaGUI::Bundle *_data );
 	//----------------------------------------------------------------------------------
 	/// \brief Handle to a totem controller
 	//----------------------------------------------------------------------------------
-	Totem::Controller *_totemController;
+	Totem::Controller *m_totemController;
 	//----------------------------------------------------------------------------------
 	/// \brief Directory where to save file
 	//----------------------------------------------------------------------------------
-	std::string _saveDir;
+	std::string m_saveDir;
 	//----------------------------------------------------------------------------------
 	/// \brief File name to save
 	//----------------------------------------------------------------------------------
-	std::string _saveName;
+	std::string m_saveName;
 	//----------------------------------------------------------------------------------
-	float _saveRescaleSize;
+	/// \brief Rescale size
 	//----------------------------------------------------------------------------------
-	bool _showSaveConfirmation;
+	float m_saveRescaleSize;
 	//----------------------------------------------------------------------------------
-	float _saveTextCounter;
+	/// \brief Whether to show save confirmation
 	//----------------------------------------------------------------------------------
-	float _objectColourR;
+	bool m_showSaveConfirmation;
 	//----------------------------------------------------------------------------------
-	float _objectColourG;
+	float m_saveTextCounter;
 	//----------------------------------------------------------------------------------
-	float _objectColourB;
+	/// \brief Red component of object colour
 	//----------------------------------------------------------------------------------
-	bool _setObjectColour;
+	float m_objectColourR;
+	//----------------------------------------------------------------------------------
+	/// \brief Green component of object colour
+	//----------------------------------------------------------------------------------
+	float m_objectColourG;
+	//----------------------------------------------------------------------------------
+	/// \brief Blue component of object colour
+	//----------------------------------------------------------------------------------
+	float m_objectColourB;
+	//----------------------------------------------------------------------------------
+	/// \brief Whether to set object colour
+	//----------------------------------------------------------------------------------
+	bool m_setObjectColour;
 	//----------------------------------------------------------------------------------
 	/// \brief Original blending amount used when resetting totem pole
 	//----------------------------------------------------------------------------------
-	float _originalBlendingAmount;
+	float m_originalBlendingAmount;
 	//----------------------------------------------------------------------------------
 };
 

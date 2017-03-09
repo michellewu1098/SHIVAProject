@@ -69,7 +69,7 @@ void ShivaGUI::LinearLayout::Layout( int _left, int _top, int _right, int _botto
 						paddingTop    = params->GetPaddingTop(),
 						paddingBottom = params->GetPaddingBottom();
 
-					viewBottom = viewTop + (unitHeight * viewLayoutParams->GetWeight());
+					viewBottom = viewTop + ( unitHeight * viewLayoutParams->GetWeight() );
 					( *it )->Layout( _left + paddingLeft, ( int )( viewTop + paddingTop ), _right - paddingRight, ( int )( viewBottom - paddingBottom ), _windowWidth, _windowHeight );
 					viewTop = viewBottom;
 				}

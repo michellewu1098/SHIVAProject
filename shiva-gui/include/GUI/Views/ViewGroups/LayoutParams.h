@@ -171,9 +171,14 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		int GetWrapHeight() { return m_wrapHeight; }
 		//----------------------------------------------------------------------------------
+		void SetHeightConstrained( bool _value ) { m_isHeightConstrained = _value; }
+		bool GetHeightConstrained() const { return m_isHeightConstrained; }
+
+
 
 	protected:
 
+		bool m_isHeightConstrained;
 		//----------------------------------------------------------------------------------
 		/// \brief Height percent
 		//----------------------------------------------------------------------------------

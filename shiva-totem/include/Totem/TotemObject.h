@@ -29,10 +29,10 @@ namespace Totem
 		Object( VolumeTree::Node* );
 		//----------------------------------------------------------------------------------
 		/// \brief Ctor used when loading a model
-		/// \param [in] mainNodeIn This corresponds to the primitive node
-		/// \param [in] mainTransformIn This is the transform node parent to primitive node
+		/// \param [in] _mainNodeIn This corresponds to the primitive node
+		/// \param [in] _mainTransformIn This is the transform node parent to primitive node
 		//----------------------------------------------------------------------------------
-		Object( VolumeTree::Node*, VolumeTree::TransformNode* );
+		Object( VolumeTree::Node* _mainNodeIn, VolumeTree::TransformNode* _mainTransformIn );
 		//----------------------------------------------------------------------------------
 		// Does not delete its main node
 		//----------------------------------------------------------------------------------
@@ -43,29 +43,29 @@ namespace Totem
 		/// \brief Set child and recalculate offsets
 		/// \param [in] value Child node
 		//----------------------------------------------------------------------------------
-		void SetChild( Object *value ) { _child = value; RecalcOffsets(); }
+		void SetChild( Object *_value ) { m_child = _value; RecalcOffsets(); }
 		//----------------------------------------------------------------------------------
 		/// \brief Set parent and recalculate offsets
 		/// \param [in] value Parent node
 		//----------------------------------------------------------------------------------
-		void SetParent( Object *value ) { _parent = value; RecalcOffsets(); }
+		void SetParent( Object *_value ) { m_parent = _value; RecalcOffsets(); }
 		//----------------------------------------------------------------------------------
 		/// \brief Retrieve child of Totem::Object
 		/// \return _child
 		//----------------------------------------------------------------------------------
-		Object* GetChild() const { return _child; }
+		Object* GetChild() const { return m_child; }
 		//----------------------------------------------------------------------------------
 		/// \brief Retrieve parent of Totem::Object
 		/// \return _parent
 		//----------------------------------------------------------------------------------
-		Object* GetParent() const { return _parent; }
+		Object* GetParent() const { return m_parent; }
 		//----------------------------------------------------------------------------------
 		/// \brief If shifting up this object switches places with its parent
 		/// If shifting down, this object switches places with its child
-		/// \param [in] up
-		/// \param [in] swapOffsets
+		/// \param [in] _up
+		/// \param [in] _swapOffsets
 		//----------------------------------------------------------------------------------
-		void ShiftOrder( bool up, bool swapOffsets = true );
+		void ShiftOrder( bool _up, bool _swapOffsets = true );
 		//----------------------------------------------------------------------------------
 		/// \brief Useful if you've been shifting objects around
 		//----------------------------------------------------------------------------------
@@ -74,89 +74,89 @@ namespace Totem
 		/// \brief Return node tree
 		/// \param [in] blendAmount Amount of blending to be applied globally to model
 		//----------------------------------------------------------------------------------
-		VolumeTree::Node* GetNodeTree( float blendAmount );
+		VolumeTree::Node* GetNodeTree( float _blendAmount );
 		//----------------------------------------------------------------------------------
 		/// \brief Draw bounding box?
 		/// \param [in] value
 		//----------------------------------------------------------------------------------
-		void SetDrawBBox( bool );
+		void SetDrawBBox( bool _value );
 		//----------------------------------------------------------------------------------
 		// The translation-offsets are translations relative to the object's main position in the totem stack
 		//----------------------------------------------------------------------------------
 		/// \brief Add offset
-		/// \param [in] x
-		/// \param [in] y
-		/// \param [in] z
-		/// \param [in] checkOrder
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
+		/// \param [in] _checkOrder
 		//----------------------------------------------------------------------------------
-		void AddTranslationOffset( float x, float y, float z, bool checkOrder = true );
+		void AddTranslationOffset( float _x, float _y, float _z, bool _checkOrder = true );
 		//----------------------------------------------------------------------------------
 		/// \brief Set offset
-		/// \param [in] x
-		/// \param [in] y
-		/// \param [in] z
-		/// \param [in] checkOrder
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
+		/// \param [in] _checkOrder
 		//----------------------------------------------------------------------------------
-		void SetTranslationOffset( float x, float y, float z, bool checkOrder = false );
+		void SetTranslationOffset( float _x, float _y, float _z, bool _checkOrder = false );
 		//----------------------------------------------------------------------------------
 		/// \brief Retrieve offset amount
-		/// \param [out] x
-		/// \param [out] y
-		/// \param [out] z
+		/// \param [out] _x
+		/// \param [out] _y
+		/// \param [out] _z
 		//----------------------------------------------------------------------------------
-		void GetTranslationOffset( float &x, float &y, float &z ) { x = _offsetX; y = _offsetY; z = _offsetZ; }
+		void GetTranslationOffset( float &_x, float &_y, float &_z ) { _x = m_offsetX; _y = m_offsetY; _z = m_offsetZ; }
 		//----------------------------------------------------------------------------------
 		// Rotations are in radians
 		//----------------------------------------------------------------------------------
 		/// \brief Set rotation (radians)
-		/// \param [in] x
-		/// \param [in] y
-		/// \param [in] z
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
 		//----------------------------------------------------------------------------------
-		void SetRotation( float x, float y, float z ) { _rx = x; _ry = y; _rz = z; UpdateTransform(); }
+		void SetRotation( float _x, float _y, float _z ) { m_rx = _x; m_ry = _y; m_rz = _z; UpdateTransform(); }
 		//----------------------------------------------------------------------------------
 		/// \brief Add rotation (radians)
-		/// \param [in] x
-		/// \param [in] y
-		/// \param [in] z
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
 		//----------------------------------------------------------------------------------
-		void AddRotation( float x, float y, float z ) { _rx += x; _ry += y; _rz += z; UpdateTransform(); }
+		void AddRotation( float _x, float _y, float _z ) { m_rx += _x; m_ry += _y; m_rz += _z; UpdateTransform(); }
 		//----------------------------------------------------------------------------------
 		/// \brief Set scaling factor
-		/// \param [in] x
-		/// \param [in] y
-		/// \param [in] z
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
 		//----------------------------------------------------------------------------------
-		void SetScale( float x, float y, float z ) { _sx = x; _sy = y; _sz = z; UpdateTransform(); }
+		void SetScale( float _x, float _y, float _z ) { m_sx = _x; m_sy = _y; m_sz = _z; UpdateTransform(); }
 		//----------------------------------------------------------------------------------
 		/// \brief Add scaling factor
-		/// \param [in] x
-		/// \param [in] y
-		/// \param [in] z
+		/// \param [in] _x
+		/// \param [in] _y
+		/// \param [in] _z
 		//----------------------------------------------------------------------------------
-		void AddScale( float x, float y, float z ) { _sx += x; _sy += y; _sz += z; UpdateTransform(); }
+		void AddScale( float _x, float _y, float _z ) { m_sx += _x; m_sy += _y; m_sz += _z; UpdateTransform(); }
 		//----------------------------------------------------------------------------------
 		/// \brief Get scaling factor along x
-		/// \return _sx
+		/// \return m_sx
 		//----------------------------------------------------------------------------------
-		float GetScaleX() { return _sx; }
+		float GetScaleX() { return m_sx; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get scaling factor along y
-		/// \return _sy
+		/// \return m_sy
 		//----------------------------------------------------------------------------------
-		float GetScaleY() { return _sy; }
+		float GetScaleY() { return m_sy; }
 		//----------------------------------------------------------------------------------
 		/// \brief Get scaling factor along z
-		/// \return _sz
+		/// \return m_sz
 		//----------------------------------------------------------------------------------
-		float GetScaleZ() { return _sz; }
+		float GetScaleZ() { return m_sz; }
 		//----------------------------------------------------------------------------------
 		/// \brief Retrieve translations
-		/// \param [out] x Amount of translation alongside x-axis
-		/// \param [out] y Amount of translation alongside y-axis
-		/// \param [out] z Amount of translation alongside z-axis
+		/// \param [out] _x Amount of translation alongside x-axis
+		/// \param [out] _y Amount of translation alongside y-axis
+		/// \param [out] _z Amount of translation alongside z-axis
 		//----------------------------------------------------------------------------------
-		void GetTranslation( float &x, float &y, float &z ) { x = _tx; y = _ty; z = _tz; }
+		void GetTranslation( float &_x, float &_y, float &_z ) { _x = m_tx; _y = m_ty; _z = m_tz; }
 		//----------------------------------------------------------------------------------
 		/// \brief Return the height of the object bounding box
 		//----------------------------------------------------------------------------------
@@ -178,15 +178,15 @@ namespace Totem
 		/// If a child object has a closer hit, it sets this as the selection param
 		/// Return value is a distance from the origin to the bounding box of the object
 		/// If there is no intersection, selection is NULL and return value has no meaning
-		/// \param [in] selection
-		/// \param [in] originX
-		/// \param [in] originY
-		/// \param [in] originZ
-		/// \param [in] dirX
-		/// \param [in] dirY
-		/// \param [in] dirZ
+		/// \param [in] _selection
+		/// \param [in] _originX
+		/// \param [in] _originY
+		/// \param [in] _originZ
+		/// \param [in] _dirX
+		/// \param [in] _dirY
+		/// \param [in] _dirZ
 		//----------------------------------------------------------------------------------
-		float SelectIntersectingObject( Totem::Object **selection, float originX, float originY, float originZ, float dirX, float dirY, float dirZ );
+		float SelectIntersectingObject( Totem::Object **_selection, float _originX, float _originY, float _originZ, float _dirX, float _dirY, float _dirZ );
 		//----------------------------------------------------------------------------------
 
 	protected:
@@ -194,66 +194,66 @@ namespace Totem
 		//----------------------------------------------------------------------------------
 		/// \brief Child object
 		//----------------------------------------------------------------------------------
-		Totem::Object *_child;
+		Totem::Object *m_child;
 		//----------------------------------------------------------------------------------
 		/// \brief Parent object
 		//----------------------------------------------------------------------------------
-		Totem::Object *_parent;
+		Totem::Object *m_parent;
 		//----------------------------------------------------------------------------------
 		/// \brief Node that actually contains the object volume
-		VolumeTree::Node *_mainNode;
+		VolumeTree::Node *m_mainNode;
 		//----------------------------------------------------------------------------------
 		/// \brief Transformation node
 		//----------------------------------------------------------------------------------
-		VolumeTree::TransformNode *_mainTransform;
+		VolumeTree::TransformNode *m_mainTransform;
 		//----------------------------------------------------------------------------------
 		/// \brief Translation offset along x-axis
 		//----------------------------------------------------------------------------------
-		float _offsetX;
+		float m_offsetX;
 		//----------------------------------------------------------------------------------
 		/// \brief Translation offset along y-axis
 		//----------------------------------------------------------------------------------
-		float _offsetY;
+		float m_offsetY;
 		//----------------------------------------------------------------------------------
 		/// \brief Translation offset along z-axis
 		//----------------------------------------------------------------------------------
-		float _offsetZ;
+		float m_offsetZ;
 		//----------------------------------------------------------------------------------
 		/// \brief Translation along x
 		//----------------------------------------------------------------------------------
-		float _tx;
+		float m_tx;
 		//----------------------------------------------------------------------------------
 		/// \brief Translation along y
 		//----------------------------------------------------------------------------------
-		float _ty;
+		float m_ty;
 		//----------------------------------------------------------------------------------
 		/// \brief Translation along z
 		//----------------------------------------------------------------------------------
-		float _tz;
+		float m_tz;
 		//----------------------------------------------------------------------------------
 		/// \brief Rotation along x
 		//----------------------------------------------------------------------------------
-		float _rx;
+		float m_rx;
 		//----------------------------------------------------------------------------------
 		/// \brief Rotation along y
 		//----------------------------------------------------------------------------------
-		float _ry;
+		float m_ry;
 		//----------------------------------------------------------------------------------
 		/// \brief Rotation along z
 		//----------------------------------------------------------------------------------
-		float _rz;
+		float m_rz;
 		//----------------------------------------------------------------------------------
 		/// \brief Scaling along x
 		//----------------------------------------------------------------------------------
-		float _sx;
+		float m_sx;
 		//----------------------------------------------------------------------------------
 		/// \brief Scaling along y
 		//----------------------------------------------------------------------------------
-		float _sy;
+		float m_sy;
 		//----------------------------------------------------------------------------------
 		/// \brief Scaling along z
 		//----------------------------------------------------------------------------------
-		float _sz;
+		float m_sz;
 		//----------------------------------------------------------------------------------
 		/// \brief Update main transformation matrix
 		//----------------------------------------------------------------------------------

@@ -1,40 +1,39 @@
-
 #include "Totem/TotemController.h"
 
 //----------------------------------------------------------------------------------
 // Initialise statics
 
-Totem::Controller* Totem::Controller::_instance = NULL;
+Totem::Controller* Totem::Controller::m_instance = NULL;
 
 //----------------------------------------------------------------------------------
 
 Totem::Controller* Totem::Controller::Init()
 {
-	_instance = new Totem::Controller();
-	return _instance;
+	m_instance = new Totem::Controller();
+	return m_instance;
 }
 
 //----------------------------------------------------------------------------------
 
 void Totem::Controller::UnInit()
 {
-	delete _instance;
+	delete m_instance;
 }
 
 //----------------------------------------------------------------------------------
 
 Totem::Controller::Controller()
 {
-	_objectRoot = _selectedObject = NULL;
-	_primitives = NULL;
+	m_objectRoot = m_selectedObject = NULL;
+	m_primitives = NULL;
 
-	_poleBaseNode = NULL;
-	_poleNode = NULL;
-	_poleTransformNode = NULL;
+	m_poleBaseNode = NULL;
+	m_poleNode = NULL;
+	m_poleTransformNode = NULL;
 
-	_showSelection = true;
+	m_showSelection = true;
 
-	_blendAmount = 0.1f;
+	m_blendAmount = 0.1f;
 
 	RebuildPole();
 }
@@ -43,123 +42,123 @@ Totem::Controller::Controller()
 
 Totem::Controller::~Controller()
 {
-	delete _objectRoot;
+	delete m_objectRoot;
 }
 
 //----------------------------------------------------------------------------------
 
 VolumeTree::Node* Totem::Controller::GetNodeTree()
 {
-	if( _objectRoot != NULL )
+	if( m_objectRoot != NULL )
 	{
-		VolumeTree::Node *treeRoot = _objectRoot->GetNodeTree( _blendAmount );
+		VolumeTree::Node *treeRoot = m_objectRoot->GetNodeTree( m_blendAmount );
 
-		if( !_operations.empty() )
+		if( !m_operations.empty() )
 		{
-			for( std::list< Operation* >::reverse_iterator it = _operations.rbegin(); it != _operations.rend(); ++it )
+			for( std::list< Operation* >::reverse_iterator it = m_operations.rbegin(); it != m_operations.rend(); ++it )
 			{
 				treeRoot = ( *it )->GetNodeTree( treeRoot );
 			}
 		}
 
 		// TODO: clean up this memory leak (the CSG node is never deleted)
-		return new VolumeTree::CSGNode( treeRoot, _poleBaseNode );
+		return new VolumeTree::CSGNode( treeRoot, m_poleBaseNode );
 		//return new VolumeTree::CSGNode( _objectRoot->GetNodeTree(), _poleBaseNode );
 	}
-	return _poleBaseNode;
+	return m_poleBaseNode;
 }
 
 //----------------------------------------------------------------------------------
 
-void Totem::Controller::SetNumPrimitives( unsigned int value )
+void Totem::Controller::SetNumPrimitives( unsigned int _value )
 {
-	if( _primitives != NULL )
+	if( m_primitives != NULL )
 	{
-		for( unsigned int i = 0; i < value; i++ )
+		for( unsigned int i = 0; i < _value; i++ )
 		{
-			delete _primitives[ i ];
+			delete m_primitives[ i ];
 		}
-		delete [] _primitives;
-		_primitives = NULL;
+		delete [] m_primitives;
+		m_primitives = NULL;
 	}
-	if( value > 0 )
+	if( _value > 0 )
 	{
-		_primitives = new VolumeTree::Node*[ value ];
-		for( unsigned int i = 0; i < value; i++ )
+		m_primitives = new VolumeTree::Node*[ _value ];
+		for( unsigned int i = 0; i < _value; i++ )
 		{
-			_primitives[ i ] = NULL;
+			m_primitives[ i ] = NULL;
 		}
 	}
-	_numPrimitives = value;
+	m_numPrimitives = _value;
 }
 
 //----------------------------------------------------------------------------------
 
-void Totem::Controller::SetPrimitiveNode( unsigned int ID, VolumeTree::Node *primNode )
+void Totem::Controller::SetPrimitiveNode( unsigned int _ID, VolumeTree::Node *_primNode )
 {
-	if( ( ID < _numPrimitives ) && ( _primitives != NULL ) )
+	if( ( _ID < m_numPrimitives ) && ( m_primitives != NULL ) )
 	{
-		if( _primitives[ ID ] != NULL )
+		if( m_primitives[ _ID ] != NULL )
 		{
-			delete _primitives[ ID ];
+			delete m_primitives[ _ID ];
 		}
-		_primitives[ ID ] = primNode;
+		m_primitives[ _ID ] = _primNode;
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-VolumeTree::Node* Totem::Controller::GetPrimitiveNode( unsigned int ID )
+VolumeTree::Node* Totem::Controller::GetPrimitiveNode( unsigned int _ID )
 {
-	if( (ID < _numPrimitives) && (_primitives != NULL) )
+	if( ( _ID < m_numPrimitives ) && ( m_primitives != NULL ) )
 	{
-		return _primitives[ ID ];
+		return m_primitives[ _ID ];
 	}
 	return NULL;
 }
 
 //----------------------------------------------------------------------------------
 
-void Totem::Controller::AddObjectToTop( unsigned int primID )
+void Totem::Controller::AddObjectToTop( unsigned int _primID )
 {
-	AddObjectNodeToTop( GetPrimitiveNode( primID ) );
+	AddObjectNodeToTop( GetPrimitiveNode( _primID ) );
 }
 
 //----------------------------------------------------------------------------------
 
-void Totem::Controller::AddObjectNodeToTop( VolumeTree::Node *nodeIn )
+void Totem::Controller::AddObjectNodeToTop( VolumeTree::Node *_nodeIn )
 {
-	if( nodeIn != NULL )
+	if( _nodeIn != NULL )
 	{
-		Totem::Object *newTopObj = new Totem::Object( nodeIn );
-		if( _objectRoot != NULL )
+		Totem::Object *newTopObj = new Totem::Object( _nodeIn );
+		if( m_objectRoot != NULL )
 		{
 			float offsetZ = 0.0f, junk;
-			_objectRoot->GetTranslationOffset( junk, junk, offsetZ );
+			m_objectRoot->GetTranslationOffset( junk, junk, offsetZ );
 			//float baseZ = _objectRoot->GetBaseOffset();
 			//float offsetZ = baseZ + (_objectRoot->GetBBoxZ() * 0.5f);
-			newTopObj->SetChild( _objectRoot );
-			_objectRoot->SetParent( newTopObj );
+			newTopObj->SetChild( m_objectRoot );
+			m_objectRoot->SetParent( newTopObj );
 			newTopObj->AddTranslationOffset( 0.0f, 0.0f, offsetZ, false );
 		}
-		_objectRoot = newTopObj;
+		m_objectRoot = newTopObj;
 	}
 	RebuildPole();
 }
 
 //----------------------------------------------------------------------------------
 
-void Totem::Controller::loadModel( std::queue< VolumeTree::Node* > treeIn )
+void Totem::Controller::loadModel( std::queue< VolumeTree::Node* > _treeIn )
 {
 	// There is probably a better way to do this, but it works so..
 
 	VolumeTree::Node* node;
 	std::stack< Totem::Object* > objStack; 
 
-	while( !treeIn.empty() )
+	while( !_treeIn.empty() )
 	{
-		 node = treeIn.front();
-		 treeIn.pop();
+		 node = _treeIn.front();
+		 _treeIn.pop();
 
 		 if( node != NULL )
 		 {
@@ -178,8 +177,8 @@ void Totem::Controller::loadModel( std::queue< VolumeTree::Node* > treeIn )
 						 }
 					 }
 
-					 VolumeTree::Node* transformNode = treeIn.front(); // Retrieve transform node for primitive
-					 treeIn.pop();
+					 VolumeTree::Node* transformNode = _treeIn.front(); // Retrieve transform node for primitive
+					 _treeIn.pop();
 
 					 if( transformNode->GetNodeType() == "TransformNode" )
 					 {
@@ -192,7 +191,7 @@ void Totem::Controller::loadModel( std::queue< VolumeTree::Node* > treeIn )
 					 // Need to retrieve blending amount if Pump Operation is used
 					 VolumeTree::BlendCSGNode* blendNode = dynamic_cast< VolumeTree::BlendCSGNode * >( node );
 					 float junk;
-					 blendNode->GetBlendParams( _blendAmount, junk, junk );
+					 blendNode->GetBlendParams( m_blendAmount, junk, junk );
 				 }
 			 }
 			 else
@@ -202,17 +201,17 @@ void Totem::Controller::loadModel( std::queue< VolumeTree::Node* > treeIn )
 				 if( op != NULL && op->GetCSGType() == VolumeTree::CSGNode::CSG_SUBTRACTION )
 				 {
 					 // Because we know that each drilling operation is made up of a CylinderNode and two TransformNodes we can do this
-					 std::vector< VolumeTree::Node* > drillNodes(3) ;
+					 std::vector< VolumeTree::Node* > drillNodes( 3 ) ;
 					 for( unsigned int i = 0; i < 3; i++ )
 					 {
-						drillNodes[ i ] = treeIn.front();
-						treeIn.pop();
+						drillNodes[ i ] = _treeIn.front();
+						_treeIn.pop();
 					 }
 
 					 Totem::Operations::Drill* drillOp = new  Totem::Operations::Drill( dynamic_cast< VolumeTree::CylinderNode* >( drillNodes[ 0 ] ),
 																						dynamic_cast< VolumeTree::TransformNode* >( drillNodes[ 1 ] ),
 																						dynamic_cast< VolumeTree::TransformNode* >( drillNodes[ 2 ] ) );
-					 _operations.push_front( drillOp );
+					 m_operations.push_front( drillOp );
 			     }
 				else
 				{
@@ -234,18 +233,18 @@ void Totem::Controller::loadModel( std::queue< VolumeTree::Node* > treeIn )
 		float tz = 0.0f, junk;
 		obj->GetTranslation( junk, junk, tz );
 
-		if( _objectRoot != NULL )
+		if( m_objectRoot != NULL )
 		{
-			obj->SetChild( _objectRoot );
-			_objectRoot->SetParent( obj );
+			obj->SetChild( m_objectRoot );
+			m_objectRoot->SetParent( obj );
 		}
 		
-		_objectRoot = obj;
+		m_objectRoot = obj;
 		
 		// Recalculate offsetZ: problem is that when RecalcOffsets() is called, the stacked position is calculated as if the objects where stacked one on
 		// top of each other, this obviously led to weird results when loading the models with translations
-		float offsetZ = -tz - _objectRoot->GetStackedPosition();
-		_objectRoot->AddTranslationOffset( 0.0f, 0.0f, offsetZ, false );
+		float offsetZ = -tz - m_objectRoot->GetStackedPosition();
+		m_objectRoot->AddTranslationOffset( 0.0f, 0.0f, offsetZ, false );
 	}
 
 	RebuildPole();
@@ -255,14 +254,14 @@ void Totem::Controller::loadModel( std::queue< VolumeTree::Node* > treeIn )
 
 void Totem::Controller::SelectTopObject()
 {
-	if( _selectedObject != NULL )
+	if( m_selectedObject != NULL )
 	{
-		_selectedObject->SetDrawBBox( false );
+		m_selectedObject->SetDrawBBox( false );
 	}
-	_selectedObject = _objectRoot;
-	if( _selectedObject != NULL )
+	m_selectedObject = m_objectRoot;
+	if( m_selectedObject != NULL )
 	{
-		_selectedObject->SetDrawBBox( _showSelection );
+		m_selectedObject->SetDrawBBox( m_showSelection );
 	}
 }
 
@@ -270,14 +269,14 @@ void Totem::Controller::SelectTopObject()
 
 void Totem::Controller::SelectObjectAbove()
 {
-	if( _selectedObject != NULL )
+	if( m_selectedObject != NULL )
 	{
-		Totem::Object *newSelection = _selectedObject->GetParent();
+		Totem::Object *newSelection = m_selectedObject->GetParent();
 		if( newSelection != NULL )
 		{
-			_selectedObject->SetDrawBBox( false );
-			_selectedObject = newSelection;
-			_selectedObject->SetDrawBBox( _showSelection );
+			m_selectedObject->SetDrawBBox( false );
+			m_selectedObject = newSelection;
+			m_selectedObject->SetDrawBBox( m_showSelection );
 		}
 	}
 }
@@ -286,38 +285,38 @@ void Totem::Controller::SelectObjectAbove()
 
 void Totem::Controller::SelectObjectBelow()
 {
-	if( _selectedObject != NULL )
+	if( m_selectedObject != NULL )
 	{
-		Totem::Object *newSelection = _selectedObject->GetChild();
+		Totem::Object *newSelection = m_selectedObject->GetChild();
 		if( newSelection != NULL )
 		{
-			_selectedObject->SetDrawBBox( false );
-			_selectedObject = newSelection;
-			_selectedObject->SetDrawBBox( _showSelection );
+			m_selectedObject->SetDrawBBox( false );
+			m_selectedObject = newSelection;
+			m_selectedObject->SetDrawBBox( m_showSelection );
 		}
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-void Totem::Controller::ReorderSelectedObject( bool moveUp )
+void Totem::Controller::ReorderSelectedObject( bool _moveUp )
 {
-	if( _selectedObject != NULL )
+	if( m_selectedObject != NULL )
 	{
-		_selectedObject->ShiftOrder( moveUp );
-		_objectRoot = _selectedObject->GetRoot();
-		_objectRoot->RecalcOffsets();
+		m_selectedObject->ShiftOrder( _moveUp );
+		m_objectRoot = m_selectedObject->GetRoot();
+		m_objectRoot->RecalcOffsets();
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-void Totem::Controller::MoveSelectedObject( float x, float y, float z )
+void Totem::Controller::MoveSelectedObject( float _x, float _y, float _z )
 {
-	if( _selectedObject != NULL )
+	if( m_selectedObject != NULL )
 	{
-		_selectedObject->AddTranslationOffset( x, y, z );
-		_objectRoot = _selectedObject->GetRoot();
+		m_selectedObject->AddTranslationOffset( _x, _y, _z );
+		m_objectRoot = m_selectedObject->GetRoot();
 	}
 }
 
@@ -325,10 +324,10 @@ void Totem::Controller::MoveSelectedObject( float x, float y, float z )
 
 void Totem::Controller::ResetMoveSelected()
 {
-	if( _selectedObject != NULL )
+	if( m_selectedObject != NULL )
 	{
-		_selectedObject->SetTranslationOffset( 0.0f, 0.0f, 0.0f );
-		_objectRoot = _selectedObject->GetRoot();
+		m_selectedObject->SetTranslationOffset( 0.0f, 0.0f, 0.0f );
+		m_objectRoot = m_selectedObject->GetRoot();
 	}
 }
 
@@ -336,42 +335,42 @@ void Totem::Controller::ResetMoveSelected()
 
 void Totem::Controller::DeleteSelectedObject()
 {
-	if( _selectedObject != NULL )
+	if( m_selectedObject != NULL )
 	{
-		Totem::Object *victim = _selectedObject;
+		Totem::Object *victim = m_selectedObject;
 		// Remove from tree
-		Totem::Object *child = _selectedObject->GetChild();
-		Totem::Object *parent = _selectedObject->GetParent();
+		Totem::Object *child = m_selectedObject->GetChild();
+		Totem::Object *parent = m_selectedObject->GetParent();
 		victim->SetChild( NULL ); // Otherwise it will try to delete the next node
-		_selectedObject = NULL;
+		m_selectedObject = NULL;
 		if( child != NULL )
 		{
 			child->SetParent( parent );
-			_selectedObject = child;
+			m_selectedObject = child;
 		}
 		if( parent != NULL )
 		{
 			parent->SetChild( child );
-			_selectedObject = parent;
+			m_selectedObject = parent;
 		}
 
 		// Highlight our new selected object and make sure the root is correct
-		if( _selectedObject != NULL )
+		if( m_selectedObject != NULL )
 		{
-			_selectedObject->SetDrawBBox( _showSelection );
-			_objectRoot = _selectedObject->GetRoot();
+			m_selectedObject->SetDrawBBox( m_showSelection );
+			m_objectRoot = m_selectedObject->GetRoot();
 		}
 		else
 		{
-			_objectRoot = NULL;
+			m_objectRoot = NULL;
 		}
 
 		delete victim;
 	}
 
-	if( _objectRoot != NULL )
+	if( m_objectRoot != NULL )
 	{
-		_objectRoot->RecalcOffsets();
+		m_objectRoot->RecalcOffsets();
 	}
 	RebuildPole();
 }
@@ -380,50 +379,50 @@ void Totem::Controller::DeleteSelectedObject()
 
 void Totem::Controller::DeleteAll()
 {
-	if( _objectRoot != NULL )
+	if( m_objectRoot != NULL )
 	{
 		// This will recursively delete entire tree
-		delete _objectRoot;
+		delete m_objectRoot;
 	}
-	if( _operations.size() > 0 )
+	if( m_operations.size() > 0 )
 	{
-		for( std::list<Operation*>::iterator it = _operations.begin(); it != _operations.end(); ++it )
+		for( std::list< Operation* >::iterator it = m_operations.begin(); it != m_operations.end(); ++it )
 		{
 			delete ( *it );
 		}
 	}
-	_operations.clear();
-	_objectRoot = NULL;
-	_selectedObject = NULL;
+	m_operations.clear();
+	m_objectRoot = NULL;
+	m_selectedObject = NULL;
 	RebuildPole();
 }
 
 //----------------------------------------------------------------------------------
 
-void Totem::Controller::ShowSelection( bool value )
+void Totem::Controller::ShowSelection( bool _value )
 {
-	_showSelection = value;
-	if( _selectedObject != NULL )
+	m_showSelection = _value;
+	if( m_selectedObject != NULL )
 	{
-		//_selectedObject->SetDrawBBox( _showSelection );
+		m_selectedObject->SetDrawBBox( m_showSelection );
 	}
 }
 
 //----------------------------------------------------------------------------------
 
-bool Totem::Controller::SelectIntersectingObject( float originX, float originY, float originZ, float dirX, float dirY, float dirZ )
+bool Totem::Controller::SelectIntersectingObject( float _originX, float _originY, float _originZ, float _dirX, float _dirY, float _dirZ )
 {
-	if( _objectRoot != NULL )
+	if( m_objectRoot != NULL )
 	{
 		Totem::Object *selection = NULL;
 		// This function will choose the intersecting object nearest the origin
-		_objectRoot->SelectIntersectingObject( &selection, originX, originY, originZ, dirX, dirY, dirZ );
+		m_objectRoot->SelectIntersectingObject( &selection, _originX, _originY, _originZ, _dirX, _dirY, _dirZ );
 
 		if( selection != NULL )
 		{
-			_selectedObject->SetDrawBBox( false );
-			_selectedObject = selection;
-			_selectedObject->SetDrawBBox( _showSelection );
+			m_selectedObject->SetDrawBBox( false );
+			m_selectedObject = selection;
+			m_selectedObject->SetDrawBBox( m_showSelection );
 			return true;
 		}
 	}
@@ -432,22 +431,22 @@ bool Totem::Controller::SelectIntersectingObject( float originX, float originY, 
 
 //----------------------------------------------------------------------------------
 
-void Totem::Controller::AddOperation( Totem::Operation *inOp )
+void Totem::Controller::AddOperation( Totem::Operation *_inOp )
 {
 	// Operations are added/removed from the *front* of the list
-	if( inOp != NULL )
-		_operations.push_front( inOp );
+	if( _inOp != NULL )
+		m_operations.push_front( _inOp );
 }
 
 //----------------------------------------------------------------------------------
 
 void Totem::Controller::RemoveLastOperation()
 {
-	if( !_operations.empty() )
+	if( !m_operations.empty() )
 	{
-		Totem::Operation *lastOp = _operations.front();
+		Totem::Operation *lastOp = m_operations.front();
 		delete lastOp;
-		_operations.pop_front();
+		m_operations.pop_front();
 	}
 }
 
@@ -455,39 +454,39 @@ void Totem::Controller::RemoveLastOperation()
 
 void Totem::Controller::RebuildPole()
 {
-	if( _poleBaseNode == NULL )
+	if( m_poleBaseNode == NULL )
 	{
-		_poleNode = new VolumeTree::CylinderNode( 1.0f, 0.05f, 0.05f );
-		_poleNode->SetPole( true );
-		_poleTransformNode = new VolumeTree::TransformNode( _poleNode );
-		_poleTransformNode->SetTranslate( 0.0f, 0.0f, 0.5f );
+		m_poleNode = new VolumeTree::CylinderNode( 1.0f, 0.05f, 0.05f );
+		m_poleNode->SetPole( true );
+		m_poleTransformNode = new VolumeTree::TransformNode( m_poleNode );
+		m_poleTransformNode->SetTranslate( 0.0f, 0.0f, 0.5f );
 		VolumeTree::CylinderNode* poleBase = new VolumeTree::CylinderNode( 0.1f, 0.5f, 0.5f );
 		poleBase->SetPole( true );
 		VolumeTree::TransformNode *baseTransform = new VolumeTree::TransformNode( poleBase );
 		baseTransform->SetTranslate( 0.0f, 0.0f, -0.05f );
-		_poleBaseNode = new VolumeTree::CSGNode( _poleTransformNode, baseTransform );
+		m_poleBaseNode = new VolumeTree::CSGNode( m_poleTransformNode, baseTransform );
 	}
 
-	if( _objectRoot != NULL )
+	if( m_objectRoot != NULL )
 	{
-		_objectRoot->RecalcOffsets();
-		float topZ = _objectRoot->GetBaseOffset();
-		_poleNode->SetLength( topZ + 0.5f );
-		_poleTransformNode->SetTranslate( 0.0f, 0.0f, ( topZ + 0.5f ) * 0.5f );
+		m_objectRoot->RecalcOffsets();
+		float topZ = m_objectRoot->GetBaseOffset();
+		m_poleNode->SetLength( topZ + 0.5f );
+		m_poleTransformNode->SetTranslate( 0.0f, 0.0f, ( topZ + 0.5f ) * 0.5f );
 	}
 	else
 	{
 		// There are no objects on the pole, so remove all global operations too
-		if( _operations.size() > 0 )
+		if( m_operations.size() > 0 )
 		{
-			for( std::list< Operation* >::iterator it = _operations.begin(); it != _operations.end(); ++it )
+			for( std::list< Operation* >::iterator it = m_operations.begin(); it != m_operations.end(); ++it )
 			{
 				delete ( *it );
 			}
 		}
-		_operations.clear();
-		_poleTransformNode->SetTranslate( 0.0f, 0.0f, 0.5f );
-		_poleNode->SetLength( 1.0f );
+		m_operations.clear();
+		m_poleTransformNode->SetTranslate( 0.0f, 0.0f, 0.5f );
+		m_poleNode->SetLength( 1.0f );
 	}
 }
 
