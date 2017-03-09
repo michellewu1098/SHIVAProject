@@ -220,7 +220,7 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		{
 			std::cout << "INFO: AssembleActivity request to nudge object upward" << std::endl;
 			m_totemController->MoveSelectedObject( 0.0f, 0.0f, 0.1f );
-			RebuildTrees(true);
+			RebuildTrees( true );
 		}
 		else if( _view->GetID() == "NudgeDown" )
 		{

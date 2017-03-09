@@ -1,42 +1,37 @@
-
 #include "RotateObjectActivity.h"
 
-#include "System/SharedPreferences.h"
-#include "GUIManager.h"
+//----------------------------------------------------------------------------------
 
-
-
-
-void RotateObjectActivity::OnCreate(ShivaGUI::Bundle *data)
+void RotateObjectActivity::OnCreate( ShivaGUI::Bundle *_data )
 {
 	// This is like our constructor
 	// We use it to initialise our variables and load the layouts to window
 
-	_totemController = Totem::Controller::GetInstance();
-	_totemController->ShowSelection(true);
+	m_totemController = Totem::Controller::GetInstance();
+	m_totemController->ShowSelection( true );
 	
-	_buttonHandler = new UtilityEventHandler(this);
+	m_buttonHandler = new UtilityEventHandler( this );
 
-	_rotationStepsize = (3.14159265358979323846f/24.0f); // TODO: put in setting
-	_rotationX = _rotationY = _rotationZ = 0.0f;
+	m_rotationStepsize = ( 3.14159265358979323846f / 24.0f ); // TODO: put in setting
+	m_rotationX = m_rotationY = m_rotationZ = 0.0f;
 	
-	_objectColourR = 0.88f;
-	_objectColourG = 0.78f;
-	_objectColourB = 0.54f;
-	_setObjectColour = false;
+	m_objectColourR = 0.88f;
+	m_objectColourG = 0.78f;
+	m_objectColourB = 0.54f;
+	m_setObjectColour = false;
 	
 	ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
 	if( prefs != NULL )
 	{
-		if( prefs->Contains("ObjectColourR") && prefs->Contains("ObjectColourG") && prefs->Contains("ObjectColourB") )
+		if( prefs->Contains( "ObjectColourR" ) && prefs->Contains( "ObjectColourG" ) && prefs->Contains( "ObjectColourB" ) )
 		{
-			_objectColourR = prefs->GetFloat("ObjectColourR",_objectColourR);
-			_objectColourG = prefs->GetFloat("ObjectColourG",_objectColourG);
-			_objectColourB = prefs->GetFloat("ObjectColourB",_objectColourB);
-			_setObjectColour = true;
+			m_objectColourR = prefs->GetFloat( "ObjectColourR", m_objectColourR );
+			m_objectColourG = prefs->GetFloat( "ObjectColourG", m_objectColourG );
+			m_objectColourB = prefs->GetFloat( "ObjectColourB", m_objectColourB );
+			m_setObjectColour = true;
 		}
 		
-		_rotationStepsize = prefs->GetFloat("RotateObjectStepRadians",_rotationStepsize);
+		m_rotationStepsize = prefs->GetFloat( "RotateObjectStepRadians", m_rotationStepsize );
 	}
 
 
@@ -50,7 +45,7 @@ void RotateObjectActivity::OnCreate(ShivaGUI::Bundle *data)
 	{
 		// We retrieve a GUIController
 		// This is our main method of accessing the resources associated with a Window
-		ShivaGUI::GUIController *guiController = GetGUIController(i);
+		ShivaGUI::GUIController *guiController = GetGUIController( i );
 
 		// The User Profile can specify how the windows are supposed to be used
 		// We can retrieve this using the GUIController and load a different window layout
@@ -59,95 +54,100 @@ void RotateObjectActivity::OnCreate(ShivaGUI::Bundle *data)
 		{
 			// This window should be used for output information only, with no buttons etc
 
-			InitOutputWindow(guiController,data);
+			InitOutputWindow( guiController, _data );
 		}
 		else
 		{
 			// We just assume that this is a generic input/output window
 
-			InitIOWindow(guiController,data);
+			InitIOWindow( guiController, _data );
 		}
 	}
-
 }
+
+//----------------------------------------------------------------------------------
 
 void RotateObjectActivity::OnDestroy()
 {
 	// This is like our destructor, so delete our data etc
-	delete _buttonHandler;
+	delete m_buttonHandler;
 }
 
+//----------------------------------------------------------------------------------
 
-void RotateObjectActivity::UtilityEventReceived(UtilityEventHandler *handler, ShivaGUI::View *view)
+void RotateObjectActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGUI::View *_view )
 {
 	// This function is called when an event is received
 	// the handler we are given should be one of those we registered
 	// The view we are given should be the View that generated the event (e.g. the button)
 	// Here we'll change the text that is displayed based on which button is pressed
-	if( handler == _buttonHandler )
+
+	if( _handler == m_buttonHandler )
 	{
-		if( view->GetID() == "RotateLeft" )
+		if( _view->GetID() == "RotateLeft" )
 		{
-			_rotationZ -= _rotationStepsize;
+			m_rotationZ -= m_rotationStepsize;
 		}
-		else if( view->GetID() == "RotateRight" )
+		else if( _view->GetID() == "RotateRight" )
 		{
-			_rotationZ += _rotationStepsize;
+			m_rotationZ += m_rotationStepsize;
 		}
-		else if( view->GetID() == "RotateUp" )
+		else if( _view->GetID() == "RotateUp" )
 		{
-			_rotationX -= _rotationStepsize;
+			m_rotationX -= m_rotationStepsize;
 		}
-		else if( view->GetID() == "RotateDown" )
+		else if( _view->GetID() == "RotateDown" )
 		{
-			_rotationX += _rotationStepsize;
+			m_rotationX += m_rotationStepsize;
 		}
-		else if( view->GetID() == "RotateYUp" )
+		else if( _view->GetID() == "RotateYUp" )
 		{
-			_rotationY -= _rotationStepsize;
+			m_rotationY -= m_rotationStepsize;
 		}
-		else if( view->GetID() == "RotateYDown" )
+		else if( _view->GetID() == "RotateYDown" )
 		{
-			_rotationY += _rotationStepsize;
+			m_rotationY += m_rotationStepsize;
 		}
-		else if( view->GetID() == "RotateZUp" )
+		else if( _view->GetID() == "RotateZUp" )
 		{
-			_rotationZ -= _rotationStepsize;
+			m_rotationZ -= m_rotationStepsize;
 		}
-		else if( view->GetID() == "RotateZDown" )
+		else if( _view->GetID() == "RotateZDown" )
 		{
-			_rotationZ += _rotationStepsize;
+			m_rotationZ += m_rotationStepsize;
 		}
-		else if( view->GetID() == "RotateReset" )
+		else if( _view->GetID() == "RotateReset" )
 		{
 			ResetRotation();
 		}
-		else if( view->GetID() == "SelectAbove" )
+		else if( _view->GetID() == "SelectAbove" )
 		{
-			_totemController->SelectObjectAbove();
+			m_totemController->SelectObjectAbove();
 		}
-		else if( view->GetID() == "SelectBelow" )
+		else if( _view->GetID() == "SelectBelow" )
 		{
-			_totemController->SelectObjectBelow();
+			m_totemController->SelectObjectBelow();
 		}
-		else if( view->GetID() == "BackButton" )
+		else if( _view->GetID() == "BackButton" )
 		{
-			_totemController->ShowSelection(true);
+			m_totemController->ShowSelection( true );
 			Finish();
 		}
 
 		// Update our views
 		UpdateViews();
-		RebuildTrees(true);
+		RebuildTrees( true );
 	}
-
 }
 
-void RotateObjectActivity::OnActivityResult(ShivaGUI::Bundle *data)
+//----------------------------------------------------------------------------------
+
+void RotateObjectActivity::OnActivityResult( ShivaGUI::Bundle *_data )
 {
 	RebuildTrees();
 }
 
+//----------------------------------------------------------------------------------
 
 void RotateObjectActivity::UpdateViews()
 {
@@ -156,89 +156,99 @@ void RotateObjectActivity::UpdateViews()
 		(*it).first->AddWorldRotationOffsetDegs(_rotationX,_rotationY,_rotationZ);
 	}
 */
-	if( _totemController != NULL )
+	if( m_totemController != NULL )
 	{
-		Totem::Object *currentObject = _totemController->GetSelected();
+		Totem::Object *currentObject = m_totemController->GetSelected();
 		if( currentObject != NULL )
 		{
-			std::cout<<"INFO: adding object rotation: "<<_rotationX<<" "<<_rotationY<<" "<<_rotationZ<<std::endl;
-			currentObject->AddRotation(_rotationX,_rotationY,_rotationZ);
+			std::cout << "INFO: adding object rotation: " << m_rotationX << " " << m_rotationY << " " << m_rotationZ << std::endl;
+			currentObject->AddRotation( m_rotationX, m_rotationY, m_rotationZ );
 		}
 	}
-	_rotationX = _rotationY = _rotationZ = 0.0f;
 
+	m_rotationX = m_rotationY = m_rotationZ = 0.0f;
 }
+
+//----------------------------------------------------------------------------------
 
 void RotateObjectActivity::ResetRotation()
 {
-	for( std::vector< std::pair<VolView*,ShivaGUI::GUIController*> >::iterator it = _VolViews.begin(); it != _VolViews.end(); ++it )
+	for( std::vector< std::pair< VolView*, ShivaGUI::GUIController* > >::iterator it = m_volViews.begin(); it != m_volViews.end(); ++it )
 	{
-		(*it).first->ResetWorldRotation();
+		( *it ).first->ResetWorldRotation();
 	}
-	_rotationX = _rotationY = _rotationZ = 0.0f;
+
+	m_rotationX = m_rotationY = m_rotationZ = 0.0f;
 }
 
-void RotateObjectActivity::RebuildTrees(bool justparams)
+//----------------------------------------------------------------------------------
+
+void RotateObjectActivity::RebuildTrees( bool _justparams )
 {
-	for( std::vector< std::pair<VolView*,ShivaGUI::GUIController*> >::iterator it = _VolViews.begin(); it != _VolViews.end(); ++it )
+	for( std::vector< std::pair< VolView*, ShivaGUI::GUIController* > >::iterator it = m_volViews.begin(); it != m_volViews.end(); ++it )
 	{
-		(*it).second->MakeCurrent();
-		if( justparams )
+		( *it ).second->MakeCurrent();
+		if( _justparams )
 		{
 			//(*it).first->RefreshTreeParams();
-			(*it).first->RefreshTree();
+			( *it ).first->RefreshTree();
 		}
 		else
 		{
-			(*it).first->RefreshTree();
+			( *it ).first->RefreshTree();
 		}
 	}
 }
 
+//----------------------------------------------------------------------------------
 
-void RotateObjectActivity::InitIOWindow(ShivaGUI::GUIController *guiController, ShivaGUI::Bundle *data)
+void RotateObjectActivity::InitIOWindow( ShivaGUI::GUIController *_guiController, ShivaGUI::Bundle *_data )
 {
 	// Here we are going to initialise an I/O window, which will have a couple of buttons
 
 	// Register our UtilityEventHandlers with the GUIController.
-	guiController->RegisterListener(_buttonHandler,"buttonHandler");
+	_guiController->RegisterListener( m_buttonHandler, "buttonHandler" );
 
 	// The layout xml is where the widget hierarchy is specified
 	// This function will load the file and expand the hierarchy ready for display on screen
-	guiController->LoadContentView( "RotateObjectIO.xml" );
+	_guiController->LoadContentView( "RotateObjectIO.xml" );
 
-	VolView *volView = dynamic_cast<VolView*>( guiController->GetResources()->GetViewFromID("MainVolView") );
+	VolView *volView = dynamic_cast< VolView* >( _guiController->GetResources()->GetViewFromID( "MainVolView" ) );
 	if( volView != NULL )
 	{
-		_VolViews.push_back( std::pair<VolView*,ShivaGUI::GUIController*>(volView,guiController) );
-		volView->AllowObjectClickSelection(true);
-		if( _setObjectColour )
+		m_volViews.push_back( std::pair< VolView*, ShivaGUI::GUIController* >( volView, _guiController ) );
+		volView->AllowObjectClickSelection( true );
+		if( m_setObjectColour )
 		{
-			volView->SetObjectColour(_objectColourR, _objectColourG, _objectColourB);
+			volView->SetObjectColour( m_objectColourR, m_objectColourG, m_objectColourB );
 		}
 	}
 
 	UpdateViews();
 }
 
-void RotateObjectActivity::InitOutputWindow(ShivaGUI::GUIController *guiController, ShivaGUI::Bundle *data)
+//----------------------------------------------------------------------------------
+
+void RotateObjectActivity::InitOutputWindow( ShivaGUI::GUIController *_guiController, ShivaGUI::Bundle *_data )
 {
 	// This window will be used for output only, so we don't need to register the listeners as there are no buttons
 
 	// Just load the layout xml
 	// Note that this is a different xml file to the IO window, so it will show different things (i.e. no buttons)
-	guiController->LoadContentView( "VolViewOutput.xml" );
+	_guiController->LoadContentView( "VolViewOutput.xml" );
 
 
-	VolView *volView = dynamic_cast<VolView*>( guiController->GetResources()->GetViewFromID("MainVolView") );
+	VolView *volView = dynamic_cast< VolView* >( _guiController->GetResources()->GetViewFromID( "MainVolView" ) );
 	if( volView != NULL )
 	{
-		_VolViews.push_back( std::pair<VolView*,ShivaGUI::GUIController*>(volView,guiController) );
-		if( _setObjectColour )
+		m_volViews.push_back( std::pair< VolView*, ShivaGUI::GUIController* >( volView, _guiController ) );
+		if( m_setObjectColour )
 		{
-			volView->SetObjectColour(_objectColourR, _objectColourG, _objectColourB);
+			volView->SetObjectColour( m_objectColourR, m_objectColourG, m_objectColourB );
 		}
 	}
 
 	UpdateViews();
 }
+
+//----------------------------------------------------------------------------------
