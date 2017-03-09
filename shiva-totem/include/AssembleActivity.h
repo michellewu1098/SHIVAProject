@@ -11,6 +11,7 @@
 #include <vector>
 #include <boost/filesystem.hpp>
 
+#include "Utility/tinyfiledialogs.h"
 #include "GUI/Views/TextView.h"
 #include "GUI/Views/AdapterViews/ListView.h"
 #include "GUI/Views/AdapterViews/DataAdapter.h"

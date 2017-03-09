@@ -13,6 +13,7 @@ void ShivaGUI::ProfileChooserActivity::OnCreate( Bundle *_data )
 	m_chooseProfileListHandler = new UtilityEventHandler( this );
 	m_copyProfileHandler =  new UtilityEventHandler( this );
 	m_deleteProfileHandler = new UtilityEventHandler( this );
+	m_buttonHandler = new UtilityEventHandler( this );
 
 	m_profileFilesProvider = new FilesystemDataProvider();
 	m_profileFilesProvider->SetShowDirectories(false);
@@ -74,6 +75,7 @@ void ShivaGUI::ProfileChooserActivity::OnConfigurationChanged()
 void ShivaGUI::ProfileChooserActivity::OnDestroy()
 {
 	delete m_startHandler;
+	delete m_buttonHandler;
 }
 
 //----------------------------------------------------------------------------------
@@ -126,6 +128,40 @@ void ShivaGUI::ProfileChooserActivity::UtilityEventReceived( UtilityEventHandler
 				( *it ).first->RefreshFromSource();
 
 			UpdateViews();
+		}
+	}
+	else if( _handler == m_buttonHandler )
+	{
+		if( _view->GetID() == "Browse" )
+		{
+			char const* lFilterPatterns = "*.xml";
+			char const* filename = tinyfd_openFileDialog( "Choose a Profile", "Profiles/", 1, &lFilterPatterns, NULL, 0 );
+
+			if( !filename )
+			{
+				tinyfd_messageBox( "Error", "No file selected. Couldn't load profile.", "ok", "error", 1 );
+			}
+			else
+			{
+				#if defined _WIN32
+					const char *lastSeparator = strrchr( filename, '\\' );
+				#else
+					const char *lastSeparator = strrchr( filename, '/' );
+				#endif
+				
+				
+				std::string profileName = std::string( lastSeparator ? lastSeparator + 1 : filename );
+
+				size_t lastdot = profileName.find_last_of( "." );
+				if( lastdot != std::string::npos )
+				{	
+					// chop off the ".xml" for the _profileName
+					profileName = profileName.substr( 0, lastdot );
+				}
+
+				m_chosenProfile = profileName;
+				UpdateViews();
+			}
 		}
 	}
 }
@@ -188,6 +224,7 @@ void ShivaGUI::ProfileChooserActivity::LoadViews()
 			guiController->RegisterListener( m_chooseProfileListHandler, "SelectProfileHandler" );
 			guiController->RegisterListener( m_copyProfileHandler, "CopyProfileHandler" );
 			guiController->RegisterListener( m_deleteProfileHandler, "DeleteProfileHandler" );
+			guiController->RegisterListener( m_buttonHandler, "BrowseProfileDirectoryHandler" );
 
 
 			guiController->LoadContentView( "ProfileChooserLayout.xml" );

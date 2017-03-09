@@ -433,7 +433,8 @@ void ShivaGUI::CustomLayout::LayoutView( View *_currentView, int _left, int _top
 
 			int naturalHeight = params->GetWrapHeight();
 			
-			if( std::abs( childTop - childBottom ) < naturalHeight && !viewLayoutParams->GetHeightConstrained() )
+			// Not ideal as well, should find a better way to do this
+			if( std::abs( childTop - childBottom ) < naturalHeight && !viewLayoutParams->IsHeightConstrained() )
 			{
 				childTop = _top + ( int )( ( centreYProportion * layoutHeight ) - ( ( float )naturalHeight / 2.0f ) );
 				childBottom = _top + ( int )( ( centreYProportion * layoutHeight ) + ( ( float )naturalHeight / 2.0f ) );
@@ -463,6 +464,15 @@ void ShivaGUI::CustomLayout::LayoutView( View *_currentView, int _left, int _top
 				percentageSize = 1.0f;
 			childLeft = _left + ( int )( ( centreXProportion * layoutWidth ) - ( ( layoutWidth * percentageSize ) / 2.0f ) );
 			childRight = _left + ( int )( ( centreXProportion * layoutWidth ) + ( ( layoutWidth * percentageSize ) / 2.0f ) );
+
+			//int naturalWidth = params->GetWrapWidth();
+
+			// Not ideal as well, should find a better way to do this
+			//if( std::abs( childTop - childBottom ) < naturalWidth && !viewLayoutParams->IsWidthConstrained() )
+			//{
+			//	childLeft = _left + ( int )( ( centreXProportion * layoutWidth ) - ( ( float )naturalWidth / 2.0f ) );
+			//	childRight = _left + ( int )( ( centreXProportion * layoutWidth ) - ( ( float )naturalWidth / 2.0f ) );
+			//}
 		}
 
 		_currentView->Layout( childLeft, childTop, childRight, childBottom, _windowWidth, _windowHeight );

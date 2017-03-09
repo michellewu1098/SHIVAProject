@@ -171,13 +171,36 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		int GetWrapHeight() { return m_wrapHeight; }
 		//----------------------------------------------------------------------------------
-		void SetHeightConstrained( bool _value ) { m_isHeightConstrained = _value; }
-		bool GetHeightConstrained() const { return m_isHeightConstrained; }
-
-
+		/// \brief Set whether we want the height of button to be of fixed size
+		/// \param [in] _value Either true or false
+		//----------------------------------------------------------------------------------
+		void SetHeightConstrained( const bool &_value ) { m_isHeightConstrained = _value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns if we want the height to be of max fixed size 
+		/// \return m_isHeightConstrained
+		//----------------------------------------------------------------------------------
+		bool IsHeightConstrained() const { return m_isHeightConstrained; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set whether we want the width of button to be of fixed size
+		/// \param [in] _value Either true or false
+		//----------------------------------------------------------------------------------
+		void SetWidthConstrained( const bool &_value ) { m_isWidthConstrained = _value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns if we want the width to be of max fixed size
+		/// \return m_isWidthConstrained
+		//----------------------------------------------------------------------------------
+		bool IsWidthConstrained() const { return m_isWidthConstrained; }
+		//----------------------------------------------------------------------------------
 
 	protected:
 
+		//----------------------------------------------------------------------------------
+		/// \brief Used to indicate if we want width to be of max fixed size
+		//----------------------------------------------------------------------------------
+		bool m_isWidthConstrained;
+		//----------------------------------------------------------------------------------
+		/// \brief Used to indicate if we want height to be of max fixed size
+		//----------------------------------------------------------------------------------
 		bool m_isHeightConstrained;
 		//----------------------------------------------------------------------------------
 		/// \brief Height percent

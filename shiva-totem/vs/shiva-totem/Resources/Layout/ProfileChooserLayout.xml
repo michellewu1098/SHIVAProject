@@ -196,6 +196,7 @@
 			/>
 			
 		<TextButton
+			id="Browse"
 			layout_width="wrap_content"
 			layout_height="wrap_content"
 			layout_weight="0.5"

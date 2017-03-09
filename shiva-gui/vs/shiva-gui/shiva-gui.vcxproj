@@ -98,6 +98,7 @@
     <ClCompile Include="..\..\src\Utility\GPUProgram.cpp" />
     <ClCompile Include="..\..\src\Utility\GPUShader.cpp" />
     <ClCompile Include="..\..\src\Utility\GPUVariable.cpp" />
+    <ClCompile Include="..\..\src\Utility\tinyfiledialogs.cpp" />
     <ClCompile Include="..\..\src\Utility\tinystr.cpp" />
     <ClCompile Include="..\..\src\Utility\tinyxml.cpp" />
     <ClCompile Include="..\..\src\Utility\tinyxmlerror.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="..\..\include\Utility\GPUProgram.h" />
     <ClInclude Include="..\..\include\Utility\GPUShader.h" />
     <ClInclude Include="..\..\include\Utility\GPUVariable.h" />
+    <ClInclude Include="..\..\include\Utility\tinyfiledialogs.h" />
     <ClInclude Include="..\..\include\Utility\tinystr.h" />
     <ClInclude Include="..\..\include\Utility\tinyxml.h" />
     <ClInclude Include="..\..\include\Audio\AudioClip.h" />

@@ -153,6 +153,18 @@ ShivaGUI::LayoutParams* ShivaGUI::ViewGroup::InflateLayoutParams( TiXmlElement *
 				_params->SetHeightConstrained( false );
 			}
 		}
+		else if( ( std::string( "width_constrained" ) == currentAttribute->Name() ) || ( _themePrefix + "width_constrained" == currentAttribute->Name() ) )
+		{
+			std::string value = currentAttribute->Value();
+			if( value == "true" || value == "1" || value == "yes" )
+			{
+				_params->SetWidthConstrained( true );
+			}
+			else
+			{
+				_params->SetWidthConstrained( false );
+			}
+		}
 	}
 
 	return _params;

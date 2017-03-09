@@ -237,6 +237,9 @@
     <ClCompile Include="..\..\src\GUI\Views\ImageTextButton.cpp">
       <Filter>Source Files\GUI\Views</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Utility\tinyfiledialogs.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GUIManager.h">
@@ -400,6 +403,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\GUI\Views\ImageTextButton.h">
       <Filter>Header Files\GUI\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Utility\tinyfiledialogs.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

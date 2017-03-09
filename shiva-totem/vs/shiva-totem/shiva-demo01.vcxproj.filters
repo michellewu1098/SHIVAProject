@@ -69,9 +69,6 @@
     <ClCompile Include="..\..\src\Totem\Operations\TotemOpDrill.cpp">
       <Filter>Source Files\Totem\Operations</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\tinyfiledialogs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\AssembleActivity.h">
@@ -112,9 +109,6 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Totem\Operations\TotemOpDrill.h">
       <Filter>Header Files\Totem\Operations</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\tinyfiledialogs.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

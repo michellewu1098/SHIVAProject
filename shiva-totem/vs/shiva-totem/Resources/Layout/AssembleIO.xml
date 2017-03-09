@@ -187,7 +187,7 @@
 		onClick="buttonHandler"
 		text="nudge up"
     
-    scan_prev="RotateDown"
+		scan_prev="RotateDown"
 		next_focus_right="PrimitiveList"
 		next_focus_left="RotateUp"
 		/>
@@ -201,7 +201,7 @@
 		onClick="buttonHandler"
 		text="swap next"
     
-    scan_prev="NudgeUp"
+		scan_prev="NudgeUp"
 		next_focus_up="NudgeUp"
 		next_focus_right="PrimitiveList"
 		next_focus_left="RotateUp"
@@ -216,7 +216,7 @@
 		onClick="buttonHandler"
 		text="select next"
     
-    scan_prev="SwapAbove"
+		scan_prev="SwapAbove"
 		next_focus_up="SwapAbove"
 		next_focus_right="PrimitiveList"
 		next_focus_left="RotateUp"
@@ -231,7 +231,7 @@
 		onClick="buttonHandler"
 		text="delete"
     
-    scan_prev="SelectAbove"
+		scan_prev="SelectAbove"
 		next_focus_up="SelectAbove"
 		next_focus_right="PrimitiveList"
 		next_focus_left="RotateUp"
@@ -246,7 +246,7 @@
 		onClick="launchActivityHandler"
 		text="edit"
     
-    scan_prev="DeleteSelected"
+		scan_prev="DeleteSelected"
 		next_focus_up="DeleteSelected"
 		next_focus_right="PrimitiveList"
 		next_focus_left="RotateUp"
@@ -261,7 +261,7 @@
 		onClick="buttonHandler"
 		text="select previous"
     
-    scan_prev="EditSelected"
+		scan_prev="EditSelected"
 		next_focus_up="EditSelected"
 		next_focus_right="PrimitiveList"
 		next_focus_left="RotateUp"
@@ -276,7 +276,7 @@
 		onClick="buttonHandler"
 		text="swap previous"
     
-    scan_prev="SelectBelow"
+		scan_prev="SelectBelow"
 		next_focus_up="SelectBelow"
 		next_focus_right="PrimitiveList"
 		next_focus_left="RotateUp"
@@ -291,7 +291,7 @@
 		onClick="buttonHandler"
 		text="nudge down"
     
-    scan_prev="SwapBelow"
+		scan_prev="SwapBelow"
 		next_focus_up="SwapBelow"
 		next_focus_right="PrimitiveList"
 		next_focus_left="RotateUp"
@@ -305,7 +305,7 @@
 		layout_centreX="0.9"
 		layout_centreY="0.90"
 		text="saved!"
-    visibility="false"
+		visibility="false"
 		/>
 
   <TextButton
@@ -317,8 +317,8 @@
 		onClick="saveHandler"
 		text="save"
     
-    scan_prev="NudgeDown"
-    scan_next="PrimitiveList"
+		scan_prev="NudgeDown"
+		scan_next="PrimitiveList"
 		next_focus_up="NudgeDown"
 		next_focus_down="NudgeUp"
 		next_focus_right="PrimitiveList"
@@ -334,7 +334,7 @@
 		onClick="loadHandler"
 		text="load"
     
-    scan_prev="Save"
+		scan_prev="Save"
 		next_focus_up="Save"
 		next_focus_right="PrimitiveList"
 		next_focus_left="RotateUp"

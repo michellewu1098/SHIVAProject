@@ -15,7 +15,7 @@
 #include "System/Activities/FilesystemDataProvider.h"
 #include "GUI/Views/AdapterViews/ListView.h"
 #include "GUI/Views/AdapterViews/DataAdapter.h"
-
+#include "Utility/tinyfiledialogs.h"
 
 namespace ShivaGUI
 { 
@@ -71,6 +71,8 @@ namespace ShivaGUI
 		/// \brief Handler to delete profile
 		//----------------------------------------------------------------------------------
 		UtilityEventHandler *m_deleteProfileHandler;
+		//----------------------------------------------------------------------------------
+		UtilityEventHandler *m_buttonHandler;
 		//----------------------------------------------------------------------------------
 		/// \brief Name of activity to start
 		//----------------------------------------------------------------------------------

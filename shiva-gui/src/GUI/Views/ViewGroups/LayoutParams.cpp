@@ -11,6 +11,7 @@ ShivaGUI::LayoutParams::LayoutParams()
 	m_paddingLeft = m_paddingRight = m_paddingTop = m_paddingBottom = 0;
 	m_wrapWidth = m_wrapHeight = 0;
 	m_isHeightConstrained = false;
+	m_isWidthConstrained = false;
 }
 
 //----------------------------------------------------------------------------------
@@ -24,6 +25,7 @@ ShivaGUI::LayoutParams::LayoutParams( float _width, float _height )
 	m_heightConst = m_widthConst = FILL_PARENT;
 	m_paddingLeft = m_paddingRight = m_paddingTop = m_paddingBottom = 0;
 	m_isHeightConstrained = false;
+	m_isWidthConstrained = false;
 }
 
 //----------------------------------------------------------------------------------
@@ -37,6 +39,7 @@ ShivaGUI::LayoutParams::LayoutParams( FillType _width, FillType _height )
 	m_widthConst = _width;
 	m_paddingLeft = m_paddingRight = m_paddingTop = m_paddingBottom = 0;
 	m_isHeightConstrained = false;
+	m_isWidthConstrained = false;
 }
 
 //----------------------------------------------------------------------------------
