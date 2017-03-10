@@ -1,14 +1,12 @@
-/*
- * main.cpp
- *
- * This is a simple demo showing how to use the SHIVA GUI System and the Custom Layout
- *
- *  Created on: Jul 2, 2012
- *      Author: leigh
- */
-//////////////////////////////////////////////////////////////////////////
-/*
+///-----------------------------------------------------------------------------------------------
+/// \file main.cpp
+/// \brief This is a simple demo showing how to use the SHIVA GUI System and the Custom Layout
+/// \author Leigh McLoughlin
+/// \date Jul 2, 2012
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
+/*
 	TODO:
 
 	[x] - Fix rotations for mouse
@@ -49,6 +47,9 @@
 
 */
 
+#include <iostream>
+#include <boost/program_options.hpp>
+
 #include "GUIManager.h"
 
 #include "AssembleActivity.h"
@@ -79,26 +80,27 @@
 	#endif // CreateWindow
 #endif // WIN32
 
-#include <iostream>
-#include <boost/program_options.hpp>
-
-
-// This will be used for storing our program options, which may also be loaded by command-line
-struct program_options
+//----------------------------------------------------------------------------------
+/// \brief This will be used for storing our program options, which may also be loaded by command-line
+//----------------------------------------------------------------------------------
+struct ProgramOptions
 {
 	std::string profileDirectory;
 	std::string profileName;
 };
+//----------------------------------------------------------------------------------
+/// \brief Forward declaration of a function that will sort out our command-line options
+//----------------------------------------------------------------------------------
 
-// Forward declaration of a function that will sort out our command-line options
-bool get_options( program_options *options, int argc, char **argv );
+bool GetOptions( ProgramOptions *_options, int _argc, char **_argv );
 
+//----------------------------------------------------------------------------------
 
 int main( int argc, char **argv )
 {
 	// Set our program options from command line
-	program_options options;
-	if( !get_options( &options, argc, argv ) )
+	ProgramOptions options;
+	if( !GetOptions( &options, argc, argv ) )
 		return 0;
 
 
@@ -174,7 +176,6 @@ int main( int argc, char **argv )
 	totemController->SetPrimitiveNode(5, new VolumeTree::CubeNode(0.5f,1.0f,0.5f) );
 	*/
 
- 
 	mainGUIManager->RegisterActivityCreator( "AssembleActivity", AssembleActivity::Factory );
 	mainGUIManager->RegisterActivityCreator( "DrillActivity", DrillActivity::Factory );
 	mainGUIManager->RegisterActivityCreator( "EditMenuActivity", EditMenuActivity::Factory );
@@ -191,9 +192,11 @@ int main( int argc, char **argv )
 	return 0;
 }
 
+//----------------------------------------------------------------------------------
 
-// This function will deal with our command line options, setting up the profile directory and profile name
-bool get_options( program_options *options, int argc, char **argv )
+// brief This function will deal with our command line options, setting up the profile directory and profile name
+
+bool GetOptions( ProgramOptions *_options, int _argc, char **_argv )
 {
 	boost::program_options::options_description generic( "Generic options" );
 	generic.add_options()
@@ -203,10 +206,10 @@ bool get_options( program_options *options, int argc, char **argv )
 	boost::program_options::options_description profile( "Profile options" );
 	profile.add_options()
 		( "profile_directory,d",
-		 boost::program_options::value< std::string >( &( options->profileDirectory ) )->default_value( "Profiles" ),
+		 boost::program_options::value< std::string >( &( _options->profileDirectory ) )->default_value( "Profiles" ),
 		 "profile directory" )
 		( "profile_name,n",
-		 boost::program_options::value< std::string >( &( options->profileName ) )->default_value( "" ),
+		 boost::program_options::value< std::string >( &( _options->profileName ) )->default_value( "" ),
 		 "profile name" );
 
 
@@ -214,7 +217,7 @@ bool get_options( program_options *options, int argc, char **argv )
 	allOptions.add( generic ).add( profile );
 
 	boost::program_options::variables_map variableMap;
-	boost::program_options::store( boost::program_options::parse_command_line( argc, argv, allOptions ), variableMap );
+	boost::program_options::store( boost::program_options::parse_command_line( _argc, _argv, allOptions ), variableMap );
 	boost::program_options::notify( variableMap );
 
 	// See what we have found in our command line options:
@@ -234,3 +237,5 @@ bool get_options( program_options *options, int argc, char **argv )
 
 	return true;
 }
+
+//----------------------------------------------------------------------------------
