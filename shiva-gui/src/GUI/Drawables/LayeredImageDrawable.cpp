@@ -268,7 +268,14 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *_xmlElement, Resourc
 					SetTexID( _resources->GetBitmap( std::string( "Resources/Drawables/" ) + resourceName ), imageLayerGroup );
 					if( _resources->IsCreatingText() )
 					{
-						m_textTextureID = _resources->GetTexture( std::string( "Text/Resources/Drawables/" ) + resourceName );
+						size_t lastdot = resourceName.find_last_of( "." );
+						if( lastdot != std::string::npos )
+						{	
+							resourceName = resourceName.substr( 0, lastdot );
+						}
+						//m_textTextureID = _resources->GetTexture( std::string( "Text/Resources/Drawables/" ) + resourceName );
+
+						m_textTextureID = _resources->GetTexture(  std::string( "Resources/Drawables/" ) + resourceName + std::string( "_Text" ) );
 						if( !m_textTextureID )
 						{
 							std::cerr << "ERROR: Resource Manager didn't create the text texture." << std::endl;

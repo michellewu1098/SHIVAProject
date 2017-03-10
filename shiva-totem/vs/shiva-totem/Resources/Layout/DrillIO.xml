@@ -66,14 +66,15 @@
 
   <TextButton
 		id="DrillSizeReset"
-		layout_width="0.2"
+		layout_width="0.12"
 		layout_height="0.2"
 		layout_centreX="0.1"
 		layout_centreY="0.5"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		height_constrained="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
-    text="reset drill size"
+		text="reset&#10;drill size"
 		/>
 
 

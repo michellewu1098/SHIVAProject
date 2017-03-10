@@ -33,11 +33,9 @@
 		layout_height="0.3"
 		layout_centreX="0.7"
 		layout_centreY="0.25"
-    eyeGaze_RestButton="true"
+		eyeGaze_RestButton="true"
 		text="rest"
 		/>
-
-
 
 
   <ImageButton
@@ -83,11 +81,12 @@
 		layout_height="0.2"
 		layout_centreX="0.7"
 		layout_centreY="0.5"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		height_constrained="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Up.xml"
-    eyeGaze_Repeat="true"
+		eyeGaze_Repeat="true"
     
 		/>
 		
@@ -97,11 +96,12 @@
 		layout_height="0.2"
 		layout_centreX="0.3"
 		layout_centreY="0.5"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		height_constrained="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Down.xml"
-    eyeGaze_Repeat="true"
+		eyeGaze_Repeat="true"
     
 		/>
 
@@ -111,11 +111,12 @@
 		layout_height="0.12"
 		layout_centreX="0.5"
 		layout_centreY="0.9"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		height_constrained="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Right.xml"
-    eyeGaze_Repeat="true"
+		eyeGaze_Repeat="true"
     
 		/>
 
@@ -125,11 +126,12 @@
 		layout_height="0.12"
 		layout_centreX="0.5"
 		layout_centreY="0.2"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		height_constrained="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Left.xml"
-    eyeGaze_Repeat="true"
+		eyeGaze_Repeat="true"
     
 		/>
 

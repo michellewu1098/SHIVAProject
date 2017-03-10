@@ -209,9 +209,16 @@ SDL_Rect newSDL_Rect( int _xs, int _ys, int _dx, int _dy )
 
 unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename )
 {
-	if( m_glTextures.find( _filename ) != m_glTextures.end() )
+	std::string fileNameNoExt;
+	size_t lastdot = _filename.find_last_of( "." );
+	if( lastdot != std::string::npos )
+	{	
+		fileNameNoExt = _filename.substr( 0, lastdot );
+	}
+
+	if( m_glTextures.find( fileNameNoExt ) != m_glTextures.end() ) 
 	{
-		return m_glTextures[ _filename ];
+		return m_glTextures[ fileNameNoExt ];
 	}
 
 	// I've had this function for so long I can't remember where it was from originally
@@ -227,7 +234,7 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename )
 	// Loading image as a SDL_Surface
 	image = IMG_Load( _filename.c_str() );
 
-	if( image == NULL ){
+	if( image == NULL ) {
 		std::cerr << "WARNING: ResourceManager Couldn't load: " << _filename << " " << SDL_GetError() << std::endl;
 		return 0;
 	}
@@ -236,6 +243,10 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename )
 
 	if( m_addTextSpace ) // For ImageTextButtons
 	{
+		if ( m_glTextures.find( fileNameNoExt + std::string( "_WithText" ) ) != m_glTextures.end() )
+		{
+			return m_glTextures[ fileNameNoExt + std::string( "_WithText" ) ];
+		}
 		// Creating the text surface from text body and attributes set for the font
 		SDL_Surface* textSurf = GetTextSurface( m_buttonText, m_buttonTextAlign, m_buttonFontName, m_buttonFontSize, m_buttonFontColour );
 		
@@ -263,7 +274,7 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename )
 		if ( m_isTextToTexture ) // If we are rendering the text (which we will do only once)
 		{
 			// Now check if there is already a texture for the text (it shouldn't be there, but oh well)
-			if( m_glTextures.find( std::string( "Text/" )  + _filename ) == m_glTextures.end() )
+			if( m_glTextures.find( fileNameNoExt + std::string( "_Text" ) ) == m_glTextures.end() )
 			{
 				unsigned int textID;
 
@@ -282,7 +293,9 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename )
 				SDL_FreeSurface( textImage );
 
 				if( textID != 0 )
-					m_glTextures[ std::string( "Text/" ) + _filename ] = textID;
+				{
+					m_glTextures[ fileNameNoExt + std::string( "_Text" ) ] = textID;
+				}
 			}
 		}
 
@@ -292,6 +305,7 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename )
 		SDL_FreeSurface( textSurf );
 
 		m_isRenderingText = false;
+		fileNameNoExt = fileNameNoExt + std::string( "_WithText" );
 	}
 	else
 	{
@@ -301,8 +315,9 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename )
 	}
 
 	if( texName != 0 )
-		m_glTextures[ _filename ] = texName;
-	
+	{
+		m_glTextures[ fileNameNoExt ] = texName;
+	}
 	return texName;
 }
 
