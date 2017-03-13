@@ -47,12 +47,17 @@ namespace ShivaGUI
 		/// \param [in] _text
 		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
-//		void SetText( std::string _text, ShivaGUI::ResourceManager *_resources ) { m_textBody = _text; BuildTextCache( _resources ); }
+		void SetText( std::string _text, ResourceManager* _resources );
 		//----------------------------------------------------------------------------------
 		/// \brief Get body text
 		/// \return m_textBody
 		//----------------------------------------------------------------------------------
 		std::string GetText() const { return m_textBody; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set content drawable
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		virtual void SetContent( Drawable *_value );
 		//----------------------------------------------------------------------------------
 
 	protected:

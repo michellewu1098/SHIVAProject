@@ -413,6 +413,12 @@ void ShivaGUI::ImageButton::SetContent( Drawable *_drawable )
 		if( m_setContentAspectRatio >= 0 )
 			bitmapContent->SetScaleKeepAspectRatio( m_setContentAspectRatio != 0 );
 	}
+
+	LayeredImageDrawable *layeredContent = dynamic_cast< LayeredImageDrawable* >( m_contentGenDrawable );
+	if( m_contentGenDrawable != NULL )
+	{
+		//layeredContent->AddTextLayer( 
+	}
 }
 
 //----------------------------------------------------------------------------------

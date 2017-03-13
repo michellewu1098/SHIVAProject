@@ -71,6 +71,9 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		virtual void SetMapping( std::string *_from_attribute, std::string *_to_view, unsigned int _arrayLength );
 		//----------------------------------------------------------------------------------
+		void SetIsModelAdapter( const bool &_value ) { m_isModelAdapter = _value; }
+		bool GetIsModelAdapter() const { return m_isModelAdapter; }
+
 
 	protected:
 
@@ -130,6 +133,7 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		unsigned int m_mappingLength;
 		//----------------------------------------------------------------------------------
+		bool m_isModelAdapter;
 
 	};
 }

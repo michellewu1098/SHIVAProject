@@ -67,7 +67,7 @@ void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
 
 	m_modelListAdapter->SetMapping( &fromAttrib, &toView, 1 );
 	m_modelListAdapter->SetLayoutFile( "ModelListEntry.xml" );	// This is the layout xml that specifies the single entry for the ListView
-
+	m_modelListAdapter->SetIsModelAdapter( true );
 
 	// We will now tell the system what to display on the windows
 
@@ -113,6 +113,7 @@ void AssembleActivity::OnDestroy()
 	delete m_buttonHandler;
 	delete m_addPrimitiveHandler;
 	delete m_modelListAdapter;
+	delete m_launchActivityHandler;
 }
 
 //----------------------------------------------------------------------------------
@@ -402,46 +403,7 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 			GetGUIManager()->StartActivityForResult( _view->GetID(), NULL );
 		}
 	}
-	/*
-	else if( handler == _addPrimitiveHandler )
-	{
-		// We have received a request to add a primitive to the totempole
-		// We don't know which button was selected though, so we need to find out:
-
-		int dataEntryIndex = -1;
-		std::vector< std::pair<ShivaGUI::ListView*,ShivaGUI::GUIController*> >::iterator it = _listViews.begin();
-		do
-		{
-			dataEntryIndex = (*it).first->GetDataIndex(view);
-			++it;
-		}
-		while( it != _listViews.end() && dataEntryIndex < 0 );
-
-		if( dataEntryIndex == -1 )
-		{
-			std::cerr<<"WARNING: AssembleActivity received request to add primitive from unknown button origin"<<std::endl;
-			return;
-		}
-
-		// Retrieve the filename from the ShivaModelManager:
-		ShivaModelManager *modelManager = ShivaModelManager::GetInstance();
-
-		std::cout<<"INFO: AssembleActivity attempting to add primitive: "<<modelManager->GetAttributeString(dataEntryIndex,"name")<<std::endl;
-
-		std::string filename = modelManager->GetAttributeString(dataEntryIndex,"bdf_file");
-
-		if( filename.empty() )
-		{
-			std::cerr<<"WARNING: AssembleActivity received request to add primitive (index "<<dataEntryIndex<<") but this entry has no bdf file"<<std::endl;
-			return;
-		}
-
-		// Give file to SDF Views
-		AddTopObject(filename);
-
-	}
-	*/
-
+	
 	// Update our views
 	UpdateViews();
 }

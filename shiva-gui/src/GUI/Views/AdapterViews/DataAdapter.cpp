@@ -11,6 +11,7 @@ ShivaGUI::DataAdapter::DataAdapter()
 	m_mappingAttributes = NULL;
 	m_mappingViews = NULL;
 	m_mappingLength = 0;
+	m_isModelAdapter = false;
 }
 
 //----------------------------------------------------------------------------------
@@ -55,8 +56,10 @@ ShivaGUI::View* ShivaGUI::DataAdapter::GetView( int _index, ResourceManager *_re
 			if( currentView != NULL &&  !currentData.empty() )
 			{
 				// bind data depending on the type of View we have:
-				ImageButton *currentImageButton = dynamic_cast< ImageButton* >( currentView );
+				ImageButton *currentImageButton = NULL; /*= dynamic_cast< ImageButton* >( currentView );*/
 				ImageTextButton *currentImageTextButton = dynamic_cast< ImageTextButton* >( currentView );
+				if( currentImageTextButton == NULL )
+					currentImageButton = dynamic_cast< ImageButton* >( currentView );
 				TextView *currentTextView = dynamic_cast< TextView* >( currentView );
 				TextButton *currentTextButton = dynamic_cast< TextButton* >( currentView );
 
@@ -74,6 +77,12 @@ ShivaGUI::View* ShivaGUI::DataAdapter::GetView( int _index, ResourceManager *_re
 				}
 				else if( currentImageTextButton != NULL )
 				{
+					if( m_isModelAdapter )
+					{
+						std::string text = m_provider->GetAttributeString( _index, "name" );
+						if( !text.empty() )
+							currentImageTextButton->SetText( text, _resources );
+					}
 					SetViewImage( currentImageTextButton, currentData, _resources );
 				}
 				else

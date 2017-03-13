@@ -12,6 +12,7 @@
 #include "GUI/Views/View.h"
 #include "GUI/Views/ViewEventListener.h"
 #include "GUI/Drawables/StateListDrawable.h"
+#include "GUI/Drawables/LayeredImageDrawable.h"
 #include "Audio/AudioClip.h"
 #include "Utility/GPUProgram.h"
 
@@ -95,7 +96,7 @@ namespace ShivaGUI
 		/// \brief Set content drawable
 		/// \param [in] _value
 		//----------------------------------------------------------------------------------
-		void SetContent( Drawable *_value );
+		virtual void SetContent( Drawable *_value );
 		//----------------------------------------------------------------------------------
 		/// \brief Get content drawable
 		//----------------------------------------------------------------------------------

@@ -37,6 +37,15 @@ ShivaGUI::ImageTextButton::~ImageTextButton()
 
 //----------------------------------------------------------------------------------
 
+void ShivaGUI::ImageTextButton::SetText( std::string _text, ResourceManager* _resources )
+{
+	m_textBody = _text;
+	if( !m_textBody.empty() )
+		_resources->SetTextInfo( m_textBody, m_fontName, m_fontSize, m_fontColour, m_textAlignment );
+}
+
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::ImageTextButton::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
 	if( _themePrefix.empty() )
@@ -101,6 +110,31 @@ void ShivaGUI::ImageTextButton::Inflate( TiXmlElement *_xmlElement, ResourceMana
 	if( image != NULL )
 	{
 		image->AddTextLayer( m_fontColour );
+	}
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ImageTextButton::SetContent( Drawable *_drawable )
+{
+	m_contentStateListDrawable = dynamic_cast< StateListDrawable* >( _drawable );
+	if( m_contentStateListDrawable == NULL )
+		m_contentGenDrawable = _drawable;
+
+	BitmapDrawable *bitmapContent = dynamic_cast< BitmapDrawable* >( m_contentGenDrawable );
+	if( bitmapContent != NULL )
+	{
+		if( m_setContentScaleUp >= 0 )
+			bitmapContent->SetScaleup( m_setContentScaleUp != 0 );
+		
+		if( m_setContentAspectRatio >= 0 )
+			bitmapContent->SetScaleKeepAspectRatio( m_setContentAspectRatio != 0 );
+	}
+
+	LayeredImageDrawable *layeredContent = dynamic_cast< LayeredImageDrawable* >( m_contentGenDrawable );
+	if( m_contentGenDrawable != NULL )
+	{
+		layeredContent->AddTextLayer( m_fontColour ); 
 	}
 }
 

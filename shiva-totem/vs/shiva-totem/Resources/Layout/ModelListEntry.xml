@@ -3,6 +3,6 @@
 <ImageButton
 	id="imagebutton"
 	onClick="addPrimitiveHandler"
-  scaleContent="true"
-  keepContentAspectRatio="true"
+	scaleContent="true"
+	keepContentAspectRatio="true"
 	/>
