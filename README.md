@@ -6,3 +6,5 @@ The **SHIVA project** was designed to provide virtual sculpting tools for childr
 These tools were deployed in a school for students with complex disabilities and used for a variety of artistic, education and developmental purposes. 
 
 ![SHIVA software in use](http://i.imgur.com/GAk94SF.jpg)
+
+If cloning or downloading the project, be aware that we're including boost, consequently the download will be >4GB in size and therefore the all thing could take a long time. 
