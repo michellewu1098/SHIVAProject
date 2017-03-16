@@ -7,184 +7,201 @@
 #include "GUI/Views/ColourSelector.h"
 #include "GUI/Drawables/BitmapDrawable.h"
 
-void ColourChooser::OnCreate(ShivaGUI::Bundle *data)
-{
-	_backButtonHandler = new UtilityEventHandler(this);
-	_nextButtonHandler = new UtilityEventHandler(this);
-	_leftColButtonHandler = new UtilityEventHandler(this);
-	_rightColButtonHandler = new UtilityEventHandler(this);
-	_colourChangeHandler = new UtilityEventHandler(this);
+//----------------------------------------------------------------------------------
 
-	_colourX = _colourY = 0.5f;
-	_colourStepsize = 0.05f;
+void ColourChooser::OnCreate( ShivaGUI::Bundle *_data )
+{
+	m_backButtonHandler = new UtilityEventHandler( this );
+	m_nextButtonHandler = new UtilityEventHandler( this );
+	m_leftColButtonHandler = new UtilityEventHandler( this );
+	m_rightColButtonHandler = new UtilityEventHandler( this );
+	m_colourChangeHandler = new UtilityEventHandler( this );
+
+	m_colourX = m_colourY = 0.5f;
+	m_colourStepsize = 0.05f;
 
 	ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
 	if( prefs != NULL )
 	{
-		_colourStepsize = prefs->GetFloat("ColourStepsize",_colourStepsize);
+		m_colourStepsize = prefs->GetFloat( "ColourStepsize", m_colourStepsize );
 	}
 
 	int numWindows = GetNumGUIControllers();
 
 	for( int i = 0; i < numWindows; i++ )
 	{
-		ShivaGUI::GUIController *guiController = GetGUIController(i);
+		ShivaGUI::GUIController *guiController = GetGUIController( i );
 		ShivaGUI::Window::RequestedUse windowUse = guiController->GetRequestedUse();
 		if( windowUse == ShivaGUI::Window::OUTPUT )
 		{
-			InitOutputWindow(guiController,data);
+			InitOutputWindow( guiController, _data );
 		}
 		else
 		{
-			InitIOWindow(guiController,data);
+			InitIOWindow( guiController, _data );
 		}
 	}
 
-	_startBundle = new ShivaGUI::Bundle(*data);
+	m_startBundle = new ShivaGUI::Bundle( *_data );
 }
+
+//----------------------------------------------------------------------------------
 
 void ColourChooser::OnDestroy()
 {
-	delete _backButtonHandler;
-	delete _nextButtonHandler;
-	delete _leftColButtonHandler;
-	delete _rightColButtonHandler;
-	delete _colourChangeHandler;
+	delete m_backButtonHandler;
+	delete m_nextButtonHandler;
+	delete m_leftColButtonHandler;
+	delete m_rightColButtonHandler;
+	delete m_colourChangeHandler;
 }
 
-void ColourChooser::UtilityEventReceived( UtilityEventHandler *handler, ShivaGUI::View *view )
+//----------------------------------------------------------------------------------
+
+void ColourChooser::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGUI::View *_view )
 {
-	if( handler == _backButtonHandler )
+	if( _handler == m_backButtonHandler )
 	{
 		Finish();
 	}
-	if( handler == _nextButtonHandler )
+	if( _handler == m_nextButtonHandler )
 	{
-		ShivaGUI::ColourSelector *firstSelector = _selectors.front();
+		ShivaGUI::ColourSelector *firstSelector = m_selectors.front();
 		if( firstSelector != NULL )
 		{
 			float R, G, B;
-			firstSelector->GetColour(R,G,B);
-			_startBundle->PutFloat("ColourR",R);
-			_startBundle->PutFloat("ColourG",G);
-			_startBundle->PutFloat("ColourB",B);
+			firstSelector->GetColour( R, G, B );
+			m_startBundle->PutFloat( "ColourR", R );
+			m_startBundle->PutFloat( "ColourG", G );
+			m_startBundle->PutFloat( "ColourB", B );
 		}
-		GetGUIManager()->StartActivity("RotationChooser", new ShivaGUI::Bundle(*_startBundle) );
+		GetGUIManager()->StartActivity( "RotationChooser", new ShivaGUI::Bundle( *m_startBundle ) );
 	}
-	if( handler == _colourChangeHandler )
+	if( _handler == m_colourChangeHandler )
 	{
-		ShivaGUI::ColourSelector *selector = dynamic_cast<ShivaGUI::ColourSelector*>( view );
+		ShivaGUI::ColourSelector *selector = dynamic_cast< ShivaGUI::ColourSelector* >( _view );
 		if( selector != NULL )
 		{
-			selector->GetHandlePosition(_colourX, _colourY);
+			selector->GetHandlePosition( m_colourX, m_colourY );
 			UpdateViews();
 		}
 	}
-	if( handler == _leftColButtonHandler )
+	if( _handler == m_leftColButtonHandler )
 	{
-		_colourX -= _colourStepsize;
-		if( _colourX < 0.0f )
-			_colourX = 0.0f;
+		m_colourX -= m_colourStepsize;
+		if( m_colourX < 0.0f )
+			m_colourX = 0.0f;
 		UpdateViews();
 	}
-	if( handler == _rightColButtonHandler )
+	if( _handler == m_rightColButtonHandler )
 	{
-		_colourX += _colourStepsize;
-		if( _colourX > 1.0f )
-			_colourX = 1.0f;
+		m_colourX += m_colourStepsize;
+		if( m_colourX > 1.0f )
+			m_colourX = 1.0f;
 		UpdateViews();
 	}
 }
 
-void ColourChooser::UpdateViews(ShivaGUI::ColourSelector *issuingSelector)
+//----------------------------------------------------------------------------------
+
+void ColourChooser::UpdateViews( ShivaGUI::ColourSelector *_issuingSelector )
 {
 	float R = 1.0f, G = 1.0f, B = 1.0f;
-	if( issuingSelector != NULL )
-		issuingSelector->GetColour(R,G,B);
+	if( _issuingSelector != NULL )
+		_issuingSelector->GetColour( R, G, B );
 
-	for( std::vector<ShivaGUI::ColourSelector*>::iterator it = _selectors.begin(); it != _selectors.end(); ++it )
+	for( std::vector< ShivaGUI::ColourSelector* >::iterator it = m_selectors.begin(); it != m_selectors.end(); ++it )
 	{
-		if( (*it) != issuingSelector )
+		if( ( *it ) != _issuingSelector )
 		{
-			(*it)->SetHandlePosition(_colourX,_colourY);
-			(*it)->GetColour(R,G,B);
+			( *it )->SetHandlePosition( m_colourX, m_colourY );
+			( *it )->GetColour( R, G, B );
 		}
 	}
 
-	for( std::vector<SDFView*>::iterator it = _SDFViews.begin(); it != _SDFViews.end(); ++it )
+	for( std::vector< SDFView* >::iterator it = m_SDFViews.begin(); it != m_SDFViews.end(); ++it )
 	{
-		(*it)->SetColour(R,G,B);
+		( *it )->SetColour( R, G, B );
 	}
 }
 
-void ColourChooser::LoadSDFViewData(SDFView *sdfView,ShivaGUI::Bundle *data, ShivaGUI::GUIController *guiController)
-{
-	if( sdfView != NULL )
-	{
+//----------------------------------------------------------------------------------
 
+void ColourChooser::LoadSDFViewData( SDFView *_sdfView, ShivaGUI::Bundle *_data, ShivaGUI::GUIController *_guiController )
+{
+	if( _sdfView != NULL )
+	{
 		// Get options from profile
 		ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
 		if( prefs != NULL )
 		{
-			sdfView->SetRotationSpeed( prefs->GetFloat("ModelRotationSpeed",0.0f) );
-			sdfView->SetQuality( prefs->GetFloat("SDFQuality",32.0f) );
+			_sdfView->SetRotationSpeed( prefs->GetFloat( "ModelRotationSpeed", 0.0f ) );
+			_sdfView->SetQuality( prefs->GetFloat( "SDFQuality", 32.0f ) );
 		}
 
-		if( data != NULL && data->ContainsKey("ModelA") && data->ContainsKey("ModelB") && data->ContainsKey("MorphValue") )
+		if( _data != NULL && _data->ContainsKey( "ModelA" ) && _data->ContainsKey( "ModelB" ) && _data->ContainsKey( "MorphValue" ) )
 		{
-			int modelA = data->GetInteger("ModelA");
+			int modelA = _data->GetInteger( "ModelA" );
 			std::stringstream modelASS;
 			modelASS << modelA;
-			int modelB = data->GetInteger("ModelB");
+
+			int modelB = _data->GetInteger( "ModelB" );
 			std::stringstream modelBSS;
 			modelBSS << modelB;
-			std::string modelFilename = ShivaModelManager::GetInstance()->GetAttribute(modelASS.str(),"vol_file");
-			sdfView->LoadVolumeFromFile(modelFilename,false,guiController);
-			modelFilename = ShivaModelManager::GetInstance()->GetAttribute(modelBSS.str(),"vol_file");
-			sdfView->LoadVolumeFromFile(modelFilename,true,guiController);
-			sdfView->SetBlendParam( data->GetFloat("MorphValue") );
-			std::cout<<"INFO: ColourChooser, modelA = "<<modelA<<" modelB = "<<modelB<<" morph value = "<<data->GetFloat("MorphValue")<<std::endl;
+
+			std::string modelFilename = ShivaModelManager::GetInstance()->GetAttribute( modelASS.str(), "vol_file" );
+			_sdfView->LoadVolumeFromFile( modelFilename, false, _guiController );
+			
+			modelFilename = ShivaModelManager::GetInstance()->GetAttribute( modelBSS.str(), "vol_file" );
+			_sdfView->LoadVolumeFromFile( modelFilename, true, _guiController );
+			_sdfView->SetBlendParam( _data->GetFloat( "MorphValue" ) );
+			
+			std::cout << "INFO: ColourChooser, modelA = " << modelA << " modelB = " << modelB << " morph value = " << _data->GetFloat( "MorphValue" ) << std::endl;
 		}
 		else
-			std::cerr<<"WARNING: ShivaMetamorphosis has not received model choices"<<std::endl;
-
+			std::cerr << "WARNING: ShivaMetamorphosis has not received model choices" << std::endl;
 	}
 }
 
+//----------------------------------------------------------------------------------
 
-void ColourChooser::InitIOWindow(ShivaGUI::GUIController *guiController, ShivaGUI::Bundle *data)
+void ColourChooser::InitIOWindow( ShivaGUI::GUIController *_guiController, ShivaGUI::Bundle *_data )
 {
-	guiController->RegisterListener(_backButtonHandler,"backButtonHandler");
-	guiController->RegisterListener(_nextButtonHandler,"nextButtonHandler");
-	guiController->RegisterListener(_leftColButtonHandler,"colourLeft");
-	guiController->RegisterListener(_rightColButtonHandler,"colourRight");
-	guiController->RegisterListener(_colourChangeHandler,"colourChangeHandler");
+	_guiController->RegisterListener( m_backButtonHandler, "backButtonHandler" );
+	_guiController->RegisterListener( m_nextButtonHandler, "nextButtonHandler" );
+	_guiController->RegisterListener( m_leftColButtonHandler, "colourLeft" );
+	_guiController->RegisterListener( m_rightColButtonHandler, "colourRight" );
+	_guiController->RegisterListener( m_colourChangeHandler, "colourChangeHandler" );
 
-	guiController->LoadContentView( "Resources/Layout/ColourChooser.xml" );
+	_guiController->LoadContentView( "Resources/Layout/ColourChooser.xml" );
 
-	SDFView *currentSDFView = dynamic_cast<SDFView*>( guiController->GetResources()->GetViewFromID("mainSDFView") );
+	SDFView *currentSDFView = dynamic_cast< SDFView* >( _guiController->GetResources()->GetViewFromID( "mainSDFView" ) );
 	if( currentSDFView != NULL )
-		_SDFViews.push_back(currentSDFView);
+		m_SDFViews.push_back( currentSDFView );
 
-	ShivaGUI::ColourSelector *currentSelector = dynamic_cast<ShivaGUI::ColourSelector*>( guiController->GetResources()->GetViewFromID("ColourSelector") );
+	ShivaGUI::ColourSelector *currentSelector = dynamic_cast< ShivaGUI::ColourSelector* >( _guiController->GetResources()->GetViewFromID( "ColourSelector" ) );
 	if( currentSelector != NULL )
-		_selectors.push_back(currentSelector);
+		m_selectors.push_back( currentSelector );
 
-	guiController->MakeCurrent();
+	_guiController->MakeCurrent();
 
-	LoadSDFViewData(currentSDFView,data,guiController);
+	LoadSDFViewData( currentSDFView, _data, _guiController );
 	UpdateViews();
 }
 
-void ColourChooser::InitOutputWindow(ShivaGUI::GUIController *guiController, ShivaGUI::Bundle *data)
+//----------------------------------------------------------------------------------
+
+void ColourChooser::InitOutputWindow( ShivaGUI::GUIController *_guiController, ShivaGUI::Bundle *_data )
 {
-	guiController->LoadContentView( "Resources/Layout/testLayout02.xml" );
+	_guiController->LoadContentView( "Resources/Layout/testLayout02.xml" );
 
-	SDFView *currentSDFView = dynamic_cast<SDFView*>( guiController->GetResources()->GetViewFromID("mainSDFView") );
+	SDFView *currentSDFView = dynamic_cast< SDFView* >( _guiController->GetResources()->GetViewFromID( "mainSDFView" ) );
 	if( currentSDFView != NULL )
-		_SDFViews.push_back(currentSDFView);
+		m_SDFViews.push_back( currentSDFView );
 
-	guiController->MakeCurrent();
-	LoadSDFViewData(currentSDFView,data,guiController);
+	_guiController->MakeCurrent();
+	LoadSDFViewData( currentSDFView, _data, _guiController );
 	UpdateViews();
 }
+
+//----------------------------------------------------------------------------------

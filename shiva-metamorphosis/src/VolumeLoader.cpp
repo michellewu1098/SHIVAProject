@@ -2,154 +2,141 @@
 #include "VolumeLoader.h"
 #include "vol_metamorph.h"
 
-#include <iostream>
-#include <algorithm>
-
-// Just temporary so I can use SDL_Delay() for testing
-#include <SDL.h>
-#include <GL/GLee.h>
-#include <GL/glu.h>
-
 #define DEFAULT_RESOLUTION 128
+
+//----------------------------------------------------------------------------------
 
 VolumeLoader::VolumeLoader()
 {
-	_processing = false;
-
-	_topTicket = 1;
-
-	_activeJob = NULL;
-
-	_dataLoadThread = NULL;
-	
+	m_processing = false;
+	m_topTicket = 1;
+	m_activeJob = NULL;
+	m_dataLoadThread = NULL;
 }
+
+//----------------------------------------------------------------------------------
 
 VolumeLoader::~VolumeLoader()
 {
-	if( _dataLoadThread != NULL )
-		_dataLoadThread->join();
-
+	if( m_dataLoadThread != NULL )
+		m_dataLoadThread->join();
 }
 
+//----------------------------------------------------------------------------------
 
-unsigned int VolumeLoader::AddJobLoad(std::string filename, unsigned int depth, unsigned int width, unsigned int height)
+unsigned int VolumeLoader::AddJobLoad( std::string _filename, unsigned int _depth, unsigned int _width, unsigned int _height )
 {
 	unsigned int currentTicket = IssueNewTicket();
-	JobData *currentJob = new JobData(currentTicket, filename,depth,width,height);
+	JobData *currentJob = new JobData( currentTicket, _filename, _depth, _width, _height );
 
-	_waitingQueueMtx.lock();
-		_waitingQueue.push_back(currentJob);
-	_waitingQueueMtx.unlock();
+	m_waitingQueueMtx.lock();
+		m_waitingQueue.push_back(currentJob);
+	m_waitingQueueMtx.unlock();
 
 	ThreadLauncher();
 
 	return currentTicket;
 }
 
+//----------------------------------------------------------------------------------
 
-
-bool VolumeLoader::IsJobReady( unsigned int ticket )
+bool VolumeLoader::IsJobReady( unsigned int _ticket )
 {
-	return GetFinishedJobData(ticket) != NULL;
+	return GetFinishedJobData( _ticket ) != NULL;
 }
 
-void VolumeLoader::GetJobToGL(unsigned int ticket, unsigned int glTexID)
+//----------------------------------------------------------------------------------
+
+void VolumeLoader::GetJobToGL( unsigned int _ticket, unsigned int _glTexID )
 {
-	JobData *currentJob = GetFinishedJobData(ticket);
+	JobData *currentJob = GetFinishedJobData( _ticket );
 	if( currentJob != NULL )
 	{
-		glBindTexture(GL_TEXTURE_3D, glTexID);
+		glBindTexture( GL_TEXTURE_3D, _glTexID );
 
 		// Clamp to edges
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP );
+		glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+		glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP );
 		// Trilinear filtering
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+		glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
-		glTexImage3D(GL_TEXTURE_3D, 0, GL_ALPHA32F_ARB, currentJob->_depth, currentJob->_height, currentJob->_width, 0, GL_ALPHA, GL_FLOAT, (GLvoid *) currentJob->_data);
+		glTexImage3D( GL_TEXTURE_3D, 0, GL_ALPHA32F_ARB, currentJob->m_depth, currentJob->m_height, currentJob->m_width, 0, GL_ALPHA, GL_FLOAT, ( GLvoid * )currentJob->m_data );
 	}
 }
 
+//----------------------------------------------------------------------------------
 
-void VolumeLoader::GetJobBounds(unsigned int ticket, cml::vector3f &boundMin, cml::vector3f &boundMax)
+void VolumeLoader::GetJobBounds( unsigned int _ticket, cml::vector3f &_boundMin, cml::vector3f &_boundMax )
 {
-	JobData *currentJob = GetFinishedJobData(ticket);
+	JobData *currentJob = GetFinishedJobData( _ticket );
 	if( currentJob != NULL )
 	{
-		boundMin[0] = -1.2f;
-		boundMin[1] = -1.2f;
-		boundMin[2] = -1.2f;
-		boundMax[0] =  1.2f;
-		boundMax[1] =  1.2f;
-		boundMax[2] =  1.2f;
-		/*
-		boundMin[0] = currentJob->_boundMin[0];
-		boundMin[1] = currentJob->_boundMin[1];
-		boundMin[2] = currentJob->_boundMin[2];
-		boundMax[0] = currentJob->_boundMax[0];
-		boundMax[1] = currentJob->_boundMax[1];
-		boundMax[2] = currentJob->_boundMax[2];
-		*/
+		_boundMin[ 0 ] = -1.2f;
+		_boundMin[ 1 ] = -1.2f;
+		_boundMin[ 2 ] = -1.2f;
+		_boundMax[ 0 ] =  1.2f;
+		_boundMax[ 1 ] =  1.2f;
+		_boundMax[ 2 ] =  1.2f;
 	}
 }
 
+//----------------------------------------------------------------------------------
 
-VolumeLoader::JobData* VolumeLoader::GetFinishedJobData(unsigned int ticket)
+VolumeLoader::JobData* VolumeLoader::GetFinishedJobData( unsigned int _ticket )
 {
-	_finishedQueueMtx.lock();
+	m_finishedQueueMtx.lock();
 
 		JobData *foundData = NULL;
-		for( std::vector<JobData*>::iterator it = _finishedQueue.begin(); (it != _finishedQueue.end()) && (foundData == NULL); ++it )
+		for( std::vector< JobData* >::iterator it = m_finishedQueue.begin(); ( it != m_finishedQueue.end() ) && ( foundData == NULL ); ++it )
 		{
-			if( (*it)->_ticket == ticket )
+			if( ( *it )->m_ticket == _ticket )
 			{
-				foundData = (*it);
+				foundData = ( *it );
 			}
 		}
 
-	_finishedQueueMtx.unlock();
+	m_finishedQueueMtx.unlock();
 
 	return foundData;
 }
 
+//----------------------------------------------------------------------------------
 
 void VolumeLoader::ThreadLauncher()
 {
 	// There is data in the queue, we need to get the thread going to process it
 	// If thread is already running, it will simply find hte next job, so do nothing
 
-	if( !_processing )
+	if( !m_processing )
 	{
-		if( _dataLoadThread != NULL )
+		if( m_dataLoadThread != NULL )
 		{
-			delete _dataLoadThread;
+			delete m_dataLoadThread;
 		}
-		_processing = true;
-		_dataLoadThread = new boost::thread( boost::bind(&VolumeLoader::ThreadProcess, this) );//new boost::thread(boost::ref(this));
+		m_processing = true;
+		m_dataLoadThread = new boost::thread( boost::bind( &VolumeLoader::ThreadProcess, this ) );
 	}
-
 }
 
+//----------------------------------------------------------------------------------
 
 void VolumeLoader::ThreadProcess()
 {
-	_processing = true;
-	std::cout<<"INFO: VolumeLoader Processing"<<std::endl;
+	m_processing = true;
+	std::cout << "INFO: VolumeLoader Processing" << std::endl;
 
-
-	_waitingQueueMtx.lock();
+	m_waitingQueueMtx.lock();
+	
 	do
 	{
-		_activeJob = _waitingQueue.front();
-		_waitingQueue.erase( _waitingQueue.begin() );
+		m_activeJob = m_waitingQueue.front();
+		m_waitingQueue.erase( m_waitingQueue.begin() );
 
-		_waitingQueueMtx.unlock();
+		m_waitingQueueMtx.unlock();
 
-
-		std::cout<<"INFO: Attempting to load vol file: "<<_activeJob->_filename<<": "<<_activeJob->_width<<"x"<<_activeJob->_height<<"x"<<_activeJob->_depth<<std::endl;
-
+		std::cout << "INFO: Attempting to load vol file: " << m_activeJob->m_filename << ": " << m_activeJob->m_width << "x" << m_activeJob->m_height << "x" << m_activeJob->m_depth << std::endl;
 
 		float* bbox = NULL;
 		open_params tmp;
@@ -158,69 +145,68 @@ void VolumeLoader::ThreadProcess()
 		tmp.m_fill_array = true;
 		tmp.m_exact_bbox = true;
 
-		if (!openVol(_activeJob->_filename.c_str(), _activeJob->_depth, _activeJob->_width, _activeJob->_height, tmp, &bbox, &(_activeJob->_data)))
+		if ( !openVol( m_activeJob->m_filename.c_str(), m_activeJob->m_depth, m_activeJob->m_width, m_activeJob->m_height, tmp, &bbox, &( m_activeJob->m_data ) ) )
 		{
-			std::cout<<"WARNING: Failed to load .vol file: "<<_activeJob->_filename<<std::endl;
+			std::cout << "WARNING: Failed to load .vol file: " << m_activeJob->m_filename << std::endl;
 		}
 		else
 		{
-			
-			std::cout<<"INFO: Unpacked texture "<<_activeJob->_filename<<": "<<_activeJob->_width<<"x"<<_activeJob->_height<<"x"<<_activeJob->_depth<<" in bounds (";
-			std::cout<<bbox[0]<<","<<bbox[1]<<","<<bbox[2]<<")<("<<bbox[3]<<","<<bbox[4]<<","<<bbox[5]<<")"<<std::endl;
+			std::cout << "INFO: Unpacked texture " << m_activeJob->m_filename << ": " << m_activeJob->m_width << "x" << m_activeJob->m_height << "x" << m_activeJob->m_depth << " in bounds (";
+			std::cout << bbox[ 0 ] << "," << bbox[ 1 ] << "," << bbox[ 2 ] << ")<(" << bbox[ 3 ] << "," << bbox[ 4 ] << "," << bbox[ 5 ] << ")" << std::endl;
 
-			_activeJob->_boundMin[0]=bbox[0];
-			_activeJob->_boundMin[1]=bbox[1];
-			_activeJob->_boundMin[2]=bbox[2];
-			_activeJob->_boundMax[0]=bbox[3];
-			_activeJob->_boundMax[1]=bbox[4];
-			_activeJob->_boundMax[2]=bbox[5];
+			m_activeJob->m_boundMin[ 0 ] = bbox[ 0 ];
+			m_activeJob->m_boundMin[ 1 ] = bbox[ 1 ];
+			m_activeJob->m_boundMin[ 2 ] = bbox[ 2 ];
+			m_activeJob->m_boundMax[ 0 ] = bbox[ 3 ];
+			m_activeJob->m_boundMax[ 1 ] = bbox[ 4 ];
+			m_activeJob->m_boundMax[ 2 ] = bbox[ 5 ];
 		}
 
-		freePt(&bbox);
+		freePt( &bbox );
 
-		_finishedQueueMtx.lock();
-			_finishedQueue.push_back(_activeJob);
-		_finishedQueueMtx.unlock();
+		m_finishedQueueMtx.lock();
+			m_finishedQueue.push_back( m_activeJob );
+		m_finishedQueueMtx.unlock();
 
 
-		_activeJob = NULL;
+		m_activeJob = NULL;
 
-		_waitingQueueMtx.lock();
+		m_waitingQueueMtx.lock();
 	}
-	while( !_waitingQueue.empty() );
+	while( !m_waitingQueue.empty() );
 
-	_processing = false;
+	m_processing = false;
 	
-	_waitingQueueMtx.unlock();
+	m_waitingQueueMtx.unlock();
 }
 
-
+//----------------------------------------------------------------------------------
 
 unsigned int VolumeLoader::IssueNewTicket()
 {
-	return _topTicket++;
+	return m_topTicket++;
 }
 
+//----------------------------------------------------------------------------------
 
-
-VolumeLoader::JobData::JobData(unsigned int ticket, std::string filename, unsigned int depth, unsigned int width, unsigned int height)
+VolumeLoader::JobData::JobData( unsigned int _ticket, std::string _filename, unsigned int _depth, unsigned int _width, unsigned int _height )
 {
-	_ticket = ticket;
-	_filename = filename;
-	_depth = depth;
-	_width = width;
-	_height = height;
-	_data = NULL;
+	m_ticket = _ticket;
+	m_filename = _filename;
+	m_depth = _depth;
+	m_width = _width;
+	m_height = _height;
+	m_data = NULL;
 }
+
+//----------------------------------------------------------------------------------
 
 VolumeLoader::JobData::~JobData()
 {
-	freePt(&_data);
+	freePt( &m_data );
 }
 
-
-
-
+//----------------------------------------------------------------------------------
 
 #if 0
 

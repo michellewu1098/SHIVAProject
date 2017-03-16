@@ -1,26 +1,24 @@
-
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 #ifndef __SHIVA_GUISYSTEM_SDFVIEW__
 #define __SHIVA_GUISYSTEM_SDFVIEW__
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
+
+#include <GL/glew.h>
+#include <GL/glu.h>
 #include <cml/cml.h>
 #include <boost/thread/thread.hpp>
+#include <cmath>
+#include <iostream>
+#include <fstream>
 
-//////////////////////////////////////////////////////////////////////////
 #include "GUI/Views/View.h"
 #include "Utility/GPUProgram.h"
 #include "Utility/GPUVariable.h"
-//#include "GLVolumeTexture.h"
 #include "GUI/Drawables/Drawable.h"
-//#include "vol_metamorph.h"
-
 #include "VolumeLoader.h"
+#include "VolumeRenderer/Camera.h"
 
-//////////////////////////////////////////////////////////////////////////
 
 /// This is for displaying 3D objects
+
 class SDFView : public ShivaGUI::View
 {
 public:
@@ -50,19 +48,35 @@ public:
 	/// Input event given to View, expected to filter down hierarchy
 	/// \return false if event is not absorbed (e.g. did not hit button etc)
 	virtual bool HandleEvent(ShivaGUI::InternalEvent*);
-
-
-	void SetBlendParam(float value) {_blendValue=value;}
-
-	void SetRotationSpeed(float value) {_rotationSpeed=value;}
-
-	void AddWorldRotationOffsetDegs(float rotX, float rotY, float rotZ);
-	void AddWorldRotationOffsetRads(float rotX, float rotY, float rotZ);
-
+	//----------------------------------------------------------------------------------
+	/// \brief Set blend parameter
+	/// \param [in] _value
+	//----------------------------------------------------------------------------------
+	void SetBlendParam( const float &_value ) { m_blendValue = _value; }
+	//----------------------------------------------------------------------------------
+	/// \brief Set rotation speed
+	/// \param [in] _value
+	//----------------------------------------------------------------------------------
+	void SetRotationSpeed( const float &_value ) { m_rotationSpeed = _value; }
+	//----------------------------------------------------------------------------------
+	/// \brief Add world rotation offset in degrees
+	/// \param [in] _rotX
+	/// \param [in] _rotY
+	/// \param [in] _rotZ
+	//----------------------------------------------------------------------------------
+	void AddWorldRotationOffsetDegs( const float &_rotX, const float &_rotY, const float &_rotZ );
+	//----------------------------------------------------------------------------------
+	/// \brief Add world rotation offset in radians
+	/// \param [in] _rotX
+	/// \param [in] _rotY
+	/// \param [in] _rotZ
+	//----------------------------------------------------------------------------------
+	void AddWorldRotationOffsetRads( const float &_rotX, const float &_rotY, const float &_rotZ );
+	//----------------------------------------------------------------------------------
 	void AddRotationOffsetDegs(float rotX, float rotY, float rotZ);
 	void AddRotationOffsetRads(float rotX, float rotY, float rotZ);
 
-	void SetColour(float R, float G, float B) {_colourR=R;_colourG=G;_colourB=B;_colourSet=1.0f;}
+	void SetColour( const float &_r, const float &_g, const float &_b ) { m_colourR = _r; m_colourG = _g; m_colourB = _b; m_colourSet = 1.0f; }
 
 	/// Should load either model A or model B from file and return true if successful, false if failed (and print out an error report to std::cerr)
 	bool LoadVolumeFromFile(std::string filename, bool objectB, ShivaGUI::GUIController *guiController);
@@ -70,84 +84,153 @@ public:
 	/// Should save complete metamorphosis to file and return true if successful, false if failed (and print out an error report to std::cerr)
 	bool SaveVolumeToFile(std::string filename);
 
-	void SetPauseRotation( bool value ) {_pauseRotation = value;}
+	void SetPauseRotation( bool _value ) { m_pauseRotation = _value; }
 
 	void SetQuality( float value );
 
+	void BuildVBOs();
 
-
+	void LoadMatricesToShader();
 	void ThreadReturnVolumeFromFile( float *data, unsigned int dataSize, bool objectB );
 
 protected:
 
-	/// Bounds for the View's place in the GUI System
-	int _boundsLeft, _boundsTop, _boundsRight, _boundsBottom, _windowWidth, _windowHeight;
-
+	// Bounds for the View's place in the GUI System
+	//----------------------------------------------------------------------------------
+	int m_boundsLeft;
+	//----------------------------------------------------------------------------------
+	int m_boundsTop;
+	//----------------------------------------------------------------------------------
+	int m_boundsRight;
+	//----------------------------------------------------------------------------------
+	int m_boundsBottom;
+	//----------------------------------------------------------------------------------
+	int m_windowWidth;
+	//----------------------------------------------------------------------------------
+	int m_windowHeight;
+	//----------------------------------------------------------------------------------
 	/// Viewing matrices and associated variables
-	cml::matrix44f_c _projectionMatrix, _modelviewMatrix, _invModelview, _worldMatrix;
+	cml::matrix44f_c _projectionMatrix, m_modelViewMatrix;
+	//----------------------------------------------------------------------------------
+	/// \brief Inverse ModelView matrix
+	//----------------------------------------------------------------------------------
+	cml::matrix44f_c m_invModelViewMatrix;
+	//----------------------------------------------------------------------------------
+	/// \brief Model matrix
+	//----------------------------------------------------------------------------------
+	cml::matrix44f_c m_modelMatrix;
+	//----------------------------------------------------------------------------------
 	cml::vector3f _cameraPosition, _targetPosition;
-	cml::vector4f _axisX, _axisY, _axisZ;
-	/// Local rotations in radians about the major coordinate axes
-	float _rotationX, _rotationY, _rotationZ;
-	float _rotationWorldX, _rotationWorldY, _rotationWorldZ;
-	float _cameraAngle, _cameraNearPlane, _cameraFarPlane;
-
-	/// For temporarily pausing the rotation
-	bool _pauseRotation;
-
-	float _colourR, _colourG, _colourB, _colourSet;
+	SpringyVec3 m_target;
+	//----------------------------------------------------------------------------------
+	/// \brief Representation of x-axis
+	//----------------------------------------------------------------------------------
+	cml::vector4f m_axisX;
+	//----------------------------------------------------------------------------------
+	/// \brief Representation of y-axis
+	//----------------------------------------------------------------------------------
+	cml::vector4f m_axisY;
+	//----------------------------------------------------------------------------------
+	/// \brief Representaiton of z-axis
+	//----------------------------------------------------------------------------------
+	cml::vector4f m_axisZ;
+	//----------------------------------------------------------------------------------
+	// Local rotations in radians about the major coordinate axes
+	//----------------------------------------------------------------------------------
+	/// \brief Local rotation about the x-axis
+	//----------------------------------------------------------------------------------
+	float m_localRotX;
+	//----------------------------------------------------------------------------------
+	/// \brief Local rotation about the y-axis
+	//----------------------------------------------------------------------------------
+	float m_localRotY;
+	//----------------------------------------------------------------------------------
+	/// \brief Local rotation about the z-axis
+	//----------------------------------------------------------------------------------
+	float m_localRotZ;
+	//----------------------------------------------------------------------------------
+	/// \brief World rotation about the x-axis
+	//----------------------------------------------------------------------------------
+	float m_worldRotX;
+	//----------------------------------------------------------------------------------
+	/// \brief World rotation about the y-axis
+	//----------------------------------------------------------------------------------
+	float m_worldRotY;
+	//----------------------------------------------------------------------------------
+	/// \brief World rotation about the z-axis
+	//----------------------------------------------------------------------------------
+	float m_worldRotZ;
+	//----------------------------------------------------------------------------------
+	/// \brief Camera angle (fov)
+	//----------------------------------------------------------------------------------
+	float m_camAngle;
+	//----------------------------------------------------------------------------------
+	/// \brief Near plane
+	//----------------------------------------------------------------------------------
+	float m_camNearPlane;
+	//----------------------------------------------------------------------------------
+	/// \brief Far plane
+	//----------------------------------------------------------------------------------
+	float m_camFarPlane;
+	//----------------------------------------------------------------------------------
+	/// \brief For temporarily pausing the rotation
+	//----------------------------------------------------------------------------------
+	bool m_pauseRotation;
+	//----------------------------------------------------------------------------------
+	float m_colourR, m_colourG, m_colourB, m_colourSet;
 
 
 	/// OpenGL Vertex Buffer Object IDs for a cube
+	//----------------------------------------------------------------------------------
+	GLuint m_cubeVAO;
+	//----------------------------------------------------------------------------------
 	unsigned int _cubeVertexVBO, _cubeIndexVBO;
-
+	//----------------------------------------------------------------------------------
 	/// Shaders - not too sure what it will do, so feel free to rename
-	Utility::GPUProgram *_sdfProgram;
+	Utility::GPUProgram *m_SDFShader;
 
-	Utility::GPUVariable *_projMatrixUniform, *_mvMatrixUniform, *_invViewMatrixUniform;
 	Utility::GPUVariable *_vertSize, *_vertPos;
-
-	float _blendValue;
-	Utility::GPUVariable *_fragboundmin, *_fragboundmax, *_blendUniform;
-	Utility::GPUVariable *_a0Uniform;
-	Utility::GPUVariable *_a1Uniform;
-	Utility::GPUVariable *_a2Uniform;
-	Utility::GPUVariable *_a3Uniform;
-	Utility::GPUVariable *_clipdistUniform;
-	Utility::GPUVariable *_timegapUniform ;
-	Utility::GPUVariable *_texture0, *_texture1;
-	Utility::GPUVariable *_colourUniform;
-	cml::vector4f _parameterValues;
-
-	float _rotationSpeed;
-
-
-//	bool _loadingDataA, _loadingDataB;
-//	bool _dataAReady, _dataBReady;
-//	VolumeLoader *_dataALoader, *_dataBLoader;
-//	boost::thread  *_dataALoadThread, *_dataBLoadThread;
-
-	
-	unsigned int _volATicket, _volBTicket;
-	VolumeLoader *_dataLoader;
+	//----------------------------------------------------------------------------------
+	/// \brief Blend value
+	//----------------------------------------------------------------------------------
+	float m_blendValue;
+	//----------------------------------------------------------------------------------
+	/// \brief Parameter values
+	//----------------------------------------------------------------------------------
+	cml::vector4f m_parameterValues;
+	//----------------------------------------------------------------------------------
+	/// \brief Speed of rotation
+	//----------------------------------------------------------------------------------
+	float m_rotationSpeed;
+	//----------------------------------------------------------------------------------
+	unsigned int m_volATicket, m_volBTicket;
+	VolumeLoader *m_dataLoader;
 	
 
 
-	unsigned int _texVolA, _texVolB;
-
-	std::string _objectAfilename, _objectBfilename;
-
+	unsigned int m_texVolA, m_texVolB;
+	//----------------------------------------------------------------------------------
+	/// \brief Object A filename
+	//----------------------------------------------------------------------------------
+	std::string m_objectAfilename;
+	//----------------------------------------------------------------------------------
+	/// \brief Object B filename
+	//----------------------------------------------------------------------------------
+	std::string m_objectBfilename;
+	//----------------------------------------------------------------------------------
 	ShivaGUI::Drawable *_loadingDrawable;
+	//----------------------------------------------------------------------------------
+	Camera* m_cam;
+	//----------------------------------------------------------------------------------
 
 private :
+
 	bool _load_volume_from_loader(VolumeLoader *, unsigned int glTexID);
 
 	enum constants { number_of_models = 2 };
-	//sdf::signed_distance_field_from_mesh<float> _models[number_of_models];
-//	GLVolumeTexture _volume_data[number_of_models];
-	cml::vector3f _bound_min[number_of_models],_bound_max[number_of_models];
+	cml::vector3f m_boundMin[number_of_models];
+	cml::vector3f m_boundMax[number_of_models];
 
 };
 
-//////////////////////////////////////////////////////////////////////////
 #endif

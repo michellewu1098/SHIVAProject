@@ -48,48 +48,7 @@ int main(int argc, char **argv)
 
 	mainGUIManager->StartWithProfileChooser("ModelChooser",options.profileDirectory,options.profileName);
 
-/*
-	ShivaGUI::GUIManager *mainGUIManager = new ShivaGUI::GUIManager("Metamorphosis Prototype 1b", "metamorph1b");
-
-	mainGUIManager->SetProfileDirectory("/home/leigh/workspace/shiva-prototype1b/Profiles");
-
-	mainGUIManager->LoadProfile("testProf01");
-
-	if( !mainGUIManager->CreateWindowsFromProfile() )
-	{
-		std::cerr<<"INFO: User profile does not specify any windows, creating one default window"<<std::endl;
-		mainGUIManager->CreateWindow(640,480,100,100);
-	}
-
-	//mainGUIManager->CreateWindow(640,480,760,100);
-
-	ShivaModelManager::Init("Resources/Models/index.xml");
-
-	mainGUIManager->RegisterActivityCreator("ShivaMetamorphosis",ShivaMetamorphosis::Factory);
-	mainGUIManager->RegisterActivityCreator("ModelChooser",ModelChooser::Factory);
-	mainGUIManager->RegisterActivityCreator("ColourChooser",ColourChooser::Factory);
-	mainGUIManager->RegisterActivityCreator("RotationChooser",RotationChooser::Factory);
-	mainGUIManager->RegisterViewCreator("SDFView",SDFView::Factory);
-
-	mainGUIManager->StartActivity("ModelChooser",NULL);
-
-	mainGUIManager->EnterMainLoop();
-*/
-	/*
-	do
-	{
-		//float deltaTs = mainWindow->GetDeltaTs();
-
-		//mainInputController->Process(deltaTs);
-		mainGUIManager->Update(1.0f/50.0f);
-
-		mainGUIManager->Draw();
-	}
-	while( !mainGUIManager->GetExitEvent() );
-	*/
-
 	return 0;
-
 }
 
 // This function will deal with our command line options, setting up the profile directory and profile name

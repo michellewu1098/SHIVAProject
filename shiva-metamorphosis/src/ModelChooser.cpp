@@ -6,110 +6,114 @@
 #include "GUI/Views/TextButton.h"
 #include "GUI/Drawables/BitmapDrawable.h"
 
+//----------------------------------------------------------------------------------
+
 void ModelChooser::OnCreate(ShivaGUI::Bundle *data)
 {
 	// See if the data we have been given contains the model IDs
-	_modelA = _modelB = -1;
+	m_modelA = m_modelB = -1;
 	if( data != NULL )
 	{
-		if( data->ContainsKey("ModelA") )
+		if( data->ContainsKey( "ModelA" ) )
 		{
-			_modelA = data->GetInteger("ModelA");
+			m_modelA = data->GetInteger( "ModelA" );
 		}
-		if( data->ContainsKey("ModelB") )
+		if( data->ContainsKey( "ModelB" ) )
 		{
-			std::cerr<<"ERROR: ModelChooser::OnCreate, already selected ModelB"<<std::endl;
+			std::cerr << "ERROR: ModelChooser::OnCreate, already selected ModelB" << std::endl;
 		}
 	}
 
 	// These handlers will be called when the buttons are pressed
-	_backButtonHandler = new UtilityEventHandler(this);
-	_modelSelectButtonHandler = new UtilityEventHandler(this);
+	m_backButtonHandler = new UtilityEventHandler( this );
+	m_modelSelectButtonHandler = new UtilityEventHandler( this );
 
 	// Find out how many windows we have
 	int numWindows = GetNumGUIControllers();
 	for( int i = 0; i < numWindows; i++ )
 	{
 		// Load content for our windows, depending on how the profile says they should be used
-		ShivaGUI::GUIController *guiController = GetGUIController(i);
+		ShivaGUI::GUIController *guiController = GetGUIController( i );
 		ShivaGUI::Window::RequestedUse windowUse = guiController->GetRequestedUse();
 		if( windowUse == ShivaGUI::Window::OUTPUT )
 		{
-			InitOutputWindow(guiController);
+			InitOutputWindow( guiController );
 		}
 		else
 		{
-			InitIOWindow(guiController);
+			InitIOWindow( guiController );
 		}
 	}
-
 }
+
+//----------------------------------------------------------------------------------
 
 void ModelChooser::OnDestroy()
 {
-	delete _backButtonHandler;
-	delete _modelSelectButtonHandler;
+	delete m_backButtonHandler;
+	delete m_modelSelectButtonHandler;
 }
 
+//----------------------------------------------------------------------------------
 
-void ModelChooser::UtilityEventReceived( UtilityEventHandler *handler, ShivaGUI::View *view )
+void ModelChooser::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGUI::View *_view )
 {
-	if( handler == _backButtonHandler )
+	if( _handler == m_backButtonHandler )
 	{
 		Finish();
 	}
-	else if( handler == _modelSelectButtonHandler )
+	else if( _handler == m_modelSelectButtonHandler )
 	{
 
 		ShivaGUI::Bundle *resultBundle = new ShivaGUI::Bundle();
 
-		std::string modelIDstring = view->GetID();
-		std::istringstream strStream(modelIDstring);
+		std::string modelIDstring = _view->GetID();
+		std::istringstream strStream( modelIDstring );
 		int modelID = -1;
-		if( !(strStream>>modelID) )
+		if( !( strStream>>modelID ) )
 		{
-			std::cerr<<"WARNING: ModelChooser::UtilityEventReceived no valid model selected, unsure what to do..."<<std::endl;
+			std::cerr << "WARNING: ModelChooser::UtilityEventReceived no valid model selected, unsure what to do..." << std::endl;
 		}
 		else
 		{
-			if( _modelA >= 0 )
+			if( m_modelA >= 0 )
 			{
-				resultBundle->PutInteger("ModelA",_modelA);
-				resultBundle->PutInteger("ModelB",modelID);
-				GetGUIManager()->StartActivity("ShivaMetamorphosis",resultBundle);
+				resultBundle->PutInteger( "ModelA", m_modelA );
+				resultBundle->PutInteger( "ModelB", modelID );
+				GetGUIManager()->StartActivity( "ShivaMetamorphosis", resultBundle );
 			}
 			else
 			{
-				resultBundle->PutInteger("ModelA",modelID);
-				GetGUIManager()->StartActivity("ModelChooser",resultBundle);
+				resultBundle->PutInteger( "ModelA", modelID );
+				GetGUIManager()->StartActivity( "ModelChooser", resultBundle );
 			}
-
 		}
 	}
 }
 
+//----------------------------------------------------------------------------------
 
-void ModelChooser::InitIOWindow(ShivaGUI::GUIController *guiController)
+void ModelChooser::InitIOWindow( ShivaGUI::GUIController *_guiController )
 {
-	guiController->RegisterListener(_backButtonHandler,"backButtonHandler");
-	guiController->RegisterListener(_modelSelectButtonHandler,"modelSelectButtonHandler");
+	_guiController->RegisterListener( m_backButtonHandler, "backButtonHandler" );
+	_guiController->RegisterListener( m_modelSelectButtonHandler, "modelSelectButtonHandler" );
 
-	guiController->LoadContentView( "Resources/Layout/ModelChooser.xml" );
+	_guiController->LoadContentView( "Resources/Layout/ModelChooser.xml" );
 
-	ShivaGUI::TextView *titleView = dynamic_cast<ShivaGUI::TextView*>( guiController->GetResources()->GetViewFromID( "Title" ) );
+	ShivaGUI::TextView *titleView = dynamic_cast< ShivaGUI::TextView* >( _guiController->GetResources()->GetViewFromID( "Title" ) );
 	if( titleView != NULL )
 	{
-		if( _modelA >= 0 )
-			titleView->SetText( "Choose Model B", guiController->GetResources() );
+		if( m_modelA >= 0 )
+			titleView->SetText( "Choose Model B", _guiController->GetResources() );
 		else
-			titleView->SetText( "Choose Model A", guiController->GetResources() );
+			titleView->SetText( "Choose Model A", _guiController->GetResources() );
 	}
 
 	// Only allow the back button to be visible when we're on the second choosing screen
-	ShivaGUI::TextButton *backButton = dynamic_cast<ShivaGUI::TextButton*>( guiController->GetResources()->GetViewFromID( "BackButton" ) );
+	ShivaGUI::TextButton *backButton = dynamic_cast< ShivaGUI::TextButton* >( _guiController->GetResources()->GetViewFromID( "BackButton" ) );
 	if( titleView != NULL )
 	{
-		if( _modelA < 0 )
+		if( m_modelA < 0 )
 			backButton->SetVisibility(false);
 	}
 
@@ -119,55 +123,59 @@ void ModelChooser::InitIOWindow(ShivaGUI::GUIController *guiController)
 	{
 		std::stringstream buttonID;
 		buttonID<<i;
-		std::string thumbnailFilename = ShivaModelManager::GetInstance()->GetAttribute(buttonID.str(),"thumbnail_file");
+		std::string thumbnailFilename = ShivaModelManager::GetInstance()->GetAttribute(buttonID.str(), "thumbnail_file" );
 
-		ShivaGUI::ImageButton *currentButton = dynamic_cast<ShivaGUI::ImageButton*>( guiController->GetResources()->GetViewFromID( buttonID.str() ) );
+		ShivaGUI::ImageButton *currentButton = dynamic_cast< ShivaGUI::ImageButton* >( _guiController->GetResources()->GetViewFromID( buttonID.str() ) );
 		if( currentButton != NULL )
 		{
 			// Do it this way round so we can set the button to inactive if there is no thumbnail for it
 			if( !thumbnailFilename.empty() )
 			{
-				ShivaGUI::BitmapDrawable *buttonDrawable = dynamic_cast<ShivaGUI::BitmapDrawable*>( currentButton->GetContent() );
+				ShivaGUI::BitmapDrawable *buttonDrawable = dynamic_cast< ShivaGUI::BitmapDrawable* >( currentButton->GetContent() );
 				if( buttonDrawable != NULL )
 				{
-					unsigned int imageID = guiController->GetResources()->GetBitmap(thumbnailFilename);
+					unsigned int imageID = _guiController->GetResources()->GetBitmap( thumbnailFilename );
 					if( imageID != 0 )
 					{
-						buttonDrawable->SetTexID(imageID);
+						buttonDrawable->SetTexID( imageID );
 					}
 					else
 					{
-						std::cerr<<"imageID 0"<<std::endl;
-						currentButton->SetActive(false);
+						std::cerr << "imageID 0" << std::endl;
+						currentButton->SetActive( false );
 					}
 				}
 				else
 				{
-					std::cerr<<"buttonDrawable null"<<std::endl;
-					currentButton->SetActive(false);
+					std::cerr << "buttonDrawable null" << std::endl;
+					currentButton->SetActive( false );
 				}
 			}
 			else
 			{
-				std::cerr<<"tn empty"<<std::endl;
-				currentButton->SetActive(false);
+				std::cerr << "tn empty" << std::endl;
+				currentButton->SetActive( false );
 			}
 		}
 		else
-			std::cerr<<"button null"<<std::endl;
+			std::cerr << "button null" << std::endl;
 	}
 }
 
-void ModelChooser::InitOutputWindow(ShivaGUI::GUIController *guiController)
-{
-	guiController->LoadContentView( "Resources/Layout/ModelChooserAltWin.xml" );
+//----------------------------------------------------------------------------------
 
-	ShivaGUI::TextView *titleView2 = dynamic_cast<ShivaGUI::TextView*>( guiController->GetResources()->GetViewFromID( "Title" ) );
+void ModelChooser::InitOutputWindow( ShivaGUI::GUIController *_guiController )
+{
+	_guiController->LoadContentView( "Resources/Layout/ModelChooserAltWin.xml" );
+
+	ShivaGUI::TextView *titleView2 = dynamic_cast< ShivaGUI::TextView* >( _guiController->GetResources()->GetViewFromID( "Title" ) );
 	if( titleView2 != NULL )
 	{
-		if( _modelA >= 0 )
-			titleView2->SetText( "Choose Model B", guiController->GetResources() );
+		if( m_modelA >= 0 )
+			titleView2->SetText( "Choose Model B", _guiController->GetResources() );
 		else
-			titleView2->SetText( "Choose Model A", guiController->GetResources() );
+			titleView2->SetText( "Choose Model A", _guiController->GetResources() );
 	}
 }
+
+//----------------------------------------------------------------------------------

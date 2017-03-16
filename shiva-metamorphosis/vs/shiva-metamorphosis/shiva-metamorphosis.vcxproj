@@ -39,7 +39,7 @@
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
@@ -47,8 +47,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\shiva-gui\include;$(ProjectDir)\..\..\..\include\cml-1_0_2;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\SDL_mixer;$(ProjectDir)\..\..\..\include\vol_metamorph;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\shiva-voltree\include;$(ProjectDir)\..\..\..\shiva-gui\include;$(ProjectDir)\..\..\..\include\cml-1_0_2;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\SDL_mixer;$(ProjectDir)\..\..\..\include\vol_metamorph;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_DEBUG;_CONSOLE;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -56,10 +56,12 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>shiva-gui.lib;vol_metamorph.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(Configuration);$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\vol_metamorph;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_image\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(Configuration);$(ProjectDir)\..\..\..\lib\boost;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>shiva-gui.lib;shiva-voltree.lib;vol_metamorph.lib;GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(Configuration);$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(Configuration);$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\vol_metamorph;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_image\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(Configuration);$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -68,20 +70,21 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\shiva-gui\include;$(ProjectDir)\..\..\..\include\cml-1_0_2;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\SDL_mixer;$(ProjectDir)\..\..\..\include\vol_metamorph;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>Disabled</Optimization>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\shiva-voltree\include;$(ProjectDir)\..\..\..\shiva-gui\include;$(ProjectDir)\..\..\..\include\cml-1_0_2;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\SDL_mixer;$(ProjectDir)\..\..\..\include\vol_metamorph;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_DEBUG;_CONSOLE;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>shiva-gui.lib;vol_metamorph.lib;GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(Configuration);$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\vol_metamorph;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_image\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(Configuration);$(ProjectDir)\..\..\..\lib\boost;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>shiva-gui.lib;shiva-voltree.lib;vol_metamorph.lib;GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(Configuration);$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(Configuration);$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\vol_metamorph;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_image\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(Configuration);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(Configuration);$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>

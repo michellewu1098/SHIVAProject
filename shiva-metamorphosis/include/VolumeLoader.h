@@ -1,116 +1,179 @@
+///-----------------------------------------------------------------------------------------------
+/// \file VolumeLoader.h
+/// \brief Asynchronous volume object loader. Give it a job, it gives you a 'ticket'
+/// Come back regularly to check if the ticket is ready
+/// \author Leigh McLoughlin
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 #ifndef __SHIVA_VOLUME_LOADER__
 #define __SHIVA_VOLUME_LOADER__
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
+
+#include <GL/glew.h>
+#include <GL/glu.h>
+
 #include <cml/cml.h>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/thread.hpp>
 #include <vector>
+#include <iostream>
+#include <algorithm>
 
-//////////////////////////////////////////////////////////////////////////
-#include "GUI/Views/View.h"
-#include "Utility/GPUProgram.h"
-#include "Utility/GPUVariable.h"
-#include "GLVolumeTexture.h"
-//#include <sdf/signed_distance_field_from_mesh.hpp>
-
-//////////////////////////////////////////////////////////////////////////
-
-/// Asynchronous volume object loader
-/// Give it a job, it gives you a 'ticket'
-/// Come back regularly to check if the ticket is ready
 class VolumeLoader
 {
 public:
 
+	//----------------------------------------------------------------------------------
+	/// \brief Ctor
+	//----------------------------------------------------------------------------------
 	VolumeLoader();
+	//----------------------------------------------------------------------------------
+	/// \brief Dtor
+	//----------------------------------------------------------------------------------
 	~VolumeLoader();
-
-	/// Returns true if loading, false once finished all jobs (i.e. idle)
-	bool GetIsProcessing() {return _processing;}
-
-
-	/// Returns a 'ticket'
-	unsigned int AddJobLoad(std::string filename, unsigned int depth = 128, unsigned int width = 128, unsigned int height = 128);
-
-
-	bool IsJobReady( unsigned int ticket );
-
-
-	/// Loads a ready volume into a given OpenGL texture ID
-	void GetJobToGL(unsigned int ticket, unsigned int glTexID);
-
-	/// Loads a ready volume's bounding box info
-	void GetJobBounds(unsigned int ticket, cml::vector3f &boundMin, cml::vector3f &boundMax);
-
-/*
-	/// Will have no effect if already processing
-	void SetFilename(std::string filename);
-	std::string GetFilename() {return _fileToLoad;}
-
-
-
-	void LoadToGL(unsigned int glTexID);
-	void LoadBounds( cml::vector3f &boundMin, cml::vector3f &boundMax);
-*/
-
-
-	/// Required for boost::thread
-	/// This is where the loading and processing will take place
+	//----------------------------------------------------------------------------------
+	/// \brief Returns true if loading, false once finished all jobs (i.e. idle)
+	//----------------------------------------------------------------------------------
+	bool GetIsProcessing() { return m_processing; }
+	//----------------------------------------------------------------------------------
+	/// \brief Returns a 'ticket'
+	/// \param [in] _filename
+	/// \param [in] _depth
+	/// \param [in] _width
+	/// \param [in] _height
+	//----------------------------------------------------------------------------------
+	unsigned int AddJobLoad( std::string _filename, unsigned int _depth = 128, unsigned int _width = 128, unsigned int _height = 128 );
+	//----------------------------------------------------------------------------------
+	/// \brief Returns whether job is ready
+	/// \param [in] _ticket
+	//----------------------------------------------------------------------------------
+	bool IsJobReady( unsigned int _ticket );
+	//----------------------------------------------------------------------------------
+	/// \brief Loads a ready volume into a given OpenGL texture ID
+	/// \param [in] _ticket
+	/// \param [in] _glTexID
+	//----------------------------------------------------------------------------------
+	void GetJobToGL( unsigned int _ticket, unsigned int _glTexID );
+	//----------------------------------------------------------------------------------
+	/// \brief Loads a ready volume's bounding box info
+	/// \param [in] _ticket
+	/// \param [in] _boundMin
+	/// \param [in] _boundMax
+	//----------------------------------------------------------------------------------
+	void GetJobBounds( unsigned int _ticket, cml::vector3f &_boundMin, cml::vector3f &_boundMax );
+	//----------------------------------------------------------------------------------
+	/// \brief Required for boost::thread. This is where the loading and processing will take place
+	//----------------------------------------------------------------------------------
 	void ThreadProcess();
-
+	//----------------------------------------------------------------------------------
 
 protected:
 
+	//----------------------------------------------------------------------------------
+	/// \brief Job data class
+	//----------------------------------------------------------------------------------
 	class JobData
 	{
-	public:
-		JobData(unsigned int ticket, std::string filename, unsigned int depth, unsigned int width, unsigned int height);
-		~JobData();
-
-		bool operator== (const unsigned int rhs) {return _ticket == rhs;}
-
-		unsigned int _ticket;
-		std::string _filename;
-		unsigned int _depth, _width, _height;
-		float *_data;
-		cml::vector3f _boundMin, _boundMax;
-	};
-
-	JobData* GetFinishedJobData(unsigned int ticket);
-
-	unsigned int IssueNewTicket();
-
-	/// Call this when issuing a new job, just to make sure the loading thread is going
-	void ThreadLauncher();
-
-
-	unsigned int _topTicket;
-
-	bool _processing;
-
-	std::vector<JobData*> _waitingQueue, _finishedQueue;
-	JobData *_activeJob;
-	boost::mutex _waitingQueueMtx, _finishedQueueMtx;
-
-
-	boost::thread  *_dataLoadThread;
-
-
-/*
-	std::string _fileToLoad;
-
-	unsigned int _depth, _width, _height;
-
-
-	float *_data;
 	
-	cml::vector3f _boundMin, _boundMax;
-*/
+	public:
+
+		//----------------------------------------------------------------------------------
+		/// \brief Ctor
+		/// \param [in] _ticket
+		/// \param [in] _filename
+		/// \param [in] _depth
+		/// \param [in] _width
+		/// \param [in] _height
+		//----------------------------------------------------------------------------------
+		JobData( unsigned int _ticket, std::string _filename, unsigned int _depth, unsigned int _width, unsigned int _height );
+		//----------------------------------------------------------------------------------
+		/// \brief Dtor
+		//----------------------------------------------------------------------------------
+		~JobData();
+		//----------------------------------------------------------------------------------
+		bool operator== ( const unsigned int _rhs ) { return m_ticket == _rhs; }
+		//----------------------------------------------------------------------------------
+		/// \brief Ticket
+		//----------------------------------------------------------------------------------
+		unsigned int m_ticket;
+		//----------------------------------------------------------------------------------
+		/// \brief Filename
+		//----------------------------------------------------------------------------------
+		std::string m_filename;
+		//----------------------------------------------------------------------------------
+		/// \brief Depth
+		//----------------------------------------------------------------------------------
+		unsigned int m_depth;
+		//----------------------------------------------------------------------------------
+		/// \brief Width
+		//----------------------------------------------------------------------------------
+		unsigned int m_width;
+		//----------------------------------------------------------------------------------
+		/// \brief Height
+		//----------------------------------------------------------------------------------
+		unsigned int m_height;
+		//----------------------------------------------------------------------------------
+		/// \brief Data
+		//----------------------------------------------------------------------------------
+		float *m_data;
+		//----------------------------------------------------------------------------------
+		/// \brief Min bound
+		//----------------------------------------------------------------------------------
+		cml::vector3f m_boundMin;
+		//----------------------------------------------------------------------------------
+		/// \brief Max bound
+		//----------------------------------------------------------------------------------
+		cml::vector3f m_boundMax;
+		//----------------------------------------------------------------------------------
+
+	};
+	//----------------------------------------------------------------------------------
+	/// \brief Returns finished job data
+	/// \param [in] _ticket
+	//----------------------------------------------------------------------------------
+	JobData* GetFinishedJobData( unsigned int _ticket );
+	//----------------------------------------------------------------------------------
+	/// \brief Issue new ticket
+	//----------------------------------------------------------------------------------
+	unsigned int IssueNewTicket();
+	//----------------------------------------------------------------------------------
+	/// \brief Call this when issuing a new job, just to make sure the loading thread is going
+	//----------------------------------------------------------------------------------
+	void ThreadLauncher();
+	//----------------------------------------------------------------------------------
+	/// \brief Top ticket
+	//----------------------------------------------------------------------------------
+	unsigned int m_topTicket;
+	//----------------------------------------------------------------------------------
+	/// \brief Whether it is processing
+	//----------------------------------------------------------------------------------
+	bool m_processing;
+	//----------------------------------------------------------------------------------
+	/// \brief Waiting queue
+	//----------------------------------------------------------------------------------
+	std::vector< JobData* > m_waitingQueue;
+	//----------------------------------------------------------------------------------
+	/// \brief Finished queue
+	//----------------------------------------------------------------------------------
+	std::vector< JobData* > m_finishedQueue;
+	//----------------------------------------------------------------------------------
+	/// \brief Active job
+	//----------------------------------------------------------------------------------
+	JobData *m_activeJob;
+	//----------------------------------------------------------------------------------
+	/// \brief Waiting queue mutex
+	//----------------------------------------------------------------------------------
+	boost::mutex m_waitingQueueMtx;
+	//----------------------------------------------------------------------------------
+	/// \brief Finished queue mutex
+	//----------------------------------------------------------------------------------
+	boost::mutex m_finishedQueueMtx;
+	//----------------------------------------------------------------------------------
+	/// \brief Data load thread
+	//----------------------------------------------------------------------------------
+	boost::thread  *m_dataLoadThread;
+	//----------------------------------------------------------------------------------
+
 };
 
-//////////////////////////////////////////////////////////////////////////
 #endif

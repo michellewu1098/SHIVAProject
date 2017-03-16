@@ -9,14 +9,16 @@
 
 #include <boost/filesystem.hpp>
 
-void RotationChooser::OnCreate(ShivaGUI::Bundle *data)
+//----------------------------------------------------------------------------------
+
+void RotationChooser::OnCreate( ShivaGUI::Bundle *_data )
 {
-	_backButtonHandler = new UtilityEventHandler(this);
-	_leftButtonHandler = new UtilityEventHandler(this);
-	_rightButtonHandler = new UtilityEventHandler(this);
-	_upButtonHandler = new UtilityEventHandler(this);
-	_downButtonHandler = new UtilityEventHandler(this);
-	_saveButtonHandler = new UtilityEventHandler(this);
+	_backButtonHandler = new UtilityEventHandler( this );
+	_leftButtonHandler = new UtilityEventHandler( this );
+	_rightButtonHandler = new UtilityEventHandler( this );
+	_upButtonHandler = new UtilityEventHandler( this );
+	_downButtonHandler = new UtilityEventHandler( this );
+	_saveButtonHandler = new UtilityEventHandler( this );
 
 	_rotationStepsize = 7.5f;
 	_rotationX = _rotationY = _rotationZ = 0.0f;
@@ -26,26 +28,28 @@ void RotationChooser::OnCreate(ShivaGUI::Bundle *data)
 	ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
 	if( prefs != NULL )
 	{
-		_saveDir = prefs->GetString("SaveDirectory",_saveDir);
-		_saveName = prefs->GetString("SaveFilename",_saveName);
+		_saveDir = prefs->GetString( "SaveDirectory", _saveDir );
+		_saveName = prefs->GetString( "SaveFilename", _saveName );
 	}
 
 	int numWindows = GetNumGUIControllers();
 
 	for( int i = 0; i < numWindows; i++ )
 	{
-		ShivaGUI::GUIController *guiController = GetGUIController(i);
+		ShivaGUI::GUIController *guiController = GetGUIController( i );
 		ShivaGUI::Window::RequestedUse windowUse = guiController->GetRequestedUse();
 		if( windowUse == ShivaGUI::Window::OUTPUT )
 		{
-			InitOutputWindow(guiController,data);
+			InitOutputWindow( guiController, _data );
 		}
 		else
 		{
-			InitIOWindow(guiController,data);
+			InitIOWindow( guiController, _data );
 		}
 	}
 }
+
+//----------------------------------------------------------------------------------
 
 void RotationChooser::OnDestroy()
 {

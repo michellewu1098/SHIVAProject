@@ -9,6 +9,7 @@
 		layout_height="fill_parent"
 		layout_weight="0.3"
 		orientation="horizontal">
+		
 		<TextButton
 			id="BackButton"
 			layout_width="fill_parent"

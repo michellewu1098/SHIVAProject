@@ -2,9 +2,7 @@
 <CustomLayout
 	layout_width="fill_parent"
 	layout_height="fill_parent"
-  background="@RootViewBackground">
-	
-	
+	background="@RootViewBackground">
 	
 	<TextView
 		id="titleTextView"
@@ -26,8 +24,7 @@
 		cameraTargetY="0"
 		/>
 
-
-  <TextButton
+	<TextButton
 		id="EyeGazeRest"
 		layout_width="0.2"
 		layout_height="0.3"
@@ -38,44 +35,44 @@
 		/>
 
 
-  <ImageButton
+	<ImageButton
 		id="BlendIncrease"
 		layout_width="0.12"
 		layout_height="0.2"
 		layout_centreX="0.1"
 		layout_centreY="0.25"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/Arrow_Up.xml"
 		/>
 
-  <ImageButton
+	<ImageButton
 		id="BlendDecrease"
 		layout_width="0.12"
 		layout_height="0.2"
 		layout_centreX="0.1"
 		layout_centreY="0.75"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/Arrow_Down.xml"
 		/>
 
-  <TextButton
+	<TextButton
 		id="BlendReset"
 		layout_width="0.2"
 		layout_height="0.2"
 		layout_centreX="0.1"
 		layout_centreY="0.5"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
-    text="reset"
+		text="reset"
 		/>
 
 
-  <ImageButton
+	<ImageButton
 		id="RotateUp"
 		layout_width="0.12"
 		layout_height="0.2"
@@ -117,10 +114,9 @@
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Right.xml"
 		eyeGaze_Repeat="true"
-    
 		/>
 
-  <ImageButton
+	<ImageButton
 		id="RotateLeft"
 		layout_width="0.2"
 		layout_height="0.12"
@@ -132,11 +128,10 @@
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Left.xml"
 		eyeGaze_Repeat="true"
-    
 		/>
 
 
-  <TextButton
+	<TextButton
 		id="RotateReset"
 		layout_width="0.2"
 		layout_height="wrap_content"
@@ -146,8 +141,6 @@
 		text="reset view"
 		/>
 
-  
-  
 	<TextButton
 		id="BackButton"
 		layout_width="0.2"
@@ -156,7 +149,6 @@
 		layout_centreY="0.35"
 		onClick="buttonHandler"
 		text="back"
-    
 		/>
 
 

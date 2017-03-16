@@ -1,12 +1,17 @@
+#version 330
+#extension GL_ARB_explicit_uniform_location : require
 
-varying vec2 texcoords;
+layout( location = 0 ) in vec2 vPosition;
+layout( location = 1 ) in vec2 vTexCoords;
 
-void main(void)
+uniform mat4 u_ProjectionMatrix;
+uniform mat4 u_ModelViewMatrix;
+
+out vec2 o_Uvs;
+
+void main()
 {
-	gl_Position = gl_ModelViewProjectionMatrix*gl_Vertex;
-	texcoords  = gl_MultiTexCoord0;
-	
-	#ifdef __GLSL_CG_DATA_TYPES
-		gl_ClipVertex = gl_ModelViewMatrix * gl_Vertex;
-	#endif
+	gl_Position = u_ProjectionMatrix * u_ModelViewMatrix * vec4( vPosition, 0, 1  );
+	o_Uvs = vTexCoords;
 }
+

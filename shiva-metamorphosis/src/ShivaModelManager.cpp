@@ -1,7 +1,6 @@
 #include "ShivaModelManager.h"
 #include "Utility/tinyxml.h"
 
-//////////////////////////////////////////////////////////////////////////
  #include <iostream>
  #include <sstream>
 

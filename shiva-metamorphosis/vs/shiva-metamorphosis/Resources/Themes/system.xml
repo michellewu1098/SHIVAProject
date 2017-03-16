@@ -8,7 +8,7 @@
 	TextButton_text_colour="FFFFFFFF"
 	TextButton_text_size="30"
 	TextButton_padding="10"
-  TextButton_audio_pressStart="Resources/Audio/ButtonPushTemp.wav"
+	TextButton_audio_pressStart="Resources/Audio/ButtonPushTemp.wav"
 	
 	TextView_text_colour="000000FF"
 	TextView_font="Resources/Fonts/FreeSansBold.ttf"
@@ -16,8 +16,8 @@
 	
 	ImageButton_drawable="System/ThemeSystem/button.xml"
 	ImageButton_padding="10"
-  ImageButton_audio_pressStart="Resources/Audio/ButtonHoverTemp.wav"
-  ImageButton_audio_hoverEnter="Resources/Audio/ButtonPushTemp.wav"
+	ImageButton_audio_pressStart="Resources/Audio/ButtonHoverTemp.wav"
+	ImageButton_audio_hoverEnter="Resources/Audio/ButtonPushTemp.wav"
 	
 	Slider_barDrawable="System/Theme02/slider_bar.xml"
 	Slider_handleDrawable="System/Theme02/slider_handle.xml"
@@ -31,7 +31,7 @@
 	ScrollContainer_scrollbarThumbVertical="System/Theme02/scrollbarThumbVert.xml"
 	ScrollContainer_scrollbarThumbHorizontal="System/Theme02/scrollbarThumbHoriz.xml"
   
-  SDFView_loadingDrawable="LoadingMessage.png"
+	SDFView_loadingDrawable="LoadingMessage.png"
 	>
 
   <constGroup>

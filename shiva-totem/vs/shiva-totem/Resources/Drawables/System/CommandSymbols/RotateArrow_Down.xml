@@ -2,7 +2,6 @@
 <LayeredImageDrawable
   isNinePatch="false"
   scaleUp="false"
-  isUsingText = "true"
 >
   <!-- Each src png file contains four colours (RGBA, which we call colour0-3). Each of these is replaced with the value given.
   If you write a name starting with an @ symbol, the system will look for the actual value from first the theme then the profile.

@@ -8,8 +8,12 @@ ShivaGUI::ColourSelector::ColourSelector()
 	m_selectorBoundsLeft = m_selectorBoundsRight = m_selectorBoundsTop = m_selectorBoundsBottom = 0;
 	m_sampleBoundsLeft = m_sampleBoundsRight = m_sampleBoundsTop = m_sampleBoundsBottom = 0;
 
-	m_colourSelectorProgram = new Utility::GPUProgram();
-	m_colourSelectorProgram->Create( "Resources/Shaders/ColourSelector", Utility::GPUProgram::FRAGMENT );
+	m_colourSelectorShader = new Utility::GPUProgram();
+	m_colourSelectorShader->Create( "Resources/Shaders/ColourSelector", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
+	std::cout << "ColourSelector shader created: " << m_colourSelectorShader->GetProgramID() << std::endl;
+		
+	m_colourSampleShader = new Utility::GPUProgram();
+	m_colourSampleShader->Create( "Resources/Shaders/Colour", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
 
 	m_sampleR = 1.0f;
 	m_sampleG = 1.0f;
@@ -30,13 +34,17 @@ ShivaGUI::ColourSelector::ColourSelector()
 
 	HSLtoRGB( m_handlePropPosX, 1.0f, m_handlePropPosY, m_sampleR, m_sampleG, m_sampleB );
 	SetHandleActualPos();
+
+	m_projMat.identity();
+	m_mvMat.identity();
 }
 
 //----------------------------------------------------------------------------------
 
 ShivaGUI::ColourSelector::~ColourSelector()
 {
-	delete m_colourSelectorProgram;
+	delete m_colourSelectorShader;
+	delete m_colourSampleShader;
 }
 
 //----------------------------------------------------------------------------------
@@ -58,38 +66,136 @@ void ShivaGUI::ColourSelector::Layout( int _left, int _top, int _right, int _bot
 
 //----------------------------------------------------------------------------------
 
+void LoadMatricesToShader( GLuint _shaderID, cml::matrix44f_c _proj, cml::matrix44f_c _mv )
+{
+	// ModelView matrix
+	GLint mvLoc = glGetUniformLocation( _shaderID, "u_ModelViewMatrix" );
+	if( mvLoc != -1 ) { glUniformMatrix4fv( mvLoc, 1, GL_FALSE, _mv.data() ); }
+	else { std::cerr << "ColourSelector: u_ModelViewMatrix not found in shader " << _shaderID << std::endl; }
+
+
+	// Projection matrix	
+	GLint pLoc = glGetUniformLocation( _shaderID, "u_ProjectionMatrix" );
+	if( pLoc != -1 ) { glUniformMatrix4fv( pLoc, 1, GL_FALSE, _proj.data() ); }
+	else { std::cerr << "ColourSelector: u_ProjectionMatrix not found in shader " << _shaderID << std::endl; }
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ColourSelector::BuildVBOs()
+{
+	float selectorVertices[ 4 * 2 ] = { m_selectorBoundsLeft, m_selectorBoundsBottom,
+										m_selectorBoundsRight, m_selectorBoundsBottom,
+										m_selectorBoundsRight, m_selectorBoundsTop,
+										m_selectorBoundsLeft, m_selectorBoundsTop };
+
+	float selectorUvs[ 4 * 2 ] = {	0.f, 0.f,
+									1.f, 0.f,
+									1.f, 1.f,
+									0.f, 1.f };
+
+	GLuint selectorIndices[ 6 ] = { 0, 1, 2, 0, 2, 3 };
+
+	GLuint selectorVertsVBO, selectorUvsVBO;
+
+	glGenBuffers( 1, &selectorVertsVBO );
+	glBindBuffer( GL_ARRAY_BUFFER, selectorVertsVBO );
+	glBufferData( GL_ARRAY_BUFFER, 4 * 2 * sizeof( GLfloat ), selectorVertices, GL_STATIC_DRAW );
+
+	glGenBuffers( 1, &selectorUvsVBO );
+	glBindBuffer( GL_ARRAY_BUFFER, selectorUvsVBO );
+	glBufferData( GL_ARRAY_BUFFER, 4 * 2 * sizeof( GLfloat ), selectorUvs, GL_STATIC_DRAW );
+
+	glGenVertexArrays( 1, &m_selectorVAO );
+	glBindVertexArray( m_selectorVAO );
+
+	glEnableVertexAttribArray( 0 );
+	glBindBuffer( GL_ARRAY_BUFFER, selectorVertsVBO );
+	glVertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, 0, ( GLfloat* )NULL );
+
+	glEnableVertexAttribArray( 1 );
+	glBindBuffer( GL_ARRAY_BUFFER, selectorUvsVBO );
+	glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 0, ( GLfloat* )NULL );
+
+	GLuint selectorIndicesVBO;
+	glGenBuffers( 1, &selectorIndicesVBO );
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, selectorIndicesVBO );
+	glBufferData( GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof( GLuint ), selectorIndices, GL_STATIC_DRAW );
+
+	glBindVertexArray( 0 );
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+
+
+	float sampleVertices[ 4 * 3 ] = {	m_sampleBoundsLeft, m_sampleBoundsBottom, 0.f, 
+										m_sampleBoundsRight, m_sampleBoundsBottom, 0.f,
+										m_sampleBoundsRight, m_sampleBoundsTop, 0.f, 
+										m_sampleBoundsLeft, m_sampleBoundsTop, 0.f };
+
+	GLuint sampleIndices[ 6 ] = { 0, 1, 2, 0, 2, 3 };
+
+	GLuint sampleVertsVBO;
+
+	glGenBuffers( 1, &sampleVertsVBO );
+	glBindBuffer( GL_ARRAY_BUFFER, sampleVertsVBO );
+	glBufferData( GL_ARRAY_BUFFER, 4 * 3 * sizeof( GLfloat ), sampleVertices, GL_STATIC_DRAW );
+
+	glGenVertexArrays( 1, &m_sampleVAO );
+	glBindVertexArray( m_sampleVAO );
+
+	glEnableVertexAttribArray( 0 );
+	glBindBuffer( GL_ARRAY_BUFFER, sampleVertsVBO );
+	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, ( GLfloat* ) NULL );
+
+	GLuint sampleIndicesVBO;
+	glGenBuffers( 1, &sampleIndicesVBO );
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, sampleIndicesVBO );
+	glBufferData( GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof( GLuint ), sampleIndices, GL_STATIC_DRAW );
+
+	glBindVertexArray( 0 );
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+}
+
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::ColourSelector::Draw()
 {
-	// Bind Shaders
-	m_colourSelectorProgram->Bind();
+	int viewport[4]; // Shouldn't really do this, but temporarily it's fine
+	glGetIntegerv( GL_VIEWPORT, viewport );
+	cml::matrix_orthographic_RH( m_projMat, 0.f, ( float )viewport[ 2 ], ( float )viewport[ 3 ], 0.f, -1.f, 1.f, cml::z_clip_neg_one );
 
-		glColor3f( 1.0f, 1.0f, 1.0f );
-		glBegin( GL_QUADS );
-			glTexCoord2f( 0.0f, 0.0f );	glVertex2f( m_selectorBoundsLeft, m_selectorBoundsTop );
-			glTexCoord2f( 1.0f, 0.0f );	glVertex2f( m_selectorBoundsRight, m_selectorBoundsTop );
-			glTexCoord2f( 1.0f, 1.0f );	glVertex2f( m_selectorBoundsRight, m_selectorBoundsBottom );
-			glTexCoord2f( 0.0f, 1.0f );	glVertex2f( m_selectorBoundsLeft, m_selectorBoundsBottom );
-		glEnd();
+	BuildVBOs();
 
-	m_colourSelectorProgram->Unbind();
+	// Draw colour selector	spectrum
+	//----------------------------------
+	
+	m_colourSelectorShader->Bind();
 
-	glColor3f( m_sampleR, m_sampleG, m_sampleB);
-	glBegin( GL_QUADS );
-		glTexCoord2f( 0.0f, 0.0f );	glVertex2f( m_sampleBoundsLeft, m_sampleBoundsTop );
-		glTexCoord2f( 1.0f, 0.0f );	glVertex2f( m_sampleBoundsRight, m_sampleBoundsTop );
-		glTexCoord2f( 1.0f, 1.0f );	glVertex2f( m_sampleBoundsRight, m_sampleBoundsBottom );
-		glTexCoord2f( 0.0f, 1.0f );	glVertex2f( m_sampleBoundsLeft, m_sampleBoundsBottom );
-	glEnd();
+	LoadMatricesToShader( m_colourSelectorShader->GetProgramID(), m_projMat, m_mvMat );
 
-	/*
-	glColor3f(1.0f,1.0f,1.0f);
-	glBegin(GL_QUADS);
-		glTexCoord2f(0.0f,0.0f);	glVertex2f(_handleBoundsLeft, _handleBoundsTop);
-		glTexCoord2f(1.0f,0.0f);	glVertex2f(_handleBoundsRight, _handleBoundsTop);
-		glTexCoord2f(1.0f,1.0f);	glVertex2f(_handleBoundsRight, _handleBoundsBottom);
-		glTexCoord2f(0.0f,1.0f);	glVertex2f(_handleBoundsLeft, _handleBoundsBottom);
-	glEnd();
-	*/
+	glBindVertexArray( m_selectorVAO );
+		glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
+	glBindVertexArray( 0 );
+	
+	m_colourSelectorShader->Unbind();
+
+	// Draw colour sample selected
+	//----------------------------------
+
+	m_colourSampleShader->Bind();
+	LoadMatricesToShader( m_colourSampleShader->GetProgramID(), m_projMat, m_mvMat );
+
+	glUniform4f( glGetUniformLocation( m_colourSampleShader->GetProgramID(), "u_Colour" ), m_sampleR, m_sampleG, m_sampleB, 1.0f );
+
+	glBindVertexArray( m_sampleVAO );
+		glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
+	glBindVertexArray( 0 );
+
+	m_colourSampleShader->Unbind();
+
+	// Draw colour selector
+	//----------------------------------
 
 	if( m_selectorStateListDrawable != NULL )
 		m_selectorStateListDrawable->Draw();

@@ -1,25 +1,29 @@
-uniform mat4 projectionMatrix;
-uniform mat4 ViewMatrix;
-uniform mat4 invView;
+#version 330
+#extension GL_ARB_explicit_uniform_location : require
 
-uniform vec3 vertsize; // extent of box
-uniform vec3 vertposition; // position of box
+layout( location = 0 ) in vec3 vPosition;
 
-varying vec3 viewSpacePos;
-varying vec3 worldSpacePos;
-varying vec3 worldSpaceCam;
+uniform mat4 u_ProjectionMatrix;
+uniform mat4 u_ModelViewMatrix;
+uniform mat4 u_InverseModelViewMatrix;
 
-void main(void)
+uniform vec3 boxSize; // extent of box
+uniform vec3 boxCentre; // position of box
+
+out vec3 o_WorldSpacePos;
+out vec3 o_WorldSpaceCam;
+
+void main( void )
 {
-	vec4 pos = vec4(gl_Vertex.xyz*vertsize+vertposition,1); // Box/local space to World space
-	vec4 vsPos4 = transpose(ViewMatrix)*pos;
-	viewSpacePos = vsPos4.xyz;
-	vec4 cam = vec4(0,0,0,1);
-
-	worldSpacePos = pos.xyz;
-	worldSpaceCam = (transpose(invView)*cam).xyz;
+	// Box/local space to World space
+	vec4 pos = vec4( vPosition * boxSize + boxCentre, 1 ); 
+	o_WorldSpacePos = pos.xyz;
 	
-    // Compute homogenuous position
-    gl_Position = gl_ProjectionMatrix*vsPos4; // World to Projected space
+	vec4 cam = vec4( 0, 0, 0, 1 );
+	o_WorldSpaceCam = ( u_InverseModelViewMatrix * cam ).xyz;
+	
+    // Compute homogenuous position - World to Projected space
+    gl_Position = u_ProjectionMatrix * u_ModelViewMatrix * pos; 
 
 }
+

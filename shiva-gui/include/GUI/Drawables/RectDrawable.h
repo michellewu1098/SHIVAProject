@@ -9,6 +9,7 @@
 #define __SHIVA_RESOURCESYSTEM_RECTDRAWABLE__
 
 #include "Drawable.h"
+#include "Utility/GPUProgram.h"
 
 namespace ShivaGUI
 {
@@ -51,6 +52,7 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		void SetBorderColour( const float &_r, const float &_g, const float &_b, const float &_a ) { m_borderR = _r; m_borderG = _g; m_borderB = _b; m_borderA = _a; }
 		//----------------------------------------------------------------------------------
+		void BuildVBOs();
 
 	protected:
 
@@ -95,6 +97,22 @@ namespace ShivaGUI
 		/// \param [in] _gravity
 		//----------------------------------------------------------------------------------
 		virtual void OnSetBounds( float _left, float _top, float _right, float _bottom, unsigned int _gravity );
+		//----------------------------------------------------------------------------------
+		/// \brief Rect fill VAO
+		//----------------------------------------------------------------------------------
+		GLuint m_rectFillVAO;
+		//----------------------------------------------------------------------------------
+		/// \brief Rect border VAO 
+		//----------------------------------------------------------------------------------
+		GLuint m_rectBorderVAO;
+		//----------------------------------------------------------------------------------
+		/// \brief Fills shader
+		//----------------------------------------------------------------------------------
+		Utility::GPUProgram* m_fillShader;
+		//----------------------------------------------------------------------------------
+		/// \brief Border shader
+		//----------------------------------------------------------------------------------
+		Utility::GPUProgram* m_borderShader;
 		//----------------------------------------------------------------------------------
 
 	};

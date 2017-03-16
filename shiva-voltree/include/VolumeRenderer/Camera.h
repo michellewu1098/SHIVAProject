@@ -30,6 +30,7 @@ public:
 	/// \param [in] _zFar Far plane
 	//----------------------------------------------------------------------------------
 	void SetProjectionMatrix( float _fov, float _aspect, float _zNear, float _zFar );
+	void SetProjectionMatrixX( float _fov, float _aspect, float _zNear, float _zFar );
 	//----------------------------------------------------------------------------------
 	/// \brief Returns view matrix
 	/// \return m_viewMatrix;
