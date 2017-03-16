@@ -29,7 +29,7 @@ protected:
 	/// \brief This function is called when the Activity is started
 	/// \param [in] _data
 	//----------------------------------------------------------------------------------
-	virtual void OnCreate(ShivaGUI::Bundle*);
+	virtual void OnCreate( ShivaGUI::Bundle* _data );
 	//----------------------------------------------------------------------------------
 	/// \brief This function is called when the Activity is stopped
 	//----------------------------------------------------------------------------------

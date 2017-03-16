@@ -8,17 +8,17 @@
 
 //----------------------------------------------------------------------------------
 
-void ModelChooser::OnCreate(ShivaGUI::Bundle *data)
+void ModelChooser::OnCreate( ShivaGUI::Bundle *_data )
 {
 	// See if the data we have been given contains the model IDs
 	m_modelA = m_modelB = -1;
-	if( data != NULL )
+	if( _data != NULL )
 	{
-		if( data->ContainsKey( "ModelA" ) )
+		if( _data->ContainsKey( "ModelA" ) )
 		{
-			m_modelA = data->GetInteger( "ModelA" );
+			m_modelA = _data->GetInteger( "ModelA" );
 		}
-		if( data->ContainsKey( "ModelB" ) )
+		if( _data->ContainsKey( "ModelB" ) )
 		{
 			std::cerr << "ERROR: ModelChooser::OnCreate, already selected ModelB" << std::endl;
 		}

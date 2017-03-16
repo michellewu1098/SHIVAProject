@@ -7,29 +7,28 @@
 #include "GUI/Views/ColourSelector.h"
 #include "GUI/Drawables/BitmapDrawable.h"
 
-#include <boost/filesystem.hpp>
-
 //----------------------------------------------------------------------------------
 
 void RotationChooser::OnCreate( ShivaGUI::Bundle *_data )
 {
-	_backButtonHandler = new UtilityEventHandler( this );
-	_leftButtonHandler = new UtilityEventHandler( this );
-	_rightButtonHandler = new UtilityEventHandler( this );
-	_upButtonHandler = new UtilityEventHandler( this );
-	_downButtonHandler = new UtilityEventHandler( this );
-	_saveButtonHandler = new UtilityEventHandler( this );
+	m_backButtonHandler = new UtilityEventHandler( this );
+	m_leftButtonHandler = new UtilityEventHandler( this );
+	m_rightButtonHandler = new UtilityEventHandler( this );
+	m_upButtonHandler = new UtilityEventHandler( this );
+	m_downButtonHandler = new UtilityEventHandler( this );
+	m_saveButtonHandler = new UtilityEventHandler( this );
 
-	_rotationStepsize = 7.5f;
-	_rotationX = _rotationY = _rotationZ = 0.0f;
+	m_rotationStepsize = 7.5f;
+	m_rotationX = m_rotationY = m_rotationZ = 0.0f;
 
-	_saveDir = "Savefiles/";
-	_saveName = "Morph";
+	m_saveDir = "Savefiles/";
+	m_saveName = "Morph";
+
 	ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
 	if( prefs != NULL )
 	{
-		_saveDir = prefs->GetString( "SaveDirectory", _saveDir );
-		_saveName = prefs->GetString( "SaveFilename", _saveName );
+		m_saveDir = prefs->GetString( "SaveDirectory", m_saveDir );
+		m_saveName = prefs->GetString( "SaveFilename", m_saveName );
 	}
 
 	int numWindows = GetNumGUIControllers();
@@ -53,46 +52,47 @@ void RotationChooser::OnCreate( ShivaGUI::Bundle *_data )
 
 void RotationChooser::OnDestroy()
 {
-	delete _backButtonHandler;
-	delete _leftButtonHandler;
-	delete _rightButtonHandler;
-	delete _upButtonHandler;
-	delete _downButtonHandler;
-	delete _saveButtonHandler;
+	delete m_backButtonHandler;
+	delete m_leftButtonHandler;
+	delete m_rightButtonHandler;
+	delete m_upButtonHandler;
+	delete m_downButtonHandler;
+	delete m_saveButtonHandler;
 }
 
+//----------------------------------------------------------------------------------
 
-void RotationChooser::UtilityEventReceived( UtilityEventHandler *handler, ShivaGUI::View *view )
+void RotationChooser::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGUI::View *_view )
 {
-	if( handler == _backButtonHandler )
+	if( _handler == m_backButtonHandler )
 	{
 		Finish();
 	}
-	else if( handler == _leftButtonHandler )
+	else if( _handler == m_leftButtonHandler )
 	{
-		_rotationZ -= _rotationStepsize;
+		m_rotationZ -= m_rotationStepsize;
 		UpdateViews();
 	}
-	else if( handler == _rightButtonHandler )
+	else if( _handler == m_rightButtonHandler )
 	{
-		_rotationZ += _rotationStepsize;
+		m_rotationZ += m_rotationStepsize;
 		UpdateViews();
 	}
-	else if( handler == _upButtonHandler )
+	else if( _handler == m_upButtonHandler )
 	{
-		_rotationX -= _rotationStepsize;
+		m_rotationX -= m_rotationStepsize;
 		UpdateViews();
 	}
-	else if( handler == _downButtonHandler )
+	else if( _handler == m_downButtonHandler )
 	{
-		_rotationX += _rotationStepsize;
+		m_rotationX += m_rotationStepsize;
 		UpdateViews();
 	}
-	else if( handler == _saveButtonHandler )
+	else if( _handler == m_saveButtonHandler )
 	{
 		// Just use the first SDFView to save - they should all have the same data
 		// Would be nice if SDFViews actually shared resources :(
-		SDFView *mainSDFView = _SDFViews.front();
+		SDFView *mainSDFView = m_SDFViews.front();
 		if( mainSDFView != NULL )
 		{
 			bool fileFound = false;
@@ -102,118 +102,125 @@ void RotationChooser::UtilityEventReceived( UtilityEventHandler *handler, ShivaG
 			do
 			{
 				std::stringstream fileNum;
-				fileNum<<i;
-				fullFilename = _saveDir + _saveName + fileNum.str() + extension;
+				fileNum << i;
+				fullFilename = m_saveDir + m_saveName + fileNum.str() + extension;
 				// We want to find the highest number that *doesn't* exist
-				fileFound = !boost::filesystem::exists(fullFilename);
+				fileFound = !boost::filesystem::exists( fullFilename );
 				i++;
 			}
-			while( (i < 10000) && !fileFound );
+			while( ( i < 10000 ) && !fileFound );
 
 			if( fileFound )
 			{
-				if( !boost::filesystem::exists(_saveDir) )
+				if( !boost::filesystem::exists( m_saveDir ) )
 				{
-					boost::filesystem::create_directory(_saveDir);
+					boost::filesystem::create_directory( m_saveDir );
 				}
-				mainSDFView->SaveVolumeToFile(fullFilename);
+				mainSDFView->SaveVolumeToFile( fullFilename );
 			}
 			else
 			{
-				std::cerr<<"WARNING: Cannot save file. Try removing previous files, limit is 10000 files"<<std::endl;
+				std::cerr << "WARNING: Cannot save file. Try removing previous files, limit is 10000 files" << std::endl;
 			}
 		}
 	}
 }
 
+//----------------------------------------------------------------------------------
+
 void RotationChooser::UpdateViews()
 {
-	for( std::vector<SDFView*>::iterator it = _SDFViews.begin(); it != _SDFViews.end(); ++it )
+	for( std::vector< SDFView* >::iterator it = m_SDFViews.begin(); it != m_SDFViews.end(); ++it )
 	{
-		(*it)->AddWorldRotationOffsetDegs(_rotationX,_rotationY,_rotationZ);
+		( *it )->AddWorldRotationOffsetDegs( m_rotationX, m_rotationY, m_rotationZ );
 	}
-	_rotationX = _rotationY = _rotationZ = 0.0f;
+	m_rotationX = m_rotationY = m_rotationZ = 0.0f;
 }
 
-void RotationChooser::LoadSDFViewData(SDFView *sdfView,ShivaGUI::Bundle *data, ShivaGUI::GUIController *guiController)
+//----------------------------------------------------------------------------------
+
+void RotationChooser::LoadSDFViewData( SDFView *_sdfView, ShivaGUI::Bundle *_data, ShivaGUI::GUIController *_guiController )
 {
-	if( sdfView != NULL )
+	if( _sdfView != NULL )
 	{
-		sdfView->SetRotationSpeed( 0.0f );
+		_sdfView->SetRotationSpeed( 0.0f );
 
 		// Get options from profile
 		ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
 		if( prefs != NULL )
 		{
-			sdfView->SetQuality( prefs->GetFloat("SDFQuality",32.0f) );
+			_sdfView->SetQuality( prefs->GetFloat( "SDFQuality", 32.0f ) );
 		}
 
-		if( data != NULL
-				&& data->ContainsKey("ModelA")
-				&& data->ContainsKey("ModelB")
-				&& data->ContainsKey("MorphValue")
-				&& data->ContainsKey("ColourR")
-				&& data->ContainsKey("ColourG")
-				&& data->ContainsKey("ColourB") )
+		if( _data != NULL
+				&& _data->ContainsKey( "ModelA" )
+				&& _data->ContainsKey( "ModelB" )
+				&& _data->ContainsKey( "MorphValue" )
+				&& _data->ContainsKey( "ColourR" )
+				&& _data->ContainsKey( "ColourG" )
+				&& _data->ContainsKey( "ColourB" ) )
 		{
-			int modelA = data->GetInteger("ModelA");
+			int modelA = _data->GetInteger( "ModelA" );
 			std::stringstream modelASS;
 			modelASS << modelA;
-			int modelB = data->GetInteger("ModelB");
+			int modelB = _data->GetInteger( "ModelB" );
 			std::stringstream modelBSS;
 			modelBSS << modelB;
-			std::string modelFilename = ShivaModelManager::GetInstance()->GetAttribute(modelASS.str(),"vol_file");
-			sdfView->LoadVolumeFromFile(modelFilename,false,guiController);
-			modelFilename = ShivaModelManager::GetInstance()->GetAttribute(modelBSS.str(),"vol_file");
-			sdfView->LoadVolumeFromFile(modelFilename,true,guiController);
-			sdfView->SetBlendParam( data->GetFloat("MorphValue") );
+			std::string modelFilename = ShivaModelManager::GetInstance()->GetAttribute( modelASS.str(), "vol_file" );
+			_sdfView->LoadVolumeFromFile( modelFilename, false, _guiController );
+			modelFilename = ShivaModelManager::GetInstance()->GetAttribute( modelBSS.str(), "vol_file" );
+			_sdfView->LoadVolumeFromFile( modelFilename, true, _guiController );
+			_sdfView->SetBlendParam( _data->GetFloat( "MorphValue") );
 
-			float R = data->GetFloat("ColourR");
-			float G = data->GetFloat("ColourG");
-			float B = data->GetFloat("ColourB");
+			float R = _data->GetFloat( "ColourR" );
+			float G = _data->GetFloat( "ColourG" );
+			float B = _data->GetFloat( "ColourB" );
 
-			sdfView->SetColour(R,G,B);
+			_sdfView->SetColour( R, G, B );
 
-			std::cout<<"INFO: RotationChooser, modelA = "<<modelA<<" modelB = "<<modelB<<" morph value = "<<data->GetFloat("MorphValue")<<std::endl;
+			std::cout << "INFO: RotationChooser, modelA = " << modelA << " modelB = " << modelB << " morph value = " << _data->GetFloat( "MorphValue" ) << std::endl;
 		}
 		else
-			std::cerr<<"WARNING: RotationChooser has not received model choices"<<std::endl;
+			std::cerr << "WARNING: RotationChooser has not received model choices" << std::endl;
 	}
 }
 
+//----------------------------------------------------------------------------------
 
-
-
-void RotationChooser::InitIOWindow(ShivaGUI::GUIController *guiController, ShivaGUI::Bundle *data)
+void RotationChooser::InitIOWindow( ShivaGUI::GUIController *_guiController, ShivaGUI::Bundle *_data )
 {
-	guiController->RegisterListener(_backButtonHandler,"backButtonHandler");
-	guiController->RegisterListener(_leftButtonHandler,"rotateLeft");
-	guiController->RegisterListener(_rightButtonHandler,"rotateRight");
-	guiController->RegisterListener(_upButtonHandler,"rotateUp");
-	guiController->RegisterListener(_downButtonHandler,"rotateDown");
-	guiController->RegisterListener(_saveButtonHandler,"saveButtonHandler");
+	_guiController->RegisterListener( m_backButtonHandler, "backButtonHandler" );
+	_guiController->RegisterListener( m_leftButtonHandler, "rotateLeft" );
+	_guiController->RegisterListener( m_rightButtonHandler, "rotateRight" );
+	_guiController->RegisterListener( m_upButtonHandler, "rotateUp" );
+	_guiController->RegisterListener( m_downButtonHandler, "rotateDown" );
+	_guiController->RegisterListener( m_saveButtonHandler, "saveButtonHandler" );
 
-	guiController->LoadContentView( "Resources/Layout/RotationChooser.xml" );
+	_guiController->LoadContentView( "Resources/Layout/RotationChooser.xml" );
 
-	SDFView *currentSDFView = dynamic_cast<SDFView*>( guiController->GetResources()->GetViewFromID("mainSDFView") );
+	SDFView *currentSDFView = dynamic_cast< SDFView* >( _guiController->GetResources()->GetViewFromID( "mainSDFView" ) );
 	if( currentSDFView != NULL )
-		_SDFViews.push_back(currentSDFView);
+		m_SDFViews.push_back( currentSDFView );
 
-	guiController->MakeCurrent();
+	_guiController->MakeCurrent();
 
-	LoadSDFViewData(currentSDFView,data,guiController);
+	LoadSDFViewData( currentSDFView, _data, _guiController );
 	UpdateViews();
 }
 
-void RotationChooser::InitOutputWindow(ShivaGUI::GUIController *guiController, ShivaGUI::Bundle *data)
+//----------------------------------------------------------------------------------
+
+void RotationChooser::InitOutputWindow( ShivaGUI::GUIController *_guiController, ShivaGUI::Bundle *_data )
 {
-	guiController->LoadContentView( "Resources/Layout/testLayout02.xml" );
+	_guiController->LoadContentView( "Resources/Layout/testLayout02.xml" );
 
-	SDFView *currentSDFView = dynamic_cast<SDFView*>( guiController->GetResources()->GetViewFromID("mainSDFView") );
+	SDFView *currentSDFView = dynamic_cast< SDFView* >( _guiController->GetResources()->GetViewFromID( "mainSDFView" ) );
 	if( currentSDFView != NULL )
-		_SDFViews.push_back(currentSDFView);
+		m_SDFViews.push_back( currentSDFView );
 
-	guiController->MakeCurrent();
-	LoadSDFViewData(currentSDFView,data,guiController);
+	_guiController->MakeCurrent();
+	LoadSDFViewData( currentSDFView, _data, _guiController );
 	UpdateViews();
 }
+
+//----------------------------------------------------------------------------------
