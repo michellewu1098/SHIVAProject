@@ -1,25 +1,23 @@
 #include "ShivaModelManager.h"
-#include "Utility/tinyxml.h"
 
- #include <iostream>
- #include <sstream>
-
+//----------------------------------------------------------------------------------
 /// Initialise statics
-ShivaModelManager *ShivaModelManager::_instance = NULL;
+ShivaModelManager *ShivaModelManager::m_instance = NULL;
 
-ShivaModelManager* ShivaModelManager::Init( std::string indexFile )
+//----------------------------------------------------------------------------------
+
+ShivaModelManager* ShivaModelManager::Init( std::string _indexFile )
 {
-	_instance = new ShivaModelManager(indexFile);
-	return _instance;
+	m_instance = new ShivaModelManager( _indexFile );
+	return m_instance;
 }
 
+//----------------------------------------------------------------------------------
 
-
-
-ShivaModelManager::ShivaModelManager(std::string indexFile)
+ShivaModelManager::ShivaModelManager( std::string _indexFile )
 {
 	// need to populate the model indices data
-	TiXmlDocument doc( indexFile );
+	TiXmlDocument doc( _indexFile );
 	if( doc.LoadFile() )
 	{
 		TiXmlElement *rootElement = doc.RootElement();
@@ -33,7 +31,7 @@ ShivaModelManager::ShivaModelManager(std::string indexFile)
 					if( indexChildNode->ValueStr() == "Model" )
 					{
 						std::string ID;
-						std::map<std::string,std::string> *currentData = new std::map<std::string,std::string>;
+						std::map< std::string, std::string > *currentData = new std::map< std::string, std::string >;
 
 						if( indexChildNode->Type() == TiXmlNode::TINYXML_ELEMENT )
 						{
@@ -45,64 +43,67 @@ ShivaModelManager::ShivaModelManager(std::string indexFile)
 								if( attributeName == "ID" || attributeName == "id" )
 									ID = attributeValue;
 								else
-									(*currentData)[attributeName] = attributeValue;
+									( *currentData )[ attributeName ] = attributeValue;
 							}
 						}
 						else
-							std::cerr<<"WARNING: ShivaModelManager parsing xml file: "<<indexFile<<" strange error: model node is not an element, cannot retrieve attributes"<<std::endl;
+							std::cerr << "WARNING: ShivaModelManager parsing xml file: " << _indexFile << " strange error: model node is not an element, cannot retrieve attributes" << std::endl;
 
 
 						if( !ID.empty() )
 						{
-							_modelIndices[ID] = currentData;
+							m_modelIndices[ ID ] = currentData;
 						}
 						else
 						{
-							std::cerr<<"WARNING: ShivaModelManager parsing xml file: "<<indexFile<<" cannot store Model entry with no ID"<<std::endl;
+							std::cerr << "WARNING: ShivaModelManager parsing xml file: " << _indexFile << " cannot store Model entry with no ID" << std::endl;
 							delete currentData;
 						}
-
-
 					}
 				}
 			}
 			else
-				std::cerr<<"WARNING: ShivaModelManager root element is not of value 'ModelIndexFile' in xml file: "<<indexFile<<std::endl;
+				std::cerr << "WARNING: ShivaModelManager root element is not of value 'ModelIndexFile' in xml file: " << _indexFile << std::endl;
 		}
 		else
-			std::cerr<<"WARNING: ShivaModelManager cannot retrieve root element from xml file: "<<indexFile<<std::endl;
-
+			std::cerr << "WARNING: ShivaModelManager cannot retrieve root element from xml file: " << _indexFile << std::endl;
 	}
 }
 
-std::string ShivaModelManager::GetAttribute(std::string modelID, std::string attribute)
-{
-	if( _modelIndices.find(modelID) != _modelIndices.end() )
-	{
-		std::map<std::string,std::string> *modelData = (_modelIndices[modelID]);
+//----------------------------------------------------------------------------------
 
-		if( modelData->find(attribute) != modelData->end() )
+std::string ShivaModelManager::GetAttribute( std::string _modelID, std::string _attribute )
+{
+	if( m_modelIndices.find( _modelID ) != m_modelIndices.end() )
+	{
+		std::map< std::string, std::string > *modelData = ( m_modelIndices[ _modelID ] );
+
+		if( modelData->find( _attribute ) != modelData->end() )
 		{
-			return (*modelData)[attribute];
+			return ( *modelData )[ _attribute ];
 		}
 	}
 	return "";
 }
+
+//----------------------------------------------------------------------------------
 
 /*
-std::string ShivaModelManager::GetThumbnailFilename(std::string index)
+std::string ShivaModelManager::GetThumbnailFilename( std::string _index )
 {
-	if( _modelIndices.find(index) != _modelIndices.end() )
+	if( m_modelIndices.find( _index ) != m_modelIndices.end() )
 	{
-		std::map<std::string,std::string> *modelData = &(_modelIndices[index]);
+		std::map< std::string, std::string > *modelData = &( m_modelIndices[ _index ] );
 
-		if( modelData->find("thumbnail_file") != modelData->end() )
+		if( modelData->find( "thumbnail_file" ) != modelData->end() )
 		{
-			return (*modelData)["thumbnail_file"];
+			return ( *modelData )[ "thumbnail_file" ];
 		}
 	}
 	return "";
 }
+
+//----------------------------------------------------------------------------------
 
 std::string ShivaModelManager::GetBDFFilename(std::string index)
 {
@@ -110,3 +111,5 @@ std::string ShivaModelManager::GetBDFFilename(std::string index)
 	return "";
 }
 */
+
+//----------------------------------------------------------------------------------

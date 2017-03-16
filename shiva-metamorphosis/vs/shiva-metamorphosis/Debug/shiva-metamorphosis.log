@@ -1,18 +1,29 @@
-﻿Build started 16/03/2017 15:17:34.
+﻿Build started 16/03/2017 15:52:53.
      1>Project "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.unsuccessfulbuild".
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\include" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\shiva-voltree\include" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\shiva-gui\include" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\cml-1_0_2" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\SDL" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\SDL_image" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\SDL_ttf" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\SDL_mixer" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\vol_metamorph" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D NDEBUG /D _DEBUG /D _CONSOLE /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\\" /Fd"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\ColourChooser.cpp ..\..\src\ModelChooser.cpp ..\..\src\RotationChooser.cpp ..\..\src\ShivaMetamorphosis.cpp ..\..\src\main.cpp
-         ShivaMetamorphosis.cpp
-         RotationChooser.cpp
-         ModelChooser.cpp
-         Generating Code...
-         Compiling...
-         main.cpp
-         Generating Code...
-         Skipping... (no relevant changes detected)
-         ColourChooser.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\include" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\shiva-voltree\include" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\shiva-gui\include" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\cml-1_0_2" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\SDL" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\SDL_image" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\SDL_ttf" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\SDL_mixer" /I"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\include\vol_metamorph" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D NDEBUG /D _DEBUG /D _CONSOLE /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\\" /Fd"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\SDFView.cpp
+         SDFView.cpp
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(54): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(175): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(175): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(175): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(175): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(191): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(196): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(201): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(206): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(211): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(216): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(221): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(237): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(237): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(237): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(271): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(271): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(271): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>c:\shivaproject\shiva-metamorphosis\src\sdfview.cpp(315): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
        Link:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\shiva-voltree\vs\shiva-voltree\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\shiva-gui\vs\shiva-gui\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\glee" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\vol_metamorph" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL\SDL\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL\SDLmain\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL_image\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL_mixer\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\SDL_ttf\Debug" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\\..\..\..\lib\glew" "shiva-gui.lib" "shiva-voltree.lib" vol_metamorph.lib GLee.lib Opengl32.lib glu32.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc.lib /MANIFEST /ManifestFile:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.lib" /MACHINE:X86 "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\ColourChooser.obj"
          "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\GLVolumeTexture.obj"
@@ -63,4 +74,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:31.05
+Time Elapsed 00:00:16.68

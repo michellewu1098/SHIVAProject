@@ -90,7 +90,7 @@ SDFView::SDFView()
 	m_texVolA = 0;
 	m_texVolB = 0;
 
-	_loadingDrawable = NULL;
+	m_loadingDrawable = NULL;
 }
 
 //----------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ SDFView::~SDFView()
 	glDeleteVertexArrays( 1, &m_cubeVAO );
 
 	delete m_dataLoader;
-	delete _loadingDrawable;
+	delete m_loadingDrawable;
 	delete m_cam;
 }
 
@@ -171,8 +171,8 @@ void SDFView::Layout( int _left, int _top, int _right, int _bottom, int _windowW
 	//float aspectRatio = ( float )viewport[ 2 ] / ( float )viewport[ 3 ];
 	m_cam->SetProjectionMatrix( m_camAngle, aspectRatio, m_camNearPlane, m_camFarPlane );
 
-	if( _loadingDrawable != NULL )
-		_loadingDrawable->SetBounds( _left, _top, _right, _bottom );
+	if( m_loadingDrawable != NULL )
+		m_loadingDrawable->SetBounds( _left, _top, _right, _bottom );
 }
 
 //----------------------------------------------------------------------------------
@@ -223,7 +223,7 @@ void SDFView::Inflate( TiXmlElement *_xmlElement, ShivaGUI::ResourceManager *_re
 		else if( ( std::string( "loadingDrawable" ) == currentAttribute->Name() ) || ( _themePrefix + "loadingDrawable" == currentAttribute->Name() ) )
 		{
 			std::string resourceName( _resources->GetInflationAttribute( currentAttribute->Value() ) );
-			_loadingDrawable = _resources->GetDrawable( resourceName );
+			m_loadingDrawable = _resources->GetDrawable( resourceName );
 		}
 	}
 	
@@ -266,14 +266,14 @@ void SDFView::AddWorldRotationOffsetRads( const float &_rotX, const float &_rotY
 
 //----------------------------------------------------------------------------------
 
-void SDFView::AddRotationOffsetDegs( float _rotX, float _rotY, float _rotZ )
+void SDFView::AddRotationOffsetDegs( const float &_rotX, const float &_rotY, const float &_rotZ )
 {
 	AddRotationOffsetRads( ( 2.0f * PI ) * ( _rotX / 360.0f ), ( 2.0f * PI ) * ( _rotY / 360.0f ), ( 2.0f * PI ) * ( _rotZ / 360.0f ) );
 }
 
 //----------------------------------------------------------------------------------
 
-void SDFView::AddRotationOffsetRads( float _rotX, float _rotY, float _rotZ )
+void SDFView::AddRotationOffsetRads( const float &_rotX, const float &_rotY, const float &_rotZ )
 {
 	m_localRotX = std::fmod( m_localRotX + _rotX, ( float )( 2.0f * PI ) );
 	m_localRotY = std::fmod( m_localRotY + _rotY, ( float )( 2.0f * PI ) );
@@ -282,7 +282,7 @@ void SDFView::AddRotationOffsetRads( float _rotX, float _rotY, float _rotZ )
 
 //----------------------------------------------------------------------------------
 
-void SDFView::SetQuality( float _value )
+void SDFView::SetQuality( const float &_value )
 {
 	m_parameterValues[ 1 ] = _value;
 	if( m_parameterValues[ 1 ] < 1.0f )
@@ -377,8 +377,8 @@ void SDFView::Draw()
 
 	if( ( m_volATicket != 0 ) || ( m_volBTicket != 0 ) )
 	{
-		if( _loadingDrawable != NULL )
-			_loadingDrawable->Draw();
+		if( m_loadingDrawable != NULL )
+			m_loadingDrawable->Draw();
 		return;
 	}
 

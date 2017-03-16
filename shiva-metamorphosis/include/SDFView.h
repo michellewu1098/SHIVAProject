@@ -1,3 +1,10 @@
+///-----------------------------------------------------------------------------------------------
+/// \file SDFView.h
+/// \brief This is for displaying 3D objects
+/// \author Leigh McLoughlin
+/// \version 1.0
+///-----------------------------------------------------------------------------------------------
+
 #ifndef __SHIVA_GUISYSTEM_SDFVIEW__
 #define __SHIVA_GUISYSTEM_SDFVIEW__
 
@@ -17,37 +24,58 @@
 #include "VolumeRenderer/Camera.h"
 
 
-/// This is for displaying 3D objects
-
 class SDFView : public ShivaGUI::View
 {
 public:
-	static ShivaGUI::View* Factory() {return new SDFView();}
 
+	//----------------------------------------------------------------------------------
+	/// \brief Returns a SDFView
+	//----------------------------------------------------------------------------------
+	static ShivaGUI::View* Factory() { return new SDFView(); }
+	//----------------------------------------------------------------------------------
+	/// \brief Ctor
+	//----------------------------------------------------------------------------------
 	SDFView();
+	//----------------------------------------------------------------------------------
+	/// \brief Dtor
+	//----------------------------------------------------------------------------------
 	virtual ~SDFView();
-
-	/// Gives the size of the View
+	//----------------------------------------------------------------------------------
+	/// \brief Gives the size of the View
 	/// If this View has children, it is expected to work out the size and location of these and call Layout() on them too
-	virtual void Layout(int left, int top, int right, int bottom, int windowWidth, int windowHeight);
-
-	/// For setting the View's attributes from xml
-	virtual void Inflate(TiXmlElement*,ShivaGUI::ResourceManager*, std::string themePrefix = "", bool rootNode = false);
-
-	virtual void Update(float deltaTs, ShivaGUI::GUIController *guiController);
-
+	//----------------------------------------------------------------------------------
+	virtual void Layout( int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight );
+	//----------------------------------------------------------------------------------
+	/// \brief For setting the View's attributes from xml
+	/// \param [in] _xmlElement
+	/// \param [in] _resources
+	/// \param [in] _themePrefix
+	/// \param [in] _rootNode
+	//----------------------------------------------------------------------------------
+	virtual void Inflate( TiXmlElement*, ShivaGUI::ResourceManager*, std::string _themePrefix = "", bool _rootNode = false );
+	//----------------------------------------------------------------------------------
+	/// \brief Update method
+	/// \param [in] _deltaTs Timestep
+	/// \param [in] _guiController
+	//----------------------------------------------------------------------------------
+	virtual void Update( float _deltaTs, ShivaGUI::GUIController *_guiController );
+	//----------------------------------------------------------------------------------
+	/// \brief Draw method
+	//----------------------------------------------------------------------------------
 	virtual void Draw();
-
-	/// Themes allow settings to be set for all Views of a given type
+	//----------------------------------------------------------------------------------
+	/// \brief Themes allow settings to be set for all Views of a given type
 	/// The string returned from this function is the string that identifies the type in the theme xml file
 	/// It is literally prefixed to normal inflation attributes
-	virtual std::string GetThemePrefix() {return "SDFView_";}
-
+	//----------------------------------------------------------------------------------
+	virtual std::string GetThemePrefix() { return "SDFView_"; }
+	//----------------------------------------------------------------------------------
 	// This View does not accept focus
-
-	/// Input event given to View, expected to filter down hierarchy
+	//----------------------------------------------------------------------------------
+	/// \brief Input event given to View, expected to filter down hierarchy
 	/// \return false if event is not absorbed (e.g. did not hit button etc)
-	virtual bool HandleEvent(ShivaGUI::InternalEvent*);
+	//----------------------------------------------------------------------------------
+	virtual bool HandleEvent( ShivaGUI::InternalEvent* );
 	//----------------------------------------------------------------------------------
 	/// \brief Set blend parameter
 	/// \param [in] _value
@@ -73,28 +101,70 @@ public:
 	//----------------------------------------------------------------------------------
 	void AddWorldRotationOffsetRads( const float &_rotX, const float &_rotY, const float &_rotZ );
 	//----------------------------------------------------------------------------------
-	void AddRotationOffsetDegs(float rotX, float rotY, float rotZ);
-	void AddRotationOffsetRads(float rotX, float rotY, float rotZ);
-
+	/// \brief Add rotation offset in degrees
+	/// \param [in] _rotX
+	/// \param [in] _rotY
+	/// \param [in] _rotZ
+	//----------------------------------------------------------------------------------
+	void AddRotationOffsetDegs( const float &_rotX, const float &_rotY, const float &_rotZ );
+	//----------------------------------------------------------------------------------
+	/// \brief Add rotation offset in radians
+	/// \param [in] _rotX
+	/// \param [in] _rotY
+	/// \param [in] _rotZ
+	//----------------------------------------------------------------------------------
+	void AddRotationOffsetRads( const float &_rotX, const float &_rotY, const float &_rotZ );
+	//----------------------------------------------------------------------------------
+	/// \brief Set colour
+	/// \param [in] _r Red component
+	/// \param [in] _g Green component
+	/// \param [in] _b Blue component
+	//----------------------------------------------------------------------------------
 	void SetColour( const float &_r, const float &_g, const float &_b ) { m_colourR = _r; m_colourG = _g; m_colourB = _b; m_colourSet = 1.0f; }
-
-	/// Should load either model A or model B from file and return true if successful, false if failed (and print out an error report to std::cerr)
-	bool LoadVolumeFromFile(std::string filename, bool objectB, ShivaGUI::GUIController *guiController);
-
-	/// Should save complete metamorphosis to file and return true if successful, false if failed (and print out an error report to std::cerr)
-	bool SaveVolumeToFile(std::string filename);
-
-	void SetPauseRotation( bool _value ) { m_pauseRotation = _value; }
-
-	void SetQuality( float value );
-
+	//----------------------------------------------------------------------------------
+	/// \brief Should load either model A or model B from file and return true if successful,
+	/// false if failed (and print out an error report to std::cerr)
+	/// \param [in] _filename
+	/// \param [in] _objectB
+	/// \param [in] _guiController
+	//----------------------------------------------------------------------------------
+	bool LoadVolumeFromFile( std::string _filename, bool _objectB, ShivaGUI::GUIController *_guiController );
+	//----------------------------------------------------------------------------------
+	/// \brief Should save complete metamorphosis to file and return true if successful, 
+	/// false if failed (and print out an error report to std::cerr)
+	/// \param [in] _filename
+	//----------------------------------------------------------------------------------
+	bool SaveVolumeToFile( std::string _filename );
+	//----------------------------------------------------------------------------------
+	/// \brief Pause rotation
+	/// \param [in] _value
+	//----------------------------------------------------------------------------------
+	void SetPauseRotation( const bool &_value ) { m_pauseRotation = _value; }
+	//----------------------------------------------------------------------------------
+	/// \brief Set quality
+	/// \param [in] _value 
+	//----------------------------------------------------------------------------------
+	void SetQuality( const float &_value );
+	//----------------------------------------------------------------------------------
+	/// \brief Create VBOs
+	//----------------------------------------------------------------------------------
 	void BuildVBOs();
-
+	//----------------------------------------------------------------------------------
+	/// \brief Load matrices - projection and modelview - to shader
+	//----------------------------------------------------------------------------------
 	void LoadMatricesToShader();
-	void ThreadReturnVolumeFromFile( float *data, unsigned int dataSize, bool objectB );
+	//----------------------------------------------------------------------------------
+	/// \brief Thread return volume from file
+	/// \param [in] _data
+	/// \param [in] _dataSize
+	/// \param [in] _objectB
+	//----------------------------------------------------------------------------------
+	void ThreadReturnVolumeFromFile( float *_data, unsigned int _dataSize, bool _objectB );
+	//----------------------------------------------------------------------------------
 
 protected:
 
+	//----------------------------------------------------------------------------------
 	// Bounds for the View's place in the GUI System
 	//----------------------------------------------------------------------------------
 	int m_boundsLeft;
@@ -109,8 +179,9 @@ protected:
 	//----------------------------------------------------------------------------------
 	int m_windowHeight;
 	//----------------------------------------------------------------------------------
-	/// Viewing matrices and associated variables
-	cml::matrix44f_c _projectionMatrix, m_modelViewMatrix;
+	/// \brief ModelView matrix
+	//----------------------------------------------------------------------------------
+	cml::matrix44f_c m_modelViewMatrix;
 	//----------------------------------------------------------------------------------
 	/// \brief Inverse ModelView matrix
 	//----------------------------------------------------------------------------------
@@ -121,6 +192,9 @@ protected:
 	cml::matrix44f_c m_modelMatrix;
 	//----------------------------------------------------------------------------------
 	cml::vector3f _cameraPosition, _targetPosition;
+	//----------------------------------------------------------------------------------
+	/// \brief Target
+	//----------------------------------------------------------------------------------
 	SpringyVec3 m_target;
 	//----------------------------------------------------------------------------------
 	/// \brief Representation of x-axis
@@ -177,19 +251,29 @@ protected:
 	//----------------------------------------------------------------------------------
 	bool m_pauseRotation;
 	//----------------------------------------------------------------------------------
-	float m_colourR, m_colourG, m_colourB, m_colourSet;
-
-
-	/// OpenGL Vertex Buffer Object IDs for a cube
+	/// \brief Red component
+	//----------------------------------------------------------------------------------
+	float m_colourR;
+	//----------------------------------------------------------------------------------
+	/// \brief Green component
+	//----------------------------------------------------------------------------------
+	float m_colourG;
+	//----------------------------------------------------------------------------------
+	/// \brief Blue component
+	//----------------------------------------------------------------------------------
+	float m_colourB;
+	//----------------------------------------------------------------------------------
+	/// \brief Alpha? 
+	//----------------------------------------------------------------------------------
+	float m_colourSet;
+	//----------------------------------------------------------------------------------
+	/// \brief Cube VAO
 	//----------------------------------------------------------------------------------
 	GLuint m_cubeVAO;
 	//----------------------------------------------------------------------------------
-	unsigned int _cubeVertexVBO, _cubeIndexVBO;
+	/// \brief Volume shader
 	//----------------------------------------------------------------------------------
-	/// Shaders - not too sure what it will do, so feel free to rename
 	Utility::GPUProgram *m_SDFShader;
-
-	Utility::GPUVariable *_vertSize, *_vertPos;
 	//----------------------------------------------------------------------------------
 	/// \brief Blend value
 	//----------------------------------------------------------------------------------
@@ -204,11 +288,18 @@ protected:
 	float m_rotationSpeed;
 	//----------------------------------------------------------------------------------
 	unsigned int m_volATicket, m_volBTicket;
+	//----------------------------------------------------------------------------------
+	/// \brief Data loader
+	//----------------------------------------------------------------------------------
 	VolumeLoader *m_dataLoader;
-	
-
-
-	unsigned int m_texVolA, m_texVolB;
+	//----------------------------------------------------------------------------------
+	/// \brief Texture volume A
+	//----------------------------------------------------------------------------------
+	unsigned int m_texVolA;
+	//----------------------------------------------------------------------------------
+	/// \brief Texture volume B
+	//----------------------------------------------------------------------------------
+	unsigned int m_texVolB;
 	//----------------------------------------------------------------------------------
 	/// \brief Object A filename
 	//----------------------------------------------------------------------------------
@@ -218,7 +309,11 @@ protected:
 	//----------------------------------------------------------------------------------
 	std::string m_objectBfilename;
 	//----------------------------------------------------------------------------------
-	ShivaGUI::Drawable *_loadingDrawable;
+	/// \brief Loading message drawable
+	//----------------------------------------------------------------------------------
+	ShivaGUI::Drawable *m_loadingDrawable;
+	//----------------------------------------------------------------------------------
+	/// \brief Camera
 	//----------------------------------------------------------------------------------
 	Camera* m_cam;
 	//----------------------------------------------------------------------------------
