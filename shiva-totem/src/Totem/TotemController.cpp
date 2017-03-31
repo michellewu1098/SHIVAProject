@@ -63,8 +63,6 @@ Totem::Controller::~Controller()
 	if( m_poleNode != NULL ) { delete m_poleNode; } 
 	if( m_poleTransformNode != NULL ) { delete m_poleTransformNode; } 
 	if( m_poleBaseNode != NULL ) { delete m_poleBaseNode; }
-
-	//_CrtDumpMemoryLeaks();
 }
 
 //----------------------------------------------------------------------------------

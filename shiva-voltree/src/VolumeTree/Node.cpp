@@ -167,22 +167,6 @@ void VolumeTree::Node::BuildBBoxesVBOs( unsigned int _nContext )
 	glBindBuffer( GL_ARRAY_BUFFER, m_colsVBO );
 	glBufferData( GL_ARRAY_BUFFER, 24 * 3 * sizeof( float ), cubeColours, GL_STATIC_DRAW );
 
-
-	//glGenVertexArrays( 1, &m_bboxLinesVAO );
-	//glBindVertexArray( m_bboxLinesVAO );
-
-	//glEnableVertexAttribArray( 0 );
-	//glBindBuffer( GL_ARRAY_BUFFER, m_bboxLinesVertsVBO );
-	//glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, ( GLfloat* ) NULL );
-
-	//glEnableVertexAttribArray( 1 );
-	//glBindBuffer( GL_ARRAY_BUFFER, colsVBO );
-	//glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 0, ( GLfloat* ) NULL );
-
-	//glBindVertexArray( 0 );
-	//glBindBuffer( GL_ARRAY_BUFFER, 0 );
-
-
 	// Bounding box shaded sides
 	
 	float vertices[ 8 * 3 ] = {	minX, minY, minZ,	maxX, minY, minZ,
@@ -206,22 +190,6 @@ void VolumeTree::Node::BuildBBoxesVBOs( unsigned int _nContext )
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, m_indicesVBO );
 	glBufferData( GL_ELEMENT_ARRAY_BUFFER, 36 * sizeof( int ), indices, GL_STATIC_DRAW );
 
-	//glGenVertexArrays( 1, &m_bboxSidesVAO );
-	//glBindVertexArray( m_bboxSidesVAO );
-
-	//glEnableVertexAttribArray( 0 );
-	//glBindBuffer( GL_ARRAY_BUFFER, m_bboxSidesVertsVBO );
-	//glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, ( GLfloat* ) NULL );
-
-	//GLuint indicesVBO;
-	//glGenBuffers( 1, &indicesVBO );
-	//glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, indicesVBO );
-	//glBufferData( GL_ELEMENT_ARRAY_BUFFER, 36 * sizeof( int ), indices, GL_STATIC_DRAW );
-	//
-	//glBindVertexArray( 0 );
-	//glBindBuffer( GL_ARRAY_BUFFER, 0 );
-	//glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
-
 	//----------------------------------------------------------------------------------
 
 	// Version with multiple VAOs
@@ -234,43 +202,13 @@ void VolumeTree::Node::BuildBBoxesVBOs( unsigned int _nContext )
 	{
 		GLuint tmpVAO[ 2 ];
 		glGenVertexArrays( 2, tmpVAO );
-		/*glBindVertexArray( tmpVAO );
-
-		glEnableVertexAttribArray( 0 );
-		glBindBuffer( GL_ARRAY_BUFFER, m_bboxLinesVertsVBO );
-		glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, ( GLfloat* ) NULL );
-
-		glEnableVertexAttribArray( 1 );
-		glBindBuffer( GL_ARRAY_BUFFER, m_colsVBO );
-		glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 0, ( GLfloat* ) NULL );
-*/
+		
 		tmpMap.insert( std::make_pair( 0, tmpVAO[ 0 ] ) );
-
-		//glBindVertexArray( 0 );
-		//glBindBuffer( GL_ARRAY_BUFFER, 0 );
-
-		//glGenVertexArrays( 1, &tmpVAO2 );
-		//glBindVertexArray( tmpVAO2 );
-
-		//glEnableVertexAttribArray( 0 );
-		//glBindBuffer( GL_ARRAY_BUFFER, m_bboxSidesVertsVBO );
-		//glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, ( GLfloat* ) NULL );
-
-		//GLuint indicesVBO;
-		//glGenBuffers( 1, &indicesVBO );
-		//glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, indicesVBO );
-		//glBufferData( GL_ELEMENT_ARRAY_BUFFER, 36 * sizeof( int ), indices, GL_STATIC_DRAW );
-	
 		tmpMap.insert( std::make_pair( 1, tmpVAO[ 1 ] ) ); 
 
 		m_vaos.insert( std::make_pair( i, tmpMap ) ); 
 
-		//glBindVertexArray( 0 );
-		//glBindBuffer( GL_ARRAY_BUFFER, 0 );
-		//glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
-
 		tmpMap.clear();
-
 	}
 	
 	m_bboxLinesShader = new Shader( "Resources/Shaders/Simple.vert", "Resources/Shaders/Simple.frag" );
@@ -400,6 +338,18 @@ void VolumeTree::Node::DrawBBoxes(  cml::matrix44f_c &_proj, cml::matrix44f_c &_
 #endif
 		LoadMatricesToShader( m_bboxLinesShader->getID(), _proj, _mv );
 		
+		glBindVertexArray( m_vaos[ 0 ][ 0 ] );
+
+		glEnableVertexAttribArray( 0 );
+		glBindBuffer( GL_ARRAY_BUFFER, m_bboxLinesVertsVBO );
+		glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, ( GLfloat* ) NULL );
+
+		glEnableVertexAttribArray( 1 );
+		glBindBuffer( GL_ARRAY_BUFFER, m_colsVBO );
+		glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 0, ( GLfloat* ) NULL );
+
+		glBindVertexArray( 0 );
+		glBindBuffer( GL_ARRAY_BUFFER, 0 );
 
 		glBindVertexArray( m_vaos[ 0 ][ 0 ] );
 			glLineWidth( 5.0f );
@@ -424,7 +374,20 @@ void VolumeTree::Node::DrawBBoxes(  cml::matrix44f_c &_proj, cml::matrix44f_c &_
 #endif
 
 		glBindVertexArray( m_vaos[ 0 ][ 1 ] );
+
+		glEnableVertexAttribArray( 0 );
+		glBindBuffer( GL_ARRAY_BUFFER, m_bboxSidesVertsVBO );
+		glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, ( GLfloat* ) NULL );
+
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, m_indicesVBO );
+
+		glBindVertexArray( 0 );
+		glBindBuffer( GL_ARRAY_BUFFER, 0 );
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+
+		glBindVertexArray( m_vaos[ 0 ][ 1 ] );
 			glDrawElements( GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0 );
+			glDrawArrays( GL_POINTS, 0, 1 );
 		glBindVertexArray( 0 );
 		
 		m_bboxSidesShader->unbind();
@@ -445,7 +408,7 @@ void VolumeTree::Node::DrawBBoxes(  cml::matrix44f_c &_proj, cml::matrix44f_c &_
 
 //----------------------------------------------------------------------------------
 
-void VolumeTree::Node::DrawBBoxes(  cml::matrix44f_c &_proj, cml::matrix44f_c &_mv, unsigned int _context )
+void VolumeTree::Node::DrawBBoxes( cml::matrix44f_c &_proj, cml::matrix44f_c &_mv, unsigned int _context )
 {
 	if( m_hasBBox && m_drawBBox )
 	{

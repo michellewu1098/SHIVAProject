@@ -36,6 +36,7 @@ void ShivaGUI::Activity::Create( GUIManager *_guiManager, Bundle *_savedState, b
 void ShivaGUI::Activity::Destroy()
 {
 	OnDestroy();
+	_CrtDumpMemoryLeaks();
 }
 
 //----------------------------------------------------------------------------------
