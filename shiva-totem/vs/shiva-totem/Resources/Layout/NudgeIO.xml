@@ -13,7 +13,7 @@
 		layout_height="wrap_content"
 		layout_centreX="0.5"
 		layout_centreY="0.05"
-		text="nudge objects"
+		text="NUDGE objects"
 		/>
 		
 	<VolView
@@ -109,8 +109,8 @@
 
   <TextButton
 		id="RotateReset"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.7"
 		layout_centreY="0.9"
 		onClick="buttonHandler"
@@ -132,28 +132,28 @@
 
   <TextButton
 		id="NudgeYpositive"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.1"
-		layout_centreY="0.05"
+		layout_centreY="0.1"
 		onClick="buttonHandler"
 		text="nudge in"
 		/>
 
   <TextButton
 		id="NudgeYnegative"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.1"
-		layout_centreY="0.15"
+		layout_centreY="0.2"
 		onClick="buttonHandler"
 		text="nudge out"
 		/>
 
   <TextButton
 		id="NudgeXpositive"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.1"
 		layout_centreY="0.35"
 		onClick="buttonHandler"
@@ -162,8 +162,8 @@
 
   <TextButton
 		id="NudgeXnegative"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.1"
 		layout_centreY="0.45"
 		onClick="buttonHandler"
@@ -173,28 +173,28 @@
   
   <TextButton
 		id="NudgeUp"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.1"
-		layout_centreY="0.65"
+		layout_centreY="0.6"
 		onClick="buttonHandler"
 		text="nudge up"
 		/>
 
   <TextButton
 		id="NudgeDown"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.1"
-		layout_centreY="0.75"
+		layout_centreY="0.7"
 		onClick="buttonHandler"
 		text="nudge down"
 		/>
 
   <TextButton
 		id="NudgeReset"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.1"
 		layout_centreY="0.9"
 		onClick="buttonHandler"
@@ -209,8 +209,8 @@
 
   <TextButton
 		id="SwapAbove"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.15"
 		onClick="buttonHandler"
@@ -224,8 +224,8 @@
 
   <TextButton
 		id="SelectAbove"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.25"
 		onClick="buttonHandler"
@@ -239,8 +239,8 @@
   
 	<TextButton
 		id="DeleteSelected"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.35"
 		onClick="buttonHandler"
@@ -254,8 +254,8 @@
   
 	<TextButton
 		id="BackButton"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.45"
 		onClick="buttonHandler"
@@ -269,8 +269,8 @@
 
   <TextButton
 		id="SelectBelow"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.55"
 		onClick="buttonHandler"
@@ -284,8 +284,8 @@
 
   <TextButton
 		id="SwapBelow"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.65"
 		onClick="buttonHandler"

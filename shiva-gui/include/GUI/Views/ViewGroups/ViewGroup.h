@@ -28,9 +28,13 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		virtual ~ViewGroup();
 		//----------------------------------------------------------------------------------
-		/// Needs to draw its children
+		/// \brief Needs to draw its children
 		//----------------------------------------------------------------------------------
 		virtual void Draw() = 0;
+		//----------------------------------------------------------------------------------
+		/// \brief Needs to draw its children 
+		//----------------------------------------------------------------------------------
+		virtual void Draw( unsigned int _context ) = 0;
 		//----------------------------------------------------------------------------------
 		/// \brief For setting the focus of this View
 		/// If focussed, it is expected that the view will show this visually

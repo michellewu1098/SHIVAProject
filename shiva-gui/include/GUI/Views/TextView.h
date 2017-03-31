@@ -52,6 +52,7 @@ namespace ShivaGUI
 		/// Derived View classes must call this at an appropriate time if they want to retain the background
 		//----------------------------------------------------------------------------------
 		virtual void Draw();
+		virtual void Draw( unsigned int _context );
 		//----------------------------------------------------------------------------------
 		/// \brief Themes allow settings to be set for all Views of a given type
 		/// The string returned from this function is the string that identifies the type in the theme xml file

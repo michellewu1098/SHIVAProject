@@ -161,6 +161,31 @@ void ShivaGUI::ImageButton::Draw()
 
 //----------------------------------------------------------------------------------
 
+void ShivaGUI::ImageButton::Draw( unsigned int _context )
+{
+	View::Draw( _context );
+
+	if( m_visible )
+	{
+		if( m_stateListDrawable != NULL )
+			m_stateListDrawable->Draw();
+		else if( m_generalDrawable != NULL )
+			m_generalDrawable->Draw();
+
+		if( m_contentStateListDrawable != NULL )
+			m_contentStateListDrawable->Draw();
+		else if( m_contentGenDrawable != NULL )
+			m_contentGenDrawable->Draw();
+
+		if( m_usingEyeGaze )
+		{
+			DrawGazeIndicator();
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::ImageButton::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
 	if( _themePrefix.empty() )

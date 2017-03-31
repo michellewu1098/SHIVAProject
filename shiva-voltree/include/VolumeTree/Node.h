@@ -8,7 +8,20 @@
 #ifndef NODE_H_
 #define NODE_H_
 
+//#define _CRTDBG_MAP_ALLOC
+//#define _CRTDBG_MAP_ALLOC_NEW
+//#include <stdlib.h>
+//#include <crtdbg.h>
+//
+//#ifdef _DEBUG
+//   #ifndef DBG_NEW
+//      #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+//      #define new DBG_NEW
+//   #endif
+//#endif  // _DEBUG
+
 #include <cml/cml.h.>
+#include <map>
 #include "VolumeRenderer/Shader.h"
 
 // GLSLRenderer.h includes this file
@@ -90,9 +103,17 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		void DrawBBoxes( cml::matrix44f_c &_proj, cml::matrix44f_c &_mv );
 		//----------------------------------------------------------------------------------
-		/// \brief Create bounding box vbos and vao
+		/// \brief Recursively draws bounding boxes of node tree using shaders
+		/// \param [in] _proj Projection matrix
+		/// \param [in] _mv ModelView matrix
+		/// \param [in] _context Current window context
 		//----------------------------------------------------------------------------------
-		void BuildBBoxesVBOs();
+		void DrawBBoxes( cml::matrix44f_c &_proj, cml::matrix44f_c &_mv, unsigned int _context );
+		//----------------------------------------------------------------------------------
+		/// \brief Create bounding box vbos and vao
+		/// \param [in] _nContext Tot number of contexts
+		//----------------------------------------------------------------------------------
+		void BuildBBoxesVBOs( unsigned int _nContext );
 		//----------------------------------------------------------------------------------
 		/// \brief For performing a left-first tree traversal
 		/// If you give it a desiredNode of -1 it will recurse entire structure, thus giving you the total size in currentCount
@@ -190,6 +211,16 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		void LoadMatricesToShader( GLuint _shaderID, cml::matrix44f_c &_proj, cml::matrix44f_c &_mv );
 		//----------------------------------------------------------------------------------
+		/// \brief Set whether node has bounding box
+		/// \param [in] _value Either true or false
+		//----------------------------------------------------------------------------------
+		void HasBoundingBox( const bool &_value ) { m_hasBBox = _value; if( m_hasBBox ) { BuildBBoxesVBOs( m_nContext ); } }
+		//----------------------------------------------------------------------------------
+		/// \brief Updates verts vbos for the bounding boxes
+		//----------------------------------------------------------------------------------
+		void UpdateBboxesVBOs();
+		//----------------------------------------------------------------------------------
+		void SetNumbOfContext( const unsigned int &_nContext ) { m_nContext = _nContext; }
 
 	protected:
 
@@ -202,9 +233,17 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		bool m_drawBBox;
 		//----------------------------------------------------------------------------------
+		/// \brief Flag to check whether the node has a bounding box or not
+		//----------------------------------------------------------------------------------
+		bool m_hasBBox;
+		//----------------------------------------------------------------------------------
+		GLuint m_bboxLinesVertsVBO;
+		//----------------------------------------------------------------------------------
 		/// \brief Vao for drawing outline of bounding box
 		//----------------------------------------------------------------------------------
 		GLuint m_bboxLinesVAO;
+		//----------------------------------------------------------------------------------
+		GLuint m_bboxSidesVertsVBO;
 		//----------------------------------------------------------------------------------
 		/// \brief Vao for drawing sides of bounding box
 		//----------------------------------------------------------------------------------
@@ -285,9 +324,12 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		virtual void OnUpdateParameters( GLSLRenderer *_renderer ) {}
 		//----------------------------------------------------------------------------------
-		/// \brief Shader for drawing bounding boxes
+		/// \brief Shader for drawing outline of bounding boxes
 		//----------------------------------------------------------------------------------
-		Shader* m_bboxShader;
+		Shader* m_bboxLinesShader;
+		//----------------------------------------------------------------------------------
+		/// \brief Shader for drawing sides of bounding boxes
+		//----------------------------------------------------------------------------------
 		Shader* m_bboxSidesShader;
 		//----------------------------------------------------------------------------------
 		/// \brief Vertex shader 
@@ -298,7 +340,14 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		std::string m_fragShaderString;
 		//----------------------------------------------------------------------------------
-
+		std::map< unsigned int, std::map< unsigned int, GLuint > > m_vaos;
+		//----------------------------------------------------------------------------------
+		GLuint m_colsVBO;
+		//----------------------------------------------------------------------------------
+		GLuint m_indicesVBO;
+		//----------------------------------------------------------------------------------
+		unsigned int m_nContext;
+		//----------------------------------------------------------------------------------
 	};
 }
 

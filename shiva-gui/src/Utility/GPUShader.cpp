@@ -3,12 +3,15 @@
 #include <fstream>
 #include <iostream>
 
+//----------------------------------------------------------------------------------
 
 Utility::GPUShader::GPUShader( ShaderType _type )
 {
 	m_type = _type;
 	m_handle = 0;
 }
+
+//----------------------------------------------------------------------------------
 
 Utility::GPUShader::~GPUShader()
 {
@@ -50,33 +53,13 @@ bool Utility::GPUShader::CompileShader( GLuint _programID )
 	// http://www.opengl.org/wiki/OpenGL_Shading_Language#Error_Checking
 	glCompileShader( m_handle );
 
-	int isCompiled;
-	glGetShaderiv( m_handle, GL_COMPILE_STATUS, &isCompiled );
-
-	if( isCompiled == 0 )
-	{
-		int logLength = -1;
-		int maxLength( 0 );
-		glGetShaderiv( m_handle, GL_INFO_LOG_LENGTH, &maxLength );
-
-		if ( maxLength != 0 )
-		{
-			char *infoLog = new char[ maxLength ];
-
-			glGetShaderInfoLog( m_handle, maxLength, &logLength, infoLog );
-
-			std::cerr << "GLSL Compiler error: " << infoLog << std::endl;
-
-			delete [] infoLog;
-		}
-		else {
-			std::cerr << "Aaaaaaaargh!" << std::endl;
-			return false;
-		}
+	if( !ValidateShader() ) {
+		return false;
 	}
-
-	glAttachShader( _programID, m_handle );
-	return true;
+	else {
+		glAttachShader( _programID, m_handle );
+		return true;
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -85,3 +68,31 @@ void Utility::GPUShader::DetachShader( GLuint _programID )
 {
 	glDetachShader( _programID, m_handle );
 }
+
+//----------------------------------------------------------------------------------
+
+bool Utility::GPUShader::ValidateShader()
+{
+	GLint isCompiled = 0;
+	glGetShaderiv( m_handle, GL_COMPILE_STATUS, &isCompiled );
+    if( isCompiled == GL_FALSE )
+    {
+        GLint maxLength = 0;
+        glGetShaderiv( m_handle, GL_INFO_LOG_LENGTH, &maxLength );
+
+        // The maxLength includes the NULL character
+        char* errorLog = new char[ maxLength ];
+        glGetShaderInfoLog( m_handle, maxLength, &maxLength, errorLog );
+        if ( maxLength > 0 ) {
+			std::cerr << "Shader " << m_handle << " (" << ( m_source.c_str() ? m_source.c_str() :"") << ") compile error: " << errorLog << std::endl;
+        }
+        // Provide the infolog in whatever manor you deem best.
+        // Exit with failure.
+        glDeleteShader( m_handle ); // Don't leak the shader.
+		delete[] errorLog;
+        return false;
+    }
+    return true;
+}
+
+//----------------------------------------------------------------------------------

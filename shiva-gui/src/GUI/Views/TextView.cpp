@@ -44,6 +44,15 @@ void ShivaGUI::TextView::Draw()
 
 //----------------------------------------------------------------------------------
 
+void ShivaGUI::TextView::Draw( unsigned int _context )
+{
+	View::Draw( _context );
+	if( m_visible && m_textDrawable )
+		m_textDrawable->Draw();
+}
+
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::TextView::Inflate( TiXmlElement *_xmlElement, ShivaGUI::ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
 	if( _themePrefix.empty() )

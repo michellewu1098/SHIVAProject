@@ -22,6 +22,14 @@ Shader::Shader( std::string _vsFile, std::string _fsFile ) : m_init( false ),
 
 //------------------------------------------------------------------------------------
 
+void Shader::setFileNames( std::string _vsFile, std::string _fsFile )
+{
+	m_vsFileName = _vsFile.c_str();
+	m_fsFileName = _fsFile.c_str();
+}
+
+//------------------------------------------------------------------------------------
+
 std::string Shader::fileRead( const char *_fileName )
 {
 	std::ifstream fileStream( _fileName );
@@ -106,6 +114,9 @@ void Shader::init( std::string _vsFile, std::string _fsFile )
 
     glShaderSource( m_vs, 1, &vsText, NULL );
     glShaderSource( m_fs, 1, &fsText, NULL );
+
+	m_vsSourceFile = _vsFile;
+	m_fsSourceFile = _fsFile;
 
     glCompileShader( m_vs );
     // Determine if the compilation was successful

@@ -10,7 +10,7 @@
 		layout_height="wrap_content"
 		layout_centreX="0.5"
 		layout_centreY="0.05"
-		text="change pump"
+		text="change PUMP"
 		/>
 		
 	<VolView
@@ -37,7 +37,7 @@
 
 	<ImageButton
 		id="BlendIncrease"
-		layout_width="0.12"
+		layout_width="0.1"
 		layout_height="0.2"
 		layout_centreX="0.1"
 		layout_centreY="0.25"
@@ -49,7 +49,7 @@
 
 	<ImageButton
 		id="BlendDecrease"
-		layout_width="0.12"
+		layout_width="0.1"
 		layout_height="0.2"
 		layout_centreX="0.1"
 		layout_centreY="0.75"
@@ -61,7 +61,7 @@
 
 	<TextButton
 		id="BlendReset"
-		layout_width="0.2"
+		layout_width="0.16"
 		layout_height="0.2"
 		layout_centreX="0.1"
 		layout_centreY="0.5"
@@ -133,8 +133,8 @@
 
 	<TextButton
 		id="RotateReset"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.7"
 		layout_centreY="0.9"
 		onClick="buttonHandler"
@@ -143,8 +143,8 @@
 
 	<TextButton
 		id="BackButton"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.35"
 		onClick="buttonHandler"

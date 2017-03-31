@@ -16,7 +16,8 @@ namespace ShivaGUI
 		{
 			Left = 1,
 			Centre = 2,
-			Right = 3
+			Right = 3,
+			Top = 4
 		};
 		//----------------------------------------------------------------------------------
 		/// \brief Default ctor
@@ -83,23 +84,31 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		unsigned int m_textAlignment;
 		//----------------------------------------------------------------------------------
+		/// \brief Holds position for icon (left/top)
+		//----------------------------------------------------------------------------------
+		unsigned int m_iconPosition;
+		//----------------------------------------------------------------------------------
 		// The following flags are mainly for use when deflating to xml
 		//----------------------------------------------------------------------------------
-		/// \brief Flag to check Whether font name was acquired from a theme file
+		/// \brief Flag to check whether font name was acquired from a theme file
 		//----------------------------------------------------------------------------------
 		bool m_fontNameFromTheme;
 		//----------------------------------------------------------------------------------
-		/// \brief Flag to check Whether font size was acquired from a theme file
+		/// \brief Flag to check whether font size was acquired from a theme file
 		//----------------------------------------------------------------------------------
 		bool m_fontSizeFromTheme;
 		//----------------------------------------------------------------------------------
-		/// \brief Flag to check Whether font colour was acquired from a theme file
+		/// \brief Flag to check whether font colour was acquired from a theme file
 		//----------------------------------------------------------------------------------
 		bool m_fontColourFromTheme;
 		//----------------------------------------------------------------------------------
-		/// \brief Flag to check Whether text alignment was acquired from a theme file
+		/// \brief Flag to check whether text alignment was acquired from a theme file
 		//----------------------------------------------------------------------------------
 		bool m_textAlignFromTheme;
+		//----------------------------------------------------------------------------------
+		/// \brief Flag to check whether icon position was acquired from a a theme file
+		//----------------------------------------------------------------------------------
+		bool m_iconPositionFromTheme;
 		//----------------------------------------------------------------------------------
 		/// \brief Makes the texture from the text
 		/// \param [in] resources

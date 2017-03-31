@@ -21,8 +21,8 @@ VolumeTree::CSGNode::CSGNode( Node *_childA, Node *_childB )
 
 VolumeTree::CSGNode::~CSGNode()
 {
-	delete m_childA;
-	delete m_childB;
+	//delete m_childA;
+	//delete m_childB;
 }
 
 //----------------------------------------------------------------------------------

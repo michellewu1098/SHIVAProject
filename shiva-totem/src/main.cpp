@@ -47,6 +47,18 @@
 
 */
 
+#define _CRTDBG_MAP_ALLOC
+#define _CRTDBG_MAP_ALLOC_NEW
+#include <stdlib.h>
+#include <crtdbg.h>
+
+#ifdef _DEBUG
+   #ifndef DBG_NEW
+      #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+      #define new DBG_NEW
+   #endif
+#endif  // _DEBUG
+
 #include <iostream>
 #include <boost/program_options.hpp>
 
@@ -98,6 +110,8 @@ bool GetOptions( ProgramOptions *_options, int _argc, char **_argv );
 
 int main( int argc, char **argv )
 {
+	//_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+
 	// Set our program options from command line
 	ProgramOptions options;
 	if( !GetOptions( &options, argc, argv ) )
@@ -108,6 +122,7 @@ int main( int argc, char **argv )
 	ShivaGUI::GUIManager *mainGUIManager = new ShivaGUI::GUIManager( "SHIVA Totem Prototype 1b", "totem1b" );
 
 	Totem::Controller *totemController = Totem::Controller::Init();
+	VolumeTree::Node *currentModelNode = NULL;
 
 	if( modelManager != NULL )
 	{
@@ -117,7 +132,7 @@ int main( int argc, char **argv )
 
 		for( int i = 0; i < numModels; i++ )
 		{
-			VolumeTree::Node *currentModelNode = NULL;
+			currentModelNode = NULL;
 
 			if( modelManager->QueryAttribute( i, "primitive" ) )
 			{
@@ -166,16 +181,6 @@ int main( int argc, char **argv )
 		}
 	}
 
-	/*
-	totemController->SetNumPrimitives(10);
-	totemController->SetPrimitiveNode(0, new VolumeTree::SphereNode(0.0f,0.0f,0.0f,0.25f) );
-	totemController->SetPrimitiveNode(1, new VolumeTree::ConeNode(0.5f,0.25f) );
-	totemController->SetPrimitiveNode(2, new VolumeTree::CylinderNode(0.5f,0.25f) );
-	totemController->SetPrimitiveNode(3, new VolumeTree::CubeNode(0.5f) );
-	totemController->SetPrimitiveNode(4, new VolumeTree::TorusNode(0.25,0.02f) );
-	totemController->SetPrimitiveNode(5, new VolumeTree::CubeNode(0.5f,1.0f,0.5f) );
-	*/
-
 	mainGUIManager->RegisterActivityCreator( "AssembleActivity", AssembleActivity::Factory );
 	mainGUIManager->RegisterActivityCreator( "DrillActivity", DrillActivity::Factory );
 	mainGUIManager->RegisterActivityCreator( "EditMenuActivity", EditMenuActivity::Factory );
@@ -189,6 +194,10 @@ int main( int argc, char **argv )
 
 	Totem::Controller::UnInit();
 
+	delete currentModelNode;
+	delete mainGUIManager;
+
+	//_CrtDumpMemoryLeaks();
 	return 0;
 }
 

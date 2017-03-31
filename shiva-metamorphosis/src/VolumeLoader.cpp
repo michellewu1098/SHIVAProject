@@ -62,7 +62,7 @@ void VolumeLoader::GetJobToGL( unsigned int _ticket, unsigned int _glTexID )
 		glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 		glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
-		glTexImage3D( GL_TEXTURE_3D, 0, GL_ALPHA32F_ARB, currentJob->m_depth, currentJob->m_height, currentJob->m_width, 0, GL_ALPHA, GL_FLOAT, ( GLvoid * )currentJob->m_data );
+		glTexImage3D( GL_TEXTURE_3D, 0, GL_RGBA32F, currentJob->m_depth, currentJob->m_height, currentJob->m_width, 0, GL_ALPHA, GL_FLOAT, ( GLvoid * )currentJob->m_data );
 	}
 }
 

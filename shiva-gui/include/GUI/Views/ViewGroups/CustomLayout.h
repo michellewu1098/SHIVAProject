@@ -44,6 +44,10 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		virtual void Layout( int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight );
 		//----------------------------------------------------------------------------------
+		/// \brief Function is called to create unique VAO ids when having multiple OGL contexts
+		//----------------------------------------------------------------------------------
+		virtual void CreateBBoxVAOs( unsigned int _context );
+		//----------------------------------------------------------------------------------
 		/// \brief Update function
 		/// \param [in] _deltaTs
 		/// \param [in] _guiController
@@ -51,6 +55,8 @@ namespace ShivaGUI
 		virtual void Update( float _deltaTs, GUIController *_guiController );
 		//----------------------------------------------------------------------------------
 		/// \brief Needs to draw its children
+		//----------------------------------------------------------------------------------
+		virtual void Draw( unsigned int _context );
 		//----------------------------------------------------------------------------------
 		virtual void Draw();
 		//----------------------------------------------------------------------------------

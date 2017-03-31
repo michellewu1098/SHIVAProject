@@ -5,9 +5,9 @@
 	background="@RootViewBackground">
 	
 	<ScrollContainer
-		layout_width="0.2"
+		layout_width="0.18"
 		layout_height="1.0"
-		layout_centreX="0.1"
+		layout_centreX="0.09"
 		layout_centreY="0.5"
 		scroll_vertical="true"
 		scroll_horizontal="true"
@@ -51,13 +51,14 @@
 
 	<ImageTextButton
 		id="RotateUp"
-		layout_width="0.16"
+		layout_width="wrap_content"
 		layout_height="0.23"
 		layout_centreX="0.7"
 		layout_centreY="0.5"
 		height_constrained="true"
 		scaleContent="true"
 		keepContentAspectRatio="true"
+		icon_position = "top"
 		text="Rotate&#10;Up"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Up.xml"
@@ -73,13 +74,14 @@
 		
 	<ImageTextButton
 		id="RotateDown"
-		layout_width="0.16"
+		layout_width="wrap_content"
 		layout_height="0.23"
 		layout_centreX="0.3"
 		layout_centreY="0.5"
 		height_constrained="true"
 		scaleContent="true"
 		keepContentAspectRatio="true"
+		icon_position = "top"
 		text = "Rotate&#10;Down"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Down.xml"
@@ -95,13 +97,14 @@
 
 	<ImageTextButton
 		id="RotateRight"
-		layout_width="0.2"
+		layout_width="wrap_content"
 		layout_height="0.16"
 		layout_centreX="0.5"
 		layout_centreY="0.91"
 		height_constrained="true"
 		scaleContent="true"
 		keepContentAspectRatio="true"
+		icon_position = "top"
 		text = "Rotate Right"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Right.xml"
@@ -114,13 +117,14 @@
 
   <ImageTextButton
 		id="RotateLeft"
-		layout_width="0.2"
+		layout_width="wrap_content"
 		layout_height="0.16"
 		layout_centreX="0.5"
 		layout_centreY="0.2"
 		height_constrained="true"
 		scaleContent="true"
 		keepContentAspectRatio="true"
+		icon_position = "top"
 		text = "Rotate Left"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Left.xml"
@@ -135,7 +139,7 @@
 
   <TextButton
 		id="RotateReset"
-		layout_width="0.2"
+		layout_width="0.18"
 		layout_height="0.1"
 		layout_centreX="0.7"
 		layout_centreY="0.9"
@@ -145,7 +149,7 @@
 
   <TextButton
 		id="NudgeActivity"
-		layout_width="0.2"
+		layout_width="0.15"
 		layout_height="0.1"
 		layout_centreX="0.3"
 		layout_centreY="0.9"
@@ -167,7 +171,7 @@
 
   <TextButton
 		id="New"
-		layout_width="0.2"
+		layout_width="0.15"
 		layout_height="0.1"
 		layout_centreX="0.3"
 		layout_centreY="0.15"
@@ -175,7 +179,7 @@
 		text="new"
 		/>
 
-  <TextButton
+  <!--<TextButton
 		id="NudgeUp"
 		layout_width="0.2"
 		layout_height="0.1"
@@ -187,14 +191,14 @@
 		scan_prev="RotateDown"
 		next_focus_right="PrimitiveList"
 		next_focus_left="RotateUp"
-		/>
+		/>-->
 
   <TextButton
 		id="SwapAbove"
 		layout_width="0.2"
 		layout_height="0.1"
 		layout_centreX="0.9"
-		layout_centreY="0.15"
+		layout_centreY="0.05"
 		onClick="buttonHandler"
 		text="swap next"
     
@@ -209,7 +213,7 @@
 		layout_width="0.2"
 		layout_height="0.1"
 		layout_centreX="0.9"
-		layout_centreY="0.25"
+		layout_centreY="0.15"
 		onClick="buttonHandler"
 		text="select next"
     
@@ -224,7 +228,7 @@
 		layout_width="0.2"
 		layout_height="0.1"
 		layout_centreX="0.9"
-		layout_centreY="0.35"
+		layout_centreY="0.50"
 		onClick="buttonHandler"
 		text="delete"
     
@@ -239,7 +243,7 @@
 		layout_width="0.2"
 		layout_height="0.1"
 		layout_centreX="0.9"
-		layout_centreY="0.45"
+		layout_centreY="0.60"
 		onClick="launchActivityHandler"
 		text="edit"
     
@@ -254,7 +258,7 @@
 		layout_width="0.2"
 		layout_height="0.1"
 		layout_centreX="0.9"
-		layout_centreY="0.55"
+		layout_centreY="0.25"
 		onClick="buttonHandler"
 		text="select previous"
     
@@ -269,7 +273,7 @@
 		layout_width="0.2"
 		layout_height="0.1"
 		layout_centreX="0.9"
-		layout_centreY="0.65"
+		layout_centreY="0.35"
 		onClick="buttonHandler"
 		text="swap previous"
     
@@ -279,7 +283,7 @@
 		next_focus_left="RotateUp"
 		/>
 
-  <TextButton
+  <!--<TextButton
 		id="NudgeDown"
 		layout_width="0.2"
 		layout_height="0.1"
@@ -292,7 +296,7 @@
 		next_focus_up="SwapBelow"
 		next_focus_right="PrimitiveList"
 		next_focus_left="RotateUp"
-		/>
+		/>-->
 
   <TextView
 		id="saveConfirmationText"
@@ -306,10 +310,10 @@
 
   <TextButton
 		id="Save"
-		layout_width="0.2"
+		layout_width="0.11"
 		layout_height="0.1"
-		layout_centreX="0.9"
-		layout_centreY="0.95"
+		layout_centreX="0.85"
+		layout_centreY="0.8"
 		onClick="saveHandler"
 		text="save"
     
@@ -322,11 +326,23 @@
 		/>
 		
 	<TextButton
-		id="Load"
+		id="Export"
 		layout_width="0.2"
 		layout_height="0.1"
 		layout_centreX="0.9"
-		layout_centreY="0.85"
+		layout_centreY="0.9"
+		onClick="exportHandler"
+		text="export"
+		
+		/>
+		
+		
+	<TextButton
+		id="Load"
+		layout_width="0.11"
+		layout_height="0.1"
+		layout_centreX="0.95"
+		layout_centreY="0.8"
 		onClick="loadHandler"
 		text="load"
     

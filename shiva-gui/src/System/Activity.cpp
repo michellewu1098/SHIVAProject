@@ -40,6 +40,22 @@ void ShivaGUI::Activity::Destroy()
 
 //----------------------------------------------------------------------------------
 
+void ShivaGUI::Activity::CreateBBoxVAOs()
+{
+	if( m_GUIControllers != NULL )
+	{
+		for( unsigned int i = 0; i < m_numGUIControllers; i++ )
+		{
+			if( m_GUIControllers[ i ] != NULL )
+			{
+				m_GUIControllers[ i ]->CreateBBoxVAOs( i );
+			}
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::Activity::Update( float _deltaTs )
 {
 	if( m_GUIControllers != NULL )
@@ -65,7 +81,7 @@ void ShivaGUI::Activity::Draw()
 		{
 			if( m_GUIControllers[ i ] != NULL )
 			{
-				m_GUIControllers[ i ]->Draw();
+				m_GUIControllers[ i ]->Draw( i );
 			}
 		}
 	}

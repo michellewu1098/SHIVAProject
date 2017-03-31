@@ -134,9 +134,9 @@ void VolumeTree::TransformNode::SetTransformParams(	float _tx, float _ty, float 
 
 #ifdef _DEBUG
 
-	std::cout << "INFO: TransformNode::SetTransformParams() rx: " << _rx << " ry: " << _ry << " rz: " << _rz << std::endl;
-	std::cout << "INFO:                                     tx: " << _tx << " ty: " << _ty << " tz: " << _tz << std::endl;
-	std::cout << "INFO:                                     sx: " << _sx << " sy: " << _sy << " sz: " << _sz << std::endl;
+	//std::cout << "INFO: TransformNode::SetTransformParams() rx: " << _rx << " ry: " << _ry << " rz: " << _rz << std::endl;
+	//std::cout << "INFO:                                     tx: " << _tx << " ty: " << _ty << " tz: " << _tz << std::endl;
+	//std::cout << "INFO:                                     sx: " << _sx << " sy: " << _sy << " sz: " << _sz << std::endl;
 
 #endif
 	

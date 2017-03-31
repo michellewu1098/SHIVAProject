@@ -403,6 +403,14 @@ void ShivaGUI::View::Draw()
 
 //----------------------------------------------------------------------------------
 
+void ShivaGUI::View::Draw( unsigned int _context )
+{
+	if( m_visible && m_background != NULL )
+		m_background->Draw();
+}
+
+//----------------------------------------------------------------------------------
+
 bool ShivaGUI::View::EventHit( InternalEvent *_event )
 {
 	int x, y;

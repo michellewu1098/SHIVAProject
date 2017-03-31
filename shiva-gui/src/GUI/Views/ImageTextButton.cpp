@@ -99,6 +99,21 @@ void ShivaGUI::ImageTextButton::Inflate( TiXmlElement *_xmlElement, ResourceMana
 				m_textAlignment = Right;
 			}
 		}
+		else if( ( std::string( "icon_position" ) == currentAttribute->Name() ) || ( _themePrefix + "icon_position" == currentAttribute->Name() ) ) 
+		{
+			m_iconPositionFromTheme = ( _themePrefix + "icon_position" == currentAttribute->Name() );
+
+			std::string pos = currentAttribute->ValueStr();
+			
+			if( pos == std::string( "left" ) || pos == std::string( "Left" ) ) {
+				m_iconPosition = Left;
+				_resources->SetIconOnLeft( true );
+			}
+			else if( pos == std::string( "top" ) || pos == std::string( "Top" ) ) {
+				m_iconPosition = Top;
+				_resources->SetIconOnTop( true );
+			}
+		}
 	}
 
 	if( !m_textBody.empty() )

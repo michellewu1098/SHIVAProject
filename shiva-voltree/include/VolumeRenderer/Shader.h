@@ -77,6 +77,19 @@ public:
     //--------------------------------------------------------------------------------------
     static bool validateProgram( GLuint _program, GLuint _vs, GLuint _fs );
     //--------------------------------------------------------------------------------------
+	/// \brief Set vertex and fragment shaders filenames
+	/// \param [in] _vsFile 
+	/// \param [in] _fsFile
+    //--------------------------------------------------------------------------------------
+	void setFileNames( std::string _vsFile, std::string _fsFile );
+    //--------------------------------------------------------------------------------------
+	bool Shader::operator==( const Shader &other ) const {
+		return( m_id == other.m_id && m_vs == other.m_vs && m_fs == other.m_fs ); 
+	}
+
+	bool Shader::operator!=( const Shader &other ) const {
+		return !( *this == other );
+	}
 
 private:
 
@@ -101,6 +114,9 @@ private:
 	//--------------------------------------------------------------------------------------
 	const char* m_fsFileName;
 	//--------------------------------------------------------------------------------------
+	std::string m_vsSourceFile;
+	std::string m_fsSourceFile;
+	
 	
 };
 

@@ -26,13 +26,13 @@ namespace Totem
 		/// \brief Ctor
 		/// \param [in] mainNodeIn Primitive node
 		//----------------------------------------------------------------------------------
-		Object( VolumeTree::Node* );
+		Object( VolumeTree::Node*, unsigned int _nGUIControllers );
 		//----------------------------------------------------------------------------------
 		/// \brief Ctor used when loading a model
 		/// \param [in] _mainNodeIn This corresponds to the primitive node
 		/// \param [in] _mainTransformIn This is the transform node parent to primitive node
 		//----------------------------------------------------------------------------------
-		Object( VolumeTree::Node* _mainNodeIn, VolumeTree::TransformNode* _mainTransformIn );
+		Object( VolumeTree::Node* _mainNodeIn, VolumeTree::TransformNode* _mainTransformIn, unsigned int _nGUIControllers );
 		//----------------------------------------------------------------------------------
 		// Does not delete its main node
 		//----------------------------------------------------------------------------------

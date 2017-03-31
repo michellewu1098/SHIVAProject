@@ -44,6 +44,7 @@ SDFView::SDFView()
 	m_cam->LookAt( m_cam->GetCurrent(), m_target.GetCurrent() );
 	m_modelViewMatrix = m_cam->GetViewMatrix();
 
+	m_projectionMatrix.identity();
 	m_invModelViewMatrix = m_modelViewMatrix;
 	cml::inverse( m_invModelViewMatrix );
 
@@ -59,7 +60,7 @@ SDFView::SDFView()
 	
 	m_camAngle = 35.0f;
 	m_camNearPlane = 0.1f;
-	m_camFarPlane = 20.0f;
+	m_camFarPlane = 100.0f;
 
 	BuildVBOs();
 
@@ -164,12 +165,12 @@ void SDFView::Layout( int _left, int _top, int _right, int _bottom, int _windowW
 	float aspectRatio = ( float )( ( _right - _left ) / ( _bottom - _top ) );
 	//float aspectRatio = ( ( float ) m_windowWidth ) / ( ( float ) m_windowHeight );
 	
-	//cml::matrix_perspective_xfov_RH( _projectionMatrix, m_camAngle, aspectRatio, m_camNearPlane, m_camFarPlane, cml::z_clip_neg_one );
+	//cml::matrix_perspective_xfov_RH( m_projectionMatrix, m_camAngle, aspectRatio, m_camNearPlane, m_camFarPlane, cml::z_clip_neg_one );
 	//int viewport[4]; // Shouldn't really do this, but temporarily it's fine
 	//glGetIntegerv( GL_VIEWPORT, viewport );
 
 	//float aspectRatio = ( float )viewport[ 2 ] / ( float )viewport[ 3 ];
-	m_cam->SetProjectionMatrix( m_camAngle, aspectRatio, m_camNearPlane, m_camFarPlane );
+	//m_cam->SetProjectionMatrix( m_camAngle, aspectRatio, m_camNearPlane, m_camFarPlane );
 
 	if( m_loadingDrawable != NULL )
 		m_loadingDrawable->SetBounds( _left, _top, _right, _bottom );
@@ -363,7 +364,8 @@ void SDFView::LoadMatricesToShader()
 
 	// Projection matrix	
 	GLint pLoc = glGetUniformLocation( m_SDFShader->GetProgramID(), "u_ProjectionMatrix" );
-	if( pLoc != -1 ) { glUniformMatrix4fv( pLoc, 1, GL_FALSE, m_cam->GetProjectionMatrix().data() ); }
+	//if( pLoc != -1 ) { glUniformMatrix4fv( pLoc, 1, GL_FALSE, m_cam->GetProjectionMatrix().data() ); }
+	if( pLoc != -1 ) { glUniformMatrix4fv( pLoc, 1, GL_FALSE, m_projectionMatrix.data() ); }
 	else { std::cerr << "u_ProjectionMatrix not found in shader " << m_SDFShader->GetProgramID() << std::endl; }
 }
 
@@ -388,11 +390,12 @@ void SDFView::Draw()
 	// Set glViewport to extent of View
 	glViewport( m_boundsLeft, m_windowHeight - m_boundsBottom, m_boundsRight - m_boundsLeft, m_boundsBottom - m_boundsTop );
 
-
 	//float aspectRatio = ( float )viewport[ 2 ] / ( float )viewport[ 3 ];
 
 	float aspectRatio = ( ( float )m_boundsRight - m_boundsLeft ) / ( ( float )m_boundsBottom - m_boundsTop );
-	m_cam->SetProjectionMatrix( m_camAngle, aspectRatio, m_camNearPlane, m_camFarPlane );
+	//m_cam->SetProjectionMatrix( m_camAngle, aspectRatio, m_camNearPlane, m_camFarPlane );
+
+	cml::matrix_perspective_yfov_RH( m_projectionMatrix, cml::rad(m_camAngle), aspectRatio, m_camNearPlane, m_camFarPlane, cml::z_clip_neg_one );
 
 	//glLoadMatrixf( m_cam->GetProjectionMatrix().data() );
 	//gluPerspective( m_camAngle, aspectRatio, m_camNearPlane, m_camFarPlane);
@@ -455,7 +458,7 @@ void SDFView::Draw()
 	glDisable( GL_DEPTH_TEST );
 
 	// Restore GL Viewport to previous state
-	glViewport( 0, 0, viewport[2], viewport[3] );
+	glViewport( 0, 0, viewport[ 2 ], viewport[ 3 ] );
 }
 
 //----------------------------------------------------------------------------------

@@ -10,7 +10,7 @@
 		layout_height="wrap_content"
 		layout_centreX="0.5"
 		layout_centreY="0.05"
-		text="drill operation"
+		text="DRILL operation"
 		/>
 		
 	<VolView
@@ -25,7 +25,7 @@
 		/>
 
 
-  <TextButton
+	<TextButton
 		id="EyeGazeRest"
 		layout_width="0.2"
 		layout_height="0.3"
@@ -35,11 +35,11 @@
 		text="rest"
 		/>
 
-  <ImageButton
+	<ImageButton
 		id="DrillSizeIncrease"
-		layout_width="0.12"
+		layout_width="0.1"
 		layout_height="0.2"
-		layout_centreX="0.1"
+		layout_centreX="0.07"
 		layout_centreY="0.25"
 		scaleContent="true"
 		keepContentAspectRatio="true"
@@ -47,11 +47,11 @@
 		src="System/CommandSymbols/Arrow_Up.xml"
 		/>
 
-  <ImageButton
+	<ImageButton
 		id="DrillSizeDecrease"
-		layout_width="0.12"
+		layout_width="0.1"
 		layout_height="0.2"
-		layout_centreX="0.1"
+		layout_centreX="0.07"
 		layout_centreY="0.75"
 		scaleContent="true"
 		keepContentAspectRatio="true"
@@ -59,11 +59,11 @@
 		src="System/CommandSymbols/Arrow_Down.xml"
 		/>
 
-  <TextButton
+	<TextButton
 		id="DrillSizeReset"
-		layout_width="0.12"
+		layout_width="0.11"
 		layout_height="0.2"
-		layout_centreX="0.1"
+		layout_centreX="0.07"
 		layout_centreY="0.5"
 		height_constrained="true"
 		scaleContent="true"
@@ -72,11 +72,11 @@
 		text="reset&#10;drill size"
 		/>
 
-  <ImageButton
+	<ImageButton
 		id="CrosshairLeft"
-		layout_width="0.12"
+		layout_width="0.1"
 		layout_height="0.2"
-		layout_centreX="0.2"
+		layout_centreX="0.18"
 		layout_centreY="0.5"
 		scaleContent="true"
 		keepContentAspectRatio="true"
@@ -85,11 +85,11 @@
 		eyeGaze_Repeat="true"
 		/>
 
-  <ImageButton
+	<ImageButton
 		id="CrosshairRight"
-		layout_width="0.12"
+		layout_width="0.1"
 		layout_height="0.2"
-		layout_centreX="0.8"
+		layout_centreX="0.82"
 		layout_centreY="0.5"
 		scaleContent="true"
 		keepContentAspectRatio="true"
@@ -99,9 +99,9 @@
 		/>
 
   
-  <ImageButton
+	<ImageButton
 		id="CrosshairUp"
-		layout_width="0.12"
+		layout_width="0.1"
 		layout_height="0.2"
 		layout_centreX="0.3"
 		layout_centreY="0.25"
@@ -112,9 +112,9 @@
 		eyeGaze_Repeat="true"
 		/>
 
-  <ImageButton
+	<ImageButton
 		id="CrosshairDown"
-		layout_width="0.12"
+		layout_width="0.1"
 		layout_height="0.2"
 		layout_centreX="0.3"
 		layout_centreY="0.75"
@@ -126,7 +126,7 @@
 		/>
 
 
-  <ImageButton
+	<ImageButton
 		id="RotateUp"
 		layout_width="0.12"
 		layout_height="0.2"
@@ -165,7 +165,7 @@
 		eyeGaze_Repeat="true"
     	/>
 
-  <ImageButton
+	<ImageButton
 		id="RotateLeft"
 		layout_width="0.2"
 		layout_height="0.12"
@@ -179,20 +179,20 @@
 		/>
 
 
-  <TextButton
+	<TextButton
 		id="RotateReset"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.7"
 		layout_centreY="0.9"
 		onClick="buttonHandler"
 		text="reset view"
 		/>
 
-  <TextButton
+	<TextButton
 		id="PerformDrill"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.15"
 		onClick="buttonHandler"
@@ -202,7 +202,7 @@
 	<TextButton
 		id="UndoButton"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.25"
 		onClick="buttonHandler"
@@ -212,7 +212,7 @@
 	<TextButton
 		id="BackButton"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.35"
 		onClick="buttonHandler"

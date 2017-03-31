@@ -45,7 +45,9 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief Needs to draw its children
 		//----------------------------------------------------------------------------------
-		virtual void Draw();
+		virtual void Draw( unsigned int _context );
+		//----------------------------------------------------------------------------------
+		virtual void Draw(); 
 		//----------------------------------------------------------------------------------
 		/// \brief Themes allow settings to be set for all Views of a given type
 		/// The string returned from this function is the string that identifies the type in the theme xml file

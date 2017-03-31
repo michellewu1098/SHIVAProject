@@ -35,6 +35,8 @@ ShivaGUI::ResourceManager::ResourceManager( ShivaGUI::GUIManager *_guiManager, u
 	m_isTextToTexture = false;
 
 	m_isRenderingText = false;
+	m_iconOnLeft = false;
+	m_iconOnTop = false;
 
 	m_projMatrix.identity();
 	m_mvMatrix.identity();
@@ -250,9 +252,23 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename )
 		// Creating the text surface from text body and attributes set for the font
 		SDL_Surface* textSurf = GetTextSurface( m_buttonText, m_buttonTextAlign, m_buttonFontName, m_buttonFontSize, m_buttonFontColour );
 		
+		// Probably add here the option to either have icon on side or on top, depending on user preference in Layout .xml file
+		int width, height;
+		if( m_iconOnTop )
+		{
+			width = image->w;
+			height = image->h + textSurf->h + 10;
+		}
+		else if( m_iconOnLeft )
+		{
+			width = image->w + textSurf->w + 10;
+			height = image->h; /*?????? Or use text height + some padding*/
+			//Should probably constrain image to be a cube? Or specific ratio
+		}
+
 		// At the moment, we're using the width of the previously loaded image as the "final" width of the image/icon+text that will be rendered
-		int width = image->w;
-		int height = image->h + textSurf->h + 10; // Adding some padding
+		//int width = image->w;
+		//int height = image->h + textSurf->h + 10; // Adding some padding
 
 		Uint32 rmask = 0x000000ff;
 		Uint32 gmask = 0x0000ff00;
@@ -262,15 +278,32 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename )
 		// Create the surface that will hold the final image scaled/resized based on the dimensions of the text
 		SDL_Surface *finalImage = SDL_CreateRGBSurface( SDL_SWSURFACE, width, height, 32, rmask, gmask, bmask, amask );
 		
+		float imageH, imageW;
+		if( m_iconOnTop )
+		{
+			imageH = height * 0.6f;
+			float scalingFactor = imageH / ( float )image->h;
+			imageW = width * scalingFactor;
+		}
+		else if( m_iconOnLeft )
+		{
+			imageW = width * 0.4f;
+			float scalingFactor = imageW / ( float )image->w;
+			imageH = height * scalingFactor;
+		}
+
 		// If we assume that image will occupy 60% of total space, and text will occupy 40% of total space
-		float imageH = height * 0.6f;
-		float scalingFactor = imageH / ( float )image->h;
-		float imageW = width * scalingFactor;
+		//float imageH = height * 0.6f;
+		//float scalingFactor = imageH / ( float )image->h;
+		//float imageW = width * scalingFactor;
 
 		SDL_SetSurfaceBlendMode( image, SDL_BLENDMODE_NONE );
 
-		SDL_BlitScaled( image, NULL, finalImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )imageW ) / 2 ), 5, ( int )imageW, ( int )imageH ) );
-		
+		if( m_iconOnTop )
+			SDL_BlitScaled( image, NULL, finalImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )imageW ) / 2 ), 5, ( int )imageW, ( int )imageH ) );
+		else if( m_iconOnLeft )
+			SDL_BlitScaled( image, NULL, finalImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )imageW ) / 2 ), 0, ( int )imageW, ( int )imageH ) );
+
 		if ( m_isTextToTexture ) // If we are rendering the text (which we will do only once)
 		{
 			// Now check if there is already a texture for the text (it shouldn't be there, but oh well)
@@ -280,13 +313,31 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename )
 
 				SDL_Surface *textImage = SDL_CreateRGBSurface( SDL_SWSURFACE, width, height, 32, rmask, gmask, bmask, amask );
 				
-				float textH = height * 0.4f;
-				float textScalingFactor = textH / ( float )textSurf->h;
-				float textW = textSurf->w * textScalingFactor;
+				float textH, textW;
+				if( m_iconOnTop )
+				{
+					textH = height * 0.4f;
+					float textScalingFactor = textH / ( float )textSurf->h;
+					textW = textSurf->w * textScalingFactor;
+				}
+				else if( m_iconOnLeft )
+				{
+					textW = width * 0.6f;
+					float textScalingFactor = textW / ( float )textSurf->w;
+					textH = textSurf->h * textScalingFactor; 
+				}
+
+				//float textH = height * 0.4f;
+				//float textScalingFactor = textH / ( float )textSurf->h;
+				//float textW = textSurf->w * textScalingFactor;
 		
 				SDL_SetSurfaceBlendMode( textSurf, SDL_BLENDMODE_NONE );
 		
-				SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )textW ) / 2 ), ( int )imageH + 5, textSurf->w, textSurf->h ) );
+				// THIS NEEDS TO BE CHANGED IF WE'RE GOING THROUGH WITH THE ALL LEFT/TOP THINGY
+				if( m_iconOnTop )
+					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )textW ) / 2 ), ( int )imageH + 5, textSurf->w, textSurf->h ) );
+				else if( m_iconOnLeft )
+					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( imageW + 5 ), ( ( height - textH ) / 2 ), textSurf->w, textSurf->h ) );
 
 				textID = SDLSurfaceToOpenGL( textImage, mipmap, addAlpha, repeat );
 
@@ -305,6 +356,7 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename )
 		SDL_FreeSurface( textSurf );
 
 		m_isRenderingText = false;
+		
 		fileNameNoExt = fileNameNoExt + std::string( "_WithText" );
 	}
 	else
@@ -318,6 +370,7 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename )
 	{
 		m_glTextures[ fileNameNoExt ] = texName;
 	}
+
 	return texName;
 }
 

@@ -64,17 +64,17 @@ namespace Totem
 		/// \brief Add object to top of stack of objects on pole
 		/// \param [in] _primID
 		//----------------------------------------------------------------------------------
-		void AddObjectToTop( unsigned int _primID );
+		void AddObjectToTop( unsigned int _primID, unsigned int _nGUIControllers );
 		//----------------------------------------------------------------------------------
 		/// \brief Add object node to top of stack
 		/// \param [in] _nodeIn
 		//----------------------------------------------------------------------------------
-		void AddObjectNodeToTop( VolumeTree::Node* _nodeIn );
+		void AddObjectNodeToTop( VolumeTree::Node* _nodeIn, unsigned int _nGUIControllers );
 		//----------------------------------------------------------------------------------
 		/// \brief Function to build up totem from loaded model
 		/// \param [in] _treeIn Imported tree stored in std::queue
 		//----------------------------------------------------------------------------------
-		void loadModel( std::queue< VolumeTree::Node* > _treeIn );
+		void LoadModel( std::queue< VolumeTree::Node* > _treeIn, unsigned int _nGUIControllers );
 		//----------------------------------------------------------------------------------
 		/// \brief Select object at top of stack
 		//----------------------------------------------------------------------------------

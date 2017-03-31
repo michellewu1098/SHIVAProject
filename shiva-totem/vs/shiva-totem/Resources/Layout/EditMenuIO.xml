@@ -2,9 +2,7 @@
 <CustomLayout
 	layout_width="fill_parent"
 	layout_height="fill_parent"
-  background="@RootViewBackground">
-	
-	
+	background="@RootViewBackground">
 	
 	<TextView
 		id="Title"
@@ -15,29 +13,24 @@
 		text="tools"
 		/>
 
-
-  <TextButton
+	<TextButton
 		id="EyeGazeRest"
 		layout_width="0.2"
 		layout_height="0.3"
 		layout_centreX="0.7"
 		layout_centreY="0.25"
-    eyeGaze_RestButton="true"
+		eyeGaze_RestButton="true"
 		text="rest"
 		/>
 
-
-
-
-
-  <TextButton
+	<TextButton
 		id="DrillActivity"
 		layout_width="0.3"
 		layout_height="0.2"
 		layout_centreX="0.2"
 		layout_centreY="0.5"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="launchActivityHandler"
 		text="drill"
 		/>
@@ -48,8 +41,8 @@
 		layout_height="0.2"
 		layout_centreX="0.2"
 		layout_centreY="0.7"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="launchActivityHandler"
 		text="pump"
 		/>
@@ -61,8 +54,8 @@
 		layout_height="0.2"
 		layout_centreX="0.5"
 		layout_centreY="0.5"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="launchActivityHandler"
 		text="rotate"
 		/>
@@ -73,8 +66,8 @@
 		layout_height="0.2"
 		layout_centreX="0.5"
 		layout_centreY="0.7"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="launchActivityHandler"
 		text="object size"
 		/>
@@ -85,8 +78,8 @@
 		layout_height="0.2"
 		layout_centreX="0.5"
 		layout_centreY="0.9"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="launchActivityHandler"
 		text="nudge objects"
 		/>
@@ -97,7 +90,7 @@
   <TextButton
 		id="RotateReset"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.8"
 		layout_centreY="0.9"
 		onClick="buttonHandler"
@@ -108,7 +101,7 @@
 	<TextButton
 		id="UndoButton"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.25"
 		onClick="buttonHandler"
@@ -119,7 +112,7 @@
 	<TextButton
 		id="BackButton"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.35"
 		onClick="buttonHandler"

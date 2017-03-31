@@ -787,6 +787,16 @@ void VolumeTree::Tree::DrawBBoxes( cml::matrix44f_c &_proj, cml::matrix44f_c &_m
 
 //----------------------------------------------------------------------------------
 
+void VolumeTree::Tree::DrawBBoxes( cml::matrix44f_c &_proj, cml::matrix44f_c &_mv, unsigned int _context )
+{
+	if( m_rootNode != NULL )
+	{
+		m_rootNode->DrawBBoxes( _proj, _mv, _context );
+	}
+}
+
+//----------------------------------------------------------------------------------
+
 float VolumeTree::Tree::GetFunctionValue( float _x, float _y, float _z )
 {
 	if( m_rootNode != NULL ) {

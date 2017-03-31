@@ -76,6 +76,12 @@ void ShivaGUI::ProfileChooserActivity::OnDestroy()
 {
 	delete m_startHandler;
 	delete m_buttonHandler;
+	delete m_chooseProfileListHandler;
+	delete m_copyProfileHandler;
+	delete m_deleteProfileHandler;
+
+	delete m_profileFilesProvider;
+	delete m_profileFilesAdapter;
 }
 
 //----------------------------------------------------------------------------------
@@ -134,6 +140,7 @@ void ShivaGUI::ProfileChooserActivity::UtilityEventReceived( UtilityEventHandler
 	{
 		if( _view->GetID() == "Browse" )
 		{
+			// http://stackoverflow.com/questions/8520560/get-a-file-name-from-a-path
 			char const* lFilterPatterns = "*.xml";
 			char const* filename = tinyfd_openFileDialog( "Choose a Profile", "Profiles/", 1, &lFilterPatterns, NULL, 0 );
 

@@ -229,6 +229,82 @@ void VolView::BuildCrosshairCircleVBOs()
 
 //----------------------------------------------------------------------------------
 
+void VolView::Draw( unsigned int _context )
+{
+	View::Draw();
+	if( !m_visible )
+		return;
+
+	int viewport[4]; // Viewport data needed to restore the viewport after drawing the volume 
+	glGetIntegerv( GL_VIEWPORT, viewport );
+
+	//glEnable( GL_SCISSOR_TEST );
+
+	//glScissor( _boundsLeft, _windowHeight - _boundsBottom, _boundsRight - _boundsLeft, _boundsBottom - _boundsTop );
+
+
+	//glClear( GL_DEPTH_BUFFER_BIT );
+	// Set glViewport to extent of View
+	//glDisable( GL_SCISSOR_TEST );
+
+	glViewport( m_boundsLeft, m_windowHeight - m_boundsBottom, m_boundsRight - m_boundsLeft, m_boundsBottom - m_boundsTop );
+
+	// Draw the volume view
+	m_renderer->Draw( _context );
+
+	
+	if( m_showCrosshairs )
+	{
+		cml::matrix44f_c proj, mv;
+		proj.identity();
+		cml::matrix_orthographic_RH( proj, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 10.0f, cml::z_clip_neg_one );
+		mv.identity();
+
+		// Draw crosshair
+		//----------------------------------------------------------------------------------
+
+		BuildCrosshairVBOs();
+
+		m_crosshairShader->Bind();
+
+		glUniform3f( glGetUniformLocation( m_crosshairShader->GetProgramID(), "u_Colour" ), 1.0f, 0.0f, 0.0f );
+		
+		LoadMatricesToShader( m_crosshairShader->GetProgramID(), proj, mv );
+
+		glLineWidth( 5.0f );
+
+		glBindVertexArray( m_crosshairVAO );
+			glDrawArrays( GL_LINES, 0, 4 );
+		glBindVertexArray( 0 );
+		
+		m_crosshairShader->Unbind();
+
+		// Draw crosshair circle
+		//----------------------------------------------------------------------------------
+
+		BuildCrosshairCircleVBOs();
+
+		m_crosshairCircleShader->Bind();
+
+		glUniform3f( glGetUniformLocation( m_crosshairCircleShader->GetProgramID(), "u_Colour" ), 1.0f, 0.0f, 0.0f );
+		
+		LoadMatricesToShader( m_crosshairCircleShader->GetProgramID(), proj, mv );
+
+		glBindVertexArray( m_crosshairCircleVAO );
+			glDrawArrays( GL_LINE_LOOP, 0, 32 );
+		glBindVertexArray( 0 );
+
+		m_crosshairCircleShader->Unbind();
+	}
+
+	// Restore GL Viewport to previous state
+	glViewport( 0, 0, viewport[2], viewport[3] );
+	
+}
+
+
+//----------------------------------------------------------------------------------
+
 void VolView::Draw()
 {
 	View::Draw();

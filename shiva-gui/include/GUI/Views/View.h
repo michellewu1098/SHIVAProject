@@ -57,6 +57,10 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		virtual void Layout( int _left, int _top, int _right, int _bottom, int _windowWidth, int _windowHeight );
 		//----------------------------------------------------------------------------------
+		/// \brief Function is called to create unique VAO ids when having multiple OGL contexts
+		//----------------------------------------------------------------------------------
+		virtual void CreateBBoxVAOs( unsigned int _context ) {}
+		//----------------------------------------------------------------------------------
 		/// \brief Update method
 		//----------------------------------------------------------------------------------
 		virtual void Update( float _deltaTs, GUIController *_guiController ) {}
@@ -65,6 +69,8 @@ namespace ShivaGUI
 		/// Derived View classes must call this at an appropriate time if they want to retain the background
 		//----------------------------------------------------------------------------------
 		virtual void Draw();
+		//----------------------------------------------------------------------------------
+		virtual void Draw( unsigned int _context );
 		//----------------------------------------------------------------------------------
 		/// \brief Themes allow settings to be set for all Views of a given type
 		/// The string returned from this function is the string that identifies the type in the theme xml file

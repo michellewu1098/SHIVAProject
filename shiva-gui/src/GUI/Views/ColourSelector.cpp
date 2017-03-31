@@ -205,6 +205,52 @@ void ShivaGUI::ColourSelector::Draw()
 
 //----------------------------------------------------------------------------------
 
+void ShivaGUI::ColourSelector::Draw( unsigned int _context )
+{
+	int viewport[4]; // Shouldn't really do this, but temporarily it's fine
+	glGetIntegerv( GL_VIEWPORT, viewport );
+	cml::matrix_orthographic_RH( m_projMat, 0.f, ( float )viewport[ 2 ], ( float )viewport[ 3 ], 0.f, -1.f, 1.f, cml::z_clip_neg_one );
+
+	BuildVBOs();
+
+	// Draw colour selector	spectrum
+	//----------------------------------
+	
+	m_colourSelectorShader->Bind();
+
+	LoadMatricesToShader( m_colourSelectorShader->GetProgramID(), m_projMat, m_mvMat );
+
+	glBindVertexArray( m_selectorVAO );
+		glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
+	glBindVertexArray( 0 );
+	
+	m_colourSelectorShader->Unbind();
+
+	// Draw colour sample selected
+	//----------------------------------
+
+	m_colourSampleShader->Bind();
+	LoadMatricesToShader( m_colourSampleShader->GetProgramID(), m_projMat, m_mvMat );
+
+	glUniform4f( glGetUniformLocation( m_colourSampleShader->GetProgramID(), "u_Colour" ), m_sampleR, m_sampleG, m_sampleB, 1.0f );
+
+	glBindVertexArray( m_sampleVAO );
+		glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
+	glBindVertexArray( 0 );
+
+	m_colourSampleShader->Unbind();
+
+	// Draw colour selector
+	//----------------------------------
+
+	if( m_selectorStateListDrawable != NULL )
+		m_selectorStateListDrawable->Draw();
+	else if( m_selectorDrawable != NULL )
+		m_selectorDrawable->Draw();
+}
+
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::ColourSelector::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
 	if( _themePrefix.empty() )

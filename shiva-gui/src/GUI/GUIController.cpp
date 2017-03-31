@@ -115,6 +115,13 @@ bool ShivaGUI::GUIController::IssueEvent( InternalEvent *_currentEvent )
 	}
 	return false;
 }
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::GUIController::CreateBBoxVAOs( unsigned int _context )
+{
+	if( m_contentView != NULL )
+		m_contentView->CreateBBoxVAOs( _context );
+}
 
 //----------------------------------------------------------------------------------
 
@@ -123,6 +130,32 @@ void ShivaGUI::GUIController::Update( float _deltaTs )
 	// Update content View
 	if( m_contentView != NULL )
 		m_contentView->Update( _deltaTs, this );
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::GUIController::Draw( unsigned int _context )
+{
+	if( m_attachedWindow == NULL || m_contentView == NULL )
+		return;
+
+	m_attachedWindow->MakeCurrent();
+	unsigned int resX, resY;
+	m_attachedWindow->GetSize( resX, resY );
+
+	glClearColor( 1.0f, 1.0f, 1.0f, 0.0f );
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+	// Set up OpenGL
+	// Remember that OpenGL uses lower-left corner as origin
+	// Viewport function wants lower-left corner too
+	glViewport( 0, 0, resX, resY );
+
+	//m_resourceManager->SetMatrices( ( float )resX, ( float )resY );
+
+	m_contentView->Draw( _context );
+
+	m_attachedWindow->SwapBuffers();
 }
 
 //----------------------------------------------------------------------------------

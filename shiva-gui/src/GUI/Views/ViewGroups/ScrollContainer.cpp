@@ -227,6 +227,39 @@ void ShivaGUI::ScrollContainer::Draw()
 
 //----------------------------------------------------------------------------------
 
+void ShivaGUI::ScrollContainer::Draw( unsigned int _context )
+{
+	View::Draw();
+
+	if( m_visible )
+	{
+		glEnable( GL_SCISSOR_TEST );
+
+		glScissor( m_layoutBoundsLeft, m_windowHeight - m_layoutBoundsBottom, m_layoutBoundsRight - m_layoutBoundsLeft, m_layoutBoundsBottom - m_layoutBoundsTop );
+						
+		// Draw child
+		if( m_child != NULL )
+		{
+			m_child->Draw();
+		}
+
+		glDisable( GL_SCISSOR_TEST );
+
+		if( m_showHorizBar )
+		{
+			m_scrollTrackHorizDrawable->Draw();
+			m_scrollThumbHorizDrawable->Draw();
+		}
+		if( m_showVertBar )
+		{
+			m_scrollTrackVertDrawable->Draw();
+			m_scrollThumbVertDrawable->Draw();
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::ScrollContainer::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
 	if( _themePrefix.empty() )

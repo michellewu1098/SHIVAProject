@@ -49,7 +49,7 @@ GLSLRenderer::GLSLRenderer( unsigned int _width, unsigned int _height )
 	
 	m_camAngle = 35.0f;
 	m_camNearPlane = 0.1f;
-	m_camFarPlane = 20.0f;
+	m_camFarPlane = 100.0f;
 
 	InitialiseCube();
 
@@ -148,7 +148,7 @@ void GLSLRenderer::LoadMatricesToShader()
 	// Inverse ModelView matrix
 	GLint imvLoc = glGetUniformLocation( m_shader->getID(), "u_InverseModelViewMatrix" );
 	if( imvLoc != -1 ) { glUniformMatrix4fv( imvLoc, 1, GL_FALSE, m_invModelViewMatrix.data() ); }
-	else { std::cerr << "u_InverseModelViewMatrix not found in shader " << m_shader->getID() << std::endl; }
+	else { std::cerr << "GLSLRenderer: u_InverseModelViewMatrix not found in shader " << m_shader->getID() << std::endl; }
 
 	// Projection matrix	
 	GLint pLoc = glGetUniformLocation( m_shader->getID(), "u_ProjectionMatrix" );
@@ -242,6 +242,98 @@ void GLSLRenderer::Draw()
 	if( m_functionTree != NULL )
 	{
 		m_functionTree->DrawBBoxes( m_cam->GetProjectionMatrix(), m_modelViewMatrix );
+	}
+
+	// Disable depth test
+	glDisable( GL_DEPTH_TEST );
+
+}
+
+//----------------------------------------------------------------------------------
+
+void GLSLRenderer::Draw( unsigned int _context )
+{
+	/*float aspectRatio = ( ( float ) m_windowWidth ) / ( ( float ) m_windowHeight );
+	m_cam->SetProjectionMatrix( m_camAngle, aspectRatio, m_camNearPlane, m_camFarPlane );*/
+
+	// Enable depth test
+	glEnable( GL_DEPTH_TEST );
+	
+	// Bind shader
+	m_shader->bind();
+
+	LoadMatricesToShader();
+	
+	if( m_fragColour >= 0 )
+	{
+		glUniform3f( glGetUniformLocation( m_shader->getID(), "objectcolour" ), m_objColourR, m_objColourG, m_objColourB );
+	}
+
+	float extents[ 3 ] = { 0.5f, 0.5f, 0.5f };
+	float centre[ 3 ] = { 0.0f, 0.0f, 0.0f };
+	float boundsMin[ 3 ] = { -0.5f, -0.5f, -0.5f };
+	float boundsMax[ 3 ] = { 0.5f, 0.5f, 0.5f };
+		
+	if( m_functionTree != NULL )
+	{
+		m_functionTree->GetBoundingBox( boundsMin, boundsMax );
+		m_functionTree->GetBoundingBoxCentre( centre );
+		m_functionTree->GetBoundingBoxSize( extents );
+		
+		// For some reason the extents need to be half their values
+		for( unsigned int i = 0; i < 3; i++ )
+			extents[ i ] = 0.5f * extents[ i ];
+	}
+		
+	glUniform3fv( glGetUniformLocation( m_shader->getID(), "boxSize" ), 1, extents );
+	glUniform3fv( glGetUniformLocation( m_shader->getID(), "boxCentre" ), 1, centre );
+
+	glUniform3fv( glGetUniformLocation( m_shader->getID(), "fragboundmin" ), 1, boundsMin );
+	glUniform3fv( glGetUniformLocation( m_shader->getID(), "fragboundmax" ), 1, boundsMax );
+	glUniform1f( glGetUniformLocation( m_shader->getID(), "stepsize" ), m_stepSize );
+	glUniform1f( glGetUniformLocation( m_shader->getID(), "gradDelta" ), m_gradDelta );
+
+	glUniform1i( glGetUniformLocation( m_shader->getID(), "CacheTexture0" ), 0 );
+	glUniform1i( glGetUniformLocation( m_shader->getID(), "CacheTexture1" ), 1 );
+	glUniform1i( glGetUniformLocation( m_shader->getID(), "CacheTexture2" ), 2 );
+	glUniform1i( glGetUniformLocation( m_shader->getID(), "CacheTexture3" ), 3 );
+
+	BindParametersToGL();
+
+	glBindVertexArray( m_cubeVAO );
+
+	// Bind Cache Textures
+	for( unsigned int currentCache = 0; currentCache < m_maxCaches; ++currentCache )
+	{
+		if( m_glCacheTexIDs[ currentCache ] >= 0 )
+		{
+			glActiveTexture( GL_TEXTURE0 + currentCache );
+			glEnable( GL_TEXTURE_3D );
+			glBindTexture( GL_TEXTURE_3D, m_glCacheTexIDs[ currentCache ] );
+		}
+	}
+
+	// Draw cube using index array
+	glDrawElements( GL_QUADS, 24, GL_UNSIGNED_INT, 0 );
+
+	glBindVertexArray( 0 );
+
+	// Unbind Cache Textures
+	for( unsigned int currentCache = 0; currentCache < m_maxCaches; ++currentCache )
+	{
+		glActiveTexture( GL_TEXTURE0 + currentCache );
+		glDisable( GL_TEXTURE_3D );
+		glBindTexture( GL_TEXTURE_3D, 0 );
+	}
+	
+	glActiveTexture( GL_TEXTURE0 );
+
+	// Unbind shader
+	m_shader->unbind();
+
+	if( m_functionTree != NULL )
+	{
+		m_functionTree->DrawBBoxes( m_cam->GetProjectionMatrix(), m_modelViewMatrix, _context );
 	}
 
 	// Disable depth test

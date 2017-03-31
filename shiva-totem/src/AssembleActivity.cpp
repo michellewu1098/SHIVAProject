@@ -1,8 +1,21 @@
+//#define _CRTDBG_MAP_ALLOC
+//#define _CRTDBG_MAP_ALLOC_NEW
+//#include <stdlib.h>
+//#include <crtdbg.h>
+//
+//#ifdef _DEBUG
+//   #ifndef DBG_NEW
+//      #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+//      #define new DBG_NEW
+//   #endif
+//#endif  // _DEBUG
+
 #include "AssembleActivity.h"
 #include "ShivaModelManager.h"
 
 #include "System/SharedPreferences.h"
 #include "GUIManager.h"
+
 
 
 //----------------------------------------------------------------------------------
@@ -95,6 +108,7 @@ void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
 			InitIOWindow( guiController, _data );
 		}
 	}
+
 }
 
 //----------------------------------------------------------------------------------
@@ -114,6 +128,7 @@ void AssembleActivity::OnDestroy()
 	delete m_addPrimitiveHandler;
 	delete m_modelListAdapter;
 	delete m_launchActivityHandler;
+	//_CrtDumpMemoryLeaks();
 }
 
 //----------------------------------------------------------------------------------
@@ -139,34 +154,7 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 	// the handler we are given should be one of those we registered
 	// The view we are given should be the View that generated the event (e.g. the button)
 	// Here we'll change the text that is displayed based on which button is pressed
-	/*
-	if( handler == _rotateLeftHandler )
-	{
-		std::cout<<"INFO: AssembleActivity request to rotate left"<<std::endl;
-		_rotationZ -= _rotationStepsize;
-	}
-	else if( handler == _rotateRightHandler )
-	{
-		std::cout<<"INFO: AssembleActivity request to rotate right"<<std::endl;
-		_rotationZ += _rotationStepsize;
-	}
-	else if( handler == _rotateUpHandler )
-	{
-		std::cout<<"INFO: AssembleActivity request to rotate up"<<std::endl;
-		_rotationX -= _rotationStepsize;
-	}
-	else if( handler == _rotateDownHandler )
-	{
-		std::cout<<"INFO: AssembleActivity request to rotate down"<<std::endl;
-		_rotationX += _rotationStepsize;
-	}
-	else if( handler == _deleteTopHandler )
-	{
-		std::cout<<"INFO: AssembleActivity request to delete selected primitive"<<std::endl;
-		_totemController->DeleteSelectedObject();
-		RebuildTrees();
-	}
-	*/
+
 	if( _handler == m_buttonHandler )
 	{
 		if( _view->GetID() == "RotateLeft" )
@@ -264,7 +252,7 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 
 				if( tmpTree.Load( fileName ) )
 				{ 
-					m_totemController->loadModel( tmpTree.getReverseTree() );
+					m_totemController->LoadModel( tmpTree.getReverseTree(), GetNumGUIControllers() );
 				    m_totemController->SelectTopObject();
 				}
 			
@@ -275,43 +263,6 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		{
 			std::cout << "INFO: AssembleActivity request to save tree" << std::endl;
 			VolumeTree::Tree tempTree;
-
-			// Scaling 1:20 ---- Remove this? If it's saving, I think it is needed when exporting .vol file
-			/*VolumeTree::TransformNode *rootScaleNode = new VolumeTree::TransformNode( _totemController->GetNodeTree() );
-			rootScaleNode->SetScale( _saveRescaleSize );
-			tempTree.SetRoot( rootScaleNode );*/
-
-			//bool fileFound = false;
-			//std::string fullFilename;
-			//std::string extension = ".vol";
-			//unsigned int i = 1;
-			//do
-			//{
-			//	std::stringstream fileNum;
-			//	fileNum<<i;
-			//	fullFilename = _saveDir + _saveName + fileNum.str() + extension;
-			//	// We want to find the highest number that *doesn't* exist
-			//	fileFound = !boost::filesystem::exists( fullFilename );
-			//	i++;
-			//}
-			//while( (i < 10000) && !fileFound );
-
-			//if( fileFound )
-			//{
-			//	if( !boost::filesystem::exists( _saveDir ) )
-			//	{
-			//		boost::filesystem::create_directory( _saveDir );
-			//	}
-			//	tempTree.Save( fullFilename );
-			//	tempTree.SaveXML( "test.xml" );
-
-			//	_showSaveConfirmation = true;
-			//	_saveTextCounter = 3.0f;
-			//}
-			//else
-			//{
-			//	std::cerr << "WARNING: Cannot save file. Try removing previous files, limit is 10000 files" << std::endl;
-			//}
 
 			tempTree.SetRoot( m_totemController->GetNodeTree() );
 			bool fileFound = false;
@@ -345,6 +296,47 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 				std::cerr << "WARNING: Cannot save file. Try removing previous files, limit is 10000 files" << std::endl;
 			}
 		}
+		else if( _view->GetID() == "Export" )
+		{
+			std::cout << "INFO: AssembleActivity request to export tree" << std::endl;
+			VolumeTree::Tree tempTree;
+			// Scaling 1:20 ---- Remove this? If it's saving, I think it is needed when exporting .vol file
+			VolumeTree::TransformNode *rootScaleNode = new VolumeTree::TransformNode( m_totemController->GetNodeTree() );
+			rootScaleNode->SetScale( m_saveRescaleSize );
+			tempTree.SetRoot( rootScaleNode );
+
+			bool fileFound = false;
+			std::string fullFilename;
+			std::string extension = ".vol";
+			unsigned int i = 1;
+			do
+			{
+				std::stringstream fileNum;
+				fileNum<<i;
+				fullFilename = m_saveDir + m_saveName + fileNum.str() + extension;
+				// We want to find the highest number that *doesn't* exist
+				fileFound = !boost::filesystem::exists( fullFilename );
+				i++;
+			}
+			while( (i < 10000) && !fileFound );
+
+			if( fileFound )
+			{
+				if( !boost::filesystem::exists( m_saveDir ) )
+				{
+					boost::filesystem::create_directory( m_saveDir );
+				}
+				tempTree.Save( fullFilename );
+			//	tempTree.SaveXML( "test.xml" );
+
+				m_showSaveConfirmation = true;
+				m_saveTextCounter = 3.0f;
+			}
+			else
+			{
+				std::cerr << "WARNING: Cannot export file. Try removing previous files, limit is 10000 files" << std::endl;
+			}
+		}
 	}
 	else if( _handler == m_addPrimitiveHandler )
 	{
@@ -369,30 +361,11 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		}
 
 		// We use the button index to create that primitive:
-		m_totemController->AddObjectToTop( dataEntryIndex );
+		m_totemController->AddObjectToTop( dataEntryIndex, GetNumGUIControllers() );
 		m_totemController->SelectTopObject();
 
 		// The Views now need to rebuild their trees:
 		RebuildTrees();
-
-
-		/*
-		// Retrieve the filename from the ShivaModelManager:
-		ShivaModelManager *modelManager = ShivaModelManager::GetInstance();
-
-		std::cout<<"INFO: AssembleActivity attempting to add primitive: "<<modelManager->GetAttributeString(dataEntryIndex,"name")<<std::endl;
-
-		std::string filename = modelManager->GetAttributeString(dataEntryIndex,"bdf_file");
-
-		if( filename.empty() )
-		{
-			std::cerr<<"WARNING: AssembleActivity received request to add primitive (index "<<dataEntryIndex<<") but this entry has no bdf file"<<std::endl;
-			return;
-		}
-
-		// Give file to SDF Views
-		AddTopObject(filename);
-		*/
 	}
 	else if( _handler == m_launchActivityHandler )
 	{
@@ -478,6 +451,7 @@ void AssembleActivity::InitIOWindow( ShivaGUI::GUIController *_guiController, Sh
 	*/
 	_guiController->RegisterListener( m_buttonHandler, "buttonHandler" );
 	_guiController->RegisterListener( m_buttonHandler, "saveHandler" );
+	_guiController->RegisterListener( m_buttonHandler, "exportHandler" );
 	
 	// For load event
 	

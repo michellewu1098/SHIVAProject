@@ -2,11 +2,18 @@
 
 //----------------------------------------------------------------------------------
 
-Totem::Object::Object( VolumeTree::Node *_mainNodeIn )
+Totem::Object::Object( VolumeTree::Node *_mainNodeIn, unsigned int _nGUIControllers )
 {
 	m_mainNode = _mainNodeIn;
+	//m_mainNode->HasBoundingBox( true );
+
+
+	// Apparently only mainTransform needs to be set with a bounding box
 	// Using params currently only works if we have one renderer, which we don't (each Activity has a different renderer)
 	m_mainTransform = new VolumeTree::TransformNode( false );
+	m_mainTransform->SetNumbOfContext( _nGUIControllers );
+	m_mainTransform->HasBoundingBox( true );
+
 	m_child = m_parent = NULL;
 
 	m_offsetX = m_offsetY = m_offsetZ = 0.0f;
@@ -17,10 +24,15 @@ Totem::Object::Object( VolumeTree::Node *_mainNodeIn )
 
 //----------------------------------------------------------------------------------
 
-Totem::Object::Object( VolumeTree::Node *_mainNodeIn, VolumeTree::TransformNode *_mainTransformIn )
+Totem::Object::Object( VolumeTree::Node *_mainNodeIn, VolumeTree::TransformNode *_mainTransformIn, unsigned int _nGUIControllers )
 {
 	m_mainNode = _mainNodeIn;
+	//m_mainNode->HasBoundingBox( true );
+
+	// Apparently only mainTransform needs to be set with a bounding box
 	m_mainTransform = _mainTransformIn;
+	m_mainTransform->SetNumbOfContext( _nGUIControllers );
+	m_mainTransform->HasBoundingBox( true );
 
 	m_child = m_parent = NULL;
 
@@ -197,8 +209,11 @@ VolumeTree::Node* Totem::Object::GetNodeTree( float _blendAmount )
 	{
 		// TODO: fix this memory leak
 		VolumeTree::BlendCSGNode *blendNode = new VolumeTree::BlendCSGNode( rootNode, m_child->GetNodeTree( _blendAmount ) );
+		//VolumeTree::BlendCSGNode blendNode = VolumeTree::BlendCSGNode( rootNode, m_child->GetNodeTree( _blendAmount ) );
 		blendNode->SetBlendParams( _blendAmount, 1.0f, 1.0f );
-		rootNode = ( VolumeTree::Node* ) blendNode;
+		//blendNode.SetBlendParams( _blendAmount, 1.0f, 1.0f );
+		//rootNode = &blendNode;
+		rootNode = ( VolumeTree::Node* )blendNode;
 	}
 
 	return rootNode;

@@ -98,6 +98,7 @@
     <ClCompile Include="..\..\src\EditMenuActivity.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\NudgeActivity.cpp" />
+    <ClCompile Include="..\..\src\PrintActivity.cpp" />
     <ClCompile Include="..\..\src\RotateObjectActivity.cpp" />
     <ClCompile Include="..\..\src\ShivaModelManager.cpp" />
     <ClCompile Include="..\..\src\UniformScaleActivity.cpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="..\..\include\DrillActivity.h" />
     <ClInclude Include="..\..\include\EditMenuActivity.h" />
     <ClInclude Include="..\..\include\NudgeActivity.h" />
+    <ClInclude Include="..\..\include\PrintActivity.h" />
     <ClInclude Include="..\..\include\RotateObjectActivity.h" />
     <ClInclude Include="..\..\include\ShivaModelManager.h" />
     <ClInclude Include="..\..\include\UniformScaleActivity.h" />

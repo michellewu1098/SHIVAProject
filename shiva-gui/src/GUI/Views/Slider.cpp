@@ -49,6 +49,24 @@ void ShivaGUI::Slider::Draw()
 
 //----------------------------------------------------------------------------------
 
+void ShivaGUI::Slider::Draw( unsigned int _context )
+{
+	View::Draw( _context );
+
+	if( m_visible )
+	{
+		if( m_barDrawable != NULL )
+			m_barDrawable->Draw();
+
+		if( m_handleStateListDrawable != NULL )
+			m_handleStateListDrawable->Draw();
+		else if( m_handleGeneralDrawable != NULL )
+			m_handleGeneralDrawable->Draw();
+	}
+}
+
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::Slider::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
 	if( _themePrefix.empty() )

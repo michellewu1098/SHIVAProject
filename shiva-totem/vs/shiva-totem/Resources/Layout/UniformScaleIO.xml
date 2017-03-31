@@ -12,7 +12,7 @@
 		layout_height="wrap_content"
 		layout_centreX="0.5"
 		layout_centreY="0.05"
-		text="make bigger or smaller"
+		text="Make BIGGER or SMALLER"
 		/>
 		
 	<VolView
@@ -31,9 +31,9 @@
   <TextButton
 		id="ScaleXUp"
 		layout_width="0.1"
-		layout_height="wrap_content"
-		layout_centreX="0.05"
-		layout_centreY="0.05"
+		layout_height="0.08"
+		layout_centreX="0.06"
+		layout_centreY="0.1"
 		onClick="buttonHandler"
 		text="Xup"
 		/>
@@ -41,9 +41,9 @@
   <TextButton
 		id="ScaleXDown"
 		layout_width="0.1"
-		layout_height="wrap_content"
-		layout_centreX="0.15"
-		layout_centreY="0.05"
+		layout_height="0.08"
+		layout_centreX="0.16"
+		layout_centreY="0.1"
 		onClick="buttonHandler"
 		text="Xdn"
 		/>
@@ -52,9 +52,9 @@
   <TextButton
 		id="ScaleYUp"
 		layout_width="0.1"
-		layout_height="wrap_content"
-		layout_centreX="0.05"
-		layout_centreY="0.12"
+		layout_height="0.08"
+		layout_centreX="0.06"
+		layout_centreY="0.19"
 		onClick="buttonHandler"
 		text="Yup"
 		/>
@@ -62,9 +62,9 @@
   <TextButton
 		id="ScaleYDown"
 		layout_width="0.1"
-		layout_height="wrap_content"
-		layout_centreX="0.15"
-		layout_centreY="0.12"
+		layout_height="0.08"
+		layout_centreX="0.16"
+		layout_centreY="0.19"
 		onClick="buttonHandler"
 		text="Ydn"
 		/>
@@ -72,9 +72,9 @@
   <TextButton
 		id="ScaleZUp"
 		layout_width="0.1"
-		layout_height="wrap_content"
-		layout_centreX="0.05"
-		layout_centreY="0.19"
+		layout_height="0.08"
+		layout_centreX="0.06"
+		layout_centreY="0.28"
 		onClick="buttonHandler"
 		text="Zup"
 		/>
@@ -82,16 +82,12 @@
   <TextButton
 		id="ScaleZDown"
 		layout_width="0.1"
-		layout_height="wrap_content"
-		layout_centreX="0.15"
-		layout_centreY="0.19"
+		layout_height="0.08"
+		layout_centreX="0.16"
+		layout_centreY="0.28"
 		onClick="buttonHandler"
 		text="Zdn"
 		/>
-
-
-
-
 
 
   <ImageButton
@@ -99,9 +95,9 @@
 		layout_width="0.12"
 		layout_height="0.2"
 		layout_centreX="0.1"
-		layout_centreY="0.35"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		layout_centreY="0.45"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/Arrow_Up.xml"
 		/>
@@ -112,22 +108,22 @@
 		layout_height="0.2"
 		layout_centreX="0.1"
 		layout_centreY="0.85"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/Arrow_Down.xml"
 		/>
 
   <TextButton
 		id="ScaleReset"
-		layout_width="0.2"
+		layout_width="0.15"
 		layout_height="0.2"
 		layout_centreX="0.1"
-		layout_centreY="0.6"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		layout_centreY="0.65"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
-    text="reset"
+		text="reset"
 		/>
 
 
@@ -139,11 +135,11 @@
 		layout_height="0.2"
 		layout_centreX="0.7"
 		layout_centreY="0.5"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Up.xml"
-    eyeGaze_Repeat="true"
+		eyeGaze_Repeat="true"
     
 		/>
 		
@@ -153,11 +149,11 @@
 		layout_height="0.2"
 		layout_centreX="0.3"
 		layout_centreY="0.5"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Down.xml"
-    eyeGaze_Repeat="true"
+		eyeGaze_Repeat="true"
     
 		/>
 
@@ -167,11 +163,11 @@
 		layout_height="0.12"
 		layout_centreX="0.5"
 		layout_centreY="0.9"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Right.xml"
-    eyeGaze_Repeat="true"
+		eyeGaze_Repeat="true"
     
 		/>
 
@@ -181,11 +177,11 @@
 		layout_height="0.12"
 		layout_centreX="0.5"
 		layout_centreY="0.2"
-    scaleContent="true"
-    keepContentAspectRatio="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
 		onClick="buttonHandler"
 		src="System/CommandSymbols/RotateArrow_Left.xml"
-    eyeGaze_Repeat="true"
+		eyeGaze_Repeat="true"
     
 		/>
 
@@ -193,7 +189,7 @@
   <TextButton
 		id="RotateReset"
 		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_height="0.1"
 		layout_centreX="0.7"
 		layout_centreY="0.9"
 		onClick="buttonHandler"
@@ -207,18 +203,14 @@
 		layout_height="0.3"
 		layout_centreX="0.7"
 		layout_centreY="0.25"
-    eyeGaze_RestButton="true"
+		eyeGaze_RestButton="true"
 		text="rest"
 		/>
 
-
-
-
-
   <TextButton
 		id="SelectAbove"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.25"
 		onClick="buttonHandler"
@@ -228,8 +220,8 @@
 
   <TextButton
 		id="SelectBelow"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.55"
 		onClick="buttonHandler"
@@ -239,8 +231,8 @@
 
   <TextButton
 		id="BackButton"
-		layout_width="0.2"
-		layout_height="wrap_content"
+		layout_width="0.18"
+		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.35"
 		onClick="buttonHandler"

@@ -2,7 +2,7 @@
 
 //----------------------------------------------------------------------------------
 
-VolumeTree::CylinderNode::CylinderNode()
+VolumeTree::CylinderNode::CylinderNode() : Node()
 {
 	m_radiusX = m_radiusY = 1.0f;
 	m_length = 1.0f;
@@ -11,7 +11,7 @@ VolumeTree::CylinderNode::CylinderNode()
 
 //----------------------------------------------------------------------------------
 
-VolumeTree::CylinderNode::CylinderNode( const float &_length, const float &_radiusX, const float &_radiusY )
+VolumeTree::CylinderNode::CylinderNode( const float &_length, const float &_radiusX, const float &_radiusY ) : Node()
 {
 	m_length = _length;
 	m_radiusX = _radiusX;

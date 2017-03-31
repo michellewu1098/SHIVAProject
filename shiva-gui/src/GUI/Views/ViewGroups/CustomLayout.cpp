@@ -81,6 +81,16 @@ void ShivaGUI::CustomLayout::Layout( int _left, int _top, int _right, int _botto
 
 //----------------------------------------------------------------------------------
 
+void ShivaGUI::CustomLayout::CreateBBoxVAOs( unsigned int _context )
+{
+	for( std::vector< View* >::iterator it = m_views.begin(); it != m_views.end(); ++it )
+	{
+		( *it )->CreateBBoxVAOs( _context );
+	}
+}
+
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::CustomLayout::Update( float _deltaTs, GUIController *_guiController )
 {
 	if( m_needLayout )
@@ -106,6 +116,37 @@ void ShivaGUI::CustomLayout::Update( float _deltaTs, GUIController *_guiControll
 		for( std::vector< View* >::iterator it = m_views.begin(); it != m_views.end(); ++it )
 		{
 			( *it )->Update( _deltaTs, _guiController );
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::CustomLayout::Draw( unsigned int _context )
+{
+	View::Draw();
+
+	if( m_visible )
+	{
+		if( m_editMode )
+		{
+			m_editDrawable->Draw();
+		}
+
+
+		if( m_editMode )
+		{
+			for( std::vector< View* >::iterator it = m_internalViews.begin(); it != m_internalViews.end(); ++it )
+			{
+				( *it )->Draw( _context );
+			}
+		}
+		else
+		{
+			for( std::vector< View* >::iterator it = m_views.begin(); it != m_views.end(); ++it )
+			{
+				( *it )->Draw( _context );
+			}
 		}
 	}
 }

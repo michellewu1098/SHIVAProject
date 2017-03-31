@@ -8,6 +8,11 @@
 #ifndef __SHIVA_GUISYSTEM_ACTIVITY__
 #define __SHIVA_GUISYSTEM_ACTIVITY__
 
+#define _CRTDBG_MAP_ALLOC
+#define _CRTDBG_MAP_ALLOC_NEW
+#include <stdlib.h>
+#include <crtdbg.h>
+
 #include "Input/InternalEvent.h"
 #include "GUI/GUIController.h"
 #include "System/Bundle.h"
@@ -62,6 +67,10 @@ namespace ShivaGUI
 		/// \brief Draw method
 		//----------------------------------------------------------------------------------
 		void Draw();
+		//----------------------------------------------------------------------------------
+		/// \brief Need to create different VAOs for multiple OGL contexts
+		//----------------------------------------------------------------------------------
+		void CreateBBoxVAOs();
 		//----------------------------------------------------------------------------------
 		/// \brief This is called by the GUIManager when a child activity returns a result
 		/// \param [in] _data

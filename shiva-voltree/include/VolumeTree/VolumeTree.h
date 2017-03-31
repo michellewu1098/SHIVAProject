@@ -100,6 +100,8 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		void DrawBBoxes( cml::matrix44f_c &_proj, cml::matrix44f_c &_mv );
 		//----------------------------------------------------------------------------------
+		void DrawBBoxes( cml::matrix44f_c &_proj, cml::matrix44f_c &_mv, unsigned int _context );
+		//----------------------------------------------------------------------------------
 		/// \brief Samples the function at a specific point
 		/// \param [in] _x
 		/// \param [in] _y

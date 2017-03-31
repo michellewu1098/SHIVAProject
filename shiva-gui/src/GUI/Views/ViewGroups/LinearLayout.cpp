@@ -176,6 +176,22 @@ void ShivaGUI::LinearLayout::Draw()
 
 //----------------------------------------------------------------------------------
 
+void ShivaGUI::LinearLayout::Draw( unsigned int _context )
+{
+	View::Draw();
+
+	if( m_visible )
+	{
+
+		for( std::vector< View* >::iterator it = m_views.begin(); it != m_views.end(); ++it )
+		{
+			( *it )->Draw();
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::LinearLayout::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
 	if( _themePrefix.empty() )

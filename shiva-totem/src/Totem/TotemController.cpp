@@ -42,7 +42,29 @@ Totem::Controller::Controller()
 
 Totem::Controller::~Controller()
 {
-	delete m_objectRoot;
+	//delete m_objectRoot;
+
+	if( m_objectRoot != NULL )
+	{
+		delete m_objectRoot;
+	}
+
+	m_objectRoot = NULL;
+
+	if( m_operations.size() > 0 )
+	{
+		for( std::list< Operation* >::iterator it = m_operations.begin(); it != m_operations.end(); ++it )
+		{
+			delete ( *it );
+		}
+	}
+	m_operations.clear();
+
+	if( m_poleNode != NULL ) { delete m_poleNode; } 
+	if( m_poleTransformNode != NULL ) { delete m_poleTransformNode; } 
+	if( m_poleBaseNode != NULL ) { delete m_poleBaseNode; }
+
+	//_CrtDumpMemoryLeaks();
 }
 
 //----------------------------------------------------------------------------------
@@ -119,18 +141,18 @@ VolumeTree::Node* Totem::Controller::GetPrimitiveNode( unsigned int _ID )
 
 //----------------------------------------------------------------------------------
 
-void Totem::Controller::AddObjectToTop( unsigned int _primID )
+void Totem::Controller::AddObjectToTop( unsigned int _primID, unsigned int _nGUIControllers  )
 {
-	AddObjectNodeToTop( GetPrimitiveNode( _primID ) );
+	AddObjectNodeToTop( GetPrimitiveNode( _primID ), _nGUIControllers );
 }
 
 //----------------------------------------------------------------------------------
 
-void Totem::Controller::AddObjectNodeToTop( VolumeTree::Node *_nodeIn )
+void Totem::Controller::AddObjectNodeToTop( VolumeTree::Node *_nodeIn, unsigned int _nGUIControllers  )
 {
 	if( _nodeIn != NULL )
 	{
-		Totem::Object *newTopObj = new Totem::Object( _nodeIn );
+		Totem::Object *newTopObj = new Totem::Object( _nodeIn, _nGUIControllers );
 		if( m_objectRoot != NULL )
 		{
 			float offsetZ = 0.0f, junk;
@@ -148,7 +170,7 @@ void Totem::Controller::AddObjectNodeToTop( VolumeTree::Node *_nodeIn )
 
 //----------------------------------------------------------------------------------
 
-void Totem::Controller::loadModel( std::queue< VolumeTree::Node* > _treeIn )
+void Totem::Controller::LoadModel( std::queue< VolumeTree::Node* > _treeIn, unsigned int _nGUIControllers )
 {
 	// There is probably a better way to do this, but it works so..
 
@@ -182,7 +204,7 @@ void Totem::Controller::loadModel( std::queue< VolumeTree::Node* > _treeIn )
 
 					 if( transformNode->GetNodeType() == "TransformNode" )
 					 {
-						 Totem::Object *newObj = new Totem::Object( node, dynamic_cast< VolumeTree::TransformNode * >( transformNode ) );
+						 Totem::Object *newObj = new Totem::Object( node, dynamic_cast< VolumeTree::TransformNode * >( transformNode ), _nGUIControllers );
 						 objStack.push( newObj );
 					 }
 				 }
@@ -208,7 +230,7 @@ void Totem::Controller::loadModel( std::queue< VolumeTree::Node* > _treeIn )
 						_treeIn.pop();
 					 }
 
-					 Totem::Operations::Drill* drillOp = new  Totem::Operations::Drill( dynamic_cast< VolumeTree::CylinderNode* >( drillNodes[ 0 ] ),
+					 Totem::Operations::Drill* drillOp = new Totem::Operations::Drill(  dynamic_cast< VolumeTree::CylinderNode* >( drillNodes[ 0 ] ),
 																						dynamic_cast< VolumeTree::TransformNode* >( drillNodes[ 1 ] ),
 																						dynamic_cast< VolumeTree::TransformNode* >( drillNodes[ 2 ] ) );
 					 m_operations.push_front( drillOp );
@@ -464,6 +486,8 @@ void Totem::Controller::RebuildPole()
 		poleBase->SetPole( true );
 		VolumeTree::TransformNode *baseTransform = new VolumeTree::TransformNode( poleBase );
 		baseTransform->SetTranslate( 0.0f, 0.0f, -0.05f );
+		//VolumeTree::TransformNode baseTransform = VolumeTree::TransformNode( poleBase );
+		//baseTransform.SetTranslate( 0.0f, 0.0f, -0.05f );
 		m_poleBaseNode = new VolumeTree::CSGNode( m_poleTransformNode, baseTransform );
 	}
 

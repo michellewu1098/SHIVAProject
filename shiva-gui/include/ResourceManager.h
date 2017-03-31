@@ -204,6 +204,8 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		cml::matrix44f_c GetModelViewMatrix() const { return m_mvMatrix; }
 		//----------------------------------------------------------------------------------
+		void SetIconOnLeft( const bool &_value ) { m_iconOnLeft = _value; m_iconOnTop = !_value; }
+		void SetIconOnTop( const bool &_value ) { m_iconOnTop = _value; m_iconOnLeft = !_value; }
 
 	protected:
 
@@ -300,7 +302,8 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		cml::matrix44f_c m_mvMatrix;
 		//----------------------------------------------------------------------------------
-
+		bool m_iconOnLeft;
+		bool m_iconOnTop;
 		bool m_isRenderingText;
 
 		/// \brief During inflation of Layout links need to be made between Views for scanning and selection order purposes
