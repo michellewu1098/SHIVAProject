@@ -46,6 +46,7 @@ ShivaGUI::LayeredImageDrawable::~LayeredImageDrawable()
 {
 	glDeleteVertexArrays( 1, &m_vao );
 	delete m_shader;
+	delete [] m_layerGroups;
 }
 
 //----------------------------------------------------------------------------------

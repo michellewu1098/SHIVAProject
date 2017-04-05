@@ -47,7 +47,6 @@ ShivaGUI::BitmapDrawable::BitmapDrawable( unsigned int _OpenGLTexID )
 ShivaGUI::BitmapDrawable::~BitmapDrawable()
 {
 	glDeleteVertexArrays( 1, &m_vao );
-
 	delete m_shader;
 }
 
@@ -262,7 +261,6 @@ void ShivaGUI::BitmapDrawable::OnSetBounds( float _left, float _top, float _righ
 		}
 	}
 
-	
 	BuildVBOs();
 }
 

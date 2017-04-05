@@ -19,8 +19,9 @@ ShivaGUI::CustomLayoutElement::CustomLayoutElement( View *_child, ResourceManage
 
 	m_eventHandler = new CustomElementEventHandler( this );
 
-
 	m_editVisibilityButton = new ImageButton();
+
+	// MEMORY LEAK?
 	CustomLayoutParams *buttonParams = new CustomLayoutParams();
 	buttonParams->SetWidthConst( LayoutParams::PERCENTAGE_PARENT );
 	buttonParams->SetHeightConst( LayoutParams::PERCENTAGE_PARENT );
@@ -31,6 +32,7 @@ ShivaGUI::CustomLayoutElement::CustomLayoutElement( View *_child, ResourceManage
 	//_editVisibilityButton->SetText("Visible",resources);
 	
 	// Set background images
+	// MEMORY LEAK?
 	RectDrawable *bgd = new RectDrawable();
 	bgd->SetFillColour( 0.4f, 0.0f, 0.6f, 0.1f );
 	bgd->SetBorderColour( 0.4f, 0.0f, 0.6f, 0.8f );
@@ -41,20 +43,23 @@ ShivaGUI::CustomLayoutElement::CustomLayoutElement( View *_child, ResourceManage
 	m_editVisibilityButton->SetOnClickListener( m_eventHandler );
 	m_internalViews.push_back( m_editVisibilityButton );
 
-	m_editWrapSizeButton = new ImageButton();
+	// MEMORY LEAK?
 	buttonParams = new CustomLayoutParams();
-	buttonParams->SetWidthConst(LayoutParams::PERCENTAGE_PARENT);
-	buttonParams->SetHeightConst(LayoutParams::PERCENTAGE_PARENT);
-	buttonParams->SetWidthPercent(0.1f);
-	buttonParams->SetHeightPercent(0.1f);
-	buttonParams->SetCentreX(0.1f);
-	buttonParams->SetCentreY(0.9f);
+	buttonParams->SetWidthConst( LayoutParams::PERCENTAGE_PARENT );
+	buttonParams->SetHeightConst( LayoutParams::PERCENTAGE_PARENT );
+	buttonParams->SetWidthPercent( 0.1f );
+	buttonParams->SetHeightPercent( 0.1f );
+	buttonParams->SetCentreX( 0.1f );
+	buttonParams->SetCentreY( 0.9f );
 	//_editWrapSizeButton->SetText("Size Wrap",resources);
 
 	// Set background images
+	// MEMORY LEAK?
 	bgd = new RectDrawable();
 	bgd->SetFillColour( 0.4f, 0.0f, 0.6f, 0.1f );
 	bgd->SetBorderColour( 0.4f, 0.0f, 0.6f, 0.8f );
+
+	m_editWrapSizeButton = new ImageButton();
 
 	m_editWrapSizeButton->SetVisibility( false );
 	m_editWrapSizeButton->SetBackground( bgd );
@@ -79,7 +84,8 @@ ShivaGUI::CustomLayoutElement::~CustomLayoutElement()
 		delete *it;
 	}
 	delete m_editDrawable;
-	//delete _editVisibilityButton; // This is in the _internalViews vector
+	delete m_resizeDrawable;
+	//delete _editVisibilityButton; // This is in the _internalViews vector, also m_editWrapSizeButton
 	delete m_eventHandler;
 }
 

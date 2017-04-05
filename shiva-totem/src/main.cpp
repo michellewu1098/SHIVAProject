@@ -47,17 +47,17 @@
 
 */
 
-#define _CRTDBG_MAP_ALLOC
-#define _CRTDBG_MAP_ALLOC_NEW
-#include <stdlib.h>
-#include <crtdbg.h>
-
-#ifdef _DEBUG
-   #ifndef DBG_NEW
-      #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-      #define new DBG_NEW
-   #endif
-#endif  // _DEBUG
+//#define _CRTDBG_MAP_ALLOC
+//#define _CRTDBG_MAP_ALLOC_NEW
+//#include <stdlib.h>
+//#include <crtdbg.h>
+//
+//#ifdef _DEBUG
+//   #ifndef DBG_NEW
+//      #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+//      #define new DBG_NEW
+//   #endif
+//#endif  // _DEBUG
 
 #include <iostream>
 #include <boost/program_options.hpp>
@@ -71,6 +71,7 @@
 #include "RotateObjectActivity.h"
 #include "UniformScaleActivity.h"
 #include "NudgeActivity.h"
+#include "PrintActivity.h"
 
 #include "ShivaModelManager.h"
 #include "Totem/TotemController.h"
@@ -188,6 +189,7 @@ int main( int argc, char **argv )
 	mainGUIManager->RegisterActivityCreator( "RotateObjectActivity", RotateObjectActivity::Factory );
 	mainGUIManager->RegisterActivityCreator( "UniformScaleActivity", UniformScaleActivity::Factory );
 	mainGUIManager->RegisterActivityCreator( "NudgeActivity", NudgeActivity::Factory );
+	mainGUIManager->RegisterActivityCreator( "PrintActivity", PrintActivity::Factory );
 	mainGUIManager->RegisterViewCreator( "VolView", VolView::Factory );
 
 	mainGUIManager->StartWithProfileChooser( "AssembleActivity", options.profileDirectory, options.profileName );
@@ -195,6 +197,7 @@ int main( int argc, char **argv )
 	Totem::Controller::UnInit();
 
 	delete currentModelNode;
+	currentModelNode = NULL;
 	delete mainGUIManager;
 
 	//_CrtDumpMemoryLeaks();

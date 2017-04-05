@@ -1,7 +1,7 @@
 ///-----------------------------------------------------------------------------------------------
 /// \file PrintActivity.h
-/// \brief Responsible for print or export activity. It will load the layouts to screen and handle events from buttons
-/// \author Leigh McLoughlin
+/// \brief Responsible for printing or exporting. It will load the layouts to screen and handle events from buttons
+/// \author Leigh McLoughlin, Michelle Wu
 /// \version 1.0
 ///-----------------------------------------------------------------------------------------------
 
@@ -37,18 +37,9 @@ protected:
 	//----------------------------------------------------------------------------------
 	virtual void OnCreate( ShivaGUI::Bundle* );
 	//----------------------------------------------------------------------------------
-	/// \brief This function is called when the Activity is resumed
-	//----------------------------------------------------------------------------------
-	virtual void OnResume();
-	//----------------------------------------------------------------------------------
 	/// \brief This function is called when the Activity is stopped
 	//----------------------------------------------------------------------------------
 	virtual void OnDestroy();
-	//----------------------------------------------------------------------------------
-	/// \brief This function is called when the Activity is updated
-	/// \param [in] _deltaTs
-	//----------------------------------------------------------------------------------
-	virtual void OnUpdate( float _deltaTs );
 	//----------------------------------------------------------------------------------
 	/// \brief This will handle events from buttons etc
 	/// \param [in] _handler
@@ -68,14 +59,6 @@ protected:
 	/// \brief Button handler
 	//----------------------------------------------------------------------------------
 	UtilityEventHandler *m_buttonHandler;
-	//----------------------------------------------------------------------------------
-	/// \brief Adding primitive handler
-	//----------------------------------------------------------------------------------
-	UtilityEventHandler *m_addPrimitiveHandler;
-	//----------------------------------------------------------------------------------
-	/// \brief Launching activity handler
-	//----------------------------------------------------------------------------------
-	UtilityEventHandler *m_launchActivityHandler;
 	//----------------------------------------------------------------------------------
 	/// \brief Rotation stepsize
 	//----------------------------------------------------------------------------------
@@ -97,16 +80,8 @@ protected:
 	//----------------------------------------------------------------------------------
 	std::vector< std::pair< VolView*, ShivaGUI::GUIController* > > m_volViews;
 	//----------------------------------------------------------------------------------
-	std::vector< std::pair< ShivaGUI::AdapterView*, ShivaGUI::GUIController* > > m_listViews;
-	//----------------------------------------------------------------------------------
-	std::vector< std::pair< ShivaGUI::TextView*, ShivaGUI::GUIController* > > m_saveConfirmViews;
-	//----------------------------------------------------------------------------------
-	/// \brief This will convert the data provided by the ShivaModelManager into a format usable by a ListView
-	//----------------------------------------------------------------------------------
-	ShivaGUI::DataAdapter *m_modelListAdapter;
-	//----------------------------------------------------------------------------------
 	/// \brief Mainly for updating current Vol Views
-	//----------------------------------------------------------------------------------
+	//------------------------------------------------------------------- ---------------
 	void UpdateViews();
 	//----------------------------------------------------------------------------------
 	/// \brief Reset rotation
@@ -114,9 +89,8 @@ protected:
 	void ResetRotation();
 	//----------------------------------------------------------------------------------
 	/// \brief Rebuild tree
-	/// \param [in] _justparams 
 	//----------------------------------------------------------------------------------
-	void RebuildTrees( bool _justparams = false );
+	void RebuildTrees();
 	//----------------------------------------------------------------------------------
 	/// \brief Initialises a main window with input and output capabilities
 	/// \param [in] _guiController

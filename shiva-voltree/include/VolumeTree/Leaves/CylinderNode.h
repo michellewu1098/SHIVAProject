@@ -93,14 +93,24 @@ namespace VolumeTree
 		virtual void GetBounds( float *_minX, float *_maxX, float *_minY, float *_maxY, float *_minZ, float *_maxZ );
 		//----------------------------------------------------------------------------------
 		/// \brief Set if cylinder represents totem pole
-		/// \param [in] _p Either true or false
+		/// \param [in] _value Either true or false
 		//----------------------------------------------------------------------------------
-		void SetPole( const bool &_p ) { m_isPole = _p; }  
+		void SetPole( const bool &_value ) { m_isPole = _value; }  
+		//----------------------------------------------------------------------------------
+		/// \brief Set if cylinder represents base of totem pole
+		/// \param [in] _value Either true or false
+		//----------------------------------------------------------------------------------
+		void SetBasePole( const bool &_value ) { m_isBase = _value; }
 		//----------------------------------------------------------------------------------
 		/// \brief Returns true if cylinder represents totem pole
 		/// \return m_isPole
 		//----------------------------------------------------------------------------------
 		bool isPole() const { return m_isPole; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns true if cylinder represents base of totem pole
+		/// \return m_isBase
+		//----------------------------------------------------------------------------------
+		bool isBase() const { return m_isBase; }
 		//----------------------------------------------------------------------------------
 
 	protected:
@@ -118,9 +128,13 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		float m_length;
 		//----------------------------------------------------------------------------------
-		/// \brief Flag to check whether the cylinder represents part of the totem pole
+		/// \brief Flag to check whether the cylinder represents the totem pole
 		//----------------------------------------------------------------------------------
 		bool m_isPole;
+		//----------------------------------------------------------------------------------
+		/// \brief Flag to check whether the cylinder represents base of totem pole
+		//----------------------------------------------------------------------------------
+		bool m_isBase;
 		//----------------------------------------------------------------------------------
 
 	};

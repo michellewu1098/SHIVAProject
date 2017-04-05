@@ -116,25 +116,25 @@
 		/>
 
   <ImageTextButton
-		id="RotateLeft"
-		layout_width="wrap_content"
-		layout_height="0.16"
-		layout_centreX="0.5"
-		layout_centreY="0.2"
-		height_constrained="true"
-		scaleContent="true"
-		keepContentAspectRatio="true"
+		id = "RotateLeft"
+		layout_width = "wrap_content"
+		layout_height = "0.16"
+		layout_centreX = "0.5"
+		layout_centreY = "0.2"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
 		icon_position = "top"
 		text = "Rotate Left"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/RotateArrow_Left.xml"
-		eyeGaze_Repeat="true"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Left.xml"
+		eyeGaze_Repeat = "true"
     
-		scan_prev="PrimitiveList"
-        first_scan="true"
+		scan_prev = "PrimitiveList"
+        first_scan = "true"
     
-		next_focus_left="RotateDown"
-		next_focus_right="RotateUp"
+		next_focus_left = "RotateDown"
+		next_focus_right = "RotateUp"
 		/>
 
   <TextButton
@@ -326,13 +326,13 @@
 		/>
 		
 	<TextButton
-		id="Export"
+		id="PrintActivity"
 		layout_width="0.2"
 		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.9"
-		onClick="exportHandler"
-		text="export"
+		onClick="launchActivityHandler"
+		text="print"
 		
 		/>
 		

@@ -38,6 +38,8 @@ ShivaGUI::CustomLayout::~CustomLayout()
 		delete *it2;
 	}
 	delete m_editDrawable;
+	delete m_editExitButton;
+	delete m_editSaveButton;
 	delete m_handlerExitButton;
 	delete m_handlerSaveButton;
 }
@@ -194,6 +196,7 @@ void ShivaGUI::CustomLayout::Inflate( TiXmlElement *_xmlElement, ResourceManager
 	if( m_editExitButton == NULL )
 	{
 		m_editExitButton = new TextButton();
+		// MEMORY LEAK?
 		CustomLayoutParams *exitButtonParams = new CustomLayoutParams();
 		exitButtonParams->SetWidthConst( LayoutParams::WRAP_CONTENT );
 		exitButtonParams->SetHeightConst( LayoutParams::WRAP_CONTENT );
@@ -211,6 +214,7 @@ void ShivaGUI::CustomLayout::Inflate( TiXmlElement *_xmlElement, ResourceManager
 	if( m_editSaveButton == NULL )
 	{
 		m_editSaveButton = new TextButton();
+		// MEMORY LEAK?
 		CustomLayoutParams *saveButtonParams = new CustomLayoutParams();
 		saveButtonParams->SetWidthConst( LayoutParams::WRAP_CONTENT );
 		saveButtonParams->SetHeightConst( LayoutParams::WRAP_CONTENT );
@@ -304,7 +308,7 @@ bool ShivaGUI::CustomLayout::HandleEvent( InternalEvent *_currentEvent )
 		for( std::vector< View* >::iterator it = m_views.begin(); it != m_views.end(); ++it )
 		{
 			if( ( *it )->HandleEvent( _currentEvent ) )
-				return true;//eventAbsorbed = true;
+				return true; //eventAbsorbed = true;
 		}
 	}
 	return eventAbsorbed;
@@ -316,6 +320,7 @@ void ShivaGUI::CustomLayout::AddView( View *_value, ResourceManager *_resources 
 {
 	m_views.push_back( _value );
 
+	// MEMORY LEAK? Nope, it should get deleted once we delete m_internalViews
 	CustomLayoutElement *container = new CustomLayoutElement( _value, _resources, this );
 	m_internalViews.push_back( container );
 	m_needLayout = true;
@@ -328,6 +333,7 @@ ShivaGUI::LayoutParams* ShivaGUI::CustomLayout::InflateLayoutParams( TiXmlElemen
 	CustomLayoutParams *typedParams;
 	if( _params == NULL )
 	{
+		// MEMORY LEAK?
 		typedParams = new CustomLayoutParams();
 		_params = typedParams;
 	}

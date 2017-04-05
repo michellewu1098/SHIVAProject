@@ -31,6 +31,8 @@ ShivaGUI::View::~View()
 	delete [] m_nextFocus;
 	delete m_background;
 	delete m_layoutParams;
+
+	//_CrtDumpMemoryLeaks();
 }
 
 //----------------------------------------------------------------------------------

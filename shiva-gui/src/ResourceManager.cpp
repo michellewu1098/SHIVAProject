@@ -557,6 +557,8 @@ ShivaGUI::Drawable* ShivaGUI::ResourceManager::GetDrawable( std::string _filenam
 	if( _filename.compare( _filename.size() - 4, 4, ".png" ) == 0 )
 	{
 		// We are being asked to load a png file
+
+		// MEMORY LEAK?
 		Drawable *output = new BitmapDrawable( GetBitmap( std::string( "Resources/Drawables/" ) + _filename ) );
 		output->SetFilename( _filename );
 		return output;

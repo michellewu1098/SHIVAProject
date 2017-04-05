@@ -33,6 +33,7 @@ ShivaGUI::InputController::~InputController()
 	for( std::map< int, Debouncer* >::iterator it = m_debouncers.begin(); it != m_debouncers.end(); ++it )
 	{
 		delete ( *it ).second;
+		(*it).second = NULL;
 	}
 }
 
@@ -251,9 +252,13 @@ void ShivaGUI::InputController::IssueEvent( InputEvent *_currentInputEvent, Acti
 	if( targetGUIController != NULL )
 	{
 		if( _currentInputEvent->GetType() == InputEvent::WINDOWCLOSE )
+		{
+			// MEMORY LEAK?
 			targetGUIController->IssueEvent( new InternalEvent( InternalEvent::QUIT ) );
+		}
 		else if( _currentInputEvent->GetType() == InputEvent::WINDOWRESIZE )
 		{
+			// MEMORY LEAK?
 			InternalEvent *currentOutputEvent = new InternalEvent( InternalEvent::WINDOW_RESIZE );
 			int w, h;
 			_currentInputEvent->GetWindowSize( w, h );
@@ -262,6 +267,7 @@ void ShivaGUI::InputController::IssueEvent( InputEvent *_currentInputEvent, Acti
 		}
 		else if( _currentInputEvent->GetType() == InputEvent::MOUSEBUTTONDOWN )
 		{
+			// MEMORY LEAK?
 			InternalEvent *currentOutputEvent = new InternalEvent( InternalEvent::POSITIONAL_SELECT );
 			int x, y;
 			_currentInputEvent->GetMousePosition( x, y );
@@ -270,6 +276,7 @@ void ShivaGUI::InputController::IssueEvent( InputEvent *_currentInputEvent, Acti
 		}
 		else if( _currentInputEvent->GetType() == InputEvent::MOUSEBUTTONUP )
 		{
+			// MEMORY LEAK?
 			InternalEvent *currentOutputEvent = new InternalEvent( InternalEvent::POSITIONAL_DESELECT );
 			int x, y;
 			_currentInputEvent->GetMousePosition( x, y );
@@ -278,6 +285,7 @@ void ShivaGUI::InputController::IssueEvent( InputEvent *_currentInputEvent, Acti
 		}
 		else if( _currentInputEvent->GetType() == InputEvent::MOUSEMOTION )
 		{
+			// MEMORY LEAK?
 			InternalEvent *currentOutputEvent = new InternalEvent( InternalEvent::POSITIONAL_DRAG );
 			int x, y;
 			_currentInputEvent->GetMousePosition( x, y );

@@ -8,6 +8,7 @@ ShivaGUI::GUIManager::GUIManager( std::string _programName, std::string _program
 
 	m_activityResult = NULL;
 	m_activityStartData = NULL;
+	m_preferences = NULL;
 	m_currentActivityCommand = NONE;
 	m_exitEvent = false;
 	m_windowSDLIDs = NULL;
@@ -53,6 +54,25 @@ ShivaGUI::GUIManager::~GUIManager()
 
 	delete m_profileManager;
 	delete m_audioManager;
+	delete m_preferences;
+
+	delete m_activityStartData;
+
+	m_profileManager = NULL;
+	m_audioManager = NULL;
+	m_preferences = NULL;
+
+	while( !m_activityStack.empty() )
+	{
+		Activity *currentActivity = m_activityStack.back();
+		if( currentActivity != NULL )
+		{
+			currentActivity->Destroy();
+		}
+
+		m_activityStack.pop_back();
+	}
+	
 }
 
 //----------------------------------------------------------------------------------

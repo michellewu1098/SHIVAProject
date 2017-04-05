@@ -74,6 +74,8 @@ ShivaGUI::ImageButton::~ImageButton()
 	delete m_audio_pressStart;
 	delete m_audio_hoverEnter;
 	delete m_gazeIndicatorShader;
+
+	delete m_background;
 }
 
 //----------------------------------------------------------------------------------

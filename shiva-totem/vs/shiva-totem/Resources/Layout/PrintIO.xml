@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CustomLayout
+	layout_width="fill_parent"
+	layout_height="fill_parent"
+	background="@RootViewBackground">
+	
+	<TextView
+		id="titleTextView"
+		layout_width="wrap_content"
+		layout_height="wrap_content"
+		layout_centreX="0.5"
+		layout_centreY="0.05"
+		text="PRINT or EXPORT"
+		/>
+	
+	<VolView
+		id="MainVolView"
+		layout_width="0.34"
+		layout_height="0.55"
+		layout_centreX="0.5"
+		layout_centreY="0.55"
+		cameraPositionY="1"
+		cameraPositionZ="14.0"
+		cameraTargetY="0"
+		/>
+	
+	<TextButton
+		id="Print"
+		layout_width="0.2"
+		layout_height="0.1"
+		layout_centreX="0.8"
+		layout_centreY="0.45"
+		scaleContent="true"
+		keepContentAspectRatio="true"
+		onClick="buttonHandler"
+		text="print"
+		/>
+		
+	<TextButton
+		id="Export"
+		layout_width="0.2"
+		layout_height="0.1"
+		layout_centreX="0.8"
+		layout_centreY="0.25"
+		scaleContent="true"
+		keepContentAspectRatio="true"
+		onClick="buttonHandler"
+		text="export"
+		/>
+		
+</CustomLayout>

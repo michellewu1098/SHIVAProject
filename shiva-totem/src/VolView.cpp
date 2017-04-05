@@ -373,7 +373,7 @@ void VolView::Draw()
 	}
 
 	// Restore GL Viewport to previous state
-	glViewport( 0, 0, viewport[2], viewport[3] );
+	glViewport( 0, 0, viewport[ 2 ], viewport[ 3 ] );
 	
 }
 

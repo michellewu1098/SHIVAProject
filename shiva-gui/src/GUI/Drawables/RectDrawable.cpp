@@ -17,7 +17,10 @@ ShivaGUI::RectDrawable::RectDrawable()
 //----------------------------------------------------------------------------------
 
 ShivaGUI::RectDrawable::~RectDrawable()
-{ }
+{
+	delete m_fillShader;
+	delete m_borderShader;
+}
 
 //----------------------------------------------------------------------------------
 
