@@ -72,6 +72,12 @@
     <ClCompile Include="..\..\src\PrintActivity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\CommandManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Command.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\AssembleActivity.h">
@@ -114,6 +120,12 @@
       <Filter>Header Files\Totem\Operations</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\PrintActivity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\CommandManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,7 +20,7 @@
 #include "GUIManager.h"
 
 #include "Totem/TotemController.h"
-
+#include "CommandManager.h"
 
 class NudgeActivity : public ShivaGUI::Activity
 {
@@ -136,6 +136,8 @@ protected:
 	/// \brief Nudging step size
 	//----------------------------------------------------------------------------------
 	float m_nudgeStep;
+	//----------------------------------------------------------------------------------
+	Totem::CommandManager* m_commandManager;
 	//----------------------------------------------------------------------------------
 
 };

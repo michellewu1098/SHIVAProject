@@ -1,0 +1,12 @@
+<CustomLayout background="LinearGradientBackground.xml">
+    <TextView id="Title" layout_height="WRAP_CONTENT" layout_width="WRAP_CONTENT" layout_centreX="0.5" layout_centreY="0.05" text="tools" />
+    <TextButton id="EyeGazeRest" visibility="false" layout_height="0.3" layout_width="0.2" padding="10" layout_centreX="0.7" layout_centreY="0.25" eyeGaze_RestButton="true" text="rest" />
+    <TextButton id="DrillActivity" layout_height="0.24524" layout_width="0.290625" padding="10" layout_centreX="0.194792" layout_centreY="0.370877" onClick="launchActivityHandler" text="drill" />
+    <TextButton id="BlendAdjustActivity" layout_height="0.239585" layout_width="0.292708" padding="10" layout_centreX="0.195833" layout_centreY="0.648162" onClick="launchActivityHandler" text="pump" />
+    <TextButton id="RotateObjectActivity" layout_height="0.250895" layout_width="0.30625" padding="10" layout_centreX="0.514584" layout_centreY="0.368992" onClick="launchActivityHandler" text="rotate" />
+    <TextButton id="UniformScaleActivity" layout_height="0.23393" layout_width="0.305208" padding="10" layout_centreX="0.515625" layout_centreY="0.650047" onClick="launchActivityHandler" text="object size" />
+    <TextButton id="NudgeActivity" visibility="false" layout_height="0.2" layout_width="0.3" padding="10" layout_centreX="0.515625" layout_centreY="0.865127" onClick="launchActivityHandler" text="nudge objects" />
+    <TextButton id="RotateReset" visibility="false" layout_height="0.140434" layout_width="0.205208" padding="10" layout_centreX="0.781771" layout_centreY="0.783129" onClick="buttonHandler" text="reset view" />
+    <TextButton id="UndoButton" visibility="false" layout_height="WRAP_CONTENT" layout_width="0.2" padding="10" layout_centreX="0.895312" layout_centreY="0.269793" onClick="buttonHandler" text="undo" />
+    <TextButton id="BackButton" layout_height="0.281809" layout_width="0.233334" padding="10" layout_centreX="0.878125" layout_centreY="0.147361" onClick="buttonHandler" text="back" />
+</CustomLayout>

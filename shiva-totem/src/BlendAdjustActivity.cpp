@@ -68,6 +68,8 @@ void BlendAdjustActivity::OnCreate( ShivaGUI::Bundle *_data )
 			InitIOWindow( guiController, _data );
 		}
 	}
+
+	m_commandManager = Totem::CommandManager::GetInstance();
 }
 
 //----------------------------------------------------------------------------------
@@ -119,23 +121,47 @@ void BlendAdjustActivity::UtilityEventReceived( UtilityEventHandler *_handler, S
 		}
 		else if( _view->GetID() == "BlendIncrease" )
 		{
-			m_totemController->AdjustBlend( 0.05f );
+
+			/*m_totemController->AdjustBlend( 0.05f );
 			float currentBlend = m_totemController->GetBlend();
 			if( currentBlend > 1.5f )
-				m_totemController->SetBlend( 1.5f );
+				m_totemController->SetBlend( 1.5f );*/
+
+			BlendCommand* blendCmd = new BlendCommand();
+			blendCmd->SetBlend( "increase" );
+			m_commandManager->Execute( blendCmd );
+
 			RebuildTrees();
 		}
 		else if( _view->GetID() == "BlendDecrease" )
 		{
-			m_totemController->AdjustBlend( -0.05f );
-			float currentBlend = m_totemController->GetBlend();
-			if( currentBlend < -1.0f )
-				m_totemController->SetBlend( -1.0f );
+			//m_totemController->AdjustBlend( -0.05f );
+			//float currentBlend = m_totemController->GetBlend();
+			//if( currentBlend < -1.0f )
+			//	m_totemController->SetBlend( -1.0f );
+
+			BlendCommand* blendCmd = new BlendCommand();
+			blendCmd->SetBlend( "decrease" );
+			m_commandManager->Execute( blendCmd );
+
 			RebuildTrees();
 		}
 		else if( _view->GetID() == "BlendReset" )
 		{
-			m_totemController->SetBlend( m_initialBlending );
+			ResetBlendCommand* resetBlendCmd = new ResetBlendCommand();
+			m_commandManager->Execute( resetBlendCmd );
+
+			//m_totemController->SetBlend( m_initialBlending );
+			RebuildTrees();
+		}
+		else if( _view->GetID() == "UndoButton" )
+		{
+			m_commandManager->Undo();
+			RebuildTrees();
+		}
+		else if( _view->GetID() == "RedoButton" )
+		{
+			m_commandManager->Redo();
 			RebuildTrees();
 		}
 	}

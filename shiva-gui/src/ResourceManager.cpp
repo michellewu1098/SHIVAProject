@@ -11,6 +11,7 @@
 #include "GUI/Views/ImageButton.h"
 #include "GUI/Views/TextButton.h"
 #include "GUI/Views/TextView.h"
+#include "GUI/Views/ImageTextView.h"
 #include "GUI/Views/ImageTextButton.h"
 #include "GUI/Views/ViewGroups/LinearLayout.h"
 #include "GUI/Views/ViewGroups/CustomLayout.h"
@@ -29,19 +30,22 @@ ShivaGUI::ResourceManager::ResourceManager( ShivaGUI::GUIManager *_guiManager, u
 	m_windowIndex = _windowIndex;
 	m_mipmapImages = true;
 	m_currentThemeNode = NULL;
-	m_textTexName = 0;
 
-	m_addTextSpace = false; 
-	m_isTextToTexture = false;
-
+	m_renderTextToTexture = false;
 	m_isRenderingText = false;
+
 	m_iconOnLeft = false;
-	m_iconOnTop = false;
+	m_iconAbove = false;
+	m_iconBelow = false;
 
 	m_projMatrix.identity();
 	m_mvMatrix.identity();
 
 	TTF_Init();
+
+	m_iconPercentSize = m_defaultIconPercentSize = 0.75f;
+	m_textPercentSize = m_defaultTextPercentSize = 0.25f;
+ 
 }
 
 //----------------------------------------------------------------------------------
@@ -83,16 +87,6 @@ void ShivaGUI::ResourceManager::RegisterViewID( View *_view, std::string _id )
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ResourceManager::SetMatrices( const float &_width, const float &_height )
-{
-	m_projMatrix.identity();
-	cml::matrix_orthographic_RH( m_projMatrix, 0.f, _width, _height, 0.f, -1.f, 1.f, cml::z_clip_neg_one );
-	
-	m_mvMatrix.identity();
-}
-
-//----------------------------------------------------------------------------------
-
 ShivaGUI::View* ShivaGUI::ResourceManager::GetViewFromID( std::string _id )
 {
 	if( m_GUIManager != NULL )
@@ -118,68 +112,217 @@ ShivaGUI::View* ShivaGUI::ResourceManager::GetViewFromID( std::string _id )
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ResourceManager::ReloadTextures()
+SDL_Rect newSDL_Rect( int _xs, int _ys, int _dx, int _dy ) 
 {
-	for( std::map< std::string, unsigned int >::iterator it = m_glTextures.begin(); it != m_glTextures.end(); ++it )
+	SDL_Rect rc;
+	rc.x = _xs; rc.y = _ys;
+	rc.w = _dx; rc.h = _dy;
+
+    return( rc );
+}
+
+//----------------------------------------------------------------------------------
+
+unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename, bool _isWithText )
+{
+	// Get the file name without extension to check if texture has already been created
+	std::string fileNameNoExt;
+	size_t lastdot = _filename.find_last_of( "." );
+	
+	if( lastdot != std::string::npos ) { fileNameNoExt = _filename.substr( 0, lastdot ); }
+
+	// Check if texture is already there, if yes, return it
+
+	if( _isWithText )
 	{
-		bool mipmap = false;
-		bool addAlpha = false;
-		bool repeat = false;
+		if ( m_glTextures.find( fileNameNoExt + std::string( "_WithText" ) ) != m_glTextures.end() ) {
+			return m_glTextures[ fileNameNoExt + std::string( "_WithText" ) ];
+		}
+	}
+	else 
+	{
+		if( m_glTextures.find( fileNameNoExt ) != m_glTextures.end() ) {
+			return m_glTextures[ fileNameNoExt ];
+		}
+	}
 
-		std::cout << "INFO: ResourceManager Reloading Image to OpenGL: " << it->first << std::endl;
+	bool mipmap = false, addAlpha = true, repeat = false;
 
-		SDL_Surface *image;
+	// Loading image as a SDL_Surface
+	// I've had this function for so long I can't remember where it was from originally, I think it was based on SDL example usage code
 
-		// Load the BMP file into a surface
-		//image = SDL_LoadBMP(filename.c_str());
+	std::cout << "INFO: ResourceManager Loading Image: " << _filename << std::endl;
 
-		image = IMG_Load( it->first.c_str() );
+	SDL_Surface *image;
+	image = IMG_Load( _filename.c_str() );
 
-		if( image == NULL )
+	if( image == NULL ) {
+		std::cerr << "WARNING: ResourceManager Couldn't load: " << _filename << " " << SDL_GetError() << std::endl;
+		return 0;
+	}
+
+	// This if for ImageTextButtons or ImageTextViews
+
+	unsigned int texName;
+
+	if( !m_buttonText.empty() ) 
+	{
+		// 1. Creating the text surface from text body and attributes set for the font
+		// We need to this here because we need the dimensions of the final text in order to calculate total height/width of final image/icon
+
+		SDL_Surface* textSurf = GetTextSurface( m_buttonText, m_buttonTextAlign, m_buttonFontName, m_buttonFontSize, m_buttonFontColour );
+		
+		int width, height;
+		
+		if( m_iconAbove || m_iconBelow )
 		{
-			std::cerr << "WARNING: ResourceManager Couldn't load: " << it->first << " " << SDL_GetError() << std::endl;
+			width = image->w; // At the moment, we're using the width of the previously loaded image as the "final" width of the image/icon+text that will be rendered
+			height = image->h + textSurf->h + 15;
+		}
+		else if( m_iconOnLeft )
+		{
+			width = image->w + textSurf->w + 15;
+			height = image->h; // Or use text height + some padding?
 		}
 
-		SDLSurfaceToOpenGLID( image, it->second, mipmap, addAlpha, repeat );
+		Uint32 rmask, gmask, bmask, amask;
 
-		// Free the allocated BMP surface
+		// SDL interprets each pixel as a 32-bit number, so our masks must depend on the endianness (byte order) of the machine
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+		rmask = 0xff000000;
+		gmask = 0x00ff0000;
+		bmask = 0x0000ff00;
+		amask = 0x000000ff;
+#else
+		rmask = 0x000000ff;
+		gmask = 0x0000ff00;
+		bmask = 0x00ff0000;
+		amask = 0xff000000;
+#endif
+
+		// 2. Create the surface that will hold the final image scaled/resized based on the dimensions of the text + icon
+
+		SDL_Surface *finalImage = SDL_CreateRGBSurface( SDL_SWSURFACE, width, height, 32, rmask, gmask, bmask, amask );
+		
+		// 3. Calculate dimensions of icon
+
+		float imageH, imageW;
+		if( m_iconAbove || m_iconBelow )
+		{
+			imageH = height * m_iconPercentSize;
+			float scalingFactor = imageH / ( float )image->h;
+			imageW = width * scalingFactor;
+		}
+		else if( m_iconOnLeft )
+		{
+			imageW = width * m_iconPercentSize;
+			float scalingFactor = imageW / ( float )image->w;
+			imageH = height * scalingFactor;
+		}
+
+		SDL_SetSurfaceBlendMode( image, SDL_BLENDMODE_NONE );
+
+		// 4. Blit icon onto final image
+
+		if( m_iconAbove )
+			SDL_BlitScaled( image, NULL, finalImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )imageW ) / 2 ), 5, ( int )imageW, ( int )imageH ) );
+		else if( m_iconBelow )
+			SDL_BlitScaled( image, NULL, finalImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )imageW ) / 2 ), ( height - ( int )imageH - 10 ), ( int )imageW, ( int )imageH ) );
+		else if( m_iconOnLeft )
+			SDL_BlitScaled( image, NULL, finalImage, &( SDL_Rect )newSDL_Rect( 0, ( ( height - ( int )imageH ) / 2 ), ( int )imageW, ( int )imageH ) );
+
+
+		// 5. Check if we need to create the texture corrisponding to the text of the button
+
+		if ( m_renderTextToTexture ) // If we are rendering the text (done only ONCE)
+		{
+			// Now check if there is already a texture for the text (it shouldn't be there, but oh well)
+			if( m_glTextures.find( fileNameNoExt + std::string( "_Text" ) ) == m_glTextures.end() )
+			{
+				unsigned int textID;
+
+				SDL_Surface *textImage = SDL_CreateRGBSurface( SDL_SWSURFACE, width, height, 32, rmask, gmask, bmask, amask );
+				
+				float textH, textW;
+				if( m_iconAbove || m_iconBelow )
+				{
+					textH = height * m_textPercentSize;
+					float textScalingFactor = textH / ( float )textSurf->h;
+					textW = textSurf->w * textScalingFactor;
+
+					if( textW > textSurf->w ) { textW = textSurf->w; }
+				}
+				else if( m_iconOnLeft )
+				{
+					/*if( textSurf->h < ( image->h / 2 ) )
+					{
+						textH = height * 0.6f;
+						float textScalingFactor = textH / ( float )textSurf->h;
+						textW = textSurf->w * textScalingFactor;
+					}
+					else 
+					{
+						textH = textSurf->h;
+						textW = textSurf->w;
+					}*/
+					
+					textW = width * m_textPercentSize;
+					float textScalingFactor = textW / ( float )textSurf->w;
+					textH = textSurf->h * textScalingFactor; 
+				}
+
+				SDL_SetSurfaceBlendMode( textSurf, SDL_BLENDMODE_NONE );
+		
+				if( m_iconAbove )
+				{
+					//SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )textW ) / 2 ), ( int )imageH + 5, textSurf->w, textSurf->h ) );
+					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )textW ) / 2 ), ( int )imageH + 5, textW, textH ) );
+				}
+				else if( m_iconBelow )
+					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )textW ) / 2 ), -10, textW, textH ) );
+				else if( m_iconOnLeft )
+				{
+					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( int )imageW + 10 ), ( ( height - ( int )textH ) / 2 ), textSurf->w, textSurf->h ) );
+					//SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( int )imageW + 20 ), ( ( height - ( int )textH ) / 2 ), textW, textH ) );
+				}
+				
+				textID = SDLSurfaceToOpenGL( textImage, mipmap, addAlpha, repeat );
+
+				SDL_FreeSurface( textImage );
+
+				if( textID != 0 )
+				{
+					m_glTextures[ fileNameNoExt + std::string( "_Text" ) ] = textID;
+				}
+			}
+			else
+			{
+				std::cout << "ERROR: ResourceManager already created a texture for the following text >> " << m_buttonText << std::endl;
+			}
+		}
+
+		texName = SDLSurfaceToOpenGL( finalImage, mipmap, addAlpha, repeat );
+		
+		SDL_FreeSurface( finalImage );
+		SDL_FreeSurface( textSurf );
+
+		fileNameNoExt = fileNameNoExt + std::string( "_WithText" );
+	}
+	else
+	{
+		texName = SDLSurfaceToOpenGL( image, mipmap, addAlpha, repeat );
 		SDL_FreeSurface( image );
 	}
-}
 
-//----------------------------------------------------------------------------------
-
-bool ShivaGUI::ResourceManager::GetManagedTexture( std::string _name, unsigned int *_texID )
-{
-	if( m_glExternalTextures.find( _name ) != m_glExternalTextures.end() )
+	if( texName != 0 )
 	{
-		*_texID = m_glExternalTextures[ _name ];
-		return false;
+		m_glTextures[ fileNameNoExt ] = texName;
 	}
 
-	glGenTextures( 1, _texID );
-	m_glExternalTextures[ _name ] = *_texID;
-	return true;
-}
-
-//----------------------------------------------------------------------------------
-
-void ShivaGUI::ResourceManager::ClearManagedTexture( std::string _name )
-{
-	if( m_glExternalTextures.find( _name ) != m_glExternalTextures.end() )
-	{
-		unsigned int texID = m_glExternalTextures[ _name ];
-
-		glDeleteTextures( 1, &texID );
-		m_glExternalTextures.erase( _name );
-	}
-}
-
-//----------------------------------------------------------------------------------
-
-void ShivaGUI::ResourceManager::ClearText()
-{
-	m_buttonText.clear();
+	m_iconPercentSize = m_defaultIconPercentSize;
+	m_textPercentSize = m_defaultTextPercentSize;
+	
+	return texName;
 }
 
 //----------------------------------------------------------------------------------
@@ -194,184 +337,6 @@ void ShivaGUI::ResourceManager::SetTextInfo( const std::string &_text, const std
 
 	if( !m_buttonText.empty() )
 		m_isRenderingText = true;
-}
-
-//----------------------------------------------------------------------------------
-
-SDL_Rect newSDL_Rect( int _xs, int _ys, int _dx, int _dy ) 
-{
-	SDL_Rect rc;
-	rc.x = _xs; rc.y = _ys;
-	rc.w = _dx; rc.h = _dy;
-
-    return( rc );
-}
-
-//----------------------------------------------------------------------------------
-
-unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename )
-{
-	std::string fileNameNoExt;
-	size_t lastdot = _filename.find_last_of( "." );
-	if( lastdot != std::string::npos )
-	{	
-		fileNameNoExt = _filename.substr( 0, lastdot );
-	}
-
-	if( m_glTextures.find( fileNameNoExt ) != m_glTextures.end() ) 
-	{
-		return m_glTextures[ fileNameNoExt ];
-	}
-
-	// I've had this function for so long I can't remember where it was from originally
-	// I think it was based on SDL example usage code
-
-	bool mipmap = false;
-	bool addAlpha = true;
-	bool repeat = false;
-
-	std::cout << "INFO: ResourceManager Loading Image to OpenGL: " << _filename << std::endl;
-
-	SDL_Surface *image;
-	// Loading image as a SDL_Surface
-	image = IMG_Load( _filename.c_str() );
-
-	if( image == NULL ) {
-		std::cerr << "WARNING: ResourceManager Couldn't load: " << _filename << " " << SDL_GetError() << std::endl;
-		return 0;
-	}
-
-	unsigned int texName;
-
-	if( m_addTextSpace ) // For ImageTextButtons
-	{
-		if ( m_glTextures.find( fileNameNoExt + std::string( "_WithText" ) ) != m_glTextures.end() )
-		{
-			return m_glTextures[ fileNameNoExt + std::string( "_WithText" ) ];
-		}
-		// Creating the text surface from text body and attributes set for the font
-		SDL_Surface* textSurf = GetTextSurface( m_buttonText, m_buttonTextAlign, m_buttonFontName, m_buttonFontSize, m_buttonFontColour );
-		
-		// Probably add here the option to either have icon on side or on top, depending on user preference in Layout .xml file
-		int width, height;
-		if( m_iconOnTop )
-		{
-			width = image->w;
-			height = image->h + textSurf->h + 10;
-		}
-		else if( m_iconOnLeft )
-		{
-			width = image->w + textSurf->w + 10;
-			height = image->h; /*?????? Or use text height + some padding*/
-			//Should probably constrain image to be a cube? Or specific ratio
-		}
-
-		// At the moment, we're using the width of the previously loaded image as the "final" width of the image/icon+text that will be rendered
-		//int width = image->w;
-		//int height = image->h + textSurf->h + 10; // Adding some padding
-
-		Uint32 rmask = 0x000000ff;
-		Uint32 gmask = 0x0000ff00;
-		Uint32 bmask = 0x00ff0000;
-		Uint32 amask = 0xff000000;
-
-		// Create the surface that will hold the final image scaled/resized based on the dimensions of the text
-		SDL_Surface *finalImage = SDL_CreateRGBSurface( SDL_SWSURFACE, width, height, 32, rmask, gmask, bmask, amask );
-		
-		float imageH, imageW;
-		if( m_iconOnTop )
-		{
-			imageH = height * 0.6f;
-			float scalingFactor = imageH / ( float )image->h;
-			imageW = width * scalingFactor;
-		}
-		else if( m_iconOnLeft )
-		{
-			imageW = width * 0.4f;
-			float scalingFactor = imageW / ( float )image->w;
-			imageH = height * scalingFactor;
-		}
-
-		// If we assume that image will occupy 60% of total space, and text will occupy 40% of total space
-		//float imageH = height * 0.6f;
-		//float scalingFactor = imageH / ( float )image->h;
-		//float imageW = width * scalingFactor;
-
-		SDL_SetSurfaceBlendMode( image, SDL_BLENDMODE_NONE );
-
-		if( m_iconOnTop )
-			SDL_BlitScaled( image, NULL, finalImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )imageW ) / 2 ), 5, ( int )imageW, ( int )imageH ) );
-		else if( m_iconOnLeft )
-			SDL_BlitScaled( image, NULL, finalImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )imageW ) / 2 ), 0, ( int )imageW, ( int )imageH ) );
-
-		if ( m_isTextToTexture ) // If we are rendering the text (which we will do only once)
-		{
-			// Now check if there is already a texture for the text (it shouldn't be there, but oh well)
-			if( m_glTextures.find( fileNameNoExt + std::string( "_Text" ) ) == m_glTextures.end() )
-			{
-				unsigned int textID;
-
-				SDL_Surface *textImage = SDL_CreateRGBSurface( SDL_SWSURFACE, width, height, 32, rmask, gmask, bmask, amask );
-				
-				float textH, textW;
-				if( m_iconOnTop )
-				{
-					textH = height * 0.4f;
-					float textScalingFactor = textH / ( float )textSurf->h;
-					textW = textSurf->w * textScalingFactor;
-				}
-				else if( m_iconOnLeft )
-				{
-					textW = width * 0.6f;
-					float textScalingFactor = textW / ( float )textSurf->w;
-					textH = textSurf->h * textScalingFactor; 
-				}
-
-				//float textH = height * 0.4f;
-				//float textScalingFactor = textH / ( float )textSurf->h;
-				//float textW = textSurf->w * textScalingFactor;
-		
-				SDL_SetSurfaceBlendMode( textSurf, SDL_BLENDMODE_NONE );
-		
-				// THIS NEEDS TO BE CHANGED IF WE'RE GOING THROUGH WITH THE ALL LEFT/TOP THINGY
-				if( m_iconOnTop )
-					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )textW ) / 2 ), ( int )imageH + 5, textSurf->w, textSurf->h ) );
-				else if( m_iconOnLeft )
-					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( imageW + 5 ), ( ( height - textH ) / 2 ), textSurf->w, textSurf->h ) );
-
-				textID = SDLSurfaceToOpenGL( textImage, mipmap, addAlpha, repeat );
-
-				SDL_FreeSurface( textImage );
-
-				if( textID != 0 )
-				{
-					m_glTextures[ fileNameNoExt + std::string( "_Text" ) ] = textID;
-				}
-			}
-		}
-
-		texName = SDLSurfaceToOpenGL( finalImage, mipmap, addAlpha, repeat );
-		
-		SDL_FreeSurface( finalImage );
-		SDL_FreeSurface( textSurf );
-
-		m_isRenderingText = false;
-		
-		fileNameNoExt = fileNameNoExt + std::string( "_WithText" );
-	}
-	else
-	{
-		texName = SDLSurfaceToOpenGL( image, mipmap, addAlpha, repeat );
-		// Free the allocated BMP surface
-		SDL_FreeSurface( image );
-	}
-
-	if( texName != 0 )
-	{
-		m_glTextures[ fileNameNoExt ] = texName;
-	}
-
-	return texName;
 }
 
 //----------------------------------------------------------------------------------
@@ -509,13 +474,23 @@ unsigned int ShivaGUI::ResourceManager::GetSimpleText( std::string _text, std::s
 
 	SDL_Color foregroundColour = { ( _fontColour & 0xFF000000 ) >> 24, ( _fontColour & 0x00FF0000 ) >> 16, ( _fontColour & 0x0000FF00 ) >> 8, ( _fontColour & 0x000000FF ) };//{255,255,255,255};
 
-	//std::cout<<"R = "<<(int)foregroundColour.r<<" G = "<<(int)foregroundColour.g<<" B = "<<(int)foregroundColour.b<<std::endl;
+	//std::cout << "R = " << ( int )foregroundColour.r << " G = " << ( int )foregroundColour.g << " B = " << ( int )foregroundColour.b << std::endl;
 
 	SDL_Surface *surf = TTF_RenderText_Blended( font, _text.c_str(), foregroundColour ); //TTF_RenderText_Shaded( font, text.c_str(), foregroundColour, backgroundColour );
 
 	return SDLSurfaceToOpenGL( surf, false, false, false, true );
 }
 
+//----------------------------------------------------------------------------------
+
+//void ShivaGUI::ResourceManager::SetLayoutPrefs( SharedPreferences* _prefs )
+//{
+//	if( _prefs != NULL ) 
+//	{
+//		m_iconPercentSize = _prefs->GetFloat( "IconPercentSize", m_iconPercentSize );
+//		m_textPercentSize = _prefs->GetFloat( "TextPercentSize", m_textPercentSize );
+//	}
+//}
 
 //----------------------------------------------------------------------------------
 
@@ -541,6 +516,65 @@ TTF_Font* ShivaGUI::ResourceManager::LoadFont( std::string _filename, unsigned i
 
 //----------------------------------------------------------------------------------
 
+void ShivaGUI::ResourceManager::ReloadTextures()
+{
+	for( std::map< std::string, unsigned int >::iterator it = m_glTextures.begin(); it != m_glTextures.end(); ++it )
+	{
+		bool mipmap = false;
+		bool addAlpha = false;
+		bool repeat = false;
+
+		std::cout << "INFO: ResourceManager Reloading Image to OpenGL: " << it->first << std::endl;
+
+		SDL_Surface *image;
+
+		// Load the BMP file into a surface
+		//image = SDL_LoadBMP( filename.c_str() );
+
+		image = IMG_Load( it->first.c_str() );
+
+		if( image == NULL )
+		{
+			std::cerr << "WARNING: ResourceManager Couldn't load: " << it->first << " " << SDL_GetError() << std::endl;
+		}
+
+		SDLSurfaceToOpenGLID( image, it->second, mipmap, addAlpha, repeat );
+
+		// Free the allocated BMP surface
+		SDL_FreeSurface( image );
+	}
+}
+
+//----------------------------------------------------------------------------------
+
+bool ShivaGUI::ResourceManager::GetManagedTexture( std::string _name, unsigned int *_texID )
+{
+	if( m_glExternalTextures.find( _name ) != m_glExternalTextures.end() )
+	{
+		*_texID = m_glExternalTextures[ _name ];
+		return false;
+	}
+
+	glGenTextures( 1, _texID );
+	m_glExternalTextures[ _name ] = *_texID;
+	return true;
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ResourceManager::ClearManagedTexture( std::string _name )
+{
+	if( m_glExternalTextures.find( _name ) != m_glExternalTextures.end() )
+	{
+		unsigned int texID = m_glExternalTextures[ _name ];
+
+		glDeleteTextures( 1, &texID );
+		m_glExternalTextures.erase( _name );
+	}
+}
+
+//----------------------------------------------------------------------------------
+
 ShivaGUI::Drawable* ShivaGUI::ResourceManager::GetDrawable( std::string _filename )
 {
 	// If the first character is an '@' we will assume it's a constant for replacement
@@ -559,7 +593,7 @@ ShivaGUI::Drawable* ShivaGUI::ResourceManager::GetDrawable( std::string _filenam
 		// We are being asked to load a png file
 
 		// MEMORY LEAK?
-		Drawable *output = new BitmapDrawable( GetBitmap( std::string( "Resources/Drawables/" ) + _filename ) );
+		Drawable *output = new BitmapDrawable( GetBitmap( std::string( "Resources/Drawables/" ) + _filename, false ) );
 		output->SetFilename( _filename );
 		return output;
 	}
@@ -610,6 +644,7 @@ ShivaGUI::Drawable* ShivaGUI::ResourceManager::CreateDrawable( std::string _draw
 		if( m_isRenderingText ) {
 			LayeredImageDrawable* drawable = new LayeredImageDrawable();
 			drawable->IsRenderingText();
+			m_isRenderingText = false; 
 			return drawable;
 		}
 		else {
@@ -654,6 +689,10 @@ ShivaGUI::View* ShivaGUI::ResourceManager::CreateView( std::string _viewName )
 	if( _viewName == "TextView" )
 	{
 		return new TextView();
+	}
+	if( _viewName == "ImageTextView" )
+	{
+		return new ImageTextView();
 	}
 	if( _viewName == "CustomLayout" )
 	{
@@ -747,7 +786,7 @@ std::string ShivaGUI::ResourceManager::GetInflationAttribute( std::string _origi
 {
 	if( _originalAttrib.at( 0 ) == '@' )
 	{
-		//std::cout<<"*********INFO: Const replacement for: "<<originalAttrib<<std::endl;
+		//std::cout << "*********INFO: Const replacement for: " << originalAttrib << std::endl;
 		// Check against consts in Profile
 		if( m_attribConstsProfile.find( _originalAttrib ) != m_attribConstsProfile.end() )
 		{
@@ -938,7 +977,7 @@ ShivaGUI::View* ShivaGUI::ResourceManager::ParseLayoutElement( TiXmlNode *_paren
 					parentView->Inflate( _parentNode->ToElement(), this );
 
 					// Only check for children if View is a ViewGroup
-					ViewGroup *parentContainer = dynamic_cast<ViewGroup*>( parentView );
+					ViewGroup *parentContainer = dynamic_cast< ViewGroup* >( parentView );
 					if( parentContainer != NULL )
 					{
 						for( TiXmlNode *childNode = _parentNode->FirstChild(); childNode != NULL; childNode = childNode->NextSibling())
@@ -970,6 +1009,7 @@ ShivaGUI::View* ShivaGUI::ResourceManager::ParseLayoutElement( TiXmlNode *_paren
 							}
 							else
 							{
+								// Most of the times this warning comes up because there is something commented out in the layout file
 								std::cerr << "WARNING: ResourceManager::ParseLayoutElement could not parse layout element of container node" << std::endl;
 							}
 						}
@@ -1137,6 +1177,16 @@ void ShivaGUI::ResourceManager::DoPostEvaluationLinks()
 		}
 	}
 	m_postInflationLinks.clear();
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::ResourceManager::SetMatrices( const float &_width, const float &_height )
+{
+	m_projMatrix.identity();
+	cml::matrix_orthographic_RH( m_projMatrix, 0.f, _width, _height, 0.f, -1.f, 1.f, cml::z_clip_neg_one );
+	
+	m_mvMatrix.identity();
 }
 
 //----------------------------------------------------------------------------------

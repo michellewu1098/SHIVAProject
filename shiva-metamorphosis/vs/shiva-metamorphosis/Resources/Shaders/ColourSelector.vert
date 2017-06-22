@@ -11,6 +11,6 @@ out vec2 o_Uvs;
 
 void main( void )
 {
-	o_Uvs = vUvs;
+	o_Uvs = vec2( vUvs.x, 1 - vUvs.y );
 	gl_Position = u_ProjectionMatrix * u_ModelViewMatrix * vec4( vPosition, 0, 1 );
 }

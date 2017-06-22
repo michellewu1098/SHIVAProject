@@ -4,8 +4,6 @@
 #include "System/SharedPreferences.h"
 #include "GUIManager.h"
 
-
-
 //----------------------------------------------------------------------------------
 
 void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
@@ -50,7 +48,9 @@ void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
 		m_rotationStepsize = prefs->GetFloat( "RotationStepsize", m_rotationStepsize );
 
 		m_saveRescaleSize = prefs->GetFloat( "SaveRescaleSize", m_saveRescaleSize );
+
 	}
+
 	m_totemController->SetBlend( m_originalBlendingAmount );
 
 	// Create the button event handlers
@@ -82,6 +82,9 @@ void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
 		// This is our main method of accessing the resources associated with a Window
 		ShivaGUI::GUIController *guiController = GetGUIController( i );
 
+		// Pass to resourceManager preferences set for Layout
+		guiController->SetLayoutPrefs( prefs );
+
 		// The User Profile can specify how the windows are supposed to be used
 		// We can retrieve this using the GUIController and load a different window layout
 		ShivaGUI::Window::RequestedUse windowUse = guiController->GetRequestedUse();
@@ -97,6 +100,7 @@ void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
 		}
 	}
 
+	m_commandManager = Totem::CommandManager::GetInstance();
 }
 
 //----------------------------------------------------------------------------------
@@ -150,7 +154,7 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 			m_rotationZ -= m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateRight" )
-		{
+		{ 
 			std::cout << "INFO: AssembleActivity request to rotate right" << std::endl;
 			m_rotationZ += m_rotationStepsize;
 		}
@@ -167,43 +171,67 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		else if( _view->GetID() == "DeleteSelected" )
 		{
 			std::cout << "INFO: AssembleActivity request to delete selected object" << std::endl;
-			m_totemController->DeleteSelectedObject();
+
+			DeleteObjectCommand* deleteObjCmd = new DeleteObjectCommand();
+			m_commandManager->Execute( deleteObjCmd );
+
+			//m_totemController->DeleteSelectedObject();
 			RebuildTrees();
 		}
 		else if( _view->GetID() == "SelectAbove" )
 		{
 			std::cout << "INFO: AssembleActivity request to select object above" << std::endl;
-			m_totemController->SelectObjectAbove();
+
+			SelectCommand* selectCmd = new SelectCommand();
+			selectCmd->SetSelection( "above" );
+			m_commandManager->Execute( selectCmd );
+
+			//m_totemController->SelectObjectAbove();
 		}
 		else if( _view->GetID() == "SelectBelow" )
 		{
 			std::cout << "INFO: AssembleActivity request to select object below" << std::endl;
-			m_totemController->SelectObjectBelow();
+
+			SelectCommand* selectCmd = new SelectCommand();
+			selectCmd->SetSelection( "below" );
+			m_commandManager->Execute( selectCmd );
+
+			//m_totemController->SelectObjectBelow();
 		}
 		else if( _view->GetID() == "SwapAbove" )
 		{
 			std::cout << "INFO: AssembleActivity request to swap with object above" << std::endl;
-			m_totemController->ReorderSelectedObject( true );
+			//m_totemController->ReorderSelectedObject( true );
+			
+			SwapCommand* swapCmd = new SwapCommand();
+			swapCmd->SetShiftOrder( true );
+			m_commandManager->Execute( swapCmd );
+
 			RebuildTrees();
 		}
 		else if( _view->GetID() == "SwapBelow" )
 		{
 			std::cout << "INFO: AssembleActivity request to swap with object below" << std::endl;
-			m_totemController->ReorderSelectedObject( false );
+			//m_totemController->ReorderSelectedObject( false );
+
+			SwapCommand* swapCmd = new SwapCommand();
+			swapCmd->SetShiftOrder( false );
+			m_commandManager->Execute( swapCmd );
+
 			RebuildTrees();
 		}
-		else if( _view->GetID() == "NudgeUp" )
-		{
-			std::cout << "INFO: AssembleActivity request to nudge object upward" << std::endl;
-			m_totemController->MoveSelectedObject( 0.0f, 0.0f, 0.1f );
-			RebuildTrees( true );
-		}
-		else if( _view->GetID() == "NudgeDown" )
-		{
-			std::cout << "INFO: AssembleActivity request to nudge object downward" << std::endl;
-			m_totemController->MoveSelectedObject( 0.0f, 0.0f, -0.1f );
-			RebuildTrees( true );
-		}
+		//else if( _view->GetID() == "NudgeUp" )
+		//{
+		//	std::cout << "INFO: AssembleActivity request to nudge object upward" << std::endl;
+		//	m_totemController->MoveSelectedObject( 0.0f, 0.0f, 0.1f );
+		//	RebuildTrees( true );
+		//}
+		//else if( _view->GetID() == "NudgeDown" )
+		//{
+		//	std::cout << "INFO: AssembleActivity request to nudge object downward" << std::endl;
+		//	m_totemController->MoveSelectedObject( 0.0f, 0.0f, -0.1f );
+		//	RebuildTrees( true );
+		//}
 		else if( _view->GetID() == "RotateReset" )
 		{
 			ResetRotation();
@@ -215,10 +243,13 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		}
 		else if( _view->GetID() == "New" )
 		{
+			
 			m_totemController->DeleteAll();
 			m_totemController->SetBlend( m_originalBlendingAmount );
 			ResetRotation();
 			RebuildTrees( true );
+
+			m_commandManager->Clear();
 		}
 		else if( _view->GetID() == "Load" )
 		{
@@ -239,7 +270,7 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 
 				if( tmpTree.Load( fileName ) )
 				{ 
-					m_totemController->LoadModel( tmpTree.getReverseTree(), GetNumGUIControllers() );
+					m_totemController->LoadModel( tmpTree.GetReverseTree(), GetNumGUIControllers() );
 				    m_totemController->SelectTopObject();
 				}
 			
@@ -314,7 +345,6 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 					boost::filesystem::create_directory( m_saveDir );
 				}
 				tempTree.Save( fullFilename );
-			//	tempTree.SaveXML( "test.xml" );
 
 				m_showSaveConfirmation = true;
 				m_saveTextCounter = 3.0f;
@@ -323,6 +353,16 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 			{
 				std::cerr << "WARNING: Cannot export file. Try removing previous files, limit is 10000 files" << std::endl;
 			}
+		}
+		else if( _view->GetID() == "UndoButton" )
+		{
+			m_commandManager->Undo();
+			RebuildTrees( true );
+		}
+		else if( _view->GetID() == "RedoButton" )
+		{
+			m_commandManager->Redo();
+			RebuildTrees( true );
 		}
 	}
 	else if( _handler == m_addPrimitiveHandler )
@@ -348,8 +388,13 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		}
 
 		// We use the button index to create that primitive:
-		m_totemController->AddObjectToTop( dataEntryIndex, GetNumGUIControllers() );
-		m_totemController->SelectTopObject();
+		AddObjectCommand* addObjCmd = new AddObjectCommand();
+		addObjCmd->SetParameters( dataEntryIndex, GetNumGUIControllers() );
+
+		m_commandManager->Execute( addObjCmd );
+
+		//m_totemController->AddObjectToTop( dataEntryIndex, GetNumGUIControllers() );
+		//m_totemController->SelectTopObject();
 
 		// The Views now need to rebuild their trees:
 		RebuildTrees();
@@ -448,7 +493,7 @@ void AssembleActivity::InitIOWindow( ShivaGUI::GUIController *_guiController, Sh
 
 	// The layout xml is where the widget hierarchy is specified
 	// This function will load the file and expand the hierarchy ready for display on screen
-	_guiController->LoadContentView( "AssembleIO.xml" );
+	_guiController->LoadContentView( "AssembleIOWithSymbols.xml" );
 
 	// Retrieve primitive list
 	ShivaGUI::AdapterView *primListView = dynamic_cast< ShivaGUI::AdapterView* >( _guiController->GetResources()->GetViewFromID( "PrimitiveList" ) );

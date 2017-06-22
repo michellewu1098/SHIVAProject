@@ -45,7 +45,7 @@
     <!-- These consist of key-value pairs. The key must start with the @ symbol. All instances of this key found in layout xml files are replaced with the value string -->
     <const>
       <key>@RootViewBackground</key>
-      <value>LinearGradientBackground.xml</value>
+      <value>System/ThemeSystem/LinearGradientBackground.xml</value>
     </const>
     
     

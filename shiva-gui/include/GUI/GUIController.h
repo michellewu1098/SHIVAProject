@@ -12,6 +12,7 @@
 
 #include "System/Window.h"
 #include "GUI/Views/ViewEventListener.h"
+#include "System/SharedPreferences.h"
 
 namespace ShivaGUI
 {
@@ -123,13 +124,22 @@ namespace ShivaGUI
 		void Update( float _deltaTs );
 		//----------------------------------------------------------------------------------
 		/// \brief Draw method
+		/// \param [in] _content Current OGL context
 		//----------------------------------------------------------------------------------
 		void Draw( unsigned int _context );
+		//----------------------------------------------------------------------------------
+		/// \brief Draw method
+		//----------------------------------------------------------------------------------
 		void Draw();
 		//----------------------------------------------------------------------------------
 		/// \brief Function is called when there is more than one GUI controller -> more than one OGL context
 		//----------------------------------------------------------------------------------
 		void CreateBBoxVAOs( unsigned int _context );
+		//----------------------------------------------------------------------------------
+		/// \brief Pass to resource manager layout preferences set in prefs.xml
+		/// \param [in] _prefs Layout preferences
+		//----------------------------------------------------------------------------------
+		void SetLayoutPrefs( SharedPreferences* _prefs );
 		//----------------------------------------------------------------------------------
 
 	protected:

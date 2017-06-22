@@ -56,6 +56,8 @@ VolView::VolView()
 	}
 
 	RefreshTree();
+
+	m_commandManager = Totem::CommandManager::GetInstance();
 }
 
 //----------------------------------------------------------------------------------
@@ -240,8 +242,8 @@ void VolView::Draw( unsigned int _context )
 
 	//glEnable( GL_SCISSOR_TEST );
 
-	//glScissor( _boundsLeft, _windowHeight - _boundsBottom, _boundsRight - _boundsLeft, _boundsBottom - _boundsTop );
-
+	//glScissor( m_boundsLeft, m_windowHeight - m_boundsBottom, m_boundsRight - m_boundsLeft, m_boundsBottom - m_boundsTop );
+	
 
 	//glClear( GL_DEPTH_BUFFER_BIT );
 	// Set glViewport to extent of View
@@ -250,8 +252,8 @@ void VolView::Draw( unsigned int _context )
 	glViewport( m_boundsLeft, m_windowHeight - m_boundsBottom, m_boundsRight - m_boundsLeft, m_boundsBottom - m_boundsTop );
 
 	// Draw the volume view
+	
 	m_renderer->Draw( _context );
-
 	
 	if( m_showCrosshairs )
 	{
@@ -449,7 +451,12 @@ bool VolView::HandleEvent( ShivaGUI::InternalEvent *_eventIn )
 				*/
 				if( m_allowClickSelect )
 				{
-					m_totemController->SelectIntersectingObject( m_selectVecOrigX, m_selectVecOrigY, m_selectVecOrigZ, m_selectVecDirX, m_selectVecDirY, m_selectVecDirZ );
+					SelectMouseCommand* selectMouseCmd = new SelectMouseCommand();
+					selectMouseCmd->SetSelectionVec( m_selectVecOrigX, m_selectVecOrigY, m_selectVecOrigZ, m_selectVecDirX, m_selectVecDirY, m_selectVecDirZ );
+					
+					m_commandManager->Execute( selectMouseCmd );
+					
+					//m_totemController->SelectIntersectingObject( m_selectVecOrigX, m_selectVecOrigY, m_selectVecOrigZ, m_selectVecDirX, m_selectVecDirY, m_selectVecDirZ );
 				}
 			}
 		}

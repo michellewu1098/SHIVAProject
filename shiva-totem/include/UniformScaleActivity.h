@@ -15,6 +15,7 @@
 #include "Totem/TotemController.h"
 #include "System/SharedPreferences.h"
 #include "GUIManager.h"
+#include "CommandManager.h"
 
 
 class UniformScaleActivity : public ShivaGUI::Activity
@@ -126,7 +127,10 @@ protected:
 	//----------------------------------------------------------------------------------
 	float m_scaleStepsize;
 	//----------------------------------------------------------------------------------
-
+	/// \brief Reference to command manager
+	//----------------------------------------------------------------------------------
+	Totem::CommandManager* m_commandManager;
+	//----------------------------------------------------------------------------------
 };
 
 #endif

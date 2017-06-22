@@ -73,7 +73,7 @@ std::string ShivaGUI::SharedPreferences::GetString( std::string _key, std::strin
 
 //----------------------------------------------------------------------------------
 
-template < class T > T ShivaGUI::SharedPreferences::GetValue(std::string _key, std::string _typeName, T _defaultValue )
+template < class T > T ShivaGUI::SharedPreferences::GetValue( std::string _key, std::string _typeName, T _defaultValue )
 {
 	TiXmlNode *prefNode = GetPrefNode( _key );
 	if( prefNode == NULL )

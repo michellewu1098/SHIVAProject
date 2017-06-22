@@ -238,7 +238,7 @@ TiXmlElement* ShivaGUI::LinearLayout::Deflate( ResourceManager *_resources )
 	{
 		for( std::vector< View* >::iterator it = m_views.begin(); it != m_views.end(); ++it )
 		{
-			xmlNode->InsertEndChild( *(*it)->Deflate( _resources ) );
+			xmlNode->InsertEndChild( *( *it )->Deflate( _resources ) );
 		}
 	}
 

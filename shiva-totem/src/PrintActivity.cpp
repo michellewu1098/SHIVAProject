@@ -33,7 +33,6 @@ void PrintActivity::OnCreate( ShivaGUI::Bundle *_data )
 		m_saveDir = prefs->GetString( "SaveDirectory", m_saveDir );
 		m_saveName = prefs->GetString( "SaveFilename", m_saveName );
 
-		m_originalBlendingAmount = prefs->GetFloat( "BlendingAmount", m_originalBlendingAmount );
 		m_rotationStepsize = prefs->GetFloat( "RotationStepsize", m_rotationStepsize );
 		m_saveRescaleSize = prefs->GetFloat( "SaveRescaleSize", m_saveRescaleSize );
 
@@ -45,8 +44,6 @@ void PrintActivity::OnCreate( ShivaGUI::Bundle *_data )
 			m_setObjectColour = true;
 		}
 	}
-
-	m_totemController->SetBlend( m_originalBlendingAmount );
 
 	// We will now tell the system what to display on the windows
 	// First, find out how many windows we have
@@ -92,6 +89,12 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		if( _view->GetID() == "Print" )
 		{
 			std::cout << "INFO: PrintActivity request to 3D print model. Wooho!" << std::endl;
+			VolumeTree::Tree tmpTree;
+			tmpTree.SetRoot( m_totemController->GetNodeTree() );
+			//tmpTree.GetTotemPole();
+			//tmpTree.TestDeletePole();
+
+			RebuildTrees();
 		}
 		else if( _view->GetID() == "Export" )
 		{
@@ -131,6 +134,14 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 			}
 
 			delete rootScaleNode;
+		}
+		else if( _view->GetID() == "DeletePole" )
+		{
+
+		}
+		else if( _view->GetID() == "DeleteBase" )
+		{
+
 		}
 	}
 

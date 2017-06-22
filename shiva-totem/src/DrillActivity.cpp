@@ -77,6 +77,8 @@ void DrillActivity::OnCreate( ShivaGUI::Bundle *_data )
 			InitIOWindow( guiController, _data );
 		}
 	}
+
+	m_commandManager = Totem::CommandManager::GetInstance();
 }
 
 //----------------------------------------------------------------------------------
@@ -161,8 +163,8 @@ void DrillActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		else if( _view->GetID() == "DrillSizeDecrease" )
 		{
 			m_drillSize -= m_drillSizeStep;
-			if( m_drillSize < 0.07f )
-				m_drillSize = 0.07f;
+			if( m_drillSize < 0.05f )
+				m_drillSize = 0.05f;
 		}
 		else if( _view->GetID() == "DrillSizeReset" )
 		{
@@ -190,7 +192,12 @@ void DrillActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 
 				Totem::Operations::Drill *drill = new Totem::Operations::Drill( m_drillSize );
 				drill->SetDrill( drillCentre[ 0 ], drillCentre[ 1 ], drillCentre[ 2 ], selectVecDirX, selectVecDirY, selectVecDirZ, 100.0f );
-				m_totemController->AddOperation( drill );
+				
+				DrillCommand* drillCmd = new DrillCommand();
+				drillCmd->SetOperation( drill );
+
+				m_commandManager->Execute( drillCmd );
+				//m_totemController->AddOperation( drill );
 
 				RebuildTrees();
 			}
@@ -198,7 +205,14 @@ void DrillActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		else if( _view->GetID() == "UndoButton" )
 		{
 			std::cout << "INFO: DrillActivity request to undo operation" << std::endl;
-			m_totemController->RemoveLastOperation();
+			m_commandManager->Undo();
+			//m_totemController->RemoveLastOperation();
+			RebuildTrees();
+		}
+		else if( _view->GetID() == "RedoButton" )
+		{
+			std::cout << "INFO: DrillActivity request to redo operation" << std::endl;
+			m_commandManager->Redo();
 			RebuildTrees();
 		}
 		else if( _view->GetID() == "RotateReset" )

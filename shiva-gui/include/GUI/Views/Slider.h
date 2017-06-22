@@ -9,7 +9,6 @@
 
 namespace ShivaGUI
 {
-
 	class Slider : public View
 	{
 	public:
@@ -44,6 +43,10 @@ namespace ShivaGUI
 		/// Derived View classes must call this at an appropriate time if they want to retain the background
 		//----------------------------------------------------------------------------------
 		virtual void Draw();
+		//----------------------------------------------------------------------------------
+		/// \brief The base class will draw a background drawable if it exists
+		/// Derived View classed must call this at an appropriate time if they want to retain the background
+		/// \param [in] _context Current OGL context
 		//----------------------------------------------------------------------------------
 		virtual void Draw( unsigned int _context );
 		//----------------------------------------------------------------------------------
@@ -82,6 +85,7 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// Input event given to View, expected to filter down hierarchy
 		/// \return false if event is not absorbed (e.g. did not hit button etc)
+		//----------------------------------------------------------------------------------
 		virtual bool HandleEvent(InternalEvent*);
 		//----------------------------------------------------------------------------------
 		/// \brief Set handle position
@@ -161,14 +165,21 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		StateListDrawable *m_handleStateListDrawable;
 		//----------------------------------------------------------------------------------
-		// If the drawables were loaded from theme files
-		// Mainly for use with deflating to xml
+		// If the drawables were loaded from theme files. Mainly for use with deflating to xml
+		//----------------------------------------------------------------------------------
+		/// \brief Flag to check whether the bar drawable was loaded from theme file
 		//----------------------------------------------------------------------------------
 		bool m_barDrawableFromTheme;
 		//----------------------------------------------------------------------------------
+		/// \brief Flag to check whether the handle drawable was loaded from theme file
+		//----------------------------------------------------------------------------------
 		bool m_handleDrawableFromTheme;
 		//----------------------------------------------------------------------------------
+		/// \brief Flag to check whether the handle height was acquired from theme file
+		//----------------------------------------------------------------------------------
 		bool m_handleHeightFromTheme;
+		//----------------------------------------------------------------------------------
+		/// \brief Flag to check whether the handle width was acquired from theme file
 		//----------------------------------------------------------------------------------
 		bool m_handleWidthFromTheme;
 		//----------------------------------------------------------------------------------

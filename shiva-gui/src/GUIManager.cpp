@@ -629,7 +629,7 @@ ShivaGUI::InputEvent* ShivaGUI::GUIManager::GetNextEvent()
 			currentEvent->SetQuitEvent();
 			break;
 		case SDL_KEYDOWN:
-			std::cout << "key pressed:" << currentSDLEvent.key.keysym.scancode << std::endl;
+			std::cout << "Key pressed:" << currentSDLEvent.key.keysym.scancode << std::endl;
 			currentEvent->SetKeyEvent( false, currentSDLEvent.key.keysym.scancode, GetWindowIDFromSDLID( currentSDLEvent.key.windowID ) );
 			break;
 		case SDL_KEYUP:
@@ -642,7 +642,7 @@ ShivaGUI::InputEvent* ShivaGUI::GUIManager::GetNextEvent()
 			}
 		case SDL_MOUSEBUTTONUP:
 			{
-				currentEvent->SetMouseButtonEvent(true,currentSDLEvent.button.button, ( float )currentSDLEvent.button.x, ( float )currentSDLEvent.button.y, GetWindowIDFromSDLID( currentSDLEvent.button.windowID ) );
+				currentEvent->SetMouseButtonEvent( true, currentSDLEvent.button.button, ( float )currentSDLEvent.button.x, ( float )currentSDLEvent.button.y, GetWindowIDFromSDLID( currentSDLEvent.button.windowID ) );
 				break;
 			}
 		case SDL_MOUSEMOTION:

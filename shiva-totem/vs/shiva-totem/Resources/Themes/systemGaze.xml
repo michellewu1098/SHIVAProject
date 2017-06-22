@@ -1,54 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Note that this has worked out differently to how Android declares its styles / themes, so the 'theme' tag is parsed the same way as a View's tag -->
 <theme
-	TextButton_drawable="System/ThemeSystem/button.xml"
-	TextButton_font="Resources/Fonts/FreeSansBold.ttf"
-	TextButton_text_colour="FFFFFFFF"
-	TextButton_text_size="30"
-	TextButton_padding="10"
-  TextButton_audio_pressStart="Resources/Audio/ButtonPushTemp.wav"
-  TextButton_eyeGaze_enable="true"
-  TextButton_eyeGaze_DwellToSelectTime="3.0"
-  TextButton_eyeGaze_WanderTime="0.5"
-  TextButton_eyeGaze_PressTime="0.5"
-  TextButton_eyeGaze_CircleSize="50"
-  TextButton_eyeGaze_Repeat="false"
+	TextButton_drawable = "System/ThemeSystem/button.xml"
+	TextButton_font = "Resources/Fonts/FreeSansBold.ttf"
+	TextButton_text_colour = "FFFFFFFF"
+	TextButton_text_size = "30"
+	TextButton_padding = "10"
+	TextButton_audio_pressStart = "Resources/Audio/ButtonPushTemp.wav"
+	TextButton_eyeGaze_enable = "true"
+	TextButton_eyeGaze_DwellToSelectTime = "3.0"
+	TextButton_eyeGaze_WanderTime = "0.5"
+	TextButton_eyeGaze_PressTime = "0.5"
+	TextButton_eyeGaze_CircleSize = "50"
+	TextButton_eyeGaze_Repeat = "false"
+	TextButton_eyeGaze_Colour = "FF00FFFF"
 	
-	TextView_text_colour="000000FF"
-	TextView_font="Resources/Fonts/FreeSansBold.ttf"
-	TextView_text_size="30"
+	TextView_text_colour = "000000FF"
+	TextView_font = "Resources/Fonts/FreeSansBold.ttf"
+	TextView_text_size = "30"
 	
-	ImageButton_drawable="System/ThemeSystem/button.xml"
-	ImageButton_padding="10"
-  ImageButton_audio_pressStart="Resources/Audio/ButtonHoverTemp.wav"
-  ImageButton_audio_hoverEnter="Resources/Audio/ButtonPushTemp.wav"
-  ImageButton_eyeGaze_enable="true"
-  ImageButton_eyeGaze_DwellToSelectTime="3.0"
-  ImageButton_eyeGaze_WanderTime="0.5"
-  ImageButton_eyeGaze_PressTime="0.5"
-  ImageButton_eyeGaze_CircleSize="50"
-  ImageButton_eyeGaze_Repeat="false"
+	ImageButton_drawable = "System/ThemeSystem/button.xml"
+	ImageButton_padding = "10"
+	ImageButton_audio_pressStart = "Resources/Audio/ButtonHoverTemp.wav"
+	ImageButton_audio_hoverEnter = "Resources/Audio/ButtonPushTemp.wav"
+	ImageButton_eyeGaze_enable = "true"
+	ImageButton_eyeGaze_DwellToSelectTime = "3.0"
+	ImageButton_eyeGaze_WanderTime = "0.5"
+	ImageButton_eyeGaze_PressTime = "0.5"
+	ImageButton_eyeGaze_CircleSize = "50"
+	ImageButton_eyeGaze_Repeat = "false"
+	ImageButton_eyeGaze_Colour = "FF00FFFF"
 	
-	Slider_barDrawable="System/Theme02/slider_bar.xml"
-	Slider_handleDrawable="System/Theme02/slider_handle.xml"
-	Slider_handleWidth="50"
-	Slider_handleHeight="100"
+	ImageTextButton_drawable = "System/ThemeSystem/button.xml"
+	ImageTextButton_padding = "10"
+	ImageTextButton_font = "Resources/Fonts/FreeSansBold.ttf"
+	ImageTextButton_text_colour = "FFFFFFFF"
+	ImageTextButton_text_size = "20"
+	ImageTextButton_text_alignment = "centre"
+	ImageTextButton_eyeGaze_enable = "true"
+	ImageTextButton_eyeGaze_DwellToSelectTime = "3.0"
+	ImageTextButton_eyeGaze_WanderTime = "0.5"
+	ImageTextButton_eyeGaze_PressTime = "0.5"
+	ImageTextButton_eyeGaze_CircleSize = "50"
+	ImageTextButton_eyeGaze_Repeat = "false"
+	ImageTextButton_eyeGaze_Colour = "FF00FFFF"
 	
-	ColourSelector_selectorDrawable="selector_normal.png"
+	Slider_barDrawable = "System/Theme02/slider_bar.xml"
+	Slider_handleDrawable = "System/Theme02/slider_handle.xml"
+	Slider_handleWidth = "50"
+	Slider_handleHeight = "100"
 	
-	ScrollContainer_scrollbarTrackVertical="System/Theme02/scrollbarTrackVert.xml"
-	ScrollContainer_scrollbarTrackHorizontal="System/Theme02/scrollbarTrackHoriz.xml"
-	ScrollContainer_scrollbarThumbVertical="System/Theme02/scrollbarThumbVert.xml"
-	ScrollContainer_scrollbarThumbHorizontal="System/Theme02/scrollbarThumbHoriz.xml"
+	ColourSelector_selectorDrawable = "selector_normal.png"
+	
+	ScrollContainer_scrollbarTrackVertical = "System/Theme02/scrollbarTrackVert.xml"
+	ScrollContainer_scrollbarTrackHorizontal = "System/Theme02/scrollbarTrackHoriz.xml"
+	ScrollContainer_scrollbarThumbVertical = "System/Theme02/scrollbarThumbVert.xml"
+	ScrollContainer_scrollbarThumbHorizontal = "System/Theme02/scrollbarThumbHoriz.xml"
   
-  SDFView_loadingDrawable="LoadingMessage.png"
+	SDFView_loadingDrawable = "LoadingMessage.png"
 	>
 
   <constGroup>
     <!-- These consist of key-value pairs. The key must start with the @ symbol. All instances of this key found in layout xml files are replaced with the value string -->
     <const>
       <key>@RootViewBackground</key>
-      <value>LinearGradientBackground.xml</value>
+      <value>System/ThemeSystem/LinearGradientBackground.xml</value>
     </const>
 
 
@@ -112,6 +128,22 @@
       <value>00000000</value>
     </const>
 
+	<const>
+		<key>@RedColour</key>
+		<value>FF0000FF</value>
+	</const>
+	<const>
+		<key>@GreenColour</key>
+		<value>00FF00FF</value>
+	</const>
+	<const>
+		<key>@BlueColour</key>
+		<value>0000FFFF</value>
+	</const>
+	<const>
+		<key>@BlackTransparentColour</key>
+		<value>00000000</value>
+	</const>
 
     <const>
       <key>@ButtonTop_Normal</key>

@@ -65,8 +65,13 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		bool ImportXML( const char* _filename );
 		//----------------------------------------------------------------------------------
+		/// \brief Import model from .vol file
+		/// \param [in] _filename File name
+		//----------------------------------------------------------------------------------
+		bool ImportVol( const char* _filename );
+		//----------------------------------------------------------------------------------
 		/// \brief Save .vol file function
-		/// \param [in] _filename
+		/// \param [in] _filename File name
 		//----------------------------------------------------------------------------------
 		bool Save( std::string _filename );
 		//----------------------------------------------------------------------------------
@@ -99,6 +104,11 @@ namespace VolumeTree
 		/// \param [in] _mv ModelView matrix
 		//----------------------------------------------------------------------------------
 		void DrawBBoxes( cml::matrix44f_c &_proj, cml::matrix44f_c &_mv );
+		//----------------------------------------------------------------------------------
+		/// \brief Draws any nodes which have the option selected to draw their bounding boxes
+		/// \param [in] _proj Projection matrix
+		/// \param [in] _mv ModelView matrix
+		/// \param [in] _context Current OGL context
 		//----------------------------------------------------------------------------------
 		void DrawBBoxes( cml::matrix44f_c &_proj, cml::matrix44f_c &_mv, unsigned int _context );
 		//----------------------------------------------------------------------------------
@@ -144,8 +154,15 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		/// \brief Get tree reversed
 		//----------------------------------------------------------------------------------
-		std::queue< Node* > getReverseTree();
+		std::queue< Node* > GetReverseTree();
 		//----------------------------------------------------------------------------------
+
+		// 3D PRINTING 
+
+		//----------------------------------------------------------------------------------
+		void Print();
+		//----------------------------------------------------------------------------------
+
 
 	protected:
 
@@ -185,12 +202,12 @@ namespace VolumeTree
 		/// \param [in] _currentNode
 		/// \param [in] _root Root element in the xml file 
 		//----------------------------------------------------------------------------------
-		void exportToXML( Node *_currentNode, TiXmlElement *_root );
+		void ExportToXML( Node *_currentNode, TiXmlElement *_root );
 		//----------------------------------------------------------------------------------
 		/// \brief Import model from .xml file
 		/// \param [in] _root Root element in the xml file
 		//----------------------------------------------------------------------------------
-		Node* importFromXML( TiXmlElement *_root );
+		Node* ImportFromXML( TiXmlElement *_root );
 		//----------------------------------------------------------------------------------
 		/// \brief Used as node ID for exporting
 		//----------------------------------------------------------------------------------
@@ -202,6 +219,7 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		std::string GetExportNodeID( Node *currentNode = NULL );
 		//----------------------------------------------------------------------------------
+		
 
 	};
 }

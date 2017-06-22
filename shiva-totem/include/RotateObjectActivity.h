@@ -15,6 +15,7 @@
 #include "Totem/TotemController.h"
 #include "System/SharedPreferences.h"
 #include "GUIManager.h"
+#include "CommandManager.h"
 
 
 class RotateObjectActivity : public ShivaGUI::Activity
@@ -121,6 +122,10 @@ protected:
 	/// \brief Whether to set object colour
 	//----------------------------------------------------------------------------------
 	bool m_setObjectColour;
+	//----------------------------------------------------------------------------------
+	/// \brief Reference to command manager
+	//----------------------------------------------------------------------------------
+	Totem::CommandManager* m_commandManager;
 	//----------------------------------------------------------------------------------
 
 };

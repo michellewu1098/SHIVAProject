@@ -14,6 +14,7 @@
 #include "VolumeRenderer/GLSLRenderer.h"
 #include "Totem/TotemController.h"
 #include "Utility/GPUProgram.h"
+#include "CommandManager.h"
 
 class VolView : public ShivaGUI::View
 {
@@ -328,6 +329,10 @@ protected:
 	/// \brief Shader for drawing crosshair circle
 	//----------------------------------------------------------------------------------
 	Utility::GPUProgram* m_crosshairCircleShader;
+	//----------------------------------------------------------------------------------
+	/// \brief Reference to command manager
+	//----------------------------------------------------------------------------------
+	Totem::CommandManager* m_commandManager;
 	//----------------------------------------------------------------------------------
 
 };

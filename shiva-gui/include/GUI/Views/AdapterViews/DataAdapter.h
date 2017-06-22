@@ -15,6 +15,7 @@
 #include "GUI/Views/AdapterViews/DataProvider.h"
 #include "GUI/Views/View.h"
 #include "GUI/Views/TextView.h"
+#include "GUI/Views/ImageTextView.h"
 #include "GUI/Views/ImageButton.h"
 #include "GUI/Views/TextButton.h"
 #include "GUI/Views/ImageTextButton.h"
@@ -72,7 +73,9 @@ namespace ShivaGUI
 		virtual void SetMapping( std::string *_from_attribute, std::string *_to_view, unsigned int _arrayLength );
 		//----------------------------------------------------------------------------------
 		void SetIsModelAdapter( const bool &_value ) { m_isModelAdapter = _value; }
+		//----------------------------------------------------------------------------------
 		bool GetIsModelAdapter() const { return m_isModelAdapter; }
+		//----------------------------------------------------------------------------------
 
 
 	protected:
@@ -99,6 +102,13 @@ namespace ShivaGUI
 		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
 		virtual void SetViewImage( ImageTextButton *_view, std::string _imageResource, ResourceManager *_resources );
+		//----------------------------------------------------------------------------------
+		/// \brief Called when GetView needs to bind an image to a View
+		/// \param [in] _view
+		/// \param [in] _imageResource
+		/// \param [in] _resources
+		//----------------------------------------------------------------------------------
+		virtual void SetViewImage( ImageTextView *_view, std::string _imageResource, ResourceManager *_resources );
 		//----------------------------------------------------------------------------------
 		/// \brief Called when GetView needs to bind an image to a View
 		/// \param [in] _view

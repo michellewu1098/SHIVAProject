@@ -240,6 +240,12 @@
     <ClCompile Include="..\..\src\Utility\tinyfiledialogs.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\GUI\Views\ImageTextView.cpp">
+      <Filter>Source Files\GUI\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\System\Activities\CreateNewProfileActivity.cpp">
+      <Filter>Source Files\System\Activities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GUIManager.h">
@@ -406,6 +412,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Utility\tinyfiledialogs.h">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUI\Views\ImageTextView.h">
+      <Filter>Header Files\GUI\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System\Activities\CreateNewProfileActivity.h">
+      <Filter>Header Files\System\Activities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

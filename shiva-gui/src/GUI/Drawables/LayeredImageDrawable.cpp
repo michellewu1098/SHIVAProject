@@ -38,6 +38,8 @@ ShivaGUI::LayeredImageDrawable::LayeredImageDrawable()
 
 	m_projMat.identity();
 	m_mvMat.identity();
+
+	m_textTextureID = -1;
 }
 
 //----------------------------------------------------------------------------------
@@ -249,9 +251,10 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *_xmlElement, Resourc
 	// Each layer child contains its properties as attributes
 
 	if( m_usingText ) {
-		_resources->CreateTextureFromText( true );
-		_resources->SetExtraSpace( true );
+		_resources->RenderTextToTexture( true );
 	}
+
+	float iconPercentSize = _resources->GetIconPercentSize();
 
 	unsigned int imageLayerGroup = 0;
 	
@@ -263,28 +266,29 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *_xmlElement, Resourc
 			{
 				std::string resourceName( currentAttribute->Value() );
 
+				if ( iconPercentSize != _resources->GetIconPercentSize() )
+					_resources->SetIconPercentSize( iconPercentSize );
+
 				// TODO: specifying the directory should *really* not be done here
-
 				if( m_usingText ) {
-					SetTexID( _resources->GetBitmap( std::string( "Resources/Drawables/" ) + resourceName ), imageLayerGroup );
-					if( _resources->IsCreatingText() )
-					{
-						size_t lastdot = resourceName.find_last_of( "." );
-						if( lastdot != std::string::npos )
-						{	
-							resourceName = resourceName.substr( 0, lastdot );
-						}
-						//m_textTextureID = _resources->GetTexture( std::string( "Text/Resources/Drawables/" ) + resourceName );
+					
+					SetTexID( _resources->GetBitmap( std::string( "Resources/Drawables/" ) + resourceName, true ), imageLayerGroup );
 
-						m_textTextureID = _resources->GetTexture(  std::string( "Resources/Drawables/" ) + resourceName + std::string( "_Text" ) );
-						if( !m_textTextureID )
-						{
+					if( _resources->IsRenderingText() )
+					{
+						// Get resource name without extension
+						size_t lastdot = resourceName.find_last_of( "." );
+						if( lastdot != std::string::npos ) { resourceName = resourceName.substr( 0, lastdot ); }
+
+						// Get texture ID of the created TEXT texture
+						m_textTextureID = _resources->GetTexture( std::string( "Resources/Drawables/" ) + resourceName + std::string( "_Text" ) );
+
+						if( m_textTextureID == -1 )
 							std::cerr << "ERROR: Resource Manager didn't create the text texture." << std::endl;
-						}
 					}
 				}
 				else
-					SetTexID( _resources->GetBitmap( std::string( "Resources/Drawables/" ) + resourceName ), imageLayerGroup );
+					SetTexID( _resources->GetBitmap( std::string( "Resources/Drawables/" ) + resourceName, false ), imageLayerGroup );
 
 			}
 			else if( std::string( "colour0" ) == currentAttribute->Name() )
@@ -307,12 +311,11 @@ void ShivaGUI::LayeredImageDrawable::Inflate( TiXmlElement *_xmlElement, Resourc
 		++imageLayerGroup;
 		
 		if( m_usingText )
-			_resources->CreateTextureFromText( false );
+			_resources->RenderTextToTexture( false );
 	}
 	
 	if( m_usingText )
 	{
-		_resources->SetExtraSpace( false );
 		_resources->ClearText();
 		m_nLayers = imageLayerGroup;	
 	}
@@ -670,7 +673,7 @@ void ShivaGUI::LayeredImageDrawable::LayerGroup::SetLayerColour( unsigned int _c
 	m_layerColours[ _layer * 4 + 2 ] = ( ( float )( ( _colour & 0x0000FF00 ) >> 8  ) ) / 255.0f;
 	m_layerColours[ _layer * 4 + 3 ] = ( ( float )( _colour & 0x000000FF ) ) / 255.0f;
 
-	//std::cout << "INFO: LayeredImageDrawable setting layer colours to: " << m_layerColours[ layer * 4 + 0 ] << " " << m_layerColours[ layer * 4 + 1 ] << " " << m_layerColours[ layer * 4 + 2 ] << " " << m_layerColours[ layer * 4 + 3 ] << std::endl;
+	std::cout << "INFO: LayeredImageDrawable setting layer colours to: " << m_layerColours[ _layer * 4 + 0 ] << " " << m_layerColours[ _layer * 4 + 1 ] << " " << m_layerColours[ _layer * 4 + 2 ] << " " << m_layerColours[ _layer * 4 + 3 ] << std::endl;
 }
 
 //----------------------------------------------------------------------------------

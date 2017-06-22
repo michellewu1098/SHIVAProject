@@ -41,22 +41,32 @@ namespace Totem
 		~Object();
 		//----------------------------------------------------------------------------------
 		/// \brief Set child and recalculate offsets
-		/// \param [in] value Child node
+		/// \param [in] _value Child node
 		//----------------------------------------------------------------------------------
 		void SetChild( Object *_value ) { m_child = _value; RecalcOffsets(); }
 		//----------------------------------------------------------------------------------
+		/// \brief Set previous child (before deletion)
+		/// \param [in] _value Child node
+		//----------------------------------------------------------------------------------
+		void SetPrevChild( Object *_value ) { m_prevChild = _value; }
+		//----------------------------------------------------------------------------------
 		/// \brief Set parent and recalculate offsets
-		/// \param [in] value Parent node
+		/// \param [in] _value Parent node
 		//----------------------------------------------------------------------------------
 		void SetParent( Object *_value ) { m_parent = _value; RecalcOffsets(); }
 		//----------------------------------------------------------------------------------
 		/// \brief Retrieve child of Totem::Object
-		/// \return _child
+		/// \return m_child
 		//----------------------------------------------------------------------------------
 		Object* GetChild() const { return m_child; }
 		//----------------------------------------------------------------------------------
+		/// \brief Retrieve previous child (before deletion)
+		/// \return m_prevChild
+		//----------------------------------------------------------------------------------
+		Object* GetPrevChild() const { return m_prevChild; }
+		//----------------------------------------------------------------------------------
 		/// \brief Retrieve parent of Totem::Object
-		/// \return _parent
+		/// \return m_parent
 		//----------------------------------------------------------------------------------
 		Object* GetParent() const { return m_parent; }
 		//----------------------------------------------------------------------------------
@@ -188,6 +198,10 @@ namespace Totem
 		//----------------------------------------------------------------------------------
 		float SelectIntersectingObject( Totem::Object **_selection, float _originX, float _originY, float _originZ, float _dirX, float _dirY, float _dirZ );
 		//----------------------------------------------------------------------------------
+		/// \brief Check if object is valid (has mainNode and mainTransform )
+		//----------------------------------------------------------------------------------
+		bool IsValid();
+		//----------------------------------------------------------------------------------		
 
 	protected:
 
@@ -196,11 +210,16 @@ namespace Totem
 		//----------------------------------------------------------------------------------
 		Totem::Object *m_child;
 		//----------------------------------------------------------------------------------
+		/// \brief Previous child object (before deletion)
+		//----------------------------------------------------------------------------------
+		Totem::Object *m_prevChild;
+		//----------------------------------------------------------------------------------
 		/// \brief Parent object
 		//----------------------------------------------------------------------------------
 		Totem::Object *m_parent;
 		//----------------------------------------------------------------------------------
 		/// \brief Node that actually contains the object volume
+		//----------------------------------------------------------------------------------
 		VolumeTree::Node *m_mainNode;
 		//----------------------------------------------------------------------------------
 		/// \brief Transformation node

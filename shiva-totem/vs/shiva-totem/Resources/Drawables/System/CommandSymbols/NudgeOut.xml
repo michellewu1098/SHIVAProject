@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LayeredImageDrawable
+  isNinePatch="false"
+  scaleUp="false"
+  isUsingText = "true"
+>
+  <Layer src="System/CommandSymbols/Icons/nudgeOut_150x150.png" colour0="FF0000FF" colour1="00FF00FF" colour2="0000FFFF" colour3="@ArrowColourBackground"/>
+</LayeredImageDrawable>

@@ -15,6 +15,7 @@ Totem::Object::Object( VolumeTree::Node *_mainNodeIn, unsigned int _nGUIControll
 	m_mainTransform->HasBoundingBox( true );
 
 	m_child = m_parent = NULL;
+	m_prevChild = NULL;
 
 	m_offsetX = m_offsetY = m_offsetZ = 0.0f;
 	m_tx = m_ty = m_tz = 0.0f;
@@ -35,6 +36,7 @@ Totem::Object::Object( VolumeTree::Node *_mainNodeIn, VolumeTree::TransformNode 
 	m_mainTransform->HasBoundingBox( true );
 
 	m_child = m_parent = NULL;
+	m_prevChild = NULL;
 
 	m_tx = m_ty = m_tz = 0.0f;
 	m_rx = m_ry = m_rz = 0.0f;
@@ -60,6 +62,21 @@ Totem::Object::~Object()
 {
 	delete m_child;
 	delete m_mainTransform;
+	delete m_prevChild;
+}
+
+//----------------------------------------------------------------------------------
+
+bool Totem::Object::IsValid()
+{
+	if( m_mainNode != NULL && m_mainTransform != NULL )
+	{
+		return true;
+	}
+	else
+	{
+		return false; 
+	}
 }
 
 //----------------------------------------------------------------------------------

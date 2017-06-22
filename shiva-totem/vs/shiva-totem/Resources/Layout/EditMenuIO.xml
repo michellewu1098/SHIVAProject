@@ -1,124 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CustomLayout
-	layout_width="fill_parent"
-	layout_height="fill_parent"
-	background="@RootViewBackground">
+	layout_width = "fill_parent"
+	layout_height = "fill_parent"
+	background = "@RootViewBackground" >
 	
 	<TextView
-		id="Title"
-		layout_width="wrap_content"
-		layout_height="wrap_content"
-		layout_centreX="0.5"
-		layout_centreY="0.05"
-		text="tools"
-		/>
+		id = "Title"
+		layout_width = "wrap_content"
+		layout_height = "wrap_content"
+		layout_centreX = "0.5"
+		layout_centreY = "0.05"
+		text = "tools" />
+	
+	<!--<ImageTextView
+		id = "titleView"
+		layout_width = "wrap_content"
+		layout_height = "wrap_content"
+		layout_centreX = "0.2"
+		layout_centreY = "0.12"
+		height_constrained = "true"
+		icon_position = "left"
+		text = "tools"
+		src = "System/CommandSymbols/ToolsTitle.xml"
+		scaleContent = "true"
+		keepContentAspectRatio = "true" />-->
 
+	<!--<TextButton
+		id = "EyeGazeRest"
+		layout_width = "0.2"
+		layout_height = "0.3"
+		layout_centreX = "0.7"
+		layout_centreY = "0.25"
+		eyeGaze_RestButton = "true"
+		text = "rest" />-->
+		
+	<ImageTextButton
+		id = "EyeGazeRest"
+		layout_width = "0.16"
+		layout_height = "0.28"
+		layout_centreX = "0.73"
+		layout_centreY = "0.23"
+		height_constrained = "true"
+		icon_position = "top"
+		eyeGaze_RestButton = "true"
+		text = "rest"
+		src = "System/CommandSymbols/Rest.xml"	
+		scaleContent = "true"
+		keepContentAspectRatio = "true" />	
+
+	<!--<TextButton
+		id = "DrillActivity"
+		layout_width = "0.3"
+		layout_height = "0.2"
+		layout_centreX = "0.2"
+		layout_centreY = "0.5"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "launchActivityHandler"
+		text = "drill" />
+	
 	<TextButton
-		id="EyeGazeRest"
-		layout_width="0.2"
-		layout_height="0.3"
-		layout_centreX="0.7"
-		layout_centreY="0.25"
-		eyeGaze_RestButton="true"
-		text="rest"
-		/>
-
+		id = "BlendAdjustActivity"
+		layout_width = "0.3"
+		layout_height = "0.2"
+		layout_centreX = "0.2"
+		layout_centreY = "0.7"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "launchActivityHandler"
+		text = "pump" />
+	
 	<TextButton
-		id="DrillActivity"
-		layout_width="0.3"
-		layout_height="0.2"
-		layout_centreX="0.2"
-		layout_centreY="0.5"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="launchActivityHandler"
-		text="drill"
-		/>
-
-  <TextButton
-		id="BlendAdjustActivity"
-		layout_width="0.3"
-		layout_height="0.2"
-		layout_centreX="0.2"
-		layout_centreY="0.7"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="launchActivityHandler"
-		text="pump"
-		/>
-
+		id = "RotateObjectActivity"
+		layout_width = "0.3"
+		layout_height = "0.2"
+		layout_centreX = "0.5"
+		layout_centreY = "0.5"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "launchActivityHandler"
+		text = "rotate" />
+	
+	<TextButton
+		id = "UniformScaleActivity"
+		layout_width = "0.3"
+		layout_height = "0.2"
+		layout_centreX = "0.5"
+		layout_centreY = "0.7"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "launchActivityHandler"
+		text = "object size" />
+		
+	<TextButton
+		id = "NudgeActivity"
+		layout_width = "0.3"
+		layout_height = "0.2"
+		layout_centreX = "0.5"
+		layout_centreY = "0.9"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "launchActivityHandler"
+		text = "nudge objects" />-->
+	
+	<ImageTextButton
+		id = "DrillActivity"
+		layout_width = "0.18"
+		layout_height = "0.31"
+		layout_centreX = "0.2"
+		layout_centreY = "0.44"
+		height_constrained = "true"
+		icon_position = "top"
+		onClick = "launchActivityHandler"
+		text = "drill"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/Drill.xml"	
+		scaleContent = "true"
+		keepContentAspectRatio = "true" />
+	
+	<ImageTextButton
+		id = "BlendAdjustActivity"
+		layout_width = "0.18"
+		layout_height = "0.31"
+		layout_centreX = "0.2"
+		layout_centreY = "0.75"
+		height_constrained = "true"
+		icon_position = "top"
+		onClick = "launchActivityHandler"
+		text = "pump"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/Pump.xml"	
+		scaleContent = "true"
+		keepContentAspectRatio = "true" />
+		
+	<ImageTextButton
+		id = "RotateObjectActivity"
+		layout_width = "0.18"
+		layout_height = "0.31"
+		layout_centreX = "0.38"
+		layout_centreY = "0.44"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "launchActivityHandler"
+		text = "rotate"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/Rotate.xml" />
   
-  <TextButton
-		id="RotateObjectActivity"
-		layout_width="0.3"
-		layout_height="0.2"
-		layout_centreX="0.5"
-		layout_centreY="0.5"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="launchActivityHandler"
-		text="rotate"
-		/>
-  
-  <TextButton
-		id="UniformScaleActivity"
-		layout_width="0.3"
-		layout_height="0.2"
-		layout_centreX="0.5"
-		layout_centreY="0.7"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="launchActivityHandler"
-		text="object size"
-		/>
+	<ImageTextButton
+		id = "UniformScaleActivity"
+		layout_width = "0.18"
+		layout_height = "0.31"
+		layout_centreX = "0.38"
+		layout_centreY = "0.75"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "launchActivityHandler"
+		text = "object size"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/Resize.xml" />
 
-  <TextButton
-		id="NudgeActivity"
-		layout_width="0.3"
-		layout_height="0.2"
-		layout_centreX="0.5"
-		layout_centreY="0.9"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="launchActivityHandler"
-		text="nudge objects"
-		/>
+	<ImageTextButton
+		id = "NudgeActivity"
+		layout_width = "0.18"
+		layout_height = "0.31"
+		layout_centreX = "0.56"
+		layout_centreY = "0.44"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "launchActivityHandler"
+		text = "nudge objects"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/NudgeTool.xml" />
 
-
-
-
-  <TextButton
-		id="RotateReset"
-		layout_width="0.2"
-		layout_height="0.1"
-		layout_centreX="0.8"
-		layout_centreY="0.9"
+	<!--<TextButton
+		id = "UndoButton"
+		layout_width = "0.2"
+		layout_height = "0.1"
+		layout_centreX = "0.9"
+		layout_centreY = "0.25"
+		onClick = "buttonHandler"
+		text = "undo" />
+	
+	<TextButton
+		id = "BackButton"
+		layout_width = "0.2"
+		layout_height = "0.15"
+		layout_centreX = "0.9"
+		layout_centreY = "0.4"
+		onClick = "buttonHandler"
+		text = "back" />
+		
+	<ImageTextButton
+		id = "UndoButton"
+		layout_width = "0.12"
+		layout_height = "0.18"
+		layout_centreX = "0.94"
+		layout_centreY = "0.32"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
 		onClick="buttonHandler"
-		text="reset view"
-		/>
-
+		text = "undo"
+		src = "System/CommandSymbols/Undo.xml" />-->
   
-	<TextButton
-		id="UndoButton"
-		layout_width="0.2"
-		layout_height="0.1"
-		layout_centreX="0.9"
-		layout_centreY="0.25"
-		onClick="buttonHandler"
-		text="undo"
-    
-		/>
-  
-	<TextButton
-		id="BackButton"
-		layout_width="0.2"
-		layout_height="0.1"
-		layout_centreX="0.9"
-		layout_centreY="0.35"
-		onClick="buttonHandler"
-		text="back"
-    
-		/>
-
+	<ImageTextButton
+		id = "BackButton"
+		layout_width = "0.12"
+		layout_height = "0.20"
+		layout_centreX = "0.94"
+		layout_centreY = "0.12"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "back"
+		src = "System/CommandSymbols/Back.xml" />
 
 </CustomLayout>

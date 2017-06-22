@@ -54,7 +54,7 @@ void ShivaGUI::NinePatch::Inflate( TiXmlElement *_xmlElement, ResourceManager *_
 			std::string filename( currentAttribute->Value() );
 
 			// TODO: specifying the directory should *really* not be done here
-			SetTexID( _resources->GetBitmap( std::string( "Resources/Drawables/" ) + filename ) );
+			SetTexID( _resources->GetBitmap( std::string( "Resources/Drawables/" ) + filename, false ) );
 		}
 
 		else if( currentAttribute->Name() == std::string( "content_left" ) )

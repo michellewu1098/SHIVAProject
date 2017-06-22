@@ -94,6 +94,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\AssembleActivity.cpp" />
     <ClCompile Include="..\..\src\BlendAdjustActivity.cpp" />
+    <ClCompile Include="..\..\src\Command.cpp" />
+    <ClCompile Include="..\..\src\CommandManager.cpp" />
     <ClCompile Include="..\..\src\DrillActivity.cpp" />
     <ClCompile Include="..\..\src\EditMenuActivity.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
@@ -111,6 +113,8 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\AssembleActivity.h" />
     <ClInclude Include="..\..\include\BlendAdjustActivity.h" />
+    <ClInclude Include="..\..\include\Command.h" />
+    <ClInclude Include="..\..\include\CommandManager.h" />
     <ClInclude Include="..\..\include\DrillActivity.h" />
     <ClInclude Include="..\..\include\EditMenuActivity.h" />
     <ClInclude Include="..\..\include\NudgeActivity.h" />

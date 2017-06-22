@@ -61,6 +61,7 @@ ShivaGUI::View* ShivaGUI::DataAdapter::GetView( int _index, ResourceManager *_re
 				if( currentImageTextButton == NULL )
 					currentImageButton = dynamic_cast< ImageButton* >( currentView );
 				TextView *currentTextView = dynamic_cast< TextView* >( currentView );
+				ImageTextView *currentImageTextView = dynamic_cast< ImageTextView* >( currentView );
 				TextButton *currentTextButton = dynamic_cast< TextButton* >( currentView );
 
 				if( currentTextButton != NULL )
@@ -70,6 +71,10 @@ ShivaGUI::View* ShivaGUI::DataAdapter::GetView( int _index, ResourceManager *_re
 				else if( currentTextView != NULL )
 				{
 					SetViewText( currentTextView, currentData, _resources );
+				}
+				else if( currentImageTextView != NULL )
+				{
+					SetViewImage( currentImageTextView, currentData, _resources );
 				}
 				else if( currentImageButton != NULL )
 				{
@@ -148,6 +153,13 @@ void ShivaGUI::DataAdapter::SetViewImage( View *_view, std::string _imageResourc
 void ShivaGUI::DataAdapter::SetViewText( TextView *_view, std::string _text, ResourceManager *_resources )
 {
 	_view->SetText( _text, _resources );
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::DataAdapter::SetViewImage( ImageTextView *_view, std::string _imageResource, ResourceManager *_resources )
+{
+	_view->SetContent( _resources->GetDrawable( _imageResource ) );
 }
 
 //----------------------------------------------------------------------------------

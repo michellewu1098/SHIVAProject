@@ -42,8 +42,6 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		virtual void NotifyDrawingContextChange( ResourceManager *_resources ) { BuildTextCache( _resources ); }
 		//----------------------------------------------------------------------------------
-		//virtual void Draw();
-		//----------------------------------------------------------------------------------
 		/// \brief Themes allow settings to be set for all Views of a given type
 		/// The string returned from this function is the string that identifies the type in the theme xml file
 		/// It is literally prefixed to normal inflation attributes
@@ -100,14 +98,21 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		unsigned int m_textAlignment;
 		//----------------------------------------------------------------------------------
-		/// Whether values were acquired from a theme file
-		/// Mainly for use when deflating to xml
+		// Whether values were acquired from a theme file. Mainly for use when deflating to xml
+		//----------------------------------------------------------------------------------
+		/// \brief Whether font name was acquired from theme file
 		//----------------------------------------------------------------------------------
 		bool m_fontNameFromTheme;
 		//----------------------------------------------------------------------------------
+		/// \brief Whether font size was acquired from theme file
+		//----------------------------------------------------------------------------------
 		bool m_fontSizeFromTheme;
 		//----------------------------------------------------------------------------------
+		/// \brief Whether font colour was acquired from theme file
+		//----------------------------------------------------------------------------------
 		bool m_fontColourFromTheme;
+		//----------------------------------------------------------------------------------
+		/// \brief Whether text alignment was acquired from theme file
 		//----------------------------------------------------------------------------------
 		bool m_textAlignFromTheme;
 		//----------------------------------------------------------------------------------

@@ -168,6 +168,22 @@ void Totem::Controller::AddObjectNodeToTop( VolumeTree::Node *_nodeIn, unsigned 
 
 //----------------------------------------------------------------------------------
 
+void Totem::Controller::ReAddObjectToTop( Totem::Object* _obj )
+{
+	if( _obj != NULL )
+	{
+		if( m_objectRoot != NULL )
+		{
+			_obj->SetChild( m_objectRoot );
+			m_objectRoot->SetParent( _obj );
+		}
+		m_objectRoot = _obj;
+	}	
+	RebuildPole();
+}
+
+//----------------------------------------------------------------------------------
+
 void Totem::Controller::LoadModel( std::queue< VolumeTree::Node* > _treeIn, unsigned int _nGUIControllers )
 {
 	// There is probably a better way to do this, but it works so..
@@ -342,6 +358,16 @@ void Totem::Controller::MoveSelectedObject( float _x, float _y, float _z )
 
 //----------------------------------------------------------------------------------
 
+void Totem::Controller::GetSelectedObjectOffset( float &_x, float &_y, float &_z )
+{
+	if( m_selectedObject != NULL )
+	{
+		m_selectedObject->GetTranslationOffset( _x, _y, _z );
+	}
+}
+
+//----------------------------------------------------------------------------------
+
 void Totem::Controller::ResetMoveSelected()
 {
 	if( m_selectedObject != NULL )
@@ -385,7 +411,7 @@ void Totem::Controller::DeleteSelectedObject()
 			m_objectRoot = NULL;
 		}
 
-		delete victim;
+		//delete victim;
 	}
 
 	if( m_objectRoot != NULL )
@@ -394,6 +420,97 @@ void Totem::Controller::DeleteSelectedObject()
 	}
 	RebuildPole();
 }
+
+//----------------------------------------------------------------------------------
+
+void Totem::Controller::InsertObject( Totem::Object* _obj )
+{
+	if( _obj != NULL )
+	{
+		Totem::Object *child = _obj->GetPrevChild();
+		Totem::Object *parent = _obj->GetParent();
+
+		if( child != NULL )
+		{
+			child->SetParent( _obj );
+			_obj->SetChild( child );
+		}
+
+		_obj->SetPrevChild( NULL );
+
+		if( parent != NULL )
+		{
+			parent->SetChild( _obj );
+		}
+
+		if( m_selectedObject != NULL )
+		{
+			m_selectedObject->SetDrawBBox( false );
+			m_selectedObject = _obj;
+			m_selectedObject->SetDrawBBox( m_showSelection );
+			m_objectRoot = m_selectedObject->GetRoot();
+		}
+		else 
+		{
+			m_objectRoot = NULL;
+		}
+	}
+
+	if( m_objectRoot != NULL )
+	{
+		m_objectRoot->RecalcOffsets();
+	}
+	RebuildPole();
+}
+
+//----------------------------------------------------------------------------------
+
+Totem::Object* Totem::Controller::DeleteSelectedObj()
+{
+	Totem::Object *victim = NULL;
+
+	if( m_selectedObject != NULL )
+	{
+		victim = m_selectedObject;
+		// Remove from tree
+		Totem::Object *child = m_selectedObject->GetChild();
+		Totem::Object *parent = m_selectedObject->GetParent();
+		victim->SetPrevChild( child );
+		victim->SetChild( NULL ); // Otherwise it will try to delete the next node
+		m_selectedObject = NULL;
+		if( child != NULL )
+		{
+			child->SetParent( parent );
+			m_selectedObject = child;
+		}
+		if( parent != NULL )
+		{
+			parent->SetChild( child );
+			m_selectedObject = parent;
+		}
+
+		// Highlight our new selected object and make sure the root is correct
+		if( m_selectedObject != NULL )
+		{
+			m_selectedObject->SetDrawBBox( m_showSelection );
+			m_objectRoot = m_selectedObject->GetRoot();
+		}
+		else
+		{
+			m_objectRoot = NULL;
+		}
+	}
+
+	if( m_objectRoot != NULL )
+	{
+		m_objectRoot->RecalcOffsets();
+	}
+	
+	RebuildPole();
+
+	return victim;
+}
+
 
 //----------------------------------------------------------------------------------
 
@@ -465,7 +582,7 @@ void Totem::Controller::RemoveLastOperation()
 	if( !m_operations.empty() )
 	{
 		Totem::Operation *lastOp = m_operations.front();
-		delete lastOp;
+		//delete lastOp;
 		m_operations.pop_front();
 	}
 }
@@ -481,7 +598,8 @@ void Totem::Controller::RebuildPole()
 		m_poleTransformNode = new VolumeTree::TransformNode( m_poleNode );
 		m_poleTransformNode->SetTranslate( 0.0f, 0.0f, 0.5f );
 		VolumeTree::CylinderNode* poleBase = new VolumeTree::CylinderNode( 0.1f, 0.5f, 0.5f );
-		poleBase->SetPole( true );
+		//poleBase->SetPole( true );
+		poleBase->SetBasePole( true );
 		VolumeTree::TransformNode *baseTransform = new VolumeTree::TransformNode( poleBase );
 		baseTransform->SetTranslate( 0.0f, 0.0f, -0.05f );
 		//VolumeTree::TransformNode baseTransform = VolumeTree::TransformNode( poleBase );

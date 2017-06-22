@@ -14,12 +14,17 @@
 	TextView_font="Resources/Fonts/FreeSansBold.ttf"
 	TextView_text_size="30"
 	
-	ImageTextButton_drawable="System/ThemeSystem/button.xml"
-	ImageTextButton_padding="10"
-	ImageTextButton_font="Resources/Fonts/FreeSansBold.ttf"
-	ImageTextButton_text_colour="FFFFFFFF"
-	ImageTextButton_text_size="30"
-	ImageTextButton_text_alignment="centre"
+	ImageTextView_text_colour = "000000FF"
+	ImageTextView_font = "Resources/Fonts/FreeSansBold.ttf"
+	ImageTextView_text_size = "30"
+	ImageTextView_text_alignment = "centre"
+	
+	ImageTextButton_drawable = "System/ThemeSystem/button.xml"
+	ImageTextButton_padding = "10"
+	ImageTextButton_font = "Resources/Fonts/FreeSansBold.ttf"
+	ImageTextButton_text_colour = "FFFFFFFF"
+	ImageTextButton_text_size = "20"
+	ImageTextButton_text_alignment = "centre"
 	
 	ImageButton_drawable="System/ThemeSystem/button.xml"
 	ImageButton_padding="10"
@@ -45,7 +50,7 @@
     <!-- These consist of key-value pairs. The key must start with the @ symbol. All instances of this key found in layout xml files are replaced with the value string -->
     <const>
       <key>@RootViewBackground</key>
-      <value>LinearGradientBackground.xml</value>
+      <value>System/ThemeSystem/LinearGradientBackground.xml</value>
     </const>
     
     
@@ -108,7 +113,23 @@
       <key>@ArrowColourBackground</key>
       <value>00000000</value>
     </const>
-
+	
+	<const>
+		<key>@RedColour</key>
+		<value>FF0000FF</value>
+	</const>
+	<const>
+		<key>@GreenColour</key>
+		<value>00FF00FF</value>
+	</const>
+	<const>
+		<key>@BlueColour</key>
+		<value>0000FFFF</value>
+	</const>
+	<const>
+		<key>@BlackTransparentColour</key>
+		<value>00000000</value>
+	</const>
 
     <const>
       <key>@ButtonTop_Normal</key>
@@ -197,7 +218,7 @@
       <key>@GradientBackgroundBottom</key>
       <value>222222FF</value>
     </const>
-
+	
 
     <const>
       <key>@PrimCol0</key>

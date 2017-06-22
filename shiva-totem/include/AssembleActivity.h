@@ -18,6 +18,7 @@
 #include "System/Activity.h"
 #include "Totem/TotemController.h"
 #include "VolView.h"
+#include "CommandManager.h"
 
 
 class AssembleActivity : public ShivaGUI::Activity
@@ -171,6 +172,10 @@ protected:
 	/// \brief Original blending amount used when resetting totem pole
 	//----------------------------------------------------------------------------------
 	float m_originalBlendingAmount;
+	//----------------------------------------------------------------------------------
+	/// \brief Reference to command manager
+	//----------------------------------------------------------------------------------
+	Totem::CommandManager* m_commandManager;
 	//----------------------------------------------------------------------------------
 
 };

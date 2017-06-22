@@ -1,39 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CustomLayout
-	layout_width="fill_parent"
-	layout_height="fill_parent"
-	background="@RootViewBackground">
+	layout_width = "fill_parent"
+	layout_height = "fill_parent"
+	background = "@RootViewBackground">
 		
 	<TextView
-		id="titleTextView"
-		layout_width="wrap_content"
-		layout_height="wrap_content"
-		layout_centreX="0.5"
-		layout_centreY="0.05"
-		text="DRILL operation"
-		/>
+		id = "titleTextView"
+		layout_width = "wrap_content"
+		layout_height = "wrap_content"
+		layout_centreX = "0.5"
+		layout_centreY = "0.05"
+		text = "drill operation" />
 		
 	<VolView
-		id="MainVolView"
-		layout_width="0.34"
-		layout_height="0.55"
-		layout_centreX="0.5"
-		layout_centreY="0.55"
-		cameraPositionY="1"
-		cameraPositionZ="14.0"
-		cameraTargetY="0"
-		/>
+		id = "MainVolView"
+		layout_width = "0.34"
+		layout_height = "0.55"
+		layout_centreX = "0.5"
+		layout_centreY = "0.55"
+		cameraPositionY = "1"
+		cameraPositionZ = "14.0"
+		cameraTargetY = "0" />
 
-
-	<TextButton
-		id="EyeGazeRest"
-		layout_width="0.2"
-		layout_height="0.3"
-		layout_centreX="0.7"
-		layout_centreY="0.25"
-		eyeGaze_RestButton="true"
-		text="rest"
-		/>
+	<ImageTextButton
+		id = "EyeGazeRest"
+		layout_width = "0.16"
+		layout_height = "0.28"
+		layout_centreX = "0.67"
+		layout_centreY = "0.23"
+		height_constrained = "true"
+		icon_position = "top"
+		eyeGaze_RestButton = "true"
+		text = "rest"
+		src = "System/CommandSymbols/Rest.xml"	
+		scaleContent = "true"
+		keepContentAspectRatio = "true" />	
+	
+	<!--<TextButton
+		id = "EyeGazeRest"
+		layout_width = "0.2"
+		layout_height = "0.3"
+		layout_centreX = "0.7"
+		layout_centreY = "0.25"
+		eyeGaze_RestButton = "true"
+		text = "rest" />
 
 	<ImageButton
 		id="DrillSizeIncrease"
@@ -56,8 +66,7 @@
 		scaleContent="true"
 		keepContentAspectRatio="true"
 		onClick="buttonHandler"
-		src="System/CommandSymbols/Arrow_Down.xml"
-		/>
+		src="System/CommandSymbols/Arrow_Down.xml" />
 
 	<TextButton
 		id="DrillSizeReset"
@@ -69,155 +78,354 @@
 		scaleContent="true"
 		keepContentAspectRatio="true"
 		onClick="buttonHandler"
-		text="reset&#10;drill size"
-		/>
+		text="reset&#10;drill size" />-->
+	
+	<ImageTextButton
+		id = "DrillSizeIncrease"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.07"
+		layout_centreY = "0.3"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "increase size"
+		text_size = "20"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/DrillIncrease.xml" />
+	
+	<ImageTextButton
+		id = "DrillSizeDecrease"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.07"
+		layout_centreY = "0.7"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "decrease size"
+		text_size = "20"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/DrillDecrease.xml" />
+	
+	<ImageTextButton
+		id = "DrillSizeReset"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.07"
+		layout_centreY = "0.5"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "reset drill size"
+		text_size = "20"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/DrillReset.xml" />
 
 	<ImageButton
-		id="CrosshairLeft"
-		layout_width="0.1"
-		layout_height="0.2"
-		layout_centreX="0.18"
-		layout_centreY="0.5"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/Arrow_Left.xml"
-		eyeGaze_Repeat="true"
-		/>
+		id = "CrosshairLeft"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.2"
+		layout_centreY = "0.5"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/MoveDrillLeft.xml"
+		eyeGaze_Repeat = "true" />
 
 	<ImageButton
-		id="CrosshairRight"
-		layout_width="0.1"
-		layout_height="0.2"
-		layout_centreX="0.82"
-		layout_centreY="0.5"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/Arrow_Right.xml"
-		eyeGaze_Repeat="true"
-		/>
-
-  
-	<ImageButton
-		id="CrosshairUp"
-		layout_width="0.1"
-		layout_height="0.2"
-		layout_centreX="0.3"
-		layout_centreY="0.25"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/Arrow_Up.xml"
-		eyeGaze_Repeat="true"
-		/>
+		id = "CrosshairRight"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.80"
+		layout_centreY = "0.5"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/MoveDrillRight.xml"
+		eyeGaze_Repeat = "true" />
 
 	<ImageButton
-		id="CrosshairDown"
-		layout_width="0.1"
-		layout_height="0.2"
-		layout_centreX="0.3"
-		layout_centreY="0.75"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/Arrow_Down.xml"
-		eyeGaze_Repeat="true"
-		/>
-
+		id = "CrosshairUp"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.3"
+		layout_centreY = "0.25"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/MoveDrillUp.xml"
+		eyeGaze_Repeat = "true" />
 
 	<ImageButton
-		id="RotateUp"
-		layout_width="0.12"
-		layout_height="0.2"
-		layout_centreX="0.7"
-		layout_centreY="0.5"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/RotateArrow_Up.xml"
-		eyeGaze_Repeat="true"
-		/>
+		id = "CrosshairDown"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.3"
+		layout_centreY = "0.75"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/MoveDrillDown.xml"
+		eyeGaze_Repeat = "true" />
+
+	<!--<ImageButton
+		id = "RotateUp"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.7"
+		layout_centreY = "0.5"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Up.xml"
+		eyeGaze_Repeat = "true" />
 		
 	<ImageButton
-		id="RotateDown"
-		layout_width="0.12"
-		layout_height="0.2"
-		layout_centreX="0.3"
-		layout_centreY="0.5"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/RotateArrow_Down.xml"
-		eyeGaze_Repeat="true"
-		/>
+		id = "RotateDown"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.3"
+		layout_centreY = "0.5"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Down.xml"
+		eyeGaze_Repeat = "true" />
 
 	<ImageButton
-		id="RotateRight"
-		layout_width="0.2"
-		layout_height="0.12"
-		layout_centreX="0.5"
-		layout_centreY="0.9"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/RotateArrow_Right.xml"
-		eyeGaze_Repeat="true"
-    	/>
+		id = "RotateRight"
+		layout_width = "0.2"
+		layout_height = "0.12"
+		layout_centreX = "0.5"
+		layout_centreY = "0.9"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Right.xml"
+		eyeGaze_Repeat = "true" />
 
 	<ImageButton
-		id="RotateLeft"
-		layout_width="0.2"
-		layout_height="0.12"
-		layout_centreX="0.5"
-		layout_centreY="0.2"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/RotateArrow_Left.xml"
-		eyeGaze_Repeat="true"
-		/>
+		id = "RotateLeft"
+		layout_width = "0.2"
+		layout_height = "0.12"
+		layout_centreX = "0.5"
+		layout_centreY = "0.2"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Left.xml"
+		eyeGaze_Repeat = "true" />-->
 
+	<ImageTextButton
+		id = "RotateUp"
+		layout_width = "wrap_content"
+		layout_height = "0.23"
+		layout_centreX = "0.7"
+		layout_centreY = "0.5"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		text = "rotate&#10;up"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Up.xml"
+		eyeGaze_Repeat = "true"
+    
+		scan_prev = "RotateLeft"
+    
+		next_focus_left = "RotateDown"
+		next_focus_right = "NudgeUp"
+		next_focus_up = "RotateLeft"
+		next_focus_down = "RotateRight" />
+		
+	<ImageTextButton
+		id = "RotateDown"
+		layout_width = "wrap_content"
+		layout_height = "0.23"
+		layout_centreX = "0.3"
+		layout_centreY = "0.5"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		text = "rotate&#10;down"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Down.xml"
+		eyeGaze_Repeat = "true"
+    
+		scan_prev = "RotateRight"
+    
+		next_focus_left = "PrimitiveList"
+		next_focus_up = "RotateLeft"
+		next_focus_down = "RotateRight"
+		next_focus_right = "RotateUp" />
 
+	<ImageTextButton
+		id = "RotateRight"
+		layout_width = "0.16"
+		layout_height = "0.12"
+		layout_centreX = "0.5"
+		layout_centreY = "0.91"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		text = "rotate right"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Right.xml"
+		eyeGaze_Repeat = "true"
+    
+		next_focus_up = "RotateLeft"
+		next_focus_left = "RotateDown"
+		next_focus_right = "RotateUp" />
+
+	<ImageTextButton
+		id = "RotateLeft"
+		layout_width = "0.16"
+		layout_height = "0.12"
+		layout_centreX = "0.5"
+		layout_centreY = "0.2"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		text = "rotate left"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Left.xml"
+		eyeGaze_Repeat = "true"
+    
+		scan_prev = "PrimitiveList"
+        first_scan = "true"
+    
+		next_focus_left = "RotateDown"
+		next_focus_right = "RotateUp" />
+	
+	<!--<TextButton
+		id = "RotateReset"
+		layout_width = "0.2"
+		layout_height = "0.1"
+		layout_centreX = "0.7"
+		layout_centreY = "0.9"
+		onClick = "buttonHandler"
+		text = "reset view" />
+		
 	<TextButton
-		id="RotateReset"
-		layout_width="0.2"
-		layout_height="0.1"
-		layout_centreX="0.7"
-		layout_centreY="0.9"
-		onClick="buttonHandler"
-		text="reset view"
-		/>
+		id = "PerformDrill"
+		layout_width = "0.12"
+		layout_height = "0.18"
+		layout_centreX = "0.94"
+		layout_centreY = "0.32"
+		onClick = "buttonHandler"
+		text = "drill!" />-->
+	
+	<ImageTextButton
+		id = "RotateReset"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.7"
+		layout_centreY = "0.89"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "reset view"
+		src = "System/CommandSymbols/ResetView.xml"	/>
 
+	<ImageTextButton
+		id = "PerformDrill"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.94"
+		layout_centreY = "0.31"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "drill!"
+		src = "System/CommandSymbols/DrillCommand.xml" />
+  
+	<!--<TextButton
+		id = "UndoButton"
+		layout_width = "0.12"
+		layout_height = "0.18"
+		layout_centreX = "0.82"
+		layout_centreY = "0.14"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		text = "undo" />
+		
 	<TextButton
-		id="PerformDrill"
-		layout_width="0.2"
-		layout_height="0.1"
-		layout_centreX="0.9"
-		layout_centreY="0.15"
-		onClick="buttonHandler"
-		text="drill!"
-		/>
+		id = "RedoButton"
+		layout_width = "0.12"
+		layout_height = "0.18"
+		layout_centreX = "0.82"
+		layout_centreY = "0.32"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		text = "redo" />
   
 	<TextButton
-		id="UndoButton"
-		layout_width="0.2"
-		layout_height="0.1"
-		layout_centreX="0.9"
-		layout_centreY="0.25"
-		onClick="buttonHandler"
-		text="undo"
-		/>
-  
-	<TextButton
-		id="BackButton"
-		layout_width="0.2"
-		layout_height="0.1"
-		layout_centreX="0.9"
-		layout_centreY="0.35"
-		onClick="buttonHandler"
-		text="back"
-		/>
+		id = "BackButton"
+		layout_width = "0.2"
+		layout_height = "0.1"
+		layout_centreX = "0.9"
+		layout_centreY = "0.35"
+		onClick = "buttonHandler"
+		text = "back"
+		/>-->
 
+	<ImageTextButton
+		id = "BackButton"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.94"
+		layout_centreY = "0.12"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "back"
+		src = "System/CommandSymbols/Back.xml" />
+		
+	<ImageTextButton
+		id = "UndoButton"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.94"
+		layout_centreY = "0.5"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "undo"
+		src = "System/CommandSymbols/Undo.xml" />
+	
+	<ImageTextButton
+		id = "RedoButton"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.94"
+		layout_centreY = "0.69"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "redo"
+		src = "System/CommandSymbols/Redo.xml" />
 
 </CustomLayout>

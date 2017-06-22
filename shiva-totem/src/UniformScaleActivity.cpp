@@ -68,6 +68,8 @@ void UniformScaleActivity::OnCreate( ShivaGUI::Bundle *_data )
 			InitIOWindow( guiController, _data );
 		}
 	}
+
+	m_commandManager = Totem::CommandManager::GetInstance();
 }
 
 //----------------------------------------------------------------------------------
@@ -110,15 +112,29 @@ void UniformScaleActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 		}
 		else if( _view->GetID() == "SelectAbove" )
 		{
-			m_totemController->SelectObjectAbove();
+			SelectCommand* selectCmd = new SelectCommand();
+			selectCmd->SetSelection( "above" );
+			m_commandManager->Execute( selectCmd );
+
+			//m_totemController->SelectObjectAbove();
 		}
 		else if( _view->GetID() == "SelectBelow" )
 		{
-			m_totemController->SelectObjectBelow();
+			SelectCommand* selectCmd = new SelectCommand();
+			selectCmd->SetSelection( "below" );
+			m_commandManager->Execute( selectCmd );
+
+			//m_totemController->SelectObjectBelow();
 		}
 		else if( _view->GetID() == "ScaleUp" )
 		{
-			if( m_totemController != NULL )
+			ScaleCommand* scaleCmd = new ScaleCommand();
+			scaleCmd->SetScaleStepSize( m_scaleStepsize, m_scaleStepsize, m_scaleStepsize );
+			scaleCmd->SetScaling( "up" );
+
+			m_commandManager->Execute( scaleCmd );
+
+			/*if( m_totemController != NULL )
 			{
 				Totem::Object *currentObject = m_totemController->GetSelected();
 				if( currentObject != NULL )
@@ -138,11 +154,17 @@ void UniformScaleActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 					std::cout << "INFO: scaling up object to: " << scaleX << " " << scaleY << " " << scaleZ << std::endl;
 					currentObject->SetScale( scaleX, scaleY, scaleZ );
 				}
-			}
+			}*/
 		}
 		else if( _view->GetID() == "ScaleDown" )
 		{
-			if( m_totemController != NULL )
+			ScaleCommand* scaleCmd = new ScaleCommand();
+			scaleCmd->SetScaleStepSize( m_scaleStepsize, m_scaleStepsize, m_scaleStepsize );
+			scaleCmd->SetScaling( "down" );
+
+			m_commandManager->Execute( scaleCmd );
+
+			/*if( m_totemController != NULL )
 			{
 				Totem::Object *currentObject = m_totemController->GetSelected();
 				if( currentObject != NULL )
@@ -162,11 +184,17 @@ void UniformScaleActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 					std::cout << "INFO: scaling down object to: " << scaleX << " " << scaleY << " " << scaleZ << std::endl;
 					currentObject->SetScale( scaleX, scaleY, scaleZ );
 				}
-			}
+			}*/
 		}
 		else if( _view->GetID() == "ScaleXUp" )
 		{
-			if( m_totemController != NULL )
+			ScaleCommand* scaleCmd = new ScaleCommand();
+			scaleCmd->SetScaleStepSize( m_scaleStepsize, 0.f, 0.f );
+			scaleCmd->SetScaling( "up" );
+
+			m_commandManager->Execute( scaleCmd );
+				
+			/*if( m_totemController != NULL )
 			{
 				Totem::Object *currentObject = m_totemController->GetSelected();
 				if( currentObject != NULL )
@@ -180,11 +208,17 @@ void UniformScaleActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 					std::cout << "INFO: scaling up object in X to: " << scaleX << std::endl;
 					currentObject->SetScale( scaleX, scaleY, scaleZ );
 				}
-			}
+			}*/
 		}
 		else if( _view->GetID() == "ScaleXDown" )
 		{
-			if( m_totemController != NULL )
+			ScaleCommand* scaleCmd = new ScaleCommand();
+			scaleCmd->SetScaleStepSize( m_scaleStepsize, 0.f, 0.f );
+			scaleCmd->SetScaling( "down" );
+
+			m_commandManager->Execute( scaleCmd );
+
+			/*if( m_totemController != NULL )
 			{
 				Totem::Object *currentObject = m_totemController->GetSelected();
 				if( currentObject != NULL )
@@ -198,11 +232,17 @@ void UniformScaleActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 					std::cout << "INFO: scaling down object in X to: " << scaleX << std::endl;
 					currentObject->SetScale( scaleX, scaleY, scaleZ );
 				}
-			}
+			}*/
 		}
 		else if( _view->GetID() == "ScaleYUp" )
 		{
-			if( m_totemController != NULL )
+			ScaleCommand* scaleCmd = new ScaleCommand();
+			scaleCmd->SetScaleStepSize( 0.f, m_scaleStepsize, 0.f );
+			scaleCmd->SetScaling( "up" );
+
+			m_commandManager->Execute( scaleCmd );
+
+			/*if( m_totemController != NULL )
 			{
 				Totem::Object *currentObject = m_totemController->GetSelected();
 				if( currentObject != NULL )
@@ -216,11 +256,17 @@ void UniformScaleActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 					std::cout << "INFO: scaling up object in Y to: " << scaleY << std::endl;
 					currentObject->SetScale( scaleX, scaleY, scaleZ );
 				}
-			}
+			}*/
 		}
 		else if( _view->GetID() == "ScaleYDown" )
 		{
-			if( m_totemController != NULL )
+			ScaleCommand* scaleCmd = new ScaleCommand();
+			scaleCmd->SetScaleStepSize( 0.f, m_scaleStepsize, 0.f );
+			scaleCmd->SetScaling( "down" );
+
+			m_commandManager->Execute( scaleCmd );
+
+			/*if( m_totemController != NULL )
 			{
 				Totem::Object *currentObject = m_totemController->GetSelected();
 				if( currentObject != NULL )
@@ -234,11 +280,17 @@ void UniformScaleActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 					std::cout << "INFO: scaling down object in Y to: " << scaleY << std::endl;
 					currentObject->SetScale( scaleX, scaleY, scaleZ );
 				}
-			}
+			}*/
 		}
 		else if( _view->GetID() == "ScaleZUp" )
 		{
-			if( m_totemController != NULL )
+			ScaleCommand* scaleCmd = new ScaleCommand();
+			scaleCmd->SetScaleStepSize( 0.f, 0.f, m_scaleStepsize );
+			scaleCmd->SetScaling( "up" );
+
+			m_commandManager->Execute( scaleCmd );
+
+			/*if( m_totemController != NULL )
 			{
 				Totem::Object *currentObject = m_totemController->GetSelected();
 				if( currentObject != NULL )
@@ -252,11 +304,17 @@ void UniformScaleActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 					std::cout << "INFO: scaling up object in Z to: " << scaleZ << std::endl;
 					currentObject->SetScale( scaleX, scaleY, scaleZ );
 				}
-			}
+			}*/
 		}
 		else if( _view->GetID() == "ScaleZDown" )
 		{
-			if( m_totemController != NULL )
+			ScaleCommand* scaleCmd = new ScaleCommand();
+			scaleCmd->SetScaleStepSize( 0.f, 0.f, m_scaleStepsize );
+			scaleCmd->SetScaling( "down" );
+
+			m_commandManager->Execute( scaleCmd );
+
+			/*if( m_totemController != NULL )
 			{
 				Totem::Object *currentObject = m_totemController->GetSelected();
 				if( currentObject != NULL )
@@ -270,11 +328,15 @@ void UniformScaleActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 					std::cout << "INFO: scaling down object in Z to: " << scaleZ << std::endl;
 					currentObject->SetScale( scaleX, scaleY, scaleZ );
 				}
-			}
+			}*/
 		}
 		else if( _view->GetID() == "ScaleReset" )
 		{
-			if( m_totemController != NULL )
+			ResetScaleCommand* resetScaleCmd = new ResetScaleCommand();
+			
+			m_commandManager->Execute( resetScaleCmd );
+
+			/*if( m_totemController != NULL )
 			{
 				Totem::Object *currentObject = m_totemController->GetSelected();
 				if( currentObject != NULL )
@@ -282,12 +344,21 @@ void UniformScaleActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 					std::cout << "INFO: scaling reset object to: 1" << std::endl;
 					currentObject->SetScale( 1.0f, 1.0f, 1.0f );
 				}
-			}
+			}*/
 		}
 		else if( _view->GetID() == "BackButton" )
 		{
 			m_totemController->ShowSelection( true );
 			Finish();
+		}
+		else if( _view->GetID() == "UndoButton" )
+		{
+			m_commandManager->Undo();
+			
+		}
+		else if( _view->GetID() == "RedoButton" )
+		{
+			m_commandManager->Redo();
 		}
 
 		// Update our views

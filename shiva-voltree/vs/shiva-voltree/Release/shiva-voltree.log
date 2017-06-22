@@ -1,9 +1,9 @@
-﻿Build started 21/03/2017 15:22:39.
+﻿Build started 24/05/2017 15:06:47.
      1>Project "C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\shiva-voltree.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\shiva-voltree.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\cml-1_0_2" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_totem" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_metamorph" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\shiva-gui\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D SHIVAVOLTREE_EXPORTS /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\VolumeRenderer\GLSLRenderer.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\cml-1_0_2" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_totem" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_metamorph" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\shiva-gui\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D SHIVAVOLTREE_EXPORTS /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\VolumeRenderer\GLSLRenderer.cpp ..\..\src\VolumeRenderer\Shader.cpp ..\..\src\VolumeTree\CachingPolicies\CachingPolicy.cpp ..\..\src\VolumeTree\Leaves\ConeNode.cpp ..\..\src\VolumeTree\Leaves\CubeNode.cpp ..\..\src\VolumeTree\Leaves\CylinderNode.cpp ..\..\src\VolumeTree\Leaves\SphereNode.cpp ..\..\src\VolumeTree\Leaves\TorusNode.cpp ..\..\src\VolumeTree\Leaves\VolCacheNode.cpp ..\..\src\VolumeTree\Node.cpp ..\..\src\VolumeTree\Nodes\BlendCSG.cpp ..\..\src\VolumeTree\Nodes\CSG.cpp ..\..\src\VolumeTree\Nodes\TransformNode.cpp ..\..\src\VolumeTree\ParameterManager.cpp ..\..\src\VolumeTree\VolumeTree.cpp
          GLSLRenderer.cpp
      1>C:\SHIVAProject\include\vol_totem\vol_totem.h(43): warning C4251: 'totemio::TotemNode::m_childNodes' : class 'std::vector<_Ty>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
                  with
@@ -19,22 +19,116 @@
                  ]
      1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(112): warning C4244: '=' : conversion from 'const float' to 'unsigned int', possible loss of data
      1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(113): warning C4244: '=' : conversion from 'const float' to 'unsigned int', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(323): warning C4305: '=' : truncation from 'double' to 'float'
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(345): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(345): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(345): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(379): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(379): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(379): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(405): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(428): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(429): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(430): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(437): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(437): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(437): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(721): warning C4018: '<' : signed/unsigned mismatch
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(1007): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(415): warning C4305: '=' : truncation from 'double' to 'float'
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(437): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(437): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(437): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(471): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(471): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(471): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(497): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(520): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(521): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(522): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(529): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(529): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(529): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(813): warning C4018: '<' : signed/unsigned mismatch
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(1099): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+         Shader.cpp
+         CachingPolicy.cpp
+     1>C:\SHIVAProject\include\vol_totem\vol_totem.h(43): warning C4251: 'totemio::TotemNode::m_childNodes' : class 'std::vector<_Ty>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
+                 with
+                 [
+                     _Ty=totemio::TotemNode *
+                 ]
+     1>C:\SHIVAProject\include\vol_totem\vol_totem.h(44): warning C4251: 'totemio::TotemNode::m_nodeID' : class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
+                 with
+                 [
+                     _Elem=char,
+                     _Traits=std::char_traits<char>,
+                     _Ax=std::allocator<char>
+                 ]
+         ConeNode.cpp
+         CubeNode.cpp
+         CylinderNode.cpp
+         SphereNode.cpp
+         TorusNode.cpp
+         VolCacheNode.cpp
+     1>C:\SHIVAProject\include\vol_totem\vol_totem.h(43): warning C4251: 'totemio::TotemNode::m_childNodes' : class 'std::vector<_Ty>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
+                 with
+                 [
+                     _Ty=totemio::TotemNode *
+                 ]
+     1>C:\SHIVAProject\include\vol_totem\vol_totem.h(44): warning C4251: 'totemio::TotemNode::m_nodeID' : class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
+                 with
+                 [
+                     _Elem=char,
+                     _Traits=std::char_traits<char>,
+                     _Ax=std::allocator<char>
+                 ]
+         Node.cpp
+     1>C:\SHIVAProject\include\vol_totem\vol_totem.h(43): warning C4251: 'totemio::TotemNode::m_childNodes' : class 'std::vector<_Ty>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
+                 with
+                 [
+                     _Ty=totemio::TotemNode *
+                 ]
+     1>C:\SHIVAProject\include\vol_totem\vol_totem.h(44): warning C4251: 'totemio::TotemNode::m_nodeID' : class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
+                 with
+                 [
+                     _Elem=char,
+                     _Traits=std::char_traits<char>,
+                     _Ax=std::allocator<char>
+                 ]
+         BlendCSG.cpp
+         CSG.cpp
+         TransformNode.cpp
+     1>C:\SHIVAProject\include\vol_totem\vol_totem.h(43): warning C4251: 'totemio::TotemNode::m_childNodes' : class 'std::vector<_Ty>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
+                 with
+                 [
+                     _Ty=totemio::TotemNode *
+                 ]
+     1>C:\SHIVAProject\include\vol_totem\vol_totem.h(44): warning C4251: 'totemio::TotemNode::m_nodeID' : class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
+                 with
+                 [
+                     _Elem=char,
+                     _Traits=std::char_traits<char>,
+                     _Ax=std::allocator<char>
+                 ]
+     1>C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_rotation.h(929): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+                 ..\..\src\VolumeTree\Nodes\TransformNode.cpp(98) : see reference to function template instantiation 'void cml::matrix_to_euler<cml::matrix44f_c,float>(const MatT &,Real &,Real &,Real &,cml::EulerOrder,Real)' being compiled
+                 with
+                 [
+                     MatT=cml::matrix44f_c,
+                     Real=float
+                 ]
+     1>C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_rotation.h(942): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         ParameterManager.cpp
+     1>C:\SHIVAProject\include\vol_totem\vol_totem.h(43): warning C4251: 'totemio::TotemNode::m_childNodes' : class 'std::vector<_Ty>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
+                 with
+                 [
+                     _Ty=totemio::TotemNode *
+                 ]
+     1>C:\SHIVAProject\include\vol_totem\vol_totem.h(44): warning C4251: 'totemio::TotemNode::m_nodeID' : class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
+                 with
+                 [
+                     _Elem=char,
+                     _Traits=std::char_traits<char>,
+                     _Ax=std::allocator<char>
+                 ]
+         VolumeTree.cpp
+     1>C:\SHIVAProject\include\vol_totem\vol_totem.h(43): warning C4251: 'totemio::TotemNode::m_childNodes' : class 'std::vector<_Ty>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
+                 with
+                 [
+                     _Ty=totemio::TotemNode *
+                 ]
+     1>C:\SHIVAProject\include\vol_totem\vol_totem.h(44): warning C4251: 'totemio::TotemNode::m_nodeID' : class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
+                 with
+                 [
+                     _Elem=char,
+                     _Traits=std::char_traits<char>,
+                     _Ax=std::allocator<char>
+                 ]
        Lib:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\Release\shiva-voltree.lib" Opengl32.lib glu32.lib glew32.lib /LIBPATH:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\glew" /NOLOGO /LTCG Release\Camera.obj
          Release\Shader.obj
@@ -63,4 +157,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.76
+Time Elapsed 00:00:17.39

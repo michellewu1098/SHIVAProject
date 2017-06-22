@@ -39,7 +39,7 @@ VolumeTree::Tree::Tree( Node *_rootNode )
 
 VolumeTree::Tree::~Tree()
 {
-	// TODO: currently we need to leave the _rootNode because it is probably used externally :S
+	// TODO: currently we need to leave the m_rootNode because it is probably used externally :S
 
 	delete [] m_bboxExtents;
 	delete [] m_bboxCentre;
@@ -56,19 +56,64 @@ bool VolumeTree::Tree::Load( const char* _filename )
 
 	if( !boost::filesystem::is_regular_file( _filename ) )
 	{
-		std::cerr << "WARNING: VolumeTree::Tree cannot find .xml file to load: " << _filename << std::endl;
+		std::cerr << "WARNING: VolumeTree::Tree cannot find file to load: " << _filename << std::endl;
 		return false;
 	}
 
-	std::cout << "INFO: VolumeTree::Tree Loading from .xml file: " << _filename << std::endl;
+	std::string filename = std::string( _filename );
 
-	if( ImportXML( _filename ) )
+	if ( filename.compare( filename.size() - 4, 4, ".xml" ) == 0 )
 	{
-		std::cout << "File " << _filename << " imported successfully." << std::endl;
-		return true;
+		std::cout << "INFO: VolumeTree::Tree Loading from .xml file: " << _filename << std::endl;
+
+		if( ImportXML( _filename ) )
+		{
+			std::cout << "File " << _filename << " imported successfully." << std::endl;
+			return true;
+		}
+	}
+	else if ( filename.compare( filename.size() - 4, 4, ".vol" ) == 0 )
+	{
+		std::cout << "INFO: VolumeTree::Tree Loading from .vol file: " << _filename << std::endl;
+
+		if( ImportVol( _filename ) ) 
+		{
+			std::cout << "File " << _filename << " imported successfully." << std::endl;
+			return true;
+		}
 	}
 
 	return false;
+}
+
+//----------------------------------------------------------------------------------
+
+bool VolumeTree::Tree::ImportVol( const char* _filename )
+{
+	Node* newTree = NULL;
+	totemio::TotemNode *importRootNode = NULL;
+
+	if( openVol( _filename, &importRootNode ) )
+	{
+		std::cout << "Opening file " << _filename << std::endl;
+		newTree = BuildImportNode( importRootNode );
+
+		if( newTree != NULL )
+		{
+			if( m_rootNode != NULL )
+			{
+				delete m_rootNode;
+			}
+
+			m_rootNode = newTree;
+			return true;
+		}
+	}
+	else 
+	{
+		std::cerr << "totemio::openVol() couldn't open .vol file " << _filename << std::endl;
+		return false;
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -92,7 +137,7 @@ bool VolumeTree::Tree::ImportXML( const char* _filename )
 				{
 					if( childNode->ValueStr() == "CSG" ) 
 					{
-						newTree =  importFromXML( childNode );
+						newTree =  ImportFromXML( childNode );
 					}
 				}
 			}
@@ -117,11 +162,11 @@ bool VolumeTree::Tree::ImportXML( const char* _filename )
 
 //----------------------------------------------------------------------------------
 
-VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
+VolumeTree::Node* VolumeTree::Tree::ImportFromXML( TiXmlElement *_root )
 {
 	if( !_root )
 	{
-		std::cerr << "ERROR: VolumeTree::Tree::importFromXML given a NULL root" << std::endl;
+		std::cerr << "ERROR: VolumeTree::Tree::ImportFromXML given a NULL root" << std::endl;
 		return NULL;
 	}
 
@@ -194,6 +239,7 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 	{
 		double height, radiusX, radiusY; 
 		int isPole = 0; 
+		int isBase = 0;
 
 		if( _root->Type() == TiXmlNode::TINYXML_ELEMENT )
 		{
@@ -225,6 +271,12 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 						std::cerr << "ERROR: Couldn't find attribute \"isPole\" in Cylinder node" << std::endl; return NULL;
 					}
 				}
+				else if( currentAttribute->Name() == std::string( "isBase" ) )
+				{
+					if( currentAttribute->QueryIntValue( &isBase ) != TIXML_SUCCESS ) {
+						std::cerr << "ERROR: Couldn't find attribute \"isBase\" in Cylinder node" << std::endl; return NULL;
+					}
+				}
 			}
 
 			currentImportTyped->SetRadius( ( float )radiusX, ( float )radiusY );
@@ -232,6 +284,11 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 			if( isPole != 0 )
 			{
 				currentImportTyped->SetPole( true );
+			}
+
+			if( isBase != 0 )
+			{
+				currentImportTyped->SetBasePole( true );
 			}
 
 			currentImport = dynamic_cast< VolumeTree::Node* >( currentImportTyped );
@@ -324,8 +381,8 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 			else
 			{
 				TiXmlElement* currentChild = _root->FirstChildElement();
-				currentImportTyped->SetChildA( importFromXML( currentChild ) );
-				currentImportTyped->SetChildB( importFromXML( currentChild->NextSiblingElement() ) );
+				currentImportTyped->SetChildA( ImportFromXML( currentChild ) );
+				currentImportTyped->SetChildB( ImportFromXML( currentChild->NextSiblingElement() ) );
 			}
 
 			currentImport = dynamic_cast< VolumeTree::Node* >( currentImportTyped );
@@ -363,8 +420,8 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 			else
 			{
 				TiXmlElement* currentChild = _root->FirstChildElement();
-				currentImportTyped->SetChildA( importFromXML( currentChild ) );
-				currentImportTyped->SetChildB( importFromXML( currentChild->NextSiblingElement() ) );
+				currentImportTyped->SetChildA( ImportFromXML( currentChild ) );
+				currentImportTyped->SetChildB( ImportFromXML( currentChild->NextSiblingElement() ) );
 			}
 
 			currentImport = dynamic_cast< VolumeTree::Node* >( currentImportTyped );
@@ -452,7 +509,7 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 				std::cerr << "WARNING: Transform node without child node, attempting to continue but results are undefined" << std::endl;
 			}
 			else { 
-				currentImportTyped->SetChild( importFromXML( _root->FirstChildElement() ) ); 
+				currentImportTyped->SetChild( ImportFromXML( _root->FirstChildElement() ) ); 
 			}
 
 			currentImport = dynamic_cast< VolumeTree::Node* >( currentImportTyped );
@@ -462,7 +519,7 @@ VolumeTree::Node* VolumeTree::Tree::importFromXML( TiXmlElement *_root )
 	// In case we have an unknown node type
 	if( currentImport == NULL )
 	{
-		std::cerr << "ERROR: VolumeTree::Tree::importFromXML could not resolve current node, results undefined" << std::endl;
+		std::cerr << "ERROR: VolumeTree::Tree::ImportFromXML could not resolve current node, results undefined" << std::endl;
 		return NULL;
 	}
 
@@ -484,14 +541,14 @@ void VolumeTree::Tree::SaveXML( std::string _filename )
 	TiXmlComment *comment = new TiXmlComment( "This is the internal format used to save and load models built in SHIVA" );
 	root->LinkEndChild( comment );
 
-	exportToXML( m_rootNode, root ); 
+	ExportToXML( m_rootNode, root ); 
 	doc.SaveFile( _filename );
 }
 
 
 //----------------------------------------------------------------------------------
 
-void VolumeTree::Tree::exportToXML( Node *_currentNode, TiXmlElement *_root )
+void VolumeTree::Tree::ExportToXML( Node *_currentNode, TiXmlElement *_root )
 {
 	TiXmlElement *newRoot;
 	
@@ -513,7 +570,7 @@ void VolumeTree::Tree::exportToXML( Node *_currentNode, TiXmlElement *_root )
 				newRoot->SetDoubleAttribute( "Height", currentTyped->GetLength() );
 			}
 			else {
-				std::cerr << "ERROR: VolumeTree::Tree::exportToXML node string type does not match class type: " << nodeTypeStr << ", results undefined" << std::endl;
+				std::cerr << "ERROR: VolumeTree::Tree::ExportToXML node string type does not match class type: " << nodeTypeStr << ", results undefined" << std::endl;
 				return;
 			}
 		}
@@ -532,7 +589,7 @@ void VolumeTree::Tree::exportToXML( Node *_currentNode, TiXmlElement *_root )
 
 			}
 			else {
-				std::cerr << "ERROR: VolumeTree::Tree::exportToXML node string type does not match class type: " << nodeTypeStr << ", results undefined" << std::endl;
+				std::cerr << "ERROR: VolumeTree::Tree::ExportToXML node string type does not match class type: " << nodeTypeStr << ", results undefined" << std::endl;
 				return;
 			}
 		}
@@ -552,10 +609,13 @@ void VolumeTree::Tree::exportToXML( Node *_currentNode, TiXmlElement *_root )
 				{
 					newRoot->SetAttribute( "isPole", 1 );
 				}
-
+				else if( currentTyped->isBase() )
+				{
+					newRoot->SetAttribute( "isBase", 1 );
+				}
 			}
 			else {
-				std::cerr << "ERROR: VolumeTree::Tree::exportToXML node string type does not match class type: " << nodeTypeStr << ", results undefined" << std::endl;
+				std::cerr << "ERROR: VolumeTree::Tree::ExportToXML node string type does not match class type: " << nodeTypeStr << ", results undefined" << std::endl;
 				return;
 			}
 		}
@@ -573,7 +633,7 @@ void VolumeTree::Tree::exportToXML( Node *_currentNode, TiXmlElement *_root )
 				newRoot->SetDoubleAttribute( "RadiusZ",  currentTyped->GetRadiusZ() );
 			}
 			else {
-				std::cerr << "ERROR: VolumeTree::Tree::exportToXML node string type does not match class type: " << nodeTypeStr << ", results undefined" << std::endl;
+				std::cerr << "ERROR: VolumeTree::Tree::ExportToXML node string type does not match class type: " << nodeTypeStr << ", results undefined" << std::endl;
 				return;
 			}
 		}
@@ -605,7 +665,7 @@ void VolumeTree::Tree::exportToXML( Node *_currentNode, TiXmlElement *_root )
 				}
 			}
 			else {
-				std::cerr << "ERROR: VolumeTree::Tree::exportToXML node string type does not match class type: " << nodeTypeStr << ", results undefined" << std::endl;
+				std::cerr << "ERROR: VolumeTree::Tree::ExportToXML node string type does not match class type: " << nodeTypeStr << ", results undefined" << std::endl;
 				return;
 			}
 		}
@@ -631,7 +691,7 @@ void VolumeTree::Tree::exportToXML( Node *_currentNode, TiXmlElement *_root )
 				}
 			}
 			else {
-				std::cerr << "ERROR: VolumeTree::Tree::exportToXML node string type does not match class type: " << nodeTypeStr << ", results undefined" << std::endl;
+				std::cerr << "ERROR: VolumeTree::Tree::ExportToXML node string type does not match class type: " << nodeTypeStr << ", results undefined" << std::endl;
 				return;
 			}
 		}
@@ -663,20 +723,20 @@ void VolumeTree::Tree::exportToXML( Node *_currentNode, TiXmlElement *_root )
 
 			}
 			else {
-				std::cerr << "ERROR: VolumeTree::Tree::exportToXML node string type does not match class type: " << nodeTypeStr << ", results undefined" << std::endl;
+				std::cerr << "ERROR: VolumeTree::Tree::ExportToXML node string type does not match class type: " << nodeTypeStr << ", results undefined" << std::endl;
 				return;
 			}
 		}
 	}
 	else {
-		std::cerr << "ERROR: VolumeTree::Tree::exportToXML given NULL root, results undefined." << std::endl;
+		std::cerr << "ERROR: VolumeTree::Tree::ExportToXML given NULL root, results undefined." << std::endl;
 		return;
 	}
 
 	// Recurse children
 	for( Node *currentChild = _currentNode->GetFirstChild(); currentChild != NULL; currentChild = _currentNode->GetNextChild( currentChild ) )
 	{
-		 exportToXML( currentChild, newRoot );
+		 ExportToXML( currentChild, newRoot );
 	}
 }
 
@@ -1424,7 +1484,7 @@ std::string VolumeTree::Tree::GetExportNodeID( Node *_currentNode )
 
 //----------------------------------------------------------------------------------
 
-std::queue< VolumeTree::Node* > VolumeTree::Tree::getReverseTree()
+std::queue< VolumeTree::Node* > VolumeTree::Tree::GetReverseTree()
 {
 	std::stack< Node* > s;
 	std::queue< Node* > q;

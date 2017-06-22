@@ -1,0 +1,17 @@
+<CustomLayout background="LinearGradientBackground.xml">
+    <TextView id="titleTextView" layout_height="WRAP_CONTENT" layout_width="WRAP_CONTENT" layout_centreX="0.252083" layout_centreY="0.0292034" text="Drill Operation" />
+    <VolView id="MainVolView" layout_height="0.55" layout_width="0.34" layout_centreX="0.433333" layout_centreY="0.535833" />
+    <TextButton id="EyeGazeRest" layout_height="0.237618" layout_width="0.179167" padding="10" layout_centreX="0.714062" layout_centreY="0.131853" text="Rest" />
+    <ImageButton id="CrosshairLeft" layout_height="0.213195" layout_width="0.123125" padding="10" layout_centreX="0.0713542" layout_centreY="0.501877" src="System/CommandSymbols/Arrow_Left.xml" onClick="buttonHandler" />
+    <ImageButton id="CrosshairRight" layout_height="0.243376" layout_width="0.133542" padding="10" layout_centreX="0.774479" layout_centreY="0.528289" src="System/CommandSymbols/Arrow_Right.xml" onClick="buttonHandler" />
+    <ImageButton id="CrosshairUp" layout_height="0.232045" layout_width="0.135625" padding="10" layout_centreX="0.224479" layout_centreY="0.244345" src="System/CommandSymbols/Arrow_Up.xml" onClick="buttonHandler" />
+    <ImageButton id="CrosshairDown" layout_height="0.220735" layout_width="0.133542" padding="10" layout_centreX="0.221875" layout_centreY="0.73869" src="System/CommandSymbols/Arrow_Down.xml" onClick="buttonHandler" />
+    <ImageButton id="RotateUp" layout_height="0.256695" layout_width="0.142917" padding="10" layout_centreX="0.628125" layout_centreY="0.528275" src="System/CommandSymbols/RotateArrow_Up.xml" onClick="buttonHandler" />
+    <ImageButton id="RotateDown" layout_height="0.217013" layout_width="0.13875" padding="10" layout_centreX="0.220312" layout_centreY="0.500943" src="System/CommandSymbols/RotateArrow_Down.xml" onClick="buttonHandler" />
+    <ImageButton id="RotateRight" layout_height="0.197505" layout_width="0.2125" padding="10" layout_centreX="0.434896" layout_centreY="0.900027" src="System/CommandSymbols/RotateArrow_Right.xml" onClick="buttonHandler" />
+    <ImageButton id="RotateLeft" layout_height="0.246654" layout_width="0.216667" padding="10" layout_centreX="0.430729" layout_centreY="0.131004" src="System/CommandSymbols/RotateArrow_Left.xml" onClick="buttonHandler" />
+    <TextButton id="RotateReset" layout_height="0.176749" layout_width="0.202083" padding="10" layout_centreX="0.661979" layout_centreY="0.904406" onClick="buttonHandler" text="Reset View" />
+    <TextButton id="PerformDrill" layout_height="0.267646" layout_width="0.147859" padding="10" layout_centreX="0.921044" layout_centreY="0.32236" onClick="buttonHandler" text="Drill!" />
+    <TextButton id="UndoButton" layout_height="0.172968" layout_width="0.194792" padding="10" layout_centreX="0.896354" layout_centreY="0.831934" onClick="buttonHandler" text="Undo" />
+    <TextButton id="BackButton" layout_height="0.18242" layout_width="0.191667" padding="10" layout_centreX="0.909586" layout_centreY="0.0951968" onClick="buttonHandler" text="Back" />
+</CustomLayout>

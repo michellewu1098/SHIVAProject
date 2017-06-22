@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CustomLayout
+	layout_width = "fill_parent"
+	layout_height = "fill_parent"
+	background = "@RootViewBackground">
+	
+	<ScrollContainer
+		layout_width = "0.14"
+		layout_height = "1.0"
+		layout_centreX = "0.07"
+		layout_centreY = "0.5"
+		scroll_vertical = "true"
+		scroll_horizontal = "true" >
+		
+        <LayoutAdapterView
+			id = "PrimitiveList"
+			layout_width = "wrap_content"
+			layout_height = "wrap_content"
+			first_focus = "true"
+			next_focus_right = "RotateDown" >
+			
+			<LinearLayout 
+		        layout_width = "wrap_content"
+		        layout_height = "wrap_content"
+		        orientation = "vertical"
+			/>
+        </LayoutAdapterView>	
+	</ScrollContainer>
+	
+	<TextView
+		id = "titleTextView"
+		layout_width = "wrap_content"
+		layout_height = "wrap_content"
+		layout_centreX = "0.5"
+		layout_centreY = "0.05"
+		text = "SHIVA totem demo" />-->
+	
+	<!--<ImageTextView
+		id = "titleView"
+		layout_width = "wrap_content"
+		layout_height = "wrap_content"
+		layout_centreX = "0.5"
+		layout_centreY = "0.05"
+		
+		height_constrained="true"
+		icon_position = "left"
+		
+		text = "SHIVA totem demo"
+		
+		src="System/CommandSymbols/MainTitle.xml"
+		scaleContent="true"
+		keepContentAspectRatio="true"	/>-->
+		
+	<VolView
+		id = "MainVolView"
+		layout_width = "0.4"
+		layout_height = "0.6"
+		layout_centreX = "0.5"
+		layout_centreY = "0.55"
+		cameraPositionY = "1"
+		cameraPositionZ = "14.0"
+		cameraTargetY = "0" />
+
+	<ImageTextButton
+		id = "RotateUp"
+		layout_width = "wrap_content"
+		layout_height = "0.23"
+		layout_centreX = "0.72"
+		layout_centreY = "0.5"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		text = "rotate&#10;up"
+		text_size = "30"
+		icon_percentSize = "0.7"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Up.xml"
+		eyeGaze_Repeat = "true"
+    
+		scan_prev = "RotateLeft"
+    
+		next_focus_left = "RotateDown"
+		next_focus_right = "UndoButton"
+		next_focus_up = "RotateLeft"
+		next_focus_down = "RotateRight" />
+		
+	<ImageTextButton
+		id = "RotateDown"
+		layout_width = "wrap_content"
+		layout_height = "0.23"
+		layout_centreX = "0.28"
+		layout_centreY = "0.5"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		text = "rotate&#10;down"
+		text_size = "30"
+		icon_percentSize = "0.7"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Down.xml"
+		eyeGaze_Repeat = "true"
+    
+		scan_prev = "RotateRight"
+    
+		next_focus_left = "PrimitiveList"
+		next_focus_up = "RotateLeft"
+		next_focus_down = "RotateRight"
+		next_focus_right = "RotateUp" />
+
+	<ImageTextButton
+		id = "RotateRight"
+		layout_width = "0.16"
+		layout_height = "0.13"
+		layout_centreX = "0.5"
+		layout_centreY = "0.92"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		text = "rotate right"
+		text_size = "30"
+		icon_percentSize = "0.7"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Right.xml"
+		eyeGaze_Repeat = "true"
+    
+		next_focus_up = "RotateLeft"
+		next_focus_left = "RotateDown"
+		next_focus_right = "RotateUp" />
+
+	<ImageTextButton
+		id = "RotateLeft"
+		layout_width = "0.16"
+		layout_height = "0.13"
+		layout_centreX = "0.5"
+		layout_centreY = "0.19"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		text = "rotate left"
+		text_size = "30"
+		icon_percentSize = "0.7"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Left.xml"
+		eyeGaze_Repeat = "true"
+    
+		scan_prev = "PrimitiveList"
+        first_scan = "true"
+    
+		next_focus_left = "RotateDown"
+		next_focus_right = "RotateUp" />
+	
+	<ImageTextButton
+		id = "New"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.3"
+		layout_centreY = "0.18"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "new"
+		src = "System/CommandSymbols/Pole.xml" />
+	
+	<!--<TextButton
+		id = "EyeGazeRest"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.7"
+		layout_centreY = "0.15"
+		eyeGaze_RestButton = "true"
+		text = "rest" />-->
+	
+	<ImageTextButton
+		id = "EyeGazeRest"
+		layout_width = "0.16"
+		layout_height = "0.28"
+		layout_centreX = "0.67"
+		layout_centreY = "0.23"
+		height_constrained = "true"
+		icon_position = "top"
+		eyeGaze_RestButton = "true"
+		text = "rest"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/Rest.xml"	
+		scaleContent = "true"
+		keepContentAspectRatio = "true" />	
+	
+	<ImageTextButton
+		id = "RotateReset"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.7"
+		layout_centreY = "0.89"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "reset view"
+		src = "System/CommandSymbols/ResetView.xml"	/>
+	
+	<ImageTextButton
+		id = "DeleteSelected"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.84"
+		layout_centreY = "0.10"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "delete"
+		src = "System/CommandSymbols/Delete.xml"
+
+		next_focus_down = "EditMenuActivity"
+		next_focus_right = "SelectAbove"
+		next_focus_left = "RotateUp" />	
+		
+	<ImageTextButton
+		id = "SelectAbove"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.94"
+		layout_centreY = "0.10"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "select next"
+		src = "System/CommandSymbols/SelectAbove.xml"	
+		
+		scan_prev = "SwapAbove"
+		next_focus_up = "SwapAbove"
+		next_focus_right = "PrimitiveList"
+		next_focus_left = "RotateUp" />
+  
+	<ImageTextButton
+		id = "EditMenuActivity"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.84"
+		layout_centreY = "0.26"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "launchActivityHandler"
+		text = "edit"
+		src = "System/CommandSymbols/Edit.xml"
+    
+		scan_prev = "DeleteSelected"
+		next_focus_up = "DeleteSelected"
+		next_focus_right = "PrimitiveList"
+		next_focus_left = "RotateUp" />
+		
+	<ImageTextButton
+		id = "SelectBelow"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.94"
+		layout_centreY = "0.26"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "select previous"
+		src = "System/CommandSymbols/SelectBelow.xml"	
+		
+		scan_prev = "EditSelected"
+		next_focus_up = "EditSelected"
+		next_focus_right = "PrimitiveList"
+		next_focus_left = "RotateUp" />
+	
+	<ImageTextButton
+		id = "UndoButton"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.84"
+		layout_centreY = "0.42"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick="buttonHandler"
+		text = "undo"
+		src = "System/CommandSymbols/Undo.xml" />
+	
+	<ImageTextButton
+		id = "SwapBelow"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.94"
+		layout_centreY = "0.42"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "swap previous"
+		src = "System/CommandSymbols/SwapPrevious.xml"	
+		
+		scan_prev = "SelectBelow"
+		next_focus_up = "SelectBelow"
+		next_focus_right = "PrimitiveList"
+		next_focus_left = "RotateUp" />
+
+	<ImageTextButton
+		id = "RedoButton"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.84"
+		layout_centreY = "0.58"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick="buttonHandler"
+		text = "redo"
+		src = "System/CommandSymbols/Redo.xml" />
+	
+	<ImageTextButton
+		id = "SwapAbove"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.94"
+		layout_centreY = "0.58"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "swap next"
+		src = "System/CommandSymbols/SwapNext.xml"	
+		
+		scan_prev = "NudgeUp"
+		next_focus_up = "NudgeUp"
+		next_focus_right = "PrimitiveList"
+		next_focus_left = "RotateUp" />
+  	
+	<ImageTextButton
+		id = "NudgeActivity"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.84"
+		layout_centreY = "0.74"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "launchActivityHandler"
+		text = "nudge"
+		src = "System/CommandSymbols/Nudge.xml"	/>
+
+	<!--<TextButton
+		id="PrintActivity"
+		layout_width="0.12"
+		layout_height="0.18"
+		layout_centreX="0.82"
+		layout_centreY="0.86"
+		onClick="launchActivityHandler"
+		text="print"	
+	/>-->
+	
+	<ImageTextButton
+		id = "PrintActivity"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.94"
+		layout_centreY = "0.74"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "launchActivityHandler"
+		text = "print"
+		src = "System/CommandSymbols/Print.xml"	/>
+	
+	<TextView
+		id = "saveConfirmationText"
+		layout_width = "wrap_content"
+		layout_height = "wrap_content"
+		layout_centreX = "0.9"
+		layout_centreY = "0.90"
+		text = "saved!"
+		visibility = "false" />
+	
+	<ImageTextButton
+		id = "Save"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.84"
+		layout_centreY = "0.9"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "saveHandler"
+		text = "save"
+		src = "System/CommandSymbols/Save.xml"
+    
+		scan_prev = "NudgeDown"
+		scan_next = "PrimitiveList"
+		next_focus_up = "NudgeDown"
+		next_focus_down = "NudgeUp"
+		next_focus_right = "PrimitiveList"
+		next_focus_left = "RotateUp" />
+	
+	<ImageTextButton
+		id = "Load"
+		layout_width = "0.10"
+		layout_height = "0.17"
+		layout_centreX = "0.94"
+		layout_centreY = "0.9"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "loadHandler"
+		text = "load"
+		src = "System/CommandSymbols/Load.xml" />
+		
+</CustomLayout>

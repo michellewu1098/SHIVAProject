@@ -334,7 +334,7 @@ void VolumeTree::Node::DrawBBoxes(  cml::matrix44f_c &_proj, cml::matrix44f_c &_
 		m_bboxLinesShader->bind();
 
 #if _DEBUG
-		CheckAttributesUniforms( m_bboxLinesShader->getID() );
+		//CheckAttributesUniforms( m_bboxLinesShader->getID() );
 #endif
 		LoadMatricesToShader( m_bboxLinesShader->getID(), _proj, _mv );
 		
@@ -370,7 +370,7 @@ void VolumeTree::Node::DrawBBoxes(  cml::matrix44f_c &_proj, cml::matrix44f_c &_
 		glUniform4f( glGetUniformLocation( m_bboxSidesShader->getID(), "u_Colour" ), 1.0f, 0.f, 0.f, 0.1f );
 
 #if _DEBUG
-		CheckAttributesUniforms( m_bboxSidesShader->getID() );
+		//CheckAttributesUniforms( m_bboxSidesShader->getID() );
 #endif
 
 		glBindVertexArray( m_vaos[ 0 ][ 1 ] );
@@ -414,10 +414,10 @@ void VolumeTree::Node::DrawBBoxes( cml::matrix44f_c &_proj, cml::matrix44f_c &_m
 	{
 
 #if _DEBUG
-		std::cout<< "#=====================================================#" << std::endl;
-		std::cout<< "CURRENT CONTEXT: " << _context << std::endl;
-		std::cout<< "BBox LINES shader ID: " << m_bboxLinesShader->getID() << std::endl;
-		std::cout<< "BBox SIDES shader ID: " << m_bboxSidesShader->getID() << std::endl;
+		//std::cout<< "#=====================================================#" << std::endl;
+		//std::cout<< "CURRENT CONTEXT: " << _context << std::endl;
+		//std::cout<< "BBox LINES shader ID: " << m_bboxLinesShader->getID() << std::endl;
+		//std::cout<< "BBox SIDES shader ID: " << m_bboxSidesShader->getID() << std::endl;
 #endif
 		
 		UpdateBboxesVBOs();
@@ -429,7 +429,7 @@ void VolumeTree::Node::DrawBBoxes( cml::matrix44f_c &_proj, cml::matrix44f_c &_m
 		m_bboxLinesShader->bind();
 			
 #if _DEBUG
-		CheckAttributesUniforms( m_bboxLinesShader->getID() );
+		//CheckAttributesUniforms( m_bboxLinesShader->getID() );
 #endif
 		LoadMatricesToShader( m_bboxLinesShader->getID(), _proj, _mv );
 
@@ -465,7 +465,7 @@ void VolumeTree::Node::DrawBBoxes( cml::matrix44f_c &_proj, cml::matrix44f_c &_m
 		glUniform4f( glGetUniformLocation( m_bboxSidesShader->getID(), "u_Colour" ), 1.0f, 0.f, 0.f, 0.1f );
 
 #if _DEBUG
-		CheckAttributesUniforms( m_bboxSidesShader->getID() );
+		//CheckAttributesUniforms( m_bboxSidesShader->getID() );
 #endif
 		glBindVertexArray( m_vaos[ _context ][ 1 ] );
 

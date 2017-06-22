@@ -66,6 +66,8 @@ void NudgeActivity::OnCreate( ShivaGUI::Bundle *_data )
 			InitIOWindow( guiController, _data);
 		}
 	}
+
+	m_commandManager = Totem::CommandManager::GetInstance();
 }
 
 //----------------------------------------------------------------------------------
@@ -121,71 +123,135 @@ void NudgeActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		else if( _view->GetID() == "DeleteSelected" )
 		{
 			std::cout << "INFO: NudgeActivity request to delete selected object" << std::endl;
-			m_totemController->DeleteSelectedObject();
+			
+			DeleteObjectCommand* deleteObjCmd = new DeleteObjectCommand();
+			m_commandManager->Execute( deleteObjCmd );
+			
+			//m_totemController->DeleteSelectedObject();
 			RebuildTrees();
 		}
 		else if( _view->GetID() == "SelectAbove" )
 		{
 			std::cout << "INFO: NudgeActivity request to select object above" << std::endl;
-			m_totemController->SelectObjectAbove();
+
+			SelectCommand* selectCmd = new SelectCommand();
+			selectCmd->SetSelection( "above" );
+			m_commandManager->Execute( selectCmd );
+
+			//m_totemController->SelectObjectAbove();
 		}
 		else if( _view->GetID() == "SelectBelow" )
 		{
 			std::cout << "INFO: NudgeActivity request to select object below" << std::endl;
-			m_totemController->SelectObjectBelow();
+			
+			SelectCommand* selectCmd = new SelectCommand();
+			selectCmd->SetSelection( "below" );
+			m_commandManager->Execute( selectCmd );
+
+			//m_totemController->SelectObjectBelow();
 		}
 		else if( _view->GetID() == "SwapAbove" )
 		{
 			std::cout << "INFO: NudgeActivity request to swap with object above" << std::endl;
-			m_totemController->ReorderSelectedObject( true );
-			RebuildTrees();
+			
+			if( m_totemController->GetSelected()->GetParent() != NULL )
+			{
+				SwapCommand* swapCmd = new SwapCommand();
+				swapCmd->SetShiftOrder( true );
+				m_commandManager->Execute( swapCmd );
+			
+				//m_totemController->ReorderSelectedObject( true );
+				RebuildTrees();
+			}
 		}
 		else if( _view->GetID() == "SwapBelow" )
 		{
 			std::cout << "INFO: NudgeActivity request to swap with object below" << std::endl;
-			m_totemController->ReorderSelectedObject( false );
-			RebuildTrees();
+			
+			if( m_totemController->GetSelected()->GetChild() != NULL )
+			{
+				SwapCommand* swapCmd = new SwapCommand();
+				swapCmd->SetShiftOrder( false );
+				m_commandManager->Execute( swapCmd );
+			
+				//m_totemController->ReorderSelectedObject( false );
+				RebuildTrees();
+			}
 		}
 		else if( _view->GetID() == "NudgeUp" )
 		{
 			std::cout << "INFO: NudgeActivity request to nudge object upward" << std::endl;
-			m_totemController->MoveSelectedObject( 0.0f, 0.0f, 0.1f );
+			
+			NudgeCommand* nudgeCmd = new NudgeCommand();
+			nudgeCmd->SetOffsets( 0.0f, 0.0f, 0.1f );
+			m_commandManager->Execute( nudgeCmd );
+
+			//m_totemController->MoveSelectedObject( 0.0f, 0.0f, 0.1f );
 			RebuildTrees( true );
 		}
 		else if( _view->GetID() == "NudgeDown" )
 		{
 			std::cout << "INFO: NudgeActivity request to nudge object downward" << std::endl;
-			m_totemController->MoveSelectedObject( 0.0f, 0.0f, -0.1f );
+
+			NudgeCommand* nudgeCmd = new NudgeCommand();
+			nudgeCmd->SetOffsets( 0.0f, 0.0f, -0.1f );
+			m_commandManager->Execute( nudgeCmd );
+
+			//m_totemController->MoveSelectedObject( 0.0f, 0.0f, -0.1f );
 			RebuildTrees( true );
 		}
 		else if( _view->GetID() == "NudgeXpositive" )
 		{
 			std::cout << "INFO: NudgeActivity request to nudge object on positive X" << std::endl;
-			m_totemController->MoveSelectedObject( m_nudgeStep, 0.0f, 0.0f );
+
+			NudgeCommand* nudgeCmd = new NudgeCommand();
+			nudgeCmd->SetOffsets( m_nudgeStep, 0.0f, 0.0f );
+			m_commandManager->Execute( nudgeCmd );
+
+			//m_totemController->MoveSelectedObject( m_nudgeStep, 0.0f, 0.0f );
 			RebuildTrees( true );
 		}
 		else if( _view->GetID() == "NudgeXnegative" )
 		{
 			std::cout << "INFO: NudgeActivity request to nudge object on negative X" << std::endl;
-			m_totemController->MoveSelectedObject( -m_nudgeStep, 0.0f, 0.0f );
+
+			NudgeCommand* nudgeCmd = new NudgeCommand();
+			nudgeCmd->SetOffsets( -m_nudgeStep, 0.0f, 0.0f );
+			m_commandManager->Execute( nudgeCmd );
+
+			//m_totemController->MoveSelectedObject( -m_nudgeStep, 0.0f, 0.0f );
 			RebuildTrees( true );
 		}
 		else if( _view->GetID() == "NudgeYpositive" )
 		{
 			std::cout << "INFO: AssembleActivity request to nudge object on positive Y" << std::endl;
-			m_totemController->MoveSelectedObject( 0.0f, m_nudgeStep, 0.0f );
+
+			NudgeCommand* nudgeCmd = new NudgeCommand();
+			nudgeCmd->SetOffsets( 0.0f, m_nudgeStep, 0.0f );
+			m_commandManager->Execute( nudgeCmd );
+
+			//m_totemController->MoveSelectedObject( 0.0f, m_nudgeStep, 0.0f );
 			RebuildTrees( true );
 		}
 		else if( _view->GetID() == "NudgeYnegative" )
 		{
 			std::cout << "INFO: AssembleActivity request to nudge object on negative Y" << std::endl;
-			m_totemController->MoveSelectedObject( 0.0f, -m_nudgeStep, 0.0f );
+
+			NudgeCommand* nudgeCmd = new NudgeCommand();
+			nudgeCmd->SetOffsets( 0.0f, -m_nudgeStep, 0.0f );
+			m_commandManager->Execute( nudgeCmd );
+
+			//m_totemController->MoveSelectedObject( 0.0f, -m_nudgeStep, 0.0f );
 			RebuildTrees( true );
 		}
 		else if( _view->GetID() == "NudgeReset" )
 		{
 			std::cout << "INFO: AssembleActivity request to reset nudge" << std::endl;
-			m_totemController->ResetMoveSelected();
+			
+			ResetNudgeCommand* resetNudgeCmd = new ResetNudgeCommand();
+			m_commandManager->Execute( resetNudgeCmd );
+			
+			//m_totemController->ResetMoveSelected();
 			RebuildTrees( true );
 		}
 		else if( _view->GetID() == "RotateReset" )
@@ -196,6 +262,16 @@ void NudgeActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		{
 			m_totemController->ShowSelection( true );
 			Finish();
+		}
+		else if( _view->GetID() == "UndoButton" )
+		{
+			m_commandManager->Undo();
+			RebuildTrees( true );
+		}
+		else if( _view->GetID() == "RedoButton" )
+		{
+			m_commandManager->Redo();
+			RebuildTrees( true );
 		}
 	}
 	// Update our views

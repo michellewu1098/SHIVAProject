@@ -14,6 +14,7 @@
 #include "VolView.h"
 #include "Totem/TotemController.h"
 #include "Totem/Operations/TotemOpDrill.h"
+#include "CommandManager.h"
 
 
 class BlendAdjustActivity : public ShivaGUI::Activity
@@ -120,6 +121,10 @@ protected:
 	/// \brief Whether to set object colour
 	//----------------------------------------------------------------------------------
 	bool m_setObjectColour;
+	//----------------------------------------------------------------------------------
+	/// \brief Reference to command manager
+	//----------------------------------------------------------------------------------
+	Totem::CommandManager* m_commandManager;
 	//----------------------------------------------------------------------------------
 
 };

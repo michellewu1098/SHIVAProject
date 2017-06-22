@@ -15,6 +15,7 @@
 #include "System/Activity.h"
 #include "VolView.h"
 #include "Totem/TotemController.h"
+#include "CommandManager.h"
 
 
 class DrillActivity : public ShivaGUI::Activity
@@ -134,6 +135,10 @@ protected:
 	/// \brief Drill sizestep
 	//----------------------------------------------------------------------------------
 	float m_drillSizeStep;
+	//----------------------------------------------------------------------------------
+	/// \brief Reference to command manager
+	//----------------------------------------------------------------------------------
+	Totem::CommandManager* m_commandManager;
 	//----------------------------------------------------------------------------------
 
 };

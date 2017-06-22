@@ -134,7 +134,8 @@ void ShivaGUI::Window::SetSize( const unsigned int &_width, const unsigned int &
 
 void ShivaGUI::Window::SetFullScreen( bool _fullscreen )
 {
-	if( SDL_SetWindowFullscreen( m_window, _fullscreen ? SDL_TRUE : SDL_FALSE ) == 0 )
+	//if( SDL_SetWindowFullscreen( m_window, _fullscreen ? SDL_TRUE : SDL_FALSE ) == 0 )
+	if( SDL_SetWindowFullscreen( m_window, _fullscreen ? SDL_WINDOW_FULLSCREEN : SDL_FALSE ) == 0 )
 	{
 		m_fullscreen = _fullscreen;
 		SDL_GetWindowSize( m_window, &m_width, &m_height );
@@ -145,7 +146,7 @@ void ShivaGUI::Window::SetFullScreen( bool _fullscreen )
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::Window::Maximise()
+void ShivaGUI::Window::Maximise() 
 {
 	SDL_MaximizeWindow( m_window );
 }

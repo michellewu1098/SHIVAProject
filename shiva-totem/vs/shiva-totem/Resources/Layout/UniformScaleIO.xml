@@ -1,244 +1,520 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CustomLayout
-	layout_width="fill_parent"
-	layout_height="fill_parent"
-  background="LinearGradientBackground.xml">
-	
-	
+	layout_width = "fill_parent"
+	layout_height = "fill_parent"
+	background = "@RootViewBackground" >
 	
 	<TextView
-		id="titleTextView"
-		layout_width="wrap_content"
-		layout_height="wrap_content"
-		layout_centreX="0.5"
-		layout_centreY="0.05"
-		text="Make BIGGER or SMALLER"
-		/>
+		id = "titleTextView"
+		layout_width = "wrap_content"
+		layout_height = "wrap_content"
+		layout_centreX = "0.5"
+		layout_centreY = "0.05"
+		text = "make bigger or smaller" />
 		
 	<VolView
-		id="MainVolView"
-		layout_width="0.34"
-		layout_height="0.55"
-		layout_centreX="0.5"
-		layout_centreY="0.55"
-		cameraPositionY="1"
-		cameraPositionZ="14.0"
-		cameraTargetY="0"
-		/>
+		id = "MainVolView"
+		layout_width = "0.34"
+		layout_height = "0.55"
+		layout_centreX = "0.5"
+		layout_centreY = "0.55"
+		cameraPositionY = "1"
+		cameraPositionZ = "14.0"
+		cameraTargetY = "0" />
 
+	<ImageTextButton
+		id = "ScaleXUp"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.06"
+		layout_centreY = "0.12"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "x up"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/Xup.xml" />
+		
+	<!--<TextButton
+		id = "ScaleXUp"
+		layout_width = "0.1"
+		layout_height = "0.08"
+		layout_centreX = "0.06"
+		layout_centreY = "0.1"
+		onClick = "buttonHandler"
+		text = "Xup" />
 
+	<TextButton
+		id = "ScaleXDown"
+		layout_width = "0.12"
+		layout_height = "0.18"
+		layout_centreX = "0.18"
+		layout_centreY = "0.09"
+		onClick = "buttonHandler"
+		text = "x down" />
+	
+	<!--<TextButton
+		id = "ScaleYUp"
+		layout_width = "0.12"
+		layout_height = "0.18"
+		layout_centreX = "0.06"
+		layout_centreY = "0.27"
+		onClick = "buttonHandler"
+		text = "y up" />
+	
+	<!--<TextButton
+		id = "ScaleYDown"
+		layout_width = "0.12"
+		layout_height = "0.18"
+		layout_centreX = "0.18"
+		layout_centreY = "0.27"
+		onClick = "buttonHandler"
+		text = "y down" />
+	
+	<TextButton
+		id = "ScaleZUp"
+		layout_width = "0.12"
+		layout_height = "0.18"
+		layout_centreX = "0.06"
+		layout_centreY = "0.45"
+		onClick = "buttonHandler"
+		text = "z up" />
 
-  <TextButton
-		id="ScaleXUp"
-		layout_width="0.1"
-		layout_height="0.08"
-		layout_centreX="0.06"
-		layout_centreY="0.1"
-		onClick="buttonHandler"
-		text="Xup"
-		/>
-
-  <TextButton
-		id="ScaleXDown"
-		layout_width="0.1"
-		layout_height="0.08"
-		layout_centreX="0.16"
-		layout_centreY="0.1"
-		onClick="buttonHandler"
-		text="Xdn"
-		/>
-
-  
-  <TextButton
-		id="ScaleYUp"
-		layout_width="0.1"
-		layout_height="0.08"
-		layout_centreX="0.06"
-		layout_centreY="0.19"
-		onClick="buttonHandler"
-		text="Yup"
-		/>
-
-  <TextButton
-		id="ScaleYDown"
-		layout_width="0.1"
-		layout_height="0.08"
-		layout_centreX="0.16"
-		layout_centreY="0.19"
-		onClick="buttonHandler"
-		text="Ydn"
-		/>
-
-  <TextButton
-		id="ScaleZUp"
-		layout_width="0.1"
-		layout_height="0.08"
-		layout_centreX="0.06"
-		layout_centreY="0.28"
-		onClick="buttonHandler"
-		text="Zup"
-		/>
-
-  <TextButton
-		id="ScaleZDown"
-		layout_width="0.1"
-		layout_height="0.08"
-		layout_centreX="0.16"
-		layout_centreY="0.28"
-		onClick="buttonHandler"
-		text="Zdn"
-		/>
-
-
-  <ImageButton
-		id="ScaleUp"
-		layout_width="0.12"
-		layout_height="0.2"
-		layout_centreX="0.1"
-		layout_centreY="0.45"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/Arrow_Up.xml"
-		/>
-
-  <ImageButton
+	<TextButton
+		id = "ScaleZDown"
+		layout_width = "0.12"
+		layout_height = "0.18"
+		layout_centreX = "0.18"
+		layout_centreY = "0.45"
+		onClick = "buttonHandler"
+		text = "Zdn" />
+	
+	<ImageButton
+		id = "ScaleUp"
+		layout_width = "0.12"
+		layout_height = "0.18"
+		layout_centreX = "0.12"
+		layout_centreY = "0.64"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/Arrow_Up.xml" />
+	
+	<ImageButton
 		id="ScaleDown"
 		layout_width="0.12"
-		layout_height="0.2"
-		layout_centreX="0.1"
-		layout_centreY="0.85"
+		layout_height="0.18"
+		layout_centreX="0.12"
+		layout_centreY="0.9"
 		scaleContent="true"
 		keepContentAspectRatio="true"
 		onClick="buttonHandler"
-		src="System/CommandSymbols/Arrow_Down.xml"
-		/>
-
-  <TextButton
-		id="ScaleReset"
-		layout_width="0.15"
-		layout_height="0.2"
-		layout_centreX="0.1"
-		layout_centreY="0.65"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		text="reset"
-		/>
-
-
-
-
-  <ImageButton
-		id="RotateUp"
-		layout_width="0.12"
-		layout_height="0.2"
-		layout_centreX="0.7"
-		layout_centreY="0.5"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/RotateArrow_Up.xml"
-		eyeGaze_Repeat="true"
-    
-		/>
+		src="System/CommandSymbols/Arrow_Down.xml" />
+	
+	<TextButton
+		id = "ScaleReset"
+		layout_width = "0.15"
+		layout_height = "0.1"
+		layout_centreX = "0.12"
+		layout_centreY = "0.77"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		text = "reset" />-->
 		
+	<ImageTextButton
+		id = "ScaleXDown"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.18"
+		layout_centreY = "0.12"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "x down"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/Xdown.xml"	/>
+
+	<ImageTextButton
+		id = "ScaleYUp"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.06"
+		layout_centreY = "0.31"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "y up"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/Yup.xml" />
+
+	<ImageTextButton
+		id = "ScaleYDown"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.18"
+		layout_centreY = "0.31"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "y down"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/Ydown.xml" />
+	
+	<ImageTextButton
+		id = "ScaleZUp"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.06"
+		layout_centreY = "0.5"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "z up"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/Zup.xml" />
+
+	<ImageTextButton
+		id = "ScaleZDown"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.18"
+		layout_centreY = "0.5"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "z down"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/Zdown.xml"	/>
+	
+	<ImageTextButton
+		id = "ScaleUp"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.06"
+		layout_centreY = "0.69"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "scale up"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/ScaleUp.xml" />
+		
+	<ImageTextButton
+		id = "ScaleDown"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.18"
+		layout_centreY = "0.88"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "scale down"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/ScaleDown.xml"	/>
+
+	<ImageTextButton
+		id = "ScaleReset"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.06"
+		layout_centreY = "0.88"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "reset"
+		icon_percentSize = "0.8"
+		src = "System/CommandSymbols/ScaleReset.xml" />
+
+	<!--<ImageButton
+		id = "RotateUp"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.7"
+		layout_centreY = "0.5"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Up.xml"
+		eyeGaze_Repeat = "true" />
+	
+	<!--<ImageButton
+		id = "RotateDown"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.3"
+		layout_centreY = "0.5"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Down.xml"
+		eyeGaze_Repeat = "true" />
+	
 	<ImageButton
-		id="RotateDown"
-		layout_width="0.12"
-		layout_height="0.2"
-		layout_centreX="0.3"
-		layout_centreY="0.5"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/RotateArrow_Down.xml"
-		eyeGaze_Repeat="true"
-    
-		/>
-
+		id = "RotateRight"
+		layout_width = "0.2"
+		layout_height = "0.12"
+		layout_centreX = "0.5"
+		layout_centreY = "0.9"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Right.xml"
+		eyeGaze_Repeat = "true" />
+	
 	<ImageButton
-		id="RotateRight"
-		layout_width="0.2"
-		layout_height="0.12"
-		layout_centreX="0.5"
-		layout_centreY="0.9"
+		id = "RotateLeft"
+		layout_width = "0.2"
+		layout_height = "0.12"
+		layout_centreX = "0.5"
+		layout_centreY = "0.2"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Left.xml"
+		eyeGaze_Repeat = "true" />
+	
+	<TextButton
+		id = "RotateReset"
+		layout_width = "0.2"
+		layout_height = "0.1"
+		layout_centreX = "0.7"
+		layout_centreY = "0.9"
+		onClick = "buttonHandler"
+		text = "reset rotation" />-->
+	
+	<ImageTextButton
+		id = "RotateUp"
+		layout_width = "wrap_content"
+		layout_height = "0.23"
+		layout_centreX = "0.7"
+		layout_centreY = "0.5"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		text = "rotate&#10;up"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Up.xml"
+		eyeGaze_Repeat = "true" />
+	
+	<ImageTextButton
+		id = "RotateDown"
+		layout_width = "wrap_content"
+		layout_height = "0.23"
+		layout_centreX = "0.3"
+		layout_centreY = "0.5"
+		height_constrained="true"
 		scaleContent="true"
 		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/RotateArrow_Right.xml"
-		eyeGaze_Repeat="true"
-    
-		/>
+		icon_position = "top"
+		text = "rotate&#10;down"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Down.xml"
+		eyeGaze_Repeat = "true" />
+		
+	<ImageTextButton
+		id = "RotateRight"
+		layout_width = "wrap_content"
+		layout_height = "0.16"
+		layout_centreX = "0.5"
+		layout_centreY = "0.91"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		text = "rotate right"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Right.xml"
+		eyeGaze_Repeat = "true" />
 
-  <ImageButton
-		id="RotateLeft"
-		layout_width="0.2"
-		layout_height="0.12"
-		layout_centreX="0.5"
-		layout_centreY="0.2"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/RotateArrow_Left.xml"
-		eyeGaze_Repeat="true"
-    
-		/>
+	<ImageTextButton
+		id = "RotateLeft"
+		layout_width = "wrap_content"
+		layout_height = "0.16"
+		layout_centreX = "0.5"
+		layout_centreY = "0.2"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		text = "rotate left"
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Left.xml"
+		eyeGaze_Repeat = "true" />
 
+	<ImageTextButton
+		id = "RotateReset"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.7"
+		layout_centreY = "0.89"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "reset view"
+		src = "System/CommandSymbols/ResetView.xml"	/>
 
-  <TextButton
-		id="RotateReset"
-		layout_width="0.2"
-		layout_height="0.1"
-		layout_centreX="0.7"
-		layout_centreY="0.9"
-		onClick="buttonHandler"
-		text="reset rotation"
-		/>
+	<ImageTextButton
+		id = "EyeGazeRest"
+		layout_width = "0.16"
+		layout_height = "0.28"
+		layout_centreX = "0.67"
+		layout_centreY = "0.23"
+		height_constrained = "true"
+		icon_position = "top"
+		eyeGaze_RestButton = "true"
+		text = "rest"
+		src = "System/CommandSymbols/Rest.xml"	
+		scaleContent = "true"
+		keepContentAspectRatio = "true" />	
+		
+	<!--<TextButton
+		id = "EyeGazeRest"
+		layout_width = "0.2"
+		layout_height = "0.3"
+		layout_centreX = "0.7"
+		layout_centreY = "0.25"
+		eyeGaze_RestButton = "true"
+		text = "rest" />
 
-
-  <TextButton
-		id="EyeGazeRest"
-		layout_width="0.2"
-		layout_height="0.3"
-		layout_centreX="0.7"
-		layout_centreY="0.25"
-		eyeGaze_RestButton="true"
-		text="rest"
-		/>
-
-  <TextButton
+	<TextButton
 		id="SelectAbove"
 		layout_width="0.18"
 		layout_height="0.1"
 		layout_centreX="0.9"
 		layout_centreY="0.25"
 		onClick="buttonHandler"
-		text="select next"
-		/>
+		text="select next" />
+		
+	<TextButton
+		id = "SelectBelow"
+		layout_width = "0.18"
+		layout_height = "0.1"
+		layout_centreX = "0.9"
+		layout_centreY = "0.55"
+		onClick = "buttonHandler"
+		text = "select previous" />
+	
+	<TextButton
+		id = "BackButton"
+		layout_width = "0.18"
+		layout_height = "0.1"
+		layout_centreX = "0.9"
+		layout_centreY = "0.35"
+		onClick = "buttonHandler"
+		text = "back" />
+		
+	<TextButton
+		id = "UndoButton"
+		layout_width = "0.12"
+		layout_height = "0.18"
+		layout_centreX = "0.82"
+		layout_centreY = "0.14"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		text = "undo" />
+		
+	<TextButton
+		id = "RedoButton"
+		layout_width = "0.12"
+		layout_height = "0.18"
+		layout_centreX = "0.82"
+		layout_centreY = "0.32"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		text = "redo" />-->
+		
+	<ImageTextButton
+		id = "SelectAbove"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.94"
+		layout_centreY = "0.31"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "select next"
+		src = "System/CommandSymbols/SelectAbove.xml"	/>
 
+	<ImageTextButton
+		id = "SelectBelow"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.94"
+		layout_centreY = "0.5"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "select previous"
+		src = "System/CommandSymbols/SelectBelow.xml"	/>
 
-  <TextButton
-		id="SelectBelow"
-		layout_width="0.18"
-		layout_height="0.1"
-		layout_centreX="0.9"
-		layout_centreY="0.55"
+	<ImageTextButton
+		id = "BackButton"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.94"
+		layout_centreY = "0.12"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "back"
+		src = "System/CommandSymbols/Back.xml" />
+
+	<ImageTextButton
+		id = "UndoButton"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.94"
+		layout_centreY = "0.69"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
 		onClick="buttonHandler"
-		text="select previous"
-		/>
-
-
-  <TextButton
-		id="BackButton"
-		layout_width="0.18"
-		layout_height="0.1"
-		layout_centreX="0.9"
-		layout_centreY="0.35"
+		text = "undo"
+		src = "System/CommandSymbols/Undo.xml" />
+	
+	<ImageTextButton
+		id = "RedoButton"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.94"
+		layout_centreY = "0.88"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
 		onClick="buttonHandler"
-		text="back"
-    
-		/>
-
-
+		text = "redo"
+		src = "System/CommandSymbols/Redo.xml" />
+		
 </CustomLayout>

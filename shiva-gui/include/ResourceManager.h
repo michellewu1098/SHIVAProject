@@ -25,6 +25,7 @@
 
 #include "GUI/Definitions.h"
 #include "System/ProfileManager.h"
+#include "System/SharedPreferences.h"
 
 namespace ShivaGUI
 {
@@ -54,83 +55,195 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		/// \brief Sets the ID for a View. This is now actually stored in the GUIController, this function will pass on the request to this
 		/// This function is also in the ResourceManager because e.g. Views upon expansion are only given a ResourceManager, so it's easier to resolve this once
-		/// \param [in] 
-		/// \param [in] ID
+		/// \param [in] _view
+		/// \param [in] _ID
 		//----------------------------------------------------------------------------------
-		void RegisterViewID( View*, std::string ID );
+		void RegisterViewID( View*, std::string _ID );
 		//----------------------------------------------------------------------------------
 		/// \brief Retrieves a View from ID
+		/// \param [in] _id View ID
 		/// \return NULL if View is unknown
 		//----------------------------------------------------------------------------------
-		View* GetViewFromID( std::string ID );
+		View* GetViewFromID( std::string _id );
 		//----------------------------------------------------------------------------------
 		/// \brief Set mipmap
+		/// \param [in] _value
 		//----------------------------------------------------------------------------------
-		void SetMipmap( bool value ) { m_mipmapImages = value; }
+		void SetMipmap( const bool &_value ) { m_mipmapImages = _value; }
+		//----------------------------------------------------------------------------------
+
+		// CREATION OF TEXTURES
+
+		//----------------------------------------------------------------------------------
+		/// \brief Loads an image (.png) from file
+		/// \param [in] filename
+		/// \return An OpenGL texture ID for the bitmap
+		//----------------------------------------------------------------------------------
+		//unsigned int GetBitmap( std::string _filename );
+		//----------------------------------------------------------------------------------
+		/// \brief Loads an image (.png) from file
+		/// \param [in] _filename
+		/// \param [in] _isWithText
+		/// \return An OpenGL texture ID for the bitmap
+		//----------------------------------------------------------------------------------
+		unsigned int GetBitmap( std::string _filename, bool _isWithText );
+		//----------------------------------------------------------------------------------
+		/// \brief Creates text texture and returns it
+		/// \param [in] _text Text content
+		/// \param [in] _alignment Text alignment (left | centre | right)
+		/// \param [in] _fontFilename Font name
+		/// \param [in] _fontSize Font size
+		/// \param [in] _fontColour Font colour
+		//----------------------------------------------------------------------------------
+		unsigned int GetText( std::string _text, unsigned int _alignment, std::string _fontFilename, unsigned int _fontSize, unsigned int _fontColour = 0 );
+		//----------------------------------------------------------------------------------
+		/// \brief Creates a text surface 
+		/// \param [in] _text Text content
+		/// \param [in] _alignment Text alignment (left | centre | right)
+		/// \param [in] _fontFilename Font name
+		/// \param [in] _fontSize Font size
+		/// \param [in] _fontColour Font colour
+		//----------------------------------------------------------------------------------
+		SDL_Surface* GetTextSurface( std::string _text, unsigned int _alignment, std::string _fontFilename, unsigned int _fontSize, unsigned int _fontColour );
+		//----------------------------------------------------------------------------------
+		/// \brief Renders a simple text string to OpenGL texture, returning the OpenGL texture ID
+		/// If the fontfilename is empty, it will attempt to use a default font
+		/// \param [in] _text Text content
+		/// \param [in] _fontFilename Font name
+		/// \param [in] _fontSize Font size
+		/// \param [in] _fontColour Font colour
+		//----------------------------------------------------------------------------------
+		unsigned int GetSimpleText( std::string _text, std::string _fontFilename, unsigned int _fontSize, unsigned int _fontColour = 0 );
+		//----------------------------------------------------------------------------------
+		/// \brief Set the info related to the text. If _text is not empty, it will set the
+		/// rendering of the text to true so to create a LayeredImageDrawable with space for
+		/// both icon and text
+		/// \param [in] _text Text content
+		/// \param [in] _fontName Font name
+		/// \param [in] _fontSize Font size
+		/// \param [in] _fontColour Font colour
+		/// \param [in] _textAlign Text alignment (left | centre | right)
+		//----------------------------------------------------------------------------------
+		void SetTextInfo( const std::string &_text, const std::string &_fontName, const unsigned int &_fontSize, const unsigned int &_fontColour, const unsigned int &_textAlign );
+		//----------------------------------------------------------------------------------
+		/// \brief Used to clear the content of buttonText to render additional layers of LayeredImageDrawable
+		//----------------------------------------------------------------------------------
+		void ClearText() { m_buttonText.clear(); }
+		//----------------------------------------------------------------------------------
+		/// \brief Set flag of icon on side of text 
+		/// \param [in] _value True or false
+		//----------------------------------------------------------------------------------
+		void SetIconOnLeft() { m_iconOnLeft = true; m_iconAbove = false; m_iconBelow = false; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set flag of icon above text 
+		/// \param [in] _value True or false
+		//----------------------------------------------------------------------------------
+		void SetIconAboveText() { m_iconAbove = true; m_iconOnLeft = false; m_iconBelow = false; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set flag of icon below text 
+		/// \param [in] _value True or false
+		//----------------------------------------------------------------------------------
+		void SetIconBelowText() { m_iconBelow = true; m_iconOnLeft = false; m_iconAbove = false; }
+		//----------------------------------------------------------------------------------
+		/// \brief Parse layout preferences from prefs set for each activity
+		/// \param [in] _prefs Preferences
+		//----------------------------------------------------------------------------------
+		//void SetLayoutPrefs( SharedPreferences* _prefs );
+		//----------------------------------------------------------------------------------
+		/// \brief Set % of space occupied by icon in an image + text button/view
+		/// \param [in] _value Percentage between 0.0 and 1.0
+		//----------------------------------------------------------------------------------
+		void SetIconPercentSize( const float &_value ) { m_iconPercentSize = _value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set % of space occupied by text in an image + text button/view
+		/// \param [in] _value Percentage between 0.0 and 1.0
+		//----------------------------------------------------------------------------------
+		void SetTextPercentSize( const float &_value ) { m_textPercentSize = _value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get % of space occupied by icon in an image + text button/view
+		/// \return m_iconPercentSize
+		//----------------------------------------------------------------------------------
+		float GetIconPercentSize() const { return m_iconPercentSize; }
+		//----------------------------------------------------------------------------------
+		/// \brief Get % of space occupied by text in an image + text button/view
+		/// \return m_textPercentSize
+		//----------------------------------------------------------------------------------
+		float GetTextPercentSize() const { return m_textPercentSize; }
+		//----------------------------------------------------------------------------------
+		/// \brief Sets the default font
+		/// \param [in] _filename Font name
+		//----------------------------------------------------------------------------------
+		void SetDefaultFont( std::string _filename ) { m_defaultFont = _filename; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns texture
+		/// \param [in] _texName Texture name
+		//----------------------------------------------------------------------------------
+		unsigned int GetTexture( std::string _texName ) { return m_glTextures[ _texName ]; }
+		//----------------------------------------------------------------------------------
+		/// \brief Used to set whether we're rendering text to a texture or not
+		/// \param [in] _value True or false
+		//----------------------------------------------------------------------------------
+		void RenderTextToTexture( const bool &_value ) { m_renderTextToTexture = _value; }
+		//----------------------------------------------------------------------------------
+		/// \brief Returns if we're rendering text to a texture
+		/// \return m_renderTextToTexture
+		//----------------------------------------------------------------------------------
+		bool IsRenderingText() const { return m_renderTextToTexture; }
+		//----------------------------------------------------------------------------------
+
+		// MANAGING TEXTURES
+
 		//----------------------------------------------------------------------------------
 		/// \brief Used when the OpenGL context has been invalidated and we need to reload all textures (Note that this cannot reload)
 		//----------------------------------------------------------------------------------
 		void ReloadTextures();
 		//----------------------------------------------------------------------------------
 		/// \brief Convenience function if you want to use an OpenGL texture across multiple Views or Activities
+		/// \param [in] _name Texture name
+		/// \param [in] _texID Texture ID
 		/// \return TRUE if this is a new texture
-		bool GetManagedTexture( std::string name, unsigned int *texID );
+		//----------------------------------------------------------------------------------
+		bool GetManagedTexture( std::string _name, unsigned int *_texID );
 		//----------------------------------------------------------------------------------
 		/// \brief Remove texture from OpenGL
-		/// \param [in] name
+		/// \param [in] _name Texture name
 		//----------------------------------------------------------------------------------
-		void ClearManagedTexture( std::string name );
+		void ClearManagedTexture( std::string _name );
 		//----------------------------------------------------------------------------------
-		/// \brief Loads an image (.png) from file
-		/// \param [in] filename
-		/// \return An OpenGL texture ID for the bitmap
-		//----------------------------------------------------------------------------------
-		unsigned int GetBitmap( std::string filename );
-		//----------------------------------------------------------------------------------
-		unsigned int GetText( std::string text,  unsigned int alignment, std::string fontfilename, unsigned int fontsize, unsigned int fontColour = 0 );
-		//----------------------------------------------------------------------------------
-		SDL_Surface* GetTextSurface( std::string text,  unsigned int alignment, std::string fontfilename, unsigned int fontsize, unsigned int fontColour );
-		//----------------------------------------------------------------------------------
-		/// \brief Renders a simple text string to OpenGL texture, returning the OpenGL texture ID
-		/// If the fontfilename is empty, it will attempt to use a default font
-		/// \param [in] text
-		/// \param [in] fontfilename
-		/// \param [in] fontsize
-		/// \param [in] fontColour
-		//----------------------------------------------------------------------------------
-		unsigned int GetSimpleText( std::string text, std::string fontfilename, unsigned int fontsize, unsigned int fontColour = 0 );
+
+
 		//----------------------------------------------------------------------------------
 		/// \brief Loads a Drawable from resource file. Most drawables are xml files
 		/// If the filename given is a bitmap, this function will wrap it in a BitmapDrawable
-		/// \param [in] filename
+		/// \param [in] _filename
 		//----------------------------------------------------------------------------------
-		Drawable* GetDrawable( std::string filename );
-		//----------------------------------------------------------------------------------
-		/// \brief Loads a layout hierarchy from an xml file. It will first look for it in the active Profile directory, then the normal Layout directory
-		/// \param [in] filename
-		//----------------------------------------------------------------------------------
-		View* GetLayout( std::string filename );
-		//----------------------------------------------------------------------------------
-		/// \brief For collapsing a View hierarchy to xml
-		/// \param [in] filename
-		/// \param [in] rootNode
-		//----------------------------------------------------------------------------------
-		bool OutputLayout( std::string filename, View *rootNode );
+		Drawable* GetDrawable( std::string _filename );
 		//----------------------------------------------------------------------------------
 		/// \brief Factory method for creating a Drawable, mainly for use by xml parsing
-		/// \param drawableName
+		/// \param [in] _drawableName
 		//----------------------------------------------------------------------------------
-		Drawable* CreateDrawable( std::string drawableName );
+		Drawable* CreateDrawable( std::string _drawableName );
+		//----------------------------------------------------------------------------------
+		/// \brief Loads a layout hierarchy from an xml file. It will first look for it in the active Profile directory, then the normal Layout directory
+		/// \param [in] _filename
+		//----------------------------------------------------------------------------------
+		View* GetLayout( std::string _filename );
+		//----------------------------------------------------------------------------------
+		/// \brief For collapsing a View hierarchy to xml
+		/// \param [in] _filename
+		/// \param [in] _rootNode
+		//----------------------------------------------------------------------------------
+		bool OutputLayout( std::string _filename, View *_rootNode );
 		//----------------------------------------------------------------------------------
 		/// \brief Factory method for creating a View, mainly for use by xml parsing
-		/// \param [in] viewName
+		/// \param [in] _viewName
 		//----------------------------------------------------------------------------------
-		View* CreateView( std::string viewName );
+		View* CreateView( std::string _viewName );
 		//----------------------------------------------------------------------------------
 		/// \brief Get audio clip
-		/// \param [in] filename
+		/// \param [in] _filename Audio clip file name
 		//----------------------------------------------------------------------------------
-		AudioClip* GetAudioClip( std::string filename );
+		AudioClip* GetAudioClip( std::string _filename );
 		//----------------------------------------------------------------------------------
 		/// \brief Attributes are retrieved during inflation which can refer to constants
 		/// This function retrieves constant values, or returns the original attribute if no replacement is required
@@ -138,55 +251,40 @@ namespace ShivaGUI
 		/// Constants in Profiles override those in Themes
 		/// Views should use this function whenever they read properties from XML
 		/// Drawables should also use this function when reading properties from XML
-		/// \param [in] originalAttrib
+		/// \param [in] _originalAttrib
 		//----------------------------------------------------------------------------------
-		std::string GetInflationAttribute( std::string originalAttrib );
+		std::string GetInflationAttribute( std::string _originalAttrib );
 		//----------------------------------------------------------------------------------
 		/// \brief Load profile attribute constants
-		/// \param [in] 
-		void LoadProfileAttributeConsts( ProfileManager* );
+		/// \param [in] _profileManager Profile Manager
+		//----------------------------------------------------------------------------------
+		void LoadProfileAttributeConsts( ProfileManager* _profileManager );
 		//----------------------------------------------------------------------------------
 		/// \brief Sets the current theme
 		/// Note that it does not apply it to existing Layouts / Views - to do this you should restart the Activity or application
-		/// \param [in] filename
+		/// \param [in] _filename 
 		//----------------------------------------------------------------------------------
-		void SetTheme( std::string filename );
-		//----------------------------------------------------------------------------------
-		/// \brief Sets the default font
-		/// \param [in] filename
-		//----------------------------------------------------------------------------------
-		void SetDefaultFont( std::string filename ) { m_defaultFont = filename; }
+		void SetTheme( std::string _filename );
 		//----------------------------------------------------------------------------------
 		/// \brief Retrieves the Listener from the current Activity's connected GUIController
-		/// \param [in] name
+		/// \param [in] _name
 		//----------------------------------------------------------------------------------
-		ViewEventListener* GetListener( std::string name );
+		ViewEventListener* GetListener( std::string _name );
 		//----------------------------------------------------------------------------------
 		/// \brief During the Layout inflation process, Views often want connections between each other for scan and focus links
 		/// However, not all Views will have been loaded yet, so their IDs will be unknown
 		/// If that is the case, this function can be used to queue up a link for evaluation after the Layout has been fully loaded
-		/// \param [in] src
-		/// \param [in] dstID
-		/// \param [in] scanForward
+		/// \param [in] _src
+		/// \param [in] _dstID
+		/// \param [in] _scanForward
 		//----------------------------------------------------------------------------------
-		void RegisterPostInflationLink( View *src, std::string dstID, bool scanForward );
+		void RegisterPostInflationLink( View *_src, std::string _dstID, bool _scanForward );
 		//----------------------------------------------------------------------------------
-		/// \param [in] src
-		/// \param [in] dstID
-		/// \param [in] focusDir
+		/// \param [in] _src
+		/// \param [in] _dstID
+		/// \param [in] _focusDir
 		//----------------------------------------------------------------------------------
-		void RegisterPostInflationLink( View *src, std::string dstID, Definitions::FocusDirection focusDir );
-		//----------------------------------------------------------------------------------
-		void SetExtraSpace( const bool &s ) { m_addTextSpace = s; }
-		//----------------------------------------------------------------------------------
-		void SetTextInfo( const std::string &text, const std::string &fontName, const unsigned int &fontSize, const unsigned int &fontColour, const unsigned int &textAlign );
-		//----------------------------------------------------------------------------------
-		void ClearText(); 
-		unsigned int GetTextTextureName() const { return m_textTexName; }
-		unsigned int GetTexture( std::string texName ) { return m_glTextures[ texName ]; }
-		void CreateTextureFromText( const bool &y ) { m_isTextToTexture = y; }
-
-		bool IsCreatingText() const { return m_isTextToTexture; }
+		void RegisterPostInflationLink( View *_src, std::string _dstID, Definitions::FocusDirection _focusDir );
 		//----------------------------------------------------------------------------------
 		/// \brief Set projection and model view matrix for rendering
 		/// \param [in] _width Corresponds to right parameter
@@ -204,8 +302,8 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		cml::matrix44f_c GetModelViewMatrix() const { return m_mvMatrix; }
 		//----------------------------------------------------------------------------------
-		void SetIconOnLeft( const bool &_value ) { m_iconOnLeft = _value; m_iconOnTop = !_value; }
-		void SetIconOnTop( const bool &_value ) { m_iconOnTop = _value; m_iconOnLeft = !_value; }
+		
+
 
 	protected:
 
@@ -282,36 +380,65 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		std::string m_defaultFont;
 		//----------------------------------------------------------------------------------
-		bool m_addTextSpace;
+		
+		// TEXT/FONT INFO FROM IMAGETEXTBUTTON
+
 		//----------------------------------------------------------------------------------
-		// Text/Font info from ImageTextButton
+		/// \brief Text to be displayed on button
 		//----------------------------------------------------------------------------------
 		std::string m_buttonText;
 		//----------------------------------------------------------------------------------
+		/// \brief Font used to render text on button
+		//----------------------------------------------------------------------------------
 		std::string m_buttonFontName;
+		//----------------------------------------------------------------------------------
+		/// \brief Font size used to render text on button
 		//----------------------------------------------------------------------------------
 		unsigned int m_buttonFontSize;
 		//----------------------------------------------------------------------------------
+		/// \brief Font colour used to render text on button
+		//----------------------------------------------------------------------------------
 		unsigned int m_buttonFontColour;
+		//----------------------------------------------------------------------------------
+		/// \brief Text alignment (left | centre | right)
 		//----------------------------------------------------------------------------------
 		unsigned int m_buttonTextAlign;
 		//----------------------------------------------------------------------------------
-		unsigned int m_textTexName;
+		/// \brief Flag used to check if icon is on left side of text in final texture
+		//----------------------------------------------------------------------------------
+		bool m_iconOnLeft;
+		//----------------------------------------------------------------------------------
+		/// \brief Flag used to check if icon is above text in final texture
+		//----------------------------------------------------------------------------------
+		bool m_iconAbove;
+		//----------------------------------------------------------------------------------
+		/// \brief Flag used to check if icon is below text in final texture
+		//----------------------------------------------------------------------------------
+		bool m_iconBelow;
+		//----------------------------------------------------------------------------------
+		bool m_isRenderingText;
+		//----------------------------------------------------------------------------------
+		/// \brief Flag used to render the text onto a texture only once
+		//----------------------------------------------------------------------------------
+		bool m_renderTextToTexture;
+		//----------------------------------------------------------------------------------
+		/// \brief % of button space that should be occupied by icon
+		//----------------------------------------------------------------------------------
+		float m_iconPercentSize;
+		float m_defaultIconPercentSize;
+		//----------------------------------------------------------------------------------
+		/// \brief % of button space that should be occupied by text
+		//----------------------------------------------------------------------------------
+		float m_textPercentSize;
+		float m_defaultTextPercentSize;
 		//----------------------------------------------------------------------------------
 		cml::matrix44f_c m_projMatrix;
 		//----------------------------------------------------------------------------------
 		cml::matrix44f_c m_mvMatrix;
 		//----------------------------------------------------------------------------------
-		bool m_iconOnLeft;
-		bool m_iconOnTop;
-		bool m_isRenderingText;
-
 		/// \brief During inflation of Layout links need to be made between Views for scanning and selection order purposes
 		/// The Views they need to link to may not have been created yet, so we save the requests using instances of this sub-class and deal with them after inflation
-		
-		bool m_isTextToTexture;
-
-
+		//----------------------------------------------------------------------------------
 		class PostInflationLink
 		{
 		public:

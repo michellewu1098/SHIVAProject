@@ -52,6 +52,11 @@ namespace ShivaGUI
 		/// Derived View classes must call this at an appropriate time if they want to retain the background
 		//----------------------------------------------------------------------------------
 		virtual void Draw();
+		//----------------------------------------------------------------------------------
+		/// \brief The base class will draw a background drawable if it exists
+		/// Derived View classes must call this at an appropriate time if they want to retain the background
+		/// \param [in] _context Current OGL context
+		//----------------------------------------------------------------------------------
 		virtual void Draw( unsigned int _context );
 		//----------------------------------------------------------------------------------
 		/// \brief Themes allow settings to be set for all Views of a given type
@@ -118,14 +123,21 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		unsigned int m_textAlignment;
 		//----------------------------------------------------------------------------------
-		/// Whether values were acquired from a theme file
-		/// Mainly for use when deflating to xml
+		// Whether values were acquired from a theme file. Mainly for use when deflating to xml
+		//----------------------------------------------------------------------------------
+		/// \brief Whether font name was acquired from theme file 
 		//----------------------------------------------------------------------------------
 		bool m_fontNameFromTheme;
 		//----------------------------------------------------------------------------------
+		/// /brief Whether font size was acquired from theme file
+		//----------------------------------------------------------------------------------
 		bool m_fontSizeFromTheme;
 		//----------------------------------------------------------------------------------
+		/// \brief Whether font colour was acquired from theme file
+		//----------------------------------------------------------------------------------
 		bool m_fontColourFromTheme;
+		//----------------------------------------------------------------------------------
+		/// \brief Whether text alignment was acquired from theme file
 		//----------------------------------------------------------------------------------
 		bool m_textAlignFromTheme;
 		//----------------------------------------------------------------------------------

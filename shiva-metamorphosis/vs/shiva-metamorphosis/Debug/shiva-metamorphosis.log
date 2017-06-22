@@ -1,4 +1,4 @@
-﻿Build started 22/03/2017 11:33:09.
+﻿Build started 21/04/2017 13:56:48.
      1>Project "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\shiva-metamorphosis.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "C:\SHIVAProject\shiva-metamorphosis\vs\shiva-metamorphosis\Debug\shiva-metamorphosis.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -54,4 +54,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:22.37
+Time Elapsed 00:00:01.06

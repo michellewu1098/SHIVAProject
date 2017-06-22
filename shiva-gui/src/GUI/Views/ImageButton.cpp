@@ -47,6 +47,12 @@ ShivaGUI::ImageButton::ImageButton()
 	m_gazeRestButtonToggle = true;
 	m_gazeRestIssueEvent = false;
 
+	m_gazeColour.resize( 4 );
+	m_gazeColour[ 0 ] = 0.f;
+	m_gazeColour[ 1 ] = 1.f;
+	m_gazeColour[ 2 ] = 0.5f;
+	m_gazeColour[ 3 ] = 1.f;
+
 	m_gazeRepeatFromTheme = false;
 
 	m_setContentScaleUp = m_setContentAspectRatio = -1;
@@ -96,6 +102,7 @@ void ShivaGUI::ImageButton::Update( float _deltaTs, GUIController *_guiControlle
 		_guiController->IssueEvent( currentEvent );
 		delete currentEvent;
 	}
+
 	if( m_usingEyeGaze )
 	{
 		if( m_hasGaze )
@@ -110,7 +117,7 @@ void ShivaGUI::ImageButton::Update( float _deltaTs, GUIController *_guiControlle
 					{
 						// deselect the button (activates its callback on deselect)
 						SetSelect( false );
-						//_hasGaze = false;
+						//m_hasGaze = false;
 						if( m_gazeRepeat )
 						{
 							m_gazeDwellTimer = 0.0f;
@@ -196,7 +203,7 @@ void ShivaGUI::ImageButton::Inflate( TiXmlElement *_xmlElement, ResourceManager 
 
 	for( TiXmlAttribute *currentAttribute = _xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 	{
-		if( ( std::string( "drawable" ) == currentAttribute->Name() ) || ( _themePrefix + "drawable" == currentAttribute->Name() )  )
+		if( ( std::string( "drawable" ) == currentAttribute->Name() ) || ( _themePrefix + "drawable" == currentAttribute->Name() ) )
 		{
 			m_genDrawableFromTheme = ( _themePrefix + "drawable" == currentAttribute->Name() );
 
@@ -228,7 +235,6 @@ void ShivaGUI::ImageButton::Inflate( TiXmlElement *_xmlElement, ResourceManager 
 				BitmapDrawable *bitmapContent = dynamic_cast< BitmapDrawable* >( m_contentGenDrawable );
 				if( bitmapContent != NULL )
 				{
-
 					bitmapContent->SetScaleup( ( value == "true" || value == "1" || value == "yes" ) );
 				}
 			}
@@ -243,7 +249,6 @@ void ShivaGUI::ImageButton::Inflate( TiXmlElement *_xmlElement, ResourceManager 
 				BitmapDrawable *bitmapContent = dynamic_cast< BitmapDrawable* >( m_contentGenDrawable );
 				if( bitmapContent != NULL )
 				{
-
 					bitmapContent->SetScaleKeepAspectRatio( ( value == "true" || value == "1" || value == "yes" ) );
 				}
 			}
@@ -348,7 +353,20 @@ void ShivaGUI::ImageButton::Inflate( TiXmlElement *_xmlElement, ResourceManager 
 				m_gazeRepeat = false;
 			}
 		}
-		
+		else if( ( std::string( "eyeGaze_Colour" ) == currentAttribute->Name() ) || ( _themePrefix + "eyeGaze_Colour" == currentAttribute->Name() ) )
+		{
+			unsigned int gazeColour;
+
+			std::string colourString( currentAttribute->Value() );
+			std::stringstream colourStream;
+			colourStream << std::hex << colourString;
+			colourStream >> gazeColour;
+
+			m_gazeColour[ 0 ] = ( ( gazeColour & 0xFF000000 ) >> 24 ) / 255.f;
+			m_gazeColour[ 1 ] = ( ( gazeColour & 0x00FF0000 ) >> 16 ) / 255.f;
+			m_gazeColour[ 2 ] = ( ( gazeColour & 0x0000FF00 ) >> 8 ) / 255.f;
+			m_gazeColour[ 3 ] = ( gazeColour & 0x000000FF ) / 255.f;
+		}
 	}
 }
 
@@ -439,12 +457,6 @@ void ShivaGUI::ImageButton::SetContent( Drawable *_drawable )
 		
 		if( m_setContentAspectRatio >= 0 )
 			bitmapContent->SetScaleKeepAspectRatio( m_setContentAspectRatio != 0 );
-	}
-
-	LayeredImageDrawable *layeredContent = dynamic_cast< LayeredImageDrawable* >( m_contentGenDrawable );
-	if( m_contentGenDrawable != NULL )
-	{
-		//layeredContent->AddTextLayer( 
 	}
 }
 
@@ -902,7 +914,8 @@ void ShivaGUI::ImageButton::DrawGazeIndicator()
 
 		m_gazeIndicatorShader->Bind();
 
-		glUniform3f( glGetUniformLocation( m_gazeIndicatorShader->GetProgramID(), "u_Colour" ), 0.0f, 1.0f, 0.5f );
+		//glUniform3f( glGetUniformLocation( m_gazeIndicatorShader->GetProgramID(), "u_Colour" ), 0.0f, 1.0f, 0.5f );
+		glUniform3f( glGetUniformLocation( m_gazeIndicatorShader->GetProgramID(), "u_Colour" ), m_gazeColour[ 0 ], m_gazeColour[ 1 ], m_gazeColour[ 2 ] );
 		LoadMatricesToShader( m_gazeIndicatorShader->GetProgramID(), proj, mv );
 
 		// Create vao and vbo for drawing gaze indicator

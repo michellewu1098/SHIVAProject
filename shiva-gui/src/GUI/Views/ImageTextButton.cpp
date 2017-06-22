@@ -9,7 +9,7 @@ ShivaGUI::ImageTextButton::ImageTextButton()
 	m_fontSize = 12;
 	m_fontColour = 0;
 	m_textAlignment = Left;
-	m_fontNameFromTheme = m_fontSizeFromTheme = m_fontColourFromTheme = m_textAlignFromTheme = false;
+	m_fontNameFromTheme = m_fontSizeFromTheme = m_fontColourFromTheme = m_textAlignFromTheme = m_iconPercentSizeFromTheme = m_textPercentSizeFromTheme = false;
 
 	m_stateListDrawable = NULL;
 	m_generalDrawable = NULL;
@@ -71,7 +71,7 @@ void ShivaGUI::ImageTextButton::Inflate( TiXmlElement *_xmlElement, ResourceMana
 				m_fontSize = value;
 			}
 			else {
-				std::cerr << "WARNING: TextButton::InflateLayoutParams attribute text_size does not have expected value type (double)" << std::endl;
+				std::cerr << "WARNING: TextButton::InflateLayoutParams attribute text_size does not have expected value type (int)" << std::endl;
 			}
 		}
 		else if( ( std::string( "text_colour" ) == currentAttribute->Name() ) || ( _themePrefix + "text_colour" == currentAttribute->Name() ) )
@@ -107,11 +107,43 @@ void ShivaGUI::ImageTextButton::Inflate( TiXmlElement *_xmlElement, ResourceMana
 			
 			if( pos == std::string( "left" ) || pos == std::string( "Left" ) ) {
 				m_iconPosition = Left;
-				_resources->SetIconOnLeft( true );
+				_resources->SetIconOnLeft();
 			}
-			else if( pos == std::string( "top" ) || pos == std::string( "Top" ) ) {
+			else if( pos == std::string( "top" ) || pos == std::string( "Top" ) || pos == std::string( "above" ) || pos == std::string( "Above" ) ) {
 				m_iconPosition = Top;
-				_resources->SetIconOnTop( true );
+				_resources->SetIconAboveText();
+			}
+			else if( pos == std::string( "bottom" ) || pos == std::string( "Bottom" ) || pos == std::string( "below" ) || pos == std::string( "Below" ) ) {
+				m_iconPosition = Bottom;
+				_resources->SetIconBelowText();
+			}
+		}
+		else if( ( std::string( "icon_percentSize" ) == currentAttribute->Name() ) || ( _themePrefix + "icon_percentSize" == currentAttribute->Name() ) )
+		{
+			double value = 0.0;
+
+			m_iconPercentSizeFromTheme = ( _themePrefix + "icon_percentSize" == currentAttribute->Name() );
+
+			if( currentAttribute->QueryDoubleValue( &value ) == TIXML_SUCCESS ) {
+				m_iconPercentSize = ( float )value;
+				_resources->SetIconPercentSize( ( float )value );
+			}
+			else {
+				std::cerr << "WARNING: ImageTextButton::InflateLayoutParams attribute icon_percentSize does not have expected value type (double)" << std::endl;
+			}
+		}
+		else if( ( std::string( "text_percentSize" ) == currentAttribute->Name() ) || ( _themePrefix + "text_percentSize" == currentAttribute->Name() ) )
+		{
+			double value = 0.0;
+
+			m_textPercentSizeFromTheme = ( _themePrefix + "text_percentSize" == currentAttribute->Name() );
+
+			if( currentAttribute->QueryDoubleValue( &value ) == TIXML_SUCCESS ) {
+				m_textPercentSize = value;
+				_resources->SetTextPercentSize( ( float )value );
+			}
+			else {
+				std::cerr << "WARNING: ImageTextButton::InflateLayoutParams attribute text_percentSize does not have expected value type (double)" << std::endl;
 			}
 		}
 	}
@@ -196,7 +228,7 @@ TiXmlElement* ShivaGUI::ImageTextButton::Deflate( ResourceManager *_resources )
 		// The source might have been generated rather than loaded from file, so only output if we have a filename to give
 		if( !srcFilename.empty() )
 		{
-			std::cout << "INFO: ImageButton deflate: filename contains: " << srcFilename << std::endl;
+			std::cout << "INFO: ImageTextButton deflate: filename contains: " << srcFilename << std::endl;
 			xmlNode->SetAttribute( "src", srcFilename );
 		}
 	}
@@ -218,6 +250,12 @@ TiXmlElement* ShivaGUI::ImageTextButton::Deflate( ResourceManager *_resources )
 	}
 	if( !m_textAlignFromTheme )
 		xmlNode->SetAttribute( "text_alignment", m_textAlignment );
+
+	if( !m_iconPercentSizeFromTheme )
+		xmlNode->SetAttribute( "icon_percentSize", m_iconPercentSize );
+
+	if( !m_textPercentSizeFromTheme )
+		xmlNode->SetAttribute( "text_percentSize", m_textPercentSize );
 
 	return xmlNode;
 }

@@ -4,25 +4,25 @@
 
 	<Model
 		id="0"
-		name="Sphere"
+		name="sphere"
 		thumbnail_file="Models/colprim_sphere.xml"
 		primitive="Sphere"
 		/>
 	<Model
 		id="1"
-		name="Cone"
+		name="cone"
 		thumbnail_file="Models/colprim_cone.xml"
 		primitive="Cone"
 		/>
 	<Model
 		id="2"
-		name="Cylinder"
+		name="cylinder"
 		thumbnail_file="Models/colprim_cylinder.xml"
 		primitive="Cylinder"
 		/>
 	<Model
 		id="3"
-		name="Cube"
+		name="cube"
 		thumbnail_file="Models/colprim_cube.xml"
 		primitive="Cube"
 		/>
@@ -36,7 +36,7 @@
     -->
 	<Model
 		id="4"
-		name="Box"
+		name="box"
 		thumbnail_file="Models/colprim_rect.xml"
 		primitive="Box"
 		/>

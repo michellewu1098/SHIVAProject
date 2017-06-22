@@ -120,6 +120,15 @@ void ShivaGUI::ProfileChooserActivity::UtilityEventReceived( UtilityEventHandler
 			UpdateViews();
 		}
 	}
+	else if( _handler == m_newProfileHandler )
+	{
+		if( _view != NULL )
+		{
+			// Use the ID of the view as the activity name
+			// If we say we expect a result we will be notified when it returns, so we can rebuild the trees
+			GetGUIManager()->StartActivityForResult( _view->GetID(), NULL );
+		}
+	}
 	else if( _handler == m_copyProfileHandler )
 	{
 		if( !m_chosenProfile.empty() )
@@ -232,6 +241,7 @@ void ShivaGUI::ProfileChooserActivity::LoadViews()
 			guiController->RegisterListener( m_copyProfileHandler, "CopyProfileHandler" );
 			guiController->RegisterListener( m_deleteProfileHandler, "DeleteProfileHandler" );
 			guiController->RegisterListener( m_buttonHandler, "BrowseProfileDirectoryHandler" );
+			guiController->RegisterListener( m_newProfileHandler, "NewProfileHandler" );
 
 
 			guiController->LoadContentView( "ProfileChooserLayout.xml" );

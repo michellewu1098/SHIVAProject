@@ -34,7 +34,6 @@ void RotateObjectActivity::OnCreate( ShivaGUI::Bundle *_data )
 		m_rotationStepsize = prefs->GetFloat( "RotateObjectStepRadians", m_rotationStepsize );
 	}
 
-
 	// We will now tell the system what to display on the windows
 
 	// Find out how many windows we have
@@ -63,6 +62,8 @@ void RotateObjectActivity::OnCreate( ShivaGUI::Bundle *_data )
 			InitIOWindow( guiController, _data );
 		}
 	}
+
+	m_commandManager = Totem::CommandManager::GetInstance();
 }
 
 //----------------------------------------------------------------------------------
@@ -87,51 +88,87 @@ void RotateObjectActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 		if( _view->GetID() == "RotateLeft" )
 		{
 			m_rotationZ -= m_rotationStepsize;
+
+			RotateCommand* rotCmd = new RotateCommand();
+			rotCmd->SetRotation( m_rotationX, m_rotationY, m_rotationZ );
+			m_commandManager->Execute( rotCmd );
 		}
 		else if( _view->GetID() == "RotateRight" )
 		{
 			m_rotationZ += m_rotationStepsize;
+
+			RotateCommand* rotCmd = new RotateCommand();
+			rotCmd->SetRotation( m_rotationX, m_rotationY, m_rotationZ );
+			m_commandManager->Execute( rotCmd );
 		}
 		else if( _view->GetID() == "RotateUp" )
 		{
 			m_rotationX -= m_rotationStepsize;
+			RotateCommand* rotCmd = new RotateCommand();
+			rotCmd->SetRotation( m_rotationX, m_rotationY, m_rotationZ );
+			m_commandManager->Execute( rotCmd );
 		}
 		else if( _view->GetID() == "RotateDown" )
 		{
 			m_rotationX += m_rotationStepsize;
+			RotateCommand* rotCmd = new RotateCommand();
+			rotCmd->SetRotation( m_rotationX, m_rotationY, m_rotationZ );
+			m_commandManager->Execute( rotCmd );
 		}
 		else if( _view->GetID() == "RotateYUp" )
 		{
 			m_rotationY -= m_rotationStepsize;
+			RotateCommand* rotCmd = new RotateCommand();
+			rotCmd->SetRotation( m_rotationX, m_rotationY, m_rotationZ );
+			m_commandManager->Execute( rotCmd );
 		}
 		else if( _view->GetID() == "RotateYDown" )
 		{
 			m_rotationY += m_rotationStepsize;
+			RotateCommand* rotCmd = new RotateCommand();
+			rotCmd->SetRotation( m_rotationX, m_rotationY, m_rotationZ );
+			m_commandManager->Execute( rotCmd );
 		}
-		else if( _view->GetID() == "RotateZUp" )
-		{
-			m_rotationZ -= m_rotationStepsize;
-		}
-		else if( _view->GetID() == "RotateZDown" )
-		{
-			m_rotationZ += m_rotationStepsize;
-		}
+		//else if( _view->GetID() == "RotateZUp" )
+		//{
+		//	m_rotationZ -= m_rotationStepsize;
+		//}
+		//else if( _view->GetID() == "RotateZDown" )
+		//{
+		//	m_rotationZ += m_rotationStepsize;
+		//}
 		else if( _view->GetID() == "RotateReset" )
 		{
 			ResetRotation();
 		}
 		else if( _view->GetID() == "SelectAbove" )
 		{
-			m_totemController->SelectObjectAbove();
+			//m_totemController->SelectObjectAbove();
+
+			SelectCommand* selectCmd = new SelectCommand();
+			selectCmd->SetSelection( "above" );
+			m_commandManager->Execute( selectCmd );
 		}
 		else if( _view->GetID() == "SelectBelow" )
 		{
-			m_totemController->SelectObjectBelow();
+			//m_totemController->SelectObjectBelow();
+
+			SelectCommand* selectCmd = new SelectCommand();
+			selectCmd->SetSelection( "below" );
+			m_commandManager->Execute( selectCmd );
 		}
 		else if( _view->GetID() == "BackButton" )
 		{
 			m_totemController->ShowSelection( true );
 			Finish();
+		}
+		else if( _view->GetID() == "UndoButton" )
+		{
+			m_commandManager->Undo();
+		}
+		else if( _view->GetID() == "RedoButton" )
+		{
+			m_commandManager->Redo();
 		}
 
 		// Update our views
@@ -156,7 +193,8 @@ void RotateObjectActivity::UpdateViews()
 		(*it).first->AddWorldRotationOffsetDegs(_rotationX,_rotationY,_rotationZ);
 	}
 */
-	if( m_totemController != NULL )
+	
+	/*if( m_totemController != NULL )
 	{
 		Totem::Object *currentObject = m_totemController->GetSelected();
 		if( currentObject != NULL )
@@ -164,7 +202,7 @@ void RotateObjectActivity::UpdateViews()
 			std::cout << "INFO: adding object rotation: " << m_rotationX << " " << m_rotationY << " " << m_rotationZ << std::endl;
 			currentObject->AddRotation( m_rotationX, m_rotationY, m_rotationZ );
 		}
-	}
+	}*/
 
 	m_rotationX = m_rotationY = m_rotationZ = 0.0f;
 }

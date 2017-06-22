@@ -1,0 +1,92 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<LinearLayout 
+	layout_width = "fill_parent"
+	layout_height = "fill_parent"
+	orientation = "vertical"
+	background = "System/Theme02/background.xml" >
+	
+	<TextView
+		layout_width = "fill_parent"
+		layout_height = "fill_parent"
+		layout_weight = "0.1"
+		text = "Create new profile"
+		text_alignment = "right" />
+		
+	<LinearLayout
+		layout_width = "fill_parent"
+		layout_height = "fill_parent"
+		layout_weight = "0.08"
+		orientation = "horizontal" >
+		
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.1" />
+			
+		<TextView 
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.6"
+			text = "Number of windows: " />
+			
+		<TextButton
+			layout_width = "wrap_content"
+			layout_height = "wrap_content"
+			layout_weight = "0.15"
+			onClick = "NumberOfWindowsHandler"
+			text = "1" />
+		
+		<TextButton 
+			layout_width = "wrap_content"
+			layout_height = "wrap_content"
+			layout_weight = "0.15"
+			onClick = "NumberOfWindowsHandler"
+			text = "2" />
+			
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.1" />
+		
+		</LinearLayout>
+
+	<LinearLayout
+		layout_width = "fill_parent"
+		layout_height = "fill_parent"
+		layout_weight = "0.08"
+		orientation = "horizontal" >
+		
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.1" />
+			
+		<TextView
+			layout_width = "wrap_content"
+			layout_height = "wrap_content"
+			layout_weight = "0.6"
+			text = "Window dimensions :&#10;(width x height)" />
+		
+		<TextButton
+			layout_width = "wrap_content"
+			layout_height = "wrap_content"
+			layout_weight = "0.15"
+			onClick = "NumberOfWindowsHandler"
+			text = "1" />
+		
+		<TextButton 
+			layout_width = "wrap_content"
+			layout_height = "wrap_content"
+			layout_weight = "0.15"
+			onClick = "NumberOfWindowsHandler"
+			text = "2" />
+			
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.1" />
+			
+		</LinearLayout>
+
+	
+	</LinearLayout>

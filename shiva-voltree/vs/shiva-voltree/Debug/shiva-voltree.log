@@ -1,10 +1,30 @@
-﻿Build started 31/03/2017 16:28:22.
+﻿Build started 24/05/2017 13:09:49.
      1>Project "C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\shiva-voltree.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\shiva-voltree.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\cml-1_0_2" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_totem" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_metamorph" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\shiva-gui\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D SHIVAVOLTREE_EXPORTS /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\VolumeTree\Nodes\CSG.cpp
-         CSG.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\cml-1_0_2" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_totem" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_metamorph" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\shiva-gui\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D SHIVAVOLTREE_EXPORTS /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\VolumeTree\Nodes\TransformNode.cpp
+         TransformNode.cpp
+     1>c:\shivaproject\include\vol_totem\vol_totem.h(43): warning C4251: 'totemio::TotemNode::m_childNodes' : class 'std::vector<_Ty>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
+                 with
+                 [
+                     _Ty=totemio::TotemNode *
+                 ]
+     1>c:\shivaproject\include\vol_totem\vol_totem.h(44): warning C4251: 'totemio::TotemNode::m_nodeID' : class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'totemio::TotemNode'
+                 with
+                 [
+                     _Elem=char,
+                     _Traits=std::char_traits<char>,
+                     _Ax=std::allocator<char>
+                 ]
+     1>c:\shivaproject\include\cml-1_0_2\cml\mathlib\matrix_rotation.h(929): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+                 c:\shivaproject\shiva-voltree\src\volumetree\nodes\transformnode.cpp(98) : see reference to function template instantiation 'void cml::matrix_to_euler<cml::matrix44f_c,float>(const MatT &,Real &,Real &,Real &,cml::EulerOrder,Real)' being compiled
+                 with
+                 [
+                     MatT=cml::matrix44f_c,
+                     Real=float
+                 ]
+     1>c:\shivaproject\include\cml-1_0_2\cml\mathlib\matrix_rotation.h(942): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
        Lib:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\Debug\shiva-voltree.lib" Opengl32.lib glu32.lib glew32.lib /LIBPATH:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\glew" /NOLOGO Debug\Camera.obj
          Debug\Shader.obj
@@ -35,4 +55,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.02
+Time Elapsed 00:00:02.91

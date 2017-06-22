@@ -60,8 +60,8 @@ Feature Requests:
 
 
 Mark: priority 1
-[ ] - *** load vol files for totem, main.cpp allow any object type ***
-[ ] - Shape library's scroll container, needs buttons for scrolling
+[X] - *** load vol files for totem, main.cpp allow any object type ***
+[X] - Shape library's scroll container, needs buttons for scrolling
 
 [ ] - Make objects on totem above shuffle up / down as scale up / down
 [ ] - Bounding box of blend increases depending on amount of blend (give a proper estimation - talk to Alexander)
@@ -97,7 +97,7 @@ Operations:
 [ ] - Change scan and selection instruction to be one-way
 [ ] - Add scan and selection instructions to layout XML
 [ ] - Torus re-added.
-[ ] - Load previously saved objects.
+[X] - Load previously saved objects.
 [ ] - Full-screen
 
 [ ] - Document: prefs.xml

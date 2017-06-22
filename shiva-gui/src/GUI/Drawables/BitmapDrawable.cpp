@@ -75,7 +75,7 @@ void ShivaGUI::BitmapDrawable::Inflate( TiXmlElement *_xmlElement, ResourceManag
 			std::string resourceName( currentAttribute->Value() );
 
 			// TODO: specifying the directory should *really* not be done here
-			SetTexID( _resources->GetBitmap( std::string( "Resources/Drawables/" ) + resourceName ) );
+			SetTexID( _resources->GetBitmap( std::string( "Resources/Drawables/" ) + resourceName, false ) );
 		}
 		else if( ( std::string )( "scaleUp" ) == currentAttribute->Name() )
 		{

@@ -190,6 +190,7 @@ void ShivaGUI::GUIController::LoadContentView( std::string _layoutName )
 {
 	m_contentViewFilename = _layoutName;
 	m_attachedWindow->MakeCurrent();
+	// TODO: Set here size of font in relation to the size of the icon from prefs.xml or possibly write a separate function that will be called before this LoadContent()
 	m_contentView = GetResources()->GetLayout( _layoutName );
 }
 
@@ -198,6 +199,13 @@ void ShivaGUI::GUIController::LoadContentView( std::string _layoutName )
 void ShivaGUI::GUIController::SaveLayoutToProfile()
 {
 	m_GUIManager->SaveLayoutToProfile( m_contentViewFilename, m_contentView, m_resourceManager );
+}
+
+//----------------------------------------------------------------------------------
+
+void ShivaGUI::GUIController::SetLayoutPrefs( SharedPreferences* _prefs )
+{	
+	//GetResources()->SetLayoutPrefs( _prefs );
 }
 
 //----------------------------------------------------------------------------------

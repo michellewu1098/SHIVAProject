@@ -7,6 +7,7 @@ VolumeTree::CylinderNode::CylinderNode() : Node()
 	m_radiusX = m_radiusY = 1.0f;
 	m_length = 1.0f;
 	m_isPole = false;
+	m_isBase = false;
 }
 
 //----------------------------------------------------------------------------------
@@ -17,6 +18,7 @@ VolumeTree::CylinderNode::CylinderNode( const float &_length, const float &_radi
 	m_radiusX = _radiusX;
 	m_radiusY = _radiusY;
 	m_isPole = false;
+	m_isBase = false;
 }
 
 //----------------------------------------------------------------------------------

@@ -41,6 +41,7 @@ VolumeTree::TransformNode::~TransformNode()
 		m_paramRenderer->DeleteParameter( m_matrixParam );
 		m_paramRenderer->DeleteParameter( m_translationParam );
 	}
+
 	#ifdef _DEBUG
 	std::cout << "INFO: Deleting TransformNode" << std::endl;
 	#endif

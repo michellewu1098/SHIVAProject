@@ -76,6 +76,7 @@
 #include "ShivaModelManager.h"
 #include "Totem/TotemController.h"
 #include "VolView.h"
+#include "CommandManager.h"
 
 #include "VolumeTree/VolumeTree.h"
 #include "VolumeTree/Leaves/SphereNode.h"
@@ -123,6 +124,7 @@ int main( int argc, char **argv )
 	ShivaGUI::GUIManager *mainGUIManager = new ShivaGUI::GUIManager( "SHIVA Totem Prototype 1b", "totem1b" );
 
 	Totem::Controller *totemController = Totem::Controller::Init();
+	Totem::CommandManager *commandManager = Totem::CommandManager::Init();
 	VolumeTree::Node *currentModelNode = NULL;
 
 	if( modelManager != NULL )
@@ -195,6 +197,7 @@ int main( int argc, char **argv )
 	mainGUIManager->StartWithProfileChooser( "AssembleActivity", options.profileDirectory, options.profileName );
 
 	Totem::Controller::UnInit();
+	Totem::CommandManager::UnInit();
 
 	delete currentModelNode;
 	currentModelNode = NULL;
