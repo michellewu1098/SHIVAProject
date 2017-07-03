@@ -85,7 +85,9 @@ GLSLRenderer::GLSLRenderer( unsigned int _width, unsigned int _height )
 	}
 	m_maxParametersRaw = ( rawLimit / divisor ) - 90; //(rawLimit - 16) / (4 * 16);
 
+#if _DEBUG
 	std::cout << "INFO: GLSLRenderer, maximum available tree parameters: " << m_maxParametersRaw << std::endl;
+#endif 
 
 	m_paramIDCount = 0;
 	m_paramUniformListLengths = NULL;
@@ -404,7 +406,10 @@ void GLSLRenderer::SetStepsize( const float &_stepsize )
 {
 	m_stepSize = _stepsize;
 	m_gradDelta = _stepsize * 0.08f;
+
+#if _DEBUG
 	std::cout << "INFO: GLSLRenderer SetStepsize() stepsize: " << m_stepSize << " gradDelta: " << m_gradDelta << std::endl;
+#endif
 }
 
 //----------------------------------------------------------------------------------

@@ -72,6 +72,7 @@
 #include "UniformScaleActivity.h"
 #include "NudgeActivity.h"
 #include "PrintActivity.h"
+#include "System/Activities/CreateNewProfileActivity.h"
 
 #include "ShivaModelManager.h"
 #include "Totem/TotemController.h"
@@ -192,6 +193,7 @@ int main( int argc, char **argv )
 	mainGUIManager->RegisterActivityCreator( "UniformScaleActivity", UniformScaleActivity::Factory );
 	mainGUIManager->RegisterActivityCreator( "NudgeActivity", NudgeActivity::Factory );
 	mainGUIManager->RegisterActivityCreator( "PrintActivity", PrintActivity::Factory );
+	mainGUIManager->RegisterActivityCreator( "NewProfileActivity", ShivaGUI::CreateNewProfileActivity::Factory );
 	mainGUIManager->RegisterViewCreator( "VolView", VolView::Factory );
 
 	mainGUIManager->StartWithProfileChooser( "AssembleActivity", options.profileDirectory, options.profileName );

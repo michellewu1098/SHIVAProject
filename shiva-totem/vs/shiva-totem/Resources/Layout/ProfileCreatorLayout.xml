@@ -15,7 +15,7 @@
 	<LinearLayout
 		layout_width = "fill_parent"
 		layout_height = "fill_parent"
-		layout_weight = "0.08"
+		layout_weight = "0.2"
 		orientation = "horizontal" >
 		
 		<View
@@ -26,21 +26,23 @@
 		<TextView 
 			layout_width = "fill_parent"
 			layout_height = "fill_parent"
-			layout_weight = "0.6"
+			layout_weight = "0.4"
 			text = "Number of windows: " />
 			
 		<TextButton
+			id = "OneWindowProfile"
 			layout_width = "wrap_content"
 			layout_height = "wrap_content"
-			layout_weight = "0.15"
-			onClick = "NumberOfWindowsHandler"
+			layout_weight = "0.1"
+			onClick = "OneWindowHandler"
 			text = "1" />
 		
 		<TextButton 
+			id = "TwoWindowsProfile"
 			layout_width = "wrap_content"
 			layout_height = "wrap_content"
-			layout_weight = "0.15"
-			onClick = "NumberOfWindowsHandler"
+			layout_weight = "0.1"
+			onClick = "TwoWindowsHandler"
 			text = "2" />
 			
 		<View
@@ -53,15 +55,15 @@
 	<LinearLayout
 		layout_width = "fill_parent"
 		layout_height = "fill_parent"
-		layout_weight = "0.08"
+		layout_weight = "0.8"
 		orientation = "horizontal" >
 		
 		<View
 			layout_width = "fill_parent"
 			layout_height = "fill_parent"
-			layout_weight = "0.1" />
+			layout_weight = "1.0" />
 			
-		<TextView
+		<!--<TextView
 			layout_width = "wrap_content"
 			layout_height = "wrap_content"
 			layout_weight = "0.6"
@@ -84,7 +86,7 @@
 		<View
 			layout_width = "fill_parent"
 			layout_height = "fill_parent"
-			layout_weight = "0.1" />
+			layout_weight = "0.1" />-->
 			
 		</LinearLayout>
 

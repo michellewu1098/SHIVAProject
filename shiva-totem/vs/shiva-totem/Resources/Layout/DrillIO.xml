@@ -4,13 +4,28 @@
 	layout_height = "fill_parent"
 	background = "@RootViewBackground">
 		
-	<TextView
+	<!--<TextView
 		id = "titleTextView"
 		layout_width = "wrap_content"
 		layout_height = "wrap_content"
 		layout_centreX = "0.5"
 		layout_centreY = "0.05"
-		text = "drill operation" />
+		text = "drill operation" />-->
+		
+	<ImageTextView
+		id = "titleTextView"
+		layout_width = "wrap_content"
+		layout_height = "wrap_content"
+		layout_centreX = "0.5"
+		layout_centreY = "0.08"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		height_constrained = "true"
+		icon_position = "left"
+		icon_percentSize = "0.25"
+		text = "drill operation"
+		
+		src = "System/CommandSymbols/DrillTitle.xml" />
 		
 	<VolView
 		id = "MainVolView"

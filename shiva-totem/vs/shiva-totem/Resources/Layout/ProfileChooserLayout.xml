@@ -203,10 +203,11 @@
 			text = "Start" />
 			
 		<TextButton	
+			id = "NewProfileActivity"
 			layout_width = "wrap_content"
 			layout_height = "wrap_content"
 			layout_weight = "0.3"
-			onClick = "StartActivityHandler"
+			onClick = "NewProfileHandler"
 			text = "New" />
 			
 		<View

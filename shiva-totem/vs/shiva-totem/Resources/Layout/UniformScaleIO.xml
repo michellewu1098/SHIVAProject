@@ -4,13 +4,28 @@
 	layout_height = "fill_parent"
 	background = "@RootViewBackground" >
 	
-	<TextView
+	<!--<TextView
 		id = "titleTextView"
 		layout_width = "wrap_content"
 		layout_height = "wrap_content"
 		layout_centreX = "0.5"
 		layout_centreY = "0.05"
-		text = "make bigger or smaller" />
+		text = "make bigger or smaller" />-->
+		
+	<ImageTextView
+		id = "titleTextView"
+		layout_width = "wrap_content"
+		layout_height = "wrap_content"
+		layout_centreX = "0.5"
+		layout_centreY = "0.08"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		height_constrained = "true"
+		icon_position = "left"
+		icon_percentSize = "0.25"
+		text = "make bigger or smaller"
+		
+		src = "System/CommandSymbols/ResizeTitle.xml" />
 		
 	<VolView
 		id = "MainVolView"
@@ -33,7 +48,7 @@
 		keepContentAspectRatio = "true"
 		icon_position = "top"
 		onClick = "buttonHandler"
-		text = "x up"
+		text = "make wider"
 		icon_percentSize = "0.8"
 		src = "System/CommandSymbols/Xup.xml" />
 		
@@ -135,7 +150,7 @@
 		keepContentAspectRatio = "true"
 		icon_position = "top"
 		onClick = "buttonHandler"
-		text = "x down"
+		text = "make narrower"
 		icon_percentSize = "0.8"
 		src = "System/CommandSymbols/Xdown.xml"	/>
 
@@ -150,7 +165,7 @@
 		keepContentAspectRatio = "true"
 		icon_position = "top"
 		onClick = "buttonHandler"
-		text = "y up"
+		text = "make longer"
 		icon_percentSize = "0.8"
 		src = "System/CommandSymbols/Yup.xml" />
 
@@ -165,7 +180,7 @@
 		keepContentAspectRatio = "true"
 		icon_position = "top"
 		onClick = "buttonHandler"
-		text = "y down"
+		text = "make shorter"
 		icon_percentSize = "0.8"
 		src = "System/CommandSymbols/Ydown.xml" />
 	
@@ -180,7 +195,7 @@
 		keepContentAspectRatio = "true"
 		icon_position = "top"
 		onClick = "buttonHandler"
-		text = "z up"
+		text = "make taller"
 		icon_percentSize = "0.8"
 		src = "System/CommandSymbols/Zup.xml" />
 
@@ -195,7 +210,7 @@
 		keepContentAspectRatio = "true"
 		icon_position = "top"
 		onClick = "buttonHandler"
-		text = "z down"
+		text = "make smaller"
 		icon_percentSize = "0.8"
 		src = "System/CommandSymbols/Zdown.xml"	/>
 	
@@ -333,8 +348,8 @@
 		
 	<ImageTextButton
 		id = "RotateRight"
-		layout_width = "wrap_content"
-		layout_height = "0.16"
+		layout_width = "0.16"
+		layout_height = "0.12"
 		layout_centreX = "0.5"
 		layout_centreY = "0.91"
 		height_constrained = "true"
@@ -348,8 +363,8 @@
 
 	<ImageTextButton
 		id = "RotateLeft"
-		layout_width = "wrap_content"
-		layout_height = "0.16"
+		layout_width = "0.16"
+		layout_height = "0.12"
 		layout_centreX = "0.5"
 		layout_centreY = "0.2"
 		height_constrained = "true"

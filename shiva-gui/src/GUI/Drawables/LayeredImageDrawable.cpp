@@ -673,7 +673,7 @@ void ShivaGUI::LayeredImageDrawable::LayerGroup::SetLayerColour( unsigned int _c
 	m_layerColours[ _layer * 4 + 2 ] = ( ( float )( ( _colour & 0x0000FF00 ) >> 8  ) ) / 255.0f;
 	m_layerColours[ _layer * 4 + 3 ] = ( ( float )( _colour & 0x000000FF ) ) / 255.0f;
 
-	std::cout << "INFO: LayeredImageDrawable setting layer colours to: " << m_layerColours[ _layer * 4 + 0 ] << " " << m_layerColours[ _layer * 4 + 1 ] << " " << m_layerColours[ _layer * 4 + 2 ] << " " << m_layerColours[ _layer * 4 + 3 ] << std::endl;
+	//std::cout << "INFO: LayeredImageDrawable setting layer colours to: " << m_layerColours[ _layer * 4 + 0 ] << " " << m_layerColours[ _layer * 4 + 1 ] << " " << m_layerColours[ _layer * 4 + 2 ] << " " << m_layerColours[ _layer * 4 + 3 ] << std::endl;
 }
 
 //----------------------------------------------------------------------------------

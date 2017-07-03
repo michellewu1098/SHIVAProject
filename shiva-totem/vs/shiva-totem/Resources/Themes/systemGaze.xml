@@ -7,6 +7,7 @@
 	TextButton_text_size = "30"
 	TextButton_padding = "10"
 	TextButton_audio_pressStart = "Resources/Audio/ButtonPushTemp.wav"
+	TextButton_audio_hoverEnter = "Resources/Audio/ButtonHoverTemp.wav"
 	TextButton_eyeGaze_enable = "true"
 	TextButton_eyeGaze_DwellToSelectTime = "3.0"
 	TextButton_eyeGaze_WanderTime = "0.5"
@@ -44,6 +45,8 @@
 	ImageTextButton_eyeGaze_CircleSize = "50"
 	ImageTextButton_eyeGaze_Repeat = "false"
 	ImageTextButton_eyeGaze_Colour = "FF00FFFF"
+	ImageTextButton_audio_pressStart = "Resources/Audio/ButtonHoverTemp.wav"
+	ImageTextButton_audio_hoverEnter = "Resources/Audio/ButtonPushTemp.wav"
 	
 	Slider_barDrawable = "System/Theme02/slider_bar.xml"
 	Slider_handleDrawable = "System/Theme02/slider_handle.xml"

@@ -243,24 +243,26 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		}
 		else if( _view->GetID() == "New" )
 		{
-			
-			m_totemController->DeleteAll();
-			m_totemController->SetBlend( m_originalBlendingAmount );
-			ResetRotation();
-			RebuildTrees( true );
+			if( tinyfd_messageBox( "New", "Are you sure?", "yesno", "question", 0 ) )
+			{	
+				m_totemController->DeleteAll();
+				m_totemController->SetBlend( m_originalBlendingAmount );
+				ResetRotation();
+				RebuildTrees( true );
 
-			m_commandManager->Clear();
+				m_commandManager->Clear();
+			}
 		}
 		else if( _view->GetID() == "Load" )
 		{
 			char const * lFilterPatterns[ 2 ] = { "*.xml", "*.vol" };
 			char const* fileName = tinyfd_openFileDialog( "SHIVA Models", "Savefiles/", 2, lFilterPatterns, NULL, 0 );
 			
-			if ( !fileName )
+			/*if ( !fileName )
 			{
 				tinyfd_messageBox( "Error", "No file selected. Couldn't load anything.", "ok", "error", 1);
-			}
-			else
+			}*/
+			if( fileName )
 			{
 				m_totemController->DeleteAll();
 				m_totemController->SetBlend( m_originalBlendingAmount );

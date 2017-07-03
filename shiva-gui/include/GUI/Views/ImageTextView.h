@@ -139,6 +139,22 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		unsigned int m_iconPosition;
 		//----------------------------------------------------------------------------------
+		/// \brief % of space occupied by icon
+		//----------------------------------------------------------------------------------
+		float m_iconPercentSize;
+		//----------------------------------------------------------------------------------
+		/// \brief Flag to check whether icon percent size was acquired from a theme file
+		//----------------------------------------------------------------------------------
+		bool m_iconPercentSizeFromTheme;
+		//----------------------------------------------------------------------------------
+		/// \brief % of space occupied by text
+		//----------------------------------------------------------------------------------
+		float m_textPercentSize;
+		//----------------------------------------------------------------------------------
+		/// \brief Flag to check whether text percent size was acquired from a theme file
+		//----------------------------------------------------------------------------------
+		bool m_textPercentSizeFromTheme;
+		//----------------------------------------------------------------------------------
 		// Whether values were acquired from a theme file. Mainly for use when deflating to xml
 		//----------------------------------------------------------------------------------
 		/// \brief Whether font name was acquired from theme file 

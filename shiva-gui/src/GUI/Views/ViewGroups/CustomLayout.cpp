@@ -201,7 +201,7 @@ void ShivaGUI::CustomLayout::Inflate( TiXmlElement *_xmlElement, ResourceManager
 		exitButtonParams->SetWidthConst( LayoutParams::WRAP_CONTENT );
 		exitButtonParams->SetHeightConst( LayoutParams::WRAP_CONTENT );
 		exitButtonParams->SetCentreX( 0.3f );
-		exitButtonParams->SetCentreY( 0.9f );
+		exitButtonParams->SetCentreY( 0.88f );
 		m_editExitButton->SetText( "Leave edit mode", _resources );
 		m_editExitButton->Inflate( _xmlElement, _resources, "", false );
 		m_editExitButton->SetLayoutParams( exitButtonParams );		// Must be done last, as it gets the size here
@@ -218,9 +218,9 @@ void ShivaGUI::CustomLayout::Inflate( TiXmlElement *_xmlElement, ResourceManager
 		CustomLayoutParams *saveButtonParams = new CustomLayoutParams();
 		saveButtonParams->SetWidthConst( LayoutParams::WRAP_CONTENT );
 		saveButtonParams->SetHeightConst( LayoutParams::WRAP_CONTENT );
-		saveButtonParams->SetCentreX( 0.75f );
-		saveButtonParams->SetCentreY( 0.9f );
-		m_editSaveButton->SetText( "Save", _resources );
+		saveButtonParams->SetCentreX( 0.3f );
+		saveButtonParams->SetCentreY( 0.95f );
+		m_editSaveButton->SetText( "Save new layout", _resources );
 		m_editSaveButton->Inflate( _xmlElement, _resources, "", false );
 		m_editSaveButton->SetLayoutParams( saveButtonParams );		// Must be done last, as it gets the size here
 		m_editSaveButton->SetOnClickListener( m_handlerSaveButton );

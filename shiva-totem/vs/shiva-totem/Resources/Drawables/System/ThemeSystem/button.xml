@@ -18,10 +18,10 @@
 		state_focus="true"
 		/>
 	<Item
-		drawable="System/ThemeSystem/button_normal.xml"
-		state_disabled="true"
+		drawable = "System/ThemeSystem/button_disabled.xml"
+		state_disabled = "true"
 		/>
 	<Item
-		drawable="System/ThemeSystem/button_normal.xml"
+		drawable = "System/ThemeSystem/button_normal.xml"
 		/>
 </StateListDrawable>

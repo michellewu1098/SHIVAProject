@@ -14,6 +14,7 @@ void ShivaGUI::ProfileChooserActivity::OnCreate( Bundle *_data )
 	m_copyProfileHandler =  new UtilityEventHandler( this );
 	m_deleteProfileHandler = new UtilityEventHandler( this );
 	m_buttonHandler = new UtilityEventHandler( this );
+	m_newProfileHandler = new UtilityEventHandler( this );
 
 	m_profileFilesProvider = new FilesystemDataProvider();
 	m_profileFilesProvider->SetShowDirectories(false);

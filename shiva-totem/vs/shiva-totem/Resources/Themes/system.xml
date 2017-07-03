@@ -2,17 +2,17 @@
 <!-- Note that this has worked out differently to how Android declares its styles / themes, so the 'theme' tag is parsed the same way as a View's tag -->
 <theme
   
-	TextButton_drawable="System/ThemeSystem/button.xml"
-	TextButton_font="Resources/Fonts/FreeSansBold.ttf"
-	TextButton_text_colour="FFFFFFFF"
-	TextButton_text_size="30"
-	TextButton_padding="10"
-	TextButton_audio_pressStart="Resources/Audio/ButtonHoverTemp.wav"
-	TextButton_audio_hoverEnter="Resources/Audio/ButtonPushTemp.wav"
+	TextButton_drawable = "System/ThemeSystem/button.xml"
+	TextButton_font = "Resources/Fonts/FreeSansBold.ttf"
+	TextButton_text_colour = "FFFFFFFF"
+	TextButton_text_size = "30"
+	TextButton_padding = "10"
+	TextButton_audio_pressStart = "Resources/Audio/ButtonHoverTemp.wav"
+	TextButton_audio_hoverEnter = "Resources/Audio/ButtonPushTemp.wav"
 	
-	TextView_text_colour="000000FF"
-	TextView_font="Resources/Fonts/FreeSansBold.ttf"
-	TextView_text_size="30"
+	TextView_text_colour = "000000FF"
+	TextView_font = "Resources/Fonts/FreeSansBold.ttf"
+	TextView_text_size = "30"
 	
 	ImageTextView_text_colour = "000000FF"
 	ImageTextView_font = "Resources/Fonts/FreeSansBold.ttf"
@@ -25,25 +25,27 @@
 	ImageTextButton_text_colour = "FFFFFFFF"
 	ImageTextButton_text_size = "20"
 	ImageTextButton_text_alignment = "centre"
+	ImageTextButton_audio_pressStart="Resources/Audio/ButtonHoverTemp.wav"
+	ImageTextButton_audio_hoverEnter="Resources/Audio/ButtonPushTemp.wav"
 	
-	ImageButton_drawable="System/ThemeSystem/button.xml"
-	ImageButton_padding="10"
-	ImageButton_audio_pressStart="Resources/Audio/ButtonHoverTemp.wav"
-	ImageButton_audio_hoverEnter="Resources/Audio/ButtonPushTemp.wav"
+	ImageButton_drawable = "System/ThemeSystem/button.xml"
+	ImageButton_padding = "10"
+	ImageButton_audio_pressStart = "Resources/Audio/ButtonHoverTemp.wav"
+	ImageButton_audio_hoverEnter = "Resources/Audio/ButtonPushTemp.wav"
 	
-	Slider_barDrawable="System/Theme02/slider_bar.xml"
-	Slider_handleDrawable="System/Theme02/slider_handle.xml"
-	Slider_handleWidth="50"
-	Slider_handleHeight="100"
+	Slider_barDrawable = "System/Theme02/slider_bar.xml"
+	Slider_handleDrawable = "System/Theme02/slider_handle.xml"
+	Slider_handleWidth = "50"
+	Slider_handleHeight = "100"
 	
-	ColourSelector_selectorDrawable="selector_normal.png"
+	ColourSelector_selectorDrawable = "selector_normal.png"
 	
-	ScrollContainer_scrollbarTrackVertical="System/Theme02/scrollbarTrackVert.xml"
-	ScrollContainer_scrollbarTrackHorizontal="System/Theme02/scrollbarTrackHoriz.xml"
-	ScrollContainer_scrollbarThumbVertical="System/Theme02/scrollbarThumbVert.xml"
-	ScrollContainer_scrollbarThumbHorizontal="System/Theme02/scrollbarThumbHoriz.xml"
+	ScrollContainer_scrollbarTrackVertical = "System/Theme02/scrollbarTrackVert.xml"
+	ScrollContainer_scrollbarTrackHorizontal = "System/Theme02/scrollbarTrackHoriz.xml"
+	ScrollContainer_scrollbarThumbVertical = "System/Theme02/scrollbarThumbVert.xml"
+	ScrollContainer_scrollbarThumbHorizontal = "System/Theme02/scrollbarThumbHoriz.xml"
   
-	SDFView_loadingDrawable="LoadingMessage.png"
+	SDFView_loadingDrawable = "LoadingMessage.png"
 	>
 
   <constGroup>

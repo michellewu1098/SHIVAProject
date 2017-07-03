@@ -96,6 +96,11 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 
 			RebuildTrees();
 		}
+		else if( _view->GetID() == "BackButton" )
+		{
+			m_totemController->ShowSelection( true );
+			Finish();
+		}
 		else if( _view->GetID() == "Export" )
 		{
 			std::cout << "INFO: PrintActivity request to export model to .vol" << std::endl;

@@ -1,31 +1,12 @@
-﻿Build started 19/06/2017 12:04:29.
+﻿Build started 03/07/2017 15:22:26.
      1>Project "C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.unsuccessfulbuild".
        ClCompile:
          All outputs are up-to-date.
        Link:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\vs\shiva-gui\Debug" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\vs\shiva-voltree\Debug" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\glee" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL\SDL\Debug" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL\SDLmain\Debug" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL_image\Debug" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL_mixer\Debug" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL_ttf\Debug" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\vol_totem" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\vol_metamorph" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\glew" "shiva-gui.lib" GLee.lib Opengl32.lib glu32.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib "shiva-voltree.lib" vol_totem.lib vol_metamorph.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc.lib /MANIFEST /ManifestFile:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.lib" /MACHINE:X86 "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\AssembleActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\BlendAdjustActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\Command.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\CommandManager.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\DrillActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\EditMenuActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\main.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\NudgeActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\PrintActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\RotateObjectActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\ShivaModelManager.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\UniformScaleActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\VolView.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\TotemController.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\TotemObject.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\TotemOperation.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\TotemOpDrill.obj"
-     1>AssembleActivity.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+         All outputs are up-to-date.
          shiva-demo01.vcxproj -> C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe
-       Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe;#1" /manifest "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.exe.intermediate.manifest"
        FinalizeBuildStatus:
          Deleting file "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.unsuccessfulbuild".
          Touching "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.lastbuildstate".
@@ -33,4 +14,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:06.67
+Time Elapsed 00:00:00.08

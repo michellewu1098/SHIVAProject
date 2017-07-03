@@ -58,6 +58,8 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		virtual void Draw();
 		//----------------------------------------------------------------------------------
+		virtual void Draw( unsigned int _context );
+		//----------------------------------------------------------------------------------
 		/// \brief Themes allow settings to be set for all Views of a given type
 		/// The string returned from this function is the string that identifies the type in the theme xml file
 		/// It is literally prefixed to normal inflation attributes

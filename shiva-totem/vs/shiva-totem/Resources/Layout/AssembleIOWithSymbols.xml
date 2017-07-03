@@ -33,23 +33,7 @@
 		layout_height = "wrap_content"
 		layout_centreX = "0.5"
 		layout_centreY = "0.05"
-		text = "SHIVA totem demo" />-->
-	
-	<!--<ImageTextView
-		id = "titleView"
-		layout_width = "wrap_content"
-		layout_height = "wrap_content"
-		layout_centreX = "0.5"
-		layout_centreY = "0.05"
-		
-		height_constrained="true"
-		icon_position = "left"
-		
-		text = "SHIVA totem demo"
-		
-		src="System/CommandSymbols/MainTitle.xml"
-		scaleContent="true"
-		keepContentAspectRatio="true"	/>-->
+		text = "SHIVA totem demo" />
 		
 	<VolView
 		id = "MainVolView"
@@ -388,8 +372,8 @@
 		id = "saveConfirmationText"
 		layout_width = "wrap_content"
 		layout_height = "wrap_content"
-		layout_centreX = "0.9"
-		layout_centreY = "0.90"
+		layout_centreX = "0.7"
+		layout_centreY = "0.78"
 		text = "saved!"
 		visibility = "false" />
 	

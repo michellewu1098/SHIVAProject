@@ -8,6 +8,11 @@ ShivaGUI::ImageTextView::ImageTextView()
 	m_fontColour = 0;
 	m_textAlignment = Left;
 
+	m_iconPercentSize = 0.25f;
+	m_textPercentSize = 0.75f;
+
+	m_iconPercentSizeFromTheme = m_textPercentSizeFromTheme = false;
+
 	m_fontNameFromTheme = m_fontSizeFromTheme = m_fontColourFromTheme = m_textAlignFromTheme = false;
 
 	m_contentGenDrawable = NULL;
@@ -107,6 +112,35 @@ void ShivaGUI::ImageTextView::Inflate( TiXmlElement *_xmlElement, ResourceManage
 				_resources->SetIconBelowText();
 			}
 		}
+		else if( ( std::string( "icon_percentSize" ) == currentAttribute->Name() ) || ( _themePrefix + "icon_percentSize" == currentAttribute->Name() ) )
+		{
+			double value = 0.0;
+
+			m_iconPercentSizeFromTheme = ( _themePrefix + "icon_percentSize" == currentAttribute->Name() );
+
+			if( currentAttribute->QueryDoubleValue( &value ) == TIXML_SUCCESS ) {
+				m_iconPercentSize = ( float )value;
+				_resources->SetIconPercentSize( m_iconPercentSize );
+			}
+			else {
+				std::cerr << "WARNING: ImageTextButton::InflateLayoutParams attribute icon_percentSize does not have expected value type (double)" << std::endl;
+			}
+		}
+		else if( ( std::string( "text_percentSize" ) == currentAttribute->Name() ) || ( _themePrefix + "text_percentSize" == currentAttribute->Name() ) )
+		{
+			double value = 0.0;
+
+			m_textPercentSizeFromTheme = ( _themePrefix + "text_percentSize" == currentAttribute->Name() );
+
+			if( currentAttribute->QueryDoubleValue( &value ) == TIXML_SUCCESS ) {
+				m_textPercentSize = value;
+				_resources->SetTextPercentSize( m_textPercentSize );
+			}
+			else {
+				std::cerr << "WARNING: ImageTextButton::InflateLayoutParams attribute text_percentSize does not have expected value type (double)" << std::endl;
+			}
+		}
+
 
 		if( !m_textBody.empty() )
 		_resources->SetTextInfo( m_textBody, m_fontName, m_fontSize, m_fontColour, m_textAlignment );
@@ -206,6 +240,27 @@ TiXmlElement* ShivaGUI::ImageTextView::Deflate( ResourceManager* _resources )
 
 	if( !m_textAlignFromTheme )
 		xmlNode->SetAttribute( "text_alignment", m_textAlignment );
+
+	if( !m_iconPercentSizeFromTheme )
+		xmlNode->SetDoubleAttribute( "icon_percentSize", m_iconPercentSize );
+
+	if( !m_textPercentSizeFromTheme )
+		xmlNode->SetDoubleAttribute( "text_percentSize", ( 1.f - m_iconPercentSize ) );
+
+	if( !m_iconPositionFromTheme )
+	{
+		std::string pos;
+		if( m_iconPosition == Left )
+			pos = "left";
+		else if( m_iconPosition == Right )
+			pos = "right";
+		else if( m_iconPosition == Top )
+			pos = "top";
+		else if( m_iconPosition == Bottom )
+			pos = "bottom";
+
+		xmlNode->SetAttribute( "icon_position", pos );
+	}
 
 	return xmlNode;
 }

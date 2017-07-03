@@ -151,7 +151,9 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename, bool _
 	// Loading image as a SDL_Surface
 	// I've had this function for so long I can't remember where it was from originally, I think it was based on SDL example usage code
 
+#if _DEBUG
 	std::cout << "INFO: ResourceManager Loading Image: " << _filename << std::endl;
+#endif
 
 	SDL_Surface *image;
 	image = IMG_Load( _filename.c_str() );
@@ -282,7 +284,7 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename, bool _
 					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )textW ) / 2 ), -10, textW, textH ) );
 				else if( m_iconOnLeft )
 				{
-					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( int )imageW + 10 ), ( ( height - ( int )textH ) / 2 ), textSurf->w, textSurf->h ) );
+					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( int )imageW + 10 ), ( ( height - ( int )textH )/ 2 - 10 ), textSurf->w, textSurf->h ) );
 					//SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( int )imageW + 20 ), ( ( height - ( int )textH ) / 2 ), textW, textH ) );
 				}
 				
@@ -524,8 +526,9 @@ void ShivaGUI::ResourceManager::ReloadTextures()
 		bool addAlpha = false;
 		bool repeat = false;
 
+#if _DEBUG
 		std::cout << "INFO: ResourceManager Reloading Image to OpenGL: " << it->first << std::endl;
-
+#endif
 		SDL_Surface *image;
 
 		// Load the BMP file into a surface

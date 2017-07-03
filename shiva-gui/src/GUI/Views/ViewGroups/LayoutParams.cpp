@@ -53,16 +53,6 @@ ShivaGUI::LayoutParams::~LayoutParams()
 
 void ShivaGUI::LayoutParams::Deflate( TiXmlElement *_xmlNode, ResourceManager *_resources )
 {
-	if( m_heightConst == FILL_PARENT )
-		_xmlNode->SetAttribute( "layout_height", "FILL_PARENT" );
-	else if( m_heightConst == WRAP_CONTENT )
-		_xmlNode->SetAttribute( "layout_height", "WRAP_CONTENT" );
-	else if( m_heightConst == PERCENTAGE_PARENT )
-	{
-		_xmlNode->SetDoubleAttribute( "layout_height", m_heightPercent );
-		//xmlNode->SetDoubleAttribute("layout_height_percent",_heightPercent);
-	}
-
 	if( m_widthConst == FILL_PARENT )
 		_xmlNode->SetAttribute( "layout_width", "FILL_PARENT" );
 	else if( m_widthConst == WRAP_CONTENT )
@@ -71,6 +61,16 @@ void ShivaGUI::LayoutParams::Deflate( TiXmlElement *_xmlNode, ResourceManager *_
 	{
 		_xmlNode->SetDoubleAttribute( "layout_width", m_widthPercent );
 		//xmlNode->SetDoubleAttribute("layout_Width_percent",_widthPercent);
+	}
+
+	if( m_heightConst == FILL_PARENT )
+		_xmlNode->SetAttribute( "layout_height", "FILL_PARENT" );
+	else if( m_heightConst == WRAP_CONTENT )
+		_xmlNode->SetAttribute( "layout_height", "WRAP_CONTENT" );
+	else if( m_heightConst == PERCENTAGE_PARENT )
+	{
+		_xmlNode->SetDoubleAttribute( "layout_height", m_heightPercent );
+		//xmlNode->SetDoubleAttribute("layout_height_percent",_heightPercent);
 	}
 
 	if( ( m_paddingLeft == m_paddingRight ) && ( m_paddingLeft == m_paddingTop ) && ( m_paddingLeft == m_paddingBottom ) && ( m_paddingLeft > 0 ) )
@@ -88,6 +88,16 @@ void ShivaGUI::LayoutParams::Deflate( TiXmlElement *_xmlNode, ResourceManager *_
 		if( m_paddingBottom > 0 )
 			_xmlNode->SetAttribute( "padding_bottom", m_paddingBottom );
 	}
+
+	if( m_isHeightConstrained )
+		_xmlNode->SetAttribute( "height_constrained", "true" );
+	else
+		_xmlNode->SetAttribute( "height_constrained", "false" );
+
+	if( m_isWidthConstrained )
+		_xmlNode->SetAttribute( "width_constrained", "true" );
+	else
+		_xmlNode->SetAttribute( "width_constrained", "false" );
 }
 
 //---------------------------------------

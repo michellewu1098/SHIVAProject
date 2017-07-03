@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LayeredImageDrawable
-  isNinePatch="false"
-  scaleUp="false"
+  isNinePatch = "false"
+  scaleUp = "false"
   isUsingText = "true"
 >
-  <Layer src="System/CommandSymbols/save_70x70.png" colour0="FF0000FF" colour1="FF0000FF" colour2="0" colour3="@ArrowColourBackground"/>
+  <Layer src="System/CommandSymbols/Icons/objectSizeTitle.png" colour0="@RedColour" colour1="@GreenColour" colour2="@BlueColour" colour3="@BlackColour"/>
 </LayeredImageDrawable>
 
 <!-- 26437E00  171d33FF -->

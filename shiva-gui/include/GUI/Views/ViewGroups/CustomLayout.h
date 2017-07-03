@@ -144,7 +144,7 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		TextButton *m_editExitButton;
 		//----------------------------------------------------------------------------------
-		/// \brief Button that appears in edit mode which allows the user to save the current layout
+		/// \brief Button that appears in edit mode which allows the user to save the customised layout
 		//----------------------------------------------------------------------------------
 		TextButton *m_editSaveButton;
 		//----------------------------------------------------------------------------------

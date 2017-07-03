@@ -108,6 +108,14 @@ void ShivaGUI::RectDrawable::Draw()
 	BuildVBOs();
 
 	m_fillShader->Bind();
+
+	int viewport[4]; // Shouldn't really do this, but temporarily it's fine
+	glGetIntegerv( GL_VIEWPORT, viewport );
+
+	cml::matrix_orthographic_RH( m_projMat, 0.f, ( float )viewport[ 2 ], ( float )viewport[ 3 ], 0.f, -1.f, 1.f, cml::z_clip_neg_one );
+	
+	LoadMatricesToShader( m_fillShader->GetProgramID(), m_projMat, m_mvMat );
+
 	glUniform4f( glGetUniformLocation( m_fillShader->GetProgramID(), "u_Colour" ), m_fillR, m_fillG, m_fillB, m_fillA );
 	
 	glBindVertexArray( m_rectFillVAO );
@@ -118,6 +126,8 @@ void ShivaGUI::RectDrawable::Draw()
 
 
 	m_borderShader->Bind();
+	
+	LoadMatricesToShader( m_borderShader->GetProgramID(), m_projMat, m_mvMat );
 
 	glUniform4f( glGetUniformLocation( m_borderShader->GetProgramID(), "u_Colour" ), m_borderR, m_borderG, m_borderB, m_borderA );
 

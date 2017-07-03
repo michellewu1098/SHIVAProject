@@ -4,13 +4,30 @@
 	layout_height = "fill_parent"
 	background = "@RootViewBackground" >
 	
-	<TextView
+	<!--<TextView
 		id = "Title"
 		layout_width = "wrap_content"
 		layout_height = "wrap_content"
 		layout_centreX = "0.5"
 		layout_centreY = "0.05"
-		text = "tools" />
+		text = "tools" />-->
+		
+	<ImageTextView
+		id = "titleTextView"
+		layout_width = "wrap_content"
+		layout_height = "wrap_content"
+		layout_centreX = "0.5"
+		layout_centreY = "0.1"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		height_constrained = "true"
+		icon_position = "left"
+		icon_percentSize = "0.4"
+		text_size = "45"
+		
+		text = "tools"
+		
+		src = "System/CommandSymbols/EditTitle.xml" />
 	
 	<!--<ImageTextView
 		id = "titleView"

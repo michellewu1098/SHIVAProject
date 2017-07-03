@@ -64,7 +64,9 @@ bool VolumeTree::Tree::Load( const char* _filename )
 
 	if ( filename.compare( filename.size() - 4, 4, ".xml" ) == 0 )
 	{
+#if _DEBUG
 		std::cout << "INFO: VolumeTree::Tree Loading from .xml file: " << _filename << std::endl;
+#endif
 
 		if( ImportXML( _filename ) )
 		{
@@ -74,8 +76,9 @@ bool VolumeTree::Tree::Load( const char* _filename )
 	}
 	else if ( filename.compare( filename.size() - 4, 4, ".vol" ) == 0 )
 	{
+#if _DEBUG
 		std::cout << "INFO: VolumeTree::Tree Loading from .vol file: " << _filename << std::endl;
-
+#endif
 		if( ImportVol( _filename ) ) 
 		{
 			std::cout << "File " << _filename << " imported successfully." << std::endl;
@@ -751,7 +754,9 @@ bool VolumeTree::Tree::Save( std::string _filename )
 		return false;
 	}
 
+#if _DEBUG
 	std::cout << "INFO: VolumeTree::Tree Saving to Vol file: " << _filename << std::endl;
+#endif
 
 	// Build up tree
 	totemio::TotemNode *exportRootNode = BuildExportNode( m_rootNode );

@@ -167,6 +167,26 @@ void ShivaGUI::CustomLayoutElement::Draw()
 
 //----------------------------------------------------------------------------------
 
+void ShivaGUI::CustomLayoutElement::Draw( unsigned int _context )
+{
+	View::Draw( _context );
+
+	if( m_visible )
+	{
+		m_child->Draw( _context );
+
+		m_editDrawable->Draw();
+		m_resizeDrawable->Draw();
+
+		for( std::vector< View* >::iterator it = m_internalViews.begin(); it != m_internalViews.end(); ++it )
+		{
+			( *it )->Draw( _context );
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------
+
 void ShivaGUI::CustomLayoutElement::Inflate(TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
 	if( _themePrefix.empty() )

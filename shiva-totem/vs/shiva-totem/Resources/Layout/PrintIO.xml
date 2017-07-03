@@ -1,51 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CustomLayout
-	layout_width="fill_parent"
-	layout_height="fill_parent"
-	background="@RootViewBackground">
+	layout_width = "fill_parent"
+	layout_height = "fill_parent"
+	background = "@RootViewBackground">
 	
 	<TextView
-		id="titleTextView"
-		layout_width="wrap_content"
-		layout_height="wrap_content"
-		layout_centreX="0.5"
-		layout_centreY="0.05"
-		text="PRINT or EXPORT"
-		/>
+		id = "titleTextView"
+		layout_width = "wrap_content"
+		layout_height = "wrap_content"
+		layout_centreX = "0.5"
+		layout_centreY = "0.05"
+		text = "print or export" />
 	
 	<VolView
-		id="MainVolView"
-		layout_width="0.34"
-		layout_height="0.75"
-		layout_centreX="0.3"
-		layout_centreY="0.55"
-		cameraPositionY="1"
-		cameraPositionZ="5.0"
-		cameraTargetY="0"
-		/>
+		id = "MainVolView"
+		layout_width = "0.34"
+		layout_height = "0.75"
+		layout_centreX = "0.3"
+		layout_centreY = "0.55"
+		cameraPositionY = "1"
+		cameraPositionZ = "5.0"
+		cameraTargetY = "0" />
 	
-	<TextButton
-		id="Print"
-		layout_width="0.2"
-		layout_height="0.1"
-		layout_centreX="0.85"
-		layout_centreY="0.35"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		text="print"
-		/>
+	<ImageTextButton
+		id = "Print"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.94"
+		layout_centreY = "0.31"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "print"
+		src = "System/CommandSymbols/Print.xml"	/>
 		
 	<TextButton
-		id="Export"
-		layout_width="0.2"
-		layout_height="0.1"
-		layout_centreX="0.85"
-		layout_centreY="0.25"
-		scaleContent="true"
-		keepContentAspectRatio="true"
-		onClick="buttonHandler"
-		text="export"
-		/>
+		id = "Export"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.94"
+		layout_centreY = "0.5"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		text = "export" />
+		
+	<ImageTextButton
+		id = "BackButton"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.94"
+		layout_centreY = "0.12"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		icon_position = "top"
+		onClick = "buttonHandler"
+		text = "back"
+		src = "System/CommandSymbols/Back.xml" />
 		
 </CustomLayout>

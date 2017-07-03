@@ -11,6 +11,10 @@ ShivaGUI::ImageTextButton::ImageTextButton()
 	m_textAlignment = Left;
 	m_fontNameFromTheme = m_fontSizeFromTheme = m_fontColourFromTheme = m_textAlignFromTheme = m_iconPercentSizeFromTheme = m_textPercentSizeFromTheme = false;
 
+	m_iconPosition = Top;
+	m_iconPercentSize = 0.75f;
+	m_textPercentSize = 0.25f;
+
 	m_stateListDrawable = NULL;
 	m_generalDrawable = NULL;
 	m_contentGenDrawable = NULL;
@@ -252,10 +256,26 @@ TiXmlElement* ShivaGUI::ImageTextButton::Deflate( ResourceManager *_resources )
 		xmlNode->SetAttribute( "text_alignment", m_textAlignment );
 
 	if( !m_iconPercentSizeFromTheme )
-		xmlNode->SetAttribute( "icon_percentSize", m_iconPercentSize );
+		xmlNode->SetDoubleAttribute( "icon_percentSize", m_iconPercentSize );
 
 	if( !m_textPercentSizeFromTheme )
-		xmlNode->SetAttribute( "text_percentSize", m_textPercentSize );
+		xmlNode->SetDoubleAttribute( "text_percentSize", ( 1.f - m_iconPercentSize ) );
+
+	if( !m_iconPositionFromTheme )
+	{
+		std::string pos;
+		if( m_iconPosition == Left )
+			pos = "left";
+		else if( m_iconPosition == Right )
+			pos = "right";
+		else if( m_iconPosition == Top )
+			pos = "top";
+		else if( m_iconPosition == Bottom )
+			pos = "bottom";
+
+		xmlNode->SetAttribute( "icon_position", pos );
+	}
+	
 
 	return xmlNode;
 }
