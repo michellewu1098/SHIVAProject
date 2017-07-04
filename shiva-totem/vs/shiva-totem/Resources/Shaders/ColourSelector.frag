@@ -1,4 +1,5 @@
-#version 330
+#version 140
+//#version 330
 
 in vec2 o_Uvs;
 out vec4 fragColour;

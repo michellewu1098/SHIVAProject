@@ -1,4 +1,5 @@
-#version 330
+#version 140
+//#version 330
 
 uniform vec4 LayerColour0_0;
 uniform vec4 LayerColour0_1;

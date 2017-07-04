@@ -1,4 +1,5 @@
-#version 330
+#version 140
+//#version 330
 
 uniform sampler2D tex;
 
