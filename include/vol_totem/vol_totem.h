@@ -27,27 +27,35 @@ namespace totemio
 #define BLENDCSG_NODE_ID	2001
 #define TRANSFORM_NODE_ID	2002
 
+enum AnalysisCode
+{
+	CODE_UNDEFINED = 0,
+	CODE_OK,
+	CODE_MULTICOMPONENT,
+	CODE_UNBALANCED,
+	CODE_FAILURE
+};
 
 class VOL_TOTEM_API TotemNode {
 public:
-	TotemNode(void){};
-	virtual unsigned int getTypeID() const {return m_nTypeID;}
+	TotemNode();
+	~TotemNode();
+	virtual unsigned int getTypeID() const;
 	virtual unsigned int getChildrenSize() const;
 	virtual TotemNode* getChild(unsigned int nIndex) const;
 
 	bool addChild(TotemNode* pChild);
-	const char * getID() const {return m_nodeID.c_str();}
+	const char * getID() const;
 
 protected:
-	unsigned int m_nTypeID;
-	std::vector<TotemNode*> m_childNodes;
-	std::string m_nodeID;
+	class TotemNodeImpl;
+	TotemNodeImpl * m_pImpl;
 };
 
 class VOL_TOTEM_API ConeNode : public TotemNode
 {
 public: 
-	ConeNode(const char * pID) {m_nTypeID = CONE_NODE_ID; m_nodeID = std::string(pID);}
+	ConeNode(const char * pID);
 	bool setConeParams(float radius, float height);
 	bool getConeParams(float& radius, float& height) const;
 
@@ -59,7 +67,7 @@ private:
 class VOL_TOTEM_API BoxNode : public TotemNode
 {
 public: 
-	BoxNode(const char * pID) {m_nTypeID = BOX_NODE_ID; m_nodeID = std::string(pID);}
+	BoxNode(const char * pID);
 	bool setBoxParams(float dimx, float dimy, float dimz);
 	bool getBoxParams(float& dimx, float& dimy, float& dimz) const;
 
@@ -70,7 +78,7 @@ private:
 class VOL_TOTEM_API CylinderNode : public TotemNode
 {
 public: 
-	CylinderNode(const char * pID) {m_nTypeID = CYLINDER_NODE_ID; m_nodeID = std::string(pID);}
+	CylinderNode(const char * pID);
 	bool setCylinderParams(float radiusX, float radiusY, float height);
 	bool getCylinderParams(float& radiusX, float& radiusY, float& height) const;
 
@@ -83,7 +91,7 @@ private:
 class VOL_TOTEM_API EllipsoidNode : public TotemNode
 {
 public: 
-	EllipsoidNode(const char * pID) {m_nTypeID = ELLIPSOID_NODE_ID; m_nodeID = std::string(pID);}
+	EllipsoidNode(const char * pID);
 	bool setEllipsoidParams(float radx, float rady, float radz);
 	bool getEllipsoidParams(float& radx, float& rady, float& radz) const;
 
@@ -94,7 +102,7 @@ private:
 class VOL_TOTEM_API TorusNode : public TotemNode
 {
 public: 
-	TorusNode(const char * pID) {m_nTypeID = TORUS_NODE_ID; m_nodeID = std::string(pID);}
+	TorusNode(const char * pID);
 	bool setTorusParams(float radius_big, float radius_small);
 	bool getTorusParams(float& radius_big, float& radius_small) const;
 
@@ -111,7 +119,7 @@ public:
 		CSG_TYPE_INTERSECTION,
 		CSG_TYPE_SUBTRACTION
 	};
-	CSGNode(const char * pID) {m_nTypeID = CSG_NODE_ID;}
+	CSGNode(const char * pID);
 	virtual bool setCSGType(int type);
 	virtual bool getCSGType(int& type) const;
 
@@ -122,7 +130,7 @@ protected:
 class VOL_TOTEM_API BlendCSGNode : public CSGNode
 {
 public:
-	BlendCSGNode(const char * pID) : CSGNode(pID) {m_nTypeID = BLENDCSG_NODE_ID; m_nodeID = std::string(pID);}
+	BlendCSGNode(const char * pID);
 	bool setBlendParams(float a0, float a1, float a2);
 	bool getBlendParams(float& a0, float& a1, float& a2) const;
 
@@ -133,7 +141,7 @@ private:
 class VOL_TOTEM_API TransformNode : public TotemNode
 {
 public:
-	TransformNode(const char * pID) {m_nTypeID = TRANSFORM_NODE_ID; m_nodeID = std::string(pID);}
+	TransformNode(const char * pID);
 	
 	bool setTransformParams(float tx, float ty, float tz, //translate, 0 by default
 		float rx, float ry, float rz, //rotate as euler angles in radians, 0 by default
@@ -150,7 +158,7 @@ private:
 class VOL_TOTEM_API CacheNode : public TotemNode
 {
 public: 
-	CacheNode(const char * pID) {m_nTypeID = CACHE_NODE_ID; m_pNode = NULL; m_nodeID = std::string(pID);}
+	CacheNode(const char * pID);
 	bool loadFromVol(const char * filename);
 
 	bool getBoundingBox(float** o_bbox);
@@ -166,6 +174,9 @@ private:
 
 VOL_TOTEM_API bool openVol(const char * filename_to_load, TotemNode** o_node);
 VOL_TOTEM_API bool saveVol(const char * filename_to_save, const TotemNode* pRootNode);
+
+//analysis returns one of the AnalysisCode enum values
+VOL_TOTEM_API unsigned int analyseModel(const TotemNode* pRootNode, int nDepth = 6); 
 
 VOL_TOTEM_API void freePointer(float** io_pointer);
 VOL_TOTEM_API void freeTree(TotemNode* io_node);
