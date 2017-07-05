@@ -39,9 +39,13 @@ VolView::VolView()
 
 	m_crosshairShader = new Utility::GPUProgram();
 	m_crosshairShader->Create( "Resources/Shaders/Crosshair", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
+	glBindAttribLocation( m_crosshairShader->GetProgramID(), 0, "vPosition" );
+	m_crosshairShader->LinkProgram();
 
 	m_crosshairCircleShader = new Utility::GPUProgram();
 	m_crosshairCircleShader->Create( "Resources/Shaders/Crosshair", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
+	glBindAttribLocation( m_crosshairCircleShader->GetProgramID(), 0, "vPosition" );
+	m_crosshairCircleShader->LinkProgram();
 	
 	m_cachePolicy = new VolumeTree::CachingPolicy();
 	
