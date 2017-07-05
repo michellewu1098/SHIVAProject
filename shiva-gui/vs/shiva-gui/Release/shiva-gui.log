@@ -1,10 +1,201 @@
-﻿Build started 04/07/2017 15:26:36.
+﻿Build started 05/07/2017 13:10:11.
      1>Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\shiva-gui.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_image" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_ttf" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_mixer" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\System\Window.cpp
-         Window.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_image" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_ttf" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_mixer" /I"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\GUIManager.cpp ..\..\src\GUI\Drawables\BitmapDrawable.cpp ..\..\src\GUI\Drawables\LayeredImageDrawable.cpp ..\..\src\GUI\Drawables\NinePatch.cpp ..\..\src\GUI\Drawables\RectDrawable.cpp ..\..\src\GUI\Views\AdapterViews\AdapterView.cpp ..\..\src\GUI\Views\AdapterViews\DataAdapter.cpp ..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp ..\..\src\GUI\Views\AdapterViews\ListView.cpp ..\..\src\GUI\Views\ColourSelector.cpp ..\..\src\GUI\Views\ImageButton.cpp ..\..\src\GUI\Views\ImageTextButton.cpp ..\..\src\GUI\Views\ImageTextView.cpp ..\..\src\GUI\Views\Slider.cpp ..\..\src\GUI\Views\TextButton.cpp ..\..\src\GUI\Views\TextView.cpp ..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp ..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp ..\..\src\GUI\Views\ViewGroups\ScrollContainer.cpp ..\..\src\ResourceManager.cpp ..\..\src\System\Activities\CreateNewProfileActivity.cpp ..\..\src\System\Activities\ProfileChooserActivity.cpp ..\..\src\Utility\GPUProgram.cpp
+         GUIManager.cpp
+         BitmapDrawable.cpp
+     1>C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
+                 C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+                 ..\..\src\GUI\Drawables\BitmapDrawable.cpp(174) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+         LayeredImageDrawable.cpp
+     1>C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
+                 C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+                 ..\..\src\GUI\Drawables\LayeredImageDrawable.cpp(343) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+         NinePatch.cpp
+     1>C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
+                 C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+                 ..\..\src\GUI\Drawables\NinePatch.cpp(290) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+         RectDrawable.cpp
+     1>C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
+                 C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+                 ..\..\src\GUI\Drawables\RectDrawable.cpp(119) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+         AdapterView.cpp
+         DataAdapter.cpp
+         LayoutAdapterView.cpp
+         ListView.cpp
+         ColourSelector.cpp
+     1>C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
+                 C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+                 ..\..\src\GUI\Views\ColourSelector.cpp(173) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+         ImageButton.cpp
+     1>C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
+                 C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+                 ..\..\src\GUI\Views\ImageButton.cpp(913) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+         ImageTextButton.cpp
+     1>..\..\src\GUI\Views\ImageTextButton.cpp(146): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         ImageTextView.cpp
+     1>..\..\src\GUI\Views\ImageTextView.cpp(136): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         Slider.cpp
+         TextButton.cpp
+         TextView.cpp
+         CustomLayout.cpp
+         CustomLayoutElement.cpp
+         ScrollContainer.cpp
+         ResourceManager.cpp
+     1>..\..\src\ResourceManager.cpp(255): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\ResourceManager.cpp(281): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\ResourceManager.cpp(281): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\ResourceManager.cpp(284): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\ResourceManager.cpp(284): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
+                 C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+                 ..\..\src\ResourceManager.cpp(1190) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+         Compiling...
+         CreateNewProfileActivity.cpp
+         ProfileChooserActivity.cpp
+         GPUProgram.cpp
        Lib:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib" GLee.lib Opengl32.lib SDL2.lib SDL2main.lib SDL2_mixer.lib SDL2_ttf.lib glew32.lib /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\glee" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL\SDL\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL\SDLmain\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_image\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_mixer\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\SDL_ttf\Release" /LIBPATH:"C:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\glew" /NOLOGO /LTCG Release\GUIManager.obj
          Release\ImageTextButton.obj
@@ -73,4 +264,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:24.32
+Time Elapsed 00:01:03.62
