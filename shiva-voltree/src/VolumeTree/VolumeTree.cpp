@@ -117,6 +117,7 @@ bool VolumeTree::Tree::ImportVol( const char* _filename )
 		std::cerr << "totemio::openVol() couldn't open .vol file " << _filename << std::endl;
 		return false;
 	}
+	return false;
 }
 
 //----------------------------------------------------------------------------------
@@ -743,6 +744,93 @@ void VolumeTree::Tree::ExportToXML( Node *_currentNode, TiXmlElement *_root )
 	}
 }
 
+
+//----------------------------------------------------------------------------------
+
+bool VolumeTree::Tree::IsPrintable( bool bIncludePole, bool bIncludeBase )
+{
+
+	if( m_rootNode == NULL )
+	{
+		return false;
+	}
+
+	totemio::TotemNode* pRootNode = NULL;
+
+	if (bIncludePole && bIncludeBase)
+		pRootNode = BuildExportNode(m_rootNode);
+	else if (!bIncludePole && !bIncludeBase)
+	{
+		std::string nodeTypeStr = m_rootNode->GetNodeType();
+		if (nodeTypeStr != "CSGNode")
+			return false;
+		Node* pChild1 = m_rootNode->GetFirstChild();
+		Node* pChild2 = m_rootNode->GetNextChild(pChild1);
+		if (!pChild1 || !pChild2)
+			return false;
+		pRootNode = BuildExportNode(pChild2);
+	}
+	else
+	{
+		//unsupported mode at the moment
+		return false;
+	}
+
+	if (!pRootNode) return false;
+
+	unsigned int nRetCode = totemio::analyseModel(pRootNode);
+	if (nRetCode == totemio::CODE_OK)
+		return true;
+
+	if (nRetCode == totemio::CODE_MULTICOMPONENT)
+	{
+		std::cout << "Multicomponent object found" << std::endl;
+		return false;
+	}
+
+	if (nRetCode == totemio::CODE_UNBALANCED)
+	{
+		std::cout << "Model is heavily unbalanced" << std::endl;
+		return false;
+	}
+
+	//generic failure, return error without an error code
+
+	return false;
+}
+
+//----------------------------------------------------------------------------------
+bool VolumeTree::Tree::SaveMesh( std::string _filename, bool bIncludePole, bool bIncludeBase)
+{
+	if( m_rootNode == NULL )
+	{
+		return false;
+	}
+
+	totemio::TotemNode* pRootNode = NULL;
+
+	if (bIncludePole && bIncludeBase)
+		pRootNode = BuildExportNode(m_rootNode);
+	else if (!bIncludePole && !bIncludeBase)
+	{
+		std::string nodeTypeStr = m_rootNode->GetNodeType();
+		if (nodeTypeStr != "CSGNode")
+			return false;
+		Node* pChild1 = m_rootNode->GetFirstChild();
+		Node* pChild2 = m_rootNode->GetNextChild(pChild1);
+		if (!pChild1 || !pChild2)
+			return false;
+		pRootNode = BuildExportNode(pChild2);
+	}
+	else
+	{
+		//unsupported mode at the moment
+		return false;
+	}
+
+	if (!pRootNode) return false;
+	return totemio::saveMesh(_filename.c_str(), pRootNode, 0.01);
+}
 
 //----------------------------------------------------------------------------------
 
