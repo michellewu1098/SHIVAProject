@@ -1,6 +1,7 @@
 #include "PrintActivity.h"
 #include "System/SharedPreferences.h"
 #include "GUIManager.h"
+#include "boost/date_time/posix_time/posix_time.hpp"
 
 //----------------------------------------------------------------------------------
 
@@ -86,15 +87,61 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 {
 	if( _handler == m_buttonHandler )
 	{
-		if( _view->GetID() == "Print" )
+		if( _view->GetID() == "PrintAll" )
 		{
-			std::cout << "INFO: PrintActivity request to 3D print model. Wooho!" << std::endl;
+			std::cout << "INFO: PrintActivity request to 3D print model with pole and base." << std::endl;
 			VolumeTree::Tree tmpTree;
 			tmpTree.SetRoot( m_totemController->GetNodeTree() );
-			//tmpTree.GetTotemPole();
-			//tmpTree.TestDeletePole();
+			if (!tmpTree.IsPrintable(true, true))
+			{
+				//TODO: handle that in the interface
+				std::cout << "ERROR: Model is not printable!" << std::endl;
+			}
+			else
+			{
+				// for meshes we use timestamp instead of increasing numbers
+				// subject to discussion with teachers
+				std::string extension = ".obj";
+				//
+				using namespace boost::posix_time;
+				ptime now = second_clock::universal_time();
+				static std::locale loc(std::cout.getloc(), new time_facet("%Y%m%d_%H%M%S"));
+				std::ostringstream ss;
+				ss.imbue(loc);
+				ss << now;
+				std::string filename = m_saveDir + m_saveName + ss.str() + extension;
+				tmpTree.SaveMesh(filename, true, true);
+			}
 
-			RebuildTrees();
+//			RebuildTrees(); //do we need that?
+		}
+		else if( _view->GetID() == "PrintModel" )
+		{
+			std::cout << "INFO: PrintActivity request to 3D print model without pole and base" << std::endl;
+			VolumeTree::Tree tmpTree;
+			tmpTree.SetRoot( m_totemController->GetNodeTree() );
+			if (!tmpTree.IsPrintable(false, false))
+			{
+				//TODO: handle that in the interface
+				std::cout << "ERROR: Model is not printable!" << std::endl;
+			}
+			else
+			{
+				// for meshes we use timestamp instead of increasing numbers
+				// subject to discussion with teachers
+				std::string extension = ".obj";
+				//
+				using namespace boost::posix_time;
+				ptime now = second_clock::universal_time();
+				static std::locale loc(std::cout.getloc(), new time_facet("%Y%m%d_%H%M%S"));
+				std::ostringstream ss;
+				ss.imbue(loc);
+				ss << now;
+				std::string filename = m_saveDir + m_saveName + ss.str() + extension;
+				tmpTree.SaveMesh(filename, false, false);
+			}
+
+//			RebuildTrees(); //do we need that?
 		}
 		else if( _view->GetID() == "BackButton" )
 		{

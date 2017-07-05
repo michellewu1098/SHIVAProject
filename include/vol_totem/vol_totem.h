@@ -175,6 +175,8 @@ private:
 VOL_TOTEM_API bool openVol(const char * filename_to_load, TotemNode** o_node);
 VOL_TOTEM_API bool saveVol(const char * filename_to_save, const TotemNode* pRootNode);
 
+VOL_TOTEM_API bool saveMesh(const char * filename_to_save, const TotemNode* pRootNode, float quality = 0.1f);
+
 //analysis returns one of the AnalysisCode enum values
 VOL_TOTEM_API unsigned int analyseModel(const TotemNode* pRootNode, int nDepth = 6); 
 

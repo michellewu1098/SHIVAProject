@@ -65,6 +65,12 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		bool ImportXML( const char* _filename );
 		//----------------------------------------------------------------------------------
+		/// \brief test if the model is printable
+		/// \param [in] bIncludePole Flag to check if the pole is included
+		/// \param [in] bIncludeBase Flag to check if the base of the totem is included
+		//----------------------------------------------------------------------------------
+		bool IsPrintable( bool bIncludePole = true, bool bIncludeBase = true);
+		//----------------------------------------------------------------------------------
 		/// \brief Import model from .vol file
 		/// \param [in] _filename File name
 		//----------------------------------------------------------------------------------
@@ -74,6 +80,11 @@ namespace VolumeTree
 		/// \param [in] _filename File name
 		//----------------------------------------------------------------------------------
 		bool Save( std::string _filename );
+		//----------------------------------------------------------------------------------
+		/// \brief Save .obj file function
+		/// \param [in] _filename File name
+		//----------------------------------------------------------------------------------
+		bool SaveMesh( std::string _filename, bool bIncludePole = true, bool bIncludeBase = true );
 		//----------------------------------------------------------------------------------
 		/// \brief Calculate bounding box
 		//----------------------------------------------------------------------------------
