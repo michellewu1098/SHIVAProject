@@ -9,9 +9,13 @@ ShivaGUI::RectDrawable::RectDrawable()
 
 	m_fillShader = new Utility::GPUProgram();
 	m_fillShader->Create( "Resources/Shaders/Colour", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
+	glBindAttribLocation( m_fillShader->GetProgramID(), 0, "vPosition" );
+	m_fillShader->LinkProgram();
 
 	m_borderShader = new Utility::GPUProgram();
 	m_borderShader->Create( "Resources/Shaders/Colour", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
+	glBindAttribLocation( m_borderShader->GetProgramID(), 0, "vPosition" );
+	m_borderShader->LinkProgram();
 }
 
 //----------------------------------------------------------------------------------

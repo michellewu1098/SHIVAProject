@@ -1,10 +1,16 @@
 #version 140
-//#version 330
-#extension GL_ARB_explicit_uniform_location : require
-#extension GL_ARB_explicit_attrib_location : require
 
-layout( location = 0 ) in vec2 vPosition;
-layout( location = 1 ) in vec2 vUvs;
+//#version 330
+//#extension GL_ARB_explicit_uniform_location : require
+//#extension GL_ARB_explicit_attrib_location : require
+
+// GLSL 330
+//layout( location = 0 ) in vec2 vPosition;
+//layout( location = 1 ) in vec2 vUvs;
+
+// GLSL 140
+in vec2 vPosition;
+in vec2 vUvs;
 
 uniform mat4 u_ProjectionMatrix;
 uniform mat4 u_ModelViewMatrix;

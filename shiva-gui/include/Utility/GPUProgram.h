@@ -65,6 +65,9 @@ namespace Utility
 		GLuint GetProgramID() const { return m_program; }
 		//----------------------------------------------------------------------------------
 		bool ValidateProgram( GLuint _program, GLuint _vs, GLuint _fs );
+		//----------------------------------------------------------------------------------
+		bool LinkProgram();
+		//----------------------------------------------------------------------------------
 
 	protected:
 

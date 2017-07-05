@@ -213,9 +213,14 @@ void VolumeTree::Node::BuildBBoxesVBOs( unsigned int _nContext )
 	
 	m_bboxLinesShader = new Shader( "Resources/Shaders/Simple.vert", "Resources/Shaders/Simple.frag" );
 	m_bboxLinesShader->init( m_bboxLinesShader->fileRead( "Resources/Shaders/Simple.vert" ), m_bboxLinesShader->fileRead( "Resources/Shaders/Simple.frag" ) );
+	glBindAttribLocation( m_bboxLinesShader->getID(), 0, "vPosition" );
+	glBindAttribLocation( m_bboxLinesShader->getID(), 1, "vColours" );
+	m_bboxLinesShader->link();
 
 	m_bboxSidesShader = new Shader( "Resources/Shader/Colour.vert", "Resources/Shaders/Colour.frag" );
 	m_bboxSidesShader->init( m_bboxSidesShader->fileRead( "Resources/Shaders/Colour.vert" ), m_bboxSidesShader->fileRead( "Resources/Shaders/Colour.frag" ) );
+	glBindAttribLocation( m_bboxSidesShader->getID(), 0, "vPosition" );
+	m_bboxSidesShader->link();
 }
 
 //----------------------------------------------------------------------------------
