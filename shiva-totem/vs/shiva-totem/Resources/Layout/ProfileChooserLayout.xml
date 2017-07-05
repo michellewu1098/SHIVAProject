@@ -208,6 +208,7 @@
 			layout_height = "wrap_content"
 			layout_weight = "0.3"
 			onClick = "NewProfileHandler"
+			button_disabled = "true"
 			text = "New" />
 			
 		<View

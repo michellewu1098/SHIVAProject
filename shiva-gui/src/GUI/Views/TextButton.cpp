@@ -81,6 +81,12 @@ void ShivaGUI::TextButton::Inflate( TiXmlElement *_xmlElement, ResourceManager *
 				m_textAlignment = Right;
 			}
 		}
+		else if( ( std::string( "button_disabled" ) == currentAttribute->Name() ) )
+		{
+			std::string disabled = currentAttribute->ValueStr();
+			if( disabled == std::string( "true" ) )
+				m_active = false;
+		}
 	}
 
 	// Need to do this here, after all the values have been read in

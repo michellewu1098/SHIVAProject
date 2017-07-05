@@ -140,7 +140,18 @@ void Shader::init( std::string _vsFile, std::string _fsFile )
     glAttachShader( m_id, m_vs );
     glAttachShader( m_id, m_fs );
 
-    glLinkProgram( m_id );
+    /*glLinkProgram( m_id );
+    if (!validateProgram( m_id, m_vs, m_fs ) ) {
+        return;
+    }
+    m_init = true;*/
+}
+
+//--------------------------------------------------------------------------------------
+
+void Shader::link()
+{
+	glLinkProgram( m_id );
     if (!validateProgram( m_id, m_vs, m_fs ) ) {
         return;
     }

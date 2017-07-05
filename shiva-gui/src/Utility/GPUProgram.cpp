@@ -98,6 +98,21 @@ bool Utility::GPUProgram::Create( const std::string _programFileName, ProgramTyp
 
 	// #3 Link shader program
 
+	//glLinkProgram( m_program );
+
+	//// #4 Check that shader link phase completed successfully
+
+	//if( !ValidateProgram( m_program, m_vs->GetShaderHandle(), m_fs->GetShaderHandle() ) ) {
+	//	return false;
+	//}
+
+	return true;
+}
+
+bool Utility::GPUProgram::LinkProgram()
+{
+	// #3 Link shader program
+
 	glLinkProgram( m_program );
 
 	// #4 Check that shader link phase completed successfully
@@ -105,7 +120,7 @@ bool Utility::GPUProgram::Create( const std::string _programFileName, ProgramTyp
 	if( !ValidateProgram( m_program, m_vs->GetShaderHandle(), m_fs->GetShaderHandle() ) ) {
 		return false;
 	}
-
+	
 	return true;
 }
 

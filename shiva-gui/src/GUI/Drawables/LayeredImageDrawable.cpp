@@ -29,6 +29,9 @@ ShivaGUI::LayeredImageDrawable::LayeredImageDrawable()
 
 	m_shader = new Utility::GPUProgram();
 	m_shader->Create( "Resources/Shaders/LayeredImageDrawable", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
+	glBindAttribLocation( m_shader->GetProgramID(), 0, "vPosition" );
+	glBindAttribLocation( m_shader->GetProgramID(), 1, "vTexCoords" );
+	m_shader->LinkProgram();
 
 	m_layerGroups = new LayerGroup[ m_maxLayerGroups ];
 	for( unsigned int i = 0; i < m_maxLayerGroups; ++i )

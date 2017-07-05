@@ -64,6 +64,8 @@ ShivaGUI::ImageButton::ImageButton()
 
 	m_gazeIndicatorShader = new Utility::GPUProgram();
 	m_gazeIndicatorShader->Create( "Resources/Shaders/Crosshair", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
+	glBindAttribLocation( m_gazeIndicatorShader->GetProgramID(), 0, "vPosition" );
+	m_gazeIndicatorShader->LinkProgram();
 
 	m_nVertices = 0;
 

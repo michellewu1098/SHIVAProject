@@ -10,10 +10,17 @@ ShivaGUI::ColourSelector::ColourSelector()
 
 	m_colourSelectorShader = new Utility::GPUProgram();
 	m_colourSelectorShader->Create( "Resources/Shaders/ColourSelector", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
-	std::cout << "ColourSelector shader created: " << m_colourSelectorShader->GetProgramID() << std::endl;
+	glBindAttribLocation( m_colourSelectorShader->GetProgramID(), 0, "vPosition" );
+	glBindAttribLocation( m_colourSelectorShader->GetProgramID(), 1, "vUvs" );
+	m_colourSelectorShader->LinkProgram();
+	
+	//std::cout << "ColourSelector shader created: " << m_colourSelectorShader->GetProgramID() << std::endl;
 		
 	m_colourSampleShader = new Utility::GPUProgram();
 	m_colourSampleShader->Create( "Resources/Shaders/Colour", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
+	glBindAttribLocation( m_colourSampleShader->GetProgramID(), 0, "vPosition" );
+	glBindAttribLocation( m_colourSampleShader->GetProgramID(), 1, "vUvs" );
+	m_colourSampleShader->LinkProgram();
 
 	m_sampleR = 1.0f;
 	m_sampleG = 1.0f;

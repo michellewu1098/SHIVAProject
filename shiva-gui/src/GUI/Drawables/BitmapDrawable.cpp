@@ -16,6 +16,9 @@ ShivaGUI::BitmapDrawable::BitmapDrawable()
 
 	m_shader = new Utility::GPUProgram();
 	m_shader->Create( "Resources/Shaders/Drawable", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
+	glBindAttribLocation( m_shader->GetProgramID(), 0, "vPosition" );
+	glBindAttribLocation( m_shader->GetProgramID(), 1, "vTexCoords" );
+	m_shader->LinkProgram();
 
 	m_projMat.identity();
 	m_mvMat.identity();
@@ -37,6 +40,9 @@ ShivaGUI::BitmapDrawable::BitmapDrawable( unsigned int _OpenGLTexID )
 
 	m_shader = new Utility::GPUProgram();
 	m_shader->Create( "Resources/Shaders/Drawable", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
+	glBindAttribLocation( m_shader->GetProgramID(), 0, "vPosition" );
+	glBindAttribLocation( m_shader->GetProgramID(), 1, "vTexCoords" );
+	m_shader->LinkProgram();
 
 	m_projMat.identity();
 	m_mvMat.identity();

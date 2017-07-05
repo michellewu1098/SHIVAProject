@@ -714,6 +714,8 @@ bool GLSLRenderer::RebuildTree()
 
 	// Finally initialise our shader program
 	m_shader->init( m_vertShaderString, fullFragShaderString );
+	glBindAttribLocation( m_shader->getID(), 0, "vPosition" );
+	m_shader->link();
 
 	return true;
 }
