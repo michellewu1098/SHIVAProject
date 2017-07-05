@@ -22,8 +22,8 @@
 		cameraPositionZ = "5.0"
 		cameraTargetY = "0" />
 	
-	<ImageTextButton
-		id = "Print"
+	<TextButton
+		id = "PrintAll"
 		layout_width = "0.12"
 		layout_height = "0.2"
 		layout_centreX = "0.94"
@@ -31,17 +31,26 @@
 		height_constrained = "true"
 		scaleContent = "true"
 		keepContentAspectRatio = "true"
-		icon_position = "top"
 		onClick = "buttonHandler"
-		text = "print"
-		src = "System/CommandSymbols/Print.xml"	/>
+		text = "mesh + totem" />
 		
+	<TextButton
+		id = "PrintModel"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.94"
+		layout_centreY = "0.5"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		text = "mesh only" />
+
 	<TextButton
 		id = "Export"
 		layout_width = "0.12"
 		layout_height = "0.2"
 		layout_centreX = "0.94"
-		layout_centreY = "0.5"
+		layout_centreY = "0.69"
 		scaleContent = "true"
 		keepContentAspectRatio = "true"
 		onClick = "buttonHandler"
