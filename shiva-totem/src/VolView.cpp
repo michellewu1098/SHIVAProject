@@ -61,6 +61,7 @@ VolView::VolView()
 
 	RefreshTree();
 
+	m_analysingDrawable = NULL;
 	m_commandManager = Totem::CommandManager::GetInstance();
 }
 
@@ -73,6 +74,7 @@ VolView::~VolView()
 	delete m_cachePolicy;
 	delete m_crosshairShader;
 	delete m_crosshairCircleShader;
+	delete m_analysingDrawable;
 }
 
 //----------------------------------------------------------------------------------
@@ -95,6 +97,9 @@ void VolView::Layout( int _left, int _top, int _right, int _bottom, int _windowW
 //	float aspectRatio = ((float)right-left) / ((float)bottom-top);
 //	cml::matrix_perspective_xfov_RH(_projectionMatrix, _cameraAngle, aspectRatio, _cameraNearPlane, _cameraFarPlane, cml::z_clip_neg_one);
 
+	if( m_analysingDrawable != NULL )
+		m_analysingDrawable->SetBounds( _left, _top, _right, _bottom );
+
 }
 
 //----------------------------------------------------------------------------------
@@ -105,8 +110,14 @@ void VolView::Inflate( TiXmlElement *_xmlElement, ShivaGUI::ResourceManager *_re
 		_themePrefix = "VolView_";
 	View::Inflate( _xmlElement, _resources, _themePrefix, _rootNode );
 
-	//for( TiXmlAttribute *currentAttribute = xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
-	//{
+	for( TiXmlAttribute *currentAttribute = _xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
+	{
+		if( std::string( "analysingDrawable" ) == currentAttribute->Name() || ( _themePrefix + "analysingDrawable" == currentAttribute->Name() ) )
+		{
+			std::string resourceName( _resources->GetInflationAttribute( currentAttribute->Value() ) );
+			m_analysingDrawable = _resources->GetDrawable( resourceName );
+		}
+
 		/*
 		if( (std::string("cameraPositionX") == currentAttribute->Name()) || (themePrefix+"cameraPositionX" == currentAttribute->Name()) )
 		{
@@ -138,7 +149,7 @@ void VolView::Inflate( TiXmlElement *_xmlElement, ShivaGUI::ResourceManager *_re
 			SetQuality( currentAttribute->DoubleValue() );
 		}
 		*/
-	//}
+	}
 }
 
 //----------------------------------------------------------------------------------

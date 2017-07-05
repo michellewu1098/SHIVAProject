@@ -88,12 +88,12 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 	{
 		if( _view->GetID() == "Print" )
 		{
+			// TO DISABLE BUTTON
+			//_view->SetActive( false );
 			std::cout << "INFO: PrintActivity request to 3D print model. Wooho!" << std::endl;
 			VolumeTree::Tree tmpTree;
 			tmpTree.SetRoot( m_totemController->GetNodeTree() );
-			//tmpTree.GetTotemPole();
-			//tmpTree.TestDeletePole();
-
+			
 			RebuildTrees();
 		}
 		else if( _view->GetID() == "BackButton" )
