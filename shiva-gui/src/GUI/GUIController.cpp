@@ -151,8 +151,6 @@ void ShivaGUI::GUIController::Draw( unsigned int _context )
 	// Viewport function wants lower-left corner too
 	glViewport( 0, 0, resX, resY );
 
-	//m_resourceManager->SetMatrices( ( float )resX, ( float )resY );
-
 	m_contentView->Draw( _context );
 
 	m_attachedWindow->SwapBuffers();
@@ -176,8 +174,6 @@ void ShivaGUI::GUIController::Draw()
 	// Remember that OpenGL uses lower-left corner as origin
 	// Viewport function wants lower-left corner too
 	glViewport( 0, 0, resX, resY );
-
-	//m_resourceManager->SetMatrices( ( float )resX, ( float )resY );
 
 	m_contentView->Draw();
 

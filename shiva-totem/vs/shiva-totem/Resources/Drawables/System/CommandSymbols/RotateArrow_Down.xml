@@ -8,8 +8,8 @@
   This means you replace each channel of the original png with a colour of your choice.
   Blending works like this:
     (source_Red * colour0) + (source_Green * colour1) + ... etc -->
-  <Layer src="System/CommandSymbols/RotateArrow_Down_Layer0.png" colour0="@ArrowColourOutline" colour1="@ArrowColourLowlight" colour2="@ArrowColourHighlight" colour3="000000FF"/>
-  <Layer src="System/CommandSymbols/RotateArrow_Down_Vert_Layer1.png" colour0="@ArrowColourInnerLow" colour1="@ArrowColourInnerHigh" colour2="0" colour3="@ArrowColourBackground"/>
+  <Layer src="System/CommandSymbols/Icons/RotateArrow_Down_Layer0.png" colour0="@ArrowColourOutline" colour1="@ArrowColourLowlight" colour2="@ArrowColourHighlight" colour3="000000FF"/>
+  <Layer src="System/CommandSymbols/Icons/RotateArrow_Down_Vert_Layer1.png" colour0="@ArrowColourInnerLow" colour1="@ArrowColourInnerHigh" colour2="0" colour3="@ArrowColourBackground"/>
 </LayeredImageDrawable>
 
 <!-- 26437E00  171d33FF -->

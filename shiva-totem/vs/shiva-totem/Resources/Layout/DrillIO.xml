@@ -109,7 +109,12 @@
 		text = "increase size"
 		text_size = "20"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/DrillIncrease.xml" />
+		src = "System/CommandSymbols/DrillIncrease.xml" 
+		
+		first_focus = "true"
+		next_focus_right = "CrosshairUp"
+		next_focus_left = "BackButton"
+		next_focus_down = "DrillSizeReset" />
 	
 	<ImageTextButton
 		id = "DrillSizeDecrease"
@@ -125,7 +130,11 @@
 		text = "decrease size"
 		text_size = "20"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/DrillDecrease.xml" />
+		src = "System/CommandSymbols/DrillDecrease.xml" 
+		
+		next_focus_right = "CrosshairDown"
+		next_focus_left = "BackButton"
+		next_focus_up = "DrillSizeReset" />
 	
 	<ImageTextButton
 		id = "DrillSizeReset"
@@ -141,7 +150,12 @@
 		text = "reset drill size"
 		text_size = "20"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/DrillReset.xml" />
+		src = "System/CommandSymbols/DrillReset.xml" 
+		
+		next_focus_right = "CrosshairLeft"
+		next_focus_left = "BackButton"
+		next_focus_up = "DrillSizeIncrease"
+		next_focus_down = "DrillSizeDecrease" />
 
 	<ImageButton
 		id = "CrosshairLeft"
@@ -153,7 +167,12 @@
 		keepContentAspectRatio = "true"
 		onClick = "buttonHandler"
 		src = "System/CommandSymbols/MoveDrillLeft.xml"
-		eyeGaze_Repeat = "true" />
+		eyeGaze_Repeat = "true" 
+		
+		next_focus_right = "RotateDown"
+		next_focus_left = "DrillSizeReset"
+		next_focus_up = "CrosshairUp"
+		next_focus_down = "CrosshairDown" />
 
 	<ImageButton
 		id = "CrosshairRight"
@@ -165,7 +184,12 @@
 		keepContentAspectRatio = "true"
 		onClick = "buttonHandler"
 		src = "System/CommandSymbols/MoveDrillRight.xml"
-		eyeGaze_Repeat = "true" />
+		eyeGaze_Repeat = "true"
+		
+		next_focus_right = "UndoButton"
+		next_focus_left = "RotateUp"
+		next_focus_up = "RotateLeft"
+		next_focus_down = "RotateReset" />
 
 	<ImageButton
 		id = "CrosshairUp"
@@ -177,7 +201,11 @@
 		keepContentAspectRatio = "true"
 		onClick = "buttonHandler"
 		src = "System/CommandSymbols/MoveDrillUp.xml"
-		eyeGaze_Repeat = "true" />
+		eyeGaze_Repeat = "true"
+
+		next_focus_right = "RotateLeft"
+		next_focus_left = "CrosshairLeft"
+		next_focus_down = "RotateDown" />
 
 	<ImageButton
 		id = "CrosshairDown"
@@ -189,7 +217,12 @@
 		keepContentAspectRatio = "true"
 		onClick = "buttonHandler"
 		src = "System/CommandSymbols/MoveDrillDown.xml"
-		eyeGaze_Repeat = "true" />
+		eyeGaze_Repeat = "true"
+		
+		next_focus_right = "RotateRight"
+		next_focus_left = "DrillSizeDecrease"
+		next_focus_up = "RotateDown"
+		next_focus_down = "RotateRight" />
 
 	<!--<ImageButton
 		id = "RotateUp"
@@ -257,9 +290,9 @@
 		scan_prev = "RotateLeft"
     
 		next_focus_left = "RotateDown"
-		next_focus_right = "NudgeUp"
+		next_focus_right = "CrosshairRight"
 		next_focus_up = "RotateLeft"
-		next_focus_down = "RotateRight" />
+		next_focus_down = "RotateReset" />
 		
 	<ImageTextButton
 		id = "RotateDown"
@@ -278,9 +311,9 @@
     
 		scan_prev = "RotateRight"
     
-		next_focus_left = "PrimitiveList"
-		next_focus_up = "RotateLeft"
-		next_focus_down = "RotateRight"
+		next_focus_left = "CrosshairLeft"
+		next_focus_up = "CrosshairUp"
+		next_focus_down = "CrosshairDown"
 		next_focus_right = "RotateUp" />
 
 	<ImageTextButton
@@ -300,7 +333,7 @@
     
 		next_focus_up = "RotateLeft"
 		next_focus_left = "RotateDown"
-		next_focus_right = "RotateUp" />
+		next_focus_right = "RotateReset" />
 
 	<ImageTextButton
 		id = "RotateLeft"
@@ -353,7 +386,11 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "reset view"
-		src = "System/CommandSymbols/ResetView.xml"	/>
+		src = "System/CommandSymbols/ResetView.xml"	
+		
+		next_focus_right = "RedoButton"
+		next_focus_left = "RotateRight"
+		next_focus_up = "RotateUp" />
 
 	<ImageTextButton
 		id = "PerformDrill"
@@ -367,7 +404,12 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "drill!"
-		src = "System/CommandSymbols/DrillCommand.xml" />
+		src = "System/CommandSymbols/DrillCommand.xml"
+		
+		next_focus_right = "DrillSizeIncrease"
+		next_focus_left = "CrosshairRight"
+		next_focus_up = "BackButton"
+		next_focus_down = "UndoButton" />
   
 	<!--<TextButton
 		id = "UndoButton"
@@ -413,7 +455,11 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "back"
-		src = "System/CommandSymbols/Back.xml" />
+		src = "System/CommandSymbols/Back.xml"
+
+		next_focus_right = "DrillSizeIncrease"
+		next_focus_left = "CrosshairRight"
+		next_focus_down = "PerformDrill" />
 		
 	<ImageTextButton
 		id = "UndoButton"
@@ -427,7 +473,12 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "undo"
-		src = "System/CommandSymbols/Undo.xml" />
+		src = "System/CommandSymbols/Undo.xml"
+			
+		next_focus_right = "DrillSizeIncrease"
+		next_focus_left = "CrosshairRight"
+		next_focus_up = "PerformDrill"
+		next_focus_down = "RedoButton" />
 	
 	<ImageTextButton
 		id = "RedoButton"
@@ -441,6 +492,10 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "redo"
-		src = "System/CommandSymbols/Redo.xml" />
+		src = "System/CommandSymbols/Redo.xml"
+		
+		next_focus_right = "DrillSizeIncrease"
+		next_focus_left = "CrosshairRight"
+		next_focus_up = "UndoButton" />
 
 </CustomLayout>

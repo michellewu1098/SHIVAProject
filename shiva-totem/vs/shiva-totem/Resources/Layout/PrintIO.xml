@@ -32,7 +32,10 @@
 		scaleContent = "true"
 		keepContentAspectRatio = "true"
 		onClick = "buttonHandler"
-		text = "mesh + totem" />
+		text = "mesh + totem"
+
+		next_focus_up = "BackButton"
+		next_focus_down = "PrintModel" />
 		
 	<TextButton
 		id = "PrintModel"
@@ -43,7 +46,10 @@
 		scaleContent = "true"
 		keepContentAspectRatio = "true"
 		onClick = "buttonHandler"
-		text = "mesh only" />
+		text = "mesh only"
+
+		next_focus_up = "PrintAll"
+		next_focus_down = "Export" />
 
 	<TextButton
 		id = "Export"
@@ -54,7 +60,9 @@
 		scaleContent = "true"
 		keepContentAspectRatio = "true"
 		onClick = "buttonHandler"
-		text = "export" />
+		text = "export" 
+		
+		next_focus_up = "PrintModel" />
 		
 	<ImageTextButton
 		id = "BackButton"
@@ -68,6 +76,10 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "back"
-		src = "System/CommandSymbols/Back.xml" />
+		src = "System/CommandSymbols/Back.xml" 
+		
+		first_focus = "true" 
+		
+		next_focus_down = "PrintAll" />
 		
 </CustomLayout>

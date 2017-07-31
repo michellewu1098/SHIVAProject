@@ -57,6 +57,9 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		virtual void Draw();
 		//----------------------------------------------------------------------------------
+		/// \brief Draw method
+		/// \param [in] _context Current OGL context
+		//----------------------------------------------------------------------------------
 		virtual void Draw( unsigned int _context );
 		//----------------------------------------------------------------------------------
 		/// \brief Themes allow settings to be set for all Views of a given type
@@ -69,6 +72,7 @@ namespace ShivaGUI
 		/// \brief For setting the View's attributes from xml
 		/// \param [in] _themePrefix this is used when parsing a theme file. Derived classes should specify the prefix that identifies their attributes in a style. 
 		/// If empty, the string returned from GetThemePrefix should be used
+		//----------------------------------------------------------------------------------
 		virtual void Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix = "", bool _rootNode = false );
 		//----------------------------------------------------------------------------------
 		/// \brief For saving the View's attributes to xml
@@ -94,11 +98,15 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		virtual bool HandleEvent( InternalEvent *_currentEvent );
 		//----------------------------------------------------------------------------------
-		/// \brief Requested wrap pixel dimensions for layout
-		/// \note These are used when SetLayoutParams() is called, which will be after the View has been inflated
-		/// For this View, these are difficult to define for the scrolling direction
+		// Requested wrap pixel dimensions for layout
+		// These are used when SetLayoutParams() is called, which will be after the View has been inflated
+		// For this View, these are difficult to define for the scrolling direction
+		//----------------------------------------------------------------------------------
+		/// \brief Returns wrap width for layout
 		//----------------------------------------------------------------------------------
 		virtual int GetWrapWidth();
+		//----------------------------------------------------------------------------------
+		/// \brief Returns wrap height for layout
 		//----------------------------------------------------------------------------------
 		virtual int GetWrapHeight();
 		//----------------------------------------------------------------------------------
@@ -178,7 +186,11 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		bool m_horizontalScrollDrag;
 		//----------------------------------------------------------------------------------
+		/// \brief Original pos of top scroll drag
+		//----------------------------------------------------------------------------------
 		int m_scrollDragOriginalTop;
+		//----------------------------------------------------------------------------------
+		/// \brief Original pos of left scroll drag
 		//----------------------------------------------------------------------------------
 		int m_scrollDragOriginalLeft;
 		//----------------------------------------------------------------------------------	

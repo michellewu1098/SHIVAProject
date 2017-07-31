@@ -286,24 +286,6 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		void RegisterPostInflationLink( View *_src, std::string _dstID, Definitions::FocusDirection _focusDir );
 		//----------------------------------------------------------------------------------
-		/// \brief Set projection and model view matrix for rendering
-		/// \param [in] _width Corresponds to right parameter
-		/// \param [in] _height Correpsonds to top parameter
-		//----------------------------------------------------------------------------------
-		void SetMatrices( const float &_width, const float &_height );
-		//----------------------------------------------------------------------------------
-		/// \brief Returns projection matrix
-		/// \return m_projMatrix
-		//----------------------------------------------------------------------------------
-		cml::matrix44f_c GetProjectionMatrix() const { return m_projMatrix; }
-		//----------------------------------------------------------------------------------
-		/// \brie Returns modelview matrix
-		/// \retunr m_mvMatrix
-		//----------------------------------------------------------------------------------
-		cml::matrix44f_c GetModelViewMatrix() const { return m_mvMatrix; }
-		//----------------------------------------------------------------------------------
-		
-
 
 	protected:
 
@@ -333,13 +315,19 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		// TODO: properly share openGL texIDs, using smart pointers, so can delete ones no longer in use
 		//----------------------------------------------------------------------------------
+		/// \brief Textures
+		//----------------------------------------------------------------------------------
 		std::map< std::string, unsigned int > m_glTextures;
+		//----------------------------------------------------------------------------------
+		/// \brief External textures
 		//----------------------------------------------------------------------------------
 		std::map< std::string, unsigned int > m_glExternalTextures;
 		//----------------------------------------------------------------------------------
-		/// \brief Constants for use when looking up xml attributes
+		/// \brief Constants for use when looking up xml attributes from Theme
 		//----------------------------------------------------------------------------------
 		std::map< std::string, std::string > m_attribConstsTheme;
+		//----------------------------------------------------------------------------------
+		/// \brief Constants for use when looking up xml attributes from Profile
 		//----------------------------------------------------------------------------------
 		std::map< std::string, std::string > m_attribConstsProfile;
 		//----------------------------------------------------------------------------------
@@ -416,6 +404,8 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		bool m_iconBelow;
 		//----------------------------------------------------------------------------------
+		/// \brief Flag used to check if it is rendering text
+		//----------------------------------------------------------------------------------
 		bool m_isRenderingText;
 		//----------------------------------------------------------------------------------
 		/// \brief Flag used to render the text onto a texture only once
@@ -425,16 +415,18 @@ namespace ShivaGUI
 		/// \brief % of button space that should be occupied by icon
 		//----------------------------------------------------------------------------------
 		float m_iconPercentSize;
+		//----------------------------------------------------------------------------------
+		/// \brief Default icon % size
+		//----------------------------------------------------------------------------------
 		float m_defaultIconPercentSize;
 		//----------------------------------------------------------------------------------
 		/// \brief % of button space that should be occupied by text
 		//----------------------------------------------------------------------------------
 		float m_textPercentSize;
+		//----------------------------------------------------------------------------------
+		/// \brief Default text % size
+		//----------------------------------------------------------------------------------
 		float m_defaultTextPercentSize;
-		//----------------------------------------------------------------------------------
-		cml::matrix44f_c m_projMatrix;
-		//----------------------------------------------------------------------------------
-		cml::matrix44f_c m_mvMatrix;
 		//----------------------------------------------------------------------------------
 		/// \brief During inflation of Layout links need to be made between Views for scanning and selection order purposes
 		/// The Views they need to link to may not have been created yet, so we save the requests using instances of this sub-class and deal with them after inflation
@@ -449,31 +441,47 @@ namespace ShivaGUI
 			/// \param [in] inDstID
 			/// \param [in] inScanForward
 			//----------------------------------------------------------------------------------
-			PostInflationLink( View *inSrc, std::string inDstID, bool inScanForward ) : src( inSrc ), dstID( inDstID ), scan( true ), scanForward( inScanForward ), focus( false ), focusDir( Definitions::INVALID ) {}
+			PostInflationLink( View *inSrc, std::string inDstID, bool inScanForward ) : m_src( inSrc ), m_dstID( inDstID ), m_scan( true ), m_scanForward( inScanForward ), m_focus( false ), m_focusDir( Definitions::INVALID ) {}
 			//----------------------------------------------------------------------------------
 			/// \brief Ctor 
 			/// \param [in] inSrc
 			/// \param [in] inDstID
 			/// \param [in] inFocusDir
 			//----------------------------------------------------------------------------------
-			PostInflationLink( View *inSrc, std::string inDstID, Definitions::FocusDirection inFocusDir ) : src( inSrc ), dstID( inDstID ), scan( false ), scanForward( false ), focus( true ), focusDir( inFocusDir ) {}
+			PostInflationLink( View *inSrc, std::string inDstID, Definitions::FocusDirection inFocusDir ) : m_src( inSrc ), m_dstID( inDstID ), m_scan( false ), m_scanForward( false ), m_focus( true ), m_focusDir( inFocusDir ) {}
 			//----------------------------------------------------------------------------------
-			View *src;
+			/// \brief Sourcs
 			//----------------------------------------------------------------------------------
-			std::string dstID;
+			View *m_src;
 			//----------------------------------------------------------------------------------
-			bool scan;
+			/// \brief Destination ID
 			//----------------------------------------------------------------------------------
-			bool scanForward;
+			std::string m_dstID;
 			//----------------------------------------------------------------------------------
-			bool focus;
+			/// \brief Scan?
 			//----------------------------------------------------------------------------------
-			Definitions::FocusDirection focusDir;
+			bool m_scan;
+			//----------------------------------------------------------------------------------
+			/// \brief Scan forward?
+			//----------------------------------------------------------------------------------
+			bool m_scanForward;
+			//----------------------------------------------------------------------------------
+			/// \brief Focus?
+			//----------------------------------------------------------------------------------
+			bool m_focus;
+			//----------------------------------------------------------------------------------
+			/// \brief Focus direction
+			//----------------------------------------------------------------------------------
+			Definitions::FocusDirection m_focusDir;
 			//----------------------------------------------------------------------------------
 		};
 
 		//----------------------------------------------------------------------------------
+		/// \brief Post inflations links
+		//----------------------------------------------------------------------------------
 		std::vector< PostInflationLink > m_postInflationLinks;
+		//----------------------------------------------------------------------------------
+		/// \brief Do post evaluation links
 		//----------------------------------------------------------------------------------
 		void DoPostEvaluationLinks();
 		//----------------------------------------------------------------------------------

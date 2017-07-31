@@ -23,7 +23,7 @@
 		height_constrained = "true"
 		icon_position = "left"
 		icon_percentSize = "0.25"
-		text = "nudge objects"
+		text = "move objects"
 		
 		src = "System/CommandSymbols/NudgeTitle.xml" />
 		
@@ -70,7 +70,6 @@
     
 		scan_prev = "RotateRight"
     
-		next_focus_left = "PrimitiveList"
 		next_focus_up = "RotateLeft"
 		next_focus_down = "RotateRight"
 		next_focus_right = "RotateUp" />
@@ -131,7 +130,12 @@
 		text = "rotate&#10;up"
 		onClick = "buttonHandler"
 		src = "System/CommandSymbols/RotateArrow_Up.xml"
-		eyeGaze_Repeat = "true" />
+		eyeGaze_Repeat = "true"
+
+		next_focus_left = "RotateDown"
+		next_focus_right = "DeleteSelected"
+		next_focus_up = "RotateLeft"
+		next_focus_down = "RotateReset" />
 	
 	<ImageTextButton
 		id = "RotateDown"
@@ -146,22 +150,31 @@
 		text = "rotate&#10;down"
 		onClick = "buttonHandler"
 		src = "System/CommandSymbols/RotateArrow_Down.xml"
-		eyeGaze_Repeat = "true" />
+		eyeGaze_Repeat = "true"
+
+		next_focus_left = "NudgeDown"
+		next_focus_up = "RotateLeft"
+		next_focus_down = "RotateRight"
+		next_focus_right = "RotateUp" />
 		
 	<ImageTextButton
-		id="RotateRight"
-		layout_width="0.16"
-		layout_height="0.12"
-		layout_centreX="0.5"
-		layout_centreY="0.91"
-		height_constrained="true"
-		scaleContent="true"
-		keepContentAspectRatio="true"
+		id = "RotateRight"
+		layout_width = "0.16"
+		layout_height = "0.12"
+		layout_centreX = "0.5"
+		layout_centreY = "0.91"
+		height_constrained = "true"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
 		icon_position = "top"
 		text = "rotate right"
-		onClick="buttonHandler"
-		src="System/CommandSymbols/RotateArrow_Right.xml"
-		eyeGaze_Repeat="true" />
+		onClick = "buttonHandler"
+		src = "System/CommandSymbols/RotateArrow_Right.xml"
+		eyeGaze_Repeat = "true"
+
+		next_focus_up = "RotateLeft"
+		next_focus_left = "RotateDown"
+		next_focus_right = "RotateReset" />
 	
 	<ImageTextButton
 		id = "RotateLeft"
@@ -176,7 +189,10 @@
 		text = "rotate left"
 		onClick = "buttonHandler"
 		src = "System/CommandSymbols/RotateArrow_Left.xml"
-		eyeGaze_Repeat = "true" />
+		eyeGaze_Repeat = "true"
+		
+		next_focus_left = "RotateDown"
+		next_focus_right = "RotateUp" />
 	
 	<ImageTextButton
 		id = "RotateReset"
@@ -289,10 +305,14 @@
 		keepContentAspectRatio = "true"
 		icon_position = "top"
 		onClick = "buttonHandler"
-		text = "nudge in"
+		text = "move in"
 		text_size = "20"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/NudgeIn.xml" />
+		src = "System/CommandSymbols/NudgeIn.xml"
+
+		first_focus = "true"
+		next_focus_right = "NudgeYnegative"
+		next_focus_down = "NudgeXnegative" />
 		
 	<ImageTextButton
 		id = "NudgeYnegative"
@@ -305,10 +325,14 @@
 		keepContentAspectRatio = "true"
 		icon_position = "top"
 		onClick = "buttonHandler"
-		text = "nudge out"
+		text = "move out"
 		text_size = "20"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/NudgeOut.xml" />
+		src = "System/CommandSymbols/NudgeOut.xml"
+		
+		next_focus_right = "RotateDown"
+		next_focus_left = "NudgeYpositive"
+		next_focus_down = "NudgeXpositive" />
 
 	<ImageTextButton
 		id = "NudgeXpositive"
@@ -321,10 +345,15 @@
 		keepContentAspectRatio = "true"
 		icon_position = "top"
 		onClick = "buttonHandler"
-		text = "nudge right"
+		text = "move right"
 		text_size = "20"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/NudgeRight.xml" />
+		src = "System/CommandSymbols/NudgeRight.xml"
+
+		next_focus_right = "RotateDown"
+		next_focus_left = "NudgeXnegative"
+		next_focus_down = "NudgeDown"
+		next_focus_up = "NudgeYnegative" />
 
 	<ImageTextButton
 		id = "NudgeXnegative"
@@ -337,10 +366,14 @@
 		keepContentAspectRatio = "true"
 		icon_position = "top"
 		onClick = "buttonHandler"
-		text = "nudge left"
+		text = "move left"
 		text_size = "20"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/NudgeLeft.xml"	/>
+		src = "System/CommandSymbols/NudgeLeft.xml"
+
+		next_focus_right = "NudgeXpositive"
+		next_focus_down = "NudgeUp"
+		next_focus_up = "NudgeYpositive" />
   	
 	<ImageTextButton
 		id = "NudgeUp"
@@ -353,10 +386,14 @@
 		keepContentAspectRatio = "true"
 		icon_position = "top"
 		onClick = "buttonHandler"
-		text = "nudge up"
+		text = "move up"
 		text_size = "20"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/NudgeUp.xml" />
+		src = "System/CommandSymbols/NudgeUp.xml"
+
+		next_focus_right = "NudgeDown"
+		next_focus_down = "ResetNudge"
+		next_focus_up = "NudgeXnegative" />
 		
 	<ImageTextButton
 		id = "NudgeDown"
@@ -369,10 +406,15 @@
 		keepContentAspectRatio = "true"
 		icon_position = "top"
 		onClick = "buttonHandler"
-		text = "nudge down"
+		text = "move down"
 		text_size = "20"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/NudgeDown.xml"	/>
+		src = "System/CommandSymbols/NudgeDown.xml"
+
+		next_focus_right = "RotateDown"
+		next_focus_left = "NudgeUp"
+		next_focus_down = "ResetNudge"
+		next_focus_up = "NudgeXpositive" />
 		
 	<ImageTextButton
 		id = "NudgeReset"
@@ -385,10 +427,13 @@
 		keepContentAspectRatio = "true"
 		icon_position = "top"
 		onClick = "buttonHandler"
-		text = "reset nudge"
+		text = "reset move"
 		text_size = "20"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/ResetNudge.xml" />
+		src = "System/CommandSymbols/ResetNudge.xml"
+
+		next_focus_right = "RotateRight"
+		next_focus_up = "NudgeUp" />
 		
 	<!--<TextButton
 		id = "SwapAbove"
@@ -439,7 +484,12 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "swap next"
-		src = "System/CommandSymbols/SwapNext.xml" />
+		src = "System/CommandSymbols/SwapNext.xml"
+
+		next_focus_up = "BackButton"
+		next_focus_down = "SelectAbove"
+		next_focus_right = "NudgeYpositive"
+		next_focus_left = "RedoButton" />
   
 	<ImageTextButton
 		id = "SelectAbove"
@@ -453,7 +503,12 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "select next"
-		src = "System/CommandSymbols/SelectAbove.xml" />
+		src = "System/CommandSymbols/SelectAbove.xml"
+
+		next_focus_up = "SwapAbove"
+		next_focus_down = "SelectBelow"
+		next_focus_right = "NudgeYpositive"
+		next_focus_left = "DeleteSelected" />
 		
 	<ImageTextButton
 		id = "DeleteSelected"
@@ -467,7 +522,12 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "delete"
-		src = "System/CommandSymbols/Delete.xml" />
+		src = "System/CommandSymbols/Delete.xml"
+
+		next_focus_up = "RedoButton"
+		next_focus_down = "RotateReset"
+		next_focus_right = "SelectAbove"
+		next_focus_left = "RotateUp" />
   
 	<!--<TextButton
 		id = "BackButton"
@@ -519,7 +579,11 @@
 		text = "back"
 		text_size = "20"
 		icon_percentSize = "0.75"
-		src = "System/CommandSymbols/Back.xml" />
+		src = "System/CommandSymbols/Back.xml" 
+		
+		next_focus_down = "SwapAbove"
+		next_focus_right = "NudgeYpositive"
+		next_focus_left = "UndoButton" />
 	
 	<ImageTextButton
 		id = "UndoButton"
@@ -533,7 +597,11 @@
 		icon_position = "top"
 		onClick="buttonHandler"
 		text = "undo"
-		src = "System/CommandSymbols/Undo.xml" />
+		src = "System/CommandSymbols/Undo.xml"
+
+		next_focus_down = "RedoButton"
+		next_focus_right = "BackButton"
+		next_focus_left = "RotateUp" />
 	
 	<ImageTextButton
 		id = "RedoButton"
@@ -547,7 +615,12 @@
 		icon_position = "top"
 		onClick="buttonHandler"
 		text = "redo"
-		src = "System/CommandSymbols/Redo.xml" />
+		src = "System/CommandSymbols/Redo.xml"
+
+		next_focus_up = "UndoButton"
+		next_focus_down = "DeleteSelected"
+		next_focus_right = "SwapAbove"
+		next_focus_left = "RotateUp" />
 
 	<!--<TextButton
 		id = "SelectBelow"
@@ -589,7 +662,12 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "select previous"
-		src = "System/CommandSymbols/SelectBelow.xml" />
+		src = "System/CommandSymbols/SelectBelow.xml"
+
+		next_focus_up = "SelectAbove"
+		next_focus_down = "SwapBelow"
+		next_focus_right = "NudgeYpositive"
+		next_focus_left = "RotateUp" />
 	
 	<ImageTextButton
 		id = "SwapBelow"
@@ -603,6 +681,10 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "swap previous"
-		src = "System/CommandSymbols/SwapPrevious.xml" />
+		src = "System/CommandSymbols/SwapPrevious.xml"
+
+		next_focus_up = "SelectBelow"
+		next_focus_right = "NudgeYpositive"
+		next_focus_left = "RotateReset" />
 
 </CustomLayout>

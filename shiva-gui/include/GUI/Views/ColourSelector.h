@@ -39,6 +39,9 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		virtual void Draw();
 		//----------------------------------------------------------------------------------
+		/// \brief Draw method
+		/// \param [in] _context Current OGL context
+		//----------------------------------------------------------------------------------
 		virtual void Draw( unsigned int _context );
 		//----------------------------------------------------------------------------------
 		/// \brief Themes allow settings to be set for all Views of a given type

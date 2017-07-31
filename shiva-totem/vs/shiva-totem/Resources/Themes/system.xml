@@ -25,8 +25,8 @@
 	ImageTextButton_text_colour = "FFFFFFFF"
 	ImageTextButton_text_size = "20"
 	ImageTextButton_text_alignment = "centre"
-	ImageTextButton_audio_pressStart="Resources/Audio/ButtonHoverTemp.wav"
-	ImageTextButton_audio_hoverEnter="Resources/Audio/ButtonPushTemp.wav"
+	ImageTextButton_audio_pressStart = "Resources/Audio/ButtonHoverTemp.wav"
+	ImageTextButton_audio_hoverEnter = "Resources/Audio/ButtonPushTemp.wav"
 	
 	ImageButton_drawable = "System/ThemeSystem/button.xml"
 	ImageButton_padding = "10"

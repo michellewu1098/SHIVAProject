@@ -38,9 +38,6 @@ ShivaGUI::ResourceManager::ResourceManager( ShivaGUI::GUIManager *_guiManager, u
 	m_iconAbove = false;
 	m_iconBelow = false;
 
-	m_projMatrix.identity();
-	m_mvMatrix.identity();
-
 	TTF_Init();
 
 	m_iconPercentSize = m_defaultIconPercentSize = 0.75f;
@@ -278,10 +275,10 @@ unsigned int ShivaGUI::ResourceManager::GetBitmap( std::string _filename, bool _
 				if( m_iconAbove )
 				{
 					//SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )textW ) / 2 ), ( int )imageH + 5, textSurf->w, textSurf->h ) );
-					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )textW ) / 2 ), ( int )imageH + 5, textW, textH ) );
+					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )textW ) / 2 ), ( int )imageH + 5, ( int )textW, ( int )textH ) );
 				}
 				else if( m_iconBelow )
-					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )textW ) / 2 ), -10, textW, textH ) );
+					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( image->w - ( int )textW ) / 2 ), -10, ( int )textW, ( int )textH ) );
 				else if( m_iconOnLeft )
 				{
 					SDL_BlitScaled( textSurf, NULL, textImage, &( SDL_Rect )newSDL_Rect( ( ( int )imageW + 10 ), ( ( height - ( int )textH )/ 2 - 10 ), textSurf->w, textSurf->h ) );
@@ -1160,23 +1157,23 @@ void ShivaGUI::ResourceManager::DoPostEvaluationLinks()
 {
 	for( std::vector< PostInflationLink >::iterator it = m_postInflationLinks.begin(); it != m_postInflationLinks.end(); ++it )
 	{
-		View *dstView = GetViewFromID( it->dstID );
-		if( dstView != NULL && it->src != NULL )
+		View *dstView = GetViewFromID( it->m_dstID );
+		if( dstView != NULL && it->m_src != NULL )
 		{
-			if( it->scan )
+			if( it->m_scan )
 			{
-				it->src->SetNextScan( dstView, it->scanForward );
-				dstView->SetNextScan( it->src, !it->scanForward );
+				it->m_src->SetNextScan( dstView, it->m_scanForward );
+				dstView->SetNextScan( it->m_src, !it->m_scanForward );
 			}
-			if( it->focus )
+			if( it->m_focus )
 			{
-				it->src->SetNextFocus( dstView, it->focusDir );
-				dstView->SetNextFocus( it->src, Definitions::GetOppositeFocusDirection( it->focusDir ) );
+				it->m_src->SetNextFocus( dstView, it->m_focusDir );
+				dstView->SetNextFocus( it->m_src, Definitions::GetOppositeFocusDirection( it->m_focusDir ) );
 			}
 		}
 		else
 		{
-			std::cerr << "WARNING: ResourceManager::DoPostEvaluationLinks() cannot resolve Views, dstID = " << it->dstID << std::endl;
+			std::cerr << "WARNING: ResourceManager::DoPostEvaluationLinks() cannot resolve Views, dstID = " << it->m_dstID << std::endl;
 		}
 	}
 	m_postInflationLinks.clear();
@@ -1184,12 +1181,3 @@ void ShivaGUI::ResourceManager::DoPostEvaluationLinks()
 
 //----------------------------------------------------------------------------------
 
-void ShivaGUI::ResourceManager::SetMatrices( const float &_width, const float &_height )
-{
-	m_projMatrix.identity();
-	cml::matrix_orthographic_RH( m_projMatrix, 0.f, _width, _height, 0.f, -1.f, 1.f, cml::z_clip_neg_one );
-	
-	m_mvMatrix.identity();
-}
-
-//----------------------------------------------------------------------------------

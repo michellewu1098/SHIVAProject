@@ -133,7 +133,7 @@ void ShivaGUI::ImageTextView::Inflate( TiXmlElement *_xmlElement, ResourceManage
 			m_textPercentSizeFromTheme = ( _themePrefix + "text_percentSize" == currentAttribute->Name() );
 
 			if( currentAttribute->QueryDoubleValue( &value ) == TIXML_SUCCESS ) {
-				m_textPercentSize = value;
+				m_textPercentSize = ( float )value;
 				_resources->SetTextPercentSize( m_textPercentSize );
 			}
 			else {

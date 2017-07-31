@@ -55,8 +55,11 @@ namespace ShivaGUI
 		virtual void Update( float _deltaTs, GUIController *_guiController );
 		//----------------------------------------------------------------------------------
 		/// \brief Needs to draw its children
+		/// \param [in] _context Current OGL context
 		//----------------------------------------------------------------------------------
 		virtual void Draw( unsigned int _context );
+		//----------------------------------------------------------------------------------
+		/// \brief Needs to draw its children
 		//----------------------------------------------------------------------------------
 		virtual void Draw();
 		//----------------------------------------------------------------------------------
@@ -116,6 +119,9 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		float GetHeightAsProportion( int _heightIn );
 		//----------------------------------------------------------------------------------
+		/// \brief For transforming _value into grid snap position
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
 		int GridSnapPosition( int _value );
 		//----------------------------------------------------------------------------------
 
@@ -130,9 +136,12 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		std::vector< View* > m_internalViews;
 		//----------------------------------------------------------------------------------
-		/// \brief If the layout is in its edit mode, to allow the user to move its children around etc
-		/// Edit select is a mode that is activated first, usually by a special key press, then the user must select the layout to edit, putting it in actual edit mode
+		/// \brief Edit select is a mode that is activated first, usually by a special key press, 
+		/// then the user must select the layout to edit, putting it in actual edit mode
+		//----------------------------------------------------------------------------------
 		bool m_editSelect;
+		//----------------------------------------------------------------------------------
+		/// \brief If the layout is in its edit mode, to allow the user to move its children around etc
 		//----------------------------------------------------------------------------------
 		bool m_editMode;
 		//----------------------------------------------------------------------------------

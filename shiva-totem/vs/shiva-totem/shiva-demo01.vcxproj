@@ -5,9 +5,17 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -22,7 +30,16 @@
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -32,18 +49,30 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -60,10 +89,30 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>shiva-gui.lib;GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;shiva-voltree.lib;vol_totem.lib;vol_metamorph.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\vol_totem;$(ProjectDir)\..\..\..\lib\vol_metamorph;$(ProjectDir)\..\..\..\lib\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\boost;$(ProjectDir)\..\..\..\lib\x86\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\vol_totem;$(ProjectDir)\..\..\..\lib\x86\vol_metamorph;$(ProjectDir)\..\..\..\lib\x86\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>libc.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\shiva-gui\include;$(ProjectDir)\..\..\..\shiva-voltree\include;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_mixer;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\vol_metamorph;$(ProjectDir)\..\..\..\include\vol_totem;$(ProjectDir)\..\..\..\include\cml-1_0_2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>shiva-gui.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;shiva-voltree.lib;vol_totem.lib;vol_metamorph.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x64\boost;$(ProjectDir)\..\..\..\lib\x64\SDL\SDL;$(ProjectDir)\..\..\..\lib\x64\SDL\SDLmain;$(ProjectDir)\..\..\..\lib\x64\SDL_image;$(ProjectDir)\..\..\..\lib\x64\SDL_mixer;$(ProjectDir)\..\..\..\lib\x64\SDL_ttf;$(ProjectDir)\..\..\..\lib\x64\vol_totem;$(ProjectDir)\..\..\..\lib\x64\vol_metamorph;$(ProjectDir)\..\..\..\lib\x64\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
       <IgnoreSpecificDefaultLibraries>libc.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -82,12 +131,35 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>shiva-gui.lib;GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;shiva-voltree.lib;vol_totem.lib;vol_metamorph.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\glee;$(ProjectDir)\..\..\..\lib\boost;$(ProjectDir)\..\..\..\lib\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\vol_totem;$(ProjectDir)\..\..\..\lib\vol_metamorph;$(ProjectDir)\..\..\..\lib\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\boost;$(ProjectDir)\..\..\..\lib\x86\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\vol_totem;$(ProjectDir)\..\..\..\lib\x86\vol_metamorph;$(ProjectDir)\..\..\..\lib\x86\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>libc.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\shiva-gui\include;$(ProjectDir)\..\..\..\shiva-voltree\include;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_mixer;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\vol_metamorph;$(ProjectDir)\..\..\..\include\vol_totem;$(ProjectDir)\..\..\..\include\cml-1_0_2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>shiva-gui.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;shiva-voltree.lib;vol_totem.lib;vol_metamorph.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x64\boost;$(ProjectDir)\..\..\..\lib\x64\SDL\SDL;$(ProjectDir)\..\..\..\lib\x64\SDL\SDLmain;$(ProjectDir)\..\..\..\lib\x64\SDL_image;$(ProjectDir)\..\..\..\lib\x64\SDL_mixer;$(ProjectDir)\..\..\..\lib\x64\SDL_ttf;$(ProjectDir)\..\..\..\lib\x64\vol_totem;$(ProjectDir)\..\..\..\lib\x64\vol_metamorph;$(ProjectDir)\..\..\..\lib\x64\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <IgnoreSpecificDefaultLibraries>libc.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -127,6 +199,13 @@
     <ClInclude Include="..\..\include\Totem\TotemObject.h" />
     <ClInclude Include="..\..\include\Totem\TotemOperation.h" />
     <ClInclude Include="..\..\include\Totem\Operations\TotemOpDrill.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="shiva-totem.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shiva-icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

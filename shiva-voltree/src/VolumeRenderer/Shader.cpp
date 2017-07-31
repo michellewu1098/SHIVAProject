@@ -115,17 +115,16 @@ void Shader::init( std::string _vsFile, std::string _fsFile )
     glShaderSource( m_vs, 1, &vsText, NULL );
     glShaderSource( m_fs, 1, &fsText, NULL );
 
-	m_vsSourceFile = _vsFile;
-	m_fsSourceFile = _fsFile;
-
     glCompileShader( m_vs );
     // Determine if the compilation was successful
     if( !validateShader( m_vs, m_vsFileName ) ) {
+		//std::cerr << "Vertex shader is not valid." << std::endl;
         return;
     }
 
     glCompileShader( m_fs );
     if( !validateShader( m_fs, m_fsFileName ) ) {
+		//std::cerr << "Fragment shader is not valid." << std::endl;
         return;
     }
 
@@ -153,6 +152,7 @@ void Shader::link()
 {
 	glLinkProgram( m_id );
     if (!validateProgram( m_id, m_vs, m_fs ) ) {
+		//std::cerr << "Link failed." << std::endl;
         return;
     }
     m_init = true;

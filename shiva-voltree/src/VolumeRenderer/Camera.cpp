@@ -30,13 +30,6 @@ void Camera::SetProjectionMatrix( float _fov, float _aspect, float _zNear, float
 
 //----------------------------------------------------------------------------------
 
-void Camera::SetProjectionMatrixX( float _fov, float _aspect, float _zNear, float _zFar )
-{
-	cml::matrix_perspective_xfov_RH( m_projectionMatrix, cml::rad( _fov ), _aspect, _zNear, _zFar, cml::z_clip_neg_one );
-}
-
-//----------------------------------------------------------------------------------
-
 void Camera::Rotate( float _x, float _y, float _z )
 {
 	cml::matrix_rotate_about_local_x( m_viewMatrix, _x );

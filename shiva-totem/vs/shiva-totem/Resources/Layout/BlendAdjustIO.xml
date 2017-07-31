@@ -106,7 +106,11 @@
 		text = "increase"
 		icon_percentSize = "0.8"
 		onClick = "buttonHandler"
-		src = "System/CommandSymbols/BlendIncrease.xml" />
+		src = "System/CommandSymbols/BlendIncrease.xml"
+
+		first_focus = "true"
+		next_focus_down = "BlendReset"
+		next_focus_right = "RotateDown" />
 
 	<ImageTextButton
 		id = "BlendDecrease"
@@ -121,7 +125,10 @@
 		text = "decrease"
 		icon_percentSize = "0.8"
 		onClick = "buttonHandler"
-		src = "System/CommandSymbols/BlendDecrease.xml" />
+		src = "System/CommandSymbols/BlendDecrease.xml"
+
+		next_focus_up = "BlendReset"
+		next_focus_right = "RotateDown" />
 	
 	<ImageTextButton
 		id = "BlendReset"
@@ -136,7 +143,11 @@
 		text = "reset"
 		icon_percentSize = "0.8"
 		onClick = "buttonHandler"
-		src = "System/CommandSymbols/BlendReset.xml" />
+		src = "System/CommandSymbols/BlendReset.xml"
+		
+		next_focus_up = "BlendIncrease" 
+		next_focus_down = "BlendDecrease" 
+		next_focus_right = "RotateDown" />
 	
 	<!--<ImageButton
 		id = "RotateUp"
@@ -217,9 +228,9 @@
 		scan_prev = "RotateLeft"
     
 		next_focus_left = "RotateDown"
-		next_focus_right = "NudgeUp"
+		next_focus_right = "BackButton"
 		next_focus_up = "RotateLeft"
-		next_focus_down = "RotateRight" />
+		next_focus_down = "RotateReset" />
 		
 	<ImageTextButton
 		id = "RotateDown"
@@ -238,7 +249,7 @@
     
 		scan_prev = "RotateRight"
     
-		next_focus_left = "PrimitiveList"
+		next_focus_left = "BlendReset"
 		next_focus_up = "RotateLeft"
 		next_focus_down = "RotateRight"
 		next_focus_right = "RotateUp" />
@@ -260,7 +271,7 @@
     
 		next_focus_up = "RotateLeft"
 		next_focus_left = "RotateDown"
-		next_focus_right = "RotateUp" />
+		next_focus_right = "RotateReset" />
 
 	<ImageTextButton
 		id = "RotateLeft"
@@ -295,7 +306,11 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "reset view"
-		src = "System/CommandSymbols/ResetView.xml"	/>
+		src = "System/CommandSymbols/ResetView.xml"
+
+		next_focus_left = "RotateRight"
+		next_focus_up = "RotateUp"
+		next_focus_right = "BackButton" />
 
 	<!--<TextButton
 		id = "BackButton"
@@ -340,7 +355,11 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "back"
-		src = "System/CommandSymbols/Back.xml" />
+		src = "System/CommandSymbols/Back.xml"
+
+		next_focus_down = "UndoButton" 
+		next_focus_left = "RotateDown"
+		next_focus_right = "BlendIncrease" />
 		
 	<ImageTextButton
 		id = "UndoButton"
@@ -354,7 +373,12 @@
 		icon_position = "top"
 		onClick="buttonHandler"
 		text = "undo"
-		src = "System/CommandSymbols/Undo.xml" />
+		src = "System/CommandSymbols/Undo.xml"
+
+		next_focus_up = "BackButton" 
+		next_focus_down = "RedoButton" 
+		next_focus_right = "BlendIncrease" 
+		next_focus_left = "RotateUp" />
 	
 	<ImageTextButton
 		id = "RedoButton"
@@ -368,6 +392,10 @@
 		icon_position = "top"
 		onClick="buttonHandler"
 		text = "redo"
-		src = "System/CommandSymbols/Redo.xml" />
+		src = "System/CommandSymbols/Redo.xml"
+
+		next_focus_up = "UndoButton" 
+		next_focus_right = "BlendIncrease"
+		next_focus_left = "RotateUp" />
 
 </CustomLayout>

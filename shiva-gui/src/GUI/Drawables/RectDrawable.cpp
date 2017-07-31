@@ -16,6 +16,12 @@ ShivaGUI::RectDrawable::RectDrawable()
 	m_borderShader->Create( "Resources/Shaders/Colour", Utility::GPUProgram::VERTEX_AND_FRAGMENT );
 	glBindAttribLocation( m_borderShader->GetProgramID(), 0, "vPosition" );
 	m_borderShader->LinkProgram();
+
+	glGenVertexArrays( 1, &m_rectBorderVAO );
+	glGenVertexArrays( 1, &m_rectFillVAO );
+
+	m_projMat.identity();
+	m_mvMat.identity();
 }
 
 //----------------------------------------------------------------------------------
@@ -73,7 +79,7 @@ void ShivaGUI::RectDrawable::BuildVBOs()
 	glBindBuffer( GL_ARRAY_BUFFER, vertsVBO );
 	glBufferData( GL_ARRAY_BUFFER, 4 * 3 * sizeof( float ), rectVertices, GL_STATIC_DRAW );
 	
-	glGenVertexArrays( 1, &m_rectFillVAO );
+	//glGenVertexArrays( 1, &m_rectFillVAO );
 	glBindVertexArray( m_rectFillVAO );
 
 	glEnableVertexAttribArray( 0 );
@@ -89,7 +95,7 @@ void ShivaGUI::RectDrawable::BuildVBOs()
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 
-	glGenVertexArrays( 1, &m_rectBorderVAO );
+	//glGenVertexArrays( 1, &m_rectBorderVAO );
 	glBindVertexArray( m_rectBorderVAO );
 
 	glEnableVertexAttribArray( 0 );

@@ -1,11 +1,9 @@
-﻿Build started 05/07/2017 13:03:17.
+﻿Build started 31/07/2017 12:59:30.
      1>Project "C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\shiva-voltree.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\shiva-voltree.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\cml-1_0_2" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_totem" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_metamorph" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\shiva-gui\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D SHIVAVOLTREE_EXPORTS /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\VolumeRenderer\GLSLRenderer.cpp ..\..\src\VolumeRenderer\Shader.cpp ..\..\src\VolumeTree\CachingPolicies\CachingPolicy.cpp ..\..\src\VolumeTree\Leaves\ConeNode.cpp ..\..\src\VolumeTree\Leaves\CubeNode.cpp ..\..\src\VolumeTree\Leaves\CylinderNode.cpp ..\..\src\VolumeTree\Leaves\SphereNode.cpp ..\..\src\VolumeTree\Leaves\TorusNode.cpp ..\..\src\VolumeTree\Leaves\VolCacheNode.cpp ..\..\src\VolumeTree\Node.cpp ..\..\src\VolumeTree\Nodes\BlendCSG.cpp ..\..\src\VolumeTree\Nodes\CSG.cpp ..\..\src\VolumeTree\Nodes\TransformNode.cpp ..\..\src\VolumeTree\ParameterManager.cpp ..\..\src\VolumeTree\VolumeTree.cpp
-         Node.cpp
-         Shader.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\cml-1_0_2" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_totem" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_metamorph" /I"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\shiva-gui\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D SHIVAVOLTREE_EXPORTS /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\VolumeRenderer\GLSLRenderer.cpp ..\..\src\VolumeTree\CachingPolicies\CachingPolicy.cpp ..\..\src\VolumeTree\Leaves\ConeNode.cpp ..\..\src\VolumeTree\Leaves\CubeNode.cpp ..\..\src\VolumeTree\Leaves\CylinderNode.cpp ..\..\src\VolumeTree\Leaves\SphereNode.cpp ..\..\src\VolumeTree\Leaves\TorusNode.cpp ..\..\src\VolumeTree\Leaves\VolCacheNode.cpp ..\..\src\VolumeTree\Node.cpp ..\..\src\VolumeTree\Nodes\BlendCSG.cpp ..\..\src\VolumeTree\Nodes\CSG.cpp ..\..\src\VolumeTree\Nodes\TransformNode.cpp ..\..\src\VolumeTree\ParameterManager.cpp ..\..\src\VolumeTree\VolumeTree.cpp
          GLSLRenderer.cpp
      1>c:\shivaproject\shiva-voltree\src\volumerenderer\glslrenderer.cpp(114): warning C4244: '=' : conversion from 'const float' to 'unsigned int', possible loss of data
      1>c:\shivaproject\shiva-voltree\src\volumerenderer\glslrenderer.cpp(115): warning C4244: '=' : conversion from 'const float' to 'unsigned int', possible loss of data
@@ -23,8 +21,8 @@
      1>c:\shivaproject\shiva-voltree\src\volumerenderer\glslrenderer.cpp(534): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
      1>c:\shivaproject\shiva-voltree\src\volumerenderer\glslrenderer.cpp(534): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
      1>c:\shivaproject\shiva-voltree\src\volumerenderer\glslrenderer.cpp(534): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\shivaproject\shiva-voltree\src\volumerenderer\glslrenderer.cpp(820): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\shivaproject\shiva-voltree\src\volumerenderer\glslrenderer.cpp(1106): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\shivaproject\shiva-voltree\src\volumerenderer\glslrenderer.cpp(821): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\shivaproject\shiva-voltree\src\volumerenderer\glslrenderer.cpp(1107): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
          Generating Code...
          Skipping... (no relevant changes detected)
          VolumeTree.cpp
@@ -32,6 +30,7 @@
          TransformNode.cpp
          CSG.cpp
          BlendCSG.cpp
+         Node.cpp
          VolCacheNode.cpp
          TorusNode.cpp
          SphereNode.cpp
@@ -40,7 +39,7 @@
          ConeNode.cpp
          CachingPolicy.cpp
        Lib:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\Debug\shiva-voltree.lib" Opengl32.lib glu32.lib glew32.lib /LIBPATH:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\glew" /NOLOGO Debug\Camera.obj
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\Debug\shiva-voltree.lib" Opengl32.lib glu32.lib glew32.lib /LIBPATH:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\x86\boost" /LIBPATH:"C:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\x86\glew" /NOLOGO Debug\Camera.obj
          Debug\Shader.obj
          Debug\Node.obj
          Debug\ParameterManager.obj
@@ -69,4 +68,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:06.90
+Time Elapsed 00:00:03.80

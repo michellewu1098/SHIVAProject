@@ -9,7 +9,7 @@
   This means you replace each channel of the original png with a colour of your choice.
   Blending works like this:
     (source_Red * colour0) + (source_Green * colour1) + ... etc -->
-  <Layer src="System/CommandSymbols/delete_150x150.png" colour0="660000FF" colour1="00CC00FF" colour2="000000FF" colour3="@ArrowColourBackground"/>
+  <Layer src="System/CommandSymbols/Icons/delete_150x150.png" colour0="660000FF" colour1="00CC00FF" colour2="000000FF" colour3="@ArrowColourBackground"/>
 </LayeredImageDrawable>
 
 <!-- 26437E00  171d33FF -->

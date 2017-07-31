@@ -51,7 +51,6 @@ namespace ShivaGUI
 		/// \param [in] _gravity
 		//----------------------------------------------------------------------------------
 		void SetBounds( const float &_left, const float &_top, const float &_right, const float &_bottom, const unsigned int &_gravity = Definitions::CENTRE );
-		void SetBounds( const float &_left, const float &_top, const float &_right, const float &_bottom, const float &_wWidth, const float &_wHeight, const unsigned int &_gravity = Definitions::CENTRE );
 		//----------------------------------------------------------------------------------
 		/// \brief Get bounds
 		/// \param [out] _left

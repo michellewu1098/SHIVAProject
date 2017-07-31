@@ -70,18 +70,20 @@
 			text = "Window dimensions :&#10;(width x height)" />
 		
 		<TextButton
+			id = "800x600Window"
 			layout_width = "wrap_content"
 			layout_height = "wrap_content"
 			layout_weight = "0.15"
-			onClick = "NumberOfWindowsHandler"
-			text = "1" />
+			onClick = "WindowDimsHandler"
+			text = "800x600" />
 		
-		<TextButton 
+		<!--<TextButton 
+			id = "FullscreenWindow"
 			layout_width = "wrap_content"
 			layout_height = "wrap_content"
 			layout_weight = "0.15"
-			onClick = "NumberOfWindowsHandler"
-			text = "2" />
+			onClick = "WindowDimsHandler"
+			text = "Fullscreen" />-->
 			
 		<View
 			layout_width = "fill_parent"
@@ -166,7 +168,8 @@
 		<ColourSelector
 			id = "ColourSelector"
 			layout_weight = "0.2"
-			onColourChange = "colourChangeHandler" />
+			onColourChange = "ColourChangerHandler" 
+			onClick = "colourChangeHandler" />
 			
 		<View
 			layout_width = "fill_parent"
@@ -200,6 +203,6 @@
 			layout_weight = "0.4" />
 			
 		</LinearLayout>
-
+		
 	
 	</LinearLayout>

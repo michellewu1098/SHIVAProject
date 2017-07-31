@@ -4,7 +4,7 @@
   scaleUp="false"
   isUsingText = "true"
 >
-  <Layer src="System/CommandSymbols/back_150x150.png" colour0="CC0000FF" colour1="000000FF" colour2="000066FF" colour3="@ArrowColourBackground"/>
+  <Layer src="System/CommandSymbols/Icons/back_150x150.png" colour0="CC0000FF" colour1="000000FF" colour2="000066FF" colour3="@BlackColour"/>
 </LayeredImageDrawable>
 
 <!-- 26437E00  171d33FF -->

@@ -573,6 +573,7 @@ void Totem::Controller::AddOperation( Totem::Operation *_inOp )
 	// Operations are added/removed from the *front* of the list
 	if( _inOp != NULL )
 		m_operations.push_front( _inOp );
+
 }
 
 //----------------------------------------------------------------------------------

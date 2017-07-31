@@ -89,10 +89,13 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		virtual bool HandleEvent( InternalEvent* _event );
 		//----------------------------------------------------------------------------------
-		/// \brief Requested wrap pixel dimensions for layout
-		/// \note These are used when SetLayoutParams() is called, which will be after the View has been inflated
+		// Requested wrap pixel dimensions for layout. These are used when SetLayoutParams() is called, which will be after the View has been inflated
+		//----------------------------------------------------------------------------------
+		/// \brief Get wrap width for layout
 		//----------------------------------------------------------------------------------
 		virtual int GetWrapWidth();
+		//----------------------------------------------------------------------------------
+		/// \brief Get wrap height for layout
 		//----------------------------------------------------------------------------------
 		virtual int GetWrapHeight();
 		//----------------------------------------------------------------------------------

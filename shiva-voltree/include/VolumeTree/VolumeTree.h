@@ -65,7 +65,7 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		bool ImportXML( const char* _filename );
 		//----------------------------------------------------------------------------------
-		/// \brief test if the model is printable
+		/// \brief Test if the model is printable
 		/// \param [in] bIncludePole Flag to check if the pole is included
 		/// \param [in] bIncludeBase Flag to check if the base of the totem is included
 		//----------------------------------------------------------------------------------
@@ -230,7 +230,6 @@ namespace VolumeTree
 		//----------------------------------------------------------------------------------
 		std::string GetExportNodeID( Node *currentNode = NULL );
 		//----------------------------------------------------------------------------------
-		
 
 	};
 }

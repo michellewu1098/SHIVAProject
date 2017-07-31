@@ -208,7 +208,12 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "roll left"
-		src = "System/CommandSymbols/RotateYUp.xml" />
+		src = "System/CommandSymbols/RotateYUp.xml"
+
+		first_focus = "true" 
+		
+		next_focus_right = "RotateYDown"
+		next_focus_down = "RotateLeft" />
 	
 	<ImageTextButton
 		id = "RotateYDown"
@@ -222,7 +227,11 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "roll right"
-		src = "System/CommandSymbols/RotateYDown.xml" />
+		src = "System/CommandSymbols/RotateYDown.xml"
+
+		next_focus_right = "BackButton"
+		next_focus_left = "RotateYDown"
+		next_focus_down = "RotateRight" />
 	
 	<ImageTextButton
 		id = "RotateLeft"
@@ -236,7 +245,11 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "rotate left"
-		src = "System/CommandSymbols/RotateLeft.xml" />
+		src = "System/CommandSymbols/RotateLeft.xml" 
+		
+		next_focus_right = "RotateRight"
+		next_focus_down = "RotateUp"
+		next_focus_up = "RotateYUp" />
 	
 	<ImageTextButton
 		id = "RotateRight"
@@ -250,7 +263,12 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "rotate right"
-		src = "System/CommandSymbols/RotateRight.xml" />
+		src = "System/CommandSymbols/RotateRight.xml"
+		
+		next_focus_right = "BackButton"
+		next_focus_left = "RotateLeft"
+		next_focus_up = "RotateYDown"
+		next_focus_down = "RotateDown" />
 		
 	<ImageTextButton
 		id = "RotateUp"
@@ -264,7 +282,10 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "rotate up"
-		src = "System/CommandSymbols/RotateUp.xml" />
+		src = "System/CommandSymbols/RotateUp.xml"
+			
+		next_focus_right = "RotateDown"
+		next_focus_up = "RotateLeft" />
 	
 	<ImageTextButton
 		id = "RotateDown"
@@ -278,7 +299,12 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "rotate down"
-		src = "System/CommandSymbols/RotateDown.xml" />
+		src = "System/CommandSymbols/RotateDown.xml"
+
+		next_focus_right = "RotateReset"
+		next_focus_left = "RotateUp"
+		next_focus_up = "RotateRight"
+		next_focus_down = "RotateReset" />
 	
 	<ImageTextButton
 		id = "RotateReset"
@@ -292,7 +318,11 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "reset view"
-		src = "System/CommandSymbols/ResetView.xml"	/>
+		src = "System/CommandSymbols/ResetView.xml"
+		
+		next_focus_right = "RedoButton"
+		next_focus_left = "RotateDown"
+		next_focus_up = "BackButton" />
 		
 	<ImageTextButton
 		id = "EyeGazeRest"
@@ -347,7 +377,12 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "select next"
-		src = "System/CommandSymbols/SelectAbove.xml" />
+		src = "System/CommandSymbols/SelectAbove.xml"
+
+		next_focus_right = "RotateYUp"
+		next_focus_left = "RotateYDown"
+		next_focus_up = "BackButton"
+		next_focus_down = "SelectBelow" />
 		
 	<ImageTextButton
 		id = "SelectBelow"
@@ -361,7 +396,12 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "select previous"
-		src = "System/CommandSymbols/SelectBelow.xml" />
+		src = "System/CommandSymbols/SelectBelow.xml"
+
+		next_focus_right = "RotateYUp"
+		next_focus_left = "RotateReset"
+		next_focus_up = "SelectAbove"
+		next_focus_down = "UndoButton" />
 
 	<!--<TextButton
 		id = "BackButton"
@@ -406,7 +446,11 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "back"
-		src = "System/CommandSymbols/Back.xml" />
+		src = "System/CommandSymbols/Back.xml"
+
+		next_focus_right = "RotateYUp"
+		next_focus_left = "RotateYDown"
+		next_focus_down = "SelectAbove" />
 		
 	<ImageTextButton
 		id = "UndoButton"
@@ -420,7 +464,12 @@
 		icon_position = "top"
 		onClick="buttonHandler"
 		text = "undo"
-		src = "System/CommandSymbols/Undo.xml" />
+		src = "System/CommandSymbols/Undo.xml"
+
+		next_focus_right = "RotateYUp"
+		next_focus_left = "RotateReset"
+		next_focus_up = "SelectBelow"
+		next_focus_down = "RedoButton" />
 	
 	<ImageTextButton
 		id = "RedoButton"
@@ -434,6 +483,10 @@
 		icon_position = "top"
 		onClick="buttonHandler"
 		text = "redo"
-		src = "System/CommandSymbols/Redo.xml" />
+		src = "System/CommandSymbols/Redo.xml" 
+		
+		next_focus_right = "RotateYUp"
+		next_focus_left = "RotateReset"
+		next_focus_up = "UndoButton" />
 
 </CustomLayout>

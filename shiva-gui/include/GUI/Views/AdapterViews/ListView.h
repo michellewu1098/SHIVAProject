@@ -123,12 +123,17 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		bool m_initialised;
 		//----------------------------------------------------------------------------------
-		/// \param [in] value
-		/// \param [in] forward
+		/// \brief Called when setting next scan
+		/// \param [in] _value
+		/// \param [in] _forward
 		//----------------------------------------------------------------------------------
 		void OnSetNextScan( View *_value, bool _forward ) { RefreshConnectionLinks(); }
 		//----------------------------------------------------------------------------------
-		virtual void OnSetNextFocus( View*, Definitions::FocusDirection ) { RefreshConnectionLinks(); }
+		/// \brief Called when setting next focus
+		/// \param [in] _value 
+		/// \param [in] Definitions::FocusDirection
+		//----------------------------------------------------------------------------------
+		virtual void OnSetNextFocus( View* _value, Definitions::FocusDirection ) { RefreshConnectionLinks(); }
 		//----------------------------------------------------------------------------------
 		/// \brief Rebuilds next scan and next focus links
 		//----------------------------------------------------------------------------------

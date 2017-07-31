@@ -135,7 +135,8 @@ float CSG_Intersect( float f1, float f2 )
 
 float BlendDisp( float f1, float f2, float a0, float a1, float a2 )
 {
-	return ( a0 ) / ( 1 + ( ( f1 / a1 ) * ( f1 / a1 ) ) + ( ( f2 / a2 ) * ( f2 / a2 ) ) );
+	//return ( a0 ) / ( 1 + ( ( f1 / a1 ) * ( f1 / a1 ) ) + ( ( f2 / a2 ) * ( f2 / a2 ) ) );
+	return ( a0 ) / ( 1 + ( ( f1 * f1 ) / ( a1 * a1 ) ) + ( ( f2 * f2 ) / ( a2 * a2 ) ) );
 }
 
 //----------------------------------------------------------------------------------
@@ -263,7 +264,7 @@ vec3 bsearch( vec3 previous, vec3 current )
         for( int i = 0; i < 12; i++ )
         {
                 vec3 midPos = ( begin + end ) * 0.5;
-                //vec3 samplePos = worldToTextureCoords(midPos);
+                //vec3 samplePos = worldToTextureCoords( midPos );
                 float voxel = GetField( midPos );
 
                 if ( voxel * multiplier < isoValue * multiplier )
@@ -315,7 +316,7 @@ void main ()
 	// pos += dir * stepsize * 0.5; // Make sure we dont miss straight away
     vec3 norm = vec3( 0, 0, 1 );
     
-	int nIterations = 384; //256;//128;
+	int nIterations = 256;//384; //256;//128;
     int i = 0;
     bool inBounds = true;
 	
@@ -351,8 +352,7 @@ void main ()
     vec3 I = normalize( cam - pos );
     vec3 N = normalize( norm );
     float LdotN = max( dot( I, N ), 0.0 );
-
-    fragColour = vec4( clamp( ( objectcolour * LdotN ) * 0.9 + 0.1, 0.0, 1.0 ), 1 );
+    fragColour = vec4( clamp( ( objectcolour * LdotN ) * 0.9 + 0.1, 0.0, 1.0 ), 1.0 );
 	
 
 	// Depth calculation code from: 

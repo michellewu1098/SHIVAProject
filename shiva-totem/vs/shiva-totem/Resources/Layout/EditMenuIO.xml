@@ -133,7 +133,12 @@
 		icon_percentSize = "0.8"
 		src = "System/CommandSymbols/Drill.xml"	
 		scaleContent = "true"
-		keepContentAspectRatio = "true" />
+		keepContentAspectRatio = "true" 
+		first_focus = "true"
+		
+		next_focus_right = "RotateObjectActivity"
+		next_focus_left = "BackButton"
+		next_focus_down = "BlendAdjustActivity" />
 	
 	<ImageTextButton
 		id = "BlendAdjustActivity"
@@ -148,7 +153,10 @@
 		icon_percentSize = "0.8"
 		src = "System/CommandSymbols/Pump.xml"	
 		scaleContent = "true"
-		keepContentAspectRatio = "true" />
+		keepContentAspectRatio = "true" 
+		
+		next_focus_right = "UniformScaleActivity"
+		next_focus_up = "DrillActivity" />
 		
 	<ImageTextButton
 		id = "RotateObjectActivity"
@@ -163,7 +171,11 @@
 		onClick = "launchActivityHandler"
 		text = "rotate"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/Rotate.xml" />
+		src = "System/CommandSymbols/Rotate.xml"
+		
+		next_focus_down = "UniformScaleActivity"
+		next_focus_right = "NudgeActivity"
+		next_focus_left = "DrillActivity" />
   
 	<ImageTextButton
 		id = "UniformScaleActivity"
@@ -178,7 +190,11 @@
 		onClick = "launchActivityHandler"
 		text = "object size"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/Resize.xml" />
+		src = "System/CommandSymbols/Resize.xml"
+
+		next_focus_up = "RotateObjectActivity"
+		next_focus_right = "NudgeActivity"
+		next_focus_left = "BlendAdjustActivity" />
 
 	<ImageTextButton
 		id = "NudgeActivity"
@@ -191,9 +207,14 @@
 		keepContentAspectRatio = "true"
 		icon_position = "top"
 		onClick = "launchActivityHandler"
-		text = "nudge objects"
+		text = "move objects"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/NudgeTool.xml" />
+		src = "System/CommandSymbols/NudgeTool.xml" 
+		
+		next_focus_up = "BackButton"
+		next_focus_down = "UniformScaleActivity"
+		next_focus_right = "BackButton"
+		next_focus_left = "RotateObjectActivity"/>
 
 	<!--<TextButton
 		id = "UndoButton"
@@ -239,6 +260,10 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "back"
-		src = "System/CommandSymbols/Back.xml" />
+		src = "System/CommandSymbols/Back.xml" 
+		
+		next_focus_down = "NudgeActivity"
+		next_focus_right = "DrillActivity"
+		next_focus_left = "NudgeActivity" />
 
 </CustomLayout>

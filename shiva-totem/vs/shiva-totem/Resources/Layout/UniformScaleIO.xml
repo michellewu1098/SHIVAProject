@@ -50,7 +50,11 @@
 		onClick = "buttonHandler"
 		text = "make wider"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/Xup.xml" />
+		src = "System/CommandSymbols/Xup.xml"
+
+		first_focus = "true" 
+		next_focus_left = "ScaleXDown" 
+		next_focus_down = "ScaleYUp" />
 		
 	<!--<TextButton
 		id = "ScaleXUp"
@@ -152,7 +156,11 @@
 		onClick = "buttonHandler"
 		text = "make narrower"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/Xdown.xml"	/>
+		src = "System/CommandSymbols/Xdown.xml" 
+		
+		next_focus_down = "ScaleYDown"
+		next_focus_left = "ScaleXUp"
+		next_focus_right = "RotateDown" />
 
 	<ImageTextButton
 		id = "ScaleYUp"
@@ -167,7 +175,11 @@
 		onClick = "buttonHandler"
 		text = "make longer"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/Yup.xml" />
+		src = "System/CommandSymbols/Yup.xml"
+
+		next_focus_up = "ScaleXUp"
+		next_focus_down = "ScaleZUp" 
+		next_focus_right = "ScaleYDown" />
 
 	<ImageTextButton
 		id = "ScaleYDown"
@@ -182,7 +194,12 @@
 		onClick = "buttonHandler"
 		text = "make shorter"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/Ydown.xml" />
+		src = "System/CommandSymbols/Ydown.xml"
+
+		next_focus_up = "ScaleXDown" 
+		next_focus_down = "ScaleZDown" 
+		next_focus_left = "ScaleYDown"
+		next_focus_right = "RotateDown" />
 	
 	<ImageTextButton
 		id = "ScaleZUp"
@@ -197,7 +214,11 @@
 		onClick = "buttonHandler"
 		text = "make taller"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/Zup.xml" />
+		src = "System/CommandSymbols/Zup.xml"
+
+		next_focus_up = "ScaleYUp"
+		next_focus_down = "ScaleUp"
+		next_focus_right = "ScaleZDown" />
 
 	<ImageTextButton
 		id = "ScaleZDown"
@@ -212,7 +233,12 @@
 		onClick = "buttonHandler"
 		text = "make smaller"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/Zdown.xml"	/>
+		src = "System/CommandSymbols/Zdown.xml"	
+		
+		next_focus_up = "ScaleYDown"
+		next_focus_down = "ScaleUp"
+		next_focus_left = "ScaleZUp"
+		next_focus_right = "RotateDown" />
 	
 	<ImageTextButton
 		id = "ScaleUp"
@@ -227,7 +253,11 @@
 		onClick = "buttonHandler"
 		text = "scale up"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/ScaleUp.xml" />
+		src = "System/CommandSymbols/ScaleUp.xml" 
+		
+		next_focus_up = "ScaleZUp" 
+		next_focus_down = "ScaleReset" 
+		next_focus_right = "ScaleDown" />
 		
 	<ImageTextButton
 		id = "ScaleDown"
@@ -242,7 +272,11 @@
 		onClick = "buttonHandler"
 		text = "scale down"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/ScaleDown.xml"	/>
+		src = "System/CommandSymbols/ScaleDown.xml"
+
+		next_focus_up = "ScaleUp"
+		next_focus_left = "ScaleReset"
+		next_focus_right = "RotateDown" />
 
 	<ImageTextButton
 		id = "ScaleReset"
@@ -257,7 +291,10 @@
 		onClick = "buttonHandler"
 		text = "reset"
 		icon_percentSize = "0.8"
-		src = "System/CommandSymbols/ScaleReset.xml" />
+		src = "System/CommandSymbols/ScaleReset.xml"
+
+		next_focus_up = "ScaleUp"
+		next_focus_right = "ScaleDown" />
 
 	<!--<ImageButton
 		id = "RotateUp"
@@ -329,7 +366,12 @@
 		text = "rotate&#10;up"
 		onClick = "buttonHandler"
 		src = "System/CommandSymbols/RotateArrow_Up.xml"
-		eyeGaze_Repeat = "true" />
+		eyeGaze_Repeat = "true"
+
+		next_focus_up = "RotateLeft"
+		next_focus_down = "RotateReset"
+		next_focus_left = "RotateDown"
+		next_focus_right = "BackButton" />
 	
 	<ImageTextButton
 		id = "RotateDown"
@@ -344,7 +386,12 @@
 		text = "rotate&#10;down"
 		onClick = "buttonHandler"
 		src = "System/CommandSymbols/RotateArrow_Down.xml"
-		eyeGaze_Repeat = "true" />
+		eyeGaze_Repeat = "true"
+		
+		next_focus_up = "RotateLeft"
+		next_focus_down = "RotateRight"
+		next_focus_left = "ScaleZDown"
+		next_focus_right = "RotateUp" />
 		
 	<ImageTextButton
 		id = "RotateRight"
@@ -359,7 +406,11 @@
 		text = "rotate right"
 		onClick = "buttonHandler"
 		src = "System/CommandSymbols/RotateArrow_Right.xml"
-		eyeGaze_Repeat = "true" />
+		eyeGaze_Repeat = "true"
+
+		next_focus_up = "RotateLeft"
+		next_focus_left = "ScaleDown"
+		next_focus_right = "RotateReset" />
 
 	<ImageTextButton
 		id = "RotateLeft"
@@ -374,7 +425,11 @@
 		text = "rotate left"
 		onClick = "buttonHandler"
 		src = "System/CommandSymbols/RotateArrow_Left.xml"
-		eyeGaze_Repeat = "true" />
+		eyeGaze_Repeat = "true"
+
+		next_focus_down = "RotateRight"
+		next_focus_left = "RotateDown"
+		next_focus_right = "RotateUp" />
 
 	<ImageTextButton
 		id = "RotateReset"
@@ -388,7 +443,11 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "reset view"
-		src = "System/CommandSymbols/ResetView.xml"	/>
+		src = "System/CommandSymbols/ResetView.xml"
+
+		next_focus_up = "RotateUp"
+		next_focus_left = "RotateRight"
+		next_focus_right = "BackButton"	/>
 
 	<ImageTextButton
 		id = "EyeGazeRest"
@@ -474,7 +533,12 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "select next"
-		src = "System/CommandSymbols/SelectAbove.xml"	/>
+		src = "System/CommandSymbols/SelectAbove.xml"
+
+		next_focus_up = "BackButton"
+		next_focus_down = "SelectBelow"
+		next_focus_left = "RotateUp"
+		next_focus_right = "ScaleXUp" />
 
 	<ImageTextButton
 		id = "SelectBelow"
@@ -488,7 +552,12 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "select previous"
-		src = "System/CommandSymbols/SelectBelow.xml"	/>
+		src = "System/CommandSymbols/SelectBelow.xml"
+
+		next_focus_up = "SelectAbove"
+		next_focus_down = "UndoButton"
+		next_focus_left = "RotateUp"
+		next_focus_right = "ScaleXUp" />
 
 	<ImageTextButton
 		id = "BackButton"
@@ -502,7 +571,11 @@
 		icon_position = "top"
 		onClick = "buttonHandler"
 		text = "back"
-		src = "System/CommandSymbols/Back.xml" />
+		src = "System/CommandSymbols/Back.xml"
+
+		next_focus_down = "SelectAbove"
+		next_focus_left = "RotateUp"
+		next_focus_right = "ScaleXUp" />
 
 	<ImageTextButton
 		id = "UndoButton"
@@ -516,7 +589,12 @@
 		icon_position = "top"
 		onClick="buttonHandler"
 		text = "undo"
-		src = "System/CommandSymbols/Undo.xml" />
+		src = "System/CommandSymbols/Undo.xml"
+
+		next_focus_up = "SelectBelow"
+		next_focus_down = "RedoButton"
+		next_focus_left = "RotateUp"
+		next_focus_right = "ScaleXUp" />
 	
 	<ImageTextButton
 		id = "RedoButton"
@@ -530,6 +608,10 @@
 		icon_position = "top"
 		onClick="buttonHandler"
 		text = "redo"
-		src = "System/CommandSymbols/Redo.xml" />
+		src = "System/CommandSymbols/Redo.xml"
+
+		next_focus_up = "UndoButton"
+		next_focus_left = "RotateUp"
+		next_focus_right = "ScaleXUp" />
 		
 </CustomLayout>

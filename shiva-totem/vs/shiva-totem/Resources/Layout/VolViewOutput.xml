@@ -2,13 +2,13 @@
 <CustomLayout
 	layout_width="fill_parent"
 	layout_height="fill_parent"
-	background="LinearGradientBackground.xml"
+	background="@RootViewBackground"
   >
 	
   <VolView
     id="MainVolView"
-    layout_width="0.8"
-    layout_height="0.8"
+    layout_width="0.9"
+    layout_height="0.9"
     layout_centreX="0.5"
     layout_centreY="0.5"
     cameraPositionY="1"

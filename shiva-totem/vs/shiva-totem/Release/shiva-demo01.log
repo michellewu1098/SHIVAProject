@@ -1,10 +1,23 @@
-﻿Build started 05/07/2017 14:16:14.
+﻿Build started 31/07/2017 13:10:11.
      1>Project "C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\include" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\include" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\include" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_image" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_mixer" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_ttf" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_metamorph" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_totem" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\\" /Fd"C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\PrintActivity.cpp ..\..\src\VolView.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\include" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\include" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\include" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_image" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_mixer" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_ttf" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_metamorph" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_totem" /I"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\\" /Fd"C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\AssembleActivity.cpp ..\..\src\BlendAdjustActivity.cpp ..\..\src\Command.cpp ..\..\src\CommandManager.cpp ..\..\src\DrillActivity.cpp ..\..\src\EditMenuActivity.cpp ..\..\src\NudgeActivity.cpp ..\..\src\PrintActivity.cpp ..\..\src\RotateObjectActivity.cpp ..\..\src\Totem\Operations\TotemOpDrill.cpp ..\..\src\Totem\TotemController.cpp ..\..\src\Totem\TotemObject.cpp ..\..\src\Totem\TotemOperation.cpp ..\..\src\UniformScaleActivity.cpp ..\..\src\VolView.cpp ..\..\src\main.cpp
+         AssembleActivity.cpp
+         BlendAdjustActivity.cpp
+         Command.cpp
+         CommandManager.cpp
+         DrillActivity.cpp
+         EditMenuActivity.cpp
+         NudgeActivity.cpp
          PrintActivity.cpp
+         RotateObjectActivity.cpp
+         TotemOpDrill.cpp
+         TotemController.cpp
+         TotemObject.cpp
+         TotemOperation.cpp
+         UniformScaleActivity.cpp
          VolView.cpp
      1>C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
                  C:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
@@ -29,8 +42,12 @@
                      Layout=cml::col_major,
                      E=float
                  ]
+         main.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.res" shiva-totem.rc 
        Link:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\vs\shiva-gui\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\vs\shiva-voltree\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\glee" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\boost" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL\SDL\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL\SDLmain\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL_image\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL_mixer\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\SDL_ttf\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\vol_totem" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\vol_metamorph" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\glew" "shiva-gui.lib" GLee.lib Opengl32.lib glu32.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib "shiva-voltree.lib" vol_totem.lib vol_metamorph.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc.lib /MANIFEST /ManifestFile:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.lib" /MACHINE:X86 "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\AssembleActivity.obj"
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\vs\shiva-gui\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\vs\shiva-voltree\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\boost" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\SDL\SDL\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\SDL\SDLmain\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\SDL_image\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\SDL_mixer\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\SDL_ttf\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\vol_totem" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\vol_metamorph" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\glew" "shiva-gui.lib" GLee.lib Opengl32.lib glu32.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib "shiva-voltree.lib" vol_totem.lib vol_metamorph.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc.lib /MANIFEST /ManifestFile:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.lib" /MACHINE:X86 "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.res"
+         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\AssembleActivity.obj"
          "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\BlendAdjustActivity.obj"
          "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\Command.obj"
          "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\CommandManager.obj"
@@ -48,7 +65,6 @@
          "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemOperation.obj"
          "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemOpDrill.obj"
          Generating code
-     1>c:\shivaproject\shiva-voltree\src\volumetree\volumetree.cpp(120): warning C4715: 'VolumeTree::Tree::ImportVol' : not all control paths return a value
          Finished generating code
      1>shiva-gui.lib(SDL_windows_main.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(SDL_windows_main.obj)' or at 'C:\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
          shiva-demo01.vcxproj -> C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe
@@ -61,4 +77,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:23.41
+Time Elapsed 00:00:51.16

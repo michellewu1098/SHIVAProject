@@ -260,12 +260,12 @@ void GLSLRenderer::Draw( unsigned int _context )
 
 	// Enable depth test
 	glEnable( GL_DEPTH_TEST );
-	
+	//glDepthRange( 0.1, 100.0 );
 	// Bind shader
 	m_shader->bind();
 
 	LoadMatricesToShader();
-	
+
 	if( m_fragColour >= 0 )
 	{
 		glUniform3f( glGetUniformLocation( m_shader->getID(), "objectcolour" ), m_objColourR, m_objColourG, m_objColourB );
@@ -407,7 +407,7 @@ void GLSLRenderer::SetStepsize( const float &_stepsize )
 	m_stepSize = _stepsize;
 	m_gradDelta = _stepsize * 0.08f;
 
-#if _DEBUG
+#ifdef _DEBUG
 	std::cout << "INFO: GLSLRenderer SetStepsize() stepsize: " << m_stepSize << " gradDelta: " << m_gradDelta << std::endl;
 #endif
 }
@@ -702,15 +702,16 @@ bool GLSLRenderer::RebuildTree()
 	// FRAGMENT SHADER (update)
 	// Retrieve function string from VolumeTree
 	std::string functionString = m_functionTree->GetCachedFunctionGLSLString();
+	//std::string functionString = m_functionTree->GetFunctionGLSLString();
 
 	// Append function string to first fragment shader part
 	std::string fullFragShaderString = GetParameterGLSLDeclaration();
 	fullFragShaderString.append( m_fragShaderString );
 	fullFragShaderString.append( functionString );
 
-	#ifdef _DEBUG
+	//#ifdef _DEBUG
 		std::cout << "INFO: GLSLRenderer::RebuildTree(): function string for fragment shader is now: \n" << functionString << std::endl;
-	#endif
+	//#endif
 
 	// Finally initialise our shader program
 	m_shader->init( m_vertShaderString, fullFragShaderString );

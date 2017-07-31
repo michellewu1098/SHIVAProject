@@ -37,13 +37,18 @@
 			onClick = "OneWindowHandler"
 			text = "1" />
 		
-		<TextButton 
+		<!--<TextButton 
 			id = "TwoWindowsProfile"
 			layout_width = "wrap_content"
 			layout_height = "wrap_content"
 			layout_weight = "0.1"
 			onClick = "TwoWindowsHandler"
-			text = "2" />
+			text = "2" />-->
+			
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.1" />
 			
 		<View
 			layout_width = "fill_parent"

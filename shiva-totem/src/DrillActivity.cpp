@@ -22,7 +22,7 @@ void DrillActivity::OnCreate( ShivaGUI::Bundle *_data )
 	m_drillSize = m_originalDrillSize = 0.1f;
 	m_drillSizeStep = 0.01f;
 
-	m_crosshairNudgeAmount = 0.1f;
+	m_crosshairNudgeAmount = 0.025f;
 	
 	m_objectColourR = 0.88f;
 	m_objectColourG = 0.78f;

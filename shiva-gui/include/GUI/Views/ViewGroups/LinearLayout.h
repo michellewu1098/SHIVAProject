@@ -44,8 +44,11 @@ namespace ShivaGUI
 		virtual void Update( float _deltaTs, GUIController *_guiController );
 		//----------------------------------------------------------------------------------
 		/// \brief Needs to draw its children
+		/// \param [in] _context Current OGL context
 		//----------------------------------------------------------------------------------
 		virtual void Draw( unsigned int _context );
+		//----------------------------------------------------------------------------------
+		/// \brief Needs to draw its children
 		//----------------------------------------------------------------------------------
 		virtual void Draw(); 
 		//----------------------------------------------------------------------------------

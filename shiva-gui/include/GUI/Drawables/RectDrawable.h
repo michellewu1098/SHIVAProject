@@ -52,7 +52,10 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		void SetBorderColour( const float &_r, const float &_g, const float &_b, const float &_a ) { m_borderR = _r; m_borderG = _g; m_borderB = _b; m_borderA = _a; }
 		//----------------------------------------------------------------------------------
+		/// \brief Create VBOs needed for drawing
+		//----------------------------------------------------------------------------------
 		void BuildVBOs();
+		//----------------------------------------------------------------------------------
 
 	protected:
 
