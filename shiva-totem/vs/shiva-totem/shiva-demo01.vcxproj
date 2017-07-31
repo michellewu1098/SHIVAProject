@@ -88,7 +88,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>shiva-gui.lib;GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;shiva-voltree.lib;vol_totem.lib;vol_metamorph.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>shiva-gui.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;shiva-voltree.lib;vol_totem.lib;vol_metamorph.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\boost;$(ProjectDir)\..\..\..\lib\x86\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\vol_totem;$(ProjectDir)\..\..\..\lib\x86\vol_metamorph;$(ProjectDir)\..\..\..\lib\x86\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -130,7 +130,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>shiva-gui.lib;GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;shiva-voltree.lib;vol_totem.lib;vol_metamorph.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>shiva-gui.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;shiva-voltree.lib;vol_totem.lib;vol_metamorph.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\boost;$(ProjectDir)\..\..\..\lib\x86\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\vol_totem;$(ProjectDir)\..\..\..\lib\x86\vol_metamorph;$(ProjectDir)\..\..\..\lib\x86\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>

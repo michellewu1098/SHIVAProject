@@ -86,7 +86,7 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <Lib>
-      <AdditionalDependencies>GLee.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies);glew32.lib</AdditionalDependencies>
+      <AdditionalDependencies>Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies);glew32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\lib\x86\boost;$(ProjectDir)\..\..\..\lib\x86\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -127,7 +127,7 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <Lib>
-      <AdditionalDependencies>GLee.lib;Opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies);glew32.lib</AdditionalDependencies>
+      <AdditionalDependencies>Opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies);glew32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\lib\x86\boost;$(ProjectDir)\..\..\..\lib\x86\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>

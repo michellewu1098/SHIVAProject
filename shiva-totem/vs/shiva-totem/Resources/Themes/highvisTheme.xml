@@ -181,6 +181,23 @@
       <value>AAFF00FF</value>
     </const>
 
+	
+	<const>
+		<key>@RedColour</key>
+		<value>000000FF</value>
+	</const>
+	<const>
+		<key>@GreenColour</key>
+		<value>000000FF</value>
+	</const>
+	<const>
+		<key>@BlueColour</key>
+		<value>00000FF</value>
+	</const>
+	<const>
+		<key>@BlackTransparentColour</key>
+		<value>00000000</value>
+	</const>
 
 
 
