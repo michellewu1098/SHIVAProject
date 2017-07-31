@@ -40,8 +40,6 @@ $RECYCLE.BIN/
 # Build results
 [Dd]ebugPublic/
 [Rr]eleases/
-x64/
-x86/
 bld/
 [Bb]in/
 [Oo]bj/
