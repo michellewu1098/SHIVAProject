@@ -1,7 +1,7 @@
 #name the installer
 Icon "shiva-icon.ico"
 
-OutFile "SHIVA_x86.exe"
+OutFile "SHIVA_x64.exe"
 
 InstallDir $DESKTOP\SHIVA
 
