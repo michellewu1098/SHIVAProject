@@ -820,7 +820,7 @@ bool VolumeTree::Tree::SaveMesh( std::string _filename, bool bIncludePole, bool 
 		Node* pChild2 = m_rootNode->GetNextChild(pChild1);
 		if (!pChild1 || !pChild2)
 			return false;
-		pRootNode = BuildExportNode(pChild2);
+		pRootNode = BuildExportNode(pChild1);
 	}
 	else
 	{
