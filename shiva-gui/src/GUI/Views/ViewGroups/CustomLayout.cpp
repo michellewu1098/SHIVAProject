@@ -524,8 +524,10 @@ void ShivaGUI::CustomLayout::LayoutView( View *_currentView, int _left, int _top
 
 		_currentView->Layout( childLeft, childTop, childRight, childBottom, _windowWidth, _windowHeight );
 	}
+#ifdef _DEBUG
 	else
 		std::cout << "WARNING: CustomLayout has child with no layout params" << std::endl;
+#endif
 }
 
 //----------------------------------------------------------------------------------

@@ -20,8 +20,9 @@ void VolumeTree::CachingPolicy::Process( Node *_rootNode, GLSLRenderer *_rendere
 
 	// Find out how many nodes say they need caching
 	unsigned int numCacheRequires = _rootNode->GetSubtreeNumCacheRequires( true );
-
+#ifdef _DEBUG
 	std::cout << "INFO: Processing " << numCacheRequires << " cache requests" << std::endl;
+#endif
 
 	// TODO: If the tree requires a large number of caches we will need to cache more parent nodes to combine the requests
 

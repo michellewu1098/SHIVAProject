@@ -87,27 +87,37 @@ void EditMenuActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 	{
 		if( _view->GetID() == "RotateLeft" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: EditMenuActivity request to rotate left" << std::endl;
+#endif
 			m_rotationZ -= m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateRight" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: EditMenuActivity request to rotate right" << std::endl;
+#endif
 			m_rotationZ += m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateUp" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: EditMenuActivity request to rotate up" << std::endl;
+#endif
 			m_rotationX -= m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateDown" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: EditMenuActivity request to rotate down" << std::endl;
+#endif
 			m_rotationX += m_rotationStepsize;
 		}
 		else if( _view->GetID() == "UndoButton" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: EditMenuActivity request to undo operation" << std::endl;
+#endif
 			m_totemController->RemoveLastOperation();
 			RebuildTrees();
 		}

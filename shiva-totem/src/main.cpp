@@ -247,7 +247,7 @@ bool GetOptions( ProgramOptions *_options, int _argc, char **_argv )
 	}
 	else if( variableMap.count( "version" ) )
 	{
-	    std::cout << "SHIVA Demo 1.0 - simple GUI System demo" << std::endl;
+	    std::cout << "SHIVA Totem 1.5 - Sept 2017" << std::endl;
 	    // Return false to exit the program
 	    return false;
 	}

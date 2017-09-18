@@ -261,8 +261,9 @@ void Totem::Object::AddTranslationOffset( float _x, float _y, float _z, bool _ch
 	m_offsetY += _y;
 	m_offsetZ += _z;
 
+#ifdef _DEBUG
 	std::cout << "OffsetX: " << m_offsetX << " OffsetY: " << m_offsetY << " Offset Z: " << m_offsetZ << std::endl;
-	
+#endif
 	RecalcOffsets();
 	/* // RecalcOffsets() call replaces this part:
 	float baseZ = 0.0f;
@@ -298,8 +299,10 @@ void Totem::Object::AddTranslationOffset( float _x, float _y, float _z, bool _ch
 			float childZ = tempZ;
 			if( centreZ < childZ )
 			{
-				std::cout << "INFO: Totem translation offset has changed order, moving item down - ourZ = " << centreZ << " childZ = " << childZ << std::endl;
+#ifdef _DEBUG
 
+				std::cout << "INFO: Totem translation offset has changed order, moving item down - ourZ = " << centreZ << " childZ = " << childZ << std::endl;
+#endif
 				ShiftOrder( false, false );
 			}
 		}
@@ -310,11 +313,14 @@ void Totem::Object::AddTranslationOffset( float _x, float _y, float _z, bool _ch
 			float parentZ = tempZ;
 			if( centreZ > parentZ )
 			{
+#ifdef _DEBUG
 				std::cout << "INFO: Totem translation offset has changed order, moving item up - ourZ = " << centreZ << " parentZ = " << parentZ << std::endl;
-
+#endif
 				ShiftOrder( true, false );
 
+#ifdef _DEBUG
 				std::cout << "INFO: totem translate, new tz: " << m_tz << std::endl;
+#endif
 			}
 		}
 	}

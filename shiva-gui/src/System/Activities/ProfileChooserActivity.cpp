@@ -92,7 +92,9 @@ void ShivaGUI::ProfileChooserActivity::OnUpdate( float _deltaTs )
 	// Need to make sure the command queue is empty as bootstrapping takes a while
 	if( m_startNextActivity && GetGUIManager()->CommandQueueEmpty() )
 	{
+#ifdef _DEBUG
 		std::cout << "ProfileChooserActivity::OnUpdate trying to start activity: " << m_startActivity << std::endl;
+#endif
 		m_startNextActivity = false;
 		GetGUIManager()->StartActivity( m_startActivity );
 	}
@@ -116,8 +118,9 @@ void ShivaGUI::ProfileChooserActivity::UtilityEventReceived( UtilityEventHandler
 		if( pressedButton != NULL )
 		{
 			m_chosenProfile = pressedButton->GetText();
+#ifdef _DEBUG
 			std::cout << "INFO: ProfileChooserActivity request to change to profile: " << pressedButton->GetText() << std::endl;
-
+#endif
 			UpdateViews();
 		}
 	}

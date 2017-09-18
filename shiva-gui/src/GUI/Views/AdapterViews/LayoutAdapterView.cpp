@@ -274,8 +274,9 @@ void ShivaGUI::LayoutAdapterView::RefreshConnectionLinks()
 	{
 		if( m_prevScan != NULL && m_nextScan != NULL )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: ListView::RefreshConnectionLinks() ready to change scan links" << std::endl;
-			
+#endif			
 			// First child links to what we've been told is the previous scan item
 			// Children link to each other
 			View *previous = m_prevScan, *current = NULL;

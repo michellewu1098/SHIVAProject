@@ -52,7 +52,9 @@ VolView::VolView()
 	std::cout << "INFO: Building caches, please wait..." << std::endl;
 	m_mainTree->BuildCaches( m_cachePolicy, m_renderer );
 	
+#ifdef _DEBUG
 	std::cout << "INFO: Test tree cached GLSL output: " << m_mainTree->GetCachedFunctionGLSLString() << std::endl;
+#endif
 
 	if( !m_renderer->Initialise( "Resources/Shaders/VolRenderer.vert", "Resources/Shaders/VolRendererPart.frag" ) )
 	{
@@ -430,7 +432,9 @@ bool VolView::HandleEvent( ShivaGUI::InternalEvent *_eventIn )
 
 				m_crosshairX = ( xPos - ( float )m_boundsLeft ) / ( ( float )m_boundsRight - m_boundsLeft );
 				m_crosshairY = ( ( float )m_windowHeight - yPos - ( ( float )m_windowHeight - m_boundsBottom ) ) / ( ( float ) m_boundsBottom - m_boundsTop );
+#ifdef _DEBUG
 				std::cout << "INFO: crosshairY = " << m_crosshairY << std::endl;
+#endif
 				m_renderer->Unproject( xPos,
 									  ( float ) m_windowHeight - yPos, 
 									  m_boundsLeft, 
@@ -606,7 +610,9 @@ void VolView::CalcStepsize()
 	float bboxMaxDim = m_mainTree->GetBoundingBoxMaxDim();
 
 	float stepsize = bboxMaxDim / 170.0f;
+#ifdef _DEBUG
 	std::cout << "INFO: new stepsize: " << stepsize << std::endl;
+#endif
 	m_renderer->SetStepsize( stepsize );
 }
 

@@ -629,7 +629,9 @@ ShivaGUI::InputEvent* ShivaGUI::GUIManager::GetNextEvent()
 			currentEvent->SetQuitEvent();
 			break;
 		case SDL_KEYDOWN:
+#ifdef _DEBUG
 			std::cout << "Key pressed:" << currentSDLEvent.key.keysym.scancode << std::endl;
+#endif
 			currentEvent->SetKeyEvent( false, currentSDLEvent.key.keysym.scancode, GetWindowIDFromSDLID( currentSDLEvent.key.windowID ) );
 			break;
 		case SDL_KEYUP:

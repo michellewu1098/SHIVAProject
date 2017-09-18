@@ -709,9 +709,9 @@ bool GLSLRenderer::RebuildTree()
 	fullFragShaderString.append( m_fragShaderString );
 	fullFragShaderString.append( functionString );
 
-	//#ifdef _DEBUG
+	#ifdef _DEBUG
 		std::cout << "INFO: GLSLRenderer::RebuildTree(): function string for fragment shader is now: \n" << functionString << std::endl;
-	//#endif
+	#endif
 
 	// Finally initialise our shader program
 	m_shader->init( m_vertShaderString, fullFragShaderString );

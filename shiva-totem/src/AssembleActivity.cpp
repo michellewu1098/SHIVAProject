@@ -4,6 +4,8 @@
 #include "System/SharedPreferences.h"
 #include "GUIManager.h"
 
+#include "boost/date_time/posix_time/posix_time.hpp"
+
 //----------------------------------------------------------------------------------
 
 void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
@@ -150,28 +152,37 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 	{
 		if( _view->GetID() == "RotateLeft" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to rotate left" << std::endl;
+#endif
 			m_rotationZ -= m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateRight" )
 		{ 
+#ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to rotate right" << std::endl;
+#endif
 			m_rotationZ += m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateUp" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to rotate up" << std::endl;
+#endif
 			m_rotationX -= m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateDown" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to rotate down" << std::endl;
+#endif
 			m_rotationX += m_rotationStepsize;
 		}
 		else if( _view->GetID() == "DeleteSelected" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to delete selected object" << std::endl;
-
+#endif
 			DeleteObjectCommand* deleteObjCmd = new DeleteObjectCommand();
 			m_commandManager->Execute( deleteObjCmd );
 
@@ -180,8 +191,9 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		}
 		else if( _view->GetID() == "SelectAbove" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to select object above" << std::endl;
-
+#endif
 			SelectCommand* selectCmd = new SelectCommand();
 			selectCmd->SetSelection( "above" );
 			m_commandManager->Execute( selectCmd );
@@ -190,8 +202,9 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		}
 		else if( _view->GetID() == "SelectBelow" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to select object below" << std::endl;
-
+#endif
 			SelectCommand* selectCmd = new SelectCommand();
 			selectCmd->SetSelection( "below" );
 			m_commandManager->Execute( selectCmd );
@@ -200,7 +213,9 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		}
 		else if( _view->GetID() == "SwapAbove" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to swap with object above" << std::endl;
+#endif
 			//m_totemController->ReorderSelectedObject( true );
 			
 			SwapCommand* swapCmd = new SwapCommand();
@@ -211,7 +226,9 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		}
 		else if( _view->GetID() == "SwapBelow" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to swap with object below" << std::endl;
+#endif
 			//m_totemController->ReorderSelectedObject( false );
 
 			SwapCommand* swapCmd = new SwapCommand();
@@ -255,8 +272,8 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		}
 		else if( _view->GetID() == "Load" )
 		{
-			char const * lFilterPatterns[ 2 ] = { "*.xml", "*.vol" };
-			char const* fileName = tinyfd_openFileDialog( "SHIVA Models", "Savefiles/", 2, lFilterPatterns, NULL, 0 );
+			char const * lFilterPatterns[ 1 ] = { "*.xml" };
+			char const* fileName = tinyfd_openFileDialog( "SHIVA Models", "Savefiles/", 1, lFilterPatterns, NULL, 0 );
 			
 			/*if ( !fileName )
 			{
@@ -281,7 +298,9 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		}
 		else if( _view->GetID() == "Save" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to save tree" << std::endl;
+#endif
 			VolumeTree::Tree tempTree;
 
 			tempTree.SetRoot( m_totemController->GetNodeTree() );
@@ -318,7 +337,10 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		}
 		else if( _view->GetID() == "Export" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to export tree" << std::endl;
+#endif
+
 			VolumeTree::Tree tempTree;
 			// Scaling 1:20 ---- Remove this? If it's saving, I think it is needed when exporting .vol file
 			VolumeTree::TransformNode *rootScaleNode = new VolumeTree::TransformNode( m_totemController->GetNodeTree() );

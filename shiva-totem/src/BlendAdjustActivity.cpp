@@ -92,22 +92,30 @@ void BlendAdjustActivity::UtilityEventReceived( UtilityEventHandler *_handler, S
 	{
 		if( _view->GetID() == "RotateLeft" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: BlendAdjustActivity request to rotate left" << std::endl;
+#endif
 			m_rotationZ -= m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateRight" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: BlendAdjustActivity request to rotate right" << std::endl;
+#endif
 			m_rotationZ += m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateUp" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: BlendAdjustActivity request to rotate up" << std::endl;
+#endif
 			m_rotationX -= m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateDown" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: BlendAdjustActivity request to rotate down" << std::endl;
+#endif
 			m_rotationX += m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateReset" )

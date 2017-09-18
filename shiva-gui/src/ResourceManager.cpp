@@ -837,8 +837,9 @@ void ShivaGUI::ResourceManager::LoadProfileAttributeConsts( ProfileManager *_pro
 
 			m_attribConstsProfile[ key ] = value;
 
+#ifdef _DEBUG
 			std::cout << "INFO: LoadProfileAttributeConsts, key: " << key << " value: " << value << std::endl;
-
+#endif
 			_profileManager->ExitOptionNode();
 		}
 	}

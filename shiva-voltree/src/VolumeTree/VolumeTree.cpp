@@ -784,13 +784,13 @@ bool VolumeTree::Tree::IsPrintable( bool bIncludePole, bool bIncludeBase )
 
 	if (nRetCode == totemio::CODE_MULTICOMPONENT)
 	{
-		std::cout << "Multicomponent object found" << std::endl;
+		std::cout << "WARNING: Multicomponent object found" << std::endl;
 		return false;
 	}
 
 	if (nRetCode == totemio::CODE_UNBALANCED)
 	{
-		std::cout << "Model is heavily unbalanced" << std::endl;
+		std::cout << "WARNING: Model is heavily unbalanced" << std::endl;
 		return false;
 	}
 

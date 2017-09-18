@@ -193,7 +193,9 @@ void VolumeTree::VolCacheNode::SetUseCache( bool _useCache, unsigned int _cacheI
 			params.m_fill_array = true;
 			params.m_exact_bbox = false;
 
+#ifdef _DEBUG
 			std::cout << "INFO: Loading VOL file: " << m_filename << std::endl;
+#endif
 			if( !openVol( m_filename.c_str(), m_cacheResX, m_cacheResY, m_cacheResZ, params, &bounds, &m_cachedFunction ) )
 			{
 				std::cerr << "WARNING: Could not build cache from VOL file: " << m_filename << std::endl;

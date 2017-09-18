@@ -69,7 +69,9 @@ std::string ShivaGUI::FilesystemDataProvider::GetAttributeString( int _dataEntry
 		}
 		else if( m_showDirectories && boost::filesystem::is_directory( ( *it ) ) )
 		{
+#ifdef _DEBUG
 			std::cout << "FilesystemDataProvider dir found at entry: " << _dataEntry << std::endl;
+#endif
 			++numEntries;
 		}
 
@@ -79,7 +81,9 @@ std::string ShivaGUI::FilesystemDataProvider::GetAttributeString( int _dataEntry
 			{
 				if( boost::filesystem::is_directory( ( *it ) ) )
 				{
+#ifdef _DEBUG
 					std::cout << "FilesystemDataProvider providing attribute string for entry: " << _dataEntry << std::endl;
+#endif
 					return std::string( ( *it ).path().string() + " <dir>" );
 				}
 				return ( *it ).path().string();
@@ -114,7 +118,9 @@ int ShivaGUI::FilesystemDataProvider::GetNumEntries()
 		}
 	}
 
+#ifdef _DEBUG
 	std::cout << "FilesystemDataProvider reports : " << numEntries << " entries" << std::endl;
+#endif
 	return numEntries;
 }
 

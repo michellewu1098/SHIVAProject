@@ -102,28 +102,37 @@ void NudgeActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 	{
 		if( _view->GetID() == "RotateLeft" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: NudgeActivity request to rotate left" << std::endl;
+#endif
 			m_rotationZ -= m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateRight" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: NudgeActivity request to rotate right" << std::endl;
+#endif
 			m_rotationZ += m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateUp" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: NudgeActivity request to rotate up" << std::endl;
+#endif
 			m_rotationX -= m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateDown" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: NudgeActivity request to rotate down" << std::endl;
+#endif
 			m_rotationX += m_rotationStepsize;
 		}
 		else if( _view->GetID() == "DeleteSelected" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: NudgeActivity request to delete selected object" << std::endl;
-			
+#endif			
 			DeleteObjectCommand* deleteObjCmd = new DeleteObjectCommand();
 			m_commandManager->Execute( deleteObjCmd );
 			
@@ -132,8 +141,9 @@ void NudgeActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		}
 		else if( _view->GetID() == "SelectAbove" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: NudgeActivity request to select object above" << std::endl;
-
+#endif
 			SelectCommand* selectCmd = new SelectCommand();
 			selectCmd->SetSelection( "above" );
 			m_commandManager->Execute( selectCmd );
@@ -142,8 +152,9 @@ void NudgeActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		}
 		else if( _view->GetID() == "SelectBelow" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: NudgeActivity request to select object below" << std::endl;
-			
+#endif			
 			SelectCommand* selectCmd = new SelectCommand();
 			selectCmd->SetSelection( "below" );
 			m_commandManager->Execute( selectCmd );
@@ -152,8 +163,9 @@ void NudgeActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		}
 		else if( _view->GetID() == "SwapAbove" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: NudgeActivity request to swap with object above" << std::endl;
-			
+#endif			
 			if( m_totemController->GetSelected()->GetParent() != NULL )
 			{
 				SwapCommand* swapCmd = new SwapCommand();
@@ -166,8 +178,9 @@ void NudgeActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		}
 		else if( _view->GetID() == "SwapBelow" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: NudgeActivity request to swap with object below" << std::endl;
-			
+#endif			
 			if( m_totemController->GetSelected()->GetChild() != NULL )
 			{
 				SwapCommand* swapCmd = new SwapCommand();
@@ -180,8 +193,9 @@ void NudgeActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		}
 		else if( _view->GetID() == "NudgeUp" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: NudgeActivity request to nudge object upward" << std::endl;
-			
+#endif			
 			NudgeCommand* nudgeCmd = new NudgeCommand();
 			nudgeCmd->SetOffsets( 0.0f, 0.0f, 0.1f );
 			m_commandManager->Execute( nudgeCmd );
@@ -191,8 +205,9 @@ void NudgeActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		}
 		else if( _view->GetID() == "NudgeDown" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: NudgeActivity request to nudge object downward" << std::endl;
-
+#endif
 			NudgeCommand* nudgeCmd = new NudgeCommand();
 			nudgeCmd->SetOffsets( 0.0f, 0.0f, -0.1f );
 			m_commandManager->Execute( nudgeCmd );
@@ -202,8 +217,9 @@ void NudgeActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		}
 		else if( _view->GetID() == "NudgeXpositive" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: NudgeActivity request to nudge object on positive X" << std::endl;
-
+#endif
 			NudgeCommand* nudgeCmd = new NudgeCommand();
 			nudgeCmd->SetOffsets( m_nudgeStep, 0.0f, 0.0f );
 			m_commandManager->Execute( nudgeCmd );
@@ -213,8 +229,9 @@ void NudgeActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		}
 		else if( _view->GetID() == "NudgeXnegative" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: NudgeActivity request to nudge object on negative X" << std::endl;
-
+#endif
 			NudgeCommand* nudgeCmd = new NudgeCommand();
 			nudgeCmd->SetOffsets( -m_nudgeStep, 0.0f, 0.0f );
 			m_commandManager->Execute( nudgeCmd );
@@ -224,8 +241,9 @@ void NudgeActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		}
 		else if( _view->GetID() == "NudgeYpositive" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to nudge object on positive Y" << std::endl;
-
+#endif
 			NudgeCommand* nudgeCmd = new NudgeCommand();
 			nudgeCmd->SetOffsets( 0.0f, m_nudgeStep, 0.0f );
 			m_commandManager->Execute( nudgeCmd );
@@ -235,8 +253,9 @@ void NudgeActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		}
 		else if( _view->GetID() == "NudgeYnegative" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to nudge object on negative Y" << std::endl;
-
+#endif
 			NudgeCommand* nudgeCmd = new NudgeCommand();
 			nudgeCmd->SetOffsets( 0.0f, -m_nudgeStep, 0.0f );
 			m_commandManager->Execute( nudgeCmd );
@@ -246,8 +265,9 @@ void NudgeActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		}
 		else if( _view->GetID() == "NudgeReset" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to reset nudge" << std::endl;
-			
+#endif			
 			ResetNudgeCommand* resetNudgeCmd = new ResetNudgeCommand();
 			m_commandManager->Execute( resetNudgeCmd );
 			

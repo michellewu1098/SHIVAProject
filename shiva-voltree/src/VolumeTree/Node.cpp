@@ -511,7 +511,9 @@ VolumeTree::Node* VolumeTree::Node::RecursiveGetNode( int _desiredNode, int &_cu
 {
 	if( _desiredNode == _currentCount )
 	{
+#ifdef _DEBUG
 		std::cout << "INFO: recursive get has found node " << _desiredNode << std::endl;
+#endif
 		return this;
 	}
 

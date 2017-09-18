@@ -124,8 +124,9 @@ void ShivaGUI::InputController::LoadSettings( ProfileManager *_profile )
 					InternalEvent::EventType repeatType = InternalEvent::ConvertEventType( _profile->GetString( "repeatEvent", "invalid" ) );
 					InternalEvent::EventType releaseType = InternalEvent::ConvertEventType( _profile->GetString( "releaseEvent", "invalid" ) );
 
+#ifdef _DEBUG
 					std::cout << "INFO: InputController Keymapping: " << key << " to pressType: " << pressType << " delay: " << delayType << " release: " << releaseType << std::endl;
-
+#endif
 					m_keymapping[ key ] = MappingEventGroup( pressType, delayType, repeatType, releaseType );
 
 					// If we have options for the group or global debounce settings

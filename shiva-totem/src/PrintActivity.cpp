@@ -89,7 +89,9 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 	{
 		if( _view->GetID() == "PrintAll" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: PrintActivity request to 3D print model with pole and base." << std::endl;
+#endif
 			VolumeTree::Tree tmpTree;
 			tmpTree.SetRoot( m_totemController->GetNodeTree() );
 			if (!tmpTree.IsPrintable(true, true))
@@ -117,7 +119,9 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		}
 		else if( _view->GetID() == "PrintModel" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: PrintActivity request to 3D print model without pole and base" << std::endl;
+#endif
 			VolumeTree::Tree tmpTree;
 			tmpTree.SetRoot( m_totemController->GetNodeTree() );
 			if (!tmpTree.IsPrintable(false, false))
@@ -150,7 +154,9 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		}
 		else if( _view->GetID() == "Export" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: PrintActivity request to export model to .vol" << std::endl;
+#endif
 			VolumeTree::Tree tempTree;
 			
 			VolumeTree::TransformNode *rootScaleNode = new VolumeTree::TransformNode( m_totemController->GetNodeTree() );

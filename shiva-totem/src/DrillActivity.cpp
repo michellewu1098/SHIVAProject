@@ -108,22 +108,30 @@ void DrillActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 	{
 		if( _view->GetID() == "RotateLeft" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: DrillActivity request to rotate left" << std::endl;
+#endif
 			m_rotationZ -= m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateRight" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: DrillActivity request to rotate right" << std::endl;
+#endif
 			m_rotationZ += m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateUp" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: DrillActivity request to rotate up" << std::endl;
+#endif
 			m_rotationX -= m_rotationStepsize;
 		}
 		else if( _view->GetID() == "RotateDown" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: DrillActivity request to rotate down" << std::endl;
+#endif
 			m_rotationX += m_rotationStepsize;
 		}
 		else if( _view->GetID() == "CrosshairLeft" )
@@ -186,8 +194,9 @@ void DrillActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 
 				float t = - ( cml::dot( origin, ( point2 - origin ) ) ) / ( pow( cml::length( point2 - origin ), 2 ) );
 
+#ifdef _DEBUG
 				std::cout << "INFO: DrillActivity, calculating drill position: t = " << t << std::endl;
-
+#endif
 				cml::vector3f drillCentre = origin + ( direction * t );
 
 				Totem::Operations::Drill *drill = new Totem::Operations::Drill( m_drillSize );
@@ -204,14 +213,18 @@ void DrillActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		}
 		else if( _view->GetID() == "UndoButton" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: DrillActivity request to undo operation" << std::endl;
+#endif
 			m_commandManager->Undo();
 			//m_totemController->RemoveLastOperation();
 			RebuildTrees();
 		}
 		else if( _view->GetID() == "RedoButton" )
 		{
+#ifdef _DEBUG
 			std::cout << "INFO: DrillActivity request to redo operation" << std::endl;
+#endif
 			m_commandManager->Redo();
 			RebuildTrees();
 		}
