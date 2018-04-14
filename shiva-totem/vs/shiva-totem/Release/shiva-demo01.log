@@ -1,41 +1,9 @@
-﻿Build started 31/07/2017 17:02:09.
-     1>Project "C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 2 (build target(s)).
-     1>InitializeBuildStatus:
-         Touching "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.unsuccessfulbuild".
-       ClCompile:
-         All outputs are up-to-date.
-       ResourceCompile:
-         All outputs are up-to-date.
-       Link:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\vs\shiva-gui\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\vs\shiva-voltree\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\boost" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\SDL\SDL\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\SDL\SDLmain\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\SDL_image\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\SDL_mixer\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\SDL_ttf\Release" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\vol_totem" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\vol_metamorph" /LIBPATH:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x86\glew" "shiva-gui.lib" Opengl32.lib glu32.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib "shiva-voltree.lib" vol_totem.lib vol_metamorph.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc.lib /MANIFEST /ManifestFile:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.lib" /MACHINE:X86 "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.res"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\AssembleActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\BlendAdjustActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\Command.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\CommandManager.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\DrillActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\EditMenuActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\main.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\NudgeActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\PrintActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\RotateObjectActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\ShivaModelManager.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\UniformScaleActivity.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\VolView.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemController.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemObject.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemOperation.obj"
-         "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemOpDrill.obj"
-         Generating code
-         Finished generating code
-     1>shiva-gui.lib(SDL_windows_main.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(SDL_windows_main.obj)' or at 'C:\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
-         shiva-demo01.vcxproj -> C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe
-       Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe;#1" /manifest "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.exe.intermediate.manifest"
-       FinalizeBuildStatus:
-         Deleting file "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.unsuccessfulbuild".
-         Touching "C:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.lastbuildstate".
-     1>Done Building Project "C:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" (build target(s)).
+﻿Build started 14/04/2018 22:51:06.
+     1>Project "D:\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 2 (clean target(s)).
+     1>_PrepareForClean:
+         Deleting file "D:\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.lastbuildstate".
+     1>Done Building Project "D:\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" (clean target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:21.45
+Time Elapsed 00:00:00.02

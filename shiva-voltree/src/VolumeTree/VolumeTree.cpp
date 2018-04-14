@@ -722,7 +722,7 @@ void VolumeTree::Tree::ExportToXML( Node *_currentNode, TiXmlElement *_root )
 													refsx, refsy, refsz); //reference point for scale, 0 by default
 
 				newRoot->SetDoubleAttribute( "transX", -tx ); newRoot->SetDoubleAttribute( "transY", -ty ); newRoot->SetDoubleAttribute( "transZ", -tz );
-				newRoot->SetDoubleAttribute( "angleX", -rx ); newRoot->SetDoubleAttribute( "angleY", -ry ); newRoot->SetDoubleAttribute( "angleZ", -rz );
+				newRoot->SetDoubleAttribute( "angleX", rx ); newRoot->SetDoubleAttribute( "angleY", ry ); newRoot->SetDoubleAttribute( "angleZ", rz );
 				newRoot->SetDoubleAttribute( "scaleX", sx );  newRoot->SetDoubleAttribute( "scaleY", sy );  newRoot->SetDoubleAttribute( "scaleZ", sz );
 
 			}
@@ -829,7 +829,7 @@ bool VolumeTree::Tree::SaveMesh( std::string _filename, bool bIncludePole, bool 
 	}
 
 	if (!pRootNode) return false;
-	return totemio::saveMesh(_filename.c_str(), pRootNode, 0.01);
+	return totemio::saveMesh( _filename.c_str(), pRootNode, 0.01f );
 }
 
 //----------------------------------------------------------------------------------

@@ -111,8 +111,8 @@ GLSLRenderer::~GLSLRenderer()
 
 void GLSLRenderer::SetWindowDimensions( const float &_width, const float &_height )
 {
-	m_windowWidth = _width;
-	m_windowHeight = _height;
+	m_windowWidth = ( unsigned int )_width;
+	m_windowHeight = ( unsigned int )_height;
 
 	float aspectRatio = ( ( float ) m_windowWidth ) / ( ( float ) m_windowHeight );
 	m_cam->SetProjectionMatrix( m_camAngle, aspectRatio, m_camNearPlane, m_camFarPlane );
@@ -818,7 +818,7 @@ void GLSLRenderer::TreeParameter::SetData( float *_dataIn )
 	{
 		m_data = new float[ dataLength ];
 	}
-	for( unsigned int i = 0; i < dataLength; i++ )
+	for( int i = 0; i < dataLength; i++ )
 	{
 		m_data[ i ] = _dataIn[ i ];
 	}

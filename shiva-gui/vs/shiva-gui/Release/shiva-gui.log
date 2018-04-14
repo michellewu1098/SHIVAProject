@@ -1,17 +1,9 @@
-﻿Build started 31/07/2017 17:02:02.
-     1>Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (build target(s)).
-     1>InitializeBuildStatus:
-         Creating "Release\shiva-gui.unsuccessfulbuild" because "AlwaysCreate" was specified.
-       ClCompile:
-         All outputs are up-to-date.
-       Lib:
-         All outputs are up-to-date.
-         shiva-gui.vcxproj -> C:\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib
-       FinalizeBuildStatus:
-         Deleting file "Release\shiva-gui.unsuccessfulbuild".
-         Touching "Release\shiva-gui.lastbuildstate".
-     1>Done Building Project "C:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" (build target(s)).
+﻿Build started 14/04/2018 22:50:55.
+     1>Project "D:\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (clean target(s)).
+     1>_PrepareForClean:
+         Deleting file "Release\shiva-gui.lastbuildstate".
+     1>Done Building Project "D:\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" (clean target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.73
+Time Elapsed 00:00:00.04
