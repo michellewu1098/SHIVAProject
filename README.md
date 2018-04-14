@@ -7,4 +7,14 @@ These tools were deployed in a school for students with complex disabilities and
 
 ![SHIVA software in use](http://i.imgur.com/GAk94SF.jpg)
 
-If cloning or downloading the project, be aware that we're including boost, consequently the download will be >4GB in size and therefore the all thing could take a long time. 
+If cloning or downloading the project, be aware that we're *including* `boost`, consequently the download will be >4GB in size and therefore the all thing could take a long time. 
+
+## Requirements
+* Visual Studio 10
+* Windows 8 or 10
+* `glew`
+* `SDL`
+* `SDL_image`
+* `SDL_mixer`
+* `SDL_ttf`
+* `boost 1.47` (pre-built binaries can be found [here](https://boost.teeks99.com))
