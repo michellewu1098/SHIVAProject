@@ -28,7 +28,7 @@ ShivaGUI::GUIManager::GUIManager( std::string _programName, std::string _program
 	//Create window(s) from profile
 	if( !CreateWindowsFromProfile() )
 	{
-		CreateWindow( 640, 480, 100, 100 );
+		CreateWindow( 800, 600, 100, 100 );
 	}
 
 }

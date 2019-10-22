@@ -15,7 +15,7 @@ ShivaGUI::Window::Window( int _posX, int _posY, int _width, int _height )
 	m_window = SDL_CreateWindow(	"SHIVA-GUI",
 									_posX, _posY,
 									_width, _height,
-									SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL ); //SDL_WINDOW_FULLSCREEN_DESKTOP
+									SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL ); //SDL_WINDOW_FULLSCREEN_DESKTOP
 
 	if( m_window == NULL )
 		std::cerr << "ERROR: Window ctor, cannot create SDL Window: " << SDL_GetError() << std::endl;
