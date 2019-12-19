@@ -131,7 +131,9 @@ int main( int argc, char **argv )
 	if( modelManager != NULL )
 	{
 		int numModels = modelManager->GetNumEntries();
+#ifdef _DEBUG
 		std::cout << "INFO: ModelManager reports " << numModels << " models" << std::endl;
+#endif
 		totemController->SetNumPrimitives( numModels );
 
 		for( int i = 0; i < numModels; i++ )

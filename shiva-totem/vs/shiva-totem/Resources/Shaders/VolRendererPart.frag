@@ -345,13 +345,13 @@ void main ()
     if( i == nIterations || !inBounds )
             discard;
 
-
 		
     // Proceed to shading
     norm = getGradient( pos ); // Need to get the normal here, it goes wrong otherwise
     vec3 I = normalize( cam - pos );
     vec3 N = normalize( norm );
-    float LdotN = max( dot( I, N ), 0.0 );
+//    float LdotN = max( dot( I, N ), 0.0 );
+float LdotN = abs(dot(I,N));
     fragColour = vec4( clamp( ( objectcolour * LdotN ) * 0.9 + 0.1, 0.0, 1.0 ), 1.0 );
 	
 
