@@ -611,7 +611,11 @@ void Totem::Controller::RebuildPole()
 	if( m_objectRoot != NULL )
 	{
 		m_objectRoot->RecalcOffsets();
-		float topZ = m_objectRoot->GetBaseOffset();
+		float x, y, z;
+		VolumeTree::Node *treeRoot = m_objectRoot->GetNodeTree( m_blendAmount );
+		treeRoot->GetBoundSizes(&x, &y, &z);
+		float topZ = z;
+		//float topZ = m_objectRoot->GetBaseOffset(); //Oleg: this was fixed to prevent pole growing even if the model is relatively small in height 
 		m_poleNode->SetLength( topZ + 0.5f );
 		m_poleTransformNode->SetTranslate( 0.0f, 0.0f, ( topZ + 0.5f ) * 0.5f );
 	}
