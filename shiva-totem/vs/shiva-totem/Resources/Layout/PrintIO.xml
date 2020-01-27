@@ -35,10 +35,10 @@
 		text = "mesh + totem"
 
 		next_focus_up = "BackButton"
-		next_focus_down = "PrintModel" />
+		next_focus_down = "PrintBase" />
 		
 	<TextButton
-		id = "PrintModel"
+		id = "PrintBase"
 		layout_width = "0.12"
 		layout_height = "0.2"
 		layout_centreX = "0.94"
@@ -46,9 +46,23 @@
 		scaleContent = "true"
 		keepContentAspectRatio = "true"
 		onClick = "buttonHandler"
-		text = "mesh only"
+		text = "mesh + base"
 
 		next_focus_up = "PrintAll"
+		next_focus_down = "PrintModel" />
+
+	<TextButton
+		id = "PrintModel"
+		layout_width = "0.12"
+		layout_height = "0.2"
+		layout_centreX = "0.94"
+		layout_centreY = "0.69"
+		scaleContent = "true"
+		keepContentAspectRatio = "true"
+		onClick = "buttonHandler"
+		text = "mesh only"
+
+		next_focus_up = "PrintBase"
 		next_focus_down = "Export" />
 
 	<TextButton
@@ -56,7 +70,7 @@
 		layout_width = "0.12"
 		layout_height = "0.2"
 		layout_centreX = "0.94"
-		layout_centreY = "0.69"
+		layout_centreY = "0.98"
 		scaleContent = "true"
 		keepContentAspectRatio = "true"
 		onClick = "buttonHandler"

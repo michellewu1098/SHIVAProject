@@ -770,7 +770,17 @@ bool VolumeTree::Tree::IsPrintable( bool bIncludePole, bool bIncludeBase )
 			return false;
 		pRootNode = BuildExportNode(pChild2);
 	}
-	else
+	else if (!bIncludePole && bIncludeBase)
+	{
+		std::string nodeTypeStr = m_rootNode->GetNodeType();
+		if (nodeTypeStr != "CSGNode")
+			return false;
+		Node* pChild1 = m_rootNode->GetFirstChild();
+		if (!pChild1)
+			return false;
+		pRootNode = BuildExportNode(pChild1);
+	}
+	else 
 	{
 		//unsupported mode at the moment
 		return false;
@@ -819,6 +829,16 @@ bool VolumeTree::Tree::SaveMesh( std::string _filename, bool bIncludePole, bool 
 		Node* pChild1 = m_rootNode->GetFirstChild();
 		Node* pChild2 = m_rootNode->GetNextChild(pChild1);
 		if (!pChild1 || !pChild2)
+			return false;
+		pRootNode = BuildExportNode(pChild2);
+	}
+	else if (!bIncludePole && bIncludeBase)
+	{
+		std::string nodeTypeStr = m_rootNode->GetNodeType();
+		if (nodeTypeStr != "CSGNode")
+			return false;
+		Node* pChild1 = m_rootNode->GetFirstChild();
+		if (!pChild1)
 			return false;
 		pRootNode = BuildExportNode(pChild1);
 	}

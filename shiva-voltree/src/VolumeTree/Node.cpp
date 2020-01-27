@@ -611,6 +611,9 @@ void VolumeTree::Node::GetBoundSizes( float* _x, float* _y, float* _z )
 {
 	float minX, maxX, minY, maxY, minZ, maxZ;
 	GetBounds( &minX, &maxX, &minY, &maxY, &minZ, &maxZ );
+#ifdef _DEBUG //debugdebug
+		std::cout << "INFO: Bounds for node are (" << minX << "," << minY << ", " << minZ << "),(" << maxX << ", " << maxY << "," << maxZ << ")" << std::endl;
+#endif
 
 	*_x = fabs( maxX - minX );
 	*_y = fabs( maxY - minY );

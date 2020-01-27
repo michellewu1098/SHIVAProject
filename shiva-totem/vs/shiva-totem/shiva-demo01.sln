@@ -2,6 +2,14 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shiva-totem", "shiva-demo01.vcxproj", "{06CB2859-3CAB-4ADB-8787-3E615880E099}"
+	ProjectSection(ProjectDependencies) = postProject
+		{91F830A2-04FA-4E03-837D-243F24A5D6E4} = {91F830A2-04FA-4E03-837D-243F24A5D6E4}
+		{714AC8E1-44D8-4B25-B94F-6B20260CF79F} = {714AC8E1-44D8-4B25-B94F-6B20260CF79F}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shiva-gui", "..\..\..\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj", "{714AC8E1-44D8-4B25-B94F-6B20260CF79F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shiva-voltree", "..\..\..\shiva-voltree\vs\shiva-voltree\shiva-voltree.vcxproj", "{91F830A2-04FA-4E03-837D-243F24A5D6E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +27,22 @@ Global
 		{06CB2859-3CAB-4ADB-8787-3E615880E099}.Release|Win32.Build.0 = Release|Win32
 		{06CB2859-3CAB-4ADB-8787-3E615880E099}.Release|x64.ActiveCfg = Release|x64
 		{06CB2859-3CAB-4ADB-8787-3E615880E099}.Release|x64.Build.0 = Release|x64
+		{714AC8E1-44D8-4B25-B94F-6B20260CF79F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{714AC8E1-44D8-4B25-B94F-6B20260CF79F}.Debug|Win32.Build.0 = Debug|Win32
+		{714AC8E1-44D8-4B25-B94F-6B20260CF79F}.Debug|x64.ActiveCfg = Debug|x64
+		{714AC8E1-44D8-4B25-B94F-6B20260CF79F}.Debug|x64.Build.0 = Debug|x64
+		{714AC8E1-44D8-4B25-B94F-6B20260CF79F}.Release|Win32.ActiveCfg = Release|Win32
+		{714AC8E1-44D8-4B25-B94F-6B20260CF79F}.Release|Win32.Build.0 = Release|Win32
+		{714AC8E1-44D8-4B25-B94F-6B20260CF79F}.Release|x64.ActiveCfg = Release|x64
+		{714AC8E1-44D8-4B25-B94F-6B20260CF79F}.Release|x64.Build.0 = Release|x64
+		{91F830A2-04FA-4E03-837D-243F24A5D6E4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{91F830A2-04FA-4E03-837D-243F24A5D6E4}.Debug|Win32.Build.0 = Debug|Win32
+		{91F830A2-04FA-4E03-837D-243F24A5D6E4}.Debug|x64.ActiveCfg = Debug|x64
+		{91F830A2-04FA-4E03-837D-243F24A5D6E4}.Debug|x64.Build.0 = Debug|x64
+		{91F830A2-04FA-4E03-837D-243F24A5D6E4}.Release|Win32.ActiveCfg = Release|Win32
+		{91F830A2-04FA-4E03-837D-243F24A5D6E4}.Release|Win32.Build.0 = Release|Win32
+		{91F830A2-04FA-4E03-837D-243F24A5D6E4}.Release|x64.ActiveCfg = Release|x64
+		{91F830A2-04FA-4E03-837D-243F24A5D6E4}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

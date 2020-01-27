@@ -3,6 +3,7 @@
 #endif
 
 #include "VolumeRenderer/GLSLRenderer.h"
+#include <cmath>
 
 //----------------------------------------------------------------------------------
 
@@ -156,7 +157,6 @@ void GLSLRenderer::LoadMatricesToShader()
 	GLint pLoc = glGetUniformLocation( m_shader->getID(), "u_ProjectionMatrix" );
 	if( pLoc != -1 ) { glUniformMatrix4fv( pLoc, 1, GL_FALSE, m_cam->GetProjectionMatrix().data() ); }
 	else { std::cerr << "u_ProjectionMatrix not found in shader " << m_shader->getID() << std::endl; }
-
 }
 
 //----------------------------------------------------------------------------------
@@ -344,7 +344,6 @@ void GLSLRenderer::Draw( unsigned int _context )
 }
 
 //----------------------------------------------------------------------------------
-
 void GLSLRenderer::Update( float _deltaTs )
 {
 	float rotOffsetX = m_angularVelX * _deltaTs;
@@ -362,7 +361,7 @@ void GLSLRenderer::Update( float _deltaTs )
 	m_cam->Rotate( m_localRotX, m_localRotY, m_localRotZ );
 
 
-	cml::matrix44f_c temp;
+	cml::matrix44f_c temp, modelMatrixCopy = m_modelMatrix;
 	
 	// Code to make object rotate about the aim point
 		
@@ -386,16 +385,30 @@ void GLSLRenderer::Update( float _deltaTs )
 	m_modelMatrix = m_modelMatrix * temp;
 	m_worldRotZ = 0.0f;
 
-	
+/* //in case we have accumulating errors in floating point, uncomment this code --Oleg
+	float angle0, angle1, angle2;
+	cml::matrix_to_euler(m_modelMatrix, angle0, angle1, angle2, cml::euler_order_yzx);
+	if (angle0 != angle0 || angle1 != angle1 || angle2 != angle2)
+	{
+		bool isBreak = true;
+	}
+	m_modelMatrix.identity();
+	cml::matrix_rotation_euler(m_modelMatrix, angle0, angle1, angle2, cml::euler_order_yzx);
+*/
 	// Code to make object rotate about the centre of its bounding box
 		
 	cml::matrix44f_c postTemp;
 	postTemp.identity();
-	cml::matrix_set_translation( postTemp, -m_target.GetCurrent().data()[ 0 ], -m_target.GetCurrent().data()[ 2 ], -m_target.GetCurrent().data()[ 1 ] );
+	cml::matrix_set_translation( postTemp, -m_target		.GetCurrent().data()[ 0 ], -m_target.GetCurrent().data()[ 2 ], -m_target.GetCurrent().data()[ 1 ] );
 	
 	m_modelViewMatrix = m_cam->GetViewMatrix() * preTemp * m_modelMatrix * postTemp;
 	m_invModelViewMatrix = m_modelViewMatrix;
 	m_invModelViewMatrix = cml::inverse( m_invModelViewMatrix );
+
+#if _DEBUG
+//	std::cout << "INFO: Modelview matrix: " << m_modelMatrix << std::endl;
+#endif 
+
 
 	m_functionTree->UpdateParameters( this );
 }
@@ -467,6 +480,10 @@ void GLSLRenderer::AddWorldRotationOffsetRads( const float &_rotX, const float &
 	m_axisX = m_axisX * temp;
 	m_axisY = m_axisY * temp;
 	m_axisZ = m_axisZ * temp;
+
+	m_axisX.normalize();
+	m_axisY.normalize();
+	m_axisZ.normalize();
 }
 
 //----------------------------------------------------------------------------------

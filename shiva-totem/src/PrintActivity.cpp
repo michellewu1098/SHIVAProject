@@ -147,6 +147,36 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 
 //			RebuildTrees(); //do we need that?
 		}
+		else if( _view->GetID() == "PrintBase" )
+		{
+#ifdef _DEBUG
+			std::cout << "INFO: PrintActivity request to 3D print model without pole and with base" << std::endl;
+#endif
+			VolumeTree::Tree tmpTree;
+			tmpTree.SetRoot( m_totemController->GetNodeTree() );
+			if (!tmpTree.IsPrintable(false, true))
+			{
+				//TODO: handle that in the interface
+				std::cout << "ERROR: Model is not printable!" << std::endl;
+			}
+			else
+			{
+				// for meshes we use timestamp instead of increasing numbers
+				// subject to discussion with teachers
+				std::string extension = ".obj";
+				//
+				using namespace boost::posix_time;
+				ptime now = second_clock::universal_time();
+				static std::locale loc(std::cout.getloc(), new time_facet("%Y%m%d_%H%M%S"));
+				std::ostringstream ss;
+				ss.imbue(loc);
+				ss << now;
+				std::string filename = m_saveDir + m_saveName + ss.str() + extension;
+				tmpTree.SaveMesh(filename, false, true);
+			}
+
+//			RebuildTrees(); //do we need that?
+		}
 		else if( _view->GetID() == "BackButton" )
 		{
 			m_totemController->ShowSelection( true );
