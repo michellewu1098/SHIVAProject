@@ -768,7 +768,7 @@ bool VolumeTree::Tree::IsPrintable( bool bIncludePole, bool bIncludeBase )
 		Node* pChild2 = m_rootNode->GetNextChild(pChild1);
 		if (!pChild1 || !pChild2)
 			return false;
-		pRootNode = BuildExportNode(pChild2);
+		pRootNode = BuildExportNode(pChild1);
 	}
 	else if (!bIncludePole && bIncludeBase)
 	{
@@ -778,7 +778,23 @@ bool VolumeTree::Tree::IsPrintable( bool bIncludePole, bool bIncludeBase )
 		Node* pChild1 = m_rootNode->GetFirstChild();
 		if (!pChild1)
 			return false;
-		pRootNode = BuildExportNode(pChild1);
+		Node* pChild2 = m_rootNode->GetNextChild(pChild1);
+		if (!pChild2)
+			return false;
+		nodeTypeStr = pChild2->GetNodeType();
+		if (nodeTypeStr != "CSGNode")
+			return false;
+		Node* pPole = pChild2->GetFirstChild();
+		Node* pBase = pChild2->GetNextChild(pPole);
+		
+		VolumeTree::CSGNode* pCSG = new VolumeTree::CSGNode(pChild1, pPole);
+		pRootNode = BuildExportNode(pCSG);
+		if (!pRootNode) return false;
+		unsigned int nRetCode = totemio::analyseModel(pRootNode);
+		if (nRetCode != totemio::CODE_OK)
+			return false;
+		delete pCSG;
+		return true;
 	}
 	else 
 	{
@@ -830,7 +846,7 @@ bool VolumeTree::Tree::SaveMesh( std::string _filename, bool bIncludePole, bool 
 		Node* pChild2 = m_rootNode->GetNextChild(pChild1);
 		if (!pChild1 || !pChild2)
 			return false;
-		pRootNode = BuildExportNode(pChild2);
+		pRootNode = BuildExportNode(pChild1);
 	}
 	else if (!bIncludePole && bIncludeBase)
 	{
@@ -840,12 +856,46 @@ bool VolumeTree::Tree::SaveMesh( std::string _filename, bool bIncludePole, bool 
 		Node* pChild1 = m_rootNode->GetFirstChild();
 		if (!pChild1)
 			return false;
-		pRootNode = BuildExportNode(pChild1);
+		Node* pChild2 = m_rootNode->GetNextChild(pChild1);
+		if (!pChild2)
+			return false;
+		nodeTypeStr = pChild2->GetNodeType();
+		if (nodeTypeStr != "CSGNode")
+			return false;
+		Node* pPole = pChild2->GetFirstChild();
+		Node* pBase = pChild2->GetNextChild(pPole);
+		
+		VolumeTree::CSGNode* pCSG = new VolumeTree::CSGNode(pChild1, pBase);
+		pRootNode = BuildExportNode(pCSG);
+
+		if (!totemio::saveMesh( _filename.c_str(), pRootNode, 0.01f ))
+			return false;
+		delete pCSG;
+		return true;
+
 	}
 	else
 	{
-		//unsupported mode at the moment
-		return false;
+		std::string nodeTypeStr = m_rootNode->GetNodeType();
+		if (nodeTypeStr != "CSGNode")
+			return false;
+		Node* pChild1 = m_rootNode->GetFirstChild();
+		if (!pChild1)
+			return false;
+		Node* pChild2 = m_rootNode->GetNextChild(pChild1);
+		if (!pChild2)
+			return false;
+		nodeTypeStr = pChild2->GetNodeType();
+		if (nodeTypeStr != "CSGNode")
+			return false;
+		Node* pPole = pChild2->GetFirstChild();
+		
+		VolumeTree::CSGNode* pCSG = new VolumeTree::CSGNode(pChild1, pPole);
+		pRootNode = BuildExportNode(pCSG);
+		if (!totemio::saveMesh( _filename.c_str(), pRootNode, 0.01f ))
+			return false;
+		delete pCSG;
+		return true;
 	}
 
 	if (!pRootNode) return false;
