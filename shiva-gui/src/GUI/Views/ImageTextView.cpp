@@ -199,24 +199,7 @@ TiXmlElement* ShivaGUI::ImageTextView::Deflate( ResourceManager* _resources )
 	TiXmlElement* xmlNode = View::Deflate( _resources );
 	xmlNode->SetValue( "ImageTextView" );
 
-	// We only need to output parameters which were *not* given to usa via a theme
 
-	if( !m_contentDrawableFromTheme )
-	{
-		std::string srcFilename;
-		
-		if( m_contentGenDrawable != NULL )
-		{
-			srcFilename = m_contentGenDrawable->GetFilename();
-		}
-
-		// The source might have been generated rather than loaded from file, so only output if we have a filename to give
-		if( !srcFilename.empty() )
-		{
-			std::cout << "INFO: ImageTextView deflate: filename contains: " << srcFilename << std::endl;
-			xmlNode->SetAttribute( "src", srcFilename );
-		}
-	}
 
 	if( !m_textBody.empty() )
 		xmlNode->SetAttribute( "text", m_textBody );
@@ -260,6 +243,26 @@ TiXmlElement* ShivaGUI::ImageTextView::Deflate( ResourceManager* _resources )
 			pos = "bottom";
 
 		xmlNode->SetAttribute( "icon_position", pos );
+	}
+
+		
+	// We only need to output parameters which were *not* given to usa via a theme
+
+	if( !m_contentDrawableFromTheme )
+	{
+		std::string srcFilename;
+		
+		if( m_contentGenDrawable != NULL )
+		{
+			srcFilename = m_contentGenDrawable->GetFilename();
+		}
+
+		// The source might have been generated rather than loaded from file, so only output if we have a filename to give
+		if( !srcFilename.empty() )
+		{
+			std::cout << "INFO: ImageTextView deflate: filename contains: " << srcFilename << std::endl;
+			xmlNode->SetAttribute( "src", srcFilename );
+		}
 	}
 
 	return xmlNode;
