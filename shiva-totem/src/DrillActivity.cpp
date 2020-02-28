@@ -171,8 +171,8 @@ void DrillActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 		else if( _view->GetID() == "DrillSizeDecrease" )
 		{
 			m_drillSize -= m_drillSizeStep;
-			if( m_drillSize < 0.05f )
-				m_drillSize = 0.05f;
+			if( m_drillSize < 0.01f )
+				m_drillSize = 0.01f;
 		}
 		else if( _view->GetID() == "DrillSizeReset" )
 		{
