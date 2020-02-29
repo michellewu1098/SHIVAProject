@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	layout_width = "fill_parent"
+	layout_height = "fill_parent"
+	orientation = "vertical"
+	background = "System/Theme02/background.xml" >
+	
+	<TextView
+		layout_width = "fill_parent"
+		layout_height = "fill_parent"
+		layout_weight = "0.2"
+		text = "Profile Manager"
+		text_alignment = "right" />
+	
+	<LinearLayout
+		layout_width = "fill_parent"
+		layout_height = "fill_parent"
+		layout_weight = "0.08"
+		orientation = "horizontal" >
+		
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.1" />
+			
+		<TextView
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.4"
+			text = "Current Profile: " />
+			
+		<TextView
+			id = "CurrentProfileDisplay"
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.4"
+			text = "- none -" />
+			
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.1" />
+			
+	</LinearLayout>
+	
+  <!--
+	<LinearLayout
+		layout_width = "fill_parent"
+		layout_height = "fill_parent"
+		layout_weight = "0.2"
+		orientation = "horizontal" >
+		
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.1" />
+
+		<TextButton
+			layout_width = "wrap_content"
+			layout_height = "wrap_content"
+			layout_weight = "0.2"
+			onClick = "EditProfileHandler"
+			text = "Edit..." />
+			
+		<TextButton
+			layout_width = "wrap_content"
+			layout_height = "wrap_content"
+			layout_weight = "0.2"
+			onClick = "CopyProfileHandler"
+			text = "Copy" />
+			
+		<TextButton
+			layout_width = "wrap_content"
+			layout_height = "wrap_content"
+			layout_weight = "0.2"
+			onClick = "NewProfileHandler"
+			text = "New..." />
+			
+		<TextButton
+			layout_width = "wrap_content"
+			layout_height = "wrap_content"
+			layout_weight = "0.2"
+			onClick = "DeleteProfileHandler"
+			text = "Delete" />
+			
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.1" />
+			
+	</LinearLayout>
+  -->
+		
+	<LinearLayout
+		layout_width = "fill_parent"
+		layout_height = "fill_parent"
+		layout_weight = "0.08"
+		orientation = "horizontal" >
+		
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.1" />
+			
+		<TextView
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.5"
+			text = "Available Profiles:" />
+			
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.4" />
+			
+	</LinearLayout>
+			
+	
+	<LinearLayout
+		layout_width = "fill_parent"
+		layout_height = "fill_parent"
+		layout_weight = "0.3"
+		orientation = "horizontal" >
+		
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.1" />
+				
+		<ScrollContainer
+			layout_weight = "0.8"
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			scroll_vertical = "true"
+			scroll_horizontal = "true" >
+			
+			<ListView
+				layout_width = "wrap_content"
+				layout_height = "wrap_content"
+				id = "ProfilesList" />
+		
+		</ScrollContainer>
+		
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.1" />
+			
+	</LinearLayout>
+		
+		
+	<LinearLayout
+		layout_width = "fill_parent"
+		layout_height = "fill_parent"
+		layout_weight = "0.2"
+		orientation = "horizontal">
+		
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.1" />
+			
+		<TextView
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.3"
+			text = "Profile Directory: " />
+			
+		<TextView
+			id = "CurrentProfileDirectory"
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.3"
+			text = "- none -" />
+			
+		<TextButton
+			id = "Browse"
+			layout_width = "wrap_content"
+			layout_height = "wrap_content"
+			layout_weight = "0.5"
+			onClick = "BrowseProfileDirectoryHandler"
+			text = "Browse..." />
+			
+	</LinearLayout>
+		
+		
+	<LinearLayout
+		layout_width = "fill_parent"
+		layout_height = "fill_parent"
+		layout_weight = "0.2"
+		orientation = "horizontal" >
+		
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.35" />
+			
+		<TextButton
+			layout_width = "wrap_content"
+			layout_height = "wrap_content"
+			layout_weight = "0.3"
+			onClick = "StartActivityHandler"
+			text = "Start" />
+			
+		<TextButton	
+			id = "NewProfileActivity"
+			layout_width = "wrap_content"
+			layout_height = "wrap_content"
+			layout_weight = "0.3"
+			onClick = "NewProfileHandler"
+			text = "New" />
+			
+		<View
+			layout_width = "fill_parent"
+			layout_height = "fill_parent"
+			layout_weight = "0.35" />
+			
+	</LinearLayout>
+	
+</LinearLayout>
