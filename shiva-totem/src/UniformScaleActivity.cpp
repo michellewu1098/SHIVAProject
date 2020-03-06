@@ -330,6 +330,28 @@ void UniformScaleActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 				}
 			}*/
 		}
+
+
+		else if( _view->GetID() == "ScaleXYUp" )
+		{
+			ScaleCommand* scaleCmd = new ScaleCommand();
+			scaleCmd->SetScaleStepSize( m_scaleStepsize, m_scaleStepsize, 0.f );
+			scaleCmd->SetScaling( "up" );
+
+			m_commandManager->Execute( scaleCmd );
+		}
+		else if( _view->GetID() == "ScaleXYDown" )
+		{
+			ScaleCommand* scaleCmd = new ScaleCommand();
+			scaleCmd->SetScaleStepSize( m_scaleStepsize, m_scaleStepsize, 0.f);
+			scaleCmd->SetScaling( "down" );
+
+			m_commandManager->Execute( scaleCmd );
+		}
+
+
+
+
 		else if( _view->GetID() == "ScaleReset" )
 		{
 			ResetScaleCommand* resetScaleCmd = new ResetScaleCommand();
