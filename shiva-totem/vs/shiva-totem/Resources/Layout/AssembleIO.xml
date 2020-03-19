@@ -669,6 +669,19 @@
 		next_focus_left="RotateUp"
 	/>
 	
+	<TextButton
+		id="ChangeColour"
+		layout_width="0.2"
+		layout_height="0.1"
+		layout_centreX="0.5"
+		layout_centreY="0.5"
+		onClick="buttonHandler"
+		text="Change Colour"    
+		scan_prev="Save"
+		next_focus_up="Save"
+		next_focus_right="PrimitiveList"
+		next_focus_left="RotateUp"
+	/>	
 	<!--<ImageTextButton
 		id = "Load"
 		layout_width = "0.12"
