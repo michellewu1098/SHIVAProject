@@ -75,7 +75,7 @@ GLSLRenderer::GLSLRenderer( unsigned int _width, unsigned int _height )
 		std::cout << "INFO: GLSLRenderer detected an ATI-based graphics card" << std::endl;
 		if(  "ATI Mobility Radeon HD 3400 Series" == ( const char* ) glGetString( GL_RENDERER ) )
 		{
-			// This card is crazy, give is a separate value
+			// This card is crazy, give it a separate value
 			divisor = 16;
 			std::cout << "INFO: GLSLRenderer detected an ATI Mobility Radeon HD 3400 Series card, using param divisor: " << divisor << std::endl;
 		}
