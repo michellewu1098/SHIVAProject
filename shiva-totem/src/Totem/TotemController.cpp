@@ -353,6 +353,8 @@ void Totem::Controller::MoveSelectedObject( float _x, float _y, float _z )
 	{
 		m_selectedObject->AddTranslationOffset( _x, _y, _z );
 		m_objectRoot = m_selectedObject->GetRoot();
+	
+		RebuildPole();	// This will cause the pole to resize, avoiding the 'long pole' problem that existed previously.
 	}
 }
 
