@@ -1,99 +1,86 @@
-<?xml version="1.0" encoding="utf-8"?>
-<CustomLayout
-	layout_width = "fill_parent"
-	layout_height = "fill_parent"
-	background = "@RootViewBackground">
-	
-	<TextView
-		id = "titleTextView"
-		layout_width = "wrap_content"
-		layout_height = "wrap_content"
-		layout_centreX = "0.5"
-		layout_centreY = "0.05"
-		text = "print or export" />
-	
-	<VolView
-		id = "MainVolView"
-		layout_width = "0.34"
-		layout_height = "0.75"
-		layout_centreX = "0.3"
-		layout_centreY = "0.55"
-		cameraPositionY = "1"
-		cameraPositionZ = "5.0"
-		cameraTargetY = "0" />
-	
-	<TextButton
-		id = "PrintAll"
-		layout_width = "0.12"
-		layout_height = "0.2"
-		layout_centreX = "0.94"
-		layout_centreY = "0.31"
-		height_constrained = "true"
-		scaleContent = "true"
-		keepContentAspectRatio = "true"
-		onClick = "buttonHandler"
-		text = "mesh + totem"
-
-		next_focus_up = "BackButton"
-		next_focus_down = "PrintBase" />
-		
-	<TextButton
-		id = "PrintBase"
-		layout_width = "0.12"
-		layout_height = "0.2"
-		layout_centreX = "0.94"
-		layout_centreY = "0.5"
-		scaleContent = "true"
-		keepContentAspectRatio = "true"
-		onClick = "buttonHandler"
-		text = "mesh + base"
-
-		next_focus_up = "PrintAll"
-		next_focus_down = "PrintModel" />
-
-	<TextButton
-		id = "PrintModel"
-		layout_width = "0.12"
-		layout_height = "0.2"
-		layout_centreX = "0.94"
-		layout_centreY = "0.69"
-		scaleContent = "true"
-		keepContentAspectRatio = "true"
-		onClick = "buttonHandler"
-		text = "mesh only"
-
-		next_focus_up = "PrintBase"
-		next_focus_down = "Export" />
-
-	<TextButton
-		id = "Export"
-		layout_width = "0.12"
-		layout_height = "0.2"
-		layout_centreX = "0.94"
-		layout_centreY = "0.98"
-		scaleContent = "true"
-		keepContentAspectRatio = "true"
-		onClick = "buttonHandler"
-		text = "export" 
-		
-		next_focus_up = "PrintModel" />
-		
-	<ImageTextButton
-		id = "BackButton"
-		layout_width = "0.12"
-		layout_height = "0.2"
-		layout_centreX = "0.94"
-		layout_centreY = "0.12"
-		height_constrained = "true"
-		scaleContent = "true"
-		keepContentAspectRatio = "true"
-		icon_position = "top"
-		onClick = "buttonHandler"
-		text = "back"
-		src = "System/CommandSymbols/Back.xml" 
-		
-		first_focus = "true" 
-		
-		next_focus_down = "PrintAll" />
-		
+<CustomLayout background="System/ThemeSystem/LinearGradientBackground.xml">
+    <TextView id="titleTextView"
+              layout_width="WRAP_CONTENT"
+              layout_height="WRAP_CONTENT"
+              height_constrained="false"
+              width_constrained="false"
+              layout_centreX="0.446822"
+              layout_centreY="0.0465517"
+              text="print or export"
+              text_alignment="1" />
+    <VolView id="MainVolView"
+             layout_width="0.34"
+             layout_height="0.75"
+             height_constrained="false"
+             width_constrained="false"
+             layout_centreX="0.441375"
+             layout_centreY="0.463793" />
+    <TextButton id="PrintAll"
+                next_focus_up="BackButton"
+                next_focus_down="PrintBase"
+                layout_width="0.215052"
+                layout_height="0.121296"
+                padding="10"
+                height_constrained="true"
+                width_constrained="false"
+                layout_centreX="0.883359"
+                layout_centreY="0.788009"
+                onClick="buttonHandler"
+                text="model + pole + base (.obj)"
+                text_alignment="1" />
+    <TextButton id="PrintBase"
+                next_focus_up="PrintAll"
+                next_focus_down="PrintModel"
+                layout_width="0.280156"
+                layout_height="0.1375"
+                padding="10"
+                height_constrained="false"
+                width_constrained="false"
+                layout_centreX="0.857969"
+                layout_centreY="0.355325"
+                onClick="buttonHandler"
+                text="model + base only (.obj)"
+                text_alignment="1" />
+    <TextButton id="PrintModel"
+                next_focus_up="PrintBase"
+                next_focus_down="Export"
+                layout_width="0.273646"
+                layout_height="0.121297"
+                padding="10"
+                height_constrained="false"
+                width_constrained="false"
+                layout_centreX="0.85862"
+                layout_centreY="0.501343"
+                onClick="buttonHandler"
+                text="model only (.obj)"
+                text_alignment="1" />
+    <TextButton id="Export"
+                next_focus_up="PrintModel"
+                layout_width="0.216355"
+                layout_height="0.102778"
+                padding="10"
+                height_constrained="false"
+                width_constrained="false"
+                layout_centreX="0.882709"
+                layout_centreY="0.916854"
+                onClick="buttonHandler"
+                text=".vol"
+                text_alignment="1" />
+			
+    <ImageTextButton id="BackButton"
+                     first_focus="1"
+                     next_focus_down="PrintAll"
+                     layout_width="0.12"
+                     layout_height="0.2"
+                     padding="10"
+                     height_constrained="true"
+                     width_constrained="false"
+                     layout_centreX="0.94"
+                     layout_centreY="0.12"
+                     src="System/CommandSymbols/Back.xml"
+                     onClick="buttonHandler"
+                     text="back"
+                     icon_percentSize="0.75"
+                     text_percentSize="0.25"
+                     icon_position="top" />
 </CustomLayout>
