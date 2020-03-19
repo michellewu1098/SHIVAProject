@@ -49,6 +49,13 @@ void DrillActivity::OnCreate( ShivaGUI::Bundle *_data )
 		m_drillSizeStep = prefs->GetFloat( "DrillSizeStep", m_drillSizeStep );
 	}
 
+	// Set totem colour
+	m_objectColourR = prefs->GetTotColourR();
+	m_objectColourG = prefs->GetTotColourG();
+	m_objectColourB = prefs->GetTotColourB();
+	
+	m_setObjectColour = true;
+
 	// We will now tell the system what to display on the windows
 
 	// Find out how many windows we have
