@@ -39,6 +39,12 @@ void UniformScaleActivity::OnCreate( ShivaGUI::Bundle *_data )
 		m_scaleStepsize = prefs->GetFloat( "ScaleStepsize", m_scaleStepsize );
 	}
 
+	// Set totem colour
+	m_objectColourR = prefs->GetTotColourR();
+	m_objectColourG = prefs->GetTotColourG();
+	m_objectColourB = prefs->GetTotColourB();
+	
+	m_setObjectColour = true;
 
 	// We will now tell the system what to display on the windows
 
