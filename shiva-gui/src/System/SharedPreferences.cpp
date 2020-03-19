@@ -194,3 +194,43 @@ TiXmlNode* ShivaGUI::SharedPreferences::GetPrefNode( std::string _key )
 }
 
 //----------------------------------------------------------------------------------
+static	float m_objectColourR = 0.88f;
+
+		void ShivaGUI::SharedPreferences::SetTotColourR( float &_r)
+		{
+			m_objectColourR = _r; 
+		}
+
+		float ShivaGUI::SharedPreferences::GetTotColourR()
+		{
+			return m_objectColourR; 
+		}
+
+
+static	float m_objectColourG = 0.78f;
+
+		void ShivaGUI::SharedPreferences::SetTotColourG( float &_g)
+		{
+			m_objectColourG = _g; 
+		}
+
+		float ShivaGUI::SharedPreferences::GetTotColourG()
+		{
+			return m_objectColourG; 
+		}
+
+static	float m_objectColourB = 0.54f;
+
+		void ShivaGUI::SharedPreferences::SetTotColourB( float &_b)
+		{
+			m_objectColourB = _b;
+		}
+
+		float ShivaGUI::SharedPreferences::GetTotColourB()
+		{
+			return m_objectColourB;
+		}
+
+
+
+
