@@ -258,6 +258,10 @@ bool ShivaGUI::GUIManager::CreateWindowsFromProfile()
 
 			// Create our window
 			CreateWindow( width, height, positionX, positionY );
+			std::cout << "INFO: Window dimensions: " << "width: " << width << " height: " << height << " positionX: " << positionX << " positionY: " << positionY << std::endl;
+
+
+			
 
 			// Apply settings to the window's resource manager
 			m_windows.back().m_resourceManager->SetDefaultFont( fontName );
