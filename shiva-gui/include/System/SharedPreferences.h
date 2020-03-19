@@ -90,6 +90,25 @@ namespace ShivaGUI
 		void SetString( std::string _key, std::string _value );
 		//----------------------------------------------------------------------------------
 
+
+
+
+		void SetTotColourR(float &_r);
+
+		float GetTotColourR();
+
+		void SetTotColourG(float &_g);
+
+		float GetTotColourG();
+
+		void SetTotColourB(float &_b);
+
+		float GetTotColourB();
+
+
+
+
+
 	protected:
 
 		//----------------------------------------------------------------------------------
