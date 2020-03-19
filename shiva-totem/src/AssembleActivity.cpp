@@ -5,8 +5,24 @@
 #include "GUIManager.h"
 
 #include "boost/date_time/posix_time/posix_time.hpp"
+#include "windows.h"
 
 //----------------------------------------------------------------------------------
+
+void GetScreenRes(int& hoz, int& vert)
+{
+   RECT desktop;
+   // Get a handle to the desktop window
+   const HWND hDesktop = GetDesktopWindow();
+   // Get the size of screen to the variable desktop
+   GetWindowRect(hDesktop, &desktop);
+   // The top left corner will have coordinates (0,0)
+   // and the bottom right corner will have coordinates
+   // (horizontal, vertical)
+   hoz = desktop.right;
+   vert = desktop.bottom;
+}
+
 
 void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
 {
@@ -71,6 +87,9 @@ void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
 	m_modelListAdapter->SetMapping( &fromAttrib, &toView, 1 );
 	m_modelListAdapter->SetLayoutFile( "ModelListEntry.xml" );	// This is the layout xml that specifies the single entry for the ListView
 	m_modelListAdapter->SetIsModelAdapter( true );
+			   
+	int horizontal = 0;    
+	int vertical = 0;
 
 	// We will now tell the system what to display on the windows
 
@@ -83,6 +102,12 @@ void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
 		// We retrieve a GUIController
 		// This is our main method of accessing the resources associated with a Window
 		ShivaGUI::GUIController *guiController = GetGUIController( i );
+				
+		// Maximise window to fill the screen
+	    GetScreenRes(horizontal, vertical);
+	    std::cout << "INFO: Screen resolution: " << horizontal << " x " << vertical << std::endl;
+
+		guiController->ChangeWindowSize(horizontal, vertical); //GetSystemMetrics(SM_CXFULLSCREEN), GetSystemMetrics(SM_CYFULLSCREEN));//200, 200);
 
 		// Pass to resourceManager preferences set for Layout
 		guiController->SetLayoutPrefs( prefs );
@@ -253,6 +278,84 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		{
 			ResetRotation();
 		}
+		else if( _view->GetID() == "ChangeColour" )
+		{			
+			// We will now tell the system what to display on the windows
+			// First, find out how many windows we have
+			int numWindows = GetNumGUIControllers();
+
+			// For each of these
+			for( int i = 0; i < numWindows; i++ )
+				{
+				// We retrieve a GUIController
+				// This is our main method of accessing the resources associated with a Window
+
+				ShivaGUI::GUIController *guiController = GetGUIController( i );
+
+				ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
+
+				float r = 0.0f;
+				float g = 0.0f;
+				float b = 0.0f;
+
+				// The User Profile can specify how the windows are supposed to be used
+				// We can retrieve this using the GUIController and load a different window layout
+				ShivaGUI::Window::RequestedUse windowUse = guiController->GetRequestedUse();
+
+		//		if( windowUse == ShivaGUI::Window::OUTPUT )
+					{
+					// This window should be used for output info only, with no other widgets
+					VolView *volView = dynamic_cast< VolView* >(guiController->GetResources()->GetViewFromID( "MainVolView" ) );
+					static int ColCount = 1;
+			
+					switch (ColCount)
+						{
+							case 1: // Red
+								{
+									r = 1.0f;
+									g = 0.0f;
+									b = 0.0f;
+								}
+								break;
+
+							case 2: // Green
+								{
+									r = 0.0f;
+									g = 1.0f;
+									b = 0.0f;
+								}
+								break;
+
+							case 3: // Blue
+								{
+									r = 0.0f;
+									g = 0.0f;
+									b = 1.0f;
+								}
+								break;
+
+							case 4: // Yellow
+								{
+									r = 1.0f;
+									g = 1.0f;
+									b = 0.0f;
+									ColCount = 0;
+								}
+						}
+
+						ColCount++;
+
+						// Store the colour settings
+						prefs->SetTotColourR(r);
+						prefs->SetTotColourG(g);
+						prefs->SetTotColourB(b);
+
+						// Set the model colour
+						volView->SetObjectColour(r, g, b);
+					}
+			}
+		}
+
 		else if( _view->GetID() == "Edit" )
 		{
 			// If we say we expect a result we will be notified when it returns, so we can rebuild the trees
