@@ -101,10 +101,13 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 #endif
 			VolumeTree::Tree tmpTree;
 			tmpTree.SetRoot( m_totemController->GetNodeTree() );
-			if (!tmpTree.IsPrintable(true, true))
+			tinyfd_messageBox("Information", "About to check that the model is printable", "ok", NULL, NULL);
+			if (!tmpTree.IsPrintable( true, true))
 			{
 				//TODO: handle that in the interface
 				std::cout << "ERROR: Model is not printable!" << std::endl;
+
+				tinyfd_messageBox("ERROR!", "Model is not printable!", "ok", NULL, NULL);
 			}
 			else
 			{
@@ -119,7 +122,16 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 				ss.imbue(loc);
 				ss << now;
 				std::string filename = m_saveDir + m_saveName + ss.str() + extension;
-				tmpTree.SaveMesh(filename, true, true);
+				char const * lFilterPatterns[ 1 ] = { "*.obj" };
+
+				// Show save dialog
+				char const * theSaveFileName;
+				theSaveFileName = tinyfd_saveFileDialog ("SHIVA Models", filename.c_str(), 1, lFilterPatterns, NULL);
+
+				if (theSaveFileName)
+				{
+					tmpTree.SaveMesh(theSaveFileName, true, true);
+				}
 			}
 
 //			RebuildTrees(); //do we need that?
@@ -131,10 +143,13 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 #endif
 			VolumeTree::Tree tmpTree;
 			tmpTree.SetRoot( m_totemController->GetNodeTree() );
+			tinyfd_messageBox("Information", "About to check that the model is printable", "ok", NULL, NULL);
 			if (!tmpTree.IsPrintable(false, false))
 			{
 				//TODO: handle that in the interface
 				std::cout << "ERROR: Model is not printable!" << std::endl;
+
+				tinyfd_messageBox("ERROR!", "Model is not printable!", "ok", NULL, NULL);
 			}
 			else
 			{
@@ -149,7 +164,17 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 				ss.imbue(loc);
 				ss << now;
 				std::string filename = m_saveDir + m_saveName + ss.str() + extension;
-				tmpTree.SaveMesh(filename, false, false);
+				
+				char const * lFilterPatterns[ 1 ] = { "*.obj" };
+
+				// Show save dialog
+				char const * theSaveFileName;
+				theSaveFileName = tinyfd_saveFileDialog ("SHIVA Models", filename.c_str(), 1, lFilterPatterns, NULL);
+
+				if (theSaveFileName)
+				{
+					tmpTree.SaveMesh(theSaveFileName, false, false);
+				}
 			}
 
 //			RebuildTrees(); //do we need that?
@@ -161,15 +186,19 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 #endif
 			VolumeTree::Tree tmpTree;
 			tmpTree.SetRoot( m_totemController->GetNodeTree() );
+			tinyfd_messageBox("Information", "About to check that the model is printable", "ok", NULL, NULL);
 			if (!tmpTree.IsPrintable(false, true))
 			{
 				//TODO: handle that in the interface
 				std::cout << "ERROR: Model is not printable!" << std::endl;
+
+				tinyfd_messageBox("ERROR!", "Model is not printable!", "ok", NULL, NULL);
 			}
 			else
 			{
 				// for meshes we use timestamp instead of increasing numbers
 				// subject to discussion with teachers
+
 				std::string extension = ".obj";
 				//
 				using namespace boost::posix_time;
@@ -179,7 +208,17 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 				ss.imbue(loc);
 				ss << now;
 				std::string filename = m_saveDir + m_saveName + ss.str() + extension;
-				tmpTree.SaveMesh(filename, false, true);
+
+				char const * lFilterPatterns[ 1 ] = { "*.obj" };
+
+				// Show save dialog
+				char const * theSaveFileName;
+				theSaveFileName = tinyfd_saveFileDialog ("SHIVA Models", filename.c_str(), 1, lFilterPatterns, NULL);
+
+				if (theSaveFileName)
+				{
+					tmpTree.SaveMesh(theSaveFileName, false, true);
+				}
 			}
 
 //			RebuildTrees(); //do we need that?
@@ -214,18 +253,27 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 			}
 			while( ( i < 10000 ) && !fileFound );
 
-			if( fileFound )
-			{
-				if( !boost::filesystem::exists( m_saveDir ) )
-				{
-					boost::filesystem::create_directory( m_saveDir );
-				}
+			char const * lFilterPatterns[ 1 ] = { "*.vol" };
 
-				tempTree.Save( fullFilename );
-			}
-			else
+			// Show save dialog
+			char const * theSaveFileName;
+			theSaveFileName = tinyfd_saveFileDialog ("SHIVA Models", fullFilename.c_str(), 1, lFilterPatterns, NULL);
+
+			if (theSaveFileName)
 			{
-				std::cerr << "WARNING: Cannot export file. Try removing previous files, limit is 10000 files" << std::endl;
+				if( fileFound )
+				{
+					if( !boost::filesystem::exists( m_saveDir ) )
+					{
+						boost::filesystem::create_directory( m_saveDir );
+					}
+
+					tempTree.Save( theSaveFileName );				
+				}
+				else
+				{
+					std::cerr << "WARNING: Cannot export file. Try removing previous files, limit is 10000 files" << std::endl;
+				}
 			}
 
 			delete rootScaleNode;
