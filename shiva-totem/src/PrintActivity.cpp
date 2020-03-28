@@ -278,6 +278,54 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 
 			delete rootScaleNode;
 		}
+		else if( _view->GetID() == "Save" )
+		{
+#ifdef _DEBUG
+			std::cout << "INFO: AssembleActivity request to save tree" << std::endl;
+#endif
+			VolumeTree::Tree tempTree;
+
+			tempTree.SetRoot( m_totemController->GetNodeTree() );
+			bool fileFound = false;
+			std::string fullFilename;
+			std::string extension = ".xml";
+			unsigned int i = 1;
+			do
+			{
+				std::stringstream fileNum;
+				fileNum<<i;
+				fullFilename = m_saveDir + m_saveName + fileNum.str() + extension;
+				fileFound = !boost::filesystem::exists( fullFilename );
+				i++;
+			}
+			while( ( i < 10000 ) && !fileFound );
+
+			char const * lFilterPatterns[ 1 ] = { "*.xml" };
+
+			// Show save dialog
+			char const * theSaveFileName;
+			theSaveFileName = tinyfd_saveFileDialog ("SHIVA Models", fullFilename.c_str(), 1, lFilterPatterns, NULL);
+
+			if (theSaveFileName)
+			{
+				if( fileFound )
+				{
+					if( !boost::filesystem::exists( m_saveDir ) )
+					{
+						boost::filesystem::create_directory( m_saveDir );
+					}
+
+					tempTree.SaveXML( theSaveFileName );
+
+//				m_showSaveConfirmation = true;
+//				m_saveTextCounter = 3.0f;
+				}
+			}
+			else
+			{
+				std::cerr << "WARNING: Cannot save file. Try removing previous files, limit is 10000 files" << std::endl;
+			}
+		}
 		else if( _view->GetID() == "DeletePole" )
 		{
 
