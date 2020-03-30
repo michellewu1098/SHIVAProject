@@ -250,8 +250,8 @@ bool ShivaGUI::GUIManager::CreateWindowsFromProfile()
 			// We can now query our window settings
 			unsigned int width = m_profileManager->GetInt( "width", 640 );
 			unsigned int height = m_profileManager->GetInt( "height", 480 );
-			int positionX = m_profileManager->GetInt( "positionX", 50 );
-			int positionY = m_profileManager->GetInt( "positionY", 50 );
+			int positionX = m_profileManager->GetInt( "positionX", 0 );
+			int positionY = m_profileManager->GetInt( "positionY", 0 );
 			std::string fontName = m_profileManager->GetString( "font", m_defaultFont );
 			std::string themeName = m_profileManager->GetString( "theme", m_defaultTheme );
 			std::string windowUse = m_profileManager->GetString( "use", "ANYTHING" );
