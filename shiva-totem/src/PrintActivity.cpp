@@ -101,13 +101,13 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 #endif
 			VolumeTree::Tree tmpTree;
 			tmpTree.SetRoot( m_totemController->GetNodeTree() );
-			tinyfd_messageBox("Information", "About to check that the model is printable", "ok", NULL, NULL);
+			tinyfd_messageBox("Information", "About to check that the model is printable", "ok", "info", NULL);
 			if (!tmpTree.IsPrintable( true, true))
 			{
 				//TODO: handle that in the interface
 				std::cout << "ERROR: Model is not printable!" << std::endl;
 
-				tinyfd_messageBox("ERROR!", "Model is not printable!", "ok", NULL, NULL);
+				tinyfd_messageBox("ERROR!", "Model is not printable!", "ok", "error", NULL);
 			}
 			else
 			{
@@ -143,13 +143,13 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 #endif
 			VolumeTree::Tree tmpTree;
 			tmpTree.SetRoot( m_totemController->GetNodeTree() );
-			tinyfd_messageBox("Information", "About to check that the model is printable", "ok", NULL, NULL);
+			tinyfd_messageBox("Information", "About to check that the model is printable", "ok", "info", NULL);
 			if (!tmpTree.IsPrintable(false, false))
 			{
 				//TODO: handle that in the interface
 				std::cout << "ERROR: Model is not printable!" << std::endl;
 
-				tinyfd_messageBox("ERROR!", "Model is not printable!", "ok", NULL, NULL);
+				tinyfd_messageBox("ERROR!", "Model is not printable!", "ok", "error", NULL);
 			}
 			else
 			{
@@ -186,13 +186,13 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 #endif
 			VolumeTree::Tree tmpTree;
 			tmpTree.SetRoot( m_totemController->GetNodeTree() );
-			tinyfd_messageBox("Information", "About to check that the model is printable", "ok", NULL, NULL);
+			tinyfd_messageBox("Information", "About to check that the model is printable", "ok", "info", NULL);
 			if (!tmpTree.IsPrintable(false, true))
 			{
 				//TODO: handle that in the interface
 				std::cout << "ERROR: Model is not printable!" << std::endl;
 
-				tinyfd_messageBox("ERROR!", "Model is not printable!", "ok", NULL, NULL);
+				tinyfd_messageBox("ERROR!", "Model is not printable!", "ok", "error", NULL);
 			}
 			else
 			{
