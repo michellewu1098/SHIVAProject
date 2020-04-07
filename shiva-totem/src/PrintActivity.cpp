@@ -26,7 +26,7 @@ void PrintActivity::OnCreate( ShivaGUI::Bundle *_data )
 	m_saveRescaleSize = 20.0f;
 
 	m_saveDir = "Savefiles/";
-	m_saveName = "Totem";
+	m_saveName = "Model";//;
 
 	ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
 	if( prefs != NULL )
