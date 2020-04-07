@@ -152,6 +152,10 @@ int main( int argc, char **argv )
 				else if( primType == "Cone" )
 				{
 					currentModelNode = new VolumeTree::ConeNode( 0.5f, 0.25f );
+					
+					// This was to help identify which primitive button had been selected, but it didn't seem to work - I don't know why
+					// currentModelNode->SetIDString("Cone");	
+					// std::string nodeType = currentModelNode->GetNodeType();
 				}
 				else if( primType == "Cylinder" )
 				{
