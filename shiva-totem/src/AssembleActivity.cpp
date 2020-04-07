@@ -45,7 +45,7 @@ void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
 	m_saveRescaleSize = 20.0f;
 	
 	m_saveDir = "Savefiles/";
-	m_saveName = "Totem";
+	m_saveName = "Model";//"Totem";
 	ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
 	m_originalBlendingAmount = 0.0f;
 	if( prefs != NULL )
@@ -519,9 +519,6 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		addObjCmd->SetParameters( dataEntryIndex, GetNumGUIControllers() );
 
 		m_commandManager->Execute( addObjCmd );
-
-		//m_totemController->AddObjectToTop( dataEntryIndex, GetNumGUIControllers() );
-		//m_totemController->SelectTopObject();
 
 		// The Views now need to rebuild their trees:
 		RebuildTrees();
