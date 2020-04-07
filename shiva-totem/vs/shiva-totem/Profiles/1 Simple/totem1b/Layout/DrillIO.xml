@@ -10,7 +10,7 @@
 		height_constrained = "true"
 		icon_position = "left"
 		icon_percentSize = "0.25"
-		text = "drill operation"
+		text = "drill"
 		
 		src = "System/CommandSymbols/DrillTitle.xml" />
     <VolView id="MainVolView"
