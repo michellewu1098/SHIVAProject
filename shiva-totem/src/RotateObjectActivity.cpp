@@ -12,7 +12,8 @@ void RotateObjectActivity::OnCreate( ShivaGUI::Bundle *_data )
 	
 	m_buttonHandler = new UtilityEventHandler( this );
 
-	m_rotationStepsize = ( 3.14159265358979323846f / 24.0f ); // TODO: put in setting
+//	m_rotationStepsize = ( 3.14159265358979323846f / 24.0f ); // TODO: put in setting
+	m_rotationStepsize = 7.5f;
 	m_rotationX = m_rotationY = m_rotationZ = 0.0f;
 	
 	m_objectColourR = 0.88f;
@@ -89,52 +90,122 @@ void RotateObjectActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 	// the handler we are given should be one of those we registered
 	// The view we are given should be the View that generated the event (e.g. the button)
 	// Here we'll change the text that is displayed based on which button is pressed
-
 	if( _handler == m_buttonHandler )
 	{
 		if( _view->GetID() == "RotateLeft" )
 		{
+#ifdef _DEBUG
+			std::cout << "INFO: RotateActivity request to rotate left" << std::endl;
+#endif
+			m_rotationStepsize = 7.5f;
+			m_rotationZ -= m_rotationStepsize;
+		}
+		else if( _view->GetID() == "RotateRight" )
+		{ 
+#ifdef _DEBUG
+			std::cout << "INFO: RotateActivity request to rotate right" << std::endl;
+#endif
+			m_rotationStepsize = 7.5f;
+			m_rotationZ += m_rotationStepsize;
+		}
+		else if( _view->GetID() == "RotateUp" )
+		{
+#ifdef _DEBUG
+			std::cout << "INFO: RotateActivity request to rotate up" << std::endl;
+#endif
+			m_rotationStepsize = 7.5f;
+			m_rotationX -= m_rotationStepsize;
+		}
+		else if( _view->GetID() == "RotateDown" )
+		{
+#ifdef _DEBUG
+			std::cout << "INFO: RotateActivity request to rotate down" << std::endl;
+#endif
+			m_rotationStepsize = 7.5f;
+			m_rotationX += m_rotationStepsize;
+		}
+
+
+		if( _view->GetID() == "RotateObjLeft" )
+		{
+			m_rotationStepsize = ( 3.14159265358979323846f / 24.0f ); // TODO: put in setting
+
 			m_rotationZ -= m_rotationStepsize;
 
 			RotateCommand* rotCmd = new RotateCommand();
 			rotCmd->SetRotation( m_rotationX, m_rotationY, m_rotationZ );
 			m_commandManager->Execute( rotCmd );
+
+			m_rotationZ = 0;
+
+	//		RebuildTrees( true );
+	//		UpdateViews();
+
+//			RebuildTrees();
 		}
-		else if( _view->GetID() == "RotateRight" )
+		else if( _view->GetID() == "RotateObjRight" )
 		{
+			m_rotationStepsize = ( 3.14159265358979323846f / 24.0f ); // TODO: put in setting
+
 			m_rotationZ += m_rotationStepsize;
 
 			RotateCommand* rotCmd = new RotateCommand();
 			rotCmd->SetRotation( m_rotationX, m_rotationY, m_rotationZ );
 			m_commandManager->Execute( rotCmd );
+
+			m_rotationZ = 0;
+//			RebuildTrees();
 		}
-		else if( _view->GetID() == "RotateUp" )
+		else if( _view->GetID() == "RotateObjUp" )
 		{
+			m_rotationStepsize = ( 3.14159265358979323846f / 24.0f ); // TODO: put in setting
+
 			m_rotationX -= m_rotationStepsize;
 			RotateCommand* rotCmd = new RotateCommand();
 			rotCmd->SetRotation( m_rotationX, m_rotationY, m_rotationZ );
 			m_commandManager->Execute( rotCmd );
+
+			m_rotationX = 0;
+
+//			RebuildTrees();
 		}
-		else if( _view->GetID() == "RotateDown" )
+		else if( _view->GetID() == "RotateObjDown" )
 		{
+			m_rotationStepsize = ( 3.14159265358979323846f / 24.0f ); // TODO: put in setting
+
 			m_rotationX += m_rotationStepsize;
 			RotateCommand* rotCmd = new RotateCommand();
 			rotCmd->SetRotation( m_rotationX, m_rotationY, m_rotationZ );
 			m_commandManager->Execute( rotCmd );
+
+			m_rotationX = 0;
+
+//			RebuildTrees();
 		}
 		else if( _view->GetID() == "RotateYUp" )
 		{
+			m_rotationStepsize = ( 3.14159265358979323846f / 24.0f ); // TODO: put in setting
+
 			m_rotationY -= m_rotationStepsize;
 			RotateCommand* rotCmd = new RotateCommand();
 			rotCmd->SetRotation( m_rotationX, m_rotationY, m_rotationZ );
 			m_commandManager->Execute( rotCmd );
+
+			m_rotationY = 0;
+
+//			RebuildTrees();
 		}
 		else if( _view->GetID() == "RotateYDown" )
 		{
+			m_rotationStepsize = ( 3.14159265358979323846f / 24.0f ); // TODO: put in setting
+
 			m_rotationY += m_rotationStepsize;
 			RotateCommand* rotCmd = new RotateCommand();
 			rotCmd->SetRotation( m_rotationX, m_rotationY, m_rotationZ );
 			m_commandManager->Execute( rotCmd );
+
+			m_rotationY = 0;
+//			RebuildTrees();
 		}
 		//else if( _view->GetID() == "RotateZUp" )
 		//{
@@ -172,10 +243,12 @@ void RotateObjectActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 		else if( _view->GetID() == "UndoButton" )
 		{
 			m_commandManager->Undo();
+			RebuildTrees();
 		}
 		else if( _view->GetID() == "RedoButton" )
 		{
 			m_commandManager->Redo();
+			RebuildTrees();
 		}
 
 		// Update our views
@@ -211,7 +284,15 @@ void RotateObjectActivity::UpdateViews()
 		}
 	}*/
 
+	// _view->GetID() == "RotateRight"
+
+	for( std::vector< std::pair< VolView*, ShivaGUI::GUIController* > >::iterator it = m_volViews.begin(); it != m_volViews.end(); ++it )
+	{
+		( *it ).first->AddWorldRotationOffsetDegs( m_rotationX, m_rotationY, m_rotationZ );
+	}
+	
 	m_rotationX = m_rotationY = m_rotationZ = 0.0f;
+
 }
 
 //----------------------------------------------------------------------------------
