@@ -520,6 +520,14 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 
 		m_commandManager->Execute( addObjCmd );
 
+        // This did sort of work, but not on first press!!!
+///		_view->SetID( addObjCmd->GetPrimType() );
+
+		//GetGUIManager()->StartActivityForResult( _view->GetID(), NULL );
+
+		//m_totemController->AddObjectToTop( dataEntryIndex, GetNumGUIControllers() );
+		//m_totemController->SelectTopObject();
+
 		// The Views now need to rebuild their trees:
 		RebuildTrees();
 	}
