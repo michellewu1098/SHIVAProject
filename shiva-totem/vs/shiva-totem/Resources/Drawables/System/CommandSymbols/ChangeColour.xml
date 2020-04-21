@@ -5,7 +5,7 @@
   isUsingText =
   "true"
 >
-  <Layer src="System/CommandSymbols/Icons/changecolour_150x150.png"
+  <Layer src="System/CommandSymbols/Icons/changeColour_150x150.png"
          colour0="@RedColour"
          colour1="@GreenColour"
          colour2="@BlueColour"
