@@ -902,6 +902,105 @@ void RotateCommand::Redo()
 	}
 }
 
+
+//----------------------------------------------------------------------------------
+
+// RESET ROTATION ACTIVITY
+
+ResetRotationCommand::ResetRotationCommand() : m_rotX( 0.f ), m_rotY( 0.f ), m_rotZ( 0.f )
+{ }
+
+
+//----------------------------------------------------------------------------------
+
+void ResetRotationCommand::Execute( Totem::Controller* _controller )
+{
+	#ifdef _DEBUG
+	std::cout << "ResetRotationCommand EXECUTE asked to execute" << std::endl;
+	#endif
+
+	m_totemController = _controller;
+
+	if( m_totemController != NULL )
+	{
+		Totem::Object *currentObject = m_totemController->GetSelected();
+		m_object = currentObject;
+
+		if( currentObject != NULL )
+		{
+			// Remember rotation settings
+			currentObject->GetRotation(m_rotX, m_rotY, m_rotZ);
+//			m_rotY = currentObject->GetScaleY();
+//			m_rotZ = currentObject->GetScaleZ();
+
+			#ifdef _DEBUG
+			std::cout << "INFO: rotation reset object to: 0" << std::endl;
+			#endif
+
+			currentObject->SetRotation( 0.0f, 0.0f, 0.0f );
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------
+
+void ResetRotationCommand::Undo()
+{
+	#ifdef _DEBUG
+	std::cout << "ResetRotateCommand UNDO asked to execute" << std::endl; 
+	#endif
+	
+	if( m_totemController != NULL )
+	{
+		Totem::Object *currentObject = m_totemController->GetSelected();
+
+		if( currentObject != m_object )
+		{
+			currentObject->SetDrawBBox( false );
+			m_totemController->SetSelectedObject( m_object );
+			m_object->SetDrawBBox( true );
+			currentObject = m_object;
+		}
+
+		if( currentObject != NULL )
+		{
+			currentObject->SetRotation( m_rotX, m_rotY, m_rotZ );
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------
+
+void ResetRotationCommand::Redo()
+{
+	#ifdef _DEBUG
+	std::cout << "ResetRotateCommand REDO asked to execute" << std::endl; 
+	#endif
+
+	if( m_totemController != NULL )
+	{
+		Totem::Object *currentObject = m_totemController->GetSelected();
+
+		if( currentObject != m_object )
+		{
+			currentObject->SetDrawBBox( false );
+			m_totemController->SetSelectedObject( m_object );
+			m_object->SetDrawBBox( true );
+			currentObject = m_object;
+		}
+
+		if( currentObject != NULL )
+		{
+			#ifdef _DEBUG
+			std::cout << "INFO: adding object rotation: " << m_rotX << " " << m_rotY << " " << m_rotZ << std::endl;
+			#endif
+
+            // A redo of reset object rotation must put the object back to its original orienttion so set the rotation to zero
+			currentObject->SetRotation( 0, 0, 0);
+		}
+	}
+}
+
 //----------------------------------------------------------------------------------
 
 // RESET BLEND ACTIVITY

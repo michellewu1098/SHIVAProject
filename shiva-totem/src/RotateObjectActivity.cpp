@@ -207,6 +207,12 @@ void RotateObjectActivity::UtilityEventReceived( UtilityEventHandler *_handler, 
 			m_rotationY = 0;
 //			RebuildTrees();
 		}
+		else if( _view->GetID() == "RotateObjReset" )
+		{
+			ResetRotationCommand* resetRotCmd = new ResetRotationCommand();
+			
+			m_commandManager->Execute( resetRotCmd );
+		}
 		//else if( _view->GetID() == "RotateZUp" )
 		//{
 		//	m_rotationZ -= m_rotationStepsize;
