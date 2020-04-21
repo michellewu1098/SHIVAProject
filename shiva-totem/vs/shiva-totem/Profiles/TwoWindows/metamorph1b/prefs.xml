@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<SharedPreferences>
-    <ModelRotationSpeed type="float">0.4</ModelRotationSpeed>
-    <MorphStepsize type="float">0.1</MorphStepsize>
-    <ColourStepsize type="float">0.05</ColourStepsize>
-    <SDFQuality type="float">32.0</SDFQuality>
-</SharedPreferences>
