@@ -123,6 +123,12 @@ void Totem::Controller::SetPrimitiveNode( unsigned int _ID, VolumeTree::Node *_p
 			delete m_primitives[ _ID ];
 		}
 		m_primitives[ _ID ] = _primNode;
+
+		// Doesn't seem to work!!
+		if (_primNode->GetNodeType() == "ConeNode")
+		{
+			_primNode-> SetIDString("Cone");
+		}
 	}
 }
 
@@ -347,14 +353,254 @@ void Totem::Controller::ReorderSelectedObject( bool _moveUp )
 
 //----------------------------------------------------------------------------------
 
+bool AxisChanged(float axisValue)
+{
+	if (axisValue < 0.0f || axisValue > 0.0f)
+		return true;
+	else
+		return false;
+}
+
+//----------------------------------------------------------------------------------
+
+bool Totem::Controller::RebuildRequired(char changedAxis, float translationVal, float selectedObjectNewAxisVal, float selectedObjectAxisValB4)
+{
+	// Find out if the pole, base and objects need to be rebuilt because of the current move.
+	// (This helps to avoid the 'long pole' and 'distant view' issues that existed previously)
+	// A rebuild is triggered if an object is, or becomes, the furthest away from all other objects either:
+	//   - x axis: Leftmost / Rightmost
+	//	 - y axis: Closest / Furthest
+	//   - z axis: Highest / Lowest
+
+	// The algortihm for this is:
+	// - Iterate through the complete list of totem primitives/objects
+	//		- For the axis that has changed, compare the selected object with the current object
+	// If the selected object is, or was, the furthest on either end of the axis, rebuild the pole
+
+	// NOTE: This approach uses a single central point (middle) of the objects for comparison.  This could be far more complex and allow for the dimensions of objects,
+	//       perhaps using an object's bounding box.  It has been done this way as time was short.
+
+	float mSelectedObjectXB4 = 0.0f;
+	float mSelectedObjectYB4 = 0.0f;
+	float mSelectedObjectZB4 = 0.0f;
+
+	bool endOfList = false;
+	bool rebuildPole = false;
+
+	float mCurrentObjectAxisVal = 0.0f;
+
+	float mCurrentObjectX = 0.0f;
+	float mCurrentObjectY = 0.0f;
+	float mCurrentObjectZ = 0.0f;
+
+	bool mostNegB4 = true;
+	bool mostPosB4 = true;
+	bool mostNegNow = true;
+	bool mostPosNow = true;
+
+	float epsilon = 0.1f; // Used to see if 2 floating point numbers are roughly 'equal' (allowing for floating point vageries)
+	
+	m_objectRoot = m_selectedObject->GetRoot();
+
+	m_currentObject = m_objectRoot; // Start at the root
+
+	// Cycle through all objects comparing with the axis of the selected object that has changed i.e. x, y or z
+	while(!endOfList)
+	{
+		if (m_currentObject != NULL)  // This identifies when the end of the list has been reached
+		{	
+			if (m_currentObject != m_selectedObject) // Do NOT make a comparison of the selected object with itself!
+			{						
+				// Get the x, y and z co-ords of current object
+				m_currentObject->GetTranslation(mCurrentObjectX, mCurrentObjectY, mCurrentObjectZ);
+
+				// Identify which axis has changed
+				switch (changedAxis)
+				{
+					case 'x':
+						mCurrentObjectAxisVal =  mCurrentObjectX; // ROUNDF(mCurrentObjectX, 100); // Truncate to 2DP to avoid rounding issues
+						break;
+
+					case 'y':
+						mCurrentObjectAxisVal = mCurrentObjectY; // ROUNDF(mCurrentObjectY, 100); // Truncate to 2DP to avoid rounding issues
+						break;
+
+					case 'z':
+						mCurrentObjectAxisVal = mCurrentObjectZ; // ROUNDF(mCurrentObjectZ, 100); // Truncate to 2DP to avoid rounding issues
+						break;
+				}
+
+
+				// *** Movement along axis - -ve and +ve ***
+				//
+				// Example: x axis (left/right):
+				//
+				//					-----
+				//					|	|
+				//					|	|
+				//					|	|
+				//			-ve		|	|	+ve
+				//					|	|	
+				//					|	|
+				//					|	|
+				//			---------------------
+				//			|					|
+				//			---------------------
+				
+				// Is translation -ve?
+				if (translationVal < 0.0f)
+				{	
+					// Selected object has moved NEGATIVELY along the current axis
+
+					// IS the selected object NOW the MOST NEGATIVE on the axis (or WAS and STILL IS)? - if so, a rebuild will be needed.
+					// WAS the selected object the MOST POSITIVE on the axis and NOW IS NOT? - if so, a rebuild will be needed.
+
+					// Check if the selected object IS NOW the MOST NEGATIVE of all the objects on the axis
+					if ((mCurrentObjectAxisVal <= selectedObjectNewAxisVal) || (fabs(mCurrentObjectAxisVal - selectedObjectNewAxisVal) < epsilon))
+						// The selected object IS NOT the MOST NEGATIVE of all the objects on the axis
+						mostNegNow = false;
+						
+					// Check if the selected object WAS the MOST NEGATIVE of all the objects on the axis before
+					if ((mCurrentObjectAxisVal <= selectedObjectAxisValB4) || (fabs(mCurrentObjectAxisVal - selectedObjectAxisValB4) < epsilon))
+						// The selected object WAS NOT the MOST NEGATIVE of all the objects on the axis before
+						mostNegB4 = false;
+
+					// Check if the selected object IS NOW the MOST POSITIVE of all the objects on the axis
+					if ((mCurrentObjectAxisVal >= selectedObjectNewAxisVal) || (fabs(mCurrentObjectAxisVal - selectedObjectNewAxisVal) < epsilon))
+						// The selected object IS NOT the MOST POSITIVE of all the objects on the axis
+						mostPosNow = false;
+
+					// Check if the selected object WAS the MOST POSITIVE of all the objects on the axis
+					if ((mCurrentObjectAxisVal >= selectedObjectAxisValB4) || (fabs(mCurrentObjectAxisVal - selectedObjectAxisValB4) < epsilon))
+						// The selected object WAS NOT the MOST POSITIVE of all the objects on the axis before
+						mostPosB4 = false;
+				}
+
+
+				// Is translation +ve?
+				if (translationVal > 0.0f)
+				{
+					// Selected object has moved POSITIVELY along the current axis
+
+					// IS the selected object NOW the MOST POSITIVE (or WAS and STILL IS)? - if so, a rebuild will be needed.
+					// WAS the selected object the MOST NEGATIVE and NOW IS NOT? - if so, a rebuild will be needed.
+
+					// Check if the selected object IS NOW the MOST POSITIVE of all the objects on the axis
+					if ((mCurrentObjectAxisVal >= selectedObjectNewAxisVal) || (fabs(mCurrentObjectAxisVal - selectedObjectNewAxisVal) < epsilon))
+						// The selected object IS NOT the MOST POSITIVE of all the objects on the axis
+						mostPosNow = false;
+
+					// Check if the selected object WAS the MOST POSITIVE of all the objects on the axis
+					if ((mCurrentObjectAxisVal >= selectedObjectAxisValB4) || (fabs(mCurrentObjectAxisVal - selectedObjectAxisValB4) < epsilon))
+ 						// The selected object WAS NOT the MOST POSITIVE of all the objects on the axis
+						mostPosB4 = false;
+
+					// Check if the selected object IS NOW the MOST NEGATIVE of all the objects on the axis
+					if ((mCurrentObjectAxisVal <= selectedObjectNewAxisVal) || (fabs(mCurrentObjectAxisVal - selectedObjectNewAxisVal) < epsilon))
+ 						// The selected object IS NOT the MOST NEGATIVE of all the objects on the axis
+						mostNegNow = false;
+
+					// Check if the selected object WAS the MOST NEGATIVE of all the objects on the axis
+					if ((mCurrentObjectAxisVal <= selectedObjectAxisValB4) || (fabs(mCurrentObjectAxisVal - selectedObjectAxisValB4) < epsilon))
+ 						// The selected object WAS NOT the MOST NEGATIVE of all the objects on the axis
+						mostNegB4 = false;
+				}
+			}
+			// Get next object
+			m_currentObject = m_currentObject->GetChild();
+		}
+		else
+		{
+			endOfList = true;
+		}			
+	}	
+
+	// Rebuilding is only required if an object has moved along an axis and is now:
+	// - the furthest object on either end of that axis
+	// - or if the furthest object on an axis has now moved nearer to the others
+	if (mostNegNow || mostPosNow ||
+		(mostPosB4 && !mostPosNow) || (mostNegB4 && !mostNegNow))
+		return true;
+	else
+		return false;
+}
+
+//----------------------------------------------------------------------------------
+	
 void Totem::Controller::MoveSelectedObject( float _x, float _y, float _z )
 {
 	if( m_selectedObject != NULL )
 	{
+		// Find out if the pole and base (and objects) need to be rebuilt because of the current move/translation.
+		// (This helps to refocus the model to fit the space available and avoids the 'long pole' and 'distant view' issues that existed previously).
+		// NOTE: For efficiency reasons, a rebuild is only performed when needed rather than every time a move occurs.
+		//		 Rebuilding is 'computationally expensive'/has a performance impact, and so should only be done when necessary.
+		// A rebuild is triggered if an object becomes, or was the furthest away from all other objects either:
+		//   - x axis: Leftmost / Rightmost
+		//	 - y axis: Closest / Furthest
+		//   - z axis: Highest / Lowest
+
+
+		// The algortihm for this is:
+		// - Iterate through the list of totem primitives
+		// - If the moved primitive is or was the leftmost/rightmost, furthest/closest, highest/lowest then rebuild the pole
+
+		float mSelectedObjectXB4 = 0.0f;
+		float mSelectedObjectYB4 = 0.0f;
+		float mSelectedObjectZB4 = 0.0f;
+
+		float mSelectedObjectX = 0.0f;
+		float mSelectedObjectY = 0.0f;
+		float mSelectedObjectZ = 0.0f;
+
+		float mCurrentObjectX = 0.0f;
+		float mCurrentObjectY = 0.0f;
+		float mCurrentObjectZ = 0.0f;
+
+		bool endOfList = false;
+		bool rebuildPole = false;
+
+		bool leftmostB4 = true;
+		bool rightmostB4 = true;
+		bool closestB4 = true;
+		bool furthestB4 = true;
+		bool highestB4 = true;
+		bool lowestB4 = true;
+
+		bool leftmostNow = true;
+		bool rightmostNow = true;
+		bool closestNow = true;
+		bool furthestNow = true;
+		bool highestNow = true;
+		bool lowestNow = true;
+
+		bool xChanged = false;
+		bool yChanged = false;
+		bool zChanged = false;
+
+
+		// Get x, y and z co-ords of the selected object before the translation is applied
+		m_selectedObject->GetTranslation(mSelectedObjectXB4, mSelectedObjectYB4, mSelectedObjectZB4);
+
+		// Apply the translation
 		m_selectedObject->AddTranslationOffset( _x, _y, _z );
-		m_objectRoot = m_selectedObject->GetRoot();
-	
-		RebuildPole();	// This will cause the pole to resize, avoiding the 'long pole' problem that existed previously.
+
+		// Get x, y and z co-ords of the selected object after translation
+		m_selectedObject->GetTranslation(mSelectedObjectX, mSelectedObjectY, mSelectedObjectZ);
+
+		bool rebuild = false;
+
+		if (AxisChanged(_x))
+			rebuild = RebuildRequired('x', _x, mSelectedObjectX, mSelectedObjectXB4);
+		else
+			if (AxisChanged(_y))
+				rebuild = RebuildRequired('y', _y, mSelectedObjectY, mSelectedObjectYB4);
+			else
+				if (AxisChanged(_z))
+					rebuild = RebuildRequired('z', _z, mSelectedObjectZ, mSelectedObjectZB4);
+
+		if (rebuild == true)
+			RebuildPole();	// This will cause the pole to resize, avoiding the 'long pole' problem that existed previously.
 	}
 }
 
