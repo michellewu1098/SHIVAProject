@@ -23,6 +23,7 @@
 #include "Input/InternalEvent.h"
 #include "GUI/GUIController.h"
 #include "System/Bundle.h"
+#include "Utility/tinyfiledialogs.h"
 
 namespace ShivaGUI
 {
