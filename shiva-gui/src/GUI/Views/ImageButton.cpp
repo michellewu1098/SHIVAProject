@@ -199,10 +199,15 @@ void ShivaGUI::ImageButton::Draw( unsigned int _context )
 
 void ShivaGUI::ImageButton::Inflate( TiXmlElement *_xmlElement, ResourceManager *_resources, std::string _themePrefix, bool _rootNode )
 {
+	#ifdef _DEBUG
+	std::cout << "INFO: _resources->GetButtonName(): " << _resources->GetButtonName() << std::endl;
+	#endif
+
 	if( _themePrefix.empty() )
 		_themePrefix = "ImageButton_";
 	View::Inflate( _xmlElement, _resources, _themePrefix, _rootNode );
 
+	// Searches through e.g. \shiva-totem\vs\shiva-totem\Resources\Themes\system.xml
 	for( TiXmlAttribute *currentAttribute = _xmlElement->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 	{
 		if( ( std::string( "drawable" ) == currentAttribute->Name() ) || ( _themePrefix + "drawable" == currentAttribute->Name() ) )
@@ -543,6 +548,63 @@ void ShivaGUI::ImageButton::SetSelect( bool _value )
 		// Press
 		if( m_audio_pressStart != NULL )
 		{
+			// *** NEW April 2020: Auditory feedback for individual buttons
+			// We look for a .wav file in the shiva-totem\vs\shiva-totem\Resources\Audio folder that matches the ID of the button + .wav 
+			// extension.  If one cannot be found, we use the default sound.
+
+			// Part of this is a proper bodge, particularly the bit for primitives: they don't seem to have anything that identifies them 
+			// when clicked apart from m_contentGenDrawable->GetFilename() which returns m_filename which contains something like 
+			// 'Models/colprim_cone.xml'
+			
+			// ImageButton *IB = this;
+			// std::string imageName = ImageButton::GetImageName();
+			// m_contentGenDrawable->m_filename
+			// std::string imageText = ImageButton::GetImageText();
+			// std::string textButtonID = TextButton
+			// ShivaGUI::View *_view;
+
+			std::string buttonID = "Resources/Audio/" + ImageButton::GetID() + ".wav";
+
+			if (buttonID == "Resources/Audio/imagebutton.wav")
+			{
+			   std::string fn = m_contentGenDrawable->GetFilename();
+			   boost::erase_all(fn, "Models/colprim_"); // "Models/colprim_cone.xml"
+
+				if (fn == "sphere.xml")
+					buttonID = "Resources/Audio/Sphere.wav";
+				
+				else if ( fn == "cone.xml")
+					buttonID = "Resources/Audio/Cone.wav";
+				
+				else if ( fn == "cylinder.xml")
+					buttonID = "Resources/Audio/Cylinder.wav";
+
+				else if ( fn == "cube.xml")
+					buttonID = "Resources/Audio/Cube.wav";
+	
+				else if (fn == "rect.xml")
+					buttonID = "Resources/Audio/Cuboid.wav";		
+			}
+
+			// Command *nextFocus = GetPrimType();  //GetNextFocus( Definitions::Right );
+			// std::string w = 
+			// View:: SetID("Cone");//GetID();// SetID(addObjCmd->GetPrimType());
+			// std::vector< std::pair< ShivaGUI::AdapterView*, ShivaGUI::GUIController* > >::iterator it = m_listViews.begin();
+			// dataEntryIndex = ( *it ).first->GetDataIndex( _view );
+
+			if( !boost::filesystem3::exists( buttonID ) )
+				// The button has no matching sound file
+				buttonID = "Resources/Audio/Default.wav";
+
+			// Assemble the audio clip to play - an AudioManager and Mix_Chunk are needed to build an AudioClip to play
+			AudioManager *audMan = new AudioManager();
+			Mix_Chunk *chunk = new Mix_Chunk;
+			
+			AudioClip *audClip = new AudioClip( audMan, chunk, buttonID, false);
+			audClip = audMan->GetSample(buttonID);
+
+			m_audio_pressStart = audClip;
+
 			m_audio_pressStart->Play();
 		}
 		if( m_useToggleActive )
@@ -718,6 +780,9 @@ bool ShivaGUI::ImageButton::HandleEvent( InternalEvent *_currentEvent )
 			View *nextFocus = GetNextScan( true );
 			if( nextFocus != NULL )
 			{
+#ifdef _DEBUG
+				std::cout << "INFO: Next scan item is: " << nextFocus->GetID() << std::endl;
+#endif
 				SetFocus( false );
 				nextFocus->SetFocus( true );
 			}
