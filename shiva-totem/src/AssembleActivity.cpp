@@ -278,6 +278,20 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		{
 			ResetRotation();
 		}
+		else if( _view->GetID() == "DuplicateObj" )
+		{
+		// We use the button index to create that primitive:
+		DuplicateObjectCommand* duplicateObjCmd = new DuplicateObjectCommand();
+		// We don't know the type of selected yet, so pass 9 to indicate this
+		// (range of primitives is 0-4: 0 Sphere, 1 Cone, 2 Cylinder, 3 Cube, 4 Cuboid)
+		duplicateObjCmd->SetParameters( 9, GetNumGUIControllers() );
+		m_commandManager->Execute( duplicateObjCmd );
+		RebuildTrees();
+//		duplicateObjCmd-> SetParameters( dataEntryIndex, GetNumGUIControllers() );
+
+//		m_commandManager->Execute( duplicateObjCmd );
+//			DuplicateObjectCommand();
+		}
 		else if( _view->GetID() == "ChangeColour" )
 		{			
 			// We will now tell the system what to display on the windows

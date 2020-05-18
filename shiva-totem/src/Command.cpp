@@ -106,6 +106,122 @@ void AddObjectCommand::Redo()
 
 //----------------------------------------------------------------------------------
 
+// DUPLICATE OBJECT COMMAND
+
+DuplicateObjectCommand::DuplicateObjectCommand() : m_primID( 0 ), m_nGUIControllers( 0 )
+{ }
+
+//----------------------------------------------------------------------------------
+
+DuplicateObjectCommand::~DuplicateObjectCommand()
+{
+	delete m_object;
+}
+
+//----------------------------------------------------------------------------------
+
+void DuplicateObjectCommand::Execute( Totem::Controller* _controller )
+{
+	#ifdef _DEBUG
+	std::cout << "DuplicateObjectCommand EXECUTE asked to execute" << std::endl;
+	#endif
+
+	// EXPLANATION
+	// 1. Identify the currently selected object (this is the one which will be duplicated)
+	// 2. Find out the primitive type of the selected object.  This is a digit between 0 and 4:
+	//		0 Sphere
+	//		1 Cone
+	//		2 Cylinder
+	//		3 Cube
+	//		4 Cuboid
+	// 3. Add the duplicated object to the top of the pole
+	// 4. Set the duplicated objects scale and rotation to the same as the selected object
+
+	m_totemController = _controller;
+
+	if( m_totemController != NULL )
+	{
+		float scaleX = 1;
+		float scaleY = 1;
+		float scaleZ = 1;
+
+		float rotX = 0;
+		float rotY = 0;
+		float rotZ = 0;
+
+//		 _currentNode->getTypeID() == CYLINDER_NODE_ID
+
+		m_object = m_totemController->GetSelected();
+//		int x = m_totemController->get
+
+		if( m_object != NULL )
+		{
+			m_primID = m_object->GetPrimTypeID();
+			
+			scaleX = m_object->GetScaleX();
+			scaleY = m_object->GetScaleY();
+			scaleZ = m_object->GetScaleZ();
+
+			m_object->GetRotation(rotX, rotY, rotZ);
+
+
+			m_totemController->AddObjectToTop( m_primID, m_nGUIControllers );
+			m_totemController->SelectTopObject();
+
+//		Totem::Object* duplicatedObject = m_totemController->GetSelected();
+//		duplicatedObject = m_object;
+
+			m_object = m_totemController->GetSelected();
+			if( m_object != NULL )
+			{
+				m_object->SetRotation(rotX, rotY, rotZ);
+				m_object->SetScale(scaleX, scaleY, scaleZ);
+			}
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------
+
+void DuplicateObjectCommand::Undo()
+{
+	#ifdef _DEBUG
+	std::cout << "DuplicateObjectCommand UNDO asked to execute" << std::endl;
+	#endif
+
+	if( m_totemController != NULL )
+	{
+		Totem::Object* currentSelected = m_totemController->GetSelected();
+
+		if( currentSelected == m_object )
+		{
+			m_totemController->DeleteSelectedObject();
+		}
+		else 
+		{
+			m_totemController->SetSelectedObject( m_object );
+			m_totemController->DeleteSelectedObject();
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------
+
+void DuplicateObjectCommand::Redo()
+{
+	#ifdef _DEBUG
+	std::cout << "DuplicateObjectCommand REDO asked to execute" << std::endl;
+	#endif
+	
+	if( m_totemController != NULL )
+	{
+		m_totemController->ReAddObjectToTop( m_object );
+		m_totemController->SelectTopObject();
+	}
+}
+
+//----------------------------------------------------------------------------------
+
 // NUDGE ACTIVITY
 
 NudgeCommand::NudgeCommand() : m_x( 0.f ), m_y( 0.f ), m_z( 0.f )
@@ -1244,6 +1360,31 @@ void DeleteObjectCommand::Undo()
 			m_totemController->SetSelectedObject( m_object );
 			m_object->SetDrawBBox( true );
 			m_totemController->InsertObject( m_victim );
+
+			// April 2020: Code to reverse offsets created during deletion of an object
+
+			Totem::Object *prevParent;
+			Totem::Object *currParent;
+			
+			prevParent = m_victim;
+			currParent = prevParent->GetParent();
+
+			if (currParent != NULL)
+			{
+				float currParentOffsetx;
+				float currParentOffsety;
+				float currParentOffsetz;
+
+				while (currParent != NULL)
+				{
+					currParent->GetTranslationOffset(currParentOffsetx, currParentOffsety, currParentOffsetz);
+
+					currParent->SetTranslationOffset(currParentOffsetx, currParentOffsety, currParentOffsetz - 0.5f);
+
+					prevParent = currParent;
+					currParent = currParent->GetParent();
+				}
+			}	
 		}
 	}
 }
