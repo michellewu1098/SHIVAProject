@@ -202,9 +202,26 @@ namespace Totem
 		//----------------------------------------------------------------------------------
 		bool IsValid();
 		//----------------------------------------------------------------------------------		
+		/// \brief Get rotation along all axes
+		/// \return x, y and z axis
+		void GetRotation( float &_x, float &_y, float &_z ) { _x = m_rx; _y = m_ry; _z = m_rz; }
+
+		/// \brief Returns the numeric identifier for the kind of primitive stored in the node
+		/// \return m_primTypeID
+		//----------------------------------------------------------------------------------
+		int GetPrimTypeID() { return m_primTypeID; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set the numeric identifier for the kind of primitive stored in the node
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetPrimTypeID( int _value ) { m_primTypeID = _value; }
 
 	protected:
 
+		//----------------------------------------------------------------------------------
+		/// \brief Primitive/object type (ID: 0-4)
+		//----------------------------------------------------------------------------------
+		int m_primTypeID;
 		//----------------------------------------------------------------------------------
 		/// \brief Child object
 		//----------------------------------------------------------------------------------
