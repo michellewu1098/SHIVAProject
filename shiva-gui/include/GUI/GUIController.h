@@ -49,6 +49,12 @@ namespace ShivaGUI
 		/// \brief Set attached window to be fullscreen
 		//----------------------------------------------------------------------------------
 		bool GetFullScreen();
+
+		//----------------------------------------------------------------------------------
+		/// \brief Get the current 'screen'
+		//----------------------------------------------------------------------------------
+		std::string GetContentViewFilename() const { return m_contentViewFilename; }
+
 		//----------------------------------------------------------------------------------
 		/// \brief Used to indicate the requested use of a window according to the user profile
 		/// The idea here is that some users will have multiple windows, but will want to use them for different things
