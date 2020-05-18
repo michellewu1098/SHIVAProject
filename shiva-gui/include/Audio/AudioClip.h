@@ -45,6 +45,9 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		void Stop();
 		//----------------------------------------------------------------------------------
+		/// \brief Sets the filename of the auditory feedback sound file method
+		//----------------------------------------------------------------------------------
+		void SetFilename(std::string _filename) { m_filename = _filename; }
 
 	protected:
 
