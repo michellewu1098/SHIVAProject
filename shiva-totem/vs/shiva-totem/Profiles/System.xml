@@ -8,10 +8,10 @@
 		<theme>Resources/Themes/system.xml</theme>
 		
 		<window>
-			<width>1800</width>
-			<height>1150</height>
-			<positionX>10</positionX>
-			<positionY>10</positionY>
+			<width>1920</width>
+			<height>1080</height>
+			<positionX>00</positionX>
+			<positionY>00</positionY>
 		</window>
       
       <!-- Use these to override Theme settings
