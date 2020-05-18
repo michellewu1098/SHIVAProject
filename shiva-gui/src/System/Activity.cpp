@@ -175,10 +175,17 @@ ShivaGUI::GUIController* ShivaGUI::Activity::GetGUIController( unsigned int _ind
 
 void ShivaGUI::Activity::IssueEvent( InternalEvent *_currentEvent )
 {
+/*
 	if( _currentEvent->GetType() == InternalEvent::QUIT )
 		m_guiManager->SetExitEvent();
 	else if( _currentEvent->GetType() == InternalEvent::BACK )
 		OnBackPressed();
+*/
+
+//	if (_currentEvent->GetType() == InternalEvent::BACK)
+//	{
+
+	bool alreadyAsked = false;
 
 	if( m_GUIControllers != NULL )
 	{
@@ -187,7 +194,53 @@ void ShivaGUI::Activity::IssueEvent( InternalEvent *_currentEvent )
 			GUIController *currentController = m_GUIControllers[ i ];
 			if( currentController != NULL )
 			{
-				currentController->IssueEvent( _currentEvent );
+				if ( _currentEvent->GetType() == InternalEvent::EDIT_CUSTOMLAYOUT )
+				{
+					// User has pressed the 'F5' key meaning that they want to edit the current screen 
+					std::cout << "F5 key pressed - edit mode requested!: " << InternalEvent::EventType( _currentEvent->GetType()) << std::endl;
+					currentController->IssueEvent( _currentEvent );
+				}
+				else
+				{
+					if ( _currentEvent->GetType() == InternalEvent::BACK)
+					{
+						// 'Esc' key has been pressed
+						if ((currentController->GetContentViewFilename() == "AssembleIOWithSymbols.xml") ||
+							currentController->GetContentViewFilename() == "VolViewOutput.xml")//"ProfileChooserLayout.xml"
+						{
+
+							// This is the main screen - exiting from this screen now closes the application
+							// (Before, pressing 'Esc' returned to the profile selector)
+							// This is a hack to stop previous undesirable behaviours that I couldn't find a way of resolving:
+							// (1). Once an eye gaze profile is exited, the profile screen became eye gaze accessible!!
+							// (2). The application would crash with an exception if an object was added to the pole and then the 'Esc' key was pressed and another profile loaded
+
+							// WARNING: This seems a bit brutal and may leave some 'loose ends'!!!
+							//			I don't know how else to do this - this code seems complex with events firing all over the place!!
+							// I don't know what this will do for 2 window profiles
+	
+							// Check that user really wants to exit
+							if (!alreadyAsked)
+							{
+								alreadyAsked = true;
+								if (tinyfd_messageBox("Exit", "Are you sure you want to exit?\n\nAnything not saved will be lost.", "yesno", "question", 0) == 1)
+								{
+//	currentController->IssueEvent( _currentEvent );
+///	currentController->IssueEvent( new InternalEvent( InternalEvent::QUIT ) );
+//	if( _currentEvent->GetType() == InternalEvent::QUIT )
+									m_guiManager->SetExitEvent();
+								}
+							}	
+						}
+						else
+							// 'Esc' key pressed, but not on main screen
+//					else if( _currentEvent->GetType() == InternalEvent::BACK )
+							OnBackPressed();
+					}
+				else
+					// Otherwise, just let the event through - something else will happen?
+					currentController->IssueEvent( _currentEvent );
+				}
 			}
 		}
 	}
