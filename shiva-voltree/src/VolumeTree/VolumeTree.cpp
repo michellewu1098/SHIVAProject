@@ -179,10 +179,13 @@ VolumeTree::Node* VolumeTree::Tree::ImportFromXML( TiXmlElement *_root )
 	if( _root->ValueStr() == std::string( "Cone" ) )
 	{
 		double radius, height;
-		
+
 		if( _root->Type() == TiXmlNode::TINYXML_ELEMENT )
 		{
 			VolumeTree::ConeNode *currentImportTyped = new VolumeTree::ConeNode();
+
+			currentImportTyped->SetPrimKind("Cone");
+			currentImportTyped->SetPrimTypeID(1);
 
 			for( TiXmlAttribute *currentAttribute = _root->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 			{
@@ -235,6 +238,23 @@ VolumeTree::Node* VolumeTree::Tree::ImportFromXML( TiXmlElement *_root )
 				}
 			}
 
+			int dX = dimX * 10;
+			int dY = dimY * 10;
+			int dZ = dimZ * 10;
+
+			if ( dX == dY && dY == dZ) // Are all dimensions equal - if so it's a cube
+				// It's a cube
+			{
+				currentImportTyped->SetPrimKind("Cube");
+				currentImportTyped->SetPrimTypeID(3);
+			}
+			else
+				// It's a cuboid
+			{
+				currentImportTyped->SetPrimKind("Cuboid");
+				currentImportTyped->SetPrimTypeID(4);
+			}
+
 			currentImportTyped->SetLength( ( float )dimX, ( float )dimY, ( float )dimZ ); 
 			currentImport = dynamic_cast< VolumeTree::Node* >( currentImportTyped );
 		}
@@ -248,6 +268,9 @@ VolumeTree::Node* VolumeTree::Tree::ImportFromXML( TiXmlElement *_root )
 		if( _root->Type() == TiXmlNode::TINYXML_ELEMENT )
 		{
 			VolumeTree::CylinderNode *currentImportTyped = new VolumeTree::CylinderNode();
+
+			currentImportTyped->SetPrimKind("Cylinder");
+			currentImportTyped->SetPrimTypeID(2);
 
 			for( TiXmlAttribute *currentAttribute = _root->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 			{
@@ -305,6 +328,9 @@ VolumeTree::Node* VolumeTree::Tree::ImportFromXML( TiXmlElement *_root )
 		if( _root->Type() == TiXmlNode::TINYXML_ELEMENT )
 		{
 			VolumeTree::SphereNode *currentImportTyped = new VolumeTree::SphereNode();
+
+			currentImportTyped->SetPrimKind("Sphere");
+			currentImportTyped->SetPrimTypeID(0);
 
 			for( TiXmlAttribute *currentAttribute = _root->FirstAttribute(); currentAttribute != NULL; currentAttribute = currentAttribute->Next() )
 			{
@@ -526,6 +552,7 @@ VolumeTree::Node* VolumeTree::Tree::ImportFromXML( TiXmlElement *_root )
 		std::cerr << "ERROR: VolumeTree::Tree::ImportFromXML could not resolve current node, results undefined" << std::endl;
 		return NULL;
 	}
+
 
 	return currentImport;
 } 
