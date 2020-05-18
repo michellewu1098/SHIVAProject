@@ -75,7 +75,7 @@ namespace Totem
 		/// \brief Add object node to top of stack
 		/// \param [in] _nodeIn
 		//----------------------------------------------------------------------------------
-		void AddObjectNodeToTop( VolumeTree::Node* _nodeIn, unsigned int _nGUIControllers );
+		void AddObjectNodeToTop(  int _primID, VolumeTree::Node* _nodeIn, unsigned int _nGUIControllers );
 		//----------------------------------------------------------------------------------
 		/// \brief Function to build up totem from loaded model
 		/// \param [in] _treeIn Imported tree stored in std::queue
@@ -105,6 +105,10 @@ namespace Totem
 		/// \param [in] z
 		//----------------------------------------------------------------------------------
 		void MoveSelectedObject( float _x, float _y, float _z );
+		//----------------------------------------------------------------------------------
+		/// \brief See if a rebuild of the pole, base and objects is required
+		//----------------------------------------------------------------------------------
+		bool Totem::Controller::RebuildRequired(char changedAxis, float translationVal, float selectedObjectNewAxisVal, float selectedObjectAxisValB4);
 		//----------------------------------------------------------------------------------
 		/// \brief Reset selected object
 		//----------------------------------------------------------------------------------
@@ -216,6 +220,9 @@ namespace Totem
 		/// \brief Selected object
 		//----------------------------------------------------------------------------------
 		Totem::Object *m_selectedObject;
+		/// \brief Current object
+		//----------------------------------------------------------------------------------
+		Totem::Object *m_currentObject;
 		//----------------------------------------------------------------------------------
 		/// \brief Number of primitives
 		//----------------------------------------------------------------------------------
