@@ -127,7 +127,7 @@ void Totem::Controller::SetPrimitiveNode( unsigned int _ID, VolumeTree::Node *_p
 		// Doesn't seem to work!!
 		if (_primNode->GetNodeType() == "ConeNode")
 		{
-			_primNode-> SetIDString("Cone");
+			_primNode->SetPrimKind("Cone");
 		}
 	}
 }
@@ -147,12 +147,12 @@ VolumeTree::Node* Totem::Controller::GetPrimitiveNode( unsigned int _ID )
 
 void Totem::Controller::AddObjectToTop( unsigned int _primID, unsigned int _nGUIControllers  )
 {
-	AddObjectNodeToTop( GetPrimitiveNode( _primID ), _nGUIControllers );
+	AddObjectNodeToTop( _primID, GetPrimitiveNode( _primID ), _nGUIControllers );
 }
 
 //----------------------------------------------------------------------------------
 
-void Totem::Controller::AddObjectNodeToTop( VolumeTree::Node *_nodeIn, unsigned int _nGUIControllers  )
+void Totem::Controller::AddObjectNodeToTop( int _primID, VolumeTree::Node *_nodeIn, unsigned int _nGUIControllers  )
 {
 	if( _nodeIn != NULL )
 	{
@@ -164,10 +164,13 @@ void Totem::Controller::AddObjectNodeToTop( VolumeTree::Node *_nodeIn, unsigned 
 			//float baseZ = _objectRoot->GetBaseOffset();
 			//float offsetZ = baseZ + (_objectRoot->GetBBoxZ() * 0.5f);
 			newTopObj->SetChild( m_objectRoot );
+//			newTopObj->
 			m_objectRoot->SetParent( newTopObj );
 			newTopObj->AddTranslationOffset( 0.0f, 0.0f, offsetZ, false );
 		}
 		m_objectRoot = newTopObj;
+		// Set type of primitive identifier
+		newTopObj->SetPrimTypeID(_primID);
 	}
 	RebuildPole();
 }
@@ -213,6 +216,9 @@ void Totem::Controller::LoadModel( std::queue< VolumeTree::Node* > _treeIn, unsi
 					 if( nodeType == "CylinderNode" )
 					 {
 						 VolumeTree::CylinderNode* cylinderNode = dynamic_cast< VolumeTree::CylinderNode * >( node );
+
+//						 m_selectedObject->GetPrimitiveID();
+
 						 if( cylinderNode->isPole() )
 						 {
 							 break;
@@ -225,7 +231,40 @@ void Totem::Controller::LoadModel( std::queue< VolumeTree::Node* > _treeIn, unsi
 					 if( transformNode->GetNodeType() == "TransformNode" )
 					 {
 						 Totem::Object *newObj = new Totem::Object( node, dynamic_cast< VolumeTree::TransformNode * >( transformNode ), _nGUIControllers );
-						 objStack.push( newObj );
+										 
+						 std::string primKind = node->GetPrimKind();
+						 int primTypeID = node->GetPrimTypeID();
+
+						 //newObj->GetPrimTypeID();
+
+						 //	 					 if( nodeType == "SphereNode" )
+
+						  newObj->SetPrimTypeID(primTypeID);
+
+/*
+	 					 if( primKind == "Sphere" )
+						 {
+							 newObj->SetPrimTypeID(0);
+						 }
+	 					 if( primKind == "Cone" )
+						 {
+							 newObj->SetPrimTypeID(1);
+						 }
+	 					 if( primKind == "Cylinder" )
+						 {
+							 newObj->SetPrimTypeID(2);
+						 }
+	 					 if( primKind == "Cube" )
+						 {
+							 newObj->SetPrimTypeID(3);
+						 }
+	 					 if( primKind == "Cuboid" )
+						 {
+							 newObj->SetPrimTypeID(4);
+						 }
+						 */
+
+						  objStack.push( newObj );
 					 }
 				 }
 				 else if( nodeType == "BlendCSGNode" )
@@ -278,6 +317,7 @@ void Totem::Controller::LoadModel( std::queue< VolumeTree::Node* > _treeIn, unsi
 		if( m_objectRoot != NULL )
 		{
 			obj->SetChild( m_objectRoot );
+//			std::string xc = obj->GetPrimitiveID();
 			m_objectRoot->SetParent( obj );
 		}
 		
@@ -719,22 +759,109 @@ Totem::Object* Totem::Controller::DeleteSelectedObj()
 
 	if( m_selectedObject != NULL )
 	{
-		victim = m_selectedObject;
 		// Remove from tree
-		Totem::Object *child = m_selectedObject->GetChild();
-		Totem::Object *parent = m_selectedObject->GetParent();
+		victim = m_selectedObject;
+
+		Totem::Object *child = m_selectedObject->GetChild(); // Identify the child object
+		Totem::Object *parentOfSelectedObj = m_selectedObject->GetParent(); // Identify the parent object
+
+		// April 2020 Code added to prevent objects 'above' a selected object, i.e. parents of the object, from falling when the 
+		// item is deleted.  The original behaviour caused complex models to collapse if a lower object was deleted
+		float selObjTransx;
+		float selObjTransy;
+		float selObjTransz;
+
+		float selObjOffsetx;
+		float selObjOffsety;
+		float selObjOffsetz;
+
+		// Get the vertical position and the (vertical) offset of the object being deleted
+		m_selectedObject->GetTranslation(selObjTransx, selObjTransy, selObjTransz);
+		m_selectedObject->GetTranslationOffset(selObjOffsetx, selObjOffsety, selObjOffsetz);
+
+		// Algorithm
+		// ---------
+		// Go through all of the parents, grandparents (i.e. the objects 'above' the one being deleted) and so on of the object being 
+		// deleted and increase their vertical offsets to prevent them falling when the item is deleted
+		// 1. Start with the the parent of the deleted object
+		// 2. Increment the vertical offset of the parent
+		// 3. Find the parent of the item in 2. and continue until no more parents
+
+		float currParentTransx;
+		float currParentTransy;
+		float currParentTransz;
+
+		float currParentOffsetx;
+		float currParentOffsety;
+		float currParentOffsetz;
+
+		Totem::Object *currParent;
+		Totem::Object *prevParent;
+
+
+#ifdef _DEBUG
+		// Show translations and offsets of all primitives on the pole
+		currParent = m_objectRoot;
+
+		std::cout << "\nBEFORE delete\n" << std::endl;
+		while (currParent != NULL)
+		{
+			currParent->GetTranslation(currParentTransx, currParentTransy, currParentTransz);
+			currParent->GetTranslationOffset(currParentOffsetx, currParentOffsety, currParentOffsetz);
+
+			std::cout << "currParent ->GetPrimTypeID(): " << currParent ->GetPrimTypeID() << ",  currParentTransz: " << currParentTransz << ",  currParentOffsetz: " << currParentOffsetz << std::endl;
+
+			currParent = currParent->GetChild();
+		}
+		std::cout << "\n" << std::endl;
+#endif
+
+		// Start with the object 'above'/is the parent of the one being deleted
+		if (parentOfSelectedObj != NULL)
+		{
+			prevParent = m_selectedObject;
+			currParent = prevParent->GetParent();
+		
+			while (currParent != NULL)
+			{
+				currParent->GetTranslationOffset(currParentOffsetx, currParentOffsety, currParentOffsetz);
+
+				currParent->SetTranslationOffset(currParentOffsetx, currParentOffsety, currParentOffsetz + 0.5f);
+
+				prevParent = currParent;
+				currParent = currParent->GetParent();
+			}
+		}		
+			
+#ifdef _DEBUG
+		// Show translations and offsets of all primitives on the pole
+		currParent = m_objectRoot;
+
+		std::cout << "\nAFTER delete #1\n" << std::endl;
+		while (currParent != NULL)
+		{
+			currParent->GetTranslation(currParentTransx, currParentTransy, currParentTransz);
+			currParent->GetTranslationOffset(currParentOffsetx, currParentOffsety, currParentOffsetz);
+
+			std::cout << "currParent ->GetPrimTypeID(): " << currParent ->GetPrimTypeID() << ",  currParentTransz: " << currParentTransz << ",  currParentOffsetz: " << currParentOffsetz << std::endl;
+
+			currParent = currParent->GetChild();
+		}
+		std::cout << "\n" << std::endl;
+#endif
+		
 		victim->SetPrevChild( child );
 		victim->SetChild( NULL ); // Otherwise it will try to delete the next node
 		m_selectedObject = NULL;
 		if( child != NULL )
 		{
-			child->SetParent( parent );
+			child->SetParent( parentOfSelectedObj );
 			m_selectedObject = child;
 		}
-		if( parent != NULL )
+		if( parentOfSelectedObj != NULL )
 		{
-			parent->SetChild( child );
-			m_selectedObject = parent;
+			parentOfSelectedObj->SetChild( child );
+			m_selectedObject = parentOfSelectedObj;
 		}
 
 		// Highlight our new selected object and make sure the root is correct
@@ -755,8 +882,8 @@ Totem::Object* Totem::Controller::DeleteSelectedObj()
 	}
 	
 	RebuildPole();
-
-	return victim;
+		
+	return victim;	
 }
 
 
