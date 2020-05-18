@@ -226,7 +226,38 @@ namespace VolumeTree
 		void SetNumbOfContext( const unsigned int &_nContext ) { m_nContext = _nContext; }
 		//----------------------------------------------------------------------------------
 
+
+		/// \brief Returns the kind of primitive stored in the node
+		/// \return m_primKind
+		//----------------------------------------------------------------------------------
+		std::string GetPrimKind() { return m_primKind; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set the kind of primitive stored in the node
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetPrimKind( std::string _value ) { m_primKind = _value; }
+
+		/// \brief Returns the numeric identifier for the kind of primitive stored in the node
+		/// \return m_primTypeID
+		//----------------------------------------------------------------------------------
+		int GetPrimTypeID() { return m_primTypeID; }
+		//----------------------------------------------------------------------------------
+		/// \brief Set the numeric identifier for the kind of primitive stored in the node
+		/// \param [in] _value
+		//----------------------------------------------------------------------------------
+		void SetPrimTypeID( int _value ) { m_primTypeID = _value; }
+
 	protected:
+
+		//----------------------------------------------------------------------------------
+		/// \brief The kind of primitive stored in the node 
+		//----------------------------------------------------------------------------------
+		std::string m_primKind;
+
+		//----------------------------------------------------------------------------------
+		/// \brief The numeric identifier of the primitive stored in the node (0-4)
+		//----------------------------------------------------------------------------------
+		int m_primTypeID;
 
 		//----------------------------------------------------------------------------------
 		/// \brief Node id 
