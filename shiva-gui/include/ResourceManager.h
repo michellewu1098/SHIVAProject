@@ -286,6 +286,10 @@ namespace ShivaGUI
 		//----------------------------------------------------------------------------------
 		void RegisterPostInflationLink( View *_src, std::string _dstID, Definitions::FocusDirection _focusDir );
 		//----------------------------------------------------------------------------------
+		//----------------------------------------------------------------------------------
+		/// \brief Get button name
+		//----------------------------------------------------------------------------------
+		std::string GetButtonName() const { return m_buttonText; }
 
 	protected:
 
