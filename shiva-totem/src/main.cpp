@@ -148,11 +148,14 @@ int main( int argc, char **argv )
 				if( primType == "Sphere" )
 				{
 					currentModelNode = new VolumeTree::SphereNode( 0.25f, 0.25f, 0.25f );
+//currentModelNode->SetPrimKind("Sphere");
+//currentModelNode->SetPrimTypeID(0);
 				}
 				else if( primType == "Cone" )
 				{
 					currentModelNode = new VolumeTree::ConeNode( 0.5f, 0.25f );
-					
+//currentModelNode->SetPrimKind("Cone");
+//currentModelNode->SetPrimTypeID(1);					
 					// This was to help identify which primitive button had been selected, but it didn't seem to work - I don't know why
 					// currentModelNode->SetIDString("Cone");	
 					// std::string nodeType = currentModelNode->GetNodeType();
@@ -160,18 +163,25 @@ int main( int argc, char **argv )
 				else if( primType == "Cylinder" )
 				{
 					currentModelNode = new VolumeTree::CylinderNode( 0.5f, 0.25f, 0.25f );
+//currentModelNode->SetPrimKind("Cylinder");
+//currentModelNode->SetPrimTypeID(2);
 				}
 				else if( primType == "Cube" )
 				{
 					currentModelNode = new VolumeTree::CubeNode( 0.5f );
-				}
-				else if( primType == "Torus" )
-				{
-					currentModelNode = new VolumeTree::TorusNode( 0.25, 0.02f );
+//currentModelNode->SetPrimKind("Cube");
+//currentModelNode->SetPrimTypeID(3);
 				}
 				else if( primType == "Box" )
 				{
 					currentModelNode = new VolumeTree::CubeNode( 1.0f, 0.5f, 0.5f );
+//currentModelNode->SetPrimKind("Cuboid");
+//currentModelNode->SetPrimTypeID(4);
+				}
+				else if( primType == "Torus" )
+				{
+					currentModelNode = new VolumeTree::TorusNode( 0.25, 0.02f );
+currentModelNode->SetPrimKind("Torus");
 				}
 				else
 				{
