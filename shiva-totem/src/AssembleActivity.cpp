@@ -353,8 +353,36 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 									r = 1.0f;
 									g = 1.0f;
 									b = 0.0f;
+//									ColCount = 0;
+								}
+								break;
+
+							case 5: // White
+								{
+									r = 1.0f;
+									g = 1.0f;
+									b = 1.0f;
+//									ColCount = 0;
+								}
+								break;
+
+							case 6: // Black
+								{
+									r = 0.0f;
+									g = 0.1f;
+									b = 0.1f;
+//									ColCount = 0;
+								}
+								break;
+
+							case 7: // Original/Clay
+								{
+									r = 0.88f;
+									g = 0.78f;
+									b = 0.54f;
 									ColCount = 0;
 								}
+								break;
 						}
 
 						ColCount++;
