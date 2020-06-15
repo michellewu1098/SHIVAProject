@@ -385,7 +385,9 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 								break;
 						}
 
-						ColCount++;
+						// Only change colour when all windows have been displayed (if multi-window)
+						if (i + 1 == numWindows)
+							ColCount++;
 
 						// Store the colour settings
 						prefs->SetTotColourR(r);
