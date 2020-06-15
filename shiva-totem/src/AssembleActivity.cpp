@@ -419,7 +419,7 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 		}
 		else if( _view->GetID() == "Load" )
 		{
-			char const * lFilterPatterns[ 1 ] = { "*.xml" };
+			char const * lFilterPatterns[ 1 ] = { "*.xml; *.vol" };
 			char const* fileName = tinyfd_openFileDialog( "SHIVA Models", "Savefiles/", 1, lFilterPatterns, NULL, 0 );
 			
 			/*if ( !fileName )
