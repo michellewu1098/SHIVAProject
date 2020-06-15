@@ -545,12 +545,81 @@ void VolView::AddWorldRotationOffsetRads( float _rotX, float _rotY, float _rotZ 
 	m_renderer->AddWorldRotationOffsetRads( _rotX, _rotY, _rotZ );
 }
 
+
+
+static bool _showBase = true;
+
+		void SetBaseVisible(bool _showBase);
+
+		bool GetBaseVisible() { return _showBase; };
+
+
+static bool _showPole = true;
+
+
+		void SetPoleVisible(bool _showPole);
+
+		bool GetPoleVisible() { return _showPole; };
+
+
 //----------------------------------------------------------------------------------
 
 void VolView::RefreshTree()
 {
 	m_mainTree->SetRoot( m_totemController->GetNodeTree() );
-	m_mainTree->BuildCaches( m_cachePolicy, m_renderer );
+
+
+//	for( Node *currentChild = GetFirstChild(); currentChild != NULL; currentChild = GetNextChild( currentChild ) )
+	
+//	m_totemController->SelectTopObject();
+
+	Totem::Object* sel = m_totemController->GetSelected();
+
+/*
+	// Pole
+	VolumeTree::CylinderNode* poleNode = m_totemController->GetPoleNode();
+	
+	if (GetPoleVisible())
+		poleNode->SetRadius(0.05, 0.05);
+	else
+		poleNode->SetRadius(0.01, 0.01);
+		*/
+
+	// Base
+	VolumeTree::CSGNode* baseNode = m_totemController->GetBaseNode();
+	//VolumeTree::CylinderNode* baseNodeff = m_totemController->GetBaseNode()->;
+
+//	m_poleBaseNode 
+
+	/*
+	if (GetBaseVisible())
+		*baseNode->SetRadius(0.05, 0.05);
+	else
+		baseNode->SetRadius(0.01, 0.01);
+	*/
+
+
+
+//	VolumeTree::Node *nodey = m_totemController->GetNodeTree();
+
+//	std::string ss = nodey->GetPrimKind();
+	/*
+		
+	for(
+			);
+		*/			{}
+
+///	m_totemController->ge DeleteSelectedObj(); // m_poleNode
+
+
+//	m_totemController
+
+	//m_mainTree->
+
+//	foreach (m_mainTree
+
+
+//	m_mainTree->BuildCaches( m_cachePolicy, m_renderer );
 	m_renderer->RebuildTree();
 	
 	CalcStepsize();

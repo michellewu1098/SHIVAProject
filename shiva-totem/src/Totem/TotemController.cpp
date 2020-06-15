@@ -1,4 +1,6 @@
 #include "Totem/TotemController.h"
+#include "System/SharedPreferences.h"
+#include "GUIManager.h"
 
 //----------------------------------------------------------------------------------
 // Initialise statics
@@ -26,6 +28,8 @@ Totem::Controller::Controller()
 {
 	m_objectRoot = m_selectedObject = NULL;
 	m_primitives = NULL;
+
+//	ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
 
 	m_poleBaseNode = NULL;
 	m_poleNode = NULL;
@@ -963,25 +967,166 @@ void Totem::Controller::RemoveLastOperation()
 	}
 }
 
+
+
+//static bool _showBase = true;
+static bool showBase = true;
+
+void SetShowBase(bool _value) { showBase = _value; };
+
+bool GetShowBase() { return showBase; };
+
+
+//static bool _showPole = true;
+static bool showPole = true;
+
+void SetShowPole(bool _value) { showPole = _value; };
+
+bool GetShowPole() { return showPole; };
+
+
 //----------------------------------------------------------------------------------
+
+
+void Totem::Controller::ShowHidePoleAndBase()
+{
+	// This runs when the pole and base are first built and then each time a primitive is added
+	bool showPole = GetShowPole();// = true;
+	bool showPoleBase = GetShowBase();// = true;
+
+
+	// Toggle order:
+	//	1. Default: Show Pole and base
+	//	2. Hide pole
+	//	3. Hide base (and pole)
+	//	4. Hide both
+
+	if (showPole && showPoleBase)
+		// Both are showing, so toggle to pole hidden
+		SetShowPole(false);
+	else if (showPoleBase && !showPole)
+		// Base is showing but pole isn't so toggle to base hiden too
+		SetShowBase(!showPoleBase);
+	else if (!showPole && !showPoleBase)
+		{
+			// Base and pole both hidden, so now toggle to showing both
+			SetShowBase(true);
+			SetShowPole(true);
+		}
+}
+
 
 void Totem::Controller::RebuildPole()
 {
-	if( m_poleBaseNode == NULL )
+	
+	// This runs when the pole and base are first built and then each time a primitive is added
+
+/*
+	bool showPole = GetShowPole();// = true;
+	bool showPoleBase = GetShowBase();// = true;
+
+
+	// Toggle order:
+	//	1. Default: Show Pole and base
+	//	2. Hide pole
+	//	3. Hide base (and pole)
+	//	4. Hide both
+
+	if (showPole && showPoleBase)
+		// Both are showing, so toggle to pole hidden
+		SetShowPole(false);
+	else if (showPoleBase && !showPole)
+		// Base is showing but pole isn't so toggle to base hiden too
+		SetShowBase(!showPoleBase);
+	else if (!showPole && !showPoleBase)
+		{
+			// Base and pole both hidden, so now toggle to showing both
+			SetShowBase(true);
+			SetShowPole(true);
+		}
+		*/
+
+/*
+	if( m_poleBaseNode == NULL)
 	{
+		// Upright pole
 		m_poleNode = new VolumeTree::CylinderNode( 1.0f, 0.05f, 0.05f );
 		m_poleNode->SetPole( true );
+
+		// Hide pole (make thin)
+		bool hidePole = true;
+//		GetShowPole();
+
+		if (hidePole)
+		  m_poleNode->SetRadius( 0.01f, 0.01f );///baseDiameter);
+		else
+		  m_poleNode->SetRadius( 0.05f, 0.05f );///baseDiameter);
+
 		m_poleTransformNode = new VolumeTree::TransformNode( m_poleNode );
 		m_poleTransformNode->SetTranslate( 0.0f, 0.0f, 0.5f );
+
+
+		// Base
 		VolumeTree::CylinderNode* poleBase = new VolumeTree::CylinderNode( 0.1f, 0.5f, 0.5f );
 		//poleBase->SetPole( true );
 		poleBase->SetBasePole( true );
+
+//		float baseDiameter = poleBase->GetRadiusY();
+
 		VolumeTree::TransformNode *baseTransform = new VolumeTree::TransformNode( poleBase );
 		baseTransform->SetTranslate( 0.0f, 0.0f, -0.05f );
 		//VolumeTree::TransformNode baseTransform = VolumeTree::TransformNode( poleBase );
 		//baseTransform.SetTranslate( 0.0f, 0.0f, -0.05f );
 		m_poleBaseNode = new VolumeTree::CSGNode( m_poleTransformNode, baseTransform );
 	}
+	*/
+
+	// Show/Hide pole (make fat/thin)
+	m_poleNode = new VolumeTree::CylinderNode( 1.0f, 0.05f, 0.05f );
+	bool showPole= GetShowPole();
+	if (showPole)
+	{
+//		m_poleNode = new VolumeTree::CylinderNode( 1.0f, 0.05f, 0.05f );
+		m_poleNode->SetRadius( 0.05f, 0.05f );
+//		m_poleNode->SetPole( true );
+	}
+	else
+	{
+//		m_poleNode = new VolumeTree::CylinderNode( 1.0f, 0.001f, 0.001f );
+		m_poleNode->SetRadius( 0.001f, 0.001f );
+
+//		m_poleNode->SetPole( true );
+//		m_poleNode->SetRadius( 0.01, 0.01 );///base Diameter);
+	}
+	m_poleNode->SetPole( true );
+	m_poleTransformNode = new VolumeTree::TransformNode( m_poleNode );
+
+
+	//	m_poleTransformNode->SetTranslate( 0.0f, 0.0f, 0.5f );
+	
+	// Show/Hide pole (make fat/thin)
+	bool showPoleBase = GetShowBase();
+	VolumeTree::CylinderNode* poleBase = new VolumeTree::CylinderNode( 0.1f, 0.5f, 0.5f );
+	if (showPoleBase)
+	{
+		poleBase->SetRadius( 0.5f, 0.5f );
+	}
+	else
+	{
+		poleBase->SetRadius( 0.001f, 0.001f );
+	}
+
+	poleBase->SetBasePole( true );
+
+//		float baseDiameter = poleBase->GetRadiusY();
+
+	VolumeTree::TransformNode *baseTransform = new VolumeTree::TransformNode( poleBase );
+	baseTransform->SetTranslate( 0.0f, 0.0f, -0.05f );
+		//VolumeTree::TransformNode baseTransform = VolumeTree::TransformNode( poleBase );
+		//baseTransform.SetTranslate( 0.0f, 0.0f, -0.05f );
+	m_poleBaseNode = new VolumeTree::CSGNode( m_poleTransformNode, baseTransform );
+
+
 
 	if( m_objectRoot != NULL )
 	{

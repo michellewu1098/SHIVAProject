@@ -136,6 +136,7 @@ namespace ShivaGUI
 		template <class T> void SetValue( std::string _key, std::string _typeName, T _value );
 		//----------------------------------------------------------------------------------
 
+		bool _showBase;// = true;
 	};
 }
 

@@ -304,28 +304,68 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 
 			// Show save dialog
 			char const * theSaveFileName;
-			theSaveFileName = tinyfd_saveFileDialog ("SHIVA Models", fullFilename.c_str(), 1, lFilterPatterns, NULL);
+			
+			theSaveFileName = tinyfd_saveFileDialog ("SHIVA Models", fullFilename.c_str(), 1, lFilterPatterns, ".xml");// NULL);
 
 			if (theSaveFileName)
 			{
-				if( fileFound )
+				// User didn't cancel save operation
+
+				// This next bit is to trap if the .xml extension is missing - tinyfd appears to have no option for checking this.
+				
+				bool OKToSave = true;
+
+				std::string fileToSave;
+				fileToSave = theSaveFileName;
+
+				std::size_t found = fileToSave.find(".xml");
+				if (found == std::string::npos)
+				{
+					// If no .xml extension, add one
+					fileToSave = fileToSave + ".xml";			
+
+					// Now check to make sure the filename with .xml exists to prevent accidental overwriting
+					bool fileExists;
+					fileExists = boost::filesystem::exists( fileToSave );
+
+					if (fileExists)
+					{
+						if (tinyfd_messageBox("WARNING!", "Filename exists - overwrite?", "yesno", "warning", NULL) == 1)
+							// Yes  
+							OKToSave = true;
+						else
+							// No
+							OKToSave = false;
+					}
+				}			
+
+				if( fileFound && OKToSave)
 				{
 					if( !boost::filesystem::exists( m_saveDir ) )
 					{
 						boost::filesystem::create_directory( m_saveDir );
 					}
 
-					tempTree.SaveXML( theSaveFileName );
+					tempTree.SaveXML( fileToSave );//theSaveFileName );
 
 //				m_showSaveConfirmation = true;
 //				m_saveTextCounter = 3.0f;
 				}
 			}
+			
 			else
 			{
 				std::cerr << "WARNING: Cannot save file. Try removing previous files, limit is 10000 files" << std::endl;
 			}
 		}
+
+		else if( _view->GetID() == "HideAndShow" )
+		{
+			m_totemController->ShowHidePoleAndBase();
+			m_totemController->RebuildPole();
+			RebuildTrees();
+		}
+
 		else if( _view->GetID() == "DeletePole" )
 		{
 
