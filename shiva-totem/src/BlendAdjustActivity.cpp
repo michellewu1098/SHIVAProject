@@ -16,7 +16,6 @@ void BlendAdjustActivity::OnCreate( ShivaGUI::Bundle *_data )
 
 	m_rotationStepsize = 7.5f;
 	m_rotationX = m_rotationY = m_rotationZ = 0.0f;
-	
 	m_objectColourR = 0.88f;
 	m_objectColourG = 0.78f;
 	m_objectColourB = 0.54f;
@@ -43,7 +42,6 @@ void BlendAdjustActivity::OnCreate( ShivaGUI::Bundle *_data )
 	m_objectColourR = prefs->GetTotColourR();
 	m_objectColourG = prefs->GetTotColourG();
 	m_objectColourB = prefs->GetTotColourB();
-	
 	m_setObjectColour = true;
 
 
@@ -132,6 +130,7 @@ void BlendAdjustActivity::UtilityEventReceived( UtilityEventHandler *_handler, S
 		}
 		else if( _view->GetID() == "BackButton" )
 		{
+			ResetRotation();
 			m_totemController->ShowSelection(true);
 			Finish();
 		}
