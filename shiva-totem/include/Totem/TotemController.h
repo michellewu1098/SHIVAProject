@@ -16,6 +16,8 @@
 #include "VolumeTree/Leaves/VolCacheNode.h"
 #include "Totem/TotemObject.h"
 #include "Totem/Operations/TotemOpDrill.h"
+#include "System/SharedPreferences.h"
+#include "GUIManager.h"
 
 namespace Totem
 { 
@@ -190,7 +192,17 @@ namespace Totem
 		//----------------------------------------------------------------------------------
 		float GetBlend() const { return m_blendAmount; }
 		//----------------------------------------------------------------------------------
-		
+		//----------------------------------------------------------------------------------
+		/// \brief Function to rebuild pole: 1. If there's no totem pole, it rebuilds it from zero
+		/// 2. If we add an object to the pole, we lengthen it and translate it
+		/// 3. If there are no objects on the pole, we remove all global operations too
+		//----------------------------------------------------------------------------------
+		void RebuildPole();
+
+		VolumeTree::CylinderNode* GetPoleNode() { return m_poleNode; };
+		VolumeTree::CSGNode* GetBaseNode() { return m_poleBaseNode; };
+
+		void ShowHidePoleAndBase();
 
 	protected:
 
@@ -206,12 +218,6 @@ namespace Totem
 		/// \brief Controller instance
 		//----------------------------------------------------------------------------------
 		static Controller *m_instance;
-		//----------------------------------------------------------------------------------
-		/// \brief Function to rebuild pole: 1. If there's no totem pole, it rebuilds it from zero
-		/// 2. If we add an object to the pole, we lengthen it and translate it
-		/// 3. If there are no objects on the pole, we remove all global operations too
-		//----------------------------------------------------------------------------------
-		void RebuildPole();
 		//----------------------------------------------------------------------------------
 		/// \brief Root object
 		//----------------------------------------------------------------------------------
