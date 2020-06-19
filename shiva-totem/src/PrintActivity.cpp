@@ -346,7 +346,11 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 						boost::filesystem::create_directory( m_saveDir );
 					}
 
-					tempTree.SaveXML( fileToSave );//theSaveFileName );
+					// Set the current path and filename (for displaying on the main screen)
+					ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
+					prefs->SetFullFilename(fileToSave);
+
+					tempTree.SaveXML( fileToSave );
 
 //				m_showSaveConfirmation = true;
 //				m_saveTextCounter = 3.0f;

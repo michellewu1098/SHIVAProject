@@ -415,18 +415,32 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 				RebuildTrees( true );
 
 				m_commandManager->Clear();
+
+				// Clear the filename on the main screen
+				ShivaGUI::GUIController *guiController = GetGUIController( 0 );
+				ShivaGUI::TextView *filenameLabel = dynamic_cast< ShivaGUI::TextView* >(guiController->GetResources()->GetViewFromID( "filenameText" ) );
+				ShivaGUI::TextView *filenamePathLabel = dynamic_cast< ShivaGUI::TextView* >(guiController->GetResources()->GetViewFromID( "filenamePath" ) );
+
+				filenameLabel->SetText("None", guiController->GetResources());// + filename);
+				filenamePathLabel->SetText("None", guiController->GetResources());// + filename);
+
+				ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
+				prefs->SetFullFilename("None");
+
+				guiController->Layout(); // Forces a redraw of the interface
 			}
 		}
 		else if( _view->GetID() == "Load" )
 		{
 			char const * lFilterPatterns[ 1 ] = { "*.xml; *.vol" };
-			char const* fileName = tinyfd_openFileDialog( "SHIVA Models", "Savefiles/", 1, lFilterPatterns, NULL, 0 );
-			
+			char const* fullFileName = tinyfd_openFileDialog( "SHIVA Models", "Savefiles/", 1, lFilterPatterns, NULL, 0 );
+
+
 			/*if ( !fileName )
 			{
 				tinyfd_messageBox( "Error", "No file selected. Couldn't load anything.", "ok", "error", 1);
 			}*/
-			if( fileName )
+			if( fullFileName )
 			{
 				m_totemController->DeleteAll();
 				m_totemController->SetBlend( m_originalBlendingAmount );
@@ -434,8 +448,27 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 			
 				VolumeTree::Tree tmpTree;
 
-				if( tmpTree.Load( fileName ) )
+				if( tmpTree.Load( fullFileName ) )
 				{ 
+					// Display the filename on the main screen
+					ShivaGUI::GUIController *guiController = GetGUIController( 0 );
+					ShivaGUI::TextView *filenameLabel = dynamic_cast< ShivaGUI::TextView* >(guiController->GetResources()->GetViewFromID( "filenameText" ) );
+					ShivaGUI::TextView *filenamePathLabel = dynamic_cast< ShivaGUI::TextView* >(guiController->GetResources()->GetViewFromID( "filenamePath" ) );
+
+					boost::filesystem::path filePathAndName(fullFileName);
+
+					std::string filename = filePathAndName.filename().string();
+					std::string filePath = filePathAndName.parent_path().string();
+
+					filenameLabel->SetText(filename, guiController->GetResources());// + filename);
+					filenamePathLabel->SetText(filePath, guiController->GetResources());// + filename);
+
+					ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
+					prefs->SetFullFilename(fullFileName);
+
+					guiController->Layout(); // Forces a redraw of the interface
+
+
 					m_totemController->LoadModel( tmpTree.GetReverseTree(), GetNumGUIControllers() );
 				    m_totemController->SelectTopObject();
 				}
@@ -453,13 +486,15 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 			tempTree.SetRoot( m_totemController->GetNodeTree() );
 			bool fileFound = false;
 			std::string fullFilename;
+			std::string filename;
 			std::string extension = ".xml";
 			unsigned int i = 1;
 			do
 			{
 				std::stringstream fileNum;
 				fileNum<<i;
-				fullFilename = m_saveDir + m_saveName + fileNum.str() + extension;
+				filename = m_saveName + fileNum.str() + extension;
+				fullFilename = m_saveDir + filename;//m_saveName + fileNum.str() + extension;
 				fileFound = !boost::filesystem::exists( fullFilename );
 				i++;
 			}
@@ -471,6 +506,17 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 				{
 					boost::filesystem::create_directory( m_saveDir );
 				}
+
+				// Display the filename on the main screen
+				ShivaGUI::GUIController *guiController = GetGUIController( 0 );
+				ShivaGUI::TextView *filenameLabel = dynamic_cast< ShivaGUI::TextView* >(guiController->GetResources()->GetViewFromID( "filenameText" ) );
+				ShivaGUI::TextView *filenamePathLabel = dynamic_cast< ShivaGUI::TextView* >(guiController->GetResources()->GetViewFromID( "filenamePath" ) );
+
+				filenameLabel->SetText(filename, guiController->GetResources());// + filename);
+				filenamePathLabel->SetText(m_saveDir, guiController->GetResources());// + filename);
+				ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
+				prefs->SetFullFilename(fullFilename);
+				guiController->Layout(); // Forces a redraw of the interface
 
 				tempTree.SaveXML( fullFilename );
 
@@ -594,6 +640,26 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 void AssembleActivity::OnActivityResult( ShivaGUI::Bundle *_data )
 {
 	RebuildTrees();
+
+	
+	// Might be coming back from the print/export screen and user may have performed a 'Save As'
+	// - Display the new filename on the main screen
+	ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
+	std::string fullFileName = prefs->GetFullFilename();
+	
+	boost::filesystem::path filePathAndName(fullFileName);
+	
+	std::string filename = filePathAndName.filename().string();
+	std::string filePath = filePathAndName.parent_path().string();
+	
+	ShivaGUI::GUIController *guiController = GetGUIController( 0 );
+	ShivaGUI::TextView *filenameLabel = dynamic_cast< ShivaGUI::TextView* >(guiController->GetResources()->GetViewFromID( "filenameText" ) );
+	ShivaGUI::TextView *filenamePathLabel = dynamic_cast< ShivaGUI::TextView* >(guiController->GetResources()->GetViewFromID( "filenamePath" ) );
+
+	filenameLabel->SetText(filename, guiController->GetResources());// + filename);
+	filenamePathLabel->SetText(filePath, guiController->GetResources());// + filename);
+
+	guiController->Layout(); // Forces a redraw of the interface
 }
 
 //----------------------------------------------------------------------------------

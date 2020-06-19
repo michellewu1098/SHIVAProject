@@ -232,5 +232,14 @@ static	float m_objectColourB = 0.54f;
 		}
 
 
+static	std::string m_filename = "";
 
+		void ShivaGUI::SharedPreferences::SetFullFilename(std::string _filename) 
+		{ 
+			m_filename = _filename;
+		}
 
+		std::string ShivaGUI::SharedPreferences::GetFullFilename() 
+		{ 
+			return m_filename; 
+		};
