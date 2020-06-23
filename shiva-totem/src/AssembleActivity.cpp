@@ -241,26 +241,38 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 #ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to swap with object above" << std::endl;
 #endif
-			//m_totemController->ReorderSelectedObject( true );
+			if (m_totemController->GetSelected() != NULL)
+			{
+				if( m_totemController->GetSelected()->GetParent() != NULL )
+				{
+					//m_totemController->ReorderSelectedObject( true );
 			
-			SwapCommand* swapCmd = new SwapCommand();
-			swapCmd->SetShiftOrder( true );
-			m_commandManager->Execute( swapCmd );
+					SwapCommand* swapCmd = new SwapCommand();
+					swapCmd->SetShiftOrder( true );
+					m_commandManager->Execute( swapCmd );
 
-			RebuildTrees();
+					RebuildTrees();
+				}
+			}
 		}
 		else if( _view->GetID() == "SwapBelow" )
 		{
 #ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to swap with object below" << std::endl;
 #endif
-			//m_totemController->ReorderSelectedObject( false );
+			if (m_totemController->GetSelected() != NULL)
+			{
+				if( m_totemController->GetSelected()->GetChild() != NULL )
+				{
+					//m_totemController->ReorderSelectedObject( false );
 
-			SwapCommand* swapCmd = new SwapCommand();
-			swapCmd->SetShiftOrder( false );
-			m_commandManager->Execute( swapCmd );
+					SwapCommand* swapCmd = new SwapCommand();
+					swapCmd->SetShiftOrder( false );
+					m_commandManager->Execute( swapCmd );
 
-			RebuildTrees();
+					RebuildTrees();
+				}
+			}
 		}
 		//else if( _view->GetID() == "NudgeUp" )
 		//{
