@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Note that this has worked out differently to how Android declares its styles / themes, so the 'theme' tag is parsed the same way as a View's tag -->
 <theme
-  
 	TextButton_drawable = "System/ThemeSystem/button.xml"
 	TextButton_font = "Resources/Fonts/FreeSansBold.ttf"
 	TextButton_text_colour = "FFFFFFFF"
