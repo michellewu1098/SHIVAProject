@@ -8,8 +8,10 @@
 		<theme>Resources/Themes/system.xml</theme>
 		
 		<window>
-			<width>800</width>
-			<height>600</height>
+			<width>1420</width>
+			<height>980</height>
+			<positionX>0</positionX>
+			<positionY>0</positionY>
 		</window>
 		
 		<keyinput>
@@ -24,6 +26,7 @@
 				</debounce>
 			    <key>41 <releaseEvent>BACK</releaseEvent> </key>
 			    <key>44 <pressEvent>SCAN_HIGHLIGHT</pressEvent> <releaseEvent>SCAN_SELECT</releaseEvent> </key>
+			    <key>62 <pressEvent>EDIT_CUSTOMLAYOUT</pressEvent>  </key>
 			</map>
 		    <map>
 				<debounce>

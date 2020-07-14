@@ -8,8 +8,10 @@
 		<theme>Resources/Themes/systemGaze.xml</theme>
 		
 		<window>
-			<width>800</width>
-			<height>600</height>
+			<width>1420</width>
+			<height>980</height>
+			<positionX>0</positionX>
+			<positionY>0</positionY>
 		</window>
 
       <!-- Use these to override Theme settings
