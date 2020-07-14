@@ -128,10 +128,65 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 				char const * theSaveFileName;
 				theSaveFileName = tinyfd_saveFileDialog ("SHIVA Models", filename.c_str(), 1, lFilterPatterns, NULL);
 
-				if (theSaveFileName)
+				
+			if (theSaveFileName)
+			{
+				// User didn't cancel save operation
+
+				// This next bit is to trap if the .xml extension is missing - tinyfd appears to have no option for checking this.
+				
+				bool OKToSave = true;
+
+				std::string fileToSave;
+				fileToSave = theSaveFileName;
+
+				bool fileFound = false;
+
+				std::size_t found = fileToSave.find(".obj");
+				if (found == std::string::npos)
 				{
-					tmpTree.SaveMesh(theSaveFileName, true, true);
+					// If no .xml extension, add one
+					fileToSave = fileToSave + ".obj";			
+
+					// Now check to make sure the filename with .xml exists to prevent accidental overwriting
+					bool fileExists;
+					fileExists = boost::filesystem::exists( fileToSave );
+
+					if (fileExists)
+					{
+						fileFound - true;
+						if (tinyfd_messageBox("WARNING!", "Filename exists - overwrite?", "yesno", "warning", NULL) == 1)
+							// Yes  
+							OKToSave = true;
+						else
+							// No
+							OKToSave = false;
+					}
+				}			
+
+				if( OKToSave)
+				{
+					if( !boost::filesystem::exists( m_saveDir ) )
+					{
+						boost::filesystem::create_directory( m_saveDir );
+					}
+
+					// Set the current path and filename (for displaying on the main screen)
+					ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
+					prefs->SetFullFilename(fileToSave);
+
+					tmpTree.SaveMesh(fileToSave, true, true);
+
+					// Palaver required to combine char and strings together so that they can be displayed as a char message in tinyfd_messageBox:
+					std::string strMessage = "Model successfully saved (with base and pole) as: " + fileToSave; 
+					const char *cstrMessage = strMessage.c_str();
+
+					tinyfd_messageBox("Information", cstrMessage, "ok", "info", NULL);
+
+//				m_showSaveConfirmation = true;
+//				m_saveTextCounter = 3.0f;
 				}
+			}
 			}
 
 //			RebuildTrees(); //do we need that?
@@ -171,10 +226,66 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 				char const * theSaveFileName;
 				theSaveFileName = tinyfd_saveFileDialog ("SHIVA Models", filename.c_str(), 1, lFilterPatterns, NULL);
 
-				if (theSaveFileName)
+
+			if (theSaveFileName)
+			{
+				// User didn't cancel save operation
+
+				// This next bit is to trap if the .xml extension is missing - tinyfd appears to have no option for checking this.
+				
+				bool OKToSave = true;
+
+				std::string fileToSave;
+				fileToSave = theSaveFileName;
+
+				bool fileFound = false;
+
+				std::size_t found = fileToSave.find(".obj");
+				if (found == std::string::npos)
 				{
-					tmpTree.SaveMesh(theSaveFileName, false, false);
+					// If no .xml extension, add one
+					fileToSave = fileToSave + ".obj";			
+
+					// Now check to make sure the filename with .xml exists to prevent accidental overwriting
+					bool fileExists;
+					fileExists = boost::filesystem::exists( fileToSave );
+
+					if (fileExists)
+					{
+						fileFound - true;
+						if (tinyfd_messageBox("WARNING!", "Filename exists - overwrite?", "yesno", "warning", NULL) == 1)
+							// Yes  
+							OKToSave = true;
+						else
+							// No
+							OKToSave = false;
+					}
+				}			
+
+				if( OKToSave)
+				{
+					if( !boost::filesystem::exists( m_saveDir ) )
+					{
+						boost::filesystem::create_directory( m_saveDir );
+					}
+
+					// Set the current path and filename (for displaying on the main screen)
+//					ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
+//					prefs->SetFullFilename(fileToSave);
+
+					tmpTree.SaveMesh(fileToSave, false, false);
+
+					// Palaver required to combine char and strings together so that they can be displayed as a char message in tinyfd_messageBox
+					std::string strMessage = "Model successfully saved (without base or pole) as: " + fileToSave; 
+					const char *cstrMessage = strMessage.c_str();
+
+					tinyfd_messageBox("Information", cstrMessage, "ok", "info", NULL);
+//					tinyfd_messageBox("Information", "Model successfully saved as : " + filename.c_str() + " (without base or pole)", "ok", "info", NULL);
+
+		//				m_showSaveConfirmation = true;
+//				m_saveTextCounter = 3.0f;
 				}
+			}
 			}
 
 //			RebuildTrees(); //do we need that?
@@ -215,11 +326,67 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 				char const * theSaveFileName;
 				theSaveFileName = tinyfd_saveFileDialog ("SHIVA Models", filename.c_str(), 1, lFilterPatterns, NULL);
 
-				if (theSaveFileName)
+
+			if (theSaveFileName)
+			{
+				// User didn't cancel save operation
+
+				// This next bit is to trap if the .xml extension is missing - tinyfd appears to have no option for checking this.
+				
+				bool OKToSave = true;
+
+				std::string fileToSave;
+				fileToSave = theSaveFileName;
+
+//				bool fileFound = false;
+
+				std::size_t found = fileToSave.find(".obj");
+				if (found == std::string::npos)
 				{
-					tmpTree.SaveMesh(theSaveFileName, false, true);
+					// If no .xml extension, add one
+					fileToSave = fileToSave + ".obj";			
+
+					// Now check to make sure the filename with .xml exists to prevent accidental overwriting
+					bool fileExists;
+					fileExists = boost::filesystem::exists( fileToSave );
+
+					if (fileExists)
+					{
+//						fileFound - true;
+						if (tinyfd_messageBox("WARNING!", "Filename exists - overwrite?", "yesno", "warning", NULL) == 1)
+							// Yes  
+							OKToSave = true;
+						else
+							// No
+							OKToSave = false;
+					}
+				}			
+
+				if( OKToSave )
+				{
+					if( !boost::filesystem::exists( m_saveDir ) )
+					{
+						boost::filesystem::create_directory( m_saveDir );
+					}
+
+					// Set the current path and filename (for displaying on the main screen)
+//					ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
+//					prefs->SetFullFilename(fileToSave);
+
+					tmpTree.SaveMesh(fileToSave, false, true);
+
+					// Palaver required to combine char and strings together so that they can be displayed as a char message in tinyfd_messageBox
+					std::string strMessage = "Model successfully saved (with base and without pole) as: " + fileToSave; 
+					const char *cstrMessage = strMessage.c_str();
+
+					tinyfd_messageBox("Information", cstrMessage, "ok", "info", NULL);
+
+//				m_showSaveConfirmation = true;
+//				m_saveTextCounter = 3.0f;
 				}
 			}
+			}
+
 
 //			RebuildTrees(); //do we need that?
 		}
@@ -261,6 +428,64 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 
 			if (theSaveFileName)
 			{
+				// User didn't cancel save operation
+
+				// This next bit is to trap if the .xml extension is missing - tinyfd appears to have no option for checking this.
+				
+				bool OKToSave = true;
+
+				std::string fileToSave;
+				fileToSave = theSaveFileName;
+
+				std::size_t found = fileToSave.find(".vol");
+				if (found == std::string::npos)
+				{
+					// If no .xml extension, add one
+					fileToSave = fileToSave + ".vol";			
+
+					// Now check to make sure the filename with .xml exists to prevent accidental overwriting
+					bool fileExists;
+					fileExists = boost::filesystem::exists( fileToSave );
+
+					if (fileExists)
+					{
+						if (tinyfd_messageBox("WARNING!", "Filename exists - overwrite?", "yesno", "warning", NULL) == 1)
+							// Yes  
+							OKToSave = true;
+						else
+							// No
+							OKToSave = false;
+					}
+				}			
+
+				if( fileFound && OKToSave)
+				{
+					if( !boost::filesystem::exists( m_saveDir ) )
+					{
+						boost::filesystem::create_directory( m_saveDir );
+					}
+
+					// Set the current path and filename (for displaying on the main screen)
+//					ShivaGUI::SharedPreferences *prefs = GetGUIManager()->GetProgSpecificOptions();
+//					prefs->SetFullFilename(fileToSave);
+
+					tempTree.Save( fileToSave );
+
+					// Palaver required to combine char and strings together so that they can be displayed as a char message in tinyfd_messageBox
+					std::string strMessage = "Model successfully exported as a .vol file named: " + fileToSave; 
+					const char *cstrMessage = strMessage.c_str();
+
+					tinyfd_messageBox("Information", cstrMessage, "ok", "info", NULL);
+
+//				m_showSaveConfirmation = true;
+//				m_saveTextCounter = 3.0f;
+				}
+			}
+
+/*
+
+			if (theSaveFileName)
+			{
 				if( fileFound )
 				{
 					if( !boost::filesystem::exists( m_saveDir ) )
@@ -275,10 +500,11 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 					std::cerr << "WARNING: Cannot export file. Try removing previous files, limit is 10000 files" << std::endl;
 				}
 			}
+*/
 
 			delete rootScaleNode;
 		}
-		else if( _view->GetID() == "Save" )
+		else if( _view->GetID() == "Save" ) // Save As
 		{
 #ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to save tree" << std::endl;
@@ -286,6 +512,7 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 			VolumeTree::Tree tempTree;
 
 			tempTree.SetRoot( m_totemController->GetNodeTree() );
+
 			bool fileFound = false;
 			std::string fullFilename;
 			std::string extension = ".xml";
@@ -303,8 +530,7 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 			char const * lFilterPatterns[ 1 ] = { "*.xml" };
 
 			// Show save dialog
-			char const * theSaveFileName;
-			
+			char const * theSaveFileName;			
 			theSaveFileName = tinyfd_saveFileDialog ("SHIVA Models", fullFilename.c_str(), 1, lFilterPatterns, ".xml");// NULL);
 
 			if (theSaveFileName)
@@ -351,6 +577,12 @@ void PrintActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGU
 					prefs->SetFullFilename(fileToSave);
 
 					tempTree.SaveXML( fileToSave );
+
+					// Palaver required to combine char and strings together so that they can be displayed as a char message in tinyfd_messageBox
+					std::string strMessage = "Model successfully saved as : " + fileToSave; 
+					const char *cstrMessage = strMessage.c_str();
+
+					tinyfd_messageBox("Information", cstrMessage, "ok", "info", NULL);
 
 //				m_showSaveConfirmation = true;
 //				m_saveTextCounter = 3.0f;
