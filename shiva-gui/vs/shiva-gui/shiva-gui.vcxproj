@@ -208,6 +208,7 @@
     <ClCompile Include="..\..\src\System\Activities\ProfileChooserActivity.cpp" />
     <ClCompile Include="..\..\src\Audio\AudioClip.cpp" />
     <ClCompile Include="..\..\src\Audio\AudioManager.cpp" />
+    <ClCompile Include="SharedSettings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GUIManager.h" />
@@ -254,6 +255,7 @@
     <ClInclude Include="..\..\include\System\Bundle.h" />
     <ClInclude Include="..\..\include\System\ProfileManager.h" />
     <ClInclude Include="..\..\include\System\Settings.h" />
+    <ClInclude Include="..\..\include\System\SharedSettings.h" />
     <ClInclude Include="..\..\include\System\SharedPreferences.h" />
     <ClInclude Include="..\..\include\System\Window.h" />
     <ClInclude Include="..\..\include\System\Activities\FilesystemDataProvider.h" />

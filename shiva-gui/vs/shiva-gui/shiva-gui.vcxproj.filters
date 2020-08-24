@@ -246,6 +246,9 @@
     <ClCompile Include="..\..\src\System\Activities\CreateNewProfileActivity.cpp">
       <Filter>Source Files\System\Activities</Filter>
     </ClCompile>
+    <ClCompile Include="SharedSettings.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GUIManager.h">
@@ -368,9 +371,6 @@
     <ClInclude Include="..\..\include\System\Settings.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\System\SharedPreferences.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\System\Window.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
@@ -418,6 +418,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\System\Activities\CreateNewProfileActivity.h">
       <Filter>Header Files\System\Activities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System\SharedPreferences.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System\SharedSettings.h">
+      <Filter>Header Files\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

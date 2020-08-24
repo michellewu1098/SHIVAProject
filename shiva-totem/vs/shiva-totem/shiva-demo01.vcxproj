@@ -114,7 +114,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <IgnoreSpecificDefaultLibraries>libc.lib</IgnoreSpecificDefaultLibraries>
+      <Version>2.0</Version>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -131,7 +136,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>shiva-gui.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;shiva-voltree.lib;vol_totem.lib;vol_metamorph.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\boost;$(ProjectDir)\..\..\..\lib\x86\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\vol_totem;$(ProjectDir)\..\..\..\lib\x86\vol_metamorph;$(ProjectDir)\..\..\..\lib\x86\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release;D:\SHIVAProject\shiva-voltree\vs\shiva-voltree\Release;D:\SHIVAProject\shiva-gui\vs\shiva-gui\Release;$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\boost;$(ProjectDir)\..\..\..\lib\x86\SDL\SDL\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL\SDLmain\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_image\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_mixer\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\SDL_ttf\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x86\vol_totem;$(ProjectDir)\..\..\..\lib\x86\vol_metamorph;$(ProjectDir)\..\..\..\lib\x86\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -161,6 +166,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <IgnoreSpecificDefaultLibraries>libc.lib</IgnoreSpecificDefaultLibraries>
+      <Version>3.0</Version>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

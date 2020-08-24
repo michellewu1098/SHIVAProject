@@ -1,9 +1,40 @@
-﻿Build started 16/04/2018 11:54:56.
-     1>Project "D:\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 2 (clean target(s)).
-     1>_PrepareForClean:
-         Deleting file "D:\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.lastbuildstate".
-     1>Done Building Project "D:\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" (clean target(s)).
+﻿Build started 23/08/2020 17:55:18.
+     1>Project "D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       ResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe" /VERSION:"3.0" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\vs\shiva-gui\Release" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\vs\shiva-voltree\Release" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\boost" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL\SDL" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL\SDLmain" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_image" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_mixer" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_ttf" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\vol_totem" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\vol_metamorph" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\glew" "shiva-gui.lib" Opengl32.lib glu32.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib "shiva-voltree.lib" vol_totem.lib vol_metamorph.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc.lib /MANIFEST /ManifestFile:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.lib" /MACHINE:X64 "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.res"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\AssembleActivity.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\BlendAdjustActivity.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\Command.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\CommandManager.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\DrillActivity.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\EditMenuActivity.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\main.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\NudgeActivity.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\PrintActivity.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\RotateObjectActivity.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\ShivaModelManager.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\UniformScaleActivity.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\VolView.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemController.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemObject.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemOperation.obj"
+         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemOpDrill.obj"
+         Generating code
+         Finished generating code
+         shiva-demo01.vcxproj -> D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe;#1" /manifest "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.exe.intermediate.manifest"
+       FinalizeBuildStatus:
+         Deleting file "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.unsuccessfulbuild".
+         Touching "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.lastbuildstate".
+     1>Done Building Project "D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.03
+Time Elapsed 00:00:23.92

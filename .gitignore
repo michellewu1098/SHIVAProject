@@ -300,3 +300,23 @@ __pycache__/
 build/
 
 # End of https://www.gitignore.io/api/windows,visualstudio
+shiva-totem/vs/shiva-totem/Savefiles
+shiva-totem/vs/shiva-totem/Resources/Audio/MM
+shiva-totem/vs/shiva-totem/Resources/Drawables/System/CommandSymbols/Icons/Old
+lib/x64/boost
+shiva-totem\Resources\Layout\Old
+*.old
+*.log
+shiva-gui/vs/shiva-gui/Debug/shiva-gui.Build.CppClean.log
+*.lib
+shiva-voltree/vs/shiva-voltree/Release/shiva-voltree.log
+*.idb
+*.exe
+shiva-voltree/vs/shiva-voltree/Debug/vc100.idb
+*.lib
+*.manifest
+*.res
+*.lastbuildstate
+D:\SHIVAProject\shiva-gui\vs\shiva-gui\Debug\*
+D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\*
+D:\SHIVAProject\shiva-voltree\vs\shiva-voltree\Debug\*
