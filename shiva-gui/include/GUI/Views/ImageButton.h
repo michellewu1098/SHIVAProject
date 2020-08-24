@@ -119,6 +119,11 @@ namespace ShivaGUI
 
 
 	protected:
+		int m_left;
+	    int m_right;
+	    int m_top;
+		int m_bottom;
+
 
 		//----------------------------------------------------------------------------------
 		/// \brief Button centre x-coord
@@ -197,6 +202,11 @@ namespace ShivaGUI
 		/// \param [in] _mouseY
 		//----------------------------------------------------------------------------------
 		bool MouseHit( int _mouseX, int _mouseY );
+		/// \brief Returns true if a mouse coord is on the button
+		/// \param [in] _mouseX
+		/// \param [in] _mouseY
+		//----------------------------------------------------------------------------------
+		bool MouseOver( int _mouseX, int _mouseY );
 		//----------------------------------------------------------------------------------
 		/// \brief Sets the state of the StateListDrawable to match that of the button
 		//----------------------------------------------------------------------------------
@@ -217,6 +227,9 @@ namespace ShivaGUI
 		/// \brief Must return whether the event is absorbed (i.e. whether it should be passed on to other events)
 		//----------------------------------------------------------------------------------
 		bool OnHoverEnter();
+		/// \brief Must return whether the event is absorbed (i.e. whether it should be passed on to other events)
+		//----------------------------------------------------------------------------------
+		bool OnHoverOver();
 		//----------------------------------------------------------------------------------
 		// \brief Must return whether the event is absorbed (i.e. whether it should be passed on to other events)
 		//----------------------------------------------------------------------------------
