@@ -93,7 +93,6 @@ void ShivaGUI::CreateNewProfileActivity::UtilityEventReceived( UtilityEventHandl
 			for( unsigned int i = 0; i < numWindows; i++ )
 			{
 				ShivaGUI::GUIController *guiController = GetGUIController( i );
-				
 
 				guiController->LoadContentView( "OneWindowCreatorLayout.xml" );
 			}
@@ -117,7 +116,7 @@ void ShivaGUI::CreateNewProfileActivity::UtilityEventReceived( UtilityEventHandl
 			TiXmlElement* window = new TiXmlElement( "window" );
 			TiXmlElement* width = new TiXmlElement( "width" );
 
-			width->LinkEndChild( new TiXmlText( "800" ) );
+			width->LinkEndChild( new TiXmlText( "1000" ) );
 			window->LinkEndChild( width );
 
 			TiXmlElement* height = new TiXmlElement( "height" );
@@ -204,14 +203,23 @@ void ShivaGUI::CreateNewProfileActivity::UtilityEventReceived( UtilityEventHandl
 			if( !m_customDimensions )
 			{
 				TiXmlElement* window = new TiXmlElement( "window" );
-				TiXmlElement* width = new TiXmlElement( "width" );
 
-				width->LinkEndChild( new TiXmlText( "800" ) );
+				TiXmlElement* width = new TiXmlElement( "width" );
+				width->LinkEndChild( new TiXmlText( "1001" ) );
 				window->LinkEndChild( width );
 
 				TiXmlElement* height = new TiXmlElement( "height" );
 				height->LinkEndChild( new TiXmlText( "600" ) );
 				window->LinkEndChild( height );
+
+				TiXmlElement* positionX = new TiXmlElement( "positionX" );
+				positionX->LinkEndChild( new TiXmlText( "0" ) );
+				window->LinkEndChild( positionX );
+
+				TiXmlElement* positionY = new TiXmlElement( "positionY" );
+				positionY->LinkEndChild( new TiXmlText( "0" ) );
+				window->LinkEndChild( positionY );
+
 
 				m_options->LinkEndChild( window );
 			}
@@ -281,9 +289,15 @@ void ShivaGUI::CreateNewProfileActivity::UtilityEventReceived( UtilityEventHandl
 			TiXmlElement *keyInput = new TiXmlElement( "keyinput" );
 			m_options->LinkEndChild( keyInput );
 
+			TiXmlElement *enableKeys = new TiXmlElement( "enablekeys" );
+			keyInput->LinkEndChild( enableKeys );
+
+			TiXmlElement *shareInputs = new TiXmlElement( "shareinputs" );
+			keyInput->LinkEndChild( shareInputs );
+
 			TiXmlElement *map = new TiXmlElement( "map" );
 			keyInput->LinkEndChild( map );
-			
+
 				TiXmlElement *debounce = new TiXmlElement( "debounce" );
 				map->LinkEndChild( debounce );
 					TiXmlElement *trailTime = new TiXmlElement( "trailTime" );
