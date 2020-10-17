@@ -1,11 +1,27 @@
 #include "EditMenuActivity.h"
 
+#include "System/SharedSettings.h"
 //----------------------------------------------------------------------------------
+
+
+//extern bool pauseEyegaze; // Global variable!
+
 
 void EditMenuActivity::OnCreate( ShivaGUI::Bundle *_data )
 {
 	// This is like our constructor
 	// We use it to initialise our variables and load the layouts to window
+
+/*
+	// This allows us to see the setting for whether eye gaze is on (or turn it off) across various .cpp files
+	ShivaGUI::SharedSettings* params = new ShivaGUI::SharedSettings();
+
+	bool eyeGazePaused1 = params->IsEyegazePaused();
+	params->SetEyegazePaused(true);
+	bool eyeGazePaused2 = params->IsEyegazePaused();
+*/
+//	pauseEyegaze = true;
+
 
 	m_totemController = Totem::Controller::GetInstance();
 	m_totemController->ShowSelection( true );
@@ -64,6 +80,9 @@ void EditMenuActivity::OnCreate( ShivaGUI::Bundle *_data )
 			InitIOWindow( guiController, _data );
 		}
 	}
+
+//	pauseEyegaze = false;
+
 }
 
 //----------------------------------------------------------------------------------
@@ -215,6 +234,8 @@ void EditMenuActivity::InitIOWindow( ShivaGUI::GUIController *_guiController, Sh
 	}
 
 	UpdateViews();
+
+//		pauseEyegaze = false;
 }
 
 //----------------------------------------------------------------------------------

@@ -4,16 +4,90 @@
 #include "GUIManager.h"
 #include "ResourceManager.h"
 
+#include "System/SharedSettings.h"
+
 #include <cmath>
 
 #ifndef PI
 #define PI 3.141592653589793238462643383279502884
 #endif
 
+
+//static bool pauseEyegaze = false; //true;  // Otherwise the profile screen shows the dwell marker!
+//ShivaGUI::SharedPreferences:: *
+	
+//ShivaGUI::my_class *pauseEyegaze;
+
+//ShivaGUI::Shared *shared;
+//bool pauseEyegaze;// = *shared->IsEyegazePaused();// ShivaGUI::Shared::IsEyegazePaused();
+
+
+
+// These are both global variables accessed by 'extern' in other .cpp files
+// I know I shouldn't do this, but I don't know enough about to c++ to avoid it!
+extern bool pauseEyegaze;  // Initially declared in AssembleActivity.cpp
+extern bool eyeGazeProfile; // Initially declared in AssembleActivity.cpp
+
+clock_t startTime = clock();  // This is a global variable - should get rid of this, but again, I'm not sure how?
+
+
+
+
+// MM (Aug 2020) NOT FULLY IMPLEMENTED: This is an alternative approach to the global variables above
+ShivaGUI::SharedSettings* params = new ShivaGUI::SharedSettings();	// This is 'global' to this code file - is this a bad thing to do - how do I avoid this??  
+																// I did this to share the eyegaze on/off value across .cpp files (AssembleActivity and EditMenuActivity etc.).
+																// I don't see this anywhere else in these code files, so it must be bad!?
+																// I only want to examine the value once rather than create a value for every single button (pointless).
+
+
+
+/*
+ShivaGUI::Shared::Shared()
+{
+	bool x = IsEyegazePaused();
+	SetEyegazePaused(true);
+	bool y = IsEyegazePaused();
+	SetEyegazePaused(false);
+	bool z = IsEyegazePaused();
+
+//    std::cout << "In foo::bar(), value is " << x << '\n';
+}
+*/
+
+//ShivaGUI::Shared::Shared::SetEyeGazeActiveStatus(false);// shared->SetEyeGazeActiveStatus(false);
 //----------------------------------------------------------------------------------
 
 ShivaGUI::ImageButton::ImageButton()
 {
+//	my_class classy = my_class();
+//	classy->
+// = ShivaGUI::my_class::my_class(1);// = new ShivaGUI::my_class;
+//	classy->
+
+//pauseEyegaze = new my_class(true);
+//classy->set_value(false);
+
+//pauseEyegaze = shared->IsEyegazePaused();
+
+/*
+ShivaGUI::Shared *shared = new ShivaGUI::Shared();
+
+bool xx = shared->EyeGazeEnabled();
+shared->SetEyeGazeActiveStatus(true);
+
+bool yy = shared->EyeGazeEnabled();
+
+shared->SetEyeGazeActiveStatus(false);
+
+bool zz = shared->EyeGazeEnabled();
+*/
+
+	m_left = 0;//m_centreX - halfSizeX;
+	m_right = 0;//m_centreX + halfSizeX;
+	m_top = 0;//m_centreY - halfSizeY;
+	m_bottom = 0;//m_centreY + halfSizeY;
+	
+
 	m_centreX = 0;
 	m_centreY = 0;
 	m_sizeX = 0;
@@ -298,6 +372,7 @@ void ShivaGUI::ImageButton::Inflate( TiXmlElement *_xmlElement, ResourceManager 
 		}
 		else if( ( std::string( "eyeGaze_enable" ) == currentAttribute->Name() ) || ( _themePrefix + "eyeGaze_enable" == currentAttribute->Name() ) )
 		{
+		//	eyeGazeProfile = true;
 			std::string value = currentAttribute->Value();
 			if( value == "true" || value == "1" || value == "yes" )
 			{
@@ -543,6 +618,17 @@ void ShivaGUI::ImageButton::SetFocus( bool _value )
 
 void ShivaGUI::ImageButton::SetSelect( bool _value )
 {
+//			InternalEvent *currentEvent = NULL;
+//			currentEvent = new InternalEvent( InternalEvent::EYEGAZE_DISABLE );
+//			m_gazeRestIssueEvent = true;
+//			m_gazeRestButtonToggle = true;
+//			m_usingEyeGaze = false;
+//			m_gazeRestIssueEvent = true;
+//			m_gazeRestButtonToggle = false;//!m_gazeRestButtonToggle;
+
+
+	std::string buttonID = ImageButton::GetID();
+
 	if( m_pressed == false && _value == true )
 	{
 		// Press
@@ -563,27 +649,30 @@ void ShivaGUI::ImageButton::SetSelect( bool _value )
 			// std::string textButtonID = TextButton
 			// ShivaGUI::View *_view;
 
-			std::string buttonID = "Resources/Audio/" + ImageButton::GetID() + ".wav";
 
-			if (buttonID == "Resources/Audio/imagebutton.wav")
+			std::string buttonIDWithPath = "Resources/Audio/" + buttonID;
+
+			std::string soundFile = buttonIDWithPath + ".wav";
+
+			if (soundFile == "Resources/Audio/imagebutton.wav")
 			{
 			   std::string fn = m_contentGenDrawable->GetFilename();
 			   boost::erase_all(fn, "Models/colprim_"); // "Models/colprim_cone.xml"
 
 				if (fn == "sphere.xml")
-					buttonID = "Resources/Audio/Sphere.wav";
+					soundFile = "Resources/Audio/Sphere.wav";
 				
 				else if ( fn == "cone.xml")
-					buttonID = "Resources/Audio/Cone.wav";
+					soundFile = "Resources/Audio/Cone.wav";
 				
 				else if ( fn == "cylinder.xml")
-					buttonID = "Resources/Audio/Cylinder.wav";
+					soundFile = "Resources/Audio/Cylinder.wav";
 
 				else if ( fn == "cube.xml")
-					buttonID = "Resources/Audio/Cube.wav";
+					soundFile = "Resources/Audio/Cube.wav";
 	
 				else if (fn == "rect.xml")
-					buttonID = "Resources/Audio/Cuboid.wav";		
+					soundFile = "Resources/Audio/Cuboid.wav";		
 			}
 
 			// Command *nextFocus = GetPrimType();  //GetNextFocus( Definitions::Right );
@@ -592,16 +681,16 @@ void ShivaGUI::ImageButton::SetSelect( bool _value )
 			// std::vector< std::pair< ShivaGUI::AdapterView*, ShivaGUI::GUIController* > >::iterator it = m_listViews.begin();
 			// dataEntryIndex = ( *it ).first->GetDataIndex( _view );
 
-			if( !boost::filesystem3::exists( buttonID ) )
+			if( !boost::filesystem3::exists( soundFile ) )
 				// The button has no matching sound file
-				buttonID = "Resources/Audio/Default.wav";
+				soundFile = "Resources/Audio/Default.wav";
 
 			// Assemble the audio clip to play - an AudioManager and Mix_Chunk are needed to build an AudioClip to play
 			AudioManager *audMan = new AudioManager();
 			Mix_Chunk *chunk = new Mix_Chunk;
 			
-			AudioClip *audClip = new AudioClip( audMan, chunk, buttonID, false);
-			audClip = audMan->GetSample(buttonID);
+			AudioClip *audClip = new AudioClip( audMan, chunk, soundFile, false);
+			audClip = audMan->GetSample(soundFile);
 
 			m_audio_pressStart = audClip;
 
@@ -618,6 +707,53 @@ void ShivaGUI::ImageButton::SetSelect( bool _value )
 		if( m_clickListener != NULL ) {
 			m_clickListener->HandleEvent( this );
 		}
+
+		/*
+		if (m_usingEyeGaze)
+		{
+//			m_usingEyeGaze = false;
+			m_gazeRestIssueEvent = true;
+			m_gazeRestButtonToggle = true;
+	}
+	*/
+
+		if (m_usingEyeGaze && !pauseEyegaze)
+		{
+//			if (buttonID == "BackButton") 
+//				pauseEyegaze = true;
+//				m_gazeDwellTimer = 0.0f;
+
+			if ( (buttonID == "EditMenuActivity") 
+				|| (buttonID == "NudgeActivity") 
+				|| (buttonID == "UniformScaleActivity") 
+				|| (buttonID == "RotateObjectActivity")
+				|| (buttonID == "DrillActivity")
+				|| (buttonID == "BlendAdjustActivity") 
+				|| (buttonID == "BackButton") )
+			{
+				// Pause when changing screens to avoid selecting something before the page has loaded
+				//pauseEyegaze->set_value(true);
+				eyeGazeProfile = true; // Global variable!
+				pauseEyegaze = true;
+				startTime = clock();
+
+//				m_gazeDwellTimer = 0.0f;
+
+//				SetSelect(false);
+				m_gazeWanderTimer = 0.0f;
+				//m_gazeDwellTimer = 0.0f;
+			}
+			//else
+//				m_gazeWanderTimer = 1.0f;
+//				shared->SetEyegazePaused(true);//pauseEyegaze->set_value(true);
+//				pauseEyegaze = true;
+		}
+
+/*			m_usingEyeGaze = false;
+		else
+			m_usingEyeGaze = true;*/
+
+
 
 		if( m_gazeIsRestButton && m_usingEyeGaze )
 		{
@@ -641,6 +777,56 @@ bool ShivaGUI::ImageButton::HandleEvent( InternalEvent *_currentEvent )
 {
 	if( m_active && m_visible )
 	{
+//	if (m_usingEyeGaze && m_gazeRestButtonToggle)
+
+		// Pause a little while between page changes to prevent accidental selections
+		if (eyeGazeProfile)
+		{
+//		if (!pauseEyegaze)
+//			m_usingEyeGaze = true;
+			if (pauseEyegaze)
+			{
+				// *** IMPORTANT ***
+				// Have a look at whether eye gaze is paused using OO approach
+				// params->SetEyegazePaused(false);
+				bool eyeGazePaused = params->IsEyegazePaused();
+
+				double timeSinceEyeGazePaused = 0.0f;
+
+				clock_t timeNow = clock(); // This is a global variable - should get rid of this
+
+				timeSinceEyeGazePaused = (timeNow - startTime) / CLOCKS_PER_SEC;
+
+				const double pauseTime = 1.0f;
+
+				if (timeSinceEyeGazePaused  > pauseTime)
+				{
+					pauseEyegaze = false;
+//					m_usingEyeGaze = true;
+//					m_gazeDwellTimer = 0.0f;
+				}
+			}
+			else
+			{
+//			if( !pauseEyegaze && m_usingEyeGaze )
+//			{
+/*
+				if( m_gazeWanderTimer >= m_gazeMaxWanderTime )
+				{
+					m_gazeDwellTimer = 0.0f;
+					m_gazeIsPressing = false;
+				}
+//				m_gazeWanderTimer = 0.0f;
+				m_hasGaze = true;
+//			}
+
+		//}
+*/
+	//			m_usingEyeGaze = true;
+			}
+		}
+
+
 		if( _currentEvent->GetType() == InternalEvent::EYEGAZE_ENABLE )
 		{
 			if( !m_gazeIsRestButton )
@@ -655,17 +841,70 @@ bool ShivaGUI::ImageButton::HandleEvent( InternalEvent *_currentEvent )
 				m_usingEyeGaze = false;
 			}
 		}
-		if( ( _currentEvent->GetType() == InternalEvent::POSITIONAL_DRAG ) && ( !m_pressed ) && ( !m_hover ) )
+		else
 		{
-			int mouseX, mouseY;
-			_currentEvent->GetPosition( mouseX, mouseY );
-			if( MouseHit( mouseX, mouseY ) )
+			if( ( _currentEvent->GetType() == InternalEvent::POSITIONAL_DRAG ) && ( !m_pressed ) && ( !m_hover ) )
 			{
-				// This is a hover enter
+				int mouseX, mouseY;
+				_currentEvent->GetPosition( mouseX, mouseY );
+
+			//if (pauseEyegaze)
+/*			
+			if( MouseOver( mouseX, mouseY ) )
+			{
 				m_hover = true;
-				return OnHoverEnter();
+
+				//if (mouseX > ShivaGUI::ImageButton::
+				return OnHoverOver();
 			}
+*/
+				if ( !pauseEyegaze && m_usingEyeGaze )
+				{
+					if( MouseHit( mouseX, mouseY ) )
+					{
+						// This is a hover enter
+						m_hover = true;
+						return OnHoverEnter();
+					}
+				}
+			}
+
+			if ( _currentEvent->GetType() == InternalEvent::POSITIONAL_DRAG )
+			{
+				int mouseX, mouseY;
+				_currentEvent->GetPosition( mouseX, mouseY );
+
+			//if (pauseEyegaze)
+				if( MouseOver( mouseX, mouseY ) )
+				{
+					std::string buttonID = ImageButton::GetID();
+
+// IMPORTANT NOTE: If this code is built and run in debug mode the dwell marker will appear stuttery if the mouse is continually moved over a button.
+//				   I think this is becase it generates many calls to the onHover event and has to put the debug text into the console window.
+//					When built as a release version it seems to be OK.
+
+#ifdef _DEBUG
+	std::cout << "\nbuttonID: " << buttonID << std::endl;
+#endif
+
+#ifdef _DEBUG
+	std::cout << "mouseX: " << mouseX << std::endl;
+	std::cout << "m_left: " << m_left << ", m_right: " << m_right << std::endl;
+	std::cout << "mouseY: " << mouseY << std::endl;
+	std::cout << "m_top: " << m_top << ", m_bottom: " << m_bottom << std::endl;
+#endif
+
+#ifdef _DEBUG
+	std::cout << "OnHoverOver" << std::endl;
+#endif
+					// This is a hover over
+					m_hover = true;
+					return OnHoverOver();
+				}			
+			}			
 		}
+		
+
 		if( ( _currentEvent->GetType() == InternalEvent::POSITIONAL_DRAG ) && ( !m_pressed ) && ( m_hover ) )
 		{
 			int mouseX, mouseY;
@@ -818,11 +1057,34 @@ bool ShivaGUI::ImageButton::MouseHit( int _mouseX, int _mouseY )
 {
 	float halfSizeX = m_sizeX / 2.0f;
 	float halfSizeY = m_sizeY / 2.0f;
+
+	m_left = m_centreX - halfSizeX;
+	m_right = m_centreX + halfSizeX;
+	m_top = m_centreY - halfSizeY;
+	m_bottom = m_centreY + halfSizeY;
+
 	return ( _mouseX < m_centreX + halfSizeX ) && ( _mouseX > m_centreX - halfSizeX )
 		&& ( _mouseY < m_centreY + halfSizeY ) && ( _mouseY > m_centreY - halfSizeY );
 }
 
 //----------------------------------------------------------------------------------
+
+
+//----------------------------------------------------------------------------------
+
+bool ShivaGUI::ImageButton::MouseOver( int _mouseX, int _mouseY )
+{
+//	float halfSizeX = m_sizeX / 2.0f;
+//	float halfSizeY = m_sizeY / 2.0f;
+	
+	return ( _mouseX >= m_left ) && ( _mouseX <= m_right )
+		&& ( _mouseY >= m_top ) && ( _mouseY <= m_bottom );
+//	return ( _mouseX >= m_centreX - halfSizeX ) && ( _mouseX <= m_centreX + halfSizeX )
+//		&& ( _mouseY >= m_centreY - halfSizeY ) && ( _mouseY <= m_centreY + halfSizeY );
+}
+
+//----------------------------------------------------------------------------------
+
 
 void ShivaGUI::ImageButton::SetStateDrawable()
 {
@@ -920,19 +1182,129 @@ void ShivaGUI::ImageButton::Layout( int _left, int _top, int _right, int _bottom
 
 bool ShivaGUI::ImageButton::OnHoverEnter()
 {
+
+
+#ifdef _DEBUG
+				std::cout << "OnHoverEnter" << std::endl;
+#endif
+	// Eye gaze is paused temporarily because we are moving from one screen to another
+//	if (m_usingEyeGaze && m_gazeRestButtonToggle)
+//	if ( m_gazeRestButtonToggle)
+	{
+//		if (pauseEyegaze)
+//			m_usingEyeGaze = false;
+//		else
+//			m_usingEyeGaze = true;
+	}
+//		if (!pauseEyegaze && (m_usingEyeGaze == false))
+//			m_usingEyeGaze = true;
+
 	//std::cout<<"image button hover enter"<<std::endl;
+
+	// Play the cell 'focus' sound effect
 	if( m_audio_hoverEnter != NULL )
 		m_audio_hoverEnter->Play();
-	if( m_usingEyeGaze )
+
+
+	if( !pauseEyegaze && m_usingEyeGaze )
+	//if( m_usingEyeGaze )
 	{
+
+//		if (m_gazeWanderTimer != NULL)
+//		{
+		m_hasGaze = true;
 		if( m_gazeWanderTimer >= m_gazeMaxWanderTime )
 		{
+			// Wander time has been exceeded - reset it and the dwell timer
+//  		m_gazeWanderTimer = 0.0f;
 			m_gazeDwellTimer = 0.0f;
-			m_gazeIsPressing = false;
+//			m_gazeIsPressing = false;
 		}
 		m_gazeWanderTimer = 0.0f;
-		m_hasGaze = true;
+//		}
+
 	}
+
+//	if( !pauseEyegaze && m_usingEyeGaze )
+	{
+//		if( m_gazeWanderTimer >= m_gazeMaxWanderTime )
+		{
+//			m_gazeDwellTimer = 0.0f;
+//			m_gazeIsPressing = false;
+//			m_gazeWanderTimer = 0.0f;
+		}
+
+//		m_hasGaze = true;
+	}
+	
+	return false;
+}
+
+
+bool ShivaGUI::ImageButton::OnHoverOver()
+{
+	// Eye gaze is paused temporarily because we are moving from one screen to another
+//	if (m_usingEyeGaze && m_gazeRestButtonToggle)
+//	if ( m_gazeRestButtonToggle)
+//	{
+//		if (pauseEyegaze)
+//			m_usingEyeGaze = false;
+//		else
+//			m_usingEyeGaze = true;
+//	}
+//		if (!pauseEyegaze && (m_usingEyeGaze == false))
+//			m_usingEyeGaze = true;
+
+	//std::cout<<"image button hover enter"<<std::endl;
+//	if( m_audio_hoverEnter != NULL )
+//		m_audio_hoverEnter->Play();
+
+	if( !pauseEyegaze && m_usingEyeGaze )//&& m_gazeIsPressing )
+	{
+		// Eye gaze isn't paused
+//		if( m_gazeWanderTimer >= m_gazeMaxWanderTime )
+//		{
+//			m_gazeDwellTimer = 0.0f;
+//			m_gazeIsPressing = false;
+//		}
+
+
+//		if( m_gazeWanderTimer >= m_gazeMaxWanderTime )
+//		{
+			// Wander time has been exceeded - reset it and the dwell timer
+//	    	m_gazeWanderTimer = 0.0f;
+//			m_gazeDwellTimer = 0.0f;
+//			m_gazeIsPressing = false;
+
+//		}
+
+		m_hasGaze = true;
+
+//		SetSelect(true);
+		if ( m_gazeDwellTimer > m_gazeDwellToSelectTime)
+		{
+			if (!m_gazeIsPressing)
+			{
+			// Selection time is complete
+
+			m_gazeIsPressing = true;
+			m_gazeDwellTimer = 0.0f;
+			}
+			else
+				SetSelect(false);
+//				m_gazeWanderTimer = 0.0f;
+//			    m_hasGaze = true;
+//				m_gazeIsPressing = false;
+		}
+		else
+		{
+			m_gazeIsPressing = false;
+//			m_hasGaze = true;
+		}
+	}
+//	else
+//		m_gazeIsPressing = false;
+
 	return false;
 }
 
@@ -940,9 +1312,19 @@ bool ShivaGUI::ImageButton::OnHoverEnter()
 
 bool ShivaGUI::ImageButton::OnHoverExit()
 {
+#ifdef _DEBUG
+				std::cout << "OnHoverExit" << std::endl;
+#endif
 	if( m_usingEyeGaze )
 	{
+	  if (m_gazeIsPressing)
+		m_gazeDwellTimer = 0.0f;
+//		m_gazeIsPressing = false;
+//		m_hover = false;
+
 		m_hasGaze = false;
+//		m_gazeWanderTimer = NULL;
+//		m_gazeIsPressing = false;
 	}
 	return false;
 }

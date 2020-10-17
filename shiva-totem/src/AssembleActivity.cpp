@@ -7,7 +7,15 @@
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include "windows.h"
 
+#include "System/SharedSettings.h"
 //----------------------------------------------------------------------------------
+
+
+// These are both global variable accessed by 'extern' in other .cpp files
+// I know I shouldn't do this, but I don't know enough about to c++ to avoid it!
+bool eyeGazeProfile;
+bool pauseEyegaze;
+
 
 void GetScreenRes(int& hoz, int& vert)
 {
@@ -28,6 +36,13 @@ void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
 {
 	// This is like our constructor
 	// We use it to initialise our variables and load the layouts to window
+	
+
+	// MM (August 2020): NOT FULLY IMPLEMENTED: This is a alternative approach to sharing with ImageButton.cpp whether eye gaze is enabled
+	// This allows us to see the setting for whether eye gaze is on (or turn it off) across various .cpp files
+	ShivaGUI::SharedSettings* params = new ShivaGUI::SharedSettings();
+	params->SetEyegazePaused(false);
+	bool eyeGazePaused = params->IsEyegazePaused();
 
 	m_totemController = Totem::Controller::GetInstance();
 
