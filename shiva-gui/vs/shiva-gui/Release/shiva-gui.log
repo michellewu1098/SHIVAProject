@@ -1,38 +1,10 @@
-﻿Build started 23/08/2020 17:55:03.
+﻿Build started 09/12/2020 14:22:47.
      1>Project "D:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\shiva-gui.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\include" /I"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include" /I"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL" /I"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_image" /I"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_ttf" /I"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_mixer" /I"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _LIB /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /errorReport:prompt ..\..\src\GUI\Views\ImageButton.cpp
-         ImageButton.cpp
-     1>..\..\src\GUI\Views\ImageButton.cpp(1065): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>..\..\src\GUI\Views\ImageButton.cpp(1066): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>..\..\src\GUI\Views\ImageButton.cpp(1067): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>..\..\src\GUI\Views\ImageButton.cpp(1068): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>..\..\src\GUI\Views\ImageButton.cpp(1422): warning C4267: '=' : conversion from 'size_t' to 'unsigned int', possible loss of data
-     1>D:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
-                 D:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
-                 with
-                 [
-                     Dim1=4,
-                     Dim2=4,
-                     Element=float,
-                     ArrayType=cml::fixed<4,4>,
-                     BasisOrient=cml::col_basis,
-                     Layout=cml::col_major,
-                     E=float
-                 ]
-                 ..\..\src\GUI\Views\ImageButton.cpp(1368) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
-                 with
-                 [
-                     Dim1=4,
-                     Dim2=4,
-                     Element=float,
-                     ArrayType=cml::fixed<4,4>,
-                     BasisOrient=cml::col_basis,
-                     Layout=cml::col_major,
-                     E=float
-                 ]
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\include" /I"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include" /I"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL" /I"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_image" /I"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_ttf" /I"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_mixer" /I"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _LIB /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /errorReport:prompt SharedSettings.cpp
+         SharedSettings.cpp
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\Lib.exe /OUT:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib" Opengl32.lib SDL2.lib SDL2main.lib SDL2_mixer.lib SDL2_ttf.lib glew32.lib /LIBPATH:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\boost" /LIBPATH:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL\SDL" /LIBPATH:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL\SDLmain" /LIBPATH:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_image" /LIBPATH:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_mixer" /LIBPATH:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_ttf" /LIBPATH:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\glew" /NOLOGO /LTCG Release\GUIManager.obj
          Release\ImageTextButton.obj
@@ -102,4 +74,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:14.03
+Time Elapsed 00:00:11.29

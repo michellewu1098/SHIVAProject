@@ -16,7 +16,7 @@ static	bool m_eyegazePaused = false;
 
 void ShivaGUI::SharedSettings::SetEyegazePaused( bool _paused)
 {
-	m_eyegazePaused = _paused; 
+	m_eyegazePaused = _paused;  
 }
 
 bool ShivaGUI::SharedSettings::IsEyegazePaused()
