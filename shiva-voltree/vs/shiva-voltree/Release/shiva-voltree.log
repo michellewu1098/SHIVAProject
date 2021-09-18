@@ -1,15 +1,9 @@
-﻿Build started 27/06/2020 15:08:12.
+﻿Build started 18/09/2021 13:01:45.
      1>Project "D:\SHIVAProject\shiva-voltree\vs\shiva-voltree\shiva-voltree.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\shiva-voltree.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"D:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\include" /I"D:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include" /I"D:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\cml-1_0_2" /I"D:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_totem" /I"D:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_metamorph" /I"D:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\shiva-gui\include" /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D SHIVAVOLTREE_EXPORTS /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /errorReport:prompt ..\..\src\VolumeTree\Nodes\BlendCSG.cpp ..\..\src\VolumeTree\Nodes\CSG.cpp ..\..\src\VolumeTree\VolumeTree.cpp
-         BlendCSG.cpp
-         CSG.cpp
-         VolumeTree.cpp
-     1>..\..\src\VolumeTree\VolumeTree.cpp(241): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-     1>..\..\src\VolumeTree\VolumeTree.cpp(242): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-     1>..\..\src\VolumeTree\VolumeTree.cpp(243): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+         All outputs are up-to-date.
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\Lib.exe /OUT:"D:\SHIVAProject\shiva-voltree\vs\shiva-voltree\Release\shiva-voltree.lib" Opengl32.lib glu32.lib glew32.lib /LIBPATH:"D:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\x64\boost" /LIBPATH:"D:\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\x64\glew" /NOLOGO /LTCG Release\Camera.obj
          Release\Shader.obj
@@ -38,4 +32,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:06.88
+Time Elapsed 00:00:08.59
