@@ -1081,19 +1081,22 @@ void Totem::Controller::RebuildPole()
 	}
 	*/
 
-	// Show/Hide pole (make fat/thin)
+	// Show/Hide pole (make tall/short)
 	m_poleNode = new VolumeTree::CylinderNode( 1.0f, 0.05f, 0.05f );
 	bool showPole= GetShowPole();
 	if (showPole)
 	{
 //		m_poleNode = new VolumeTree::CylinderNode( 1.0f, 0.05f, 0.05f );
-		m_poleNode->SetRadius( 0.05f, 0.05f );
+		m_poleNode = new VolumeTree::CylinderNode( 1.0f, 0.05f, 0.05f );
+		//m_poleNode->SetRadius( 0.05f, 0.05f );
 //		m_poleNode->SetPole( true );
 	}
 	else
 	{
 //		m_poleNode = new VolumeTree::CylinderNode( 1.0f, 0.001f, 0.001f );
-		m_poleNode->SetRadius( 0.001f, 0.001f );
+		//m_poleNode = new VolumeTree::CylinderNode( 0.01f, 0.01f, 0.01f );
+		m_poleNode->SetLength( 0.0f);
+		//m_poleNode->SetRadius( 0.001f, 0.001f );
 
 //		m_poleNode->SetPole( true );
 //		m_poleNode->SetRadius( 0.01, 0.01 );///base Diameter);
@@ -1104,16 +1107,22 @@ void Totem::Controller::RebuildPole()
 
 	//	m_poleTransformNode->SetTranslate( 0.0f, 0.0f, 0.5f );
 	
-	// Show/Hide pole (make fat/thin)
+	// Show/Hide pole base (make tall/short)
 	bool showPoleBase = GetShowBase();
 	VolumeTree::CylinderNode* poleBase = new VolumeTree::CylinderNode( 0.1f, 0.5f, 0.5f );
 	if (showPoleBase)
 	{
-		poleBase->SetRadius( 0.5f, 0.5f );
+		VolumeTree::CylinderNode* poleBase = new VolumeTree::CylinderNode( 0.1f, 0.5f, 0.5f );
+
+		//poleBase->SetRadius( 0.5f, 0.5f );
+		//delete m_poleBaseNode;
 	}
 	else
 	{
-		poleBase->SetRadius( 0.001f, 0.001f );
+        //VolumeTree::CylinderNode* poleBase = new VolumeTree::CylinderNode( 0.01f, 0.01f, 0.01f );
+		//poleBase-> SetRadius( 0.1f, 0.1f );
+		poleBase->SetLength( 0.0f);
+		//delete m_poleBaseNode
 	}
 
 	poleBase->SetBasePole( true );
@@ -1122,6 +1131,7 @@ void Totem::Controller::RebuildPole()
 
 	VolumeTree::TransformNode *baseTransform = new VolumeTree::TransformNode( poleBase );
 	baseTransform->SetTranslate( 0.0f, 0.0f, -0.05f );
+
 		//VolumeTree::TransformNode baseTransform = VolumeTree::TransformNode( poleBase );
 		//baseTransform.SetTranslate( 0.0f, 0.0f, -0.05f );
 	m_poleBaseNode = new VolumeTree::CSGNode( m_poleTransformNode, baseTransform );
@@ -1136,7 +1146,8 @@ void Totem::Controller::RebuildPole()
 		treeRoot->GetBoundSizes(&x, &y, &z);
 		float topZ = z;
 		//float topZ = m_objectRoot->GetBaseOffset(); //Oleg: this was fixed to prevent pole growing even if the model is relatively small in height 
-		m_poleNode->SetLength( topZ + 0.5f );
+		if (showPole)
+		   m_poleNode->SetLength( topZ + 0.5f );
 		m_poleTransformNode->SetTranslate( 0.0f, 0.0f, ( topZ + 0.5f ) * 0.5f );
 	}
 	else
@@ -1151,7 +1162,8 @@ void Totem::Controller::RebuildPole()
 		}
 		m_operations.clear();
 		m_poleTransformNode->SetTranslate( 0.0f, 0.0f, 0.5f );
-		m_poleNode->SetLength( 1.0f );
+	    if (showPole)
+		  m_poleNode->SetLength( 1.0f );
 	}
 }
 

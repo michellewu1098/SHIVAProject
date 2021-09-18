@@ -1,78 +1,109 @@
-﻿Build started 24/08/2020 17:13:30.
-     1>Project "D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 2 (build target(s)).
+﻿Build started 18/09/2021 14:55:07.
+     1>Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Creating "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\include" /I"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include" /I"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\include" /I"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\include" /I"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL" /I"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_image" /I"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_mixer" /I"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_ttf" /I"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_metamorph" /I"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_totem" /I"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _CONSOLE /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\\" /Fd"D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\vc100.pdb" /Gd /TP /errorReport:prompt ..\..\src\AssembleActivity.cpp ..\..\src\BlendAdjustActivity.cpp ..\..\src\Command.cpp ..\..\src\CommandManager.cpp ..\..\src\DrillActivity.cpp ..\..\src\EditMenuActivity.cpp ..\..\src\NudgeActivity.cpp ..\..\src\PrintActivity.cpp ..\..\src\RotateObjectActivity.cpp ..\..\src\Totem\TotemController.cpp ..\..\src\UniformScaleActivity.cpp ..\..\src\VolView.cpp ..\..\src\main.cpp
-         AssembleActivity.cpp
-         BlendAdjustActivity.cpp
-         Command.cpp
-         CommandManager.cpp
-         DrillActivity.cpp
-         EditMenuActivity.cpp
-         NudgeActivity.cpp
-         PrintActivity.cpp
-     1>..\..\src\PrintActivity.cpp(157): warning C4552: '-' : operator has no effect; expected operator with side-effect
-     1>..\..\src\PrintActivity.cpp(255): warning C4552: '-' : operator has no effect; expected operator with side-effect
-         RotateObjectActivity.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_image" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_mixer" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_ttf" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_metamorph" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_totem" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _CONSOLE /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\\" /Fd"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\vc100.pdb" /Gd /TP /errorReport:prompt ..\..\src\Totem\TotemController.cpp
          TotemController.cpp
-         UniformScaleActivity.cpp
-         VolView.cpp
-     1>D:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
-                 D:\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
-                 with
-                 [
-                     Dim1=4,
-                     Dim2=4,
-                     Element=float,
-                     ArrayType=cml::fixed<4,4>,
-                     BasisOrient=cml::col_basis,
-                     Layout=cml::col_major,
-                     E=float
-                 ]
-                 ..\..\src\VolView.cpp(268) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
-                 with
-                 [
-                     Dim1=4,
-                     Dim2=4,
-                     Element=float,
-                     ArrayType=cml::fixed<4,4>,
-                     BasisOrient=cml::col_basis,
-                     Layout=cml::col_major,
-                     E=float
-                 ]
-         main.cpp
-         Generating Code...
        ResourceCompile:
          All outputs are up-to-date.
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe" /VERSION:"2.0" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\vs\shiva-gui\Debug" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\vs\shiva-voltree\Debug" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\boost" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL\SDL" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL\SDLmain" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_image" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_mixer" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_ttf" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\vol_totem" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\vol_metamorph" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\glew" "shiva-gui.lib" Opengl32.lib glu32.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib "shiva-voltree.lib" vol_totem.lib vol_metamorph.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc.lib /MANIFEST /ManifestFile:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.lib" /MACHINE:X64 "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.res"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\AssembleActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\BlendAdjustActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\Command.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\CommandManager.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\DrillActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\EditMenuActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\main.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\NudgeActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\PrintActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\RotateObjectActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\ShivaModelManager.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\UniformScaleActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\VolView.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\TotemController.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\TotemObject.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\TotemOperation.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\TotemOpDrill.obj"
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe" /VERSION:"2.0" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\vs\shiva-gui\Debug" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\vs\shiva-voltree\Debug" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\boost" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL\SDL" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL\SDLmain" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_image" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_mixer" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_ttf" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\vol_totem" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\vol_metamorph" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\glew" "shiva-gui.lib" Opengl32.lib glu32.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib "shiva-voltree.lib" vol_totem.lib vol_metamorph.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc.lib /MANIFEST /ManifestFile:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.lib" /MACHINE:X64 "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.res"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\AssembleActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\BlendAdjustActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\Command.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\CommandManager.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\DrillActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\EditMenuActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\main.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\NudgeActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\PrintActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\RotateObjectActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\ShivaModelManager.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\UniformScaleActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\VolView.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\TotemController.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\TotemObject.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\TotemOperation.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\TotemOpDrill.obj"
      1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
-         shiva-demo01.vcxproj -> D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe
+     1>shiva-gui.lib(GUIManager.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(GUIManager.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(ImageTextButton.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(ImageTextButton.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(ImageTextView.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(ImageTextView.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(ResourceManager.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(ResourceManager.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(Debouncer.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(Debouncer.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(InputController.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(InputController.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(InputEvent.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(InputEvent.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(InternalEvent.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(InternalEvent.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(Autoscanner.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(Autoscanner.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(Scanner.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(Scanner.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(CreateNewProfileActivity.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(CreateNewProfileActivity.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(GPUProgram.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(GPUProgram.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(GPUShader.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(GPUShader.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(tinyfiledialogs.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(tinyfiledialogs.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(tinyxml.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(tinyxml.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(tinyxmlerror.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(tinyxmlerror.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(tinyxmlparser.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(tinyxmlparser.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(Definitions.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(Definitions.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(GUIController.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(GUIController.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(BitmapDrawable.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(BitmapDrawable.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(Drawable.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(Drawable.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(LayeredImageDrawable.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(LayeredImageDrawable.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(NinePatch.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(NinePatch.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(RectDrawable.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(RectDrawable.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(StateListDrawable.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(StateListDrawable.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(ColourSelector.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(ColourSelector.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(ImageButton.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(ImageButton.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(Slider.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(Slider.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(TextButton.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(TextButton.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(TextView.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(TextView.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(View.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(View.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(AdapterView.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(AdapterView.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(DataAdapter.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(DataAdapter.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(LayoutAdapterView.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(LayoutAdapterView.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(ListView.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(ListView.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(CustomLayout.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(CustomLayout.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(CustomLayoutElement.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(CustomLayoutElement.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(CustomLayoutParams.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(CustomLayoutParams.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(LayoutParams.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(LayoutParams.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(LinearLayout.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(LinearLayout.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(LinearLayoutParams.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(LinearLayoutParams.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(ScrollContainer.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(ScrollContainer.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(ViewGroup.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(ViewGroup.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(Activity.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(Activity.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(Bundle.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(Bundle.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(ProfileManager.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(ProfileManager.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(SharedPreferences.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(SharedPreferences.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(Window.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(Window.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(FilesystemDataProvider.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(FilesystemDataProvider.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(ProfileChooserActivity.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(ProfileChooserActivity.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(AudioClip.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(AudioClip.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(AudioManager.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(AudioManager.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-gui.lib(SharedSettings.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-gui.lib(SharedSettings.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(Camera.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(Camera.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(Shader.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(Shader.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(Node.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(Node.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(VolumeTree.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(VolumeTree.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(ConeNode.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(ConeNode.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(CubeNode.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(CubeNode.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(CylinderNode.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(CylinderNode.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(SphereNode.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(SphereNode.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(TorusNode.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(TorusNode.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(VolCacheNode.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(VolCacheNode.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(CachingPolicy.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(CachingPolicy.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(BlendCSG.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(BlendCSG.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(CSG.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(CSG.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(TransformNode.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(TransformNode.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(GLSLRenderer.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(GLSLRenderer.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+     1>shiva-voltree.lib(SpringyVec3.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'shiva-voltree.lib(SpringyVec3.obj)' or at 'C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\vc100.pdb'; linking object as if no debug info
+         shiva-demo01.vcxproj -> C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe
        Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe;#1" /manifest "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.exe.intermediate.manifest"
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe;#1" /manifest "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.exe.intermediate.manifest"
        FinalizeBuildStatus:
-         Deleting file "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.unsuccessfulbuild".
-         Touching "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.lastbuildstate".
-     1>Done Building Project "D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" (build target(s)).
+         Deleting file "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.unsuccessfulbuild".
+         Touching "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Debug\shiva-totem.lastbuildstate".
+     1>Done Building Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:01:01.26
+Time Elapsed 00:00:05.08
