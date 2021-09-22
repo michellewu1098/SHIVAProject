@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LayeredImageDrawable
+  isNinePatch="false"
+  scaleUp="false"
+  isUsingText = "true"
+>
+  <Layer src="System/CommandSymbols/Icons/moveDrillUp_150x150.png" colour0="@RedColour" colour1="@GreenColour" colour2="@BlueColour" colour3="@ArrowColourBackground"/>
+</LayeredImageDrawable>

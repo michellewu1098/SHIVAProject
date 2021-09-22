@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LayeredImageDrawable
+  isNinePatch="false"
+  scaleUp="false"
+  isUsingText = "true"
+>
+  <Layer src="System/CommandSymbols/Icons/back_150x150.png" colour0="CC0000FF" colour1="000000FF" colour2="000066FF" colour3="@BlackColour"/>
+</LayeredImageDrawable>
+
+<!-- 26437E00  171d33FF -->
