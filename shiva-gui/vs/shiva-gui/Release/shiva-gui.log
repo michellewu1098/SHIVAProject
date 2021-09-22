@@ -209,3 +209,87 @@
          CustomLayoutParams.cpp
          LayoutParams.cpp
          LinearLayout.cpp
+         LinearLayoutParams.cpp
+         ScrollContainer.cpp
+         ViewGroup.cpp
+         Activity.cpp
+         Bundle.cpp
+         ProfileManager.cpp
+     1>..\..\src\System\ProfileManager.cpp(141): warning C4267: 'initializing' : conversion from 'size_t' to 'unsigned int', possible loss of data
+         SharedPreferences.cpp
+         Window.cpp
+         FilesystemDataProvider.cpp
+         ProfileChooserActivity.cpp
+         AudioClip.cpp
+         AudioManager.cpp
+         SharedSettings.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\Lib.exe /OUT:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib" Opengl32.lib SDL2.lib SDL2main.lib SDL2_mixer.lib SDL2_ttf.lib glew32.lib /LIBPATH:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\boost" /LIBPATH:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL\SDL" /LIBPATH:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL\SDLmain" /LIBPATH:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_image" /LIBPATH:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_mixer" /LIBPATH:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_ttf" /LIBPATH:"D:\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\glew" /NOLOGO /LTCG Release\GUIManager.obj
+         Release\ImageTextButton.obj
+         Release\ImageTextView.obj
+         Release\ResourceManager.obj
+         Release\Debouncer.obj
+         Release\InputController.obj
+         Release\InputEvent.obj
+         Release\InternalEvent.obj
+         Release\Autoscanner.obj
+         Release\Scanner.obj
+         Release\CreateNewProfileActivity.obj
+         Release\fbo.obj
+         Release\GPUProgram.obj
+         Release\GPUShader.obj
+         Release\GPUVariable.obj
+         Release\tinyfiledialogs.obj
+         Release\tinystr.obj
+         Release\tinyxml.obj
+         Release\tinyxmlerror.obj
+         Release\tinyxmlparser.obj
+         Release\Definitions.obj
+         Release\GUIController.obj
+         Release\BitmapDrawable.obj
+         Release\Drawable.obj
+         Release\LayeredImageDrawable.obj
+         Release\NinePatch.obj
+         Release\RectDrawable.obj
+         Release\StateListDrawable.obj
+         Release\ColourSelector.obj
+         Release\ImageButton.obj
+         Release\Slider.obj
+         Release\TextButton.obj
+         Release\TextView.obj
+         Release\View.obj
+         Release\AdapterView.obj
+         Release\DataAdapter.obj
+         Release\LayoutAdapterView.obj
+         Release\ListView.obj
+         Release\CustomLayout.obj
+         Release\CustomLayoutElement.obj
+         Release\CustomLayoutParams.obj
+         Release\LayoutParams.obj
+         Release\LinearLayout.obj
+         Release\LinearLayoutParams.obj
+         Release\ScrollContainer.obj
+         Release\ViewGroup.obj
+         Release\Activity.obj
+         Release\Bundle.obj
+         Release\ProfileManager.obj
+         Release\SharedPreferences.obj
+         Release\Window.obj
+         Release\FilesystemDataProvider.obj
+         Release\ProfileChooserActivity.obj
+         Release\AudioClip.obj
+         Release\AudioManager.obj
+         Release\SharedSettings.obj
+     1>SDL2.lib(SDL2.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_mixer.lib(SDL2_mixer.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_ttf.lib(SDL2_ttf.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>glew32.lib(glew32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+         shiva-gui.vcxproj -> D:\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib
+       FinalizeBuildStatus:
+         Deleting file "Release\shiva-gui.unsuccessfulbuild".
+         Touching "Release\shiva-gui.lastbuildstate".
+     1>Done Building Project "D:\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:04:33.14
