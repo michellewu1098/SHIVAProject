@@ -505,6 +505,20 @@ TiXmlElement* ShivaGUI::ImageButton::Deflate( ResourceManager *_resources )
 		xmlNode->SetAttribute( "eyeGaze_RestButton", "true" );
 	}
 
+
+
+    if( m_usingEyeGaze )
+	{
+		xmlNode->SetAttribute( "eyeGaze_enable", "true" );
+	}
+	else
+	{
+		xmlNode->SetAttribute( "eyeGaze_enable", "false" );
+	}
+
+
+
+
 	if( m_gazeRepeat && !m_gazeRepeatFromTheme )
 	{
 		xmlNode->SetAttribute( "eyeGaze_Repeat", "true" );

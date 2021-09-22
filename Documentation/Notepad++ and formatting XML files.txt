@@ -1,0 +1,6 @@
+To make XML files easier to read in NotePad++
+=============================================
+
+Plugins -> XML Tools -> Pretty Print (Indent attributes)
+
+Ctrl-Alt-Shift-A

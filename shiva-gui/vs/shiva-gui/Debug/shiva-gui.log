@@ -1,11 +1,107 @@
-﻿Build started 18/09/2021 13:15:59.
+﻿Build started 22/09/2021 18:24:20.
      1>Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\shiva-gui.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_image" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_ttf" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_mixer" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _LIB /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /errorReport:prompt ..\..\src\GUI\Views\ImageButton.cpp
+         ImageButton.cpp
+     1>..\..\src\GUI\Views\ImageButton.cpp(1075): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ImageButton.cpp(1076): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ImageButton.cpp(1077): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ImageButton.cpp(1078): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ImageButton.cpp(1428): warning C4267: '=' : conversion from 'size_t' to 'unsigned int', possible loss of data
+     1>C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
+                 C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+                 ..\..\src\GUI\Views\ImageButton.cpp(1374) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
        Lib:
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\Debug\shiva-gui.lib" Opengl32.lib glu32.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib SDL2_mixer.lib glew32.lib /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\boost" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL\SDL" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL\SDLmain" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_image" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_mixer" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_ttf" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\glew" /NOLOGO Debug\GUIManager.obj
+         Debug\ImageTextButton.obj
+         Debug\ImageTextView.obj
+         Debug\ResourceManager.obj
+         Debug\Debouncer.obj
+         Debug\InputController.obj
+         Debug\InputEvent.obj
+         Debug\InternalEvent.obj
+         Debug\Autoscanner.obj
+         Debug\Scanner.obj
+         Debug\CreateNewProfileActivity.obj
+         Debug\fbo.obj
+         Debug\GPUProgram.obj
+         Debug\GPUShader.obj
+         Debug\GPUVariable.obj
+         Debug\tinyfiledialogs.obj
+         Debug\tinystr.obj
+         Debug\tinyxml.obj
+         Debug\tinyxmlerror.obj
+         Debug\tinyxmlparser.obj
+         Debug\Definitions.obj
+         Debug\GUIController.obj
+         Debug\BitmapDrawable.obj
+         Debug\Drawable.obj
+         Debug\LayeredImageDrawable.obj
+         Debug\NinePatch.obj
+         Debug\RectDrawable.obj
+         Debug\StateListDrawable.obj
+         Debug\ColourSelector.obj
+         Debug\ImageButton.obj
+         Debug\Slider.obj
+         Debug\TextButton.obj
+         Debug\TextView.obj
+         Debug\View.obj
+         Debug\AdapterView.obj
+         Debug\DataAdapter.obj
+         Debug\LayoutAdapterView.obj
+         Debug\ListView.obj
+         Debug\CustomLayout.obj
+         Debug\CustomLayoutElement.obj
+         Debug\CustomLayoutParams.obj
+         Debug\LayoutParams.obj
+         Debug\LinearLayout.obj
+         Debug\LinearLayoutParams.obj
+         Debug\ScrollContainer.obj
+         Debug\ViewGroup.obj
+         Debug\Activity.obj
+         Debug\Bundle.obj
+         Debug\ProfileManager.obj
+         Debug\SharedPreferences.obj
+         Debug\Window.obj
+         Debug\FilesystemDataProvider.obj
+         Debug\ProfileChooserActivity.obj
+         Debug\AudioClip.obj
+         Debug\AudioManager.obj
+         Debug\SharedSettings.obj
+     1>glu32.lib(GLU32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>glu32.lib(GLU32.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>SDL2.lib(SDL2.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2.lib(SDL2.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>SDL2_image.lib(SDL2_image.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_image.lib(SDL2_image.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>SDL2_ttf.lib(SDL2_ttf.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_ttf.lib(SDL2_ttf.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>SDL2_mixer.lib(SDL2_mixer.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>SDL2_mixer.lib(SDL2_mixer.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>glew32.lib(glew32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>glew32.lib(glew32.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
          shiva-gui.vcxproj -> C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\Debug\shiva-gui.lib
        FinalizeBuildStatus:
          Deleting file "Debug\shiva-gui.unsuccessfulbuild".
@@ -14,4 +110,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.56
+Time Elapsed 00:00:04.61
