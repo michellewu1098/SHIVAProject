@@ -1,0 +1,23 @@
+Building and creating an installer for the SHIVA software
+=========================================================
+
+The project needs to be built as a 'Release version' otherwise an error about MSCVP100D.dll missing occurs.
+
+The project needs to be packaged into an installer using NSIS.  There are NSIS scripts in:
+
+SHIVAProject\shiva-totem\vs\shiva-totem
+
+
+Once built there should be an installer in:
+
+SHIVAProject\shiva-totem\vs\shiva-totem
+
+called e.g. SHIVA_x64.exe
+
+
+This needs to be copied into:
+
+SHIVAProject\Installers
+
+
+and then the project pushed to GitHub.
