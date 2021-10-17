@@ -95,6 +95,12 @@ public:
 	//----------------------------------------------------------------------------------
 	void AddWorldRotationOffsetDegs( const float &_rotX, const float &_rotY, const float &_rotZ );
 	//----------------------------------------------------------------------------------
+	/// \brief Continuous Rotations
+	/// \param [in] _rotX
+	/// \param [in] _rotZ
+	//----------------------------------------------------------------------------------
+	void ContinuousRotation( const float &_rotX, const float &_rotZ );
+	//----------------------------------------------------------------------------------
 	/// \brief Add world rotation offset in radians
 	/// \param [in] _rotX
 	/// \param [in] _rotY
@@ -322,6 +328,11 @@ protected:
 	/// \brief World rotation about the y-axis
 	//----------------------------------------------------------------------------------
 	float m_worldRotY;
+
+	// Continuous rotation
+	float rotIncX;
+	float rotIncZ;
+
 	//----------------------------------------------------------------------------------
 	/// \brief World rotation about the z-axis
 	//----------------------------------------------------------------------------------

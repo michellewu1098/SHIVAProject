@@ -118,6 +118,12 @@ public:
 	//----------------------------------------------------------------------------------
 	void AddWorldRotationOffsetDegs( float _rotX, float _rotY, float _rotZ );
 	//----------------------------------------------------------------------------------
+	/// \brief Continuous Rotation
+	/// \param [in] _rotX
+	/// \param [in] _rotZ
+	//----------------------------------------------------------------------------------
+	void ContinuousRotation( float _rotX, float _rotZ );
+	//----------------------------------------------------------------------------------
 	/// \brief Add world rotation offset in radians
 	/// \param [in] _rotX
 	/// \param [in] _rotY

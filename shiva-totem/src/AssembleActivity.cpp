@@ -11,8 +11,8 @@
 //----------------------------------------------------------------------------------
 
 
-// These are both global variable accessed by 'extern' in other .cpp files
-// I know I shouldn't do this, but I don't know enough about to c++ to avoid it!
+// MM: These are both global variable accessed by 'extern' in other .cpp files
+// I know I shouldn't do this, but I don't know enough about c++ to avoid it!
 bool eyeGazeProfile;
 bool pauseEyegaze;
 
@@ -38,7 +38,7 @@ void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
 	// We use it to initialise our variables and load the layouts to window
 	
 
-	// MM (August 2020): NOT FULLY IMPLEMENTED: This is a alternative approach to sharing with ImageButton.cpp whether eye gaze is enabled
+	// MM: (August 2020): NOT FULLY IMPLEMENTED: This is a alternative approach to sharing with ImageButton.cpp whether eye gaze is enabled
 	// This allows us to see the setting for whether eye gaze is on (or turn it off) across various .cpp files
 	ShivaGUI::SharedSettings* params = new ShivaGUI::SharedSettings();
 	params->SetEyegazePaused(false);
@@ -105,6 +105,10 @@ void AssembleActivity::OnCreate( ShivaGUI::Bundle *_data )
 			   
 	int horizontal = 0;    
 	int vertical = 0;
+
+	contRot = false;
+	contRotX = 0.0f;
+	contRotZ = 0.0f;
 
 	// We will now tell the system what to display on the windows
 
@@ -180,7 +184,6 @@ void AssembleActivity::OnUpdate( float _deltaTs )
 }
 
 //----------------------------------------------------------------------------------
-
 void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, ShivaGUI::View *_view )
 {
 	// This function is called when an event is received
@@ -189,34 +192,88 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 	// Here we'll change the text that is displayed based on which button is pressed
 
 	if( _handler == m_buttonHandler )
-	{
+	{				
+		if( _view->GetID() == "ContinuousRotationToggle" )
+		{
+#ifdef _DEBUG
+			std::cout << "INFO: AssembleActivity request to toggle rotate continuously" << std::endl;
+#endif
+			contRot = !contRot;
+
+			// MM: Continuous rotation enables those who cannot drag the model to rotate it - such as eye gaze users
+			//     to see the model rotating continuously to look around it.  They can rotate left/right and/or up/down
+			if ( !contRot )
+			{
+				// MM: Continuous rotation is off
+				contRotX = 0.0f;
+				contRotZ = 0.0f;
+			}
+		}
 		if( _view->GetID() == "RotateLeft" )
 		{
 #ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to rotate left" << std::endl;
 #endif
-			m_rotationZ -= m_rotationStepsize;
+
+			if ( !contRot )
+			   m_rotationZ -= m_rotationStepsize;
+			else
+			  {
+			  if ( contRotZ == -0.01f )
+			     contRotZ = 0.0f;
+			  else
+				contRotZ = -0.01f;
+			  }
+			
+//			rotating = !rotating;
 		}
 		else if( _view->GetID() == "RotateRight" )
 		{ 
 #ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to rotate right" << std::endl;
 #endif
-			m_rotationZ += m_rotationStepsize;
+						
+			if ( !contRot )
+			  m_rotationZ += m_rotationStepsize;
+			else
+			{
+				if ( contRotZ == 0.01f )
+   			      contRotZ = 0.0f;
+			    else
+				  contRotZ = 0.01f;
+			}
 		}
 		else if( _view->GetID() == "RotateUp" )
 		{
 #ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to rotate up" << std::endl;
 #endif
-			m_rotationX -= m_rotationStepsize;
+
+			if ( !contRot )
+			  m_rotationX -= m_rotationStepsize;
+			else
+			{
+	  		  if ( contRotX == -0.002f )
+			      contRotX = 0.0f;
+			  else
+				  contRotX = -0.002f;
+			}
 		}
 		else if( _view->GetID() == "RotateDown" )
 		{
 #ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to rotate down" << std::endl;
 #endif
-			m_rotationX += m_rotationStepsize;
+
+			if ( !contRot )
+			  m_rotationX += m_rotationStepsize;
+			else
+			{
+	  		  if ( contRotX == 0.002f )
+	  		      contRotX = 0.0f;
+			  else
+				  contRotX = 0.002f;
+			}
 		}
 		else if( _view->GetID() == "DeleteSelected" )
 		{
@@ -657,7 +714,7 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 			GetGUIManager()->StartActivityForResult( _view->GetID(), NULL );
 		}
 	}
-	
+
 	// Update our views
 	UpdateViews();
 }
@@ -693,9 +750,11 @@ void AssembleActivity::OnActivityResult( ShivaGUI::Bundle *_data )
 
 void AssembleActivity::UpdateViews()
 {
+
 	for( std::vector< std::pair< VolView*, ShivaGUI::GUIController* > >::iterator it = m_volViews.begin(); it != m_volViews.end(); ++it )
 	{
 		( *it ).first->AddWorldRotationOffsetDegs( m_rotationX, m_rotationY, m_rotationZ );
+		( *it ).first->ContinuousRotation( contRotX, contRotZ);
 	}
 	m_rotationX = m_rotationY = m_rotationZ = 0.0f;
 

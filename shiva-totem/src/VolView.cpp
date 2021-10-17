@@ -537,6 +537,12 @@ void VolView::AddWorldRotationOffsetDegs( float _rotX, float _rotY, float _rotZ 
 {
 	m_renderer->AddWorldRotationOffsetDegs( _rotX, _rotY, _rotZ );
 }
+//----------------------------------------------------------------------------------
+
+void VolView::ContinuousRotation( float _rotX, float _rotZ )
+{
+	m_renderer->ContinuousRotation( _rotX, _rotZ );
+}
 
 //----------------------------------------------------------------------------------
 

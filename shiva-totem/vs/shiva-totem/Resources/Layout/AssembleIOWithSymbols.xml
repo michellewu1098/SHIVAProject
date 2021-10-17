@@ -81,6 +81,30 @@
                      icon_percentSize="0.75"
                      text_percentSize="0.25"
                      icon_position="top" />
+					 
+					 
+	<ImageButton
+		id="ContinuousRotationToggle"
+		layout_width="wrap_content"
+		layout_height="0.13"
+		layout_centreX="0.4"
+		layout_centreY="0.4"
+		height_constrained="true"
+		scaleContent="true"
+		keepContentAspectRatio="true"
+		icon_position = "top"
+		text="Keep&#10;rotating"
+		onClick="buttonHandler"
+		src="System/CommandSymbols/RotateArrow_Up.xml"
+		eyeGaze_Repeat="false"
+    
+		scan_prev="RotateLeft"
+    
+		next_focus_left="RotateDown"
+		next_focus_right="NudgeUp"
+		next_focus_up="RotateLeft"
+		next_focus_down="RotateRight"
+	/>				 
     <ImageTextButton id="RotateDown"
                      next_focus_left="PrimitiveList"
                      next_focus_right="RotateUp"

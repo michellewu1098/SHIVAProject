@@ -93,6 +93,14 @@ protected:
 	/// \brief Rotation about z
 	//----------------------------------------------------------------------------------
 	float m_rotationZ;
+
+	// MM: For continuous rotation
+	bool contRot;
+
+	float contRotX;
+	float contRotZ;
+
+
 	//----------------------------------------------------------------------------------
 	/// \brief A list of Vol Views, mainly for updating them with new objects etc
 	//----------------------------------------------------------------------------------

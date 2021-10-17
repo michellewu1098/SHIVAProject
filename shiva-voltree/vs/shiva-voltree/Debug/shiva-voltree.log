@@ -1,11 +1,59 @@
-﻿Build started 18/09/2021 13:15:59.
-     1>Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\shiva-voltree.vcxproj" on node 3 (build target(s)).
+﻿Build started 17/10/2021 12:26:12.
+     1>Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\shiva-voltree.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\shiva-voltree.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\cml-1_0_2" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_totem" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_metamorph" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\shiva-gui\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D SHIVAVOLTREE_EXPORTS /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /errorReport:prompt ..\..\src\VolumeRenderer\GLSLRenderer.cpp ..\..\src\VolumeTree\CachingPolicies\CachingPolicy.cpp ..\..\src\VolumeTree\Node.cpp ..\..\src\VolumeTree\Nodes\TransformNode.cpp
+         GLSLRenderer.cpp
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(441): warning C4305: '=' : truncation from 'double' to 'float'
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(504): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(504): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(504): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(544): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(544): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(544): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(570): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(593): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(594): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(595): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(602): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(602): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(602): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(1175): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+         CachingPolicy.cpp
+         Node.cpp
+         TransformNode.cpp
+     1>C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_rotation.h(929): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+                 ..\..\src\VolumeTree\Nodes\TransformNode.cpp(98) : see reference to function template instantiation 'void cml::matrix_to_euler<cml::matrix44f_c,float>(const MatT &,Real &,Real &,Real &,cml::EulerOrder,Real)' being compiled
+                 with
+                 [
+                     MatT=cml::matrix44f_c,
+                     Real=float
+                 ]
+     1>C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_rotation.h(942): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         Generating Code...
        Lib:
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\Debug\shiva-voltree.lib" Opengl32.lib glu32.lib glew32.lib /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\x64\boost" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\x64\glew" /NOLOGO Debug\Camera.obj
+         Debug\Shader.obj
+         Debug\Node.obj
+         Debug\ParameterManager.obj
+         Debug\VolumeTree.obj
+         Debug\ConeNode.obj
+         Debug\CubeNode.obj
+         Debug\CylinderNode.obj
+         Debug\SphereNode.obj
+         Debug\TorusNode.obj
+         Debug\VolCacheNode.obj
+         Debug\CachingPolicy.obj
+         Debug\BlendCSG.obj
+         Debug\CSG.obj
+         Debug\TransformNode.obj
+         Debug\GLSLRenderer.obj
+         Debug\SpringyVec3.obj
+     1>glu32.lib(GLU32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>glu32.lib(GLU32.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>glew32.lib(glew32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+     1>glew32.lib(glew32.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
          shiva-voltree.vcxproj -> C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\Debug\shiva-voltree.lib
        FinalizeBuildStatus:
          Deleting file "Debug\shiva-voltree.unsuccessfulbuild".
@@ -14,4 +62,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.30
+Time Elapsed 00:00:07.32

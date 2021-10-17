@@ -5,6 +5,10 @@
 #include "VolumeRenderer/GLSLRenderer.h"
 #include <cmath>
 
+
+
+
+
 //----------------------------------------------------------------------------------
 
 GLSLRenderer::GLSLRenderer( unsigned int _width, unsigned int _height )
@@ -360,6 +364,10 @@ void GLSLRenderer::Update( float _deltaTs )
 	m_cam->LookAt( m_cam->GetCurrent(), m_target.GetCurrent() );
 	m_cam->Rotate( m_localRotX, m_localRotY, m_localRotZ );
 
+	// MM: Make model rotate in all dimensions
+	m_localRotX += rotIncX; //0.01;
+//    m_localRotY += rotIncY; //0.01;
+	m_localRotZ += rotIncZ; //0.01;
 
 	cml::matrix44f_c temp, modelMatrixCopy = m_modelMatrix;
 	
@@ -450,9 +458,52 @@ void GLSLRenderer::ResetWorldRotation()
 
 //----------------------------------------------------------------------------------
 
+void GLSLRenderer::ContinuousRotation( const float &_rotX, const float &_rotZ )
+{
+	// MM: 
+	//float _rotXy = 0.1f;
+	//static bool rotating = true;
+
+	//rotating = !rotating;
+
+//	if ( contRot )
+	{
+		rotIncX = _rotX;
+//		rotIncY = _rotY;
+		rotIncZ = _rotZ;
+		/*
+	m_localRotX += 0.01;
+    m_localRotY += 0.01;
+	m_localRotZ += 0.01;
+	*/
+	}
+	//else
+	{			
+		//rotIncX = 0.0f;
+		//rotIncY = 0.0f;
+		//rotIncZ = 0.0f;
+	/*
+	m_localRotX += 0.01;
+    m_localRotY += 0.01;
+	m_localRotZ += 0.01;
+	*/
+	}
+
+
+	//AddWorldRotationOffsetRads( ( 2.0f * PI ) * ( _rotX / 360.0f ), ( 2.0f * PI ) * ( _rotY / 360.0f ), ( 2.0f * PI ) * ( _rotZ / 360.0f ) );
+
+	//AddWorldRotationOffsetRads( ( 2.0f * PI ) * ( _rotXy / 360.0f ), ( 2.0f * PI ) * ( _rotY / 360.0f ), ( 2.0f * PI ) * ( _rotZ / 360.0f ) );
+}//----------------------------------------------------------------------------------
+
 void GLSLRenderer::AddWorldRotationOffsetDegs( const float &_rotX, const float &_rotY, const float &_rotZ )
 {
+	// MM: 
+//	float _rotXy = 0.1f;
+
+
 	AddWorldRotationOffsetRads( ( 2.0f * PI ) * ( _rotX / 360.0f ), ( 2.0f * PI ) * ( _rotY / 360.0f ), ( 2.0f * PI ) * ( _rotZ / 360.0f ) );
+
+	//AddWorldRotationOffsetRads( ( 2.0f * PI ) * ( _rotXy / 360.0f ), ( 2.0f * PI ) * ( _rotY / 360.0f ), ( 2.0f * PI ) * ( _rotZ / 360.0f ) );
 }
 
 //----------------------------------------------------------------------------------
