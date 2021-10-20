@@ -1,40 +1,79 @@
-﻿Build started 25/09/2021 15:00:25.
-     1>Project "D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 2 (build target(s)).
+﻿Build started 20/10/2021 09:20:43.
+     1>Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Creating "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_image" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_mixer" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_ttf" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_metamorph" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_totem" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _CONSOLE /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\\" /Fd"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\vc100.pdb" /Gd /TP /errorReport:prompt ..\..\src\AssembleActivity.cpp ..\..\src\BlendAdjustActivity.cpp ..\..\src\DrillActivity.cpp ..\..\src\EditMenuActivity.cpp ..\..\src\NudgeActivity.cpp ..\..\src\PrintActivity.cpp ..\..\src\RotateObjectActivity.cpp ..\..\src\Totem\TotemController.cpp ..\..\src\UniformScaleActivity.cpp ..\..\src\VolView.cpp ..\..\src\main.cpp
+         AssembleActivity.cpp
+         BlendAdjustActivity.cpp
+         DrillActivity.cpp
+         EditMenuActivity.cpp
+         NudgeActivity.cpp
+         PrintActivity.cpp
+     1>..\..\src\PrintActivity.cpp(157): warning C4552: '-' : operator has no effect; expected operator with side-effect
+     1>..\..\src\PrintActivity.cpp(255): warning C4552: '-' : operator has no effect; expected operator with side-effect
+         RotateObjectActivity.cpp
+         TotemController.cpp
+     1>..\..\src\Totem\TotemController.cpp(796): warning C4101: 'currParentTransz' : unreferenced local variable
+     1>..\..\src\Totem\TotemController.cpp(794): warning C4101: 'currParentTransx' : unreferenced local variable
+     1>..\..\src\Totem\TotemController.cpp(795): warning C4101: 'currParentTransy' : unreferenced local variable
+         UniformScaleActivity.cpp
+         VolView.cpp
+     1>C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
+                 C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+                 ..\..\src\VolView.cpp(268) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+                 with
+                 [
+                     Dim1=4,
+                     Dim2=4,
+                     Element=float,
+                     ArrayType=cml::fixed<4,4>,
+                     BasisOrient=cml::col_basis,
+                     Layout=cml::col_major,
+                     E=float
+                 ]
+         main.cpp
        ResourceCompile:
          All outputs are up-to-date.
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe" /VERSION:"3.0" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\vs\shiva-gui\Release" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\vs\shiva-voltree\Release" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\boost" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL\SDL" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL\SDLmain" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_image" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_mixer" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_ttf" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\vol_totem" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\vol_metamorph" /LIBPATH:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\glew" "shiva-gui.lib" Opengl32.lib glu32.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib "shiva-voltree.lib" vol_totem.lib vol_metamorph.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc.lib /MANIFEST /ManifestFile:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.lib" /MACHINE:X64 "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.res"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\AssembleActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\BlendAdjustActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\Command.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\CommandManager.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\DrillActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\EditMenuActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\main.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\NudgeActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\PrintActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\RotateObjectActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\ShivaModelManager.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\UniformScaleActivity.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\VolView.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemController.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemObject.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemOperation.obj"
-         "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemOpDrill.obj"
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe" /VERSION:"3.0" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\vs\shiva-gui\Release" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\vs\shiva-voltree\Release" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\boost" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL\SDL" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL\SDLmain" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_image" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_mixer" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\SDL_ttf" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\vol_totem" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\vol_metamorph" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\lib\x64\glew" "shiva-gui.lib" Opengl32.lib glu32.lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib "shiva-voltree.lib" vol_totem.lib vol_metamorph.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc.lib /MANIFEST /ManifestFile:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.lib" /MACHINE:X64 "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.res"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\AssembleActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\BlendAdjustActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\Command.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\CommandManager.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\DrillActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\EditMenuActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\main.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\NudgeActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\PrintActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\RotateObjectActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\ShivaModelManager.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\UniformScaleActivity.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\VolView.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemController.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemObject.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemOperation.obj"
+         "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\TotemOpDrill.obj"
          Generating code
          Finished generating code
-         shiva-demo01.vcxproj -> D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe
+         shiva-demo01.vcxproj -> C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe
        Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe;#1" /manifest "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.exe.intermediate.manifest"
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-totem.exe;#1" /manifest "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.exe.intermediate.manifest"
        FinalizeBuildStatus:
-         Deleting file "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.unsuccessfulbuild".
-         Touching "D:\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.lastbuildstate".
-     1>Done Building Project "D:\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" (build target(s)).
+         Deleting file "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.unsuccessfulbuild".
+         Touching "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.lastbuildstate".
+     1>Done Building Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:25.92
+Time Elapsed 00:01:24.09
