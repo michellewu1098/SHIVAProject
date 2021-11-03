@@ -643,6 +643,8 @@ void ShivaGUI::ImageButton::SetSelect( bool _value )
 
 	std::string buttonID = ImageButton::GetID();
 
+	// std::string img = ImageButton::m_imageName;
+
 	if( m_pressed == false && _value == true )
 	{
 		// Press
@@ -1102,6 +1104,9 @@ bool ShivaGUI::ImageButton::MouseOver( int _mouseX, int _mouseY )
 
 void ShivaGUI::ImageButton::SetStateDrawable()
 {
+	// m_stateListDrawable->SetCurrentState( StateListDrawable::ToggleActive );
+	// return;
+
 	if( m_stateListDrawable != NULL )
 	{
 		if( m_active )

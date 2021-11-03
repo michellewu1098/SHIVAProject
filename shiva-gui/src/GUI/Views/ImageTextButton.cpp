@@ -39,6 +39,100 @@ ShivaGUI::ImageTextButton::~ImageTextButton()
 	delete m_contentStateListDrawable;
 }
 
+
+void ShivaGUI::ImageTextButton::SetStateDrawable()
+{
+	// m_stateListDrawable->SetCurrentState( StateListDrawable::ToggleActive );
+	// return;
+
+	std::string stringy = this->GetID();
+
+	/*
+	if (stringy == "RotateLeft")
+	{
+		if (this->m_focussed == false)
+			m_focussed = true;
+			//		m_stateListDrawable->SetCurrentState( StateListDrawable::ToggleActive );
+			//			SetStateDrawable();	
+		else
+			m_focussed = false;
+    }
+	*/
+
+
+	if( m_stateListDrawable != NULL )
+	{
+		if( m_active )
+		{
+			if( m_pressed )
+			{
+				if( m_focussed )
+				{
+					m_stateListDrawable->SetCurrentState( StateListDrawable::Pressed | StateListDrawable::HasFocus );
+				}
+				else
+				{
+					m_stateListDrawable->SetCurrentState( StateListDrawable::Pressed );
+				}
+			}
+			else
+			{
+				if( m_focussed )
+				{
+					m_stateListDrawable->SetCurrentState( StateListDrawable::HasFocus );
+				}
+				else
+				{
+					//_stateListDrawable->SetCurrentState(StateListDrawable::Active);
+					
+					if( ( m_gazeIsRestButton && !m_gazeRestButtonToggle ) || m_toggleActiveState )
+					{
+						m_stateListDrawable->SetCurrentState( StateListDrawable::ToggleActive );
+					}
+					else
+					{
+						m_stateListDrawable->SetCurrentState( StateListDrawable::Active );
+					}
+				}
+			}
+		}
+		else
+		{
+			m_stateListDrawable->SetCurrentState( StateListDrawable::Disabled );
+		}
+	}
+}
+
+
+
+/*
+void ShivaGUI::ImageTextButton::SetFocussed( bool _value )
+{
+	m_focussed = _value;
+
+	//if( m_focussed == true && _value == false )
+	//{
+	//	m_pressed = false;
+	//}
+	//m_focussed = _value;
+	
+	SetStateDrawable();
+}
+*/
+
+static	bool m_focussed = false;
+
+void ShivaGUI::ImageTextButton::SetFocussed( bool _focussed)
+{
+	m_focussed = _focussed;  
+}
+
+bool ShivaGUI::ImageTextButton::GetFocussed()
+{
+	return m_focussed; 
+}
+
+
 //----------------------------------------------------------------------------------
 
 void ShivaGUI::ImageTextButton::SetText( std::string _text, ResourceManager* _resources )
@@ -46,6 +140,12 @@ void ShivaGUI::ImageTextButton::SetText( std::string _text, ResourceManager* _re
 	m_textBody = _text;
 	if( !m_textBody.empty() )
 		_resources->SetTextInfo( m_textBody, m_fontName, m_fontSize, m_fontColour, m_textAlignment );
+
+	LayeredImageDrawable* image = dynamic_cast< LayeredImageDrawable* >( m_contentGenDrawable );
+	if( image != NULL )
+	{
+		image->AddTextLayer( m_fontColour );
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -60,6 +160,7 @@ void ShivaGUI::ImageTextButton::Inflate( TiXmlElement *_xmlElement, ResourceMana
 		if( std::string( "text" ) == currentAttribute->Name() )
 		{
 			m_textBody = currentAttribute->Value();
+			// m_textBody = "Hello";
 		}
 		else if( ( std::string( "font" ) == currentAttribute->Name() ) || ( _themePrefix + "font" == currentAttribute->Name() ) )
 		{

@@ -1,47 +1,15 @@
-﻿Build started 20/10/2021 09:20:43.
-     1>Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 3 (build target(s)).
+﻿Build started 03/11/2021 09:48:05.
+     1>Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\shiva-demo01.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\shiva-totem.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_image" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_mixer" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_ttf" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_metamorph" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_totem" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _CONSOLE /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\\" /Fd"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\vc100.pdb" /Gd /TP /errorReport:prompt ..\..\src\AssembleActivity.cpp ..\..\src\BlendAdjustActivity.cpp ..\..\src\DrillActivity.cpp ..\..\src\EditMenuActivity.cpp ..\..\src\NudgeActivity.cpp ..\..\src\PrintActivity.cpp ..\..\src\RotateObjectActivity.cpp ..\..\src\Totem\TotemController.cpp ..\..\src\UniformScaleActivity.cpp ..\..\src\VolView.cpp ..\..\src\main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-gui\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\shiva-voltree\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_image" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_mixer" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\SDL_ttf" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_metamorph" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\vol_totem" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _CONSOLE /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\\" /Fd"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release\vc100.pdb" /Gd /TP /errorReport:prompt ..\..\src\AssembleActivity.cpp ..\..\src\NudgeActivity.cpp ..\..\src\PrintActivity.cpp ..\..\src\main.cpp
          AssembleActivity.cpp
-         BlendAdjustActivity.cpp
-         DrillActivity.cpp
-         EditMenuActivity.cpp
+     1>..\..\src\AssembleActivity.cpp(254): warning C4101: 'rm' : unreferenced local variable
          NudgeActivity.cpp
          PrintActivity.cpp
      1>..\..\src\PrintActivity.cpp(157): warning C4552: '-' : operator has no effect; expected operator with side-effect
      1>..\..\src\PrintActivity.cpp(255): warning C4552: '-' : operator has no effect; expected operator with side-effect
-         RotateObjectActivity.cpp
-         TotemController.cpp
-     1>..\..\src\Totem\TotemController.cpp(796): warning C4101: 'currParentTransz' : unreferenced local variable
-     1>..\..\src\Totem\TotemController.cpp(794): warning C4101: 'currParentTransx' : unreferenced local variable
-     1>..\..\src\Totem\TotemController.cpp(795): warning C4101: 'currParentTransy' : unreferenced local variable
-         UniformScaleActivity.cpp
-         VolView.cpp
-     1>C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
-                 C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
-                 with
-                 [
-                     Dim1=4,
-                     Dim2=4,
-                     Element=float,
-                     ArrayType=cml::fixed<4,4>,
-                     BasisOrient=cml::col_basis,
-                     Layout=cml::col_major,
-                     E=float
-                 ]
-                 ..\..\src\VolView.cpp(268) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
-                 with
-                 [
-                     Dim1=4,
-                     Dim2=4,
-                     Element=float,
-                     ArrayType=cml::fixed<4,4>,
-                     BasisOrient=cml::col_basis,
-                     Layout=cml::col_major,
-                     E=float
-                 ]
          main.cpp
        ResourceCompile:
          All outputs are up-to-date.
@@ -76,4 +44,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:01:24.09
+Time Elapsed 00:00:33.48

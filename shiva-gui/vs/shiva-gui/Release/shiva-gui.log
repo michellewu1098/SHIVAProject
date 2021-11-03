@@ -1,15 +1,23 @@
-﻿Build started 20/10/2021 09:20:24.
-     1>Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 3 (build target(s)).
+﻿Build started 03/11/2021 09:47:31.
+     1>Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\shiva-gui.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_image" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_ttf" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_mixer" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _LIB /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /errorReport:prompt ..\..\src\GUI\Views\ImageButton.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_image" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_ttf" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_mixer" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _LIB /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /errorReport:prompt ..\..\src\GUIManager.cpp ..\..\src\GUI\Views\AdapterViews\AdapterView.cpp ..\..\src\GUI\Views\AdapterViews\DataAdapter.cpp ..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp ..\..\src\GUI\Views\AdapterViews\ListView.cpp ..\..\src\GUI\Views\ImageButton.cpp ..\..\src\GUI\Views\ImageTextButton.cpp ..\..\src\GUI\Views\TextButton.cpp ..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp ..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp ..\..\src\ResourceManager.cpp ..\..\src\System\Activities\CreateNewProfileActivity.cpp ..\..\src\System\Activities\ProfileChooserActivity.cpp
+         GUIManager.cpp
+     1>..\..\src\GUIManager.cpp(192): warning C4267: 'argument' : conversion from 'size_t' to 'unsigned int', possible loss of data
+     1>..\..\src\GUIManager.cpp(286): warning C4267: 'initializing' : conversion from 'size_t' to 'unsigned int', possible loss of data
+     1>..\..\src\GUIManager.cpp(551): warning C4267: 'argument' : conversion from 'size_t' to 'unsigned int', possible loss of data
+         AdapterView.cpp
+         DataAdapter.cpp
+         LayoutAdapterView.cpp
+         ListView.cpp
          ImageButton.cpp
-     1>..\..\src\GUI\Views\ImageButton.cpp(1075): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>..\..\src\GUI\Views\ImageButton.cpp(1076): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
      1>..\..\src\GUI\Views\ImageButton.cpp(1077): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
      1>..\..\src\GUI\Views\ImageButton.cpp(1078): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>..\..\src\GUI\Views\ImageButton.cpp(1428): warning C4267: '=' : conversion from 'size_t' to 'unsigned int', possible loss of data
+     1>..\..\src\GUI\Views\ImageButton.cpp(1079): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ImageButton.cpp(1080): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\GUI\Views\ImageButton.cpp(1433): warning C4267: '=' : conversion from 'size_t' to 'unsigned int', possible loss of data
      1>C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
                  C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
                  with
@@ -22,7 +30,7 @@
                      Layout=cml::col_major,
                      E=float
                  ]
-                 ..\..\src\GUI\Views\ImageButton.cpp(1374) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+                 ..\..\src\GUI\Views\ImageButton.cpp(1379) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
                  with
                  [
                      Dim1=4,
@@ -33,6 +41,17 @@
                      Layout=cml::col_major,
                      E=float
                  ]
+         ImageTextButton.cpp
+         TextButton.cpp
+         CustomLayout.cpp
+         CustomLayoutElement.cpp
+         ResourceManager.cpp
+     1>..\..\src\ResourceManager.cpp(252): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\ResourceManager.cpp(386): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
+     1>..\..\src\ResourceManager.cpp(406): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
+     1>..\..\src\ResourceManager.cpp(420): warning C4267: 'initializing' : conversion from 'size_t' to 'int', possible loss of data
+         CreateNewProfileActivity.cpp
+         ProfileChooserActivity.cpp
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib" Opengl32.lib SDL2.lib SDL2main.lib SDL2_mixer.lib SDL2_ttf.lib glew32.lib /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\boost" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL\SDL" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL\SDLmain" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_image" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_mixer" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_ttf" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\glew" /NOLOGO /LTCG Release\GUIManager.obj
          Release\ImageTextButton.obj
@@ -102,4 +121,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:18.80
+Time Elapsed 00:00:33.94

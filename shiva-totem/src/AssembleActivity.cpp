@@ -192,13 +192,47 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 	// Here we'll change the text that is displayed based on which button is pressed
 
 	if( _handler == m_buttonHandler )
-	{				
-		if( _view->GetID() == "ContinuousRotationToggle" )
+	{
+			ShivaGUI::GUIController *guiController = GetGUIController( 0 );
+			ShivaGUI::ImageTextButton *rotateLeftButton = dynamic_cast< ShivaGUI::ImageTextButton* >(guiController->GetResources()->GetViewFromID( "RotateLeft" ) );
+			ShivaGUI::ImageTextButton *rotateRightButton = dynamic_cast< ShivaGUI::ImageTextButton* >(guiController->GetResources()->GetViewFromID( "RotateRight" ) );
+			ShivaGUI::ImageTextButton *rotateUpButton = dynamic_cast< ShivaGUI::ImageTextButton* >(guiController->GetResources()->GetViewFromID( "RotateUp" ) );
+			ShivaGUI::ImageTextButton *rotateDownButton = dynamic_cast< ShivaGUI::ImageTextButton* >(guiController->GetResources()->GetViewFromID( "RotateDown" ) );
+			
+			bool rotateLeftButtonFocussed = false;
+			bool rotateRightButtonFocussed = false;
+			bool rotateUpButtonFocussed = false;
+			bool rotateDownButtonFocussed = false;
+
+
+		if( ( _view->GetID() == "continuousRotation" ) || ( _view->GetID() == "incrementalRotation" ) )
 		{
 #ifdef _DEBUG
 			std::cout << "INFO: AssembleActivity request to toggle rotate continuously" << std::endl;
 #endif
 			contRot = !contRot;
+
+
+			ShivaGUI::GUIController *guiController = GetGUIController( 0 );
+
+			ShivaGUI::ImageTextButton *continuousRotation = dynamic_cast< ShivaGUI::ImageTextButton* >(guiController->GetResources()->GetViewFromID( "continuousRotation" ) );
+			ShivaGUI::ImageTextButton *steppedRotation = dynamic_cast< ShivaGUI::ImageTextButton* >(guiController->GetResources()->GetViewFromID( "incrementalRotation" ) );
+
+			steppedRotation->SetVisibility(!steppedRotation->GetVisibility());
+			continuousRotation->SetVisibility(!continuousRotation->GetVisibility());		
+
+			// I couldn't get this to work - tring to change the text of the button!!
+			// continuousRotation->SetText("XYZ", guiController->GetResources());
+
+
+			// Unhighlight/unfocus any rotation buttons that may have been highlightd/focussed
+			rotateLeftButton->SetFocussed(false);				
+			rotateRightButton->SetFocussed(false);
+			rotateUpButton->SetFocussed(false);
+			rotateDownButton->SetFocussed(false);
+			
+			guiController->Layout();  // Forces a redraw of the interface
+
 
 			// MM: Continuous rotation enables those who cannot drag the model to rotate it - such as eye gaze users
 			//     to see the model rotating continuously to look around it.  They can rotate left/right and/or up/down
@@ -215,17 +249,28 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 			std::cout << "INFO: AssembleActivity request to rotate left" << std::endl;
 #endif
 
+			std::string stringy = _view->GetID();
+
+			ShivaGUI::ResourceManager *rm;
+
 			if ( !contRot )
+			{
 			   m_rotationZ -= m_rotationStepsize;
+			}
 			else
 			  {
-			  if ( contRotZ == -0.01f )
-			     contRotZ = 0.0f;
-			  else
-				contRotZ = -0.01f;
+				  rotateRightButton->SetFocussed( false );
+
+				  rotateLeftButtonFocussed = rotateLeftButton->GetFocussed();
+				  rotateLeftButton->SetFocussed( !rotateLeftButtonFocussed );
+
+				if ( contRotZ == -0.01f )
+					contRotZ = 0.0f;
+				else
+					contRotZ = -0.01f;
 			  }
-			
-//			rotating = !rotating;
+
+			guiController->Layout(); // Forces a redraw of the interface
 		}
 		else if( _view->GetID() == "RotateRight" )
 		{ 
@@ -234,14 +279,23 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 #endif
 						
 			if ( !contRot )
-			  m_rotationZ += m_rotationStepsize;
+				m_rotationZ += m_rotationStepsize;
 			else
 			{
+				rotateLeftButton->SetFocussed( false );
+
+				rotateRightButtonFocussed = rotateRightButton->GetFocussed();
+				rotateRightButton->SetFocussed( !rotateRightButtonFocussed );
+
+				  				  
 				if ( contRotZ == 0.01f )
-   			      contRotZ = 0.0f;
-			    else
-				  contRotZ = 0.01f;
+   					contRotZ = 0.0f;
+				 else
+					contRotZ = 0.01f;	
 			}
+
+				guiController->Layout();
+
 		}
 		else if( _view->GetID() == "RotateUp" )
 		{
@@ -253,11 +307,19 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 			  m_rotationX -= m_rotationStepsize;
 			else
 			{
-	  		  if ( contRotX == -0.002f )
-			      contRotX = 0.0f;
-			  else
-				  contRotX = -0.002f;
+				rotateDownButton->SetFocussed( false );
+
+				rotateUpButtonFocussed = rotateUpButton->GetFocussed();
+				rotateUpButton->SetFocussed( !rotateUpButtonFocussed );
+
+	  			if ( contRotX == -0.002f )
+					contRotX = 0.0f;
+				else
+					contRotX = -0.002f;
 			}
+
+				guiController->Layout();
+
 		}
 		else if( _view->GetID() == "RotateDown" )
 		{
@@ -266,14 +328,22 @@ void AssembleActivity::UtilityEventReceived( UtilityEventHandler *_handler, Shiv
 #endif
 
 			if ( !contRot )
-			  m_rotationX += m_rotationStepsize;
+				m_rotationX += m_rotationStepsize;
 			else
 			{
-	  		  if ( contRotX == 0.002f )
-	  		      contRotX = 0.0f;
-			  else
-				  contRotX = 0.002f;
+				rotateUpButton->SetFocussed( false );
+
+				rotateDownButtonFocussed = rotateDownButton->GetFocussed();
+				rotateDownButton->SetFocussed( !rotateDownButtonFocussed );
+
+				if ( contRotX == 0.002f )
+	  				contRotX = 0.0f;
+				else
+					contRotX = 0.002f;
 			}
+							
+			guiController->Layout();
+
 		}
 		else if( _view->GetID() == "DeleteSelected" )
 		{

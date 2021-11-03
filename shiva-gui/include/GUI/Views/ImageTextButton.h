@@ -50,6 +50,13 @@ namespace ShivaGUI
 		/// \param [in] _resources
 		//----------------------------------------------------------------------------------
 		void SetText( std::string _text, ResourceManager* _resources );
+
+		void SetStateDrawable();
+
+		void SetFocussed( bool _focussed );
+
+		bool GetFocussed();
+
 		//----------------------------------------------------------------------------------
 		/// \brief Get body text
 		/// \return m_textBody

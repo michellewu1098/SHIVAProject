@@ -51,6 +51,11 @@ GLSLRenderer::GLSLRenderer( unsigned int _width, unsigned int _height )
 	m_localRotZ = 0.0f;
 	
 	m_worldRotX = m_worldRotY = m_worldRotZ = 0.0f;
+
+
+	rotIncX = 0.0f;
+//		rotIncY = _rotY;
+	rotIncZ = 0.0f;
 	
 	m_camAngle = 35.0f;
 	m_camNearPlane = 0.1f;
@@ -471,22 +476,22 @@ void GLSLRenderer::ContinuousRotation( const float &_rotX, const float &_rotZ )
 		rotIncX = _rotX;
 //		rotIncY = _rotY;
 		rotIncZ = _rotZ;
-		/*
-	m_localRotX += 0.01;
-    m_localRotY += 0.01;
-	m_localRotZ += 0.01;
-	*/
+		
+	//m_localRotX += 0.01;
+    //m_localRotY += 0.01;
+	//m_localRotZ += 0.01;
+	
 	}
 	//else
 	{			
 		//rotIncX = 0.0f;
 		//rotIncY = 0.0f;
 		//rotIncZ = 0.0f;
-	/*
-	m_localRotX += 0.01;
-    m_localRotY += 0.01;
-	m_localRotZ += 0.01;
-	*/
+	
+	//m_localRotX += 0.01;
+    //m_localRotY += 0.01;
+	//m_localRotZ += 0.01;
+	
 	}
 
 
