@@ -9,7 +9,7 @@ These tools were deployed in a school for students with complex disabilities and
 
 The software can be installed to use by downloading the installer from the 'Installers' folder.
 
-##To download and modify the project:
+## To download and modify the project:
 **NOTE**: As of November 2023 - The details here need reviewing as the project has now been upgraded to VS 2019 and boost 1.83.0.
 
 boost now needs to be added via NuGet in VS 2019 so the boost libraries do not need to be downloaded from GitHub now.
