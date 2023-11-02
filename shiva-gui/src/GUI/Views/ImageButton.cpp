@@ -697,7 +697,7 @@ void ShivaGUI::ImageButton::SetSelect( bool _value )
 			// std::vector< std::pair< ShivaGUI::AdapterView*, ShivaGUI::GUIController* > >::iterator it = m_listViews.begin();
 			// dataEntryIndex = ( *it ).first->GetDataIndex( _view );
 
-			if( !boost::filesystem3::exists( soundFile ) )
+			if( !boost::filesystem::exists( soundFile ) )
 				// The button has no matching sound file
 				soundFile = "Resources/Audio/Default.wav";
 

@@ -189,7 +189,7 @@ bool ShivaGUI::ProfileManager::Copy( std::string _profileName, std::string _newP
 		// Copy profile directory if it exists
 		if( boost::filesystem::exists( m_profilesDir / _profileName ) && boost::filesystem::is_directory( m_profilesDir / _profileName ) )
 		{
-			boost::filesystem3::copy_directory( m_profilesDir / _profileName, m_profilesDir / _newProfileName );
+			boost::filesystem::copy_directory( m_profilesDir / _profileName, m_profilesDir / _newProfileName );
 		}
 	}
 	catch( boost::filesystem::filesystem_error &ErrorCode )

@@ -141,5 +141,6 @@
     <None Include="shiva-icon.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

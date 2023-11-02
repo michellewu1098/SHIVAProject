@@ -1,0 +1,42 @@
+01/11/2023 Mark Moseley upgraded the solution to work with VS 2019 (and therefore target a newer version of the C++ runtimes on target machines rather than the outdated 2010 version).
+Needed to make the changes below to get the solution to build without errors.
+
+Upgraded to boost 1.83.0 (using NuGet within VS 2019)
+
+NuGet (Tools - NuGet Package Manager - Manage NuGet Packages for Solution)
+Added these packages:
+- boost 1.83.0
+- boost_filesystem-vc142 (Compiler: Visual Studio 2019 16.11.24)
+- boost_program_options-vc142 (Compiler: Visual Studio 2019 16.11.24)
+
+
+Needed to add boost libraries to path:
+
+Right-click shiva-totem - Properties - Configuration Properties - C/C++ - Additional include Directories - then add:
+..\shiva-totem\vs\shiva-totem\packages\boost.1.83.0
+
+
+
+Needed to change 'filesystem3' references to 'filesystem'
+- shiva-gui\src\GUI\Views\ImageButton.cpp
+- shiva-gui\src\System\ProfileManager.cpp
+
+
+Needed to add this code to main.cpp:
+
+FILE _iob[] = { *stdin, *stdout, *stderr };
+extern "C" FILE * __cdecl __iob_func(void) { return _iob; }
+
+
+
+Needed to replace #include "afxres.h" within shiva-totem.rc with:
+
+#include "WinResrc.h"
+#define IDC_STATIC  -1
+
+
+
+After the updates the versions shown were:
+Right-click shiva-totem project - Properties - Configuration Properties - General
+- Windows SDK Version 10.0.17134.0
+- Platform toolset: Visual Studio 2019 (v142)

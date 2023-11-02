@@ -1,152 +1,111 @@
-﻿Build started 27/10/2021 15:38:34.
-     1>Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\shiva-voltree.vcxproj" on node 2 (rebuild target(s)).
-     1>_PrepareForClean:
-         Deleting file "Release\shiva-voltree.lastbuildstate".
-       InitializeBuildStatus:
-         Creating "Release\shiva-voltree.unsuccessfulbuild" because "AlwaysCreate" was specified.
-       ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\cml-1_0_2" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_totem" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\include\vol_metamorph" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\shiva-gui\include" /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D SHIVAVOLTREE_EXPORTS /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /errorReport:prompt ..\..\src\VolumeRenderer\Camera.cpp ..\..\src\VolumeRenderer\Shader.cpp ..\..\src\VolumeTree\Node.cpp ..\..\src\VolumeTree\ParameterManager.cpp ..\..\src\VolumeTree\VolumeTree.cpp ..\..\src\VolumeTree\Leaves\ConeNode.cpp ..\..\src\VolumeTree\Leaves\CubeNode.cpp ..\..\src\VolumeTree\Leaves\CylinderNode.cpp ..\..\src\VolumeTree\Leaves\SphereNode.cpp ..\..\src\VolumeTree\Leaves\TorusNode.cpp ..\..\src\VolumeTree\Leaves\VolCacheNode.cpp ..\..\src\VolumeTree\CachingPolicies\CachingPolicy.cpp ..\..\src\VolumeTree\Nodes\BlendCSG.cpp ..\..\src\VolumeTree\Nodes\CSG.cpp ..\..\src\VolumeTree\Nodes\TransformNode.cpp ..\..\src\VolumeRenderer\GLSLRenderer.cpp ..\..\src\VolumeRenderer\SpringyVec3.cpp
-         Camera.cpp
-     1>C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_transform.h(547): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
-                 C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_transform.h(571) : see reference to function template instantiation 'void cml::matrix_look_at<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major,VecT_1,VecT_2,VecT_3>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,const VecT_1 &,const VecT_2 &,const VecT_3 &,cml::Handedness)' being compiled
-                 with
-                 [
-                     Dim1=4,
-                     Dim2=4,
-                     VecT_1=cml::vector3f,
-                     VecT_2=cml::vector3f,
-                     VecT_3=cml::vector3f,
-                     Element=float,
-                     ArrayType=cml::fixed<4,4>,
-                     BasisOrient=cml::col_basis,
-                     Layout=cml::col_major
-                 ]
-                 ..\..\src\VolumeRenderer\Camera.cpp(21) : see reference to function template instantiation 'void cml::matrix_look_at_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major,cml::vector3f,cml::vector3f,cml::vector3f>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,const VecT_1 &,const VecT_2 &,const VecT_3 &)' being compiled
-                 with
-                 [
-                     Dim1=4,
-                     Dim2=4,
-                     Element=float,
-                     ArrayType=cml::fixed<4,4>,
-                     BasisOrient=cml::col_basis,
-                     Layout=cml::col_major,
-                     VecT_1=cml::vector3f,
-                     VecT_2=cml::vector3f,
-                     VecT_3=cml::vector3f
-                 ]
-     1>C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(55): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
-                 C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(87) : see reference to function template instantiation 'void cml::matrix_perspective<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
-                 with
-                 [
-                     Dim1=4,
-                     Dim2=4,
-                     Element=float,
-                     ArrayType=cml::fixed<4,4>,
-                     BasisOrient=cml::col_basis,
-                     Layout=cml::col_major,
-                     E=float
-                 ]
-                 C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(171) : see reference to function template instantiation 'void cml::matrix_perspective<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
-                 with
-                 [
-                     Dim1=4,
-                     Dim2=4,
-                     Element=float,
-                     ArrayType=cml::fixed<4,4>,
-                     BasisOrient=cml::col_basis,
-                     Layout=cml::col_major,
-                     E=float
-                 ]
-                 C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(187) : see reference to function template instantiation 'void cml::matrix_perspective_yfov<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
-                 with
-                 [
-                     Dim1=4,
-                     Dim2=4,
-                     Element=float,
-                     ArrayType=cml::fixed<4,4>,
-                     BasisOrient=cml::col_basis,
-                     Layout=cml::col_major,
-                     E=float
-                 ]
-                 ..\..\src\VolumeRenderer\Camera.cpp(28) : see reference to function template instantiation 'void cml::matrix_perspective_yfov_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,cml::ZClip)' being compiled
-                 with
-                 [
-                     Dim1=4,
-                     Dim2=4,
-                     Element=float,
-                     ArrayType=cml::fixed<4,4>,
-                     BasisOrient=cml::col_basis,
-                     Layout=cml::col_major,
-                     E=float
-                 ]
-         Shader.cpp
-         Node.cpp
-         ParameterManager.cpp
-         VolumeTree.cpp
-     1>..\..\src\VolumeTree\VolumeTree.cpp(241): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-     1>..\..\src\VolumeTree\VolumeTree.cpp(242): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-     1>..\..\src\VolumeTree\VolumeTree.cpp(243): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-         ConeNode.cpp
-         CubeNode.cpp
-         CylinderNode.cpp
-         SphereNode.cpp
-         TorusNode.cpp
-         VolCacheNode.cpp
-         CachingPolicy.cpp
-         BlendCSG.cpp
-         CSG.cpp
-         TransformNode.cpp
-     1>C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_rotation.h(929): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-                 ..\..\src\VolumeTree\Nodes\TransformNode.cpp(98) : see reference to function template instantiation 'void cml::matrix_to_euler<cml::matrix44f_c,float>(const MatT &,Real &,Real &,Real &,cml::EulerOrder,Real)' being compiled
-                 with
-                 [
-                     MatT=cml::matrix44f_c,
-                     Real=float
-                 ]
-     1>C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_rotation.h(942): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-         GLSLRenderer.cpp
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(446): warning C4305: '=' : truncation from 'double' to 'float'
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(509): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(509): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(509): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(549): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(549): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(549): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(575): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(598): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(599): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(600): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(607): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(607): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(607): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>..\..\src\VolumeRenderer\GLSLRenderer.cpp(1180): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-         SpringyVec3.cpp
-       Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\Release\shiva-voltree.lib" Opengl32.lib glu32.lib glew32.lib /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\x64\boost" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\\..\..\..\lib\x64\glew" /NOLOGO /LTCG Release\Camera.obj
-         Release\Shader.obj
-         Release\Node.obj
-         Release\ParameterManager.obj
-         Release\VolumeTree.obj
-         Release\ConeNode.obj
-         Release\CubeNode.obj
-         Release\CylinderNode.obj
-         Release\SphereNode.obj
-         Release\TorusNode.obj
-         Release\VolCacheNode.obj
-         Release\CachingPolicy.obj
-         Release\BlendCSG.obj
-         Release\CSG.obj
-         Release\TransformNode.obj
-         Release\GLSLRenderer.obj
-         Release\SpringyVec3.obj
-     1>glu32.lib(GLU32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
-     1>glew32.lib(glew32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
-         shiva-voltree.vcxproj -> C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\Release\shiva-voltree.lib
-       FinalizeBuildStatus:
-         Deleting file "Release\shiva-voltree.unsuccessfulbuild".
-         Touching "Release\shiva-voltree.lastbuildstate".
-     1>Done Building Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\shiva-voltree.vcxproj" (rebuild target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:12.51
+﻿  Camera.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_transform.h(547,18): warning C4244: 'initializing': conversion from 'int' to 'value_type', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_transform.h(571): message : see reference to function template instantiation 'void cml::matrix_look_at<float,cml::fixed<4,4>,cml::col_basis,cml::col_major,VecT_1,VecT_2,VecT_3>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,const VecT_1 &,const VecT_2 &,const VecT_3 &,cml::Handedness)' being compiled
+          with
+          [
+              VecT_1=cml::vector3f,
+              VecT_2=cml::vector3f,
+              VecT_3=cml::vector3f
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\Camera.cpp(21): message : see reference to function template instantiation 'void cml::matrix_look_at_RH<float,cml::fixed<4,4>,cml::col_basis,cml::col_major,cml::vector3f,cml::vector3f,cml::vector3f>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,const VecT_1 &,const VecT_2 &,const VecT_3 &)' being compiled
+          with
+          [
+              VecT_1=cml::vector3f,
+              VecT_2=cml::vector3f,
+              VecT_3=cml::vector3f
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(55,18): warning C4244: 'initializing': conversion from 'int' to 'value_type', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(87): message : see reference to function template instantiation 'void cml::matrix_perspective<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(171): message : see reference to function template instantiation 'void cml::matrix_perspective<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(187): message : see reference to function template instantiation 'void cml::matrix_perspective_yfov<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\Camera.cpp(28): message : see reference to function template instantiation 'void cml::matrix_perspective_yfov_RH<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+  Shader.cpp
+  Node.cpp
+  ParameterManager.cpp
+  VolumeTree.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeTree\VolumeTree.cpp(241,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeTree\VolumeTree.cpp(242,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeTree\VolumeTree.cpp(243,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  ConeNode.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeTree\Leaves\ConeNode.cpp(30,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeTree\Leaves\ConeNode.cpp(35,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeTree\Leaves\ConeNode.cpp(39,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  CubeNode.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeTree\Leaves\CubeNode.cpp(50,19): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  CylinderNode.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeTree\Leaves\CylinderNode.cpp(40,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeTree\Leaves\CylinderNode.cpp(44,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  SphereNode.cpp
+  TorusNode.cpp
+  VolCacheNode.cpp
+  CachingPolicy.cpp
+  BlendCSG.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeTree\Nodes\BlendCSG.cpp(40,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeTree\Nodes\BlendCSG.cpp(42,70): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+  CSG.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeTree\Nodes\CSG.cpp(39,17): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  TransformNode.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_rotation.h(928,32): warning C4244: '=': conversion from 'double' to 'Real', possible loss of data
+          with
+          [
+              Real=float
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeTree\Nodes\TransformNode.cpp(98): message : see reference to function template instantiation 'void cml::matrix_to_euler<cml::matrix44f_c,float>(const MatT &,Real &,Real &,Real &,cml::EulerOrder,Real)' being compiled
+          with
+          [
+              MatT=cml::matrix44f_c,
+              Real=float
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_rotation.h(941,33): warning C4244: '=': conversion from 'double' to 'Real', possible loss of data
+          with
+          [
+              Real=float
+          ]
+  GLSLRenderer.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(446,26): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(509,116): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(509,80): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(509,44): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(549,117): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(549,81): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(549,45): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(575,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(598,13): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(599,13): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(600,13): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(607,64): warning C4244: 'argument': conversion from 'double' to 'Element', possible loss of data
+          with
+          [
+              Element=float
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(607,47): warning C4244: 'argument': conversion from 'double' to 'Element', possible loss of data
+          with
+          [
+              Element=float
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(607,30): warning C4244: 'argument': conversion from 'double' to 'Element', possible loss of data
+          with
+          [
+              Element=float
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\src\VolumeRenderer\GLSLRenderer.cpp(1180,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  SpringyVec3.cpp
+glu32.lib(GLU32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+glew32.lib(glew32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+  shiva-voltree.vcxproj -> C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-voltree\vs\shiva-voltree\Release\shiva-voltree.lib

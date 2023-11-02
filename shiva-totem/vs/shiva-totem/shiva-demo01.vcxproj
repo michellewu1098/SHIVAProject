@@ -23,25 +23,30 @@
     <ProjectGuid>{06CB2859-3CAB-4ADB-8787-3E615880E099}</ProjectGuid>
     <RootNamespace>shivatotem</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -125,7 +130,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\shiva-gui\include;$(ProjectDir)\..\..\..\shiva-voltree\include;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_mixer;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\vol_metamorph;$(ProjectDir)\..\..\..\include\vol_totem;$(ProjectDir)\..\..\..\include\cml-1_0_2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\Release;$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\shiva-gui\include;$(ProjectDir)\..\..\..\shiva-voltree\include;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_mixer;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\vol_metamorph;$(ProjectDir)\..\..\..\include\vol_totem;$(ProjectDir)\..\..\..\include\cml-1_0_2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -149,7 +154,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\shiva-gui\include;$(ProjectDir)\..\..\..\shiva-voltree\include;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_mixer;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\vol_metamorph;$(ProjectDir)\..\..\..\include\vol_totem;$(ProjectDir)\..\..\..\include\cml-1_0_2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\packages\boost.1.83.0;$(ProjectDir)\..\..\include;$(ProjectDir)\..\..\..\include;$(ProjectDir)\..\..\..\shiva-gui\include;$(ProjectDir)\..\..\..\shiva-voltree\include;$(ProjectDir)\..\..\..\include\SDL;$(ProjectDir)\..\..\..\include\SDL_image;$(ProjectDir)\..\..\..\include\SDL_mixer;$(ProjectDir)\..\..\..\include\SDL_ttf;$(ProjectDir)\..\..\..\include\vol_metamorph;$(ProjectDir)\..\..\..\include\vol_totem;$(ProjectDir)\..\..\..\include\cml-1_0_2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -160,7 +165,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>shiva-gui.lib;Opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;shiva-voltree.lib;vol_totem.lib;vol_metamorph.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);$(ProjectDir)\..\..\..\lib\x64\boost;$(ProjectDir)\..\..\..\lib\x64\SDL\SDL;$(ProjectDir)\..\..\..\lib\x64\SDL\SDLmain;$(ProjectDir)\..\..\..\lib\x64\SDL_image;$(ProjectDir)\..\..\..\lib\x64\SDL_mixer;$(ProjectDir)\..\..\..\lib\x64\SDL_ttf;$(ProjectDir)\..\..\..\lib\x64\vol_totem;$(ProjectDir)\..\..\..\lib\x64\vol_metamorph;$(ProjectDir)\..\..\..\lib\x64\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-totem\vs\shiva-totem\packages\boost.1.83.0\lib;$(ProjectDir)\..\..\..\shiva-gui\vs\shiva-gui\$(ConfigurationName);$(ProjectDir)\..\..\..\shiva-voltree\vs\shiva-voltree\$(ConfigurationName);C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\boost;$(ProjectDir)\..\..\..\lib\x64\SDL\SDL;$(ProjectDir)\..\..\..\lib\x64\SDL\SDLmain;$(ProjectDir)\..\..\..\lib\x64\SDL_image;$(ProjectDir)\..\..\..\lib\x64\SDL_mixer;$(ProjectDir)\..\..\..\lib\x64\SDL_ttf;$(ProjectDir)\..\..\..\lib\x64\vol_totem;$(ProjectDir)\..\..\..\lib\x64\vol_metamorph;$(ProjectDir)\..\..\..\lib\x64\glew;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -211,9 +216,21 @@
     <ResourceCompile Include="shiva-totem.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="shiva-icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\boost.1.83.0\build\boost.targets" Condition="Exists('packages\boost.1.83.0\build\boost.targets')" />
+    <Import Project="packages\boost_filesystem-vc142.1.83.0\build\boost_filesystem-vc142.targets" Condition="Exists('packages\boost_filesystem-vc142.1.83.0\build\boost_filesystem-vc142.targets')" />
+    <Import Project="packages\boost_program_options-vc142.1.83.0\build\boost_program_options-vc142.targets" Condition="Exists('packages\boost_program_options-vc142.1.83.0\build\boost_program_options-vc142.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\boost.1.83.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost.1.83.0\build\boost.targets'))" />
+    <Error Condition="!Exists('packages\boost_filesystem-vc142.1.83.0\build\boost_filesystem-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_filesystem-vc142.1.83.0\build\boost_filesystem-vc142.targets'))" />
+    <Error Condition="!Exists('packages\boost_program_options-vc142.1.83.0\build\boost_program_options-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_program_options-vc142.1.83.0\build\boost_program_options-vc142.targets'))" />
+  </Target>
 </Project>

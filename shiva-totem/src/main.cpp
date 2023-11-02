@@ -95,6 +95,10 @@
 	#endif // CreateWindow
 #endif // WIN32
 
+
+FILE _iob[] = { *stdin, *stdout, *stderr };
+extern "C" FILE * __cdecl __iob_func(void) { return _iob; }
+
 //----------------------------------------------------------------------------------
 /// \brief This will be used for storing our program options, which may also be loaded by command-line
 //----------------------------------------------------------------------------------

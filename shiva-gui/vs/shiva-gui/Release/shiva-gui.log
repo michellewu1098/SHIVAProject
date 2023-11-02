@@ -1,124 +1,153 @@
-﻿Build started 03/11/2021 09:47:31.
-     1>Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" on node 2 (build target(s)).
-     1>InitializeBuildStatus:
-         Creating "Release\shiva-gui.unsuccessfulbuild" because "AlwaysCreate" was specified.
-       ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_image" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_ttf" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\SDL_mixer" /I"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\include\cml-1_0_2" /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _LIB /D TIXML_USE_STL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /errorReport:prompt ..\..\src\GUIManager.cpp ..\..\src\GUI\Views\AdapterViews\AdapterView.cpp ..\..\src\GUI\Views\AdapterViews\DataAdapter.cpp ..\..\src\GUI\Views\AdapterViews\LayoutAdapterView.cpp ..\..\src\GUI\Views\AdapterViews\ListView.cpp ..\..\src\GUI\Views\ImageButton.cpp ..\..\src\GUI\Views\ImageTextButton.cpp ..\..\src\GUI\Views\TextButton.cpp ..\..\src\GUI\Views\ViewGroups\CustomLayout.cpp ..\..\src\GUI\Views\ViewGroups\CustomLayoutElement.cpp ..\..\src\ResourceManager.cpp ..\..\src\System\Activities\CreateNewProfileActivity.cpp ..\..\src\System\Activities\ProfileChooserActivity.cpp
-         GUIManager.cpp
-     1>..\..\src\GUIManager.cpp(192): warning C4267: 'argument' : conversion from 'size_t' to 'unsigned int', possible loss of data
-     1>..\..\src\GUIManager.cpp(286): warning C4267: 'initializing' : conversion from 'size_t' to 'unsigned int', possible loss of data
-     1>..\..\src\GUIManager.cpp(551): warning C4267: 'argument' : conversion from 'size_t' to 'unsigned int', possible loss of data
-         AdapterView.cpp
-         DataAdapter.cpp
-         LayoutAdapterView.cpp
-         ListView.cpp
-         ImageButton.cpp
-     1>..\..\src\GUI\Views\ImageButton.cpp(1077): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>..\..\src\GUI\Views\ImageButton.cpp(1078): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>..\..\src\GUI\Views\ImageButton.cpp(1079): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>..\..\src\GUI\Views\ImageButton.cpp(1080): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>..\..\src\GUI\Views\ImageButton.cpp(1433): warning C4267: '=' : conversion from 'size_t' to 'unsigned int', possible loss of data
-     1>C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(215): warning C4244: 'initializing' : conversion from 'int' to 'value_type', possible loss of data
-                 C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml/mathlib/matrix_projection.h(260) : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
-                 with
-                 [
-                     Dim1=4,
-                     Dim2=4,
-                     Element=float,
-                     ArrayType=cml::fixed<4,4>,
-                     BasisOrient=cml::col_basis,
-                     Layout=cml::col_major,
-                     E=float
-                 ]
-                 ..\..\src\GUI\Views\ImageButton.cpp(1379) : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<Dim1,Dim2>,cml::col_basis,cml::col_major>(cml::matrix<Element,ArrayType,BasisOrient,Layout> &,E,E,E,E,E,E,cml::ZClip)' being compiled
-                 with
-                 [
-                     Dim1=4,
-                     Dim2=4,
-                     Element=float,
-                     ArrayType=cml::fixed<4,4>,
-                     BasisOrient=cml::col_basis,
-                     Layout=cml::col_major,
-                     E=float
-                 ]
-         ImageTextButton.cpp
-         TextButton.cpp
-         CustomLayout.cpp
-         CustomLayoutElement.cpp
-         ResourceManager.cpp
-     1>..\..\src\ResourceManager.cpp(252): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>..\..\src\ResourceManager.cpp(386): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\..\src\ResourceManager.cpp(406): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\..\src\ResourceManager.cpp(420): warning C4267: 'initializing' : conversion from 'size_t' to 'int', possible loss of data
-         CreateNewProfileActivity.cpp
-         ProfileChooserActivity.cpp
-       Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib" Opengl32.lib SDL2.lib SDL2main.lib SDL2_mixer.lib SDL2_ttf.lib glew32.lib /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\boost" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL\SDL" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL\SDLmain" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_image" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_mixer" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\SDL_ttf" /LIBPATH:"C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\\..\..\..\lib\x64\glew" /NOLOGO /LTCG Release\GUIManager.obj
-         Release\ImageTextButton.obj
-         Release\ImageTextView.obj
-         Release\ResourceManager.obj
-         Release\Debouncer.obj
-         Release\InputController.obj
-         Release\InputEvent.obj
-         Release\InternalEvent.obj
-         Release\Autoscanner.obj
-         Release\Scanner.obj
-         Release\CreateNewProfileActivity.obj
-         Release\fbo.obj
-         Release\GPUProgram.obj
-         Release\GPUShader.obj
-         Release\GPUVariable.obj
-         Release\tinyfiledialogs.obj
-         Release\tinystr.obj
-         Release\tinyxml.obj
-         Release\tinyxmlerror.obj
-         Release\tinyxmlparser.obj
-         Release\Definitions.obj
-         Release\GUIController.obj
-         Release\BitmapDrawable.obj
-         Release\Drawable.obj
-         Release\LayeredImageDrawable.obj
-         Release\NinePatch.obj
-         Release\RectDrawable.obj
-         Release\StateListDrawable.obj
-         Release\ColourSelector.obj
-         Release\ImageButton.obj
-         Release\Slider.obj
-         Release\TextButton.obj
-         Release\TextView.obj
-         Release\View.obj
-         Release\AdapterView.obj
-         Release\DataAdapter.obj
-         Release\LayoutAdapterView.obj
-         Release\ListView.obj
-         Release\CustomLayout.obj
-         Release\CustomLayoutElement.obj
-         Release\CustomLayoutParams.obj
-         Release\LayoutParams.obj
-         Release\LinearLayout.obj
-         Release\LinearLayoutParams.obj
-         Release\ScrollContainer.obj
-         Release\ViewGroup.obj
-         Release\Activity.obj
-         Release\Bundle.obj
-         Release\ProfileManager.obj
-         Release\SharedPreferences.obj
-         Release\Window.obj
-         Release\FilesystemDataProvider.obj
-         Release\ProfileChooserActivity.obj
-         Release\AudioClip.obj
-         Release\AudioManager.obj
-         Release\SharedSettings.obj
-     1>SDL2.lib(SDL2.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
-     1>SDL2_mixer.lib(SDL2_mixer.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
-     1>SDL2_ttf.lib(SDL2_ttf.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
-     1>glew32.lib(glew32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
-         shiva-gui.vcxproj -> C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib
-       FinalizeBuildStatus:
-         Deleting file "Release\shiva-gui.unsuccessfulbuild".
-         Touching "Release\shiva-gui.lastbuildstate".
-     1>Done Building Project "C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\shiva-gui.vcxproj" (build target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:33.94
+﻿  GUIManager.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\GUIManager.cpp(192,61): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\GUIManager.cpp(286,48): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\GUIManager.cpp(551,60): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+  ImageTextButton.cpp
+  ImageTextView.cpp
+  ResourceManager.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\ResourceManager.cpp(252,50): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\ResourceManager.cpp(353,98): warning C4838: conversion from 'unsigned int' to 'Uint8' requires a narrowing conversion
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\ResourceManager.cpp(386,28): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\ResourceManager.cpp(406,51): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\ResourceManager.cpp(420,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\ResourceManager.cpp(474,98): warning C4838: conversion from 'unsigned int' to 'Uint8' requires a narrowing conversion
+  Debouncer.cpp
+  InputController.cpp
+  InputEvent.cpp
+  InternalEvent.cpp
+  Autoscanner.cpp
+  Scanner.cpp
+  CreateNewProfileActivity.cpp
+  fbo.cpp
+  GPUProgram.cpp
+  GPUShader.cpp
+  GPUVariable.cpp
+  tinyfiledialogs.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\Utility\tinyfiledialogs.cpp(313,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\Utility\tinyfiledialogs.cpp(383,40): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\Utility\tinyfiledialogs.cpp(392,12): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\Utility\tinyfiledialogs.cpp(405,20): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\Utility\tinyfiledialogs.cpp(661,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\Utility\tinyfiledialogs.cpp(718,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\Utility\tinyfiledialogs.cpp(868,43): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\Utility\tinyfiledialogs.cpp(869,49): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  tinystr.cpp
+  tinyxml.cpp
+  tinyxmlerror.cpp
+  tinyxmlparser.cpp
+  Compiling...
+  Definitions.cpp
+  GUIController.cpp
+  BitmapDrawable.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(215,18): warning C4244: 'initializing': conversion from 'int' to 'value_type', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(260): message : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\GUI\Drawables\BitmapDrawable.cpp(174): message : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+  Drawable.cpp
+  LayeredImageDrawable.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(215,18): warning C4244: 'initializing': conversion from 'int' to 'value_type', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(260): message : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\GUI\Drawables\LayeredImageDrawable.cpp(343): message : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+  NinePatch.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(215,18): warning C4244: 'initializing': conversion from 'int' to 'value_type', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(260): message : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\GUI\Drawables\NinePatch.cpp(290): message : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+  RectDrawable.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(215,18): warning C4244: 'initializing': conversion from 'int' to 'value_type', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(260): message : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\GUI\Drawables\RectDrawable.cpp(125): message : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+  StateListDrawable.cpp
+  ColourSelector.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(215,18): warning C4244: 'initializing': conversion from 'int' to 'value_type', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(260): message : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\GUI\Views\ColourSelector.cpp(173): message : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+  ImageButton.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\GUI\Views\ImageButton.cpp(1077,21): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\GUI\Views\ImageButton.cpp(1078,22): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\GUI\Views\ImageButton.cpp(1079,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\GUI\Views\ImageButton.cpp(1080,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\GUI\Views\ImageButton.cpp(1433,32): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(215,18): warning C4244: 'initializing': conversion from 'int' to 'value_type', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\include\cml-1_0_2\cml\mathlib\matrix_projection.h(260): message : see reference to function template instantiation 'void cml::matrix_orthographic<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,E,E,cml::Handedness,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\GUI\Views\ImageButton.cpp(1379): message : see reference to function template instantiation 'void cml::matrix_orthographic_RH<float,cml::fixed<4,4>,cml::col_basis,cml::col_major>(cml::matrix<float,cml::fixed<4,4>,cml::col_basis,cml::col_major> &,E,E,E,E,E,E,cml::ZClip)' being compiled
+          with
+          [
+              E=float
+          ]
+  Slider.cpp
+  TextButton.cpp
+  TextView.cpp
+  View.cpp
+  AdapterView.cpp
+  DataAdapter.cpp
+  LayoutAdapterView.cpp
+  ListView.cpp
+  CustomLayout.cpp
+  CustomLayoutElement.cpp
+  Compiling...
+  CustomLayoutParams.cpp
+  LayoutParams.cpp
+  LinearLayout.cpp
+  LinearLayoutParams.cpp
+  ScrollContainer.cpp
+  ViewGroup.cpp
+  Activity.cpp
+  Bundle.cpp
+  ProfileManager.cpp
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\System\ProfileManager.cpp(141,58): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\src\System\ProfileManager.cpp(192,23): warning C4996: 'boost::filesystem::copy_directory': Use create_directory() instead
+  SharedPreferences.cpp
+  Window.cpp
+  FilesystemDataProvider.cpp
+  ProfileChooserActivity.cpp
+  AudioClip.cpp
+  AudioManager.cpp
+  SharedSettings.cpp
+SDL2.lib(SDL2.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+SDL2_mixer.lib(SDL2_mixer.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+SDL2_ttf.lib(SDL2_ttf.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+glew32.lib(glew32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in Opengl32.lib(OPENGL32.dll); second definition ignored
+  shiva-gui.vcxproj -> C:\Users\SHIVA\Documents\GitHub\SHIVAProject\shiva-gui\vs\shiva-gui\Release\shiva-gui.lib
