@@ -8,7 +8,9 @@ These tools were deployed in a school for students with complex disabilities and
 ![SHIVA software in use](http://i.imgur.com/GAk94SF.jpg)
 
 ## Downloading and installing the software to use for free
-Please download the installer file from the 'Installers' folder.
+Please download the '**SHIVA_x64.exe**' installer file from the '**Installers**' folder.
+
+
 
 ## To download and modify the project:
 **NOTE**: As of November 2023 - The details here need reviewing as the project has now been upgraded to VS 2019 and boost 1.83.0.
