@@ -11,7 +11,7 @@ These tools were deployed in a school for students with complex disabilities and
 
 boost now needs to be added via NuGet in VS 2019 so the boost libraries do not need to be downloaded from GitHub now.
 
-If cloning or downloading the project, be aware that we're *including* `boost`, consequently the download will be > 4GB in size and therefore the whole thing could take a long time. 
+OUTDATED: _If cloning or downloading the project, be aware that we're *including* `boost`, consequently the download will be > 4GB in size and therefore the whole thing could take a long time. _
 
 ## Requirements
 * Visual Studio 2019
