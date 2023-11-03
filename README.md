@@ -10,6 +10,7 @@ These tools were deployed in a school for students with complex disabilities and
 ## Downloading and installing the software to use for free
 Please download the '**SHIVA_x64.exe**' installer file from the '**Installers**' folder.
 
+Details about the software and its features can be found here: https://sen-bu.co.uk/shiva-project/
 
 
 ## To download and modify the project:
